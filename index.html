@@ -3,23 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>shiftmyhorizon.com - Coming Soon</title>
+    <title>Shift My Horizon</title>
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            text-align: center; 
-            padding: 10% 20px; 
-            color: #333; 
-            background-color: #fcfcfc;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
         }
-        h1 { font-size: 2.5em; margin-bottom: 10px; }
-        p { font-size: 1.2em; color: #555; }
-        .contact { margin-top: 30px; font-weight: bold; color: #0056b3; }
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #222;
+        }
+        p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .contact {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0056b3;
+            text-decoration: none;
+        }
+        .contact:hover {
+            text-decoration: underline;
+        }
+        footer {
+            background-color: #fff;
+            padding: 40px 20px;
+            border-top: 1px solid #eee;
+        }
+        .legal-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 50px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .language-column {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        .language-column h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .language-column a {
+            color: #0056b3;
+            text-decoration: none;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .language-column a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>shiftmyhorizon.com</h1>
-    <p>Die rechtlichen Informationen (Impressum, AGB, Datenschutz) werden derzeit anwaltlich geprüft und in Kürze hier bereitgestellt.</p>
-    <p class="contact">Kontakt: kontakt@shiftmyhorizon.com</p>
+
+    <div class="content">
+        <h1>shiftmyhorizon.com</h1>
+        <p>App Development & Personal Growth</p>
+        <a href="mailto:kontakt@shiftmyhorizon.com" class="contact">Kontakt: kontakt@shiftmyhorizon.com</a>
+    </div>
+
+    <footer>
+        <div class="legal-grid">
+            <div class="language-column">
+                <h3>Deutsch</h3>
+                <a href="datenschutz.html">Datenschutzerklärung</a>
+                <a href="agb.html">AGB</a>
+                <a href="cookie.html">Cookie-Richtlinie</a>
+            </div>
+            <div class="language-column">
+                <h3>English</h3>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms & Conditions</a>
+                <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+            <div class="language-column">
+                <h3>Español</h3>
+                <a href="privacidad.html">Política de Privacidad</a>
+                <a href="terminos.html">Términos y Condiciones</a>
+                <a href="cookies-es.html">Política de Cookies</a>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
