@@ -3,89 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shift My Horizon</title>
+    <title>Shift My Horizon - Apps & Coaching</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-color: #f9f9f9;
-            color: #333;
-            text-align: center;
         }
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #222;
-        }
-        p {
-            font-size: 1.2rem;
-            color: #555;
-            margin-bottom: 30px;
-        }
-        .contact {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #0056b3;
-            text-decoration: none;
-        }
-        .contact:hover {
-            text-decoration: underline;
-        }
-        footer {
+        nav {
             background-color: #fff;
-            padding: 40px 20px;
-            border-top: 1px solid #eee;
-        }
-        .legal-grid {
+            padding: 20px 40px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 50px;
-            max-width: 900px;
-            margin: 0 auto;
+            justify-content: space-between;
+            align-items: center;
         }
-        .language-column {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-        .language-column h3 {
-            font-size: 1rem;
-            margin-bottom: 15px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .language-column a {
-            color: #0056b3;
-            text-decoration: none;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-        .language-column a:hover {
-            text-decoration: underline;
-        }
+        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: #222; }
+        
+        main { flex: 1; padding: 60px 20px; max-width: 1000px; margin: 0 auto; text-align: center; }
+        h1 { font-size: 2.5rem; color: #222; margin-bottom: 10px; }
+        .subtitle { font-size: 1.2rem; color: #666; margin-bottom: 50px; }
+        
+        h2 { font-size: 2rem; color: #222; margin-bottom: 30px; border-bottom: 2px solid #ddd; display: inline-block; padding-bottom: 10px; }
+        
+        /* App Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .card { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: left; }
+        .card h3 { margin-top: 0; font-size: 1.5rem; color: #000; }
+        .card p { color: #555; margin-bottom: 25px; }
+        
+        .btn { display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; text-align: center; }
+        .btn-primary { background-color: #0056b3; color: #fff; }
+        .btn-primary:hover { background-color: #004494; }
+        .btn-disabled { background-color: #ccc; color: #666; cursor: not-allowed; }
+        
+        /* Footer */
+        footer { background-color: #fff; padding: 40px 20px; border-top: 1px solid #ddd; text-align: center; }
+        .legal-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 50px; max-width: 900px; margin: 0 auto; }
+        .language-column { display: flex; flex-direction: column; text-align: left; }
+        .language-column h3 { font-size: 1rem; margin-bottom: 15px; color: #888; text-transform: uppercase; }
+        .language-column a { color: #0056b3; text-decoration: none; margin-bottom: 8px; font-size: 0.95rem; }
+        .language-column a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
-    <div class="content">
-        <h1>shiftmyhorizon.com</h1>
-        <p>App Development & Personal Growth</p>
-        <a href="mailto:hello@shiftmyhorizon.com" class="contact">Kontakt: hello@shiftmyhorizon.com</a>
-    </div>
+    <nav>
+        <a href="index.html" class="logo">Shift My Horizon</a>
+    </nav>
+
+    <main>
+        <h1>Shift My Horizon</h1>
+        <p class="subtitle">App Development & Personal Growth</p>
+
+        <h2>Unsere Apps</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Integrated Man</h3>
+                <p>Der Weg zur besten Version deiner selbst. Tracke Fortschritte, erreiche Ränge und stärke dein Mindset.</p>
+                <a href="integrated-man.html" class="btn btn-primary">Zur App</a>
+            </div>
+            <div class="card">
+                <h3>Projekt Alpha</h3>
+                <p>Ein neues Tool für deine tägliche Produktivität. Aktuell noch in der internen Entwicklung.</p>
+                <a href="#" class="btn btn-disabled">Bald verfügbar</a>
+            </div>
+            <div class="card">
+                <h3>Projekt Beta</h3>
+                <p>Erweitere deinen Horizont mit unserer kommenden Meditations- und Fokus-App.</p>
+                <a href="#" class="btn btn-disabled">Bald verfügbar</a>
+            </div>
+        </div>
+
+        <h2>Coaching</h2>
+        <div class="card" style="text-align: center; max-width: 600px; margin: 0 auto;">
+            <h3>1-on-1 Mentoring</h3>
+            <p>Du willst tiefer gehen und persönliche Blockaden lösen? Melde dich für das exklusive Coaching-Programm an.</p>
+            <a href="mailto:hello@shiftmyhorizon.com" class="btn btn-primary">Kontakt aufnehmen</a>
+        </div>
+    </main>
 
     <footer>
         <div class="legal-grid">
