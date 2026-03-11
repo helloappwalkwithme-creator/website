@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrated Man - Shift My Horizon</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --card: #121212;
+            --border: #2A2A2A;
+            --gold: #D4AF37;
+            --text: #FFFFFF;
+            --text-dim: #888888;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        nav {
+            background-color: var(--card);
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: var(--gold); }
+        .back-link { color: var(--text-dim); text-decoration: none; font-weight: bold; }
+        .back-link:hover { color: var(--text); }
+        
+        main {
+            flex: 1;
+            padding: 80px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { font-size: 3rem; margin-bottom: 20px; color: var(--gold); }
+        h2 { font-size: 1.8rem; margin-top: 50px; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        p { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 30px; }
+        
+        ul { list-style: none; padding: 0; }
+        li {
+            background-color: var(--card);
+            margin-bottom: 10px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 3px solid var(--gold);
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .store-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background-color: var(--gold);
+            color: #000;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn:hover { background-color: #e6c55c; }
+        
+        /* Footer (im dunklen Design) */
+        footer {
+            background-color: var(--card);
+            padding: 40px 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .legal-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 50px; max-width: 900px; margin: 0 auto; }
+        .language-column { display: flex; flex-direction: column; text-align: left; }
+        .language-column h3 { font-size: 1rem; margin-bottom: 15px; color: var(--text-dim); text-transform: uppercase; }
+        .language-column a { color: var(--text); text-decoration: none; margin-bottom: 8px; font-size: 0.95rem; }
+        .language-column a:hover { color: var(--gold); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">Shift My Horizon</a>
+        <a href="index.html" class="back-link">← Zurück zur Übersicht</a>
+    </nav>
+
+    <main>
+        <h1>Integrated Man</h1>
+        <p>Der Weg zur besten Version deiner selbst. Tracke deine Fortschritte, steige im Rang auf und werde Teil einer Community, die dich nach oben zieht.</p>
+        
+        <h2>Features</h2>
+        <ul>
+            <li>Ränge und Achievements freischalten</li>
+            <li>Tägliche Routinen und Journaling</li>
+            <li>Psychologie- und Mindset-Trigger</li>
+        </ul>
+
+        <div class="store-buttons">
+            <a href="#" class="btn">Bald im App Store</a>
+            <a href="#" class="btn">Bald bei Google Play</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="legal-grid">
+            <div class="language-column">
+                <h3>Deutsch</h3>
+                <a href="impressum.html">Impressum</a>
+                <a href="datenschutz.html">Datenschutzerklärung</a>
+                <a href="agb.html">AGB</a>
+                <a href="cookie.html">Cookie-Richtlinie</a>
+            </div>
+            <div class="language-column">
+                <h3>English</h3>
+                <a href="impressum.html">Imprint / Legal Notice</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms & Conditions</a>
+                <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+            <div class="language-column">
+                <h3>Español</h3>
+                <a href="impressum.html">Aviso Legal</a>
+                <a href="privacidad.html">Política de Privacidad</a>
+                <a href="terminos.html">Términos y Condiciones</a>
+                <a href="cookies-es.html">Política de Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
