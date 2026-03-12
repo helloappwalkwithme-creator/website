@@ -61,7 +61,7 @@
         .scale-btn.selected { background-color: var(--gold); color: #000; border-color: var(--gold); }
         .scale-labels { display: flex; justify-content: space-between; color: var(--text-dim); font-size: 0.75rem; font-weight: bold; text-transform: uppercase; margin-bottom: 20px; padding: 0 5px; }
         .desc-box { background: #1a1a1a; padding: 20px; border-radius: 8px; border-left: 3px solid var(--gold); display: none; margin-bottom: 20px; animation: fadeIn 0.3s ease; }
-        .desc-text { margin: 0; color: #DDD; font-size: 0.95rem; font-style: italic; line-height: 1.5; }
+        .desc-text { margin: 0; color: #DDD; font-size: 0.95rem; font-style: italic; line-height: 1.5; font-weight: 500; }
 
         /* Result Card & Pitch */
         .result-card { background-color: #1a0000; padding: 40px 20px; border-radius: 16px; border: 3px solid #FF3333; text-align: center; margin-top: 20px; margin-bottom: 20px; }
@@ -120,9 +120,7 @@
         <div class="step" id="step-9"><div class="label-gold" id="res-label"></div><h1 id="res-headline"></h1><div class="result-card" id="resultCard"><div class="result-score" id="res-score"></div><div class="result-title" id="res-title"></div><div class="result-desc" id="res-desc"></div></div><p style="color: var(--text-dim); font-size: 0.9rem; text-align: center; text-transform: uppercase;" id="res-cost"></p><button class="btn-gold" id="btn-res-next" onclick="nextStep()"></button></div>
         
         <div class="step" id="step-10"><div class="label-gold" id="s10-label"></div><h1 id="s10-title"></h1><p class="subtitle" id="s10-sub"></p><div id="s10-options"></div></div>
-        
         <div class="step" id="step-11"><div class="label-gold" id="s11-label"></div><h1 id="s11-title"></h1><p class="subtitle" id="s11-sub"></p><div id="s11-options"></div></div>
-        
         <div class="step" id="step-12"><div class="label-gold" id="s12-label"></div><h1 id="s12-title"></h1><p class="subtitle" id="s12-sub"></p><div id="s12-options"></div></div>
 
         <div class="step" id="step-13">
@@ -172,112 +170,129 @@
             return dbClient;
         }
 
-        // Hilfsfunktion: Setzt Texte ausfallsicher, auch wenn ein Element mal fehlt
         function setText(id, text) {
             const el = document.getElementById(id);
             if(el) el.innerText = text || '';
         }
 
-        // --- ÜBERSETZUNGEN ---
+        // --- ÜBERSETZUNGEN MIT MAXIMALER TIEFE ---
         const t = {
             de: {
                 lang: { welcome: "WILLKOMMEN", title: "WÄHLE DEINE SPRACHE", subtitle: "Wähle die Sprache, in der du die App nutzen möchtest.", next: "WEITER" },
-                step1: { label: "PHASE 1: STATUS", title: "Was ist deine größte Baustelle?", sub: "Sei absolut ehrlich zu dir selbst.", disclaimer: "*Diese App ersetzt keine Therapie!" },
-                step2: { label: "INTENSITÄT", title: "Wie oft tritt das Problem auf?", sub: "Wie tief ist das Muster bereits in deinen Alltag integriert?" },
-                step3: { label: "HISTORIE", title: "Wie lange kämpfst du schon damit?", sub: "Je länger das Muster besteht, desto tiefer sind die neuronalen Verknüpfungen." },
-                step4: { label: "KONSEQUENZEN", title: "Was kostet es dich aktuell?", sub: "Welchen Preis zahlst du in deinem Leben für dieses Problem?" },
-                step5: { label: "LEIDENSDRUCK", title: "Wie dringend musst du das ändern?", sub: "Wähle eine Zahl. 1 = Kaum, 10 = Es zerstört mich.", min: "1 - Nicht dringend", max: "10 - Sehr dringend", next: "WEITER" },
+                step1: { label: "PHASE 1: STATUS", title: "Was ist deine größte Baustelle?", sub: "Sei absolut ehrlich zu dir selbst. Es ist Zeit, die Maske fallen zu lassen.", disclaimer: "*Diese App ersetzt keine medizinische Therapie." },
+                step2: { label: "INTENSITÄT", title: "Wie oft tritt das Problem auf?", sub: "Wie tief ist dieses Verhaltensmuster bereits in deinen Alltag integriert?" },
+                step3: { label: "HISTORIE", title: "Wie lange kämpfst du schon damit?", sub: "Je länger das Muster besteht, desto tiefer sind die neuronalen Verknüpfungen in deinem Gehirn." },
+                step4: { label: "KONSEQUENZEN", title: "Was kostet es dich aktuell?", sub: "Welchen schmerzhaften Preis zahlst du in deinem echten Leben für dieses Problem?" },
+                step5: { label: "LEIDENSDRUCK", title: "Wie dringend musst du das ändern?", sub: "Wähle eine Zahl. 1 = Kaum spürbar, 10 = Es zerstört mein Leben.", min: "1 - Nicht dringend", max: "10 - Sehr dringend", next: "WEITER" },
                 step6: { label: "ENERGIE-LEVEL", title: "Wie viel Energie hast du im Alltag?", sub: "Wie steht es um deine körperliche und geistige Batterie?", min: "1 - Keine Energie", max: "10 - Maximal", next: "WEITER" },
-                step7: { label: "ZEIT FÜR DICH", title: "Wie viele Minuten hast du NUR für dich?", sub: "Zeit in absoluter Stille, ohne Handy, ohne Arbeit." },
-                loading: "DEIN ERGEBNIS WIRD ERMITTELT...", loadingSub: "Wir analysieren deine Antworten basierend auf tausenden anderen Männern.",
+                step7: { label: "ZEIT FÜR DICH", title: "Wie viele Minuten hast du NUR für dich?", sub: "Zeit in absoluter Stille. Ohne Handy. Ohne Arbeit. Ohne Ablenkung." },
+                loading: "DEIN ERGEBNIS WIRD ERMITTELT...", loadingSub: "Wir analysieren deine Antworten basierend auf den Daten tausender anderer Männer.",
                 result: { label: "System-Status", headline: "Hier ist dein Resultat:", cost: "Konkret kostet dich das:", next: "LÖSUNG ANSEHEN" },
-                step10: { label: "COMMITMENT", title: "Bist du bereit, die Arbeit reinzustecken?", sub: "Niemand wird dich retten. Du musst es selbst tun." },
-                step11: { label: "ZIEL", title: "Was ist dein Haupt-Ziel?", sub: "Worauf arbeiten wir in den nächsten 90 Tagen hin?" },
-                step12: { label: "IDENTITÄT", title: "Welcher Weg inspiriert dich am meisten?", sub: "Wähle den Archetypen, der dir am meisten Kraft gibt." },
-                pitch: { label: "DIE LÖSUNG", headline: "Dein Weg zur Freiheit", sub: "Hier ist dein Werkzeug, um das Problem zu lösen.", title: "Das Protokoll beinhaltet:", f1: "90-Tage Schritt-für-Schritt Programm", f2: "Essenz aus über 48 psychologischen Fachbüchern", f3: "Tägliches Journaling & Trigger-Tracking", f4: "Community & Squad Support", btn: "JETZT LÖSUNG FREISCHALTEN" },
-                reg: { label: "LETZTER SCHRITT", headline: "Account erstellen", sub: "Erstelle deinen Account, um deine Einstellungen zu sichern. Danach geht es zur Kasse.", email: "deine@email.com", pw: "Passwort (min. 6 Zeichen)", btn: "WEITER ZUR ZAHLUNG", errFill: "Bitte fülle alle Felder korrekt aus.", errExists: "Email existiert bereits. Bitte logge dich direkt in der App ein!" },
+                step10: { label: "COMMITMENT", title: "Bist du bereit, die Arbeit reinzustecken?", sub: "Die Wahrheit ist: Niemand wird kommen, um dich zu retten. Du musst es selbst tun." },
+                step11: { label: "ZIEL", title: "Was ist dein Haupt-Ziel?", sub: "Worauf arbeiten wir in den nächsten 90 Tagen unerbittlich hin?" },
+                step12: { label: "IDENTITÄT", title: "Welcher Weg inspiriert dich am meisten?", sub: "Wähle den Archetypen, der dir am meisten mentale Kraft gibt." },
+                pitch: { label: "DIE LÖSUNG", headline: "Dein Weg zur Freiheit", sub: "Du hast dein Problem erkannt. Hier ist das präzise Werkzeug, um es endgültig zu lösen.", title: "Das Protokoll beinhaltet:", f1: "90-Tage Schritt-für-Schritt Programm", f2: "Die Essenz aus über 48 psychologischen Fachbüchern", f3: "Tägliches Journaling & hartes Trigger-Tracking", f4: "Eine Bruderschaft: Community & Squad Support", btn: "JETZT LÖSUNG FREISCHALTEN" },
+                reg: { label: "LETZTER SCHRITT", headline: "Account erstellen", sub: "Erstelle deinen Account, um dein Protokoll zu sichern. Danach geht es zur Kasse.", email: "deine@email.com", pw: "Passwort (min. 6 Zeichen)", btn: "WEITER ZUR ZAHLUNG", errFill: "Bitte fülle alle Felder korrekt aus.", errExists: "Diese Email existiert bereits. Bitte logge dich später direkt in der App ein!" },
                 opts: {
-                    root: { porn: "Übermäßiger digitaler sexueller Konsum", gettinggirls: "Dating & soziale Unsicherheit", relationship: "Andauernder Beziehungsstreit & keine Intimität" },
-                    freq: {
-                        porn: ["Mehrmals täglich", "Täglich", "Während der Arbeit", "Mehrmals die Woche", "Nur bei starkem Stress"],
-                        gettinggirls: ["Täglich (Gedankenkreisen)", "Jedes Mal, wenn ich eine Frau sehe", "Nur am Wochenende", "Vermeide soziale Situationen komplett"],
-                        relationship: ["Täglich (Dauerzustand)", "Mehrmals täglich Streit", "Mehrmals die Woche", "Wochenende ist am schlimmsten", "Es herrscht fast nur noch Schweigen"]
-                    },
-                    hist: ["Weniger als 1 Jahr", "1 - 5 Jahre", "5 - 10 Jahre", "Seit der Pubertät / Über 10 Jahre"],
-                    pain: {
-                        porn: ["Gehirnnebel & Konzentrationsschwäche", "Erektile Probleme (PIED)", "Zeitverschwendung", "Soziale Isolation", "Gefühl der Machtlosigkeit"],
-                        gettinggirls: ["Tiefe Einsamkeit", "Angst, für immer allein zu bleiben", "Neid auf andere", "Gefühl von Minderwertigkeit", "Sexuelle Frustration"],
-                        relationship: ["Sexuelle Flaute", "Ständige Kritik & Nörgelei", "Angst vor Trennung", "Fühle mich nicht mehr wohl", "Verlust von Respekt"]
-                    },
-                    time: ["0-15 Min", "30 Min", "60 Min", "90 Min", "2+ Std"],
-                    commit: ["Ja, ich ziehe das durch (100%)", "Ich bin mir noch unsicher"],
-                    goal: { porn: ["Mentale Freiheit & Fokus", "Gesunde Sexualität", "Selbstachtung"], gettinggirls: ["Die Richtige finden", "Lockerheit bei Frauen", "Echtes Selbstvertrauen"], relationship: ["Leidenschaft entfachen", "Respekt & Führung", "Frieden & Harmonie"] },
-                    rank: ["Militär (Disziplin & Härte)", "Der Hüter (Geist & Fokus)", "Der Samurai (Ehre & Ruhe)", "Der Imperator (Macht & Stoizismus)"]
+                    root: { porn: "Übermäßiger Pornokonsum & Masturbation", gettinggirls: "Soziale Unsicherheit & Angst, allein zu bleiben", relationship: "Dauerhafter Beziehungsstreit & tote Hose im Bett" },
+                    freq: { porn: ["Mehrmals täglich (Ich habe die Kontrolle verloren)", "Täglich (Es ist ein fester Bestandteil meines Alltags)", "Während der Arbeit (Ich riskiere dafür meinen Job)", "Mehrmals die Woche (Es ist eine starke Routine)", "Nur bei starkem Stress (Mein Fluchtmechanismus)"], gettinggirls: ["Täglich (Ständiges, schmerzhaftes Gedankenkreisen)", "Jedes Mal, wenn ich eine attraktive Frau sehe (Blockade)", "Nur am Wochenende (Wenn andere ausgehen)", "Ich vermeide soziale Situationen inzwischen komplett"], relationship: ["Täglich (Es ist ein erdrückender Dauerzustand)", "Mehrmals täglich (Wir streiten wegen Kleinigkeiten)", "Mehrmals die Woche (Die Stimmung kippt ständig)", "Am Wochenende ist es am schlimmsten", "Es herrscht fast nur noch feindseliges Schweigen"] },
+                    hist: ["Weniger als 1 Jahr (Es fängt gerade an, sich festzusetzen)", "1 - 5 Jahre (Es ist zu einer echten Gewohnheit geworden)", "5 - 10 Jahre (Es ist chronisch und Teil meiner Identität)", "Seit der Pubertät / Über 10 Jahre (Es ist tief in mir eingebrannt)"],
+                    pain: { porn: ["Gehirnnebel, Antriebslosigkeit & massiver Konzentrationsverlust", "Erektionsprobleme (PIED) & eine völlig abgestumpfte Libido", "Massive Zeitverschwendung & ständige Prokrastination", "Tiefe Scham, Selbstekel & soziale Isolation", "Das Gefühl der absoluten Machtlosigkeit"], gettinggirls: ["Eine tiefe, erdrückende Einsamkeit im Alltag", "Die Panik, für den Rest meines Lebens allein zu bleiben", "Bitterer Neid auf andere Männer, die es leicht haben", "Ein ständiges, nagendes Gefühl von Minderwertigkeit", "Massive sexuelle Frustration und Angespanntheit"], relationship: ["Komplette sexuelle Flaute ('Roommate-Syndrom')", "Ständige Kritik, Nörgelei und das Gefühl, nichts recht zu machen", "Die ständige, stille Angst vor einer Trennung oder Scheidung", "Ich fühle mich in meinem eigenen Zuhause nicht mehr wohl", "Der völlige Verlust von Respekt zwischen uns"] },
+                    time: ["0-15 Min - Vollständig fremdbestimmt. Du bist auf dem besten Weg ins Burnout.", "30 Min - Ein Tropfen auf den heißen Stein. Du funktionierst nur.", "60 Min - Eine solide Basis, um erste echte Routinen aufzubauen.", "90 Min - Stark. Du hast echten Raum für tiefes persönliches Wachstum.", "2+ Std - Exzellent. Du hast die absolute Hoheit über deine Zeit."],
+                    commit: ["Ja, ich ziehe das durch. Keine Ausreden mehr. (100%)", "Nein, ich bleibe lieber in meiner aktuellen Situation."],
+                    goal: { porn: ["Absolute mentale Freiheit & rasiermesserscharfer Fokus", "Eine gesunde, echte und maskuline Sexualität", "Meine Selbstachtung als Mann zurückgewinnen"], gettinggirls: ["Endlich die richtige Partnerin für mein Leben finden", "Völlige Lockerheit und Dominanz im Umgang mit Frauen", "Ein echtes, unerschütterliches Selbstvertrauen aufbauen"], relationship: ["Die verlorene Leidenschaft und das Feuer neu entfachen", "Meinen Respekt zurückholen und die Führung übernehmen", "Echten Frieden und Harmonie in meinem Zuhause erschaffen"] },
+                    rank: ["Das Militär (Eiserne Disziplin, Routine & Härte)", "Der Hüter (Klarer Geist, Fokus & Beschützerinstinkt)", "Der Samurai (Tiefe Ehre, tödliche Präzision & innere Ruhe)", "Der Imperator (Absolute Macht, Stoizismus & Vision)"]
                 },
                 scales: {
-                    distress: { porn: { 1: "Ist nur eine kleine Gewohnheit.", 4: "Regelmäßig, nervt aber.", 7: "Starkes Verlangen.", 10: "Zerstört mein Leben." }, gettinggirls: { 1: "Will nur besser werden.", 4: "Oft gehemmt.", 7: "Einsam.", 10: "Einsamkeit frisst mich auf." }, relationship: { 1: "Kleine Differenzen.", 4: "Wiederkehrende Diskussionen.", 7: "Leben nebeneinander her.", 10: "Maximaler Leidensdruck." } },
-                    energy: { 1: "Chronisch erschöpft.", 4: "Oft ausgelaugt.", 7: "Gut. Ausreichend Kraft.", 10: "Maximal. Bäume ausreißen." }
+                    distress: { 
+                        porn: { 1: "Kaum spürbar. Ein seltenes Verhalten ohne Folgen.", 2: "Unbedeutend. Ich denke fast nie darüber nach.", 3: "Ab und zu. Es passiert, aber ich habe die Kontrolle.", 4: "Gewohnheit. Es gehört zur Routine, nervt mich aber insgeheim.", 5: "Störend. Ich merke, wie es mir Zeit und Fokus raubt.", 6: "Belastend. Erste negative Effekte auf meine Motivation.", 7: "Verlangen. Ich will aufhören, verliere aber oft den Kampf.", 8: "Kritisch. Es beeinflusst meine Libido und Arbeit massiv.", 9: "Kontrollverlust. Ich bin fremdgesteuert und schäme mich tief.", 10: "Zerstörerisch. Ich bin ein Sklave. Es ruiniert mein Leben." }, 
+                        gettinggirls: { 1: "Entspannt. Ich will meine Skills nur etwas verfeinern.", 2: "Eigentlich okay, aber ich könnte etwas mutiger sein.", 3: "Manchmal unsicher, aber meistens ergreife ich die Initiative.", 4: "Gehemmt. Ich ärgere mich, weil ich gute Chancen verpasse.", 5: "Frustrierend. Ich stehe mir selbst im Weg.", 6: "Schmerzhaft. Ich sehe andere Männer mit Frauen und fühle mich schlecht.", 7: "Einsam. Mir fehlt weibliche Nähe extrem, es nagt an meinem Ego.", 8: "Verzweifelt. Ich fühle mich oft unsichtbar und unattraktiv.", 9: "Tiefe Angst. Die Panik, für immer alleine zu bleiben, hält mich wach.", 10: "Zerstörerisch. Die Einsamkeit frisst mich bei lebendigem Leib auf." }, 
+                        relationship: { 1: "Alles top, nur seltene, winzige Differenzen.", 2: "Meistens harmonisch, nur kleine Reibereien im Alltag.", 3: "Es läuft okay, aber die Leidenschaft ist etwas abgeflacht.", 4: "Nervig. Immer wiederkehrende Diskussionen.", 5: "Anstrengend. Wir funktionieren als Team, aber das Kribbeln ist weg.", 6: "Belastend. Ich fühle mich oft unverstanden und nicht respektiert.", 7: "Distanziert. Wir leben wie Mitbewohner nebeneinander her.", 8: "Kritisch. Jeder Streit eskaliert oder wir schweigen feindselig.", 9: "Toxisch. Ich denke fast täglich an Trennung. Emotionale Hölle.", 10: "Zerstörerisch. Der Schmerz ist unerträglich. Es muss sich JETZT was ändern." } 
+                    },
+                    energy: { 1: "Burnout. Nur im Überlebensmodus. Kaum aus dem Bett zu kommen.", 2: "Chronisch erschöpft. Jeder Schritt fühlt sich an wie ein Marathon.", 3: "Schwerfällig. Ich schleppe mich durch den Tag, abhängig von Koffein.", 4: "Unterdurchschnittlich. Nach der Arbeit zu nichts mehr zu gebrauchen.", 5: "Mittelmäßig. Es reicht fürs Nötigste, mir fehlt der echte Drive.", 6: "Geht so. Ich komme klar, aber der Tank ist am Abend leer.", 7: "Gut. Meistens genug Kraft für Alltag und etwas Sport.", 8: "Stark. Ich fühle mich vital, klar im Kopf und treibe Dinge voran.", 9: "Sehr hoch. Voller Tatendrang, ich reiße andere mit meiner Energie mit.", 10: "Unaufhaltsam. Ich sprühe vor Lebenskraft. Rasiermesserscharfer Fokus." }
                 },
-                levels: { extreme: { t: "EXTREM", sub: "DEIN NERVENSYSTEM IST AM ANSCHLAG", d: "Du funktionierst nur noch im Überlebensmodus." }, dangerous: { t: "GEFÄHRLICH", sub: "DEIN KÖRPER IST AM LIMIT", d: "Du bist chronisch überlastet." } }
+                levels: { extreme: { t: "EXTREM", sub: "DEIN NERVENSYSTEM IST AM ANSCHLAG", d: "Du funktionierst nur noch im Überlebensmodus. Jede Faser deines Körpers schreit nach Veränderung." }, dangerous: { t: "GEFÄHRLICH", sub: "DEIN KÖRPER IST AM LIMIT", d: "Du bist chronisch überlastet. Dein System läuft auf Reserve – und die Reserve ist fast leer." } }
             },
             en: {
                 lang: { welcome: "WELCOME", title: "CHOOSE YOUR LANGUAGE", subtitle: "Choose the language you want to use.", next: "CONTINUE" },
-                step1: { label: "PHASE 1: STATUS", title: "What is your biggest challenge?", sub: "Be absolutely honest with yourself.", disclaimer: "*This app does not replace therapy!" },
-                step2: { label: "INTENSITY", title: "How often does the problem occur?", sub: "How deeply is this pattern integrated into your life?" },
-                step3: { label: "HISTORY", title: "How long have you been struggling with this?", sub: "The longer the pattern exists, the deeper the neural pathways." },
-                step4: { label: "CONSEQUENCES", title: "What is it costing you right now?", sub: "What price are you paying for this problem?" },
-                step5: { label: "DISTRESS LEVEL", title: "How urgently do you need to change this?", sub: "Choose a number. 1 = Barely, 10 = Destroying me.", min: "1 - Not urgent", max: "10 - Very urgent", next: "CONTINUE" },
-                step6: { label: "ENERGY LEVEL", title: "How much energy do you have?", sub: "State of your physical and mental battery?", min: "1 - No energy", max: "10 - Maximum", next: "CONTINUE" },
-                step7: { label: "TIME FOR YOURSELF", title: "How many minutes do you have ONLY for yourself?", sub: "Time in absolute silence, no distractions." },
-                loading: "YOUR RESULT IS BEING CALCULATED...", loadingSub: "Analyzing your answers based on thousands of men.",
+                step1: { label: "PHASE 1: STATUS", title: "What is your biggest challenge?", sub: "Be absolutely honest with yourself. It's time to drop the mask.", disclaimer: "*This app does not replace medical therapy." },
+                step2: { label: "INTENSITY", title: "How often does this occur?", sub: "How deeply is this behavioral pattern integrated into your life?" },
+                step3: { label: "HISTORY", title: "How long have you struggled with this?", sub: "The longer the pattern exists, the deeper the neural pathways in your brain." },
+                step4: { label: "CONSEQUENCES", title: "What is it costing you right now?", sub: "What painful price are you paying in your real life for this problem?" },
+                step5: { label: "DISTRESS LEVEL", title: "How urgently do you need to change this?", sub: "Choose a number. 1 = Barely noticeable, 10 = It's destroying me.", min: "1 - Not urgent", max: "10 - Very urgent", next: "CONTINUE" },
+                step6: { label: "ENERGY LEVEL", title: "How much energy do you have?", sub: "What is the state of your physical and mental battery?", min: "1 - No energy", max: "10 - Maximum", next: "CONTINUE" },
+                step7: { label: "TIME FOR YOURSELF", title: "How many minutes do you have ONLY for yourself?", sub: "Time in absolute silence. No phone. No work. No distractions." },
+                loading: "YOUR RESULT IS BEING CALCULATED...", loadingSub: "We are analyzing your answers based on data from thousands of other men.",
                 result: { label: "System Status", headline: "Here is your result:", cost: "Concretely, this costs you:", next: "VIEW SOLUTION" },
-                step10: { label: "COMMITMENT", title: "Are you ready to put in the work?", sub: "Nobody is going to save you. You have to do it." },
-                step11: { label: "GOAL", title: "What is your main goal?", sub: "What are we working towards in the next 90 days?" },
-                step12: { label: "IDENTITY", title: "Which path inspires you most?", sub: "Choose the archetype that gives you strength." },
-                pitch: { label: "THE SOLUTION", headline: "Your Path to Freedom", sub: "Here is your tool to solve it.", title: "The Protocol includes:", f1: "90-Day Step-by-Step Program", f2: "Essence of over 48 psychological books", f3: "Daily Journaling & Trigger Tracking", f4: "Community & Squad Support", btn: "UNLOCK SOLUTION NOW" },
-                reg: { label: "FINAL STEP", headline: "Create Account", sub: "Create your account to save your profile. Then proceed to checkout.", email: "your@email.com", pw: "Password (min. 6 chars)", btn: "PROCEED TO PAYMENT", errFill: "Please fill in all fields correctly.", errExists: "Email already exists. Please log in directly inside the app!" },
+                step10: { label: "COMMITMENT", title: "Are you ready to put in the work?", sub: "The hard truth: Nobody is coming to save you. You have to do it yourself." },
+                step11: { label: "GOAL", title: "What is your main goal?", sub: "What are we working towards relentlessly over the next 90 days?" },
+                step12: { label: "IDENTITY", title: "Which path inspires you most?", sub: "Choose the archetype that gives you the most mental strength." },
+                pitch: { label: "THE SOLUTION", headline: "Your Path to Freedom", sub: "You've identified the problem. Here is the precise tool to solve it.", title: "The Protocol includes:", f1: "90-Day Step-by-Step Program", f2: "Essence of over 48 psychological books", f3: "Daily Journaling & hardcore Trigger Tracking", f4: "A Brotherhood: Community & Squad Support", btn: "UNLOCK SOLUTION NOW" },
+                reg: { label: "FINAL STEP", headline: "Create Account", sub: "Create your account to secure your protocol. Then proceed to checkout.", email: "your@email.com", pw: "Password (min. 6 chars)", btn: "PROCEED TO PAYMENT", errFill: "Please fill in all fields correctly.", errExists: "Email already exists. Please log in directly inside the app!" },
                 opts: {
-                    root: { porn: "Excessive digital sexual consumption", gettinggirls: "Dating & social insecurity", relationship: "Ongoing relationship conflict" },
-                    freq: { porn: ["Multiple times daily", "Daily", "During work", "Several times per week", "Only under high stress"], gettinggirls: ["Daily", "Every time I see a woman", "Only on weekends", "Completely avoid social situations"], relationship: ["Daily", "Arguments several times daily", "Several times per week", "Weekends are worst", "Only silence left"] },
-                    hist: ["Less than 1 year", "1 - 5 years", "5 - 10 years", "Since puberty / Over 10 years"],
-                    pain: { porn: ["Brain fog & poor concentration", "Erectile issues (PIED)", "Wasting time", "Social isolation", "Feeling powerless"], gettinggirls: ["Deep loneliness", "Fear of staying alone forever", "Jealousy of other men", "Feeling inferior", "Sexual frustration"], relationship: ["Sexual drought", "Constant criticism", "Fear of separation", "Don't feel comfortable at home", "Loss of respect"] },
-                    time: ["0-15 Min", "30 Min", "60 Min", "90 Min", "2+ Hrs"],
-                    commit: ["Yes, I will do this (100%)", "I am still unsure"],
-                    goal: { porn: ["Mental freedom", "Healthy sexuality", "Regain self-respect"], gettinggirls: ["Find the right one", "Ease with women", "True self-confidence"], relationship: ["Reignite passion", "Respect & leadership", "Peace & harmony"] },
-                    rank: ["Military", "The Guardian", "The Samurai", "The Emperor"]
+                    root: { porn: "Excessive porn consumption & masturbation", gettinggirls: "Social insecurity & fear of staying alone", relationship: "Ongoing relationship conflict & dead bedroom" },
+                    freq: { porn: ["Multiple times daily (I have lost control)", "Daily (It's a fixed part of my routine)", "During work (I'm risking my job for it)", "Several times a week (It's a strong habit)", "Only under high stress (My escape mechanism)"], gettinggirls: ["Daily (Constant, painful overthinking)", "Every time I see an attractive woman (Mental block)", "Only on weekends (When others go out)", "I completely avoid social situations now"], relationship: ["Daily (It's an overwhelming constant state)", "Multiple times a day (We argue over trivial things)", "Several times a week (The mood constantly shifts)", "Weekends are the worst", "There is almost nothing but hostile silence left"] },
+                    hist: ["Less than 1 year (It's just starting to take root)", "1 - 5 years (It has become a real habit)", "5 - 10 years (It's chronic and part of my identity)", "Since puberty / Over 10 years (Deeply hardwired)"],
+                    pain: { porn: ["Brain fog, lethargy & massive loss of focus", "Erectile dysfunction (PIED) & dead libido", "Massive time wasting & constant procrastination", "Deep shame, self-disgust & social isolation", "The feeling of absolute powerlessness"], gettinggirls: ["A deep, crushing daily loneliness", "The panic of staying alone for the rest of my life", "Bitter jealousy of other men who have it easy", "A constant, gnawing feeling of inferiority", "Massive sexual frustration and tension"], relationship: ["Complete sexual drought ('roommate syndrome')", "Constant criticism, nagging, and doing nothing right", "The silent, constant fear of separation or divorce", "I no longer feel comfortable in my own home", "The complete loss of mutual respect"] },
+                    time: ["0-15 Min - Completely externally controlled. On the verge of burnout.", "30 Min - A drop in the ocean. Just functioning.", "60 Min - A solid foundation to build real routines.", "90 Min - Strong. Real space for deep personal growth.", "2+ Hrs - Excellent. Absolute sovereignty over your time."],
+                    commit: ["Yes, I will do this. No more excuses. (100%)", "No, I'd rather stay in my current situation."],
+                    goal: { porn: ["Absolute mental freedom & razor-sharp focus", "A healthy, real, and masculine sexuality", "Regaining my self-respect as a man"], gettinggirls: ["Finally finding the right partner for my life", "Complete ease and dominance around women", "Building genuine, unshakeable self-confidence"], relationship: ["Reigniting the lost passion and the fire", "Taking back my respect and the lead", "Creating real peace and harmony in my home"] },
+                    rank: ["The Military (Iron discipline, routine & toughness)", "The Guardian (Clear mind, focus & protector instinct)", "The Samurai (Deep honor, precision & inner calm)", "The Emperor (Absolute power, stoicism & vision)"]
                 },
-                scales: { distress: { porn: { 1: "Small habit.", 4: "Annoys me.", 7: "Strong craving.", 10: "Destroying my life." }, gettinggirls: { 1: "Just want to get better.", 4: "Often inhibited.", 7: "Lonely.", 10: "Loneliness consumes me." }, relationship: { 1: "Small differences.", 4: "Recurring discussions.", 7: "Distant.", 10: "Distress at maximum." } }, energy: { 1: "Chronically exhausted.", 4: "Often drained.", 7: "Good energy.", 10: "Maximum." } },
-                levels: { extreme: { t: "EXTREME", sub: "YOUR NERVOUS SYSTEM IS MAXED OUT", d: "Functioning in survival mode." }, dangerous: { t: "DANGEROUS", sub: "YOUR BODY IS AT THE LIMIT", d: "Chronically overloaded." } }
+                scales: { 
+                    distress: { 
+                        porn: { 1: "Barely noticeable. Rare behavior without consequences.", 2: "Insignificant. I almost never think about it.", 3: "Occasionally. It happens, but I am in control.", 4: "Habit. It's routine, but secretly annoys me.", 5: "Disturbing. I notice it stealing time and focus.", 6: "Straining. First negative effects on my motivation.", 7: "Craving. I try to stop, but often lose the fight.", 8: "Critical. It massively affects my libido and work.", 9: "Loss of control. Externally driven and deeply ashamed.", 10: "Destructive. I am a slave. It ruins my life." }, 
+                        gettinggirls: { 1: "Relaxed. Just want to refine my skills.", 2: "Okay, but I could be a bit braver.", 3: "Sometimes insecure, but I usually take initiative.", 4: "Inhibited. I get angry missing good chances.", 5: "Frustrating. I stand in my own way.", 6: "Painful. I see men with women and feel bad.", 7: "Lonely. I deeply miss female closeness.", 8: "Desperate. Often feel invisible and unattractive.", 9: "Deep fear. The panic of staying alone keeps me awake.", 10: "Destructive. The loneliness is eating me alive." }, 
+                        relationship: { 1: "Everything great, only rare, tiny differences.", 2: "Mostly harmonious, just small daily frictions.", 3: "Okay, but the passion has flattened out.", 4: "Annoying. Recurring discussions that drain energy.", 5: "Exhausting. Functioning as a team, spark is gone.", 6: "Straining. Often feel misunderstood and disrespected.", 7: "Distant. Living like roommates. No intimacy.", 8: "Critical. Arguments escalate or hostile silence.", 9: "Toxic. Thinking about leaving daily. Emotional hell.", 10: "Destructive. Unbearable pain. Must change NOW." } 
+                    }, 
+                    energy: { 1: "Burnout. Survival mode. Barely out of bed.", 2: "Chronically exhausted. Every step is a marathon.", 3: "Sluggish. Dragging through the day on caffeine.", 4: "Below average. Completely useless after work.", 5: "Mediocre. Enough for basics, lacking real drive.", 6: "Okay. Managing, but tank is empty by evening.", 7: "Good. Usually enough strength for life and sports.", 8: "Strong. Vital, clear-headed, pushing things forward.", 9: "Very high. Full of action, inspiring others.", 10: "Unstoppable. Radiating life force. Razor-sharp." } 
+                },
+                levels: { extreme: { t: "EXTREME", sub: "YOUR NERVOUS SYSTEM IS MAXED OUT", d: "You are only functioning in survival mode. Every fiber of your body is screaming for change." }, dangerous: { t: "DANGEROUS", sub: "YOUR BODY IS AT THE LIMIT", d: "You are chronically overloaded. Your system is running on reserve – and the reserve is almost empty." } }
             },
             es: {
                 lang: { welcome: "BIENVENIDO", title: "ELIGE TU IDIOMA", subtitle: "Elige el idioma en el que quieres usar la app.", next: "CONTINUAR" },
-                step1: { label: "FASE 1: ESTADO", title: "¿Cuál es tu mayor problema ahora mismo?", sub: "Sé absolutamente honesto contigo mismo.", disclaimer: "*¡Esta app no sustituye una terapia!" },
-                step2: { label: "INTENSIDAD", title: "¿Con qué frecuencia aparece el problema?", sub: "¿Qué tan profundo es este patrón en tu vida?" },
-                step3: { label: "HISTORIAL", title: "¿Cuánto tiempo llevas luchando con esto?", sub: "Vías neuronales más profundas." },
-                step4: { label: "CONSECUENCIAS", title: "¿Qué te está costando ahora mismo?", sub: "¿Qué precio estás pagando?" },
-                step5: { label: "NIVEL DE SUFRIMIENTO", title: "¿Qué urgencia tienes de cambiar esto?", sub: "1 = Apenas, 10 = Me está destruyendo.", min: "1 - No urgente", max: "10 - Muy urgente", next: "CONTINUAR" },
-                step6: { label: "NIVEL DE ENERGÍA", title: "¿Cuánta energía tienes actualmente?", sub: "Estado de tu batería física.", min: "1 - Sin energía", max: "10 - Máxima", next: "CONTINUAR" },
-                step7: { label: "TIEMPO PARA TI", title: "¿Cuántos minutos tienes SOLO para ti?", sub: "Sin distracciones." },
-                loading: "TU RESULTADO SE ESTÁ CALCULANDO...", loadingSub: "Analizando respuestas...",
+                step1: { label: "FASE 1: ESTADO", title: "¿Cuál es tu mayor problema ahora mismo?", sub: "Sé absolutamente honesto contigo mismo. Es hora de quitarse la máscara.", disclaimer: "*Esta app no sustituye una terapia médica." },
+                step2: { label: "INTENSIDAD", title: "¿Con qué frecuencia aparece el problema?", sub: "¿Qué tan profundamente está integrado este patrón en tu vida diaria?" },
+                step3: { label: "HISTORIAL", title: "¿Cuánto tiempo llevas luchando con esto?", sub: "Cuanto más tiempo existe el patrón, más profundas son las vías neuronales en tu cerebro." },
+                step4: { label: "CONSECUENCIAS", title: "¿Qué te está costando ahora mismo?", sub: "¿Qué doloroso precio estás pagando en tu vida real por este problema?" },
+                step5: { label: "NIVEL DE SUFRIMIENTO", title: "¿Qué urgencia tienes de cambiar esto?", sub: "Elige un número. 1 = Apenas notable, 10 = Me está destruyendo.", min: "1 - No urgente", max: "10 - Muy urgente", next: "CONTINUAR" },
+                step6: { label: "NIVEL DE ENERGÍA", title: "¿Cuánta energía tienes actualmente?", sub: "¿Cuál es el estado de tu batería física y mental?", min: "1 - Sin energía", max: "10 - Máxima", next: "CONTINUAR" },
+                step7: { label: "TIEMPO PARA TI", title: "¿Cuántos minutos tienes SOLO para ti?", sub: "Tiempo en absoluto silencio. Sin móvil. Sin trabajo. Sin distracciones." },
+                loading: "TU RESULTADO SE ESTÁ CALCULANDO...", loadingSub: "Analizamos tus respuestas basándonos en los datos de miles de otros hombres.",
                 result: { label: "Estado del Sistema", headline: "Aquí tienes tu resultado:", cost: "Concretamente te cuesta esto:", next: "VER SOLUCIÓN" },
-                step10: { label: "COMPROMISO", title: "¿Estás listo para hacer el trabajo?", sub: "Nadie va a salvarte." },
-                step11: { label: "OBJETIVO", title: "¿Cuál es tu objetivo principal?", sub: "¿Hacia qué trabajaremos?" },
-                step12: { label: "IDENTIDAD", title: "¿Qué camino te inspira más?", sub: "Elige tu arquetipo." },
-                pitch: { label: "LA SOLUCIÓN", headline: "Tu camino a la libertad", sub: "Aquí tienes tu herramienta para resolverlo.", title: "El Protocolo incluye:", f1: "Programa de 90 días", f2: "Esencia de 48 libros", f3: "Diario y seguimiento", f4: "Apoyo de la comunidad", btn: "DESBLOQUEAR SOLUCIÓN" },
-                reg: { label: "ÚLTIMO PASO", headline: "Crear Cuenta", sub: "Crea tu cuenta para guardar resultados y procede al pago.", email: "tu@email.com", pw: "Contraseña (mín. 6 car.)", btn: "IR AL PAGO", errFill: "Por favor, completa todos los campos.", errExists: "¡El correo ya existe! Inicia sesión en la app." },
+                step10: { label: "COMPROMISO", title: "¿Estás listo para hacer el trabajo?", sub: "La dura verdad: Nadie va a venir a salvarte. Tienes que hacerlo tú mismo." },
+                step11: { label: "OBJETIVO", title: "¿Cuál es tu objetivo principal?", sub: "¿Hacia qué estamos trabajando incansablemente en los próximos 90 días?" },
+                step12: { label: "IDENTIDAD", title: "¿Qué camino te inspira más?", sub: "Elige el arquetipo que te da más fuerza mental." },
+                pitch: { label: "LA SOLUCIÓN", headline: "Tu camino a la libertad", sub: "Has identificado el problema. Aquí tienes la herramienta precisa para resolverlo.", title: "El Protocolo incluye:", f1: "Programa paso a paso de 90 días", f2: "La esencia de más de 48 libros de psicología", f3: "Diario diario y seguimiento estricto de triggers", f4: "Una Hermandad: Apoyo de la comunidad y Squad", btn: "DESBLOQUEAR SOLUCIÓN AHORA" },
+                reg: { label: "ÚLTIMO PASO", headline: "Crear Cuenta", sub: "Crea tu cuenta para asegurar tu protocolo. Luego procede al pago.", email: "tu@email.com", pw: "Contraseña (mín. 6 car.)", btn: "IR AL PAGO", errFill: "Por favor, completa todos los campos correctamente.", errExists: "Esta cuenta ya existe. ¡Inicia sesión directamente en la app!" },
                 opts: {
-                    root: { porn: "Consumo sexual excesivo", gettinggirls: "Inseguridad social", relationship: "Conflicto constante" },
-                    freq: { porn: ["Varias veces al día", "Diario", "En el trabajo", "Varias por semana", "Solo con estrés"], gettinggirls: ["Diario", "Cada vez que veo una mujer", "Fines de semana", "Evito lo social"], relationship: ["Diario", "Discusiones diarias", "Varias por semana", "Fines de semana peores", "Solo silencio"] },
-                    hist: ["Menos de 1 año", "1 - 5 años", "5 - 10 años", "Más de 10 años"],
-                    pain: { porn: ["Niebla mental", "Problemas de erección", "Pérdida de tiempo", "Aislamiento", "Impotencia"], gettinggirls: ["Soledad profunda", "Miedo a quedar solo", "Envidia", "Inferioridad", "Frustración"], relationship: ["Sequía sexual", "Crítica constante", "Miedo a separación", "No cómodo", "Pérdida de respeto"] },
-                    time: ["0-15 Min", "30 Min", "60 Min", "90 Min", "2+ Hrs"],
-                    commit: ["Sí, lo haré (100%)", "Aún no estoy seguro"],
-                    goal: { porn: ["Libertad mental", "Sexualidad saludable", "Respeto propio"], gettinggirls: ["Encontrar a la indicada", "Naturalidad", "Autoconfianza"], relationship: ["Reavivar pasión", "Liderazgo", "Paz"] },
-                    rank: ["Militar", "El Guardián", "El Samurái", "El Emperador"]
+                    root: { porn: "Consumo excesivo de porno y masturbación", gettinggirls: "Inseguridad social y miedo a quedarse solo", relationship: "Conflicto constante de pareja y sequía sexual" },
+                    freq: { porn: ["Varias veces al día (He perdido el control)", "A diario (Es una parte fija de mi rutina)", "Durante el trabajo (Estoy arriesgando mi empleo)", "Varias veces a la semana (Es un hábito fuerte)", "Solo bajo mucho estrés (Mi mecanismo de escape)"], gettinggirls: ["A diario (Pensamientos constantes y dolorosos)", "Cada vez que veo a una mujer atractiva (Bloqueo)", "Solo los fines de semana (Cuando otros salen)", "Evito por completo las situaciones sociales"], relationship: ["A diario (Es un estado constante y abrumador)", "Varias veces al día (Discutimos por tonterías)", "Varias veces a la semana (El humor cambia constantemente)", "Los fines de semana son lo peor", "Casi solo queda un silencio hostil"] },
+                    hist: ["Menos de 1 año (Apenas empieza a arraigarse)", "1 - 5 años (Se ha convertido en un hábito real)", "5 - 10 años (Es crónico y parte de mi identidad)", "Desde la pubertad / Más de 10 años (Profundamente arraigado)"],
+                    pain: { porn: ["Niebla mental, letargo y pérdida masiva de concentración", "Disfunción eréctil (PIED) y libido muerta", "Pérdida de tiempo masiva y procrastinación constante", "Vergüenza profunda, asco de mí mismo y aislamiento", "El sentimiento de absoluta impotencia"], gettinggirls: ["Una soledad profunda y aplastante en el día a día", "El pánico de quedarme solo el resto de mi vida", "Envidia amarga de los hombres que lo tienen fácil", "Un sentimiento constante y persistente de inferioridad", "Frustración sexual masiva y tensión"], relationship: ["Sequía sexual completa ('síndrome de compañeros de piso')", "Críticas constantes, quejas y no hacer nada bien", "El miedo constante y silencioso a la separación", "Ya no me siento cómodo en mi propia casa", "La pérdida total del respeto mutuo"] },
+                    time: ["0-15 Min - Totalmente controlado por otros. Al borde del burnout.", "30 Min - Una gota en el océano. Solo funcionas.", "60 Min - Una base sólida para construir rutinas reales.", "90 Min - Fuerte. Espacio real para un crecimiento profundo.", "2+ Hrs - Excelente. Soberanía absoluta sobre tu tiempo."],
+                    commit: ["Sí, voy a hacer esto. No más excusas. (100%)", "No, prefiero quedarme en mi situación actual."],
+                    goal: { porn: ["Libertad mental absoluta y enfoque afilado", "Una sexualidad sana, real y masculina", "Recuperar mi respeto propio como hombre"], gettinggirls: ["Encontrar por fin a la pareja adecuada para mi vida", "Total soltura y dominio al tratar con mujeres", "Construir una autoconfianza real e inquebrantable"], relationship: ["Reavivar la pasión perdida y el fuego", "Recuperar mi respeto y asumir el liderazgo", "Crear paz real y armonía en mi hogar"] },
+                    rank: ["El Militar (Disciplina de hierro, rutina y dureza)", "El Guardián (Mente clara, enfoque e instinto protector)", "El Samurái (Honor profundo, precisión y calma interior)", "El Emperador (Poder absoluto, estoicismo y visión)"]
                 },
-                scales: { distress: { porn: { 1: "Pequeño hábito.", 4: "Molesta.", 7: "Fuerte deseo.", 10: "Destruye mi vida." }, gettinggirls: { 1: "Quiero mejorar.", 4: "Bloqueado.", 7: "Solo.", 10: "Soledad consume." }, relationship: { 1: "Pequeñas diferencias.", 4: "Discusiones.", 7: "Distantes.", 10: "Sufrimiento máximo." } }, energy: { 1: "Agotado.", 4: "Agotado a menudo.", 7: "Buena energía.", 10: "Máxima." } },
-                levels: { extreme: { t: "EXTREMO", sub: "TU SISTEMA ESTÁ AL LÍMITE", d: "Modo supervivencia." }, dangerous: { t: "PELIGROSO", sub: "TU CUERPO ESTÁ AL LÍMITE", d: "Sobrecargado." } }
+                scales: { 
+                    distress: { 
+                        porn: { 1: "Apenas notable. Un hábito raro sin consecuencias.", 2: "Insignificante. Casi nunca pienso en ello.", 3: "Ocasionalmente. Pasa, pero tengo el control.", 4: "Hábito. Es parte de la rutina, pero me molesta.", 5: "Molesto. Noto que me roba tiempo y atención.", 6: "Agotador. Primeros efectos negativos en mi motivación.", 7: "Deseo. Intento parar, pero a menudo pierdo la batalla.", 8: "Crítico. Afecta masivamente mi libido y trabajo.", 9: "Pérdida de control. Dirigido externamente y con mucha vergüenza.", 10: "Destructivo. Soy un esclavo. Está arruinando mi vida." }, 
+                        gettinggirls: { 1: "Relajado. Solo quiero perfeccionar mis habilidades.", 2: "Bien, pero podría ser un poco más valiente.", 3: "A veces inseguro, pero suelo tomar la iniciativa.", 4: "Inhibido. Me enoja perder buenas oportunidades.", 5: "Frustrante. Me interpongo en mi propio camino.", 6: "Doloroso. Veo a hombres con mujeres y me siento mal.", 7: "Solitario. Extraño la cercanía femenina, daña mi ego.", 8: "Desesperado. A menudo me siento invisible y poco atractivo.", 9: "Miedo profundo. El pánico a quedarme solo me quita el sueño.", 10: "Destructivo. La soledad me está comiendo vivo." }, 
+                        relationship: { 1: "Todo genial, solo raras y minúsculas diferencias.", 2: "Armonioso, solo pequeñas fricciones diarias.", 3: "Está bien, pero la pasión se ha aplanado.", 4: "Molesto. Discusiones recurrentes que agotan la energía.", 5: "Agotador. Funcionamos como equipo, no hay chispa.", 6: "Tenso. A menudo me siento incomprendido y no respetado.", 7: "Distante. Vivimos como compañeros de cuarto. Sin intimidad.", 8: "Crítico. Cada discusión escala o hay silencio hostil.", 9: "Tóxico. Pienso en separarme a diario. Infierno emocional.", 10: "Destructivo. El dolor es insoportable. Debe cambiar YA." } 
+                    }, 
+                    energy: { 1: "Burnout. Modo supervivencia. Apenas salgo de la cama.", 2: "Crónicamente agotado. Cada paso es una maratón.", 3: "Lento. Me arrastro por el día, dependo de la cafeína.", 4: "Por debajo de la media. Inútil después del trabajo.", 5: "Mediocre. Suficiente para lo básico, sin empuje real.", 6: "Bien. Sobrevivo, pero el tanque está vacío por la noche.", 7: "Bueno. Suelo tener fuerza para el día a día y deporte.", 8: "Fuerte. Me siento vital, claro de mente y avanzo.", 9: "Muy alta. Lleno de acción, inspiro a otros.", 10: "Imparable. Irradio fuerza vital. Enfoque afilado." } 
+                },
+                levels: { extreme: { t: "EXTREMO", sub: "TU SISTEMA ESTÁ AL LÍMITE", d: "Solo funcionas en modo supervivencia. Cada fibra de tu cuerpo pide un cambio a gritos." }, dangerous: { t: "PELIGROSO", sub: "TU CUERPO ESTÁ AL LÍMITE", d: "Estás crónicamente sobrecargado. Tu sistema funciona con reservas – y casi no quedan." } }
             }
+        };
+
+        // --- DIGISTORE LINKS (SPRACHABHÄNGIG) ---
+        // HIER trägst du später deine eigenen Produkt-IDs ein!
+        const digistoreLinks = {
+            de: "https://www.digistore24.com/product/675932",
+            en: "https://www.digistore24.com/product/DEIN_ENGLISCHER_LINK_HIER",
+            es: "https://www.digistore24.com/product/DEIN_SPANISCHER_LINK_HIER"
         };
 
         let currentLang = null;
@@ -289,15 +304,9 @@
             const tr = t[currentLang].scales[scaleType];
             if(scaleType === 'distress') {
                 const root = answers['root'];
-                if(value <= 3) return tr[root][1];
-                if(value <= 6) return tr[root][4];
-                if(value <= 8) return tr[root][7];
-                return tr[root][10];
+                return tr[root][value];
             } else {
-                if(value <= 3) return tr[1];
-                if(value <= 6) return tr[4];
-                if(value <= 8) return tr[7];
-                return tr[10];
+                return tr[value];
             }
         }
 
@@ -461,7 +470,9 @@
         }
 
         function redirectToDigistore(userId) {
-            const digistoreBaseUrl = "https://www.digistore24.com/product/675932"; 
+            // Holt sich den richtigen Link basierend auf der gewählten Sprache.
+            // Falls eine Sprache fehlt, fällt er automatisch auf 'de' (675932) zurück.
+            const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
             const finalUrl = `${digistoreBaseUrl}?custom=${userId}`;
             window.location.href = finalUrl;
         }
