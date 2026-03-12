@@ -127,7 +127,6 @@
             <div class="label-gold" id="pitch-label"></div>
             <h1 id="pitch-headline"></h1>
             <p class="subtitle" id="pitch-sub"></p>
-            
             <div class="pitch-card">
                 <h2 id="pitch-title" style="color: var(--gold); font-size: 1.2rem; margin-bottom: 15px; margin-top: 0;"></h2>
                 <ul>
@@ -155,10 +154,22 @@
     </main>
 
     <script>
-        // --- SUPABASE INITIALISIERUNG ---
+        // --- SICHERHEITS-SETUP FÜR SUPABASE ---
+        // Wir laden Supabase erst, wenn es wirklich gebraucht wird, um zu verhindern, dass Adblocker die Seite einfrieren!
         const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let dbClient = null;
+
+        function initSupabase() {
+            if (!dbClient && window.supabase) {
+                try {
+                    dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                } catch (e) {
+                    console.warn("Supabase wurde vom Browser blockiert:", e);
+                }
+            }
+            return dbClient;
+        }
 
         // --- ÜBERSETZUNGEN ---
         const t = {
@@ -300,37 +311,55 @@
         function buildStep1() {
             const tr = t[currentLang];
             document.getElementById('s1-label').innerText = tr.step1.label; document.getElementById('s1-title').innerText = tr.step1.title; document.getElementById('s1-sub').innerText = tr.step1.sub; document.getElementById('s1-disclaimer').innerText = tr.step1.disclaimer;
-            const div = document.getElementById('s1-options'); div.innerHTML = '';
-            for (const [key, val] of Object.entries(tr.opts.root)) { div.innerHTML += `<button class="option-btn" onclick="selectRoot('${key}')">${val}</button>`; }
+            
+            // Render Options Safely
+            let html = '';
+            for (const [key, val] of Object.entries(tr.opts.root)) { 
+                html += `<button class="option-btn" onclick="selectRoot('${key}')">${val}</button>`; 
+            }
+            document.getElementById('s1-options').innerHTML = html;
         }
 
         function selectRoot(rootKey) { answers['root'] = rootKey; buildDynamicSteps(); nextStep(); }
 
         function buildDynamicSteps() {
             const tr = t[currentLang]; const root = answers['root'];
+            
             const buildOpts = (id, optsObj) => {
-                document.getElementById(`${id}-label`).innerText = tr[id.replace('s', 'step')].label; document.getElementById(`${id}-title`).innerText = tr[id.replace('s', 'step')].title; document.getElementById(`${id}-sub`).innerText = tr[id.replace('s', 'step')].sub || '';
-                const div = document.getElementById(`${id}-options`); div.innerHTML = '';
-                optsObj.forEach(opt => div.innerHTML += `<button class="option-btn" onclick="nextStep()">${opt}</button>`);
+                document.getElementById(`${id}-label`).innerText = tr[id.replace('s', 'step')].label; 
+                document.getElementById(`${id}-title`).innerText = tr[id.replace('s', 'step')].title; 
+                document.getElementById(`${id}-sub`).innerText = tr[id.replace('s', 'step')].sub || '';
+                let html = '';
+                optsObj.forEach(opt => html += `<button class="option-btn" onclick="nextStep()">${opt}</button>`);
+                document.getElementById(`${id}-options`).innerHTML = html;
             };
 
             buildOpts('s2', tr.opts.freq[root]); buildOpts('s3', tr.opts.hist); buildOpts('s4', tr.opts.pain[root]); buildOpts('s7', tr.opts.time); buildOpts('s10', tr.opts.commit); buildOpts('s11', tr.opts.goal[root]); buildOpts('s12', tr.opts.rank);
 
-            document.getElementById('s5-label').innerText = tr.step5.label; document.getElementById('s5-title').innerText = tr.step5.title; document.getElementById('s5-sub').innerText = tr.step5.sub; document.getElementById('s5-min').innerText = tr.step5.min; document.getElementById('s5-max').innerText = tr.step5.max; document.getElementById('s5-btn').innerText = tr.step5.next; document.getElementById('s5-options').innerHTML = ''; for(let i=1; i<=10; i++) document.getElementById('s5-options').innerHTML += `<button class="scale-btn" onclick="selectScale(5, ${i}, 'distress')">${i}</button>`;
-            document.getElementById('s6-label').innerText = tr.step6.label; document.getElementById('s6-title').innerText = tr.step6.title; document.getElementById('s6-sub').innerText = tr.step6.sub; document.getElementById('s6-min').innerText = tr.step6.min; document.getElementById('s6-max').innerText = tr.step6.max; document.getElementById('s6-btn').innerText = tr.step6.next; document.getElementById('s6-options').innerHTML = ''; for(let i=1; i<=10; i++) document.getElementById('s6-options').innerHTML += `<button class="scale-btn" onclick="selectScale(6, ${i}, 'energy')">${i}</button>`;
+            // Scale 1-10 (Distress)
+            document.getElementById('s5-label').innerText = tr.step5.label; document.getElementById('s5-title').innerText = tr.step5.title; document.getElementById('s5-sub').innerText = tr.step5.sub; document.getElementById('s5-min').innerText = tr.step5.min; document.getElementById('s5-max').innerText = tr.step5.max; document.getElementById('s5-btn').innerText = tr.step5.next; 
+            let scale5Html = ''; for(let i=1; i<=10; i++) scale5Html += `<button class="scale-btn" onclick="selectScale(this, 5, ${i}, 'distress')">${i}</button>`; document.getElementById('s5-options').innerHTML = scale5Html;
+            
+            // Scale 1-10 (Energy)
+            document.getElementById('s6-label').innerText = tr.step6.label; document.getElementById('s6-title').innerText = tr.step6.title; document.getElementById('s6-sub').innerText = tr.step6.sub; document.getElementById('s6-min').innerText = tr.step6.min; document.getElementById('s6-max').innerText = tr.step6.max; document.getElementById('s6-btn').innerText = tr.step6.next; 
+            let scale6Html = ''; for(let i=1; i<=10; i++) scale6Html += `<button class="scale-btn" onclick="selectScale(this, 6, ${i}, 'energy')">${i}</button>`; document.getElementById('s6-options').innerHTML = scale6Html;
 
+            // Result
             document.getElementById('loading-title').innerText = tr.loading; document.getElementById('loading-sub').innerText = tr.loadingSub;
             document.getElementById('res-label').innerText = tr.result.label; document.getElementById('res-headline').innerText = tr.result.headline; document.getElementById('res-cost').innerText = tr.result.cost; document.getElementById('btn-res-next').innerText = tr.result.next;
 
+            // Pitch & Reg
             document.getElementById('pitch-label').innerText = tr.pitch.label; document.getElementById('pitch-headline').innerText = tr.pitch.headline; document.getElementById('pitch-sub').innerText = tr.pitch.sub; document.getElementById('pitch-title').innerText = tr.pitch.title; document.getElementById('pitch-1').innerText = tr.pitch.f1; document.getElementById('pitch-2').innerText = tr.pitch.f2; document.getElementById('pitch-3').innerText = tr.pitch.f3; document.getElementById('pitch-4').innerText = tr.pitch.f4; document.getElementById('btn-checkout').innerText = tr.pitch.btn;
             document.getElementById('reg-label').innerText = tr.reg.label; document.getElementById('reg-headline').innerText = tr.reg.headline; document.getElementById('reg-sub').innerText = tr.reg.sub; document.getElementById('reg-email').placeholder = tr.reg.email; document.getElementById('reg-password').placeholder = tr.reg.pw; document.getElementById('btn-register').innerText = tr.reg.btn;
         }
 
-        function selectScale(stepNum, val, type) {
-            document.querySelectorAll(`#step-${stepNum} .scale-btn`).forEach(btn => btn.classList.remove('selected'));
-            event.target.classList.add('selected');
+        // Bugfix für Apple-Geräte: Button-Click wird explizit mitgegeben
+        function selectScale(btnElement, stepNum, val, type) {
+            document.querySelectorAll(`#step-${stepNum} .scale-btn`).forEach(b => b.classList.remove('selected'));
+            btnElement.classList.add('selected');
             document.getElementById(`s${stepNum}-desc-text`).innerText = `"${getScaleDesc(type, val)}"`;
-            document.getElementById(`s${stepNum}-desc-box`).style.display = 'block'; document.getElementById(`s${stepNum}-btn`).style.display = 'block';
+            document.getElementById(`s${stepNum}-desc-box`).style.display = 'block'; 
+            document.getElementById(`s${stepNum}-btn`).style.display = 'block';
         }
 
         function nextStep() {
@@ -374,7 +403,15 @@
             btn.innerText = "Lädt...";
             btn.disabled = true;
 
-            const { data, error } = await supabase.auth.signUp({
+            // FALLBACK-SYSTEM: Wenn Supabase vom Adblocker blockiert wurde, ignorieren wir die Anmeldung und schicken ihn direkt zur Kasse!
+            const db = initSupabase();
+            if (!db) {
+                console.warn("Rettungs-System greift: Direkter Checkout.");
+                redirectToDigistore('guest_user_' + Math.floor(Math.random() * 10000));
+                return;
+            }
+
+            const { data, error } = await db.auth.signUp({
                 email: email,
                 password: password,
                 options: { data: { first_name: 'WebUser', is_over_21: true } }
@@ -382,7 +419,7 @@
 
             if (error) {
                 if(error.message.includes('already registered')) {
-                    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+                    const { data: signInData, error: signInError } = await db.auth.signInWithPassword({ email, password });
                     if(signInError) {
                         errEl.innerText = tr.reg.errExists;
                         errEl.style.display = 'block';
@@ -403,6 +440,7 @@
         }
 
         function redirectToDigistore(userId) {
+            // DEIN ECHTER DIGISTORE LINK
             const digistoreBaseUrl = "https://www.digistore24.com/product/675932"; 
             const finalUrl = `${digistoreBaseUrl}?custom=${userId}`;
             window.location.href = finalUrl;
