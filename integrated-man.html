@@ -120,7 +120,9 @@
         <div class="step" id="step-9"><div class="label-gold" id="res-label"></div><h1 id="res-headline"></h1><div class="result-card" id="resultCard"><div class="result-score" id="res-score"></div><div class="result-title" id="res-title"></div><div class="result-desc" id="res-desc"></div></div><p style="color: var(--text-dim); font-size: 0.9rem; text-align: center; text-transform: uppercase;" id="res-cost"></p><button class="btn-gold" id="btn-res-next" onclick="nextStep()"></button></div>
         
         <div class="step" id="step-10"><div class="label-gold" id="s10-label"></div><h1 id="s10-title"></h1><p class="subtitle" id="s10-sub"></p><div id="s10-options"></div></div>
-        <div class="step" id="step-11"><div class="label-gold" id="s11-label"></div><h1 id="s11-title"></h1><div id="s11-options"></div></div>
+        
+        <div class="step" id="step-11"><div class="label-gold" id="s11-label"></div><h1 id="s11-title"></h1><p class="subtitle" id="s11-sub"></p><div id="s11-options"></div></div>
+        
         <div class="step" id="step-12"><div class="label-gold" id="s12-label"></div><h1 id="s12-title"></h1><p class="subtitle" id="s12-sub"></p><div id="s12-options"></div></div>
 
         <div class="step" id="step-13">
@@ -155,7 +157,6 @@
 
     <script>
         // --- SICHERHEITS-SETUP FÜR SUPABASE ---
-        // Wir laden Supabase erst, wenn es wirklich gebraucht wird, um zu verhindern, dass Adblocker die Seite einfrieren!
         const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let dbClient = null;
@@ -169,6 +170,12 @@
                 }
             }
             return dbClient;
+        }
+
+        // Hilfsfunktion: Setzt Texte ausfallsicher, auch wenn ein Element mal fehlt
+        function setText(id, text) {
+            const el = document.getElementById(id);
+            if(el) el.innerText = text || '';
         }
 
         // --- ÜBERSETZUNGEN ---
@@ -298,9 +305,9 @@
             currentLang = lang;
             document.querySelectorAll('#step-0 .option-btn').forEach(btn => btn.classList.remove('selected'));
             document.getElementById(`lang-${lang}`).classList.add('selected');
-            document.getElementById('lang-welcome').innerText = t[lang].lang.welcome;
-            document.getElementById('lang-title').innerText = t[lang].lang.title;
-            document.getElementById('lang-subtitle').innerText = t[lang].lang.subtitle;
+            setText('lang-welcome', t[lang].lang.welcome);
+            setText('lang-title', t[lang].lang.title);
+            setText('lang-subtitle', t[lang].lang.subtitle);
             const btn = document.getElementById('btn-start');
             btn.disabled = false;
             btn.innerText = t[lang].lang.next;
@@ -310,14 +317,14 @@
 
         function buildStep1() {
             const tr = t[currentLang];
-            document.getElementById('s1-label').innerText = tr.step1.label; document.getElementById('s1-title').innerText = tr.step1.title; document.getElementById('s1-sub').innerText = tr.step1.sub; document.getElementById('s1-disclaimer').innerText = tr.step1.disclaimer;
+            setText('s1-label', tr.step1.label); setText('s1-title', tr.step1.title); setText('s1-sub', tr.step1.sub); setText('s1-disclaimer', tr.step1.disclaimer);
             
-            // Render Options Safely
             let html = '';
             for (const [key, val] of Object.entries(tr.opts.root)) { 
                 html += `<button class="option-btn" onclick="selectRoot('${key}')">${val}</button>`; 
             }
-            document.getElementById('s1-options').innerHTML = html;
+            const optsEl = document.getElementById('s1-options');
+            if(optsEl) optsEl.innerHTML = html;
         }
 
         function selectRoot(rootKey) { answers['root'] = rootKey; buildDynamicSteps(); nextStep(); }
@@ -326,49 +333,63 @@
             const tr = t[currentLang]; const root = answers['root'];
             
             const buildOpts = (id, optsObj) => {
-                document.getElementById(`${id}-label`).innerText = tr[id.replace('s', 'step')].label; 
-                document.getElementById(`${id}-title`).innerText = tr[id.replace('s', 'step')].title; 
-                document.getElementById(`${id}-sub`).innerText = tr[id.replace('s', 'step')].sub || '';
-                let html = '';
-                optsObj.forEach(opt => html += `<button class="option-btn" onclick="nextStep()">${opt}</button>`);
-                document.getElementById(`${id}-options`).innerHTML = html;
+                setText(`${id}-label`, tr[id.replace('s', 'step')].label); 
+                setText(`${id}-title`, tr[id.replace('s', 'step')].title); 
+                setText(`${id}-sub`, tr[id.replace('s', 'step')].sub);
+                const optsEl = document.getElementById(`${id}-options`);
+                if(optsEl) {
+                    let html = '';
+                    optsObj.forEach(opt => html += `<button class="option-btn" onclick="nextStep()">${opt}</button>`);
+                    optsEl.innerHTML = html;
+                }
             };
 
             buildOpts('s2', tr.opts.freq[root]); buildOpts('s3', tr.opts.hist); buildOpts('s4', tr.opts.pain[root]); buildOpts('s7', tr.opts.time); buildOpts('s10', tr.opts.commit); buildOpts('s11', tr.opts.goal[root]); buildOpts('s12', tr.opts.rank);
 
             // Scale 1-10 (Distress)
-            document.getElementById('s5-label').innerText = tr.step5.label; document.getElementById('s5-title').innerText = tr.step5.title; document.getElementById('s5-sub').innerText = tr.step5.sub; document.getElementById('s5-min').innerText = tr.step5.min; document.getElementById('s5-max').innerText = tr.step5.max; document.getElementById('s5-btn').innerText = tr.step5.next; 
-            let scale5Html = ''; for(let i=1; i<=10; i++) scale5Html += `<button class="scale-btn" onclick="selectScale(this, 5, ${i}, 'distress')">${i}</button>`; document.getElementById('s5-options').innerHTML = scale5Html;
+            setText('s5-label', tr.step5.label); setText('s5-title', tr.step5.title); setText('s5-sub', tr.step5.sub); setText('s5-min', tr.step5.min); setText('s5-max', tr.step5.max); setText('s5-btn', tr.step5.next); 
+            const s5Opts = document.getElementById('s5-options');
+            if(s5Opts){ let h = ''; for(let i=1; i<=10; i++) h += `<button class="scale-btn" onclick="selectScale(this, 5, ${i}, 'distress')">${i}</button>`; s5Opts.innerHTML = h; }
             
             // Scale 1-10 (Energy)
-            document.getElementById('s6-label').innerText = tr.step6.label; document.getElementById('s6-title').innerText = tr.step6.title; document.getElementById('s6-sub').innerText = tr.step6.sub; document.getElementById('s6-min').innerText = tr.step6.min; document.getElementById('s6-max').innerText = tr.step6.max; document.getElementById('s6-btn').innerText = tr.step6.next; 
-            let scale6Html = ''; for(let i=1; i<=10; i++) scale6Html += `<button class="scale-btn" onclick="selectScale(this, 6, ${i}, 'energy')">${i}</button>`; document.getElementById('s6-options').innerHTML = scale6Html;
+            setText('s6-label', tr.step6.label); setText('s6-title', tr.step6.title); setText('s6-sub', tr.step6.sub); setText('s6-min', tr.step6.min); setText('s6-max', tr.step6.max); setText('s6-btn', tr.step6.next); 
+            const s6Opts = document.getElementById('s6-options');
+            if(s6Opts){ let h = ''; for(let i=1; i<=10; i++) h += `<button class="scale-btn" onclick="selectScale(this, 6, ${i}, 'energy')">${i}</button>`; s6Opts.innerHTML = h; }
 
             // Result
-            document.getElementById('loading-title').innerText = tr.loading; document.getElementById('loading-sub').innerText = tr.loadingSub;
-            document.getElementById('res-label').innerText = tr.result.label; document.getElementById('res-headline').innerText = tr.result.headline; document.getElementById('res-cost').innerText = tr.result.cost; document.getElementById('btn-res-next').innerText = tr.result.next;
+            setText('loading-title', tr.loading); setText('loading-sub', tr.loadingSub);
+            setText('res-label', tr.result.label); setText('res-headline', tr.result.headline); setText('res-cost', tr.result.cost); setText('btn-res-next', tr.result.next);
 
             // Pitch & Reg
-            document.getElementById('pitch-label').innerText = tr.pitch.label; document.getElementById('pitch-headline').innerText = tr.pitch.headline; document.getElementById('pitch-sub').innerText = tr.pitch.sub; document.getElementById('pitch-title').innerText = tr.pitch.title; document.getElementById('pitch-1').innerText = tr.pitch.f1; document.getElementById('pitch-2').innerText = tr.pitch.f2; document.getElementById('pitch-3').innerText = tr.pitch.f3; document.getElementById('pitch-4').innerText = tr.pitch.f4; document.getElementById('btn-checkout').innerText = tr.pitch.btn;
-            document.getElementById('reg-label').innerText = tr.reg.label; document.getElementById('reg-headline').innerText = tr.reg.headline; document.getElementById('reg-sub').innerText = tr.reg.sub; document.getElementById('reg-email').placeholder = tr.reg.email; document.getElementById('reg-password').placeholder = tr.reg.pw; document.getElementById('btn-register').innerText = tr.reg.btn;
+            setText('pitch-label', tr.pitch.label); setText('pitch-headline', tr.pitch.headline); setText('pitch-sub', tr.pitch.sub); setText('pitch-title', tr.pitch.title); 
+            setText('pitch-1', tr.pitch.f1); setText('pitch-2', tr.pitch.f2); setText('pitch-3', tr.pitch.f3); setText('pitch-4', tr.pitch.f4); setText('btn-checkout', tr.pitch.btn);
+            
+            setText('reg-label', tr.reg.label); setText('reg-headline', tr.reg.headline); setText('reg-sub', tr.reg.sub); setText('btn-register', tr.reg.btn);
+            const em = document.getElementById('reg-email'); if(em) em.placeholder = tr.reg.email;
+            const pw = document.getElementById('reg-password'); if(pw) pw.placeholder = tr.reg.pw;
         }
 
-        // Bugfix für Apple-Geräte: Button-Click wird explizit mitgegeben
         function selectScale(btnElement, stepNum, val, type) {
             document.querySelectorAll(`#step-${stepNum} .scale-btn`).forEach(b => b.classList.remove('selected'));
             btnElement.classList.add('selected');
-            document.getElementById(`s${stepNum}-desc-text`).innerText = `"${getScaleDesc(type, val)}"`;
-            document.getElementById(`s${stepNum}-desc-box`).style.display = 'block'; 
-            document.getElementById(`s${stepNum}-btn`).style.display = 'block';
+            setText(`s${stepNum}-desc-text`, `"${getScaleDesc(type, val)}"`);
+            const box = document.getElementById(`s${stepNum}-desc-box`); if(box) box.style.display = 'block'; 
+            const btn = document.getElementById(`s${stepNum}-btn`); if(btn) btn.style.display = 'block';
         }
 
         function nextStep() {
-            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            const currentEl = document.getElementById(`step-${currentStep}`);
+            if(currentEl) currentEl.classList.remove('active');
+            
             currentStep++;
+            
             if (currentStep > 0 && currentStep !== 8 && currentStep !== 13 && currentStep !== 14) {
-                document.getElementById('progressBar').style.width = `${Math.min((currentStep / 12) * 100, 100)}%`;
+                const pb = document.getElementById('progressBar');
+                if(pb) pb.style.width = `${Math.min((currentStep / 12) * 100, 100)}%`;
             }
-            document.getElementById(`step-${currentStep}`).classList.add('active');
+            
+            const nextEl = document.getElementById(`step-${currentStep}`);
+            if(nextEl) nextEl.classList.add('active');
 
             if(currentStep === 8) {
                 setTimeout(() => {
@@ -376,10 +397,17 @@
                     currentStep++;
                     const fakeScore = Math.floor(Math.random() * (96 - 78 + 1)) + 78;
                     const tr = t[currentLang];
-                    document.getElementById('res-score').innerText = `${fakeScore}%`;
+                    setText('res-score', `${fakeScore}%`);
                     const level = fakeScore >= 85 ? tr.levels.extreme : tr.levels.dangerous;
                     const color = fakeScore >= 85 ? "#FF0000" : "#FF3333";
-                    document.getElementById('res-title').innerText = level.t; document.getElementById('res-desc').innerText = `${level.sub}\n\n${level.d}`; document.getElementById('res-score').style.color = color; document.getElementById('res-title').style.color = color; document.getElementById('resultCard').style.borderColor = color;
+                    
+                    setText('res-title', level.t); 
+                    setText('res-desc', `${level.sub}\n\n${level.d}`); 
+                    
+                    const rs = document.getElementById('res-score'); if(rs) rs.style.color = color; 
+                    const rt = document.getElementById('res-title'); if(rt) rt.style.color = color; 
+                    const rc = document.getElementById('resultCard'); if(rc) rc.style.borderColor = color;
+                    
                     document.getElementById(`step-${currentStep}`).classList.add('active');
                 }, 3000);
             }
@@ -394,16 +422,13 @@
             const tr = t[currentLang];
             
             if(!email || password.length < 6) {
-                errEl.innerText = tr.reg.errFill;
-                errEl.style.display = 'block';
+                if(errEl) { errEl.innerText = tr.reg.errFill; errEl.style.display = 'block'; }
                 return;
             }
 
-            errEl.style.display = 'none';
-            btn.innerText = "Lädt...";
-            btn.disabled = true;
+            if(errEl) errEl.style.display = 'none';
+            if(btn) { btn.innerText = "Lädt..."; btn.disabled = true; }
 
-            // FALLBACK-SYSTEM: Wenn Supabase vom Adblocker blockiert wurde, ignorieren wir die Anmeldung und schicken ihn direkt zur Kasse!
             const db = initSupabase();
             if (!db) {
                 console.warn("Rettungs-System greift: Direkter Checkout.");
@@ -421,18 +446,14 @@
                 if(error.message.includes('already registered')) {
                     const { data: signInData, error: signInError } = await db.auth.signInWithPassword({ email, password });
                     if(signInError) {
-                        errEl.innerText = tr.reg.errExists;
-                        errEl.style.display = 'block';
-                        btn.innerText = tr.reg.btn;
-                        btn.disabled = false;
+                        if(errEl) { errEl.innerText = tr.reg.errExists; errEl.style.display = 'block'; }
+                        if(btn) { btn.innerText = tr.reg.btn; btn.disabled = false; }
                         return;
                     }
                     redirectToDigistore(signInData.user.id);
                 } else {
-                    errEl.innerText = error.message;
-                    errEl.style.display = 'block';
-                    btn.innerText = tr.reg.btn;
-                    btn.disabled = false;
+                    if(errEl) { errEl.innerText = error.message; errEl.style.display = 'block'; }
+                    if(btn) { btn.innerText = tr.reg.btn; btn.disabled = false; }
                 }
             } else if (data.user) {
                 redirectToDigistore(data.user.id);
@@ -440,7 +461,6 @@
         }
 
         function redirectToDigistore(userId) {
-            // DEIN ECHTER DIGISTORE LINK
             const digistoreBaseUrl = "https://www.digistore24.com/product/675932"; 
             const finalUrl = `${digistoreBaseUrl}?custom=${userId}`;
             window.location.href = finalUrl;
