@@ -2,17 +2,21 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Integrated Man - Shift My Horizon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Integrated Man - Analyse</title>
     <style>
         :root {
             --bg: #000000;
             --card: #121212;
             --border: #2A2A2A;
             --gold: #D4AF37;
+            --gold-dim: rgba(212, 175, 55, 0.15);
             --text: #FFFFFF;
             --text-dim: #888888;
+            --danger: #C62828;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -20,126 +24,474 @@
             padding: 0;
             background-color: var(--bg);
             color: var(--text);
-            line-height: 1.6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overflow-x: hidden;
         }
-        nav {
+
+        /* Top Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 6px;
             background-color: var(--card);
-            padding: 20px 40px;
-            border-bottom: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            display: none; /* Erst nach Sprachwahl sichtbar */
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: var(--gold);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        main {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 40px auto 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .label-gold {
+            color: var(--gold);
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.3;
+            color: var(--text);
+        }
+
+        /* Quiz & Language Buttons */
+        .option-btn {
+            background-color: var(--card);
+            border: 2px solid var(--border);
+            color: var(--text);
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            width: 100%;
+            font-weight: 500;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: var(--gold); }
-        .back-link { color: var(--text-dim); text-decoration: none; font-weight: bold; }
-        .back-link:hover { color: var(--text); }
-        
-        main {
-            flex: 1;
-            padding: 80px 20px;
-            max-width: 800px;
-            margin: 0 auto;
+        .option-btn:hover {
+            border-color: #555;
         }
-        h1 { font-size: 3rem; margin-bottom: 20px; color: var(--gold); }
-        h2 { font-size: 1.8rem; margin-top: 50px; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-        p { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 30px; }
-        
-        ul { list-style: none; padding: 0; }
-        li {
+        .option-btn.selected {
+            border-color: var(--gold);
             background-color: var(--card);
-            margin-bottom: 10px;
-            padding: 15px 20px;
-            border-radius: 8px;
-            border-left: 3px solid var(--gold);
-            color: var(--text);
-            font-weight: 500;
+            color: var(--gold);
+            font-weight: bold;
+        }
+        .lang-subtext {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-weight: normal;
+            margin-top: 4px;
         }
 
-        .store-buttons {
-            display: flex;
-            gap: 20px;
-            margin-top: 50px;
-            flex-wrap: wrap;
+        /* Result Card */
+        .result-card {
+            background-color: #1a0000;
+            padding: 40px 20px;
+            border-radius: 16px;
+            border: 3px solid #FF3333;
+            text-align: center;
+            margin-top: 20px;
         }
-        .btn {
+        .result-score {
+            font-size: 5rem;
+            font-weight: 900;
+            color: #FF3333;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .result-title {
+            color: #FF3333;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        .result-desc {
+            color: #CCC;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* Action Buttons */
+        .btn-gold {
             background-color: var(--gold);
             color: #000;
-            padding: 15px 30px;
-            border-radius: 8px;
+            padding: 18px;
+            border-radius: 10px;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 800;
             font-size: 1.1rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .btn:hover { background-color: #e6c55c; }
-        
-        /* Footer (im dunklen Design) */
-        footer {
-            background-color: var(--card);
-            padding: 40px 20px;
-            border-top: 1px solid var(--border);
+            letter-spacing: 1px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 30px;
             text-align: center;
+            display: block;
         }
-        .legal-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 50px; max-width: 900px; margin: 0 auto; }
-        .language-column { display: flex; flex-direction: column; text-align: left; }
-        .language-column h3 { font-size: 1rem; margin-bottom: 15px; color: var(--text-dim); text-transform: uppercase; }
-        .language-column a { color: var(--text); text-decoration: none; margin-bottom: 8px; font-size: 0.95rem; }
-        .language-column a:hover { color: var(--gold); }
+        .btn-gold:disabled {
+            background-color: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .loading-screen {
+            text-align: center;
+            padding: 50px 0;
+        }
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.1);
+            border-left-color: var(--gold);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .disclaimer {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="index.html" class="logo">Shift My Horizon</a>
-        <a href="index.html" class="back-link">← Zurück zur Übersicht</a>
-    </nav>
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
 
-    <main>
-        <h1>Integrated Man</h1>
-        <p>Der Weg zur besten Version deiner selbst. Tracke deine Fortschritte, steige im Rang auf und werde Teil einer Community, die dich nach oben zieht.</p>
+    <main id="quiz-container">
         
-        <h2>Features</h2>
-        <ul>
-            <li>Ränge und Achievements freischalten</li>
-            <li>Tägliche Routinen und Journaling</li>
-            <li>Psychologie- und Mindset-Trigger</li>
-        </ul>
+        <div class="step active" id="step-0">
+            <div class="label-gold" id="lang-welcome">WILLKOMMEN • WELCOME • BIENVENIDO</div>
+            <h1 id="lang-title" style="color: var(--gold); font-size: 1.8rem;">WÄHLE DEINE SPRACHE</h1>
+            <p id="lang-subtitle" style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">Wähle die Sprache, in der du die App nutzen möchtest.</p>
+            
+            <button class="option-btn" id="lang-de" onclick="selectLanguage('de')">
+                <div>
+                    🇩🇪 Deutsch
+                    <span class="lang-subtext">Deutsche Version</span>
+                </div>
+            </button>
+            <button class="option-btn" id="lang-en" onclick="selectLanguage('en')">
+                <div>
+                    🇬🇧 English
+                    <span class="lang-subtext">English Version</span>
+                </div>
+            </button>
+            <button class="option-btn" id="lang-es" onclick="selectLanguage('es')">
+                <div>
+                    🇪🇸 Español
+                    <span class="lang-subtext">Versión en Español</span>
+                </div>
+            </button>
 
-        <div class="store-buttons">
-            <a href="#" class="btn">Bald im App Store</a>
-            <a href="#" class="btn">Bald bei Google Play</a>
+            <button class="btn-gold" id="btn-start" onclick="startOnboarding()" disabled>WEITER</button>
         </div>
+
+        <div class="step" id="step-1">
+            <div class="label-gold" id="s1-label">PHASE 1: STATUS</div>
+            <h1 id="s1-title">Was ist deine größte Baustelle?</h1>
+            <div id="s1-options"></div>
+            <p class="disclaimer" id="s1-disclaimer">*Diese App ersetzt keine Therapie</p>
+        </div>
+
+        <div class="step" id="step-2">
+            <div class="label-gold" id="s2-label">INTENSITÄT</div>
+            <h1 id="s2-title">Wie oft tritt das Problem auf?</h1>
+            <div id="s2-options"></div>
+        </div>
+
+        <div class="step" id="step-3">
+            <div class="label-gold" id="s3-label">HISTORIE</div>
+            <h1 id="s3-title">Wie lange kämpfst du schon damit?</h1>
+            <div id="s3-options"></div>
+        </div>
+
+        <div class="step" id="step-4">
+            <div class="label-gold" id="s4-label">KONSEQUENZEN</div>
+            <h1 id="s4-title">Was kostet es dich aktuell? (Ehrlich)</h1>
+            <div id="s4-options"></div>
+        </div>
+
+        <div class="step" id="step-5">
+            <div class="loading-screen">
+                <div class="spinner"></div>
+                <h2 style="color: var(--gold);" id="loading-title">DEIN ERGEBNIS WIRD ERMITTELT...</h2>
+            </div>
+        </div>
+
+        <div class="step" id="step-6">
+            <div class="label-gold" id="res-label">Belastung deines Systems:</div>
+            <h1 id="res-headline">Hier ist dein Resultat:</h1>
+            
+            <div class="result-card" id="resultCard">
+                <div class="result-score" id="res-score">87%</div>
+                <div class="result-title" id="res-title">GEFÄHRLICH</div>
+                <div class="result-desc" id="res-desc">Dein Körper ist am Limit. Du bist chronisch überlastet. Dein System läuft auf Reserve – und die Reserve ist fast leer.</div>
+            </div>
+
+            <p style="color: var(--text-dim); font-size: 0.9rem; text-align: center; margin-top: 15px;" id="res-cost-headline">KONKRET KOSTET DICH DAS:</p>
+
+            <a href="DEIN_STRIPE_LINK_HIER" class="btn-gold" id="btn-checkout">LÖSUNG FREISCHALTEN</a>
+        </div>
+
     </main>
 
-    <footer>
-        <div class="legal-grid">
-            <div class="language-column">
-                <h3>Deutsch</h3>
-                <a href="impressum.html">Impressum</a>
-                <a href="datenschutz.html">Datenschutzerklärung</a>
-                <a href="agb.html">AGB</a>
-                <a href="cookie.html">Cookie-Richtlinie</a>
-            </div>
-            <div class="language-column">
-                <h3>English</h3>
-                <a href="impressum.html">Imprint / Legal Notice</a>
-                <a href="privacy.html">Privacy Policy</a>
-                <a href="terms.html">Terms & Conditions</a>
-                <a href="cookie-policy.html">Cookie Policy</a>
-            </div>
-            <div class="language-column">
-                <h3>Español</h3>
-                <a href="impressum.html">Aviso Legal</a>
-                <a href="privacidad.html">Política de Privacidad</a>
-                <a href="terminos.html">Términos y Condiciones</a>
-                <a href="cookies-es.html">Política de Cookies</a>
-            </div>
-        </div>
-    </footer>
+    <script>
+        // --- ÜBERSETZUNGEN (Direkt aus deiner App extrahiert) ---
+        const t = {
+            de: {
+                lang: { next: "WEITER" },
+                step1: { label: "PHASE 1: STATUS", title: "Was ist deine größte Baustelle?", disclaimer: "*Diese App ersetzt keine Therapie!" },
+                step2: { label: "INTENSITÄT", title: "Wie oft tritt das Problem / Verhalten auf?" },
+                step3: { label: "HISTORIE", title: "Wie lange kämpfst du schon damit?" },
+                step4: { label: "KONSEQUENZEN", title: "Was kostet es dich aktuell? (Ehrlich)" },
+                loading: "DEIN ERGEBNIS WIRD ERMITTELT...",
+                result: { label: "Belastung deines Systems:", cost: "KONKRET KOSTET DICH DAS:", btn: "LÖSUNG FREISCHALTEN" },
+                opts: {
+                    root: { porn: "Übermäßiger digitaler sexueller Konsum", gettinggirls: "Dating & soziale Unsicherheit", relationship: "Andauernder Beziehungsstreit & keine Intimität" },
+                    freq: {
+                        porn: ["Mehrmals täglich", "Täglich", "Während der Arbeit / im Homeoffice", "Mehrmals die Woche", "Nur bei starkem Stress"],
+                        gettinggirls: ["Täglich (Gedankenkreisen)", "Jedes Mal, wenn ich eine Frau sehe", "Nur am Wochenende (beim Ausgehen)", "Vermeide soziale Situationen komplett"],
+                        relationship: ["Täglich (Dauerzustand)", "Mehrmals täglich Streit", "Mehrmals die Woche", "Wochenende ist am schlimmsten", "Es herrscht fast nur noch Schweigen"]
+                    },
+                    hist: ["Weniger als 1 Jahr", "1 - 5 Jahre", "5 - 10 Jahre", "Seit der Pubertät / Über 10 Jahre"],
+                    pain: {
+                        porn: ["Gehirnnebel & Konzentrationsschwäche", "Erektile Probleme (PIED) / Libido-Verlust", "Zeitverschwendung während der Arbeit", "Soziale Isolation / Scham", "Gefühl der Machtlosigkeit"],
+                        gettinggirls: ["Tiefe Einsamkeit", "Angst, für immer allein zu bleiben", "Neid auf Paare / andere Männer", "Gefühl von Minderwertigkeit", "Sexuelle Frustration"],
+                        relationship: ["Sexuelle Flaute / 'Roommate-Syndrom'", "Ständige Kritik & Nörgelei", "Angst vor Trennung / Scheidung", "Ich fühle mich zu Hause nicht mehr wohl", "Verlust von Respekt"]
+                    }
+                },
+                levels: {
+                    extreme: { t: "EXTREM", sub: "DEIN NERVENSYSTEM IST AM ANSCHLAG", d: "Du funktionierst nur noch im Überlebensmodus. Jede Faser deines Körpers schreit nach Veränderung." },
+                    dangerous: { t: "GEFÄHRLICH", sub: "DEIN KÖRPER IST AM LIMIT", d: "Du bist chronisch überlastet. Dein System läuft auf Reserve – und die Reserve ist fast leer." }
+                }
+            },
+            en: {
+                lang: { next: "CONTINUE" },
+                step1: { label: "PHASE 1: STATUS", title: "What is your biggest challenge?", disclaimer: "*This app does not replace therapy!" },
+                step2: { label: "INTENSITY", title: "How often does the problem / behavior occur?" },
+                step3: { label: "HISTORY", title: "How long have you been struggling with this?" },
+                step4: { label: "CONSEQUENCES", title: "What is it costing you right now? (Be honest)" },
+                loading: "YOUR RESULT IS BEING CALCULATED...",
+                result: { label: "Your system's stress level:", cost: "CONCRETELY THIS COSTS YOU:", btn: "UNLOCK SOLUTION" },
+                opts: {
+                    root: { porn: "Excessive digital sexual consumption", gettinggirls: "Dating & social insecurity", relationship: "Ongoing relationship conflict and no intimacy" },
+                    freq: {
+                        porn: ["Multiple times daily", "Daily", "During work / home office", "Several times per week", "Only under high stress"],
+                        gettinggirls: ["Daily (rumination)", "Every time I see a woman", "Only on weekends (when going out)", "Completely avoid social situations"],
+                        relationship: ["Daily (constant state)", "Arguments several times daily", "Several times per week", "Weekends are the worst", "There is almost only silence left"]
+                    },
+                    hist: ["Less than 1 year", "1 - 5 years", "5 - 10 years", "Since puberty / Over 10 years"],
+                    pain: {
+                        porn: ["Brain fog & poor concentration", "Erectile issues (PIED) / loss of libido", "Wasting time during work", "Social isolation / shame", "Feeling powerless"],
+                        gettinggirls: ["Deep loneliness", "Fear of staying alone forever", "Jealousy of couples / other men", "Feeling inferior", "Sexual frustration"],
+                        relationship: ["Sexual drought / 'roommate syndrome'", "Constant criticism & nagging", "Fear of separation / divorce", "I no longer feel comfortable at home", "Loss of respect"]
+                    }
+                },
+                levels: {
+                    extreme: { t: "EXTREME", sub: "YOUR NERVOUS SYSTEM IS MAXED OUT", d: "You are only functioning in survival mode. Every fiber of your body is screaming for change." },
+                    dangerous: { t: "DANGEROUS", sub: "YOUR BODY IS AT THE LIMIT", d: "You are chronically overloaded. Your system is running on reserve – and the reserve is almost empty." }
+                }
+            },
+            es: {
+                lang: { next: "CONTINUAR" },
+                step1: { label: "FASE 1: ESTADO", title: "¿Cuál es tu mayor problema ahora mismo?", disclaimer: "*¡Esta app no sustituye una terapia!" },
+                step2: { label: "INTENSIDAD", title: "¿Con qué frecuencia aparece el problema / comportamiento?" },
+                step3: { label: "HISTORIAL", title: "¿Cuánto tiempo llevas luchando con esto?" },
+                step4: { label: "CONSECUENCIAS", title: "¿Qué te está costando ahora mismo? (Sé honesto)" },
+                loading: "TU RESULTADO SE ESTÁ CALCULANDO...",
+                result: { label: "Nivel de estrés de tu sistema:", cost: "CONCRETAMENTE TE CUESTA ESTO:", btn: "DESBLOQUEAR SOLUCIÓN" },
+                opts: {
+                    root: { porn: "Consumo sexual digital excesivo", gettinggirls: "Citas e inseguridad social", relationship: "Conflicto constante de pareja y sin intimidad" },
+                    freq: {
+                        porn: ["Varias veces al día", "Diario", "Durante el trabajo / teletrabajo", "Varias veces por semana", "Solo con mucho estrés"],
+                        gettinggirls: ["Diario (darle vueltas)", "Cada vez que veo a una mujer", "Solo los fines de semana (al salir)", "Evito por completo situaciones sociales"],
+                        relationship: ["Diario (estado constante)", "Discusiones varias veces al día", "Varias veces por semana", "Los fines de semana son lo peor", "Casi solo queda silencio"]
+                    },
+                    hist: ["Menos de 1 año", "1 - 5 años", "5 - 10 años", "Desde la pubertad / Más de 10 años"],
+                    pain: {
+                        porn: ["Niebla mental y falta de concentración", "Problemas de erección (PIED) / pérdida de libido", "Pérdida de tiempo durante el trabajo", "Aislamiento social / vergüenza", "Sensación de impotencia"],
+                        gettinggirls: ["Soledad profunda", "Miedo a quedarme solo para siempre", "Envidia hacia parejas / otros hombres", "Sentimiento de inferioridad", "Frustración sexual"],
+                        relationship: ["Sequía sexual / 'síndrome de compañeros de piso'", "Crítica constante y reproches", "Miedo a separación / divorcio", "Ya no me siento cómodo en casa", "Pérdida de respeto"]
+                    }
+                },
+                levels: {
+                    extreme: { t: "EXTREMO", sub: "TU SISTEMA NERVIOSO ESTÁ AL LÍMITE", d: "Solo funcionas en modo supervivencia. Cada fibra de tu cuerpo pide un cambio." },
+                    dangerous: { t: "PELIGROSO", sub: "TU CUERPO ESTÁ AL LÍMITE", d: "Estás crónicamente sobrecargado. Tu sistema funciona con reservas – y casi no quedan." }
+                }
+            }
+        };
 
+        // --- APP LOGIK ---
+        let currentLang = null;
+        let currentStep = 0;
+        const totalSteps = 5;
+        const answers = {};
+
+        function selectLanguage(lang) {
+            currentLang = lang;
+            
+            // UI anpassen
+            document.querySelectorAll('#step-0 .option-btn').forEach(btn => btn.classList.remove('selected'));
+            document.getElementById(`lang-${lang}`).classList.add('selected');
+            
+            // Button aktivieren & übersetzen
+            const btn = document.getElementById('btn-start');
+            btn.disabled = false;
+            btn.innerText = t[lang].lang.next;
+        }
+
+        function startOnboarding() {
+            document.getElementById('progressContainer').style.display = 'block';
+            buildStep1();
+            nextStep();
+        }
+
+        function buildStep1() {
+            const tr = t[currentLang];
+            document.getElementById('s1-label').innerText = tr.step1.label;
+            document.getElementById('s1-title').innerText = tr.step1.title;
+            document.getElementById('s1-disclaimer').innerText = tr.step1.disclaimer;
+            
+            const div = document.getElementById('s1-options');
+            div.innerHTML = '';
+            for (const [key, val] of Object.entries(tr.opts.root)) {
+                div.innerHTML += `<button class="option-btn" onclick="selectRoot('${key}')">${val}</button>`;
+            }
+        }
+
+        function selectRoot(rootKey) {
+            answers['root'] = rootKey;
+            buildDynamicSteps();
+            nextStep();
+        }
+
+        function buildDynamicSteps() {
+            const tr = t[currentLang];
+            const root = answers['root'];
+
+            // Build Step 2 (Freq)
+            document.getElementById('s2-label').innerText = tr.step2.label;
+            document.getElementById('s2-title').innerText = tr.step2.title;
+            document.getElementById('s2-options').innerHTML = '';
+            tr.opts.freq[root].forEach(opt => {
+                document.getElementById('s2-options').innerHTML += `<button class="option-btn" onclick="nextStep()">${opt}</button>`;
+            });
+
+            // Build Step 3 (History)
+            document.getElementById('s3-label').innerText = tr.step3.label;
+            document.getElementById('s3-title').innerText = tr.step3.title;
+            document.getElementById('s3-options').innerHTML = '';
+            tr.opts.hist.forEach(opt => {
+                document.getElementById('s3-options').innerHTML += `<button class="option-btn" onclick="nextStep()">${opt}</button>`;
+            });
+
+            // Build Step 4 (Pain)
+            document.getElementById('s4-label').innerText = tr.step4.label;
+            document.getElementById('s4-title').innerText = tr.step4.title;
+            document.getElementById('s4-options').innerHTML = '';
+            tr.opts.pain[root].forEach(opt => {
+                document.getElementById('s4-options').innerHTML += `<button class="option-btn" onclick="nextStep()">${opt}</button>`;
+            });
+
+            // Translations for Loading & Result
+            document.getElementById('loading-title').innerText = tr.loading;
+            document.getElementById('res-label').innerText = tr.result.label;
+            document.getElementById('res-cost-headline').innerText = tr.result.cost;
+            document.getElementById('btn-checkout').innerText = tr.result.btn;
+        }
+
+        function nextStep() {
+            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            currentStep++;
+            
+            // Progress Bar updaten
+            if (currentStep > 0 && currentStep <= 4) {
+                const progress = (currentStep / 4) * 100;
+                document.getElementById('progressBar').style.width = `${progress}%`;
+            }
+
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+
+            // Lade-Screen Timer
+            if(currentStep === 5) {
+                setTimeout(() => {
+                    document.getElementById(`step-5`).classList.remove('active');
+                    currentStep++;
+                    
+                    const fakeScore = Math.floor(Math.random() * (96 - 78 + 1)) + 78;
+                    const tr = t[currentLang];
+                    
+                    document.getElementById('res-score').innerText = `${fakeScore}%`;
+
+                    let level;
+                    let color;
+                    if(fakeScore >= 85) {
+                        level = tr.levels.extreme;
+                        color = "#FF0000";
+                    } else {
+                        level = tr.levels.dangerous;
+                        color = "#FF3333";
+                    }
+
+                    document.getElementById('res-title').innerText = level.t;
+                    document.getElementById('res-desc').innerText = `${level.sub}\n\n${level.d}`;
+                    document.getElementById('res-score').style.color = color;
+                    document.getElementById('res-title').style.color = color;
+                    document.getElementById('resultCard').style.borderColor = color;
+
+                    document.getElementById(`step-${currentStep}`).classList.add('active');
+                }, 3000);
+            }
+        }
+    </script>
 </body>
 </html>
