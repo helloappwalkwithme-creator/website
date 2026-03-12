@@ -30,7 +30,7 @@
             overflow-x: hidden;
         }
 
-        /* Top Progress Bar */
+        /* Progress Bar */
         .progress-container {
             width: 100%;
             height: 6px;
@@ -39,7 +39,7 @@
             top: 0;
             left: 0;
             z-index: 100;
-            display: none; /* Erst nach Sprachwahl sichtbar */
+            display: none; 
         }
         .progress-bar {
             height: 100%;
@@ -89,7 +89,7 @@
             color: var(--text);
         }
 
-        /* Quiz & Language Buttons */
+        /* Buttons */
         .option-btn {
             background-color: var(--card);
             border: 2px solid var(--border);
@@ -107,9 +107,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        .option-btn:hover {
-            border-color: #555;
-        }
+        .option-btn:hover { border-color: #555; }
         .option-btn.selected {
             border-color: var(--gold);
             background-color: var(--card);
@@ -124,7 +122,37 @@
             margin-top: 4px;
         }
 
-        /* Result Card */
+        /* 1-10 Scale Grid */
+        .scale-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .scale-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            background-color: var(--card);
+            color: var(--text);
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .scale-btn:hover { border-color: var(--gold); }
+        .scale-btn.selected {
+            background-color: var(--gold);
+            color: #000;
+            border-color: var(--gold);
+        }
+
+        /* Result Card & Pitch */
         .result-card {
             background-color: #1a0000;
             padding: 40px 20px;
@@ -132,6 +160,7 @@
             border: 3px solid #FF3333;
             text-align: center;
             margin-top: 20px;
+            margin-bottom: 20px;
         }
         .result-score {
             font-size: 5rem;
@@ -152,6 +181,18 @@
             font-size: 1.1rem;
             line-height: 1.5;
         }
+        
+        .pitch-card {
+            margin-top: 20px;
+            background-color: var(--card);
+            padding: 25px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        .pitch-card ul { list-style: none; padding: 0; margin: 0; }
+        .pitch-card li { margin-bottom: 12px; font-size: 1rem; color: #DDD; display: flex; align-items: flex-start; }
+        .pitch-card li span { margin-right: 10px; color: var(--gold); }
 
         /* Action Buttons */
         .btn-gold {
@@ -167,20 +208,13 @@
             border: none;
             width: 100%;
             cursor: pointer;
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: center;
             display: block;
         }
-        .btn-gold:disabled {
-            background-color: #333;
-            color: #666;
-            cursor: not-allowed;
-        }
+        .btn-gold:disabled { background-color: #333; color: #666; cursor: not-allowed; }
 
-        .loading-screen {
-            text-align: center;
-            padding: 50px 0;
-        }
+        .loading-screen { text-align: center; padding: 50px 0; }
         .spinner {
             border: 4px solid rgba(255,255,255,0.1);
             border-left-color: var(--gold);
@@ -192,12 +226,7 @@
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .disclaimer {
-            color: var(--text-dim);
-            font-size: 0.8rem;
-            text-align: center;
-            margin-top: 20px;
-        }
+        .disclaimer { color: var(--text-dim); font-size: 0.8rem; text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -214,87 +243,135 @@
             <p id="lang-subtitle" style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">Wähle die Sprache, in der du die App nutzen möchtest.</p>
             
             <button class="option-btn" id="lang-de" onclick="selectLanguage('de')">
-                <div>
-                    🇩🇪 Deutsch
-                    <span class="lang-subtext">Deutsche Version</span>
-                </div>
+                <div>🇩🇪 Deutsch<span class="lang-subtext">Deutsche Version</span></div>
             </button>
             <button class="option-btn" id="lang-en" onclick="selectLanguage('en')">
-                <div>
-                    🇬🇧 English
-                    <span class="lang-subtext">English Version</span>
-                </div>
+                <div>🇬🇧 English<span class="lang-subtext">English Version</span></div>
             </button>
             <button class="option-btn" id="lang-es" onclick="selectLanguage('es')">
-                <div>
-                    🇪🇸 Español
-                    <span class="lang-subtext">Versión en Español</span>
-                </div>
+                <div>🇪🇸 Español<span class="lang-subtext">Versión en Español</span></div>
             </button>
 
             <button class="btn-gold" id="btn-start" onclick="startOnboarding()" disabled>WEITER</button>
         </div>
 
         <div class="step" id="step-1">
-            <div class="label-gold" id="s1-label">PHASE 1: STATUS</div>
-            <h1 id="s1-title">Was ist deine größte Baustelle?</h1>
+            <div class="label-gold" id="s1-label"></div>
+            <h1 id="s1-title"></h1>
             <div id="s1-options"></div>
-            <p class="disclaimer" id="s1-disclaimer">*Diese App ersetzt keine Therapie</p>
+            <p class="disclaimer" id="s1-disclaimer"></p>
         </div>
 
         <div class="step" id="step-2">
-            <div class="label-gold" id="s2-label">INTENSITÄT</div>
-            <h1 id="s2-title">Wie oft tritt das Problem auf?</h1>
+            <div class="label-gold" id="s2-label"></div>
+            <h1 id="s2-title"></h1>
             <div id="s2-options"></div>
         </div>
 
         <div class="step" id="step-3">
-            <div class="label-gold" id="s3-label">HISTORIE</div>
-            <h1 id="s3-title">Wie lange kämpfst du schon damit?</h1>
+            <div class="label-gold" id="s3-label"></div>
+            <h1 id="s3-title"></h1>
             <div id="s3-options"></div>
         </div>
 
         <div class="step" id="step-4">
-            <div class="label-gold" id="s4-label">KONSEQUENZEN</div>
-            <h1 id="s4-title">Was kostet es dich aktuell? (Ehrlich)</h1>
+            <div class="label-gold" id="s4-label"></div>
+            <h1 id="s4-title"></h1>
             <div id="s4-options"></div>
         </div>
 
         <div class="step" id="step-5">
-            <div class="loading-screen">
-                <div class="spinner"></div>
-                <h2 style="color: var(--gold);" id="loading-title">DEIN ERGEBNIS WIRD ERMITTELT...</h2>
-            </div>
+            <div class="label-gold" id="s5-label"></div>
+            <h1 id="s5-title"></h1>
+            <div class="scale-grid" id="s5-options"></div>
         </div>
 
         <div class="step" id="step-6">
-            <div class="label-gold" id="res-label">Belastung deines Systems:</div>
-            <h1 id="res-headline">Hier ist dein Resultat:</h1>
-            
+            <div class="label-gold" id="s6-label"></div>
+            <h1 id="s6-title"></h1>
+            <div class="scale-grid" id="s6-options"></div>
+        </div>
+
+        <div class="step" id="step-7">
+            <div class="label-gold" id="s7-label"></div>
+            <h1 id="s7-title"></h1>
+            <div id="s7-options"></div>
+        </div>
+
+        <div class="step" id="step-8">
+            <div class="loading-screen">
+                <div class="spinner"></div>
+                <h2 style="color: var(--gold);" id="loading-title"></h2>
+            </div>
+        </div>
+
+        <div class="step" id="step-9">
+            <div class="label-gold" id="res-label"></div>
+            <h1 id="res-headline"></h1>
             <div class="result-card" id="resultCard">
-                <div class="result-score" id="res-score">87%</div>
-                <div class="result-title" id="res-title">GEFÄHRLICH</div>
-                <div class="result-desc" id="res-desc">Dein Körper ist am Limit. Du bist chronisch überlastet. Dein System läuft auf Reserve – und die Reserve ist fast leer.</div>
+                <div class="result-score" id="res-score"></div>
+                <div class="result-title" id="res-title"></div>
+                <div class="result-desc" id="res-desc"></div>
+            </div>
+            <p style="color: var(--text-dim); font-size: 0.9rem; text-align: center;" id="res-cost"></p>
+            <button class="btn-gold" id="btn-res-next" onclick="nextStep()"></button>
+        </div>
+
+        <div class="step" id="step-10">
+            <div class="label-gold" id="s10-label"></div>
+            <h1 id="s10-title"></h1>
+            <div id="s10-options"></div>
+        </div>
+
+        <div class="step" id="step-11">
+            <div class="label-gold" id="s11-label"></div>
+            <h1 id="s11-title"></h1>
+            <div id="s11-options"></div>
+        </div>
+
+        <div class="step" id="step-12">
+            <div class="label-gold" id="s12-label"></div>
+            <h1 id="s12-title"></h1>
+            <div id="s12-options"></div>
+        </div>
+
+        <div class="step" id="step-13">
+            <div class="label-gold" id="pitch-label"></div>
+            <h1 id="pitch-headline"></h1>
+            
+            <div class="pitch-card">
+                <h2 id="pitch-title" style="color: var(--gold); font-size: 1.2rem; margin-bottom: 15px; margin-top: 0;"></h2>
+                <ul>
+                    <li><span>✔</span> <div id="pitch-1"></div></li>
+                    <li><span>✔</span> <div id="pitch-2"></div></li>
+                    <li><span>✔</span> <div id="pitch-3"></div></li>
+                    <li><span>✔</span> <div id="pitch-4"></div></li>
+                </ul>
             </div>
 
-            <p style="color: var(--text-dim); font-size: 0.9rem; text-align: center; margin-top: 15px;" id="res-cost-headline">KONKRET KOSTET DICH DAS:</p>
-
-            <a href="DEIN_STRIPE_LINK_HIER" class="btn-gold" id="btn-checkout">LÖSUNG FREISCHALTEN</a>
+            <a href="https://buy.stripe.com/test_dein_link_hier" class="btn-gold" id="btn-checkout"></a>
         </div>
 
     </main>
 
     <script>
-        // --- ÜBERSETZUNGEN (Direkt aus deiner App extrahiert) ---
+        // --- ÜBERSETZUNGEN ---
         const t = {
             de: {
-                lang: { next: "WEITER" },
+                lang: { welcome: "WILLKOMMEN", title: "WÄHLE DEINE SPRACHE", subtitle: "Wähle die Sprache, in der du die App nutzen möchtest.", next: "WEITER" },
                 step1: { label: "PHASE 1: STATUS", title: "Was ist deine größte Baustelle?", disclaimer: "*Diese App ersetzt keine Therapie!" },
-                step2: { label: "INTENSITÄT", title: "Wie oft tritt das Problem / Verhalten auf?" },
+                step2: { label: "INTENSITÄT", title: "Wie oft tritt das Problem auf?" },
                 step3: { label: "HISTORIE", title: "Wie lange kämpfst du schon damit?" },
                 step4: { label: "KONSEQUENZEN", title: "Was kostet es dich aktuell? (Ehrlich)" },
+                step5: { label: "LEIDENSDRUCK", title: "Auf einer Skala von 1-10: Wie dringend musst du das ändern?" },
+                step6: { label: "ENERGIE-LEVEL", title: "Wie viel Energie hast du aktuell im Alltag? (1-10)" },
+                step7: { label: "ZEIT FÜR DICH", title: "Wie viele Minuten pro Tag hast du NUR für dich?" },
                 loading: "DEIN ERGEBNIS WIRD ERMITTELT...",
-                result: { label: "Belastung deines Systems:", cost: "KONKRET KOSTET DICH DAS:", btn: "LÖSUNG FREISCHALTEN" },
+                result: { label: "Belastung deines Systems", headline: "Hier ist dein Resultat:", cost: "KONKRET KOSTET DICH DAS:", next: "WEITER" },
+                step10: { label: "COMMITMENT", title: "Bist du bereit, die Arbeit reinzustecken?" },
+                step11: { label: "ZIEL", title: "Was ist dein Haupt-Ziel?" },
+                step12: { label: "DEINE IDENTITÄT", title: "Welcher Weg der Stärke inspiriert dich am meisten?" },
+                pitch: { label: "DIE LÖSUNG", headline: "Dein Weg zur Freiheit", title: "Das Protokoll beinhaltet:", f1: "90-Tage Schritt-für-Schritt Programm", f2: "Essenz aus über 48 psychologischen Fachbüchern", f3: "Tägliches Journaling & Trigger-Tracking", f4: "Community & Squad Support", btn: "JETZT FREISCHALTEN" },
                 opts: {
                     root: { porn: "Übermäßiger digitaler sexueller Konsum", gettinggirls: "Dating & soziale Unsicherheit", relationship: "Andauernder Beziehungsstreit & keine Intimität" },
                     freq: {
@@ -307,7 +384,15 @@
                         porn: ["Gehirnnebel & Konzentrationsschwäche", "Erektile Probleme (PIED) / Libido-Verlust", "Zeitverschwendung während der Arbeit", "Soziale Isolation / Scham", "Gefühl der Machtlosigkeit"],
                         gettinggirls: ["Tiefe Einsamkeit", "Angst, für immer allein zu bleiben", "Neid auf Paare / andere Männer", "Gefühl von Minderwertigkeit", "Sexuelle Frustration"],
                         relationship: ["Sexuelle Flaute / 'Roommate-Syndrom'", "Ständige Kritik & Nörgelei", "Angst vor Trennung / Scheidung", "Ich fühle mich zu Hause nicht mehr wohl", "Verlust von Respekt"]
-                    }
+                    },
+                    time: ["0-15 Min", "30 Min", "60 Min", "90 Min", "2+ Std"],
+                    commit: ["Ja, ich ziehe das durch (100%)", "Ich bin mir noch unsicher"],
+                    goal: {
+                        porn: ["Mentale Freiheit & Fokus", "Gesunde Sexualität", "Selbstachtung zurückgewinnen"],
+                        gettinggirls: ["Die Richtige finden", "Lockerheit im Umgang mit Frauen", "Echtes Selbstvertrauen"],
+                        relationship: ["Leidenschaft entfachen", "Respekt & Führung", "Frieden & Harmonie"]
+                    },
+                    rank: ["Militär (Disziplin & Härte)", "Der Hüter (Geist & Fokus)", "Der Samurai (Ehre & Ruhe)", "Der Imperator (Macht & Stoizismus)"]
                 },
                 levels: {
                     extreme: { t: "EXTREM", sub: "DEIN NERVENSYSTEM IST AM ANSCHLAG", d: "Du funktionierst nur noch im Überlebensmodus. Jede Faser deines Körpers schreit nach Veränderung." },
@@ -315,13 +400,20 @@
                 }
             },
             en: {
-                lang: { next: "CONTINUE" },
+                lang: { welcome: "WELCOME", title: "CHOOSE YOUR LANGUAGE", subtitle: "Choose the language you want to use.", next: "CONTINUE" },
                 step1: { label: "PHASE 1: STATUS", title: "What is your biggest challenge?", disclaimer: "*This app does not replace therapy!" },
-                step2: { label: "INTENSITY", title: "How often does the problem / behavior occur?" },
+                step2: { label: "INTENSITY", title: "How often does the problem occur?" },
                 step3: { label: "HISTORY", title: "How long have you been struggling with this?" },
                 step4: { label: "CONSEQUENCES", title: "What is it costing you right now? (Be honest)" },
+                step5: { label: "DISTRESS LEVEL", title: "On a scale of 1-10: How urgently do you need to change this?" },
+                step6: { label: "ENERGY LEVEL", title: "How much energy do you currently have in daily life? (1-10)" },
+                step7: { label: "TIME FOR YOURSELF", title: "How many minutes per day do you have ONLY for yourself?" },
                 loading: "YOUR RESULT IS BEING CALCULATED...",
-                result: { label: "Your system's stress level:", cost: "CONCRETELY THIS COSTS YOU:", btn: "UNLOCK SOLUTION" },
+                result: { label: "System Stress Level", headline: "Here is your result:", cost: "CONCRETELY THIS COSTS YOU:", next: "CONTINUE" },
+                step10: { label: "COMMITMENT", title: "Are you ready to put in the work?" },
+                step11: { label: "GOAL", title: "What is your main goal?" },
+                step12: { label: "YOUR IDENTITY", title: "Which path of strength inspires you most?" },
+                pitch: { label: "THE SOLUTION", headline: "Your Path to Freedom", title: "The Protocol includes:", f1: "90-Day Step-by-Step Program", f2: "Essence of over 48 psychological books", f3: "Daily Journaling & Trigger Tracking", f4: "Community & Squad Support", btn: "UNLOCK NOW" },
                 opts: {
                     root: { porn: "Excessive digital sexual consumption", gettinggirls: "Dating & social insecurity", relationship: "Ongoing relationship conflict and no intimacy" },
                     freq: {
@@ -334,7 +426,15 @@
                         porn: ["Brain fog & poor concentration", "Erectile issues (PIED) / loss of libido", "Wasting time during work", "Social isolation / shame", "Feeling powerless"],
                         gettinggirls: ["Deep loneliness", "Fear of staying alone forever", "Jealousy of couples / other men", "Feeling inferior", "Sexual frustration"],
                         relationship: ["Sexual drought / 'roommate syndrome'", "Constant criticism & nagging", "Fear of separation / divorce", "I no longer feel comfortable at home", "Loss of respect"]
-                    }
+                    },
+                    time: ["0-15 Min", "30 Min", "60 Min", "90 Min", "2+ Hrs"],
+                    commit: ["Yes, I will do this (100%)", "I am still unsure"],
+                    goal: {
+                        porn: ["Mental freedom & focus", "Healthy sexuality", "Regain self-respect"],
+                        gettinggirls: ["Find the right one", "Ease in interactions with women", "True self-confidence"],
+                        relationship: ["Reignite passion", "Respect & leadership", "Peace & harmony"]
+                    },
+                    rank: ["Military (discipline & toughness)", "The Guardian (mind & focus)", "The Samurai (honor & calm)", "The Emperor (power & stoicism)"]
                 },
                 levels: {
                     extreme: { t: "EXTREME", sub: "YOUR NERVOUS SYSTEM IS MAXED OUT", d: "You are only functioning in survival mode. Every fiber of your body is screaming for change." },
@@ -342,13 +442,20 @@
                 }
             },
             es: {
-                lang: { next: "CONTINUAR" },
+                lang: { welcome: "BIENVENIDO", title: "ELIGE TU IDIOMA", subtitle: "Elige el idioma en el que quieres usar la app.", next: "CONTINUAR" },
                 step1: { label: "FASE 1: ESTADO", title: "¿Cuál es tu mayor problema ahora mismo?", disclaimer: "*¡Esta app no sustituye una terapia!" },
-                step2: { label: "INTENSIDAD", title: "¿Con qué frecuencia aparece el problema / comportamiento?" },
+                step2: { label: "INTENSIDAD", title: "¿Con qué frecuencia aparece el problema?" },
                 step3: { label: "HISTORIAL", title: "¿Cuánto tiempo llevas luchando con esto?" },
                 step4: { label: "CONSECUENCIAS", title: "¿Qué te está costando ahora mismo? (Sé honesto)" },
+                step5: { label: "NIVEL DE SUFRIMIENTO", title: "En una escala del 1 al 10: ¿qué urgencia tienes de cambiar esto?" },
+                step6: { label: "NIVEL DE ENERGÍA", title: "¿Cuánta energía tienes actualmente en tu día a día? (1-10)" },
+                step7: { label: "TIEMPO PARA TI", title: "¿Cuántos minutos al día tienes SOLO para ti?" },
                 loading: "TU RESULTADO SE ESTÁ CALCULANDO...",
-                result: { label: "Nivel de estrés de tu sistema:", cost: "CONCRETAMENTE TE CUESTA ESTO:", btn: "DESBLOQUEAR SOLUCIÓN" },
+                result: { label: "Nivel de estrés de tu sistema", headline: "Aquí tienes tu resultado:", cost: "CONCRETAMENTE TE CUESTA ESTO:", next: "CONTINUAR" },
+                step10: { label: "COMPROMISO", title: "¿Estás listo para hacer el trabajo?" },
+                step11: { label: "OBJETIVO", title: "¿Cuál es tu objetivo principal?" },
+                step12: { label: "TU IDENTIDAD", title: "¿Qué camino de fortaleza te inspira más?" },
+                pitch: { label: "LA SOLUCIÓN", headline: "Tu camino a la libertad", title: "El Protocolo incluye:", f1: "Programa paso a paso de 90 días", f2: "Esencia de más de 48 libros de psicología", f3: "Diario y seguimiento de desencadenantes", f4: "Apoyo de la comunidad y Squad", btn: "DESBLOQUEAR AHORA" },
                 opts: {
                     root: { porn: "Consumo sexual digital excesivo", gettinggirls: "Citas e inseguridad social", relationship: "Conflicto constante de pareja y sin intimidad" },
                     freq: {
@@ -361,7 +468,15 @@
                         porn: ["Niebla mental y falta de concentración", "Problemas de erección (PIED) / pérdida de libido", "Pérdida de tiempo durante el trabajo", "Aislamiento social / vergüenza", "Sensación de impotencia"],
                         gettinggirls: ["Soledad profunda", "Miedo a quedarme solo para siempre", "Envidia hacia parejas / otros hombres", "Sentimiento de inferioridad", "Frustración sexual"],
                         relationship: ["Sequía sexual / 'síndrome de compañeros de piso'", "Crítica constante y reproches", "Miedo a separación / divorcio", "Ya no me siento cómodo en casa", "Pérdida de respeto"]
-                    }
+                    },
+                    time: ["0-15 Min", "30 Min", "60 Min", "90 Min", "2+ Hrs"],
+                    commit: ["Sí, voy a hacerlo (100%)", "Aún no estoy seguro"],
+                    goal: {
+                        porn: ["Libertad mental y enfoque", "Sexualidad saludable", "Recuperar el respeto propio"],
+                        gettinggirls: ["Encontrar a la indicada", "Naturalidad al tratar con mujeres", "Autoconfianza real"],
+                        relationship: ["Reavivar la pasión", "Respeto y liderazgo", "Paz y armonía"]
+                    },
+                    rank: ["Militar (disciplina y dureza)", "El Guardián (mente y enfoque)", "El Samurái (honor y calma)", "El Emperador (poder y estoicismo)"]
                 },
                 levels: {
                     extreme: { t: "EXTREMO", sub: "TU SISTEMA NERVIOSO ESTÁ AL LÍMITE", d: "Solo funcionas en modo supervivencia. Cada fibra de tu cuerpo pide un cambio." },
@@ -373,7 +488,7 @@
         // --- APP LOGIK ---
         let currentLang = null;
         let currentStep = 0;
-        const totalSteps = 5;
+        const totalSteps = 13; // Steps 1 to 13
         const answers = {};
 
         function selectLanguage(lang) {
@@ -383,6 +498,11 @@
             document.querySelectorAll('#step-0 .option-btn').forEach(btn => btn.classList.remove('selected'));
             document.getElementById(`lang-${lang}`).classList.add('selected');
             
+            // Texte sofort ändern
+            document.getElementById('lang-welcome').innerText = t[lang].lang.welcome;
+            document.getElementById('lang-title').innerText = t[lang].lang.title;
+            document.getElementById('lang-subtitle').innerText = t[lang].lang.subtitle;
+
             // Button aktivieren & übersetzen
             const btn = document.getElementById('btn-start');
             btn.disabled = false;
@@ -418,7 +538,7 @@
             const tr = t[currentLang];
             const root = answers['root'];
 
-            // Build Step 2 (Freq)
+            // 2. Freq
             document.getElementById('s2-label').innerText = tr.step2.label;
             document.getElementById('s2-title').innerText = tr.step2.title;
             document.getElementById('s2-options').innerHTML = '';
@@ -426,7 +546,7 @@
                 document.getElementById('s2-options').innerHTML += `<button class="option-btn" onclick="nextStep()">${opt}</button>`;
             });
 
-            // Build Step 3 (History)
+            // 3. History
             document.getElementById('s3-label').innerText = tr.step3.label;
             document.getElementById('s3-title').innerText = tr.step3.title;
             document.getElementById('s3-options').innerHTML = '';
@@ -434,7 +554,7 @@
                 document.getElementById('s3-options').innerHTML += `<button class="option-btn" onclick="nextStep()">${opt}</button>`;
             });
 
-            // Build Step 4 (Pain)
+            // 4. Pain
             document.getElementById('s4-label').innerText = tr.step4.label;
             document.getElementById('s4-title').innerText = tr.step4.title;
             document.getElementById('s4-options').innerHTML = '';
@@ -442,29 +562,88 @@
                 document.getElementById('s4-options').innerHTML += `<button class="option-btn" onclick="nextStep()">${opt}</button>`;
             });
 
-            // Translations for Loading & Result
+            // 5. Distress (1-10 Scale)
+            document.getElementById('s5-label').innerText = tr.step5.label;
+            document.getElementById('s5-title').innerText = tr.step5.title;
+            document.getElementById('s5-options').innerHTML = '';
+            for(let i=1; i<=10; i++) {
+                document.getElementById('s5-options').innerHTML += `<button class="scale-btn" onclick="nextStep()">${i}</button>`;
+            }
+
+            // 6. Energy (1-10 Scale)
+            document.getElementById('s6-label').innerText = tr.step6.label;
+            document.getElementById('s6-title').innerText = tr.step6.title;
+            document.getElementById('s6-options').innerHTML = '';
+            for(let i=1; i<=10; i++) {
+                document.getElementById('s6-options').innerHTML += `<button class="scale-btn" onclick="nextStep()">${i}</button>`;
+            }
+
+            // 7. Time
+            document.getElementById('s7-label').innerText = tr.step7.label;
+            document.getElementById('s7-title').innerText = tr.step7.title;
+            document.getElementById('s7-options').innerHTML = '';
+            tr.opts.time.forEach(opt => {
+                document.getElementById('s7-options').innerHTML += `<button class="option-btn" onclick="nextStep()">${opt}</button>`;
+            });
+
+            // 8. Loading & 9. Result
             document.getElementById('loading-title').innerText = tr.loading;
             document.getElementById('res-label').innerText = tr.result.label;
-            document.getElementById('res-cost-headline').innerText = tr.result.cost;
-            document.getElementById('btn-checkout').innerText = tr.result.btn;
+            document.getElementById('res-headline').innerText = tr.result.headline;
+            document.getElementById('res-cost').innerText = tr.result.cost;
+            document.getElementById('btn-res-next').innerText = tr.result.next;
+
+            // 10. Commitment
+            document.getElementById('s10-label').innerText = tr.step10.label;
+            document.getElementById('s10-title').innerText = tr.step10.title;
+            document.getElementById('s10-options').innerHTML = '';
+            tr.opts.commit.forEach(opt => {
+                document.getElementById('s10-options').innerHTML += `<button class="option-btn" onclick="nextStep()">${opt}</button>`;
+            });
+
+            // 11. Goal (Dynamic)
+            document.getElementById('s11-label').innerText = tr.step11.label;
+            document.getElementById('s11-title').innerText = tr.step11.title;
+            document.getElementById('s11-options').innerHTML = '';
+            tr.opts.goal[root].forEach(opt => {
+                document.getElementById('s11-options').innerHTML += `<button class="option-btn" onclick="nextStep()">${opt}</button>`;
+            });
+
+            // 12. Rank Path
+            document.getElementById('s12-label').innerText = tr.step12.label;
+            document.getElementById('s12-title').innerText = tr.step12.title;
+            document.getElementById('s12-options').innerHTML = '';
+            tr.opts.rank.forEach(opt => {
+                document.getElementById('s12-options').innerHTML += `<button class="option-btn" onclick="nextStep()">${opt}</button>`;
+            });
+
+            // 13. Pitch
+            document.getElementById('pitch-label').innerText = tr.pitch.label;
+            document.getElementById('pitch-headline').innerText = tr.pitch.headline;
+            document.getElementById('pitch-title').innerText = tr.pitch.title;
+            document.getElementById('pitch-1').innerText = tr.pitch.f1;
+            document.getElementById('pitch-2').innerText = tr.pitch.f2;
+            document.getElementById('pitch-3').innerText = tr.pitch.f3;
+            document.getElementById('pitch-4').innerText = tr.pitch.f4;
+            document.getElementById('btn-checkout').innerText = tr.pitch.btn;
         }
 
         function nextStep() {
             document.getElementById(`step-${currentStep}`).classList.remove('active');
             currentStep++;
             
-            // Progress Bar updaten
-            if (currentStep > 0 && currentStep <= 4) {
-                const progress = (currentStep / 4) * 100;
-                document.getElementById('progressBar').style.width = `${progress}%`;
+            // Progress Bar (Ohne Ladebildschirm und Pitch)
+            if (currentStep > 0 && currentStep !== 8) {
+                const progress = (currentStep / totalSteps) * 100;
+                document.getElementById('progressBar').style.width = `${Math.min(progress, 100)}%`;
             }
 
             document.getElementById(`step-${currentStep}`).classList.add('active');
 
-            // Lade-Screen Timer
-            if(currentStep === 5) {
+            // Lade-Screen Timer (Step 8)
+            if(currentStep === 8) {
                 setTimeout(() => {
-                    document.getElementById(`step-5`).classList.remove('active');
+                    document.getElementById(`step-8`).classList.remove('active');
                     currentStep++;
                     
                     const fakeScore = Math.floor(Math.random() * (96 - 78 + 1)) + 78;
@@ -489,7 +668,7 @@
                     document.getElementById('resultCard').style.borderColor = color;
 
                     document.getElementById(`step-${currentStep}`).classList.add('active');
-                }, 3000);
+                }, 3000); // Fake Ladezeit
             }
         }
     </script>
