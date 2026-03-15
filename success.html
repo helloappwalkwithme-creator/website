@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Willkommen im Protokoll</title>
+    <style>
+        :root {
+            --bg: #000000; --card: #121212; --border: #2A2A2A;
+            --gold: #D4AF37; --text: #FFFFFF; --text-dim: #888888;
+        }
+        * { box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; padding: 0; background-color: var(--bg); color: var(--text); 
+            display: flex; flex-direction: column; min-height: 100vh; 
+        }
+
+        main { 
+            flex: 1; padding: 40px 20px; max-width: 600px; 
+            margin: 40px auto 0 auto; width: 100%; text-align: center; 
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .icon-success {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .label-gold { color: var(--gold); font-size: 0.85rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        h1 { font-size: 2.2rem; margin-bottom: 15px; line-height: 1.2; color: var(--text); }
+        .subtitle { color: var(--text-dim); margin-bottom: 40px; font-size: 1.1rem; line-height: 1.5; }
+
+        .step-card {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--gold);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .step-number {
+            color: var(--gold);
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .step-desc {
+            color: #DDD;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .store-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-store {
+            background-color: #1A1A1A;
+            color: white;
+            padding: 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: 1px solid #333;
+            transition: border-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-store:hover {
+            border-color: var(--gold);
+        }
+
+        .support-text {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+        
+        .support-text a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <div class="icon-success">🏆</div>
+        <div class="label-gold" id="txt-label">Zahlung erfolgreich</div>
+        <h1 id="txt-title">Willkommen im Protokoll</h1>
+        <p class="subtitle" id="txt-sub">Dein Account wurde autorisiert. Folge jetzt diesen zwei Schritten, um sofort zu starten.</p>
+
+        <div class="step-card">
+            <div class="step-number" id="txt-step1-title">Schritt 1: App herunterladen</div>
+            <p class="step-desc" id="txt-step1-desc">Lade dir die offizielle App auf dein Smartphone herunter.</p>
+            <div class="store-buttons">
+                <a href="#" class="btn-store">🍏 Apple App Store</a>
+                <a href="#" class="btn-store">🤖 Google Play Store</a>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number" id="txt-step2-title">Schritt 2: Einloggen</div>
+            <p class="step-desc" id="txt-step2-desc">Öffne die App und logge dich exakt mit der E-Mail und dem Passwort ein, das du vorhin im Quiz erstellt hast. Dein Profil ist bereits freigeschaltet.</p>
+        </div>
+
+        <p class="support-text" id="txt-support">Probleme? Schreibe an <a href="mailto:support@integrated-man.com">support@integrated-man.com</a></p>
+    </main>
+
+    <script>
+        // Das Wörterbuch für unsere 3 Sprachen
+        const translations = {
+            de: {
+                label: "Zahlung erfolgreich",
+                title: "Willkommen im Protokoll",
+                sub: "Dein Zugang wurde gesichert. Folge jetzt diesen zwei Schritten, um sofort zu starten.",
+                step1Title: "Schritt 1: App herunterladen",
+                step1Desc: "Lade dir die offizielle App auf dein Smartphone herunter.",
+                step2Title: "Schritt 2: Einloggen",
+                step2Desc: "Öffne die App und logge dich mit der E-Mail und dem Passwort ein, das du im Quiz erstellt hast. Dein System ist bereits freigeschaltet.",
+                support: "Probleme? Schreibe an "
+            },
+            en: {
+                label: "Payment Successful",
+                title: "Welcome to the Protocol",
+                sub: "Your access is secured. Follow these two steps to start immediately.",
+                step1Title: "Step 1: Download the App",
+                step1Desc: "Download the official app to your smartphone.",
+                step2Title: "Step 2: Log In",
+                step2Desc: "Open the app and log in using the exact email and password you created during the quiz. Your system is already unlocked.",
+                support: "Need help? Contact "
+            },
+            es: {
+                label: "Pago Exitoso",
+                title: "Bienvenido al Protocolo",
+                sub: "Tu acceso está asegurado. Sigue estos dos pasos para comenzar de inmediato.",
+                step1Title: "Paso 1: Descargar la App",
+                step1Desc: "Descarga la aplicación oficial en tu teléfono.",
+                step2Title: "Paso 2: Iniciar Sesión",
+                step2Desc: "Abre la app e inicia sesión con el correo y la contraseña que creaste en el cuestionario. Tu sistema ya está desbloqueado.",
+                support: "¿Problemas? Escribe a "
+            }
+        };
+
+        // Funktion zum Auslesen der Sprache aus der URL (z.B. ?lang=en)
+        function getLanguageFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const lang = urlParams.get('lang');
+            // Wenn keine Sprache oder eine falsche angegeben ist, nutze 'de' als Standard
+            if (lang && translations[lang]) {
+                return lang;
+            }
+            return 'de'; 
+        }
+
+        // Texte auf der Seite austauschen
+        function applyTranslations() {
+            const lang = getLanguageFromURL();
+            const t = translations[lang];
+
+            document.getElementById('txt-label').innerText = t.label;
+            document.getElementById('txt-title').innerText = t.title;
+            document.getElementById('txt-sub').innerText = t.sub;
+            document.getElementById('txt-step1-title').innerText = t.step1Title;
+            document.getElementById('txt-step1-desc').innerText = t.step1Desc;
+            document.getElementById('txt-step2-title').innerText = t.step2Title;
+            document.getElementById('txt-step2-desc').innerText = t.step2Desc;
+            
+            // Support Text mit Link erhalten
+            const supportEl = document.getElementById('txt-support');
+            supportEl.innerHTML = `${t.support} <a href="mailto:support@integrated-man.com">support@integrated-man.com</a>`;
+        }
+
+        // Direkt beim Laden der Seite ausführen
+        applyTranslations();
+    </script>
+</body>
+</html>
