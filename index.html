@@ -3,19 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shift My Horizon - Apps & Coaching</title>
+    <title>Shift My Horizon - Coaching & Apps</title>
     <style>
+        :root {
+            --primary: #0056b3;
+            --primary-hover: #004494;
+            --text-dark: #222;
+            --text-light: #666;
+            --bg-color: #f8f9fa;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: var(--bg-color);
             color: #333;
             line-height: 1.6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
+
         nav {
             background-color: #fff;
             padding: 20px 40px;
@@ -23,33 +32,85 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+            z-index: 10;
         }
-        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: #222; }
+        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: var(--text-dark); }
         
-        main { flex: 1; padding: 60px 20px; max-width: 1000px; margin: 0 auto; text-align: center; }
-        h1 { font-size: 2.5rem; color: #222; margin-bottom: 10px; }
-        .subtitle { font-size: 1.2rem; color: #666; margin-bottom: 50px; }
+        /* Hero Section mit deinem Bild */
+        .hero {
+            /* HIER DEN DATEINAMEN DEINES BILDES EINTRAGEN */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('mathis-mauprivez-DrI1KoNiQiw-unsplash.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            padding: 0 20px;
+        }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .hero .subtitle { font-size: 1.4rem; color: #f0f0f0; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+
+        main { flex: 1; padding: 60px 20px; max-width: 1400px; margin: 0 auto; text-align: center; width: 100%; box-sizing: border-box; }
         
-        h2 { font-size: 2rem; color: #222; margin-bottom: 30px; border-bottom: 2px solid #ddd; display: inline-block; padding-bottom: 10px; }
+        h2 { font-size: 2.2rem; color: var(--text-dark); margin-bottom: 40px; position: relative; display: inline-block; }
+        h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: var(--primary); }
         
-        /* App Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 60px; }
-        .card { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: left; }
-        .card h3 { margin-top: 0; font-size: 1.5rem; color: #000; }
-        .card p { color: #555; margin-bottom: 25px; }
+        /* Abschnitt-Abstände */
+        .section { margin-bottom: 80px; }
+
+        /* Coaching Card */
+        .coaching-card { 
+            background: #fff; 
+            padding: 50px 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+            text-align: center; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            border-top: 5px solid var(--primary);
+        }
+        .coaching-card h3 { margin-top: 0; font-size: 1.8rem; color: var(--text-dark); }
+        .coaching-card p { color: var(--text-light); margin-bottom: 30px; font-size: 1.1rem; }
         
-        .btn { display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; text-align: center; }
-        .btn-primary { background-color: #0056b3; color: #fff; }
-        .btn-primary:hover { background-color: #004494; }
-        .btn-disabled { background-color: #ccc; color: #666; cursor: not-allowed; }
+        /* App Grid (5 in einer Reihe) */
+        /* minmax(220px) sorgt dafür, dass sie nebeneinander passen. Auf ganz kleinen Bildschirmen brechen sie um. */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 25px; 
+        }
+        .card { 
+            background: #fff; 
+            padding: 30px 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card h3 { margin-top: 0; font-size: 1.3rem; color: var(--text-dark); }
+        .card p { color: var(--text-light); margin-bottom: 25px; flex-grow: 1; font-size: 0.95rem; }
+        
+        /* Buttons */
+        .btn { display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; text-align: center; transition: background-color 0.2s; }
+        .btn-primary { background-color: var(--primary); color: #fff; }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+        .btn-disabled { background-color: #e0e0e0; color: #888; cursor: not-allowed; }
         
         /* Footer */
-        footer { background-color: #fff; padding: 40px 20px; border-top: 1px solid #ddd; text-align: center; }
-        .legal-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 50px; max-width: 900px; margin: 0 auto; }
-        .language-column { display: flex; flex-direction: column; text-align: left; }
-        .language-column h3 { font-size: 1rem; margin-bottom: 15px; color: #888; text-transform: uppercase; }
-        .language-column a { color: #0056b3; text-decoration: none; margin-bottom: 8px; font-size: 0.95rem; }
-        .language-column a:hover { text-decoration: underline; }
+        footer { background-color: #fff; padding: 50px 20px; border-top: 1px solid #ddd; text-align: center; }
+        .legal-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 60px; max-width: 1000px; margin: 0 auto; }
+        .language-column { display: flex; flex-direction: column; text-align: left; min-width: 200px; }
+        .language-column h3 { font-size: 1.1rem; margin-bottom: 20px; color: #555; text-transform: uppercase; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .language-column a { color: var(--text-light); text-decoration: none; margin-bottom: 10px; font-size: 0.95rem; transition: color 0.2s; }
+        .language-column a:hover { color: var(--primary); text-decoration: none; }
     </style>
 </head>
 <body>
@@ -58,35 +119,57 @@
         <a href="index.html" class="logo">Shift My Horizon</a>
     </nav>
 
-    <main>
+    <header class="hero">
         <h1>Shift My Horizon</h1>
-        <p class="subtitle">App Development & Personal Growth</p>
+        <p class="subtitle">Personal Growth & Coaching</p>
+    </header>
 
-        <h2>Unsere Apps</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Integrated Man</h3>
-                <p>Der Weg zur besten Version deiner selbst. Tracke Fortschritte, erreiche Ränge und stärke dein Mindset.</p>
-                <a href="integrated-man.html" class="btn btn-primary">Zur App</a>
+    <main>
+        <section class="section">
+            <h2>Coaching & Mentoring</h2>
+            <div class="coaching-card">
+                <h3>1-on-1 Intensiv-Programm</h3>
+                <p>Du willst tiefer gehen, echte Klarheit gewinnen und persönliche Blockaden lösen? Wir erarbeiten gemeinsam deinen Weg zur Freiheit.</p>
+                <a href="mailto:hello@shiftmyhorizon.com" class="btn btn-primary">Kontakt aufnehmen</a>
             </div>
-            <div class="card">
-                <h3>Projekt Alpha</h3>
-                <p>Ein neues Tool für deine tägliche Produktivität. Aktuell noch in der internen Entwicklung.</p>
-                <a href="#" class="btn btn-disabled">Bald verfügbar</a>
-            </div>
-            <div class="card">
-                <h3>Projekt Beta</h3>
-                <p>Erweitere deinen Horizont mit unserer kommenden Meditations- und Fokus-App.</p>
-                <a href="#" class="btn btn-disabled">Bald verfügbar</a>
-            </div>
-        </div>
+        </section>
 
-        <h2>Coaching</h2>
-        <div class="card" style="text-align: center; max-width: 600px; margin: 0 auto;">
-            <h3>1-on-1 Mentoring</h3>
-            <p>Du willst tiefer gehen und persönliche Blockaden lösen? Melde dich für das exklusive Coaching-Programm an.</p>
-            <a href="mailto:hello@shiftmyhorizon.com" class="btn btn-primary">Kontakt aufnehmen</a>
-        </div>
+        <section class="section">
+            <h2>Unsere Apps</h2>
+            <div class="grid">
+                
+                <div class="card">
+                    <h3>Integrated Man</h3>
+                    <p>Der Weg zur besten Version deiner selbst. Tracke Fortschritte und stärke dein Mindset.</p>
+                    <a href="integrated-man.html" class="btn btn-primary">Zur App</a>
+                </div>
+                
+                <div class="card">
+                    <h3>Projekt Alpha</h3>
+                    <p>Ein neues Tool für deine tägliche Produktivität und klaren Fokus.</p>
+                    <a href="#" class="btn btn-disabled">Bald verfügbar</a>
+                </div>
+                
+                <div class="card">
+                    <h3>Projekt Beta</h3>
+                    <p>Erweitere deinen Horizont mit unserer kommenden Meditations-App.</p>
+                    <a href="#" class="btn btn-disabled">Bald verfügbar</a>
+                </div>
+
+                <div class="card">
+                    <h3>Projekt Gamma</h3>
+                    <p>Beziehungs-Tracking und Tools für Paare, um Kommunikation zu stärken.</p>
+                    <a href="#" class="btn btn-disabled">In Planung</a>
+                </div>
+
+                <div class="card">
+                    <h3>Projekt Delta</h3>
+                    <p>Unterstützung und Ratgeber-Tools für bewusste Erziehung.</p>
+                    <a href="#" class="btn btn-disabled">In Planung</a>
+                </div>
+
+            </div>
+        </section>
     </main>
 
     <footer>
