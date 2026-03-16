@@ -48,7 +48,7 @@
         .result-card { background-color: #1a0000; padding: 40px 20px; border-radius: 16px; border: 3px solid #FF3333; text-align: center; margin-top: 20px; margin-bottom: 25px; box-shadow: 0 0 30px rgba(255, 51, 51, 0.1); }
         .result-score { font-size: 5.5rem; font-weight: 900; color: #FF3333; line-height: 1; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(255,51,51,0.3); }
         .result-title { color: #FF3333; font-size: 1.5rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
-        .result-desc { color: #CCC; font-size: 1.1rem; line-height: 1.5; }
+        .result-desc { color: #CCC; font-size: 1.05rem; line-height: 1.5; font-style: italic; }
         
         /* Dynamic Cost Text */
         .cost-wrapper { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 25px; text-align: center; }
@@ -91,9 +91,12 @@
         <div class="step" id="step-2"><div class="label-gold" id="s2-label"></div><h1 id="s2-title"></h1><p class="subtitle" id="s2-sub"></p><div id="s2-options"></div></div>
         <div class="step" id="step-3"><div class="label-gold" id="s3-label"></div><h1 id="s3-title"></h1><p class="subtitle" id="s3-sub"></p><div id="s3-options"></div></div>
         <div class="step" id="step-4"><div class="label-gold" id="s4-label"></div><h1 id="s4-title"></h1><p class="subtitle" id="s4-sub"></p><div id="s4-options"></div></div>
+        
         <div class="step" id="step-5"><div class="label-gold" id="s5-label"></div><h1 id="s5-title"></h1><p class="subtitle" id="s5-sub"></p><div class="scale-grid" id="s5-options"></div><div class="scale-labels"><span id="s5-min"></span><span id="s5-max"></span></div><div class="desc-box" id="s5-desc-box"><p class="desc-text" id="s5-desc-text"></p></div><button class="btn-gold" id="s5-btn" style="display:none;" onclick="nextStep()"></button></div>
         <div class="step" id="step-6"><div class="label-gold" id="s6-label"></div><h1 id="s6-title"></h1><p class="subtitle" id="s6-sub"></p><div class="scale-grid" id="s6-options"></div><div class="scale-labels"><span id="s6-min"></span><span id="s6-max"></span></div><div class="desc-box" id="s6-desc-box"><p class="desc-text" id="s6-desc-text"></p></div><button class="btn-gold" id="s6-btn" style="display:none;" onclick="nextStep()"></button></div>
+        
         <div class="step" id="step-7"><div class="label-gold" id="s7-label"></div><h1 id="s7-title"></h1><p class="subtitle" id="s7-sub"></p><div id="s7-options"></div></div>
+        
         <div class="step" id="step-8"><div class="loading-screen"><div class="spinner"></div><h2 style="color: var(--gold);" id="loading-title"></h2><p style="color: var(--text-dim); margin-top: 15px;" id="loading-sub"></p></div></div>
         
         <div class="step" id="step-9">
@@ -158,117 +161,151 @@
 
         function setText(id, text) { const el = document.getElementById(id); if(el) el.innerText = text || ''; }
 
+        // --- DEINE LOKALISIERUNG + PITCH/WEB-TEXTE ---
         const t = {
             de: {
                 lang: { welcome: "WILLKOMMEN", title: "WÄHLE DEINE SPRACHE", subtitle: "Wähle die Sprache, in der du die App nutzen möchtest.", next: "WEITER" },
-                step1: { label: "PHASE 1: STATUS", title: "Was ist deine größte Baustelle?", sub: "Sei absolut ehrlich zu dir selbst. Es ist Zeit, die Maske fallen zu lassen.", disclaimer: "*Diese App ersetzt keine medizinische Therapie." },
-                step2: { label: "INTENSITÄT", title: "Wie oft tritt das Problem auf?", sub: "Wie tief ist dieses Verhaltensmuster bereits in deinen Alltag integriert?" },
-                step3: { label: "HISTORIE", title: "Wie lange kämpfst du schon damit?", sub: "Je länger das Muster besteht, desto tiefer sind die neuronalen Verknüpfungen in deinem Gehirn." },
-                step4: { label: "KONSEQUENZEN", title: "Was kostet es dich aktuell?", sub: "Welchen schmerzhaften Preis zahlst du in deinem echten Leben für dieses Problem?" },
-                step5: { label: "LEIDENSDRUCK", title: "Wie dringend musst du das ändern?", sub: "Wähle eine Zahl. 1 = Kaum spürbar, 10 = Es zerstört mein Leben.", min: "1 - Nicht", max: "10 - Zerstörerisch", next: "WEITER" },
-                step6: { label: "ENERGIE-LEVEL", title: "Wie viel Energie hast du im Alltag?", sub: "Wie steht es um deine körperliche und geistige Batterie?", min: "1 - Burnout", max: "10 - Unaufhaltsam", next: "WEITER" },
-                step7: { label: "ZEIT FÜR DICH", title: "Wie viele Minuten hast du NUR für dich?", sub: "Zeit in absoluter Stille. Ohne Handy. Ohne Arbeit. Ohne Ablenkung." },
-                loading: "DEIN ERGEBNIS WIRD ERMITTELT...", loadingSub: "Wir analysieren deine Antworten basierend auf den Daten tausender anderer Männer.",
-                result: { label: "System-Status", headline: "Hier ist dein Resultat:", costPrefix: "Konkret kostet dich das:", next: "LÖSUNG ANSEHEN", dynamicCost: { porn: "Deinen mentalen Fokus, echte Intimität und den tiefen Respekt vor dir selbst.", gettinggirls: "Die besten Jahre deines Lebens, gefangen in Isolation und Selbstzweifeln.", relationship: "Die emotionale Verbindung und letztendlich die Frau, die du liebst." } },
-                step10: { label: "COMMITMENT", title: "Bist du bereit, die Arbeit reinzustecken?", sub: "Die Wahrheit ist: Niemand wird kommen, um dich zu retten. Du musst es selbst tun." },
-                step11: { label: "ZIEL", title: "Was ist dein Haupt-Ziel?", sub: "Worauf arbeiten wir in den nächsten 90 Tagen unerbittlich hin?" },
-                step12: { label: "IDENTITÄT", title: "Welcher Weg inspiriert dich am meisten?", sub: "Wähle den Archetypen, der dir am meisten mentale Kraft gibt." },
-                pitch: { label: "DIE LÖSUNG", headline: "Dein Weg zur Freiheit", sub: "Du hast dein Problem erkannt. Hier ist das präzise Werkzeug, um es endgültig zu lösen.", title: "Das Protokoll beinhaltet:", f1: "90-Tage Schritt-für-Schritt Programm", f2: "Die Essenz aus über 48 psychologischen Fachbüchern", f3: "Tägliches Journaling & hartes Trigger-Tracking", f4: "Eine Bruderschaft: Community & Squad Support", btn: "JETZT LÖSUNG FREISCHALTEN" },
-                reg: { label: "LETZTER SCHRITT", headline: "Account erstellen", sub: "Erstelle deinen Account, um dein Protokoll zu sichern. Danach geht es zur Kasse.", email: "deine@email.com", pw: "Passwort (min. 6 Zeichen)", btn: "WEITER ZUR ZAHLUNG", errFill: "Bitte fülle alle Felder korrekt aus.", errExists: "Diese Email existiert bereits. Bitte logge dich später direkt in der App ein!" },
-                opts: {
-                    root: { porn: "Übermäßiger Pornokonsum & Masturbation", gettinggirls: "Soziale Unsicherheit & Angst, allein zu bleiben", relationship: "Dauerhafter Beziehungsstreit & tote Hose im Bett" },
-                    freq: { porn: ["Mehrmals täglich (Kontrollverlust)", "Täglich (Fester Bestandteil)", "Während der Arbeit (Riskant)", "Mehrmals die Woche (Starke Routine)", "Nur bei Stress (Fluchtmechanismus)"], gettinggirls: ["Täglich (Gedankenkreisen)", "Immer wenn ich eine Frau sehe", "Nur am Wochenende", "Ich vermeide alles Soziale"], relationship: ["Täglich (Dauerzustand)", "Mehrmals täglich (Streit)", "Mehrmals die Woche", "Wochenende ist am schlimmsten", "Nur noch feindseliges Schweigen"] },
-                    hist: ["Weniger als 1 Jahr", "1 - 5 Jahre (Echte Gewohnheit)", "5 - 10 Jahre (Chronisch)", "Über 10 Jahre (Tief eingebrannt)"],
-                    pain: { porn: ["Gehirnnebel & Konzentrationsverlust", "Erektionsprobleme (PIED)", "Massive Zeitverschwendung", "Tiefe Scham & Isolation", "Gefühl der Machtlosigkeit"], gettinggirls: ["Tiefe, erdrückende Einsamkeit", "Panik, für immer allein zu bleiben", "Neid auf andere Männer", "Gefühl von Minderwertigkeit", "Sexuelle Frustration"], relationship: ["Komplette sexuelle Flaute", "Ständige Kritik & Nörgelei", "Angst vor Trennung", "Fühle mich zuhause nicht wohl", "Völliger Verlust von Respekt"] },
-                    time: ["0-15 Min - Vollständig fremdbestimmt. Burnout-Gefahr.", "30 Min - Ein Tropfen auf den heißen Stein.", "60 Min - Solide Basis für Wachstum.", "90 Min - Stark. Raum für tiefe Routinen.", "2+ Std - Exzellent. Absolute Hoheit."],
-                    commit: ["Ja, ich ziehe das durch. Keine Ausreden. (100%)", "Nein, ich bleibe in meiner Situation."],
-                    goal: { porn: ["Absolute mentale Freiheit & Fokus", "Eine gesunde, maskuline Sexualität", "Selbstachtung zurückgewinnen"], gettinggirls: ["Die richtige Partnerin finden", "Völlige Lockerheit & Dominanz", "Echtes Selbstvertrauen aufbauen"], relationship: ["Leidenschaft neu entfachen", "Respekt zurückholen & führen", "Echten Frieden im Zuhause erschaffen"] },
-                    rank: ["Das Militär (Eiserne Disziplin)", "Der Hüter (Klarer Geist & Fokus)", "Der Samurai (Tiefe Ehre & innere Ruhe)", "Der Imperator (Absolute Macht & Stoizismus)"]
+                onboarding: {
+                    buttons: { next: "WEITER", lets_go: "LOS GEHT'S (100%)", back: "ZURÜCK", not_sure: "Ich bin mir nicht sicher" },
+                    labels: { not_urgent: "Nicht dringend", very_urgent: "Sehr dringend", no_energy: "Keine Energie", very_energetic: "Sehr energiereich", min_day: "Min/Tag", time_0: "0 min", time_120: "2+ Std.", your_answer: "Deine Antwort..." },
+                    result: {
+                        title: "Belastung deines Systems:",
+                        calculating: "DEIN ERGEBNIS WIRD ERMITTELT...",
+                        cost_headline: "KONKRET KOSTET DICH DAS:",
+                        dynamicCost: { porn: "Deinen mentalen Fokus, echte Intimität und den tiefen Respekt vor dir selbst.", gettinggirls: "Die besten Jahre deines Lebens, gefangen in Isolation und Selbstzweifeln.", relationship: "Die emotionale Verbindung und letztendlich die Frau, die du liebst." },
+                        levels: {
+                            extreme: { title: "EXTREM", sub: "DEIN NERVENSYSTEM IST AM ANSCHLAG", desc: "Du funktionierst nur noch im Überlebensmodus. Jede Faser deines Körpers schreit nach Veränderung." },
+                            dangerous: { title: "GEFÄHRLICH", sub: "DEIN KÖRPER IST AM LIMIT", desc: "Du bist chronisch überlastet. Dein System läuft auf Reserve – und die Reserve ist fast leer." },
+                            alarming: { title: "ALARMIEREND", sub: "DEIN NERVENSYSTEM IST ÜBERLASTET", desc: "Du stehst unter Dauerstress. Dein Körper kann nicht mehr richtig regenerieren." },
+                            critical: { title: "KRITISCH", sub: "DEIN SYSTEM IST UNTER DAUERSTRESS", desc: "Die Belastung geht an die Substanz. Es ist Zeit, das Ruder herumzureißen. Du merkst es vielleicht nicht mal, weil dein System so sehr unter Strom steht – das ist genau das Problem." }
+                        }
+                    },
+                    steps: {
+                        root_problem: { title: "PHASE 1: STATUS", question: "Was ist deine größte Baustelle?", disclaimer: "Diese App ersetzt keine Therapie!", options: { porn: "Übermäßiger digitaler sexueller Konsum", gettinggirls: "Dating & soziale Unsicherheit", relationship: "Andauernder Beziehungsstreit und keine Intimität" } },
+                        frequency: { title: "INTENSITÄT", question: "Wie oft tritt das Problem / Verhalten auf?", options: { porn: { opt1: "Mehrmals täglich", opt2: "Täglich", opt3: "Während der Arbeit / im Homeoffice", opt4: "Mehrmals die Woche", opt5: "Nur bei starkem Stress" }, gettinggirls: { opt1: "Täglich (Gedankenkreisen)", opt2: "Jedes Mal, wenn ich eine Frau sehe", opt3: "Nur am Wochenende (beim Ausgehen)", opt4: "Vermeide soziale Situationen komplett" }, relationship: { opt1: "Täglich (Dauerzustand)", opt2: "Mehrmals täglich Streit", opt3: "Mehrmals die Woche", opt4: "Wochenende ist am schlimmsten", opt5: "Es herrscht fast nur noch Schweigen" } } },
+                        history: { title: "HISTORIE", question: "Wie lange kämpfst du schon damit?", options: { opt1: "Weniger als 1 Jahr", opt2: "1 - 5 Jahre", opt3: "5 - 10 Jahre", opt4: "Seit der Pubertät / Über 10 Jahre" } },
+                        pain_point: { title: "KONSEQUENZEN", question: "Was kostet es dich aktuell? (Ehrlich)", options: { porn: { opt1: "Gehirnnebel & Konzentrationsschwäche", opt2: "Erektile Probleme (PIED) / Libido-Verlust", opt3: "Zeitverschwendung während der Arbeit", opt4: "Soziale Isolation / Scham", opt5: "Gefühl der Machtlosigkeit" }, gettinggirls: { opt1: "Tiefe Einsamkeit", opt2: "Angst, für immer allein zu bleiben", opt3: "Neid auf Paare / andere Männer", opt4: "Gefühl von Minderwertigkeit", opt5: "Sexuelle Frustration" }, relationship: { opt1: "Sexuelle Flaute / 'Roommate-Syndrom'", opt2: "Ständige Kritik & Nörgelei", opt3: "Angst vor Trennung / Scheidung", opt4: "Ich fühle mich zu Hause nicht mehr wohl", opt5: "Verlust von Respekt" } } },
+                        assessment_window: { fields: { available_time: { descriptions: { 0: "0 min", 1: "15 min", 2: "30 min", 3: "60 min", 4: "120+ min" } } } },
+                        impact: { title: "LEIDENSDRUCK", question: "Auf einer Skala von 1-10: Wie dringend musst du das ändern?", descriptions: { porn: { 1: "Kaum. Ist nur eine kleine Gewohnheit.", 2: "Sehr selten.", 3: "Ab und zu.", 4: "Regelmäßig.", 5: "Es stört, aber ich funktioniere noch.", 6: "Belastend.", 7: "Starkes Verlangen.", 8: "Kritisch.", 9: "Kontrollverlust.", 10: "Es zerstört mein Leben. Ich muss sofort aufhören." }, gettinggirls: { 1: "Ich will nur noch etwas besser werden.", 2: "Ich fühle mich okay.", 3: "Manchmal unsicher.", 4: "Oft gehemmt.", 5: "Ich bin unzufrieden, komme aber klar.", 6: "Frustrierend.", 7: "Einsam.", 8: "Schmerzhaft.", 9: "Verzweiflung.", 10: "Die Einsamkeit frisst mich auf. Ich brauche Hilfe." }, relationship: { 1: "Nur kleine Differenzen.", 2: "Meistens harmonisch.", 3: "Es läuft okay.", 4: "Wiederkehrende Diskussionen.", 5: "Es ist anstrengend.", 6: "Belastend.", 7: "Distanziert.", 8: "Kritisch.", 9: "Toxisch.", 10: "Der Leidensdruck ist maximal. Es muss sich was ändern." } } },
+                        energy_level: { title: "ENERGIE-LEVEL", question: "Wie viel Energie hast du aktuell im Alltag? (1-10)", descriptions: { porn: { 1: "Chronisch erschöpft.", 2: "Sehr niedrig.", 3: "Müde.", 4: "Unterdurchschnittlich.", 5: "Geht so.", 6: "Okay. Ich funktioniere.", 7: "Gut.", 8: "Stark.", 9: "Sehr hoch.", 10: "Maximal. Ich könnte Bäume ausreißen." }, gettinggirls: { 1: "Chronisch erschöpft.", 2: "Sehr niedrig.", 3: "Müde.", 4: "Unterdurchschnittlich.", 5: "Geht so.", 6: "Okay. Ich funktioniere.", 7: "Gut.", 8: "Stark.", 9: "Sehr hoch.", 10: "Maximal. Ich könnte Bäume ausreißen." }, relationship: { 1: "Chronisch erschöpft.", 2: "Sehr niedrig.", 3: "Müde.", 4: "Unterdurchschnittlich.", 5: "Geht so.", 6: "Okay. Ich funktioniere.", 7: "Gut.", 8: "Stark.", 9: "Sehr hoch.", 10: "Maximal. Ich könnte Bäume ausreißen." } } },
+                        available_time: { title: "ZEIT FÜR DICH", question: "Wie viele Minuten pro Tag hast du NUR für dich? (ohne Medien, Arbeit)", options: ["0 - 15 Minuten", "30 Minuten", "60 Minuten", "90 Minuten", "2+ Stunden"] },
+                        commitment: { title: "COMMITMENT", question: "Bist du bereit, die Arbeit reinzustecken?", options: { yes: "Ja, ich ziehe das durch (100%)", no: "Ich bin mir noch unsicher" } },
+                        rank_path: { title: "DEINE IDENTITÄT", question: "Welcher Weg der Stärke inspiriert dich am meisten?", options: { military: "Militär (Disziplin & Härte)", guardian: "Der Hüter (Geist & Fokus)", samurai: "Der Samurai (Ehre & Ruhe)", roman: "Der Imperator (Macht & Stoizismus)" } },
+                        goal: { title: "ZIEL", question: "Was ist dein Haupt-Ziel?", options: { porn: { freedom: "Mentale Freiheit & Fokus", health: "Gesunde Sexualität", power: "Selbstachtung zurückgewinnen" }, gettinggirls: { love: "Die Richtige finden", ease: "Lockerheit im Umgang mit Frauen", confidence: "Echtes Selbstvertrauen" }, relationship: { passion: "Leidenschaft entfachen", leadership: "Respekt & Führung", peace: "Frieden & Harmonie" } } }
+                    }
                 },
-                scales: {
-                    distress: { porn: { 1: "Kaum spürbar.", 2: "Unbedeutend.", 3: "Ab und zu.", 4: "Gewohnheit, die nervt.", 5: "Störend. Raubt Zeit.", 6: "Belastend.", 7: "Verlangen. Verliere oft.", 8: "Kritisch. Beeinflusst Arbeit.", 9: "Kontrollverlust. Tiefe Scham.", 10: "Zerstörerisch. Ich bin Sklave." }, gettinggirls: { 1: "Entspannt.", 2: "Eigentlich okay.", 3: "Manchmal unsicher.", 4: "Gehemmt.", 5: "Frustrierend.", 6: "Schmerzhaft.", 7: "Einsam. Nagt am Ego.", 8: "Verzweifelt. Unsichtbar.", 9: "Tiefe Angst vor Einsamkeit.", 10: "Zerstörerisch. Frisst mich auf." }, relationship: { 1: "Alles top.", 2: "Meistens harmonisch.", 3: "Leidenschaft abgeflacht.", 4: "Nervige Diskussionen.", 5: "Anstrengend. Keine Chispa.", 6: "Belastend. Nicht respektiert.", 7: "Distanziert wie Mitbewohner.", 8: "Kritisch. Feindselig.", 9: "Toxisch. Emotionale Hölle.", 10: "Zerstörerisch. Unerträglich." } },
-                    energy: { 1: "Burnout. Überlebensmodus.", 2: "Chronisch erschöpft.", 3: "Schwerfällig.", 4: "Unterdurchschnittlich.", 5: "Mittelmäßig.", 6: "Geht so. Tank abends leer.", 7: "Gut. Kraft für Alltag.", 8: "Stark. Klar im Kopf.", 9: "Sehr hoch. Voller Tatendrang.", 10: "Unaufhaltsam. Pure Kraft." }
-                },
-                levels: { extreme: { t: "EXTREM", sub: "DEIN NERVENSYSTEM IST AM ANSCHLAG", d: "Du funktionierst nur noch im Überlebensmodus. Jede Faser deines Körpers schreit nach Veränderung." }, dangerous: { t: "GEFÄHRLICH", sub: "DEIN KÖRPER IST AM LIMIT", d: "Dein System läuft auf Reserve – und die Reserve ist fast leer. Du musst eingreifen." } }
+                // Web-spezifische Texte (Pitch & Reg)
+                web: {
+                    pitch: { label: "DIE LÖSUNG", headline: "Dein Weg zur Freiheit", sub: "Du hast dein Problem erkannt. Hier ist das präzise Werkzeug, um es endgültig zu lösen.", title: "Das Protokoll beinhaltet:", f1: "90-Tage Schritt-für-Schritt Programm", f2: "Die Essenz aus über 48 psychologischen Fachbüchern", f3: "Tägliches Journaling & hartes Trigger-Tracking", f4: "Eine Bruderschaft: Community & Squad Support", btn: "JETZT LÖSUNG FREISCHALTEN" },
+                    reg: { label: "LETZTER SCHRITT", headline: "Account erstellen", sub: "Erstelle deinen Account, um dein Protokoll zu sichern. Danach geht es zur Kasse.", email: "deine@email.com", pw: "Passwort (min. 6 Zeichen)", btn: "WEITER ZUR ZAHLUNG", errFill: "Bitte fülle alle Felder aus.", errExists: "Email existiert bereits!" },
+                    loadingSub: "Wir analysieren deine Antworten basierend auf den Daten tausender anderer Männer."
+                }
             },
             en: {
                 lang: { welcome: "WELCOME", title: "CHOOSE LANGUAGE", subtitle: "Select app language.", next: "CONTINUE" },
-                step1: { label: "PHASE 1: STATUS", title: "What is your biggest challenge?", sub: "Be absolutely honest. Time to drop the mask.", disclaimer: "*Not a substitute for therapy." },
-                step2: { label: "INTENSITY", title: "How often does this occur?", sub: "How deeply integrated is this pattern?" },
-                step3: { label: "HISTORY", title: "How long have you struggled?", sub: "Deeper neural pathways form over time." },
-                step4: { label: "CONSEQUENCES", title: "What is it costing you?", sub: "What painful price are you paying?" },
-                step5: { label: "DISTRESS", title: "How urgently must this change?", sub: "1 = Barely, 10 = Destroying me.", min: "1 - Not urgent", max: "10 - Very urgent", next: "CONTINUE" },
-                step6: { label: "ENERGY", title: "Current energy levels?", sub: "State of physical/mental battery?", min: "1 - Burnout", max: "10 - Unstoppable", next: "CONTINUE" },
-                step7: { label: "TIME", title: "Minutes strictly for yourself?", sub: "No phone. No work. Silence." },
-                loading: "CALCULATING RESULT...", loadingSub: "Analyzing based on thousands of men.",
-                result: { label: "System Status", headline: "Your Result:", costPrefix: "Concretely, this costs you:", next: "VIEW SOLUTION", dynamicCost: { porn: "Your mental focus, genuine intimacy, and deep self-respect.", gettinggirls: "The best years of your life, trapped in isolation.", relationship: "The emotional connection and the woman you love." } },
-                step10: { label: "COMMITMENT", title: "Ready to put in the work?", sub: "Nobody is coming to save you." },
-                step11: { label: "GOAL", title: "Main 90-day goal?", sub: "What are we working towards?" },
-                step12: { label: "IDENTITY", title: "Most inspiring archetype?", sub: "Choose your mental framework." },
-                pitch: { label: "THE SOLUTION", headline: "Path to Freedom", sub: "You found the problem. Here is the tool.", title: "Protocol includes:", f1: "90-Day Step-by-Step", f2: "Essence of 48 books", f3: "Journaling & Tracking", f4: "Brotherhood Support", btn: "UNLOCK SOLUTION" },
-                reg: { label: "FINAL STEP", headline: "Create Account", sub: "Secure protocol. Proceed to checkout.", email: "your@email.com", pw: "Password (min. 6)", btn: "PROCEED TO PAYMENT", errFill: "Fill all fields.", errExists: "Email exists. Log in via app!" },
-                opts: {
-                    root: { porn: "Excessive porn & masturbation", gettinggirls: "Social insecurity & isolation", relationship: "Relationship conflict & dead bedroom" },
-                    freq: { porn: ["Multiple daily (Lost control)", "Daily (Fixed routine)", "During work (Risking job)", "Weekly (Strong habit)", "Stress only (Escape)"], gettinggirls: ["Daily (Overthinking)", "When seeing women", "Weekends only", "Avoid completely"], relationship: ["Daily (Constant)", "Multiple daily (Arguing)", "Weekly (Mood swings)", "Weekends worst", "Hostile silence"] },
-                    hist: ["< 1 year", "1-5 years (Habit)", "5-10 years (Chronic)", "> 10 years (Hardwired)"],
-                    pain: { porn: ["Brain fog & lack of focus", "Erectile dysfunction (PIED)", "Massive time wasting", "Shame & isolation", "Absolute powerlessness"], gettinggirls: ["Crushing loneliness", "Panic of staying alone", "Bitter jealousy", "Inferiority complex", "Sexual frustration"], relationship: ["Sexual drought", "Constant criticism", "Fear of divorce", "Uncomfortable at home", "Loss of mutual respect"] },
-                    time: ["0-15 Min - Burnout risk.", "30 Min - Just functioning.", "60 Min - Solid foundation.", "90 Min - Strong routine space.", "2+ Hrs - Absolute sovereignty."],
-                    commit: ["Yes, 100%. No excuses.", "No, I'll stay as I am."],
-                    goal: { porn: ["Mental freedom & focus", "Healthy sexuality", "Regain self-respect"], gettinggirls: ["Find the right partner", "Ease & dominance", "Unshakeable confidence"], relationship: ["Reignite passion", "Take back the lead", "Real peace at home"] },
-                    rank: ["Military (Iron discipline)", "Guardian (Clear focus)", "Samurai (Inner calm)", "Emperor (Absolute power)"]
+                onboarding: {
+                    buttons: { next: "NEXT", lets_go: "LET'S GO (100%)", back: "BACK", not_sure: "I'm not sure" },
+                    labels: { not_urgent: "Not urgent", very_urgent: "Very urgent", no_energy: "No energy", very_energetic: "Very energetic", min_day: "Min/day", time_0: "0 min", time_120: "2+ hrs.", your_answer: "Your answer..." },
+                    result: {
+                        title: "Your system's stress level:",
+                        calculating: "YOUR RESULT IS BEING CALCULATED...",
+                        cost_headline: "CONCRETELY THIS COSTS YOU:",
+                        dynamicCost: { porn: "Your mental focus, genuine intimacy, and deep self-respect.", gettinggirls: "The best years of your life, trapped in isolation.", relationship: "The emotional connection and the woman you love." },
+                        levels: {
+                            extreme: { title: "EXTREME", sub: "YOUR NERVOUS SYSTEM IS MAXED OUT", desc: "You are only functioning in survival mode. Every fiber of your body is screaming for change." },
+                            dangerous: { title: "DANGEROUS", sub: "YOUR BODY IS AT THE LIMIT", desc: "You are chronically overloaded. Your system is running on reserve – and the reserve is almost empty." },
+                            alarming: { title: "ALARMING", sub: "YOUR NERVOUS SYSTEM IS OVERLOADED", desc: "You are under constant stress. Your body can no longer properly recover." },
+                            critical: { title: "CRITICAL", sub: "YOUR SYSTEM IS UNDER CONSTANT STRESS", desc: "The stress is taking its toll. It's time to turn things around. You may not even notice it because your system is so wired – that's exactly the problem." }
+                        }
+                    },
+                    steps: {
+                        root_problem: { title: "PHASE 1: STATUS", question: "What is your biggest challenge?", disclaimer: "This app does not replace therapy!", options: { porn: "Excessive digital sexual consumption", gettinggirls: "Dating & social insecurity", relationship: "Ongoing relationship conflict and no intimacy" } },
+                        frequency: { title: "INTENSITY", question: "How often does the problem / behavior occur?", options: { porn: { opt1: "Multiple times daily", opt2: "Daily", opt3: "During work / home office", opt4: "Several times per week", opt5: "Only under high stress" }, gettinggirls: { opt1: "Daily (rumination)", opt2: "Every time I see a woman", opt3: "Only on weekends (when going out)", opt4: "Completely avoid social situations" }, relationship: { opt1: "Daily (constant state)", opt2: "Arguments several times daily", opt3: "Several times per week", opt4: "Weekends are the worst", opt5: "There is almost only silence left" } } },
+                        history: { title: "HISTORY", question: "How long have you been struggling with this?", options: { opt1: "Less than 1 year", opt2: "1 - 5 years", opt3: "5 - 10 years", opt4: "Since puberty / Over 10 years" } },
+                        pain_point: { title: "CONSEQUENCES", question: "What is it costing you right now? (Be honest)", options: { porn: { opt1: "Brain fog & poor concentration", opt2: "Erectile issues (PIED) / loss of libido", opt3: "Wasting time during work", opt4: "Social isolation / shame", opt5: "Feeling powerless" }, gettinggirls: { opt1: "Deep loneliness", opt2: "Fear of staying alone forever", opt3: "Jealousy of couples / other men", opt4: "Feeling inferior", opt5: "Sexual frustration" }, relationship: { opt1: "Sexual drought / 'roommate syndrome'", opt2: "Constant criticism & nagging", opt3: "Fear of separation / divorce", opt4: "I no longer feel comfortable at home", opt5: "Loss of respect" } } },
+                        impact: { title: "DISTRESS LEVEL", question: "On a scale of 1-10: How urgently do you need to change this?", descriptions: { porn: { 1: "Hardly.", 2: "Very rarely.", 3: "From time to time.", 4: "Regularly.", 5: "It bothers me.", 6: "Straining.", 7: "Strong craving.", 8: "Critical.", 9: "Loss of control.", 10: "It is destroying my life." }, gettinggirls: { 1: "I just want to get better.", 2: "I feel okay.", 3: "Sometimes insecure.", 4: "Often inhibited.", 5: "Dissatisfied, but I cope.", 6: "Frustrating.", 7: "Lonely.", 8: "Painful.", 9: "Despair.", 10: "Loneliness is consuming me." }, relationship: { 1: "Small differences.", 2: "Mostly harmonious.", 3: "It is okay.", 4: "Recurring discussions.", 5: "Exhausting.", 6: "Straining.", 7: "Distant.", 8: "Critical.", 9: "Toxic.", 10: "Distress is at maximum." } } },
+                        energy_level: { title: "ENERGY LEVEL", question: "How much energy do you currently have in daily life? (1-10)", descriptions: { porn: { 1: "Chronically exhausted.", 2: "Very low.", 3: "Tired.", 4: "Below average.", 5: "So-so.", 6: "Okay. I function.", 7: "Good.", 8: "Strong.", 9: "Very high.", 10: "Maximum." }, gettinggirls: { 1: "Chronically exhausted.", 2: "Very low.", 3: "Tired.", 4: "Below average.", 5: "So-so.", 6: "Okay. I function.", 7: "Good.", 8: "Strong.", 9: "Very high.", 10: "Maximum." }, relationship: { 1: "Chronically exhausted.", 2: "Very low.", 3: "Tired.", 4: "Below average.", 5: "So-so.", 6: "Okay. I function.", 7: "Good.", 8: "Strong.", 9: "Very high.", 10: "Maximum." } } },
+                        available_time: { title: "TIME FOR YOURSELF", question: "How many minutes per day do you have ONLY for yourself?", options: ["0 - 15 Minutes", "30 Minutes", "60 Minutes", "90 Minutes", "2+ Hours"] },
+                        commitment: { title: "COMMITMENT", question: "Are you ready to put in the work?", options: { yes: "Yes, I will do this (100%)", no: "I am still unsure" } },
+                        rank_path: { title: "YOUR IDENTITY", question: "Which path of strength inspires you most?", options: { military: "Military", guardian: "The Guardian", samurai: "The Samurai", roman: "The Emperor" } },
+                        goal: { title: "GOAL", question: "What is your main goal?", options: { porn: { freedom: "Mental freedom", health: "Healthy sexuality", power: "Regain respect" }, gettinggirls: { love: "Find the right one", ease: "Ease with women", confidence: "Self-confidence" }, relationship: { passion: "Reignite passion", leadership: "Respect", peace: "Peace" } } }
+                    }
                 },
-                scales: {
-                    distress: { porn: { 1: "Barely noticeable.", 2: "Insignificant.", 3: "Occasional.", 4: "Annoying habit.", 5: "Disturbing.", 6: "Straining.", 7: "Craving. Losing fight.", 8: "Critical. Affects work.", 9: "Loss of control.", 10: "Destructive slave." }, gettinggirls: { 1: "Relaxed.", 2: "Okay.", 3: "Sometimes insecure.", 4: "Inhibited.", 5: "Frustrating.", 6: "Painful.", 7: "Lonely.", 8: "Desperate.", 9: "Deep fear of isolation.", 10: "Destructive loneliness." }, relationship: { 1: "Great.", 2: "Mostly harmonious.", 3: "Flattened passion.", 4: "Annoying discussions.", 5: "Exhausting.", 6: "Straining.", 7: "Distant roommates.", 8: "Critical.", 9: "Toxic hell.", 10: "Unbearable pain." } },
-                    energy: { 1: "Burnout.", 2: "Exhausted.", 3: "Sluggish.", 4: "Below average.", 5: "Mediocre.", 6: "Tank empty by evening.", 7: "Good.", 8: "Strong.", 9: "Very high.", 10: "Unstoppable." }
-                },
-                levels: { extreme: { t: "EXTREME", sub: "NERVOUS SYSTEM MAXED OUT", d: "Survival mode only. Body screaming for change." }, dangerous: { t: "DANGEROUS", sub: "BODY AT THE LIMIT", d: "Chronically overloaded. Running on fumes." } }
+                web: {
+                    pitch: { label: "THE SOLUTION", headline: "Path to Freedom", sub: "You found the problem. Here is the tool.", title: "Protocol includes:", f1: "90-Day Step-by-Step", f2: "Essence of 48 books", f3: "Journaling & Tracking", f4: "Brotherhood Support", btn: "UNLOCK SOLUTION" },
+                    reg: { label: "FINAL STEP", headline: "Create Account", sub: "Secure protocol. Proceed to checkout.", email: "your@email.com", pw: "Password (min. 6)", btn: "PROCEED TO PAYMENT", errFill: "Fill all fields.", errExists: "Email exists!" },
+                    loadingSub: "Analyzing based on thousands of men."
+                }
             },
             es: {
                 lang: { welcome: "BIENVENIDO", title: "ELIGE IDIOMA", subtitle: "Selecciona el idioma.", next: "CONTINUAR" },
-                step1: { label: "FASE 1: ESTADO", title: "¿Cuál es tu mayor desafío?", sub: "Sé honesto. Quítate la máscara.", disclaimer: "*No sustituye terapia médica." },
-                step2: { label: "INTENSIDAD", title: "¿Con qué frecuencia ocurre?", sub: "¿Qué tan arraigado está?" },
-                step3: { label: "HISTORIAL", title: "¿Cuánto tiempo llevas así?", sub: "El tiempo profundiza las vías neuronales." },
-                step4: { label: "CONSECUENCIAS", title: "¿Qué te está costando?", sub: "¿Qué precio doloroso pagas?" },
-                step5: { label: "SUFRIMIENTO", title: "¿Qué urgencia hay de cambiar?", sub: "1 = Apenas, 10 = Me destruye.", min: "1 - No urgente", max: "10 - Muy urgente", next: "CONTINUAR" },
-                step6: { label: "ENERGÍA", title: "¿Nivel de energía?", sub: "¿Estado de tu batería?", min: "1 - Burnout", max: "10 - Imparable", next: "CONTINUAR" },
-                step7: { label: "TIEMPO", title: "¿Minutos solo para ti?", sub: "Sin móvil. En silencio." },
-                loading: "CALCULANDO RESULTADO...", loadingSub: "Analizando miles de perfiles.",
-                result: { label: "Estado del Sistema", headline: "Tu Resultado:", costPrefix: "Concretamente te cuesta:", next: "VER SOLUCIÓN", dynamicCost: { porn: "Tu enfoque mental, intimidad real y respeto propio.", gettinggirls: "Los mejores años de tu vida, atrapado en aislamiento.", relationship: "La conexión emocional y la mujer que amas." } },
-                step10: { label: "COMPROMISO", title: "¿Listo para esforzarte?", sub: "Nadie vendrá a salvarte." },
-                step11: { label: "OBJETIVO", title: "¿Objetivo a 90 días?", sub: "¿Hacia qué trabajamos?" },
-                step12: { label: "IDENTIDAD", title: "¿Arquetipo inspirador?", sub: "Elige tu marco mental." },
-                pitch: { label: "LA SOLUCIÓN", headline: "Camino a la Libertad", sub: "Encontraste el problema. Aquí la herramienta.", title: "El Protocolo incluye:", f1: "Programa de 90 días", f2: "Esencia de 48 libros", f3: "Diario y Rastreo", f4: "Apoyo de Hermandad", btn: "DESBLOQUEAR SOLUCIÓN" },
-                reg: { label: "ÚLTIMO PASO", headline: "Crear Cuenta", sub: "Asegura el protocolo y procede al pago.", email: "tu@email.com", pw: "Contraseña (mín. 6)", btn: "IR AL PAGO", errFill: "Llena los campos.", errExists: "Email existe. ¡Inicia sesión en la app!" },
-                opts: {
-                    root: { porn: "Porno excesivo y masturbación", gettinggirls: "Inseguridad social y aislamiento", relationship: "Conflicto de pareja y sequía sexual" },
-                    freq: { porn: ["Varias al día (Sin control)", "Diario (Rutina fija)", "En el trabajo (Riesgoso)", "Semanal (Hábito fuerte)", "Por estrés (Escape)"], gettinggirls: ["Diario (Pensamientos)", "Al ver mujeres", "Solo fines de semana", "Evito lo social"], relationship: ["Diario (Constante)", "Varias al día (Peleas)", "Semanal", "Fines de semana peor", "Silencio hostil"] },
-                    hist: ["< 1 año", "1-5 años (Hábito)", "5-10 años (Crónico)", "> 10 años (Arraigado)"],
-                    pain: { porn: ["Niebla mental", "Disfunción (PIED)", "Pérdida de tiempo", "Vergüenza y aislamiento", "Impotencia absoluta"], gettinggirls: ["Soledad aplastante", "Pánico a estar solo", "Envidia amarga", "Complejo de inferioridad", "Frustración sexual"], relationship: ["Sequía sexual", "Crítica constante", "Miedo al divorcio", "Incómodo en casa", "Pérdida de respeto"] },
-                    time: ["0-15 Min - Riesgo de burnout.", "30 Min - Solo funcionas.", "60 Min - Base sólida.", "90 Min - Espacio de rutina.", "2+ Hrs - Soberanía total."],
-                    commit: ["Sí, 100%. Sin excusas.", "No, me quedo igual."],
-                    goal: { porn: ["Libertad y enfoque", "Sexualidad sana", "Recuperar respeto"], gettinggirls: ["Hallar pareja ideal", "Dominio y soltura", "Confianza inquebrantable"], relationship: ["Reavivar pasión", "Retomar liderazgo", "Paz en el hogar"] },
-                    rank: ["Militar (Disciplina)", "Guardián (Enfoque)", "Samurái (Calma)", "Emperador (Poder)"]
+                onboarding: {
+                    buttons: { next: "SIGUIENTE", lets_go: "¡VAMOS! (100%)", back: "ATRÁS", not_sure: "No estoy seguro" },
+                    labels: { not_urgent: "No urgente", very_urgent: "Muy urgente", no_energy: "Sin energía", very_energetic: "Muy enérgico", min_day: "Min/día", time_0: "0 min", time_120: "2+ h.", your_answer: "Tu respuesta..." },
+                    result: {
+                        title: "Nivel de estrés de tu sistema:",
+                        calculating: "TU RESULTADO SE ESTÁ CALCULANDO...",
+                        cost_headline: "CONCRETAMENTE TE CUESTA ESTO:",
+                        dynamicCost: { porn: "Tu enfoque mental, intimidad real y respeto propio.", gettinggirls: "Los mejores años de tu vida, atrapado en aislamiento.", relationship: "La conexión emocional y la mujer que amas." },
+                        levels: {
+                            extreme: { title: "EXTREMO", sub: "TU SISTEMA NERVIOSO ESTÁ AL LÍMITE", desc: "Solo funcionas en modo supervivencia. Cada fibra de tu cuerpo pide un cambio." },
+                            dangerous: { title: "PELIGROSO", sub: "TU CUERPO ESTÁ AL LÍMITE", desc: "Estás crónicamente sobrecargado. Tu sistema funciona con reservas – y casi no quedan." },
+                            alarming: { title: "ALARMANTE", sub: "TU SISTEMA NERVIOSO ESTÁ SOBRECARGADO", desc: "Estás bajo estrés constante. Tu cuerpo ya no puede recuperarse bien." },
+                            critical: { title: "CRÍTICO", sub: "TU SISTEMA ESTÁ BAJO ESTRÉS CONSTANTE", desc: "La carga va a fondo. Es hora de cambiar el rumbo. Puede que ni lo notes porque tu sistema está tan alterado – ese es justo el problema." }
+                        }
+                    },
+                    steps: {
+                        root_problem: { title: "FASE 1: ESTADO", question: "¿Cuál es tu mayor problema ahora mismo?", disclaimer: "¡Esta app no sustituye una terapia!", options: { porn: "Consumo sexual digital excesivo", gettinggirls: "Citas e inseguridad social", relationship: "Conflicto constante de pareja y sin intimidad" } },
+                        frequency: { title: "INTENSIDAD", question: "¿Con qué frecuencia aparece el problema / comportamiento?", options: { porn: { opt1: "Varias veces al día", opt2: "Diario", opt3: "Durante el trabajo / teletrabajo", opt4: "Varias veces por semana", opt5: "Solo con mucho estrés" }, gettinggirls: { opt1: "Diario (darle vueltas)", opt2: "Cada vez que veo a una mujer", opt3: "Solo los fines de semana (al salir)", opt4: "Evito por completo situaciones sociales" }, relationship: { opt1: "Diario (estado constante)", opt2: "Discusiones varias veces al día", opt3: "Varias veces por semana", opt4: "Los fines de semana son lo peor", opt5: "Casi solo queda silencio" } } },
+                        history: { title: "HISTORIAL", question: "¿Cuánto tiempo llevas luchando con esto?", options: { opt1: "Menos de 1 año", opt2: "1 - 5 años", opt3: "5 - 10 años", opt4: "Desde la pubertad / Más de 10 años" } },
+                        pain_point: { title: "CONSECUENCIAS", question: "¿Qué te está costando ahora mismo? (Sé honesto)", options: { porn: { opt1: "Niebla mental y falta de concentración", opt2: "Problemas de erección (PIED)", opt3: "Pérdida de tiempo", opt4: "Aislamiento social / vergüenza", opt5: "Sensación de impotencia" }, gettinggirls: { opt1: "Soledad profunda", opt2: "Miedo a quedarme solo", opt3: "Envidia", opt4: "Sentimiento de inferioridad", opt5: "Frustración sexual" }, relationship: { opt1: "Sequía sexual", opt2: "Crítica constante", opt3: "Miedo a separación", opt4: "Ya no me siento cómodo", opt5: "Pérdida de respeto" } } },
+                        impact: { title: "NIVEL DE SUFRIMIENTO", question: "En una escala del 1 al 10: ¿qué urgencia tienes de cambiar esto?", descriptions: { porn: { 1: "Apenas.", 2: "Muy rara vez.", 3: "De vez en cuando.", 4: "Con regularidad.", 5: "Me molesta, pero funciono.", 6: "Agobiante.", 7: "Deseo fuerte.", 8: "Crítico.", 9: "Pérdida de control.", 10: "Está destruyendo mi vida." }, gettinggirls: { 1: "Solo quiero mejorar un poco.", 2: "Me siento bien.", 3: "A veces inseguro.", 4: "A menudo bloqueado.", 5: "Insatisfecho, pero me manejo.", 6: "Frustrante.", 7: "Solo.", 8: "Doloroso.", 9: "Desesperación.", 10: "La soledad me está consumiendo." }, relationship: { 1: "Solo diferencias pequeñas.", 2: "Mayormente armonioso.", 3: "Va bien.", 4: "Discusiones recurrentes.", 5: "Es agotador.", 6: "Agobiante.", 7: "Distante.", 8: "Crítico.", 9: "Tóxico.", 10: "El sufrimiento es máximo." } } },
+                        energy_level: { title: "NIVEL DE ENERGÍA", question: "¿Cuánta energía tienes actualmente en tu día a día? (1-10)", descriptions: { porn: { 1: "Crónicamente agotado.", 2: "Muy baja.", 3: "Cansado.", 4: "Por debajo de la media.", 5: "Regular.", 6: "Bien. Funciono.", 7: "Bien.", 8: "Fuerte.", 9: "Muy alta.", 10: "Máxima." }, gettinggirls: { 1: "Crónicamente agotado.", 2: "Muy baja.", 3: "Cansado.", 4: "Por debajo de la media.", 5: "Regular.", 6: "Bien. Funciono.", 7: "Bien.", 8: "Fuerte.", 9: "Muy alta.", 10: "Máxima." }, relationship: { 1: "Crónicamente agotado.", 2: "Muy baja.", 3: "Cansado.", 4: "Por debajo de la media.", 5: "Regular.", 6: "Bien. Funciono.", 7: "Bien.", 8: "Fuerte.", 9: "Muy alta.", 10: "Máxima." } } },
+                        available_time: { title: "TIEMPO PARA TI", question: "¿Cuántos minutos al día tienes SOLO para ti?", options: ["0 - 15 Minutos", "30 Minutos", "60 Minutos", "90 Minutos", "2+ Horas"] },
+                        commitment: { title: "COMPROMISO", question: "¿Estás listo para hacer el trabajo?", options: { yes: "Sí, voy a hacerlo (100%)", no: "Aún no estoy seguro" } },
+                        rank_path: { title: "TU IDENTIDAD", question: "¿Qué camino de fortaleza te inspira más?", options: { military: "Militar", guardian: "El Guardián", samurai: "El Samurái", roman: "El Emperador" } },
+                        goal: { title: "OBJETIVO", question: "¿Cuál es tu objetivo principal?", options: { porn: { freedom: "Libertad y enfoque", health: "Sexualidad saludable", power: "Recuperar respeto" }, gettinggirls: { love: "Encontrar a la indicada", ease: "Naturalidad con mujeres", confidence: "Autoconfianza" }, relationship: { passion: "Reavivar pasión", leadership: "Liderazgo", peace: "Paz" } } }
+                    }
                 },
-                scales: {
-                    distress: { porn: { 1: "Apenas notable.", 2: "Insignificante.", 3: "Ocasional.", 4: "Hábito molesto.", 5: "Preocupante.", 6: "Agotador.", 7: "Deseo. Pierdo la lucha.", 8: "Crítico.", 9: "Sin control.", 10: "Esclavo destructivo." }, gettinggirls: { 1: "Relajado.", 2: "Bien.", 3: "A veces inseguro.", 4: "Inhibido.", 5: "Frustrante.", 6: "Doloroso.", 7: "Solitario.", 8: "Desesperado.", 9: "Miedo profundo.", 10: "Soledad destructiva." }, relationship: { 1: "Genial.", 2: "Armonioso.", 3: "Pasión plana.", 4: "Discusiones.", 5: "Agotador.", 6: "Tenso.", 7: "Compañeros distantes.", 8: "Crítico.", 9: "Infierno tóxico.", 10: "Dolor insoportable." } },
-                    energy: { 1: "Burnout.", 2: "Agotado.", 3: "Lento.", 4: "Por debajo de media.", 5: "Mediocre.", 6: "Tanque vacío de noche.", 7: "Bueno.", 8: "Fuerte.", 9: "Muy alto.", 10: "Imparable." }
-                },
-                levels: { extreme: { t: "EXTREMO", sub: "SISTEMA NERVIOSO AL LÍMITE", d: "Modo supervivencia. Tu cuerpo pide cambio." }, dangerous: { t: "PELIGROSO", sub: "CUERPO AL LÍMITE", d: "Sobrecargado. Funcionando en reserva." } }
+                web: {
+                    pitch: { label: "LA SOLUCIÓN", headline: "Camino a la Libertad", sub: "Encontraste el problema. Aquí la herramienta.", title: "El Protocolo incluye:", f1: "Programa de 90 días", f2: "Esencia de 48 libros", f3: "Diario y Rastreo", f4: "Apoyo de Hermandad", btn: "DESBLOQUEAR SOLUCIÓN" },
+                    reg: { label: "ÚLTIMO PASO", headline: "Crear Cuenta", sub: "Asegura el protocolo y procede al pago.", email: "tu@email.com", pw: "Contraseña (mín. 6)", btn: "IR AL PAGO", errFill: "Llena los campos.", errExists: "Email existe!" },
+                    loadingSub: "Analizando miles de perfiles."
+                }
             }
         };
 
-        // --- DIGISTORE LINKS EINGEBAUT (AKTUALISIERT AUF NEUE DOMAIN) ---
-        const digistoreLinks = {
-            de: "https://www.checkout-ds24.com/product/675932/",
-            en: "https://www.checkout-ds24.com/product/675950/",
-            es: "https://www.checkout-ds24.com/product/675951/"
-        };
+        const digistoreLinks = { de: "https://www.checkout-ds24.com/product/675932/", en: "https://www.checkout-ds24.com/product/675950/", es: "https://www.checkout-ds24.com/product/675951/" };
 
-        let currentLang = 'de'; let currentStep = 0; const answers = {};
+        let currentLang = 'de'; let currentStep = 0; const answers = {}; 
+        
+        // --- SCORE SYSTEM ---
+        let totalStressScore = 0;
+        let scoreAnswersCount = 0;
+
+        function saveAnswer(stepId, value, scoreWeight) {
+            answers[stepId] = value;
+            if (scoreWeight !== undefined) {
+                totalStressScore += scoreWeight;
+                scoreAnswersCount++;
+            }
+        }
+
+        // Berechnet den finalen Score zwischen 70 und 90 Prozent
+        function calculateFinalScore() {
+            // Durchschnitt der Gewichte (0-100 pro Frage)
+            const averageWeight = scoreAnswersCount > 0 ? (totalStressScore / scoreAnswersCount) : 50;
+            // Skaliere von 0-100 auf die Spanne 70-90
+            const finalScore = 70 + (averageWeight / 100) * 20;
+            return Math.round(finalScore);
+        }
 
         function getScaleDesc(scaleType, value) {
-            const tr = t[currentLang].scales[scaleType];
-            return scaleType === 'distress' ? tr[answers['root']][value] : tr[value];
+            const steps = t[currentLang].onboarding.steps;
+            const root = answers['root'];
+            if(scaleType === 'distress') return steps.impact.descriptions[root][value];
+            if(scaleType === 'energy') return steps.energy_level.descriptions[root][value];
+            return "";
         }
 
         function selectLanguage(lang) {
@@ -276,52 +313,100 @@
             document.querySelectorAll('#step-0 .option-btn').forEach(btn => btn.classList.remove('selected'));
             document.getElementById(`lang-${lang}`).classList.add('selected');
             setText('lang-welcome', t[lang].lang.welcome); setText('lang-title', t[lang].lang.title); setText('lang-subtitle', t[lang].lang.subtitle);
-            document.getElementById('btn-start').disabled = false; document.getElementById('btn-start').innerText = t[lang].lang.next;
+            document.getElementById('btn-start').disabled = false; document.getElementById('btn-start').innerText = t[lang].onboarding.buttons.next;
+            answers['language'] = lang;
         }
 
         function startOnboarding() { document.getElementById('progressContainer').style.display = 'block'; buildStep1(); nextStep(); }
 
         function buildStep1() {
-            const tr = t[currentLang];
-            setText('s1-label', tr.step1.label); setText('s1-title', tr.step1.title); setText('s1-sub', tr.step1.sub); setText('s1-disclaimer', tr.step1.disclaimer);
-            let html = ''; for (const [key, val] of Object.entries(tr.opts.root)) { html += `<button class="option-btn" onclick="selectRoot('${key}')">${val}</button>`; }
+            const steps = t[currentLang].onboarding.steps;
+            setText('s1-label', steps.root_problem.title); setText('s1-title', steps.root_problem.question); setText('s1-disclaimer', steps.root_problem.disclaimer);
+            let html = ''; 
+            for (const [key, val] of Object.entries(steps.root_problem.options)) { 
+                html += `<button class="option-btn" onclick="selectRoot('${key}')">${val}</button>`; 
+            }
             document.getElementById('s1-options').innerHTML = html;
         }
 
-        function selectRoot(rootKey) { answers['root'] = rootKey; buildDynamicSteps(); nextStep(); }
+        function selectRoot(rootKey) { 
+            answers['root'] = rootKey; 
+            // Basis-Stress für alle ist hoch, da sie das Problem haben
+            saveAnswer('root_problem', rootKey, 80); 
+            buildDynamicSteps(); 
+            nextStep(); 
+        }
 
         function buildDynamicSteps() {
-            const tr = t[currentLang]; const root = answers['root'];
-            const buildOpts = (id, optsObj) => {
-                setText(`${id}-label`, tr[id.replace('s', 'step')].label); setText(`${id}-title`, tr[id.replace('s', 'step')].title); setText(`${id}-sub`, tr[id.replace('s', 'step')].sub);
-                let html = ''; optsObj.forEach(opt => html += `<button class="option-btn" onclick="nextStep()">${opt}</button>`);
+            const steps = t[currentLang].onboarding.steps; 
+            const root = answers['root'];
+
+            const buildOpts = (id, stepData, optionsObj, isReversedScore = false) => {
+                setText(`${id}-label`, stepData.title); setText(`${id}-title`, stepData.question); 
+                let html = ''; 
+                const opts = Array.isArray(optionsObj) ? optionsObj : Object.values(optionsObj);
+                const maxIndex = opts.length - 1;
+                
+                opts.forEach((opt, index) => {
+                    const safeOpt = opt.replace(/'/g, "\\'");
+                    
+                    // Berechne Stress-Punkte (0-100)
+                    // Normalerweise: Index 0 = schlechteste Antwort (100 Punkte), letzer Index = 0 Punkte.
+                    // Wenn isReversedScore true: Index 0 = beste Antwort (0 Punkte), letzer Index = 100 Punkte.
+                    let scoreWeight = isReversedScore ? (index / maxIndex) * 100 : ((maxIndex - index) / maxIndex) * 100;
+                    
+                    html += `<button class="option-btn" onclick="saveAnswer('${id}', '${safeOpt}', ${scoreWeight}); nextStep()">${opt}</button>`;
+                });
                 document.getElementById(`${id}-options`).innerHTML = html;
             };
 
-            buildOpts('s2', tr.opts.freq[root]); buildOpts('s3', tr.opts.hist); buildOpts('s4', tr.opts.pain[root]); 
-            buildOpts('s7', tr.opts.time); buildOpts('s10', tr.opts.commit); buildOpts('s11', tr.opts.goal[root]); buildOpts('s12', tr.opts.rank);
-
-            setText('s5-label', tr.step5.label); setText('s5-title', tr.step5.title); setText('s5-sub', tr.step5.sub); setText('s5-min', tr.step5.min); setText('s5-max', tr.step5.max); setText('s5-btn', tr.step5.next); 
-            let h5 = ''; for(let i=1; i<=10; i++) h5 += `<button class="scale-btn" onclick="selectScale(this, 5, ${i}, 'distress')">${i}</button>`; document.getElementById('s5-options').innerHTML = h5;
+            // Options-Arrays aufbauen
+            buildOpts('s2', steps.frequency, steps.frequency.options[root], false); // Index 0 (Mehrmals täglich) ist am schlimmsten (100)
+            buildOpts('s3', steps.history, steps.history.options, true); // Index 0 (<1 Jahr) ist am besten (0), Index 3 (>10 Jahre) ist 100
+            buildOpts('s4', steps.pain_point, steps.pain_point.options[root], false); // Pain points sind alle relativ schlimm, wir werten die Auswahl als Basis-Score
+            buildOpts('s7', steps.available_time, steps.available_time.options, false); // Index 0 (0 min) = 100 Stress
             
-            setText('s6-label', tr.step6.label); setText('s6-title', tr.step6.title); setText('s6-sub', tr.step6.sub); setText('s6-min', tr.step6.min); setText('s6-max', tr.step6.max); setText('s6-btn', tr.step6.next); 
-            let h6 = ''; for(let i=1; i<=10; i++) h6 += `<button class="scale-btn" onclick="selectScale(this, 6, ${i}, 'energy')">${i}</button>`; document.getElementById('s6-options').innerHTML = h6;
+            buildOpts('s10', steps.commitment, steps.commitment.options, false); 
+            buildOpts('s11', steps.goal, steps.goal.options[root], false); 
+            buildOpts('s12', steps.rank_path, steps.rank_path.options, false);
 
-            setText('loading-title', tr.loading); setText('loading-sub', tr.loadingSub);
-            setText('res-label', tr.result.label); setText('res-headline', tr.result.headline); setText('btn-res-next', tr.result.next);
-
-            setText('pitch-label', tr.pitch.label); setText('pitch-headline', tr.pitch.headline); setText('pitch-sub', tr.pitch.sub); setText('pitch-title', tr.pitch.title); 
-            setText('pitch-1', tr.pitch.f1); setText('pitch-2', tr.pitch.f2); setText('pitch-3', tr.pitch.f3); setText('pitch-4', tr.pitch.f4); setText('btn-checkout', tr.pitch.btn);
+            const labels = t[currentLang].onboarding.labels;
             
-            setText('reg-label', tr.reg.label); setText('reg-headline', tr.reg.headline); setText('reg-sub', tr.reg.sub); setText('btn-register', tr.reg.btn);
-            document.getElementById('reg-email').placeholder = tr.reg.email; document.getElementById('reg-password').placeholder = tr.reg.pw;
+            // Impact Skala (1-10) -> 1 = 0 Stress, 10 = 100 Stress
+            setText('s5-label', steps.impact.title); setText('s5-title', steps.impact.question); setText('s5-min', '1 - ' + labels.not_urgent); setText('s5-max', '10 - ' + labels.very_urgent); setText('s5-btn', t[currentLang].onboarding.buttons.next); 
+            let h5 = ''; for(let i=1; i<=10; i++) {
+                const stressVal = ((i - 1) / 9) * 100; 
+                h5 += `<button class="scale-btn" onclick="selectScale(this, 5, ${i}, 'distress', ${stressVal})">${i}</button>`;
+            }
+            document.getElementById('s5-options').innerHTML = h5;
+            
+            // Energy Skala (1-10) -> 1 = 100 Stress, 10 = 0 Stress
+            setText('s6-label', steps.energy_level.title); setText('s6-title', steps.energy_level.question); setText('s6-min', '1 - ' + labels.no_energy); setText('s6-max', '10 - ' + labels.very_energetic); setText('s6-btn', t[currentLang].onboarding.buttons.next); 
+            let h6 = ''; for(let i=1; i<=10; i++) {
+                const stressVal = ((10 - i) / 9) * 100;
+                h6 += `<button class="scale-btn" onclick="selectScale(this, 6, ${i}, 'energy', ${stressVal})">${i}</button>`;
+            }
+            document.getElementById('s6-options').innerHTML = h6;
+
+            // Result & Web Texts
+            setText('loading-title', t[currentLang].onboarding.result.calculating); setText('loading-sub', t[currentLang].web.loadingSub);
+            setText('res-label', t[currentLang].onboarding.result.title); setText('btn-res-next', t[currentLang].onboarding.buttons.next);
+
+            const pitch = t[currentLang].web.pitch;
+            setText('pitch-label', pitch.label); setText('pitch-headline', pitch.headline); setText('pitch-sub', pitch.sub); setText('pitch-title', pitch.title); 
+            setText('pitch-1', pitch.f1); setText('pitch-2', pitch.f2); setText('pitch-3', pitch.f3); setText('pitch-4', pitch.f4); setText('btn-checkout', pitch.btn);
+            
+            const reg = t[currentLang].web.reg;
+            setText('reg-label', reg.label); setText('reg-headline', reg.headline); setText('reg-sub', reg.sub); setText('btn-register', reg.btn);
+            document.getElementById('reg-email').placeholder = reg.email; document.getElementById('reg-password').placeholder = reg.pw;
         }
 
-        function selectScale(btn, stepNum, val, type) {
+        function selectScale(btn, stepNum, val, type, scoreWeight) {
             document.querySelectorAll(`#step-${stepNum} .scale-btn`).forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             setText(`s${stepNum}-desc-text`, `"${getScaleDesc(type, val)}"`);
             document.getElementById(`s${stepNum}-desc-box`).style.display = 'block'; document.getElementById(`s${stepNum}-btn`).style.display = 'block';
+            saveAnswer('s' + stepNum, val, scoreWeight); 
         }
 
         function nextStep() {
@@ -337,16 +422,25 @@
                     document.getElementById(`step-8`).classList.remove('active');
                     currentStep++;
                     
-                    const fakeScore = Math.floor(Math.random() * (96 - 78 + 1)) + 78;
-                    const tr = t[currentLang];
-                    setText('res-score', `${fakeScore}%`);
-                    const level = fakeScore >= 85 ? tr.levels.extreme : tr.levels.dangerous;
-                    const color = fakeScore >= 85 ? "#FF0000" : "#FF3333";
+                    // NEU: Berechneter Score statt Random
+                    const calculatedScore = calculateFinalScore();
+                    const tr = t[currentLang].onboarding.result;
                     
-                    setText('res-title', level.t); setText('res-desc', `${level.sub}\n\n${level.d}`);
+                    setText('res-score', `${calculatedScore}%`);
                     
-                    setText('res-cost-prefix', tr.result.costPrefix);
-                    setText('res-cost-dynamic', tr.result.dynamicCost[answers['root']]);
+                    let levelData;
+                    let color;
+                    
+                    if (calculatedScore >= 86) { levelData = tr.levels.extreme; color = "#FF0000"; }
+                    else if (calculatedScore >= 81) { levelData = tr.levels.dangerous; color = "#FF3333"; }
+                    else if (calculatedScore >= 76) { levelData = tr.levels.alarming; color = "#FF6600"; }
+                    else { levelData = tr.levels.critical; color = "#FFAA00"; }
+                    
+                    setText('res-title', levelData.title); 
+                    setText('res-desc', `${levelData.sub}\n\n${levelData.desc}`);
+                    
+                    setText('res-cost-prefix', tr.cost_headline);
+                    setText('res-cost-dynamic', tr.dynamicCost[answers['root']]);
                     
                     document.getElementById('res-score').style.color = color; 
                     document.getElementById('res-title').style.color = color; 
@@ -362,23 +456,36 @@
             const password = document.getElementById('reg-password').value;
             const errEl = document.getElementById('reg-error');
             const btn = document.getElementById('btn-register');
-            const tr = t[currentLang];
+            const regTexts = t[currentLang].web.reg;
             
-            if(!email || password.length < 6) { errEl.innerText = tr.reg.errFill; errEl.style.display = 'block'; return; }
+            if(!email || password.length < 6) { errEl.innerText = regTexts.errFill; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.innerText = "Lädt..."; btn.disabled = true;
 
             const db = initSupabase();
             if (!db) { redirectToDigistore('guest_user_' + Math.floor(Math.random() * 10000)); return; }
 
-            const { data, error } = await db.auth.signUp({ email, password, options: { data: { first_name: 'WebUser', is_over_21: true } } });
+            // Finaler Score wird ebenfalls mitgespeichert
+            answers['calculated_stress_score'] = calculateFinalScore();
+
+            const { data, error } = await db.auth.signUp({ 
+                email, 
+                password, 
+                options: { 
+                    data: { 
+                        first_name: 'WebUser', 
+                        is_over_21: true,
+                        onboarding_data: answers 
+                    } 
+                } 
+            });
 
             if (error) {
                 if(error.message.includes('already registered')) {
                     const { data: signInData, error: signInError } = await db.auth.signInWithPassword({ email, password });
-                    if(signInError) { errEl.innerText = tr.reg.errExists; errEl.style.display = 'block'; btn.innerText = tr.reg.btn; btn.disabled = false; return; }
+                    if(signInError) { errEl.innerText = regTexts.errExists; errEl.style.display = 'block'; btn.innerText = regTexts.btn; btn.disabled = false; return; }
                     redirectToDigistore(signInData.user.id);
                 } else {
-                    errEl.innerText = error.message; errEl.style.display = 'block'; btn.innerText = tr.reg.btn; btn.disabled = false;
+                    errEl.innerText = error.message; errEl.style.display = 'block'; btn.innerText = regTexts.btn; btn.disabled = false;
                 }
             } else if (data.user) {
                 redirectToDigistore(data.user.id);
