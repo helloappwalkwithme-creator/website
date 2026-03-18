@@ -35,6 +35,16 @@
         .input-field { background-color: var(--card); border: 2px solid var(--border); color: var(--text); padding: 18px; border-radius: 10px; font-size: 1.1rem; margin-bottom: 15px; width: 100%; }
         .input-field:focus { border-color: var(--gold); outline: none; }
 
+        /* Checkbox Styling (Neu für Disclaimer) */
+        .checkbox-container { display: flex; align-items: flex-start; background-color: var(--card); border: 2px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 15px; cursor: pointer; transition: all 0.2s ease; }
+        .checkbox-container:hover { border-color: #555; }
+        .checkbox-container.checked { border-color: var(--gold); background-color: var(--gold-dim); }
+        .checkbox-custom { width: 24px; height: 24px; border: 2px solid var(--text-dim); border-radius: 6px; margin-right: 15px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .checkbox-container.checked .checkbox-custom { background-color: var(--gold); border-color: var(--gold); }
+        .checkbox-custom::after { content: '✓'; color: #000; font-size: 16px; font-weight: bold; display: none; }
+        .checkbox-container.checked .checkbox-custom::after { display: block; }
+        .checkbox-text { font-size: 0.95rem; color: #DDD; line-height: 1.4; margin: 0; padding-top: 2px; }
+
         /* Scales */
         .scale-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 10px; }
         .scale-btn { width: 45px; height: 45px; border-radius: 8px; border: 2px solid var(--border); background-color: var(--card); color: var(--text); font-size: 1.1rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
@@ -84,7 +94,25 @@
             <button class="option-btn" id="lang-de" onclick="selectLanguage('de')"><div>🇩🇪 Deutsch<span class="lang-subtext">Deutsche Version</span></div></button>
             <button class="option-btn" id="lang-en" onclick="selectLanguage('en')"><div>🇬🇧 English<span class="lang-subtext">English Version</span></div></button>
             <button class="option-btn" id="lang-es" onclick="selectLanguage('es')"><div>🇪🇸 Español<span class="lang-subtext">Versión en Español</span></div></button>
-            <button class="btn-gold" id="btn-start" onclick="startOnboarding()" disabled>WEITER</button>
+            <button class="btn-gold" id="btn-start" onclick="nextStep()" disabled>WEITER</button>
+        </div>
+
+        <div class="step" id="step-0-5">
+            <div class="label-gold" id="disc-label">WICHTIG • IMPORTANT</div>
+            <h1 id="disc-title">Sicherheit & Gesundheit</h1>
+            <p class="subtitle" id="disc-sub">Bitte bestätige die folgenden Punkte, bevor wir starten.</p>
+            
+            <div class="checkbox-container" id="chk-therapy" onclick="toggleCheckbox('chk-therapy')">
+                <div class="checkbox-custom"></div>
+                <p class="checkbox-text" id="disc-text-1">Mir ist bewusst, dass diese App keine professionelle Therapie ersetzt und keine medizinischen Heilversprechen gibt.</p>
+            </div>
+
+            <div class="checkbox-container" id="chk-health" onclick="toggleCheckbox('chk-health')">
+                <div class="checkbox-custom"></div>
+                <p class="checkbox-text" id="disc-text-2">Ich bestätige, dass ich mich in einer ausreichend stabilen körperlichen und psychischen Verfassung befinde, um dieses Programm durchzuführen.</p>
+            </div>
+
+            <button class="btn-gold" id="btn-accept-disc" onclick="startOnboarding()" disabled>VERSTANDEN & WEITER</button>
         </div>
 
         <div class="step" id="step-1"><div class="label-gold" id="s1-label"></div><h1 id="s1-title"></h1><p class="subtitle" id="s1-sub"></p><div id="s1-options"></div><p class="disclaimer" id="s1-disclaimer"></p></div>
@@ -162,10 +190,10 @@
         function setText(id, text) { const el = document.getElementById(id); if(el) el.innerText = text || ''; }
 
         // --- LOKALISIERUNG + PITCH/WEB-TEXTE ---
-        // WICHTIG: Die Reihenfolge in "frequency" wurde umgedreht, damit Oben=Wenig und Unten=Viel ist.
         const t = {
             de: {
                 lang: { welcome: "WILLKOMMEN", title: "WÄHLE DEINE SPRACHE", subtitle: "Wähle die Sprache, in der du die App nutzen möchtest.", next: "WEITER" },
+                disclaimer: { title: "Sicherheit & Gesundheit", sub: "Bitte bestätige die folgenden Punkte, bevor wir starten.", chk1: "Mir ist bewusst, dass diese App keine professionelle Therapie ersetzt und keine medizinischen Heilversprechen gibt.", chk2: "Ich bestätige, dass ich mich in einer ausreichend stabilen körperlichen und psychischen Verfassung befinde, um dieses Programm durchzuführen.", btn: "VERSTANDEN & WEITER" },
                 onboarding: {
                     buttons: { next: "WEITER", lets_go: "LOS GEHT'S (100%)", back: "ZURÜCK", not_sure: "Ich bin mir nicht sicher" },
                     labels: { not_urgent: "Nicht dringend", very_urgent: "Sehr dringend", no_energy: "Keine Energie", very_energetic: "Sehr energiereich", min_day: "Min/Tag", time_0: "0 min", time_120: "2+ Std.", your_answer: "Deine Antwort..." },
@@ -178,33 +206,21 @@
                             extreme: { title: "EXTREM", sub: "DEIN NERVENSYSTEM IST AM ANSCHLAG", desc: "Du funktionierst nur noch im Überlebensmodus. Jede Faser deines Körpers schreit nach Veränderung." },
                             dangerous: { title: "GEFÄHRLICH", sub: "DEIN KÖRPER IST AM LIMIT", desc: "Du bist chronisch überlastet. Dein System läuft auf Reserve – und die Reserve ist fast leer." },
                             alarming: { title: "ALARMIEREND", sub: "DEIN NERVENSYSTEM IST ÜBERLASTET", desc: "Du stehst unter Dauerstress. Dein Körper kann nicht mehr richtig regenerieren." },
-                            critical: { title: "KRITISCH", sub: "DEIN SYSTEM IST UNTER DAUERSTRESS", desc: "Die Belastung geht an die Substanz. Es ist Zeit, das Ruder herumzureißen. Du merkst es vielleicht nicht mal, weil dein System so sehr unter Strom steht – das ist genau das Problem." }
+                            critical: { title: "KRITISCH", sub: "DEIN SYSTEM IST UNTER DAUERSTRESS", desc: "Die Belastung geht an die Substanz. Es ist Zeit, das Ruder herumzureißen." }
                         }
                     },
                     steps: {
                         root_problem: { title: "PHASE 1: STATUS", question: "Was ist deine größte Baustelle?", disclaimer: "Diese App ersetzt keine Therapie!", options: { porn: "Übermäßiger digitaler sexueller Konsum", gettinggirls: "Dating & soziale Unsicherheit", relationship: "Andauernder Beziehungsstreit und keine Intimität" } },
-                        
-                        // ANGEPASST: 1 = wenig, 5 = viel
                         frequency: { title: "INTENSITÄT", question: "Wie oft tritt das Problem / Verhalten auf?", options: { 
                             porn: { opt1: "Nur bei starkem Stress", opt2: "Mehrmals die Woche", opt3: "Während der Arbeit / im Homeoffice", opt4: "Täglich", opt5: "Mehrmals täglich" }, 
                             gettinggirls: { opt1: "Nur am Wochenende (beim Ausgehen)", opt2: "Jedes Mal, wenn ich eine Frau sehe", opt3: "Täglich (Gedankenkreisen)", opt4: "Vermeide soziale Situationen komplett" }, 
                             relationship: { opt1: "Wochenende ist am schlimmsten", opt2: "Mehrmals die Woche", opt3: "Täglich (Dauerzustand)", opt4: "Mehrmals täglich Streit", opt5: "Es herrscht fast nur noch Schweigen" } } 
                         },
-                        
-                        // BEREITS KORREKT: 1 = wenig, 4 = viel
                         history: { title: "HISTORIE", question: "Wie lange kämpfst du schon damit?", options: { opt1: "Weniger als 1 Jahr", opt2: "1 - 5 Jahre", opt3: "5 - 10 Jahre", opt4: "Seit der Pubertät / Über 10 Jahre" } },
-                        
                         pain_point: { title: "KONSEQUENZEN", question: "Was kostet es dich aktuell? (Ehrlich)", options: { porn: { opt1: "Gehirnnebel & Konzentrationsschwäche", opt2: "Erektile Probleme (PIED) / Libido-Verlust", opt3: "Zeitverschwendung während der Arbeit", opt4: "Soziale Isolation / Scham", opt5: "Gefühl der Machtlosigkeit" }, gettinggirls: { opt1: "Tiefe Einsamkeit", opt2: "Angst, für immer allein zu bleiben", opt3: "Neid auf Paare / andere Männer", opt4: "Gefühl von Minderwertigkeit", opt5: "Sexuelle Frustration" }, relationship: { opt1: "Sexuelle Flaute / 'Roommate-Syndrom'", opt2: "Ständige Kritik & Nörgelei", opt3: "Angst vor Trennung / Scheidung", opt4: "Ich fühle mich zu Hause nicht mehr wohl", opt5: "Verlust von Respekt" } } },
-                        
-                        // BEREITS KORREKT: 1 = wenig, 10 = viel
                         impact: { title: "LEIDENSDRUCK", question: "Auf einer Skala von 1-10: Wie dringend musst du das ändern?", descriptions: { porn: { 1: "Kaum. Ist nur eine kleine Gewohnheit.", 2: "Sehr selten.", 3: "Ab und zu.", 4: "Regelmäßig.", 5: "Es stört, aber ich funktioniere noch.", 6: "Belastend.", 7: "Starkes Verlangen.", 8: "Kritisch.", 9: "Kontrollverlust.", 10: "Es zerstört mein Leben. Ich muss sofort aufhören." }, gettinggirls: { 1: "Ich will nur noch etwas besser werden.", 2: "Ich fühle mich okay.", 3: "Manchmal unsicher.", 4: "Oft gehemmt.", 5: "Ich bin unzufrieden, komme aber klar.", 6: "Frustrierend.", 7: "Einsam.", 8: "Schmerzhaft.", 9: "Verzweiflung.", 10: "Die Einsamkeit frisst mich auf. Ich brauche Hilfe." }, relationship: { 1: "Nur kleine Differenzen.", 2: "Meistens harmonisch.", 3: "Es läuft okay.", 4: "Wiederkehrende Diskussionen.", 5: "Es ist anstrengend.", 6: "Belastend.", 7: "Distanziert.", 8: "Kritisch.", 9: "Toxisch.", 10: "Der Leidensdruck ist maximal. Es muss sich was ändern." } } },
-                        
-                        // BEREITS KORREKT: 1 = wenig, 10 = viel
-                        energy_level: { title: "ENERGIE-LEVEL", question: "Wie viel Energie hast du aktuell im Alltag? (1-10)", descriptions: { porn: { 1: "Chronisch erschöpft.", 2: "Sehr niedrig.", 3: "Müde.", 4: "Unterdurchschnittlich.", 5: "Geht so.", 6: "Okay. Ich funktioniere.", 7: "Gut.", 8: "Stark.", 9: "Sehr hoch.", 10: "Maximal. Ich könnte Bäume ausreißen." }, gettinggirls: { 1: "Chronisch erschöpft.", 2: "Sehr niedrig.", 3: "Müde.", 4: "Unterdurchschnittlich.", 5: "Geht so.", 6: "Okay. Ich funktioniere.", 7: "Gut.", 8: "Stark.", 9: "Sehr hoch.", 10: "Maximal. Ich könnte Bäume ausreißen." }, relationship: { 1: "Chronically exhausted.", 2: "Very low.", 3: "Tired.", 4: "Below average.", 5: "So-so.", 6: "Okay. I function.", 7: "Good.", 8: "Strong.", 9: "Very high.", 10: "Maximum." } } },
-                        
-                        // BEREITS KORREKT: 1 = wenig, 5 = viel
+                        energy_level: { title: "ENERGIE-LEVEL", question: "Wie viel Energie hast du aktuell im Alltag? (1-10)", descriptions: { porn: { 1: "Chronisch erschöpft.", 2: "Sehr niedrig.", 3: "Müde.", 4: "Unterdurchschnittlich.", 5: "Geht so.", 6: "Okay. Ich funktioniere.", 7: "Gut.", 8: "Stark.", 9: "Sehr hoch.", 10: "Maximal. Ich könnte Bäume ausreißen." }, gettinggirls: { 1: "Chronisch erschöpft.", 2: "Sehr niedrig.", 3: "Müde.", 4: "Unterdurchschnittlich.", 5: "Geht so.", 6: "Okay. Ich funktioniere.", 7: "Gut.", 8: "Stark.", 9: "Sehr hoch.", 10: "Maximal. Ich könnte Bäume ausreißen." }, relationship: { 1: "Chronisch erschöpft.", 2: "Sehr niedrig.", 3: "Müde.", 4: "Unterdurchschnittlich.", 5: "Geht so.", 6: "Okay. Ich funktioniere.", 7: "Gut.", 8: "Stark.", 9: "Sehr hoch.", 10: "Maximal." } } },
                         available_time: { title: "ZEIT FÜR DICH", question: "Wie viele Minuten pro Tag hast du NUR für dich? (ohne Medien, Arbeit)", options: ["0 - 15 Minuten", "30 Minuten", "60 Minuten", "90 Minuten", "2+ Stunden"] },
-                        
                         commitment: { title: "COMMITMENT", question: "Bist du bereit, die Arbeit reinzustecken?", options: { yes: "Ja, ich ziehe das durch (100%)", no: "Ich bin mir noch unsicher" } },
                         rank_path: { title: "DEINE IDENTITÄT", question: "Welcher Weg der Stärke inspiriert dich am meisten?", options: { military: "Militär (Disziplin & Härte)", guardian: "Der Hüter (Geist & Fokus)", samurai: "Der Samurai (Ehre & Ruhe)", roman: "Der Imperator (Macht & Stoizismus)" } },
                         goal: { title: "ZIEL", question: "Was ist dein Haupt-Ziel?", options: { porn: { freedom: "Mentale Freiheit & Fokus", health: "Gesunde Sexualität", power: "Selbstachtung zurückgewinnen" }, gettinggirls: { love: "Die Richtige finden", ease: "Lockerheit im Umgang mit Frauen", confidence: "Echtes Selbstvertrauen" }, relationship: { passion: "Leidenschaft entfachen", leadership: "Respekt & Führung", peace: "Frieden & Harmonie" } } }
@@ -218,6 +234,7 @@
             },
             en: {
                 lang: { welcome: "WELCOME", title: "CHOOSE LANGUAGE", subtitle: "Select app language.", next: "CONTINUE" },
+                disclaimer: { title: "Safety & Health", sub: "Please confirm the following points before we start.", chk1: "I am aware that this app does not replace professional therapy and makes no medical healing promises.", chk2: "I confirm that I am in a sufficiently stable physical and mental condition to undertake this program.", btn: "UNDERSTOOD & CONTINUE" },
                 onboarding: {
                     buttons: { next: "NEXT", lets_go: "LET'S GO (100%)", back: "BACK", not_sure: "I'm not sure" },
                     labels: { not_urgent: "Not urgent", very_urgent: "Very urgent", no_energy: "No energy", very_energetic: "Very energetic", min_day: "Min/day", time_0: "0 min", time_120: "2+ hrs.", your_answer: "Your answer..." },
@@ -230,27 +247,21 @@
                             extreme: { title: "EXTREME", sub: "YOUR NERVOUS SYSTEM IS MAXED OUT", desc: "You are only functioning in survival mode. Every fiber of your body is screaming for change." },
                             dangerous: { title: "DANGEROUS", sub: "YOUR BODY IS AT THE LIMIT", desc: "You are chronically overloaded. Your system is running on reserve – and the reserve is almost empty." },
                             alarming: { title: "ALARMING", sub: "YOUR NERVOUS SYSTEM IS OVERLOADED", desc: "You are under constant stress. Your body can no longer properly recover." },
-                            critical: { title: "CRITICAL", sub: "YOUR SYSTEM IS UNDER CONSTANT STRESS", desc: "The stress is taking its toll. It's time to turn things around. You may not even notice it because your system is so wired – that's exactly the problem." }
+                            critical: { title: "CRITICAL", sub: "YOUR SYSTEM IS UNDER CONSTANT STRESS", desc: "The stress is taking its toll. It's time to turn things around." }
                         }
                     },
                     steps: {
                         root_problem: { title: "PHASE 1: STATUS", question: "What is your biggest challenge?", disclaimer: "This app does not replace therapy!", options: { porn: "Excessive digital sexual consumption", gettinggirls: "Dating & social insecurity", relationship: "Ongoing relationship conflict and no intimacy" } },
-                        
                         frequency: { title: "INTENSITY", question: "How often does the problem / behavior occur?", options: { 
                             porn: { opt1: "Only under high stress", opt2: "Several times per week", opt3: "During work / home office", opt4: "Daily", opt5: "Multiple times daily" }, 
                             gettinggirls: { opt1: "Only on weekends (when going out)", opt2: "Every time I see a woman", opt3: "Daily (rumination)", opt4: "Completely avoid social situations" }, 
                             relationship: { opt1: "Weekends are the worst", opt2: "Several times per week", opt3: "Daily (constant state)", opt4: "Arguments several times daily", opt5: "There is almost only silence left" } } 
                         },
-                        
                         history: { title: "HISTORY", question: "How long have you been struggling with this?", options: { opt1: "Less than 1 year", opt2: "1 - 5 years", opt3: "5 - 10 years", opt4: "Since puberty / Over 10 years" } },
                         pain_point: { title: "CONSEQUENCES", question: "What is it costing you right now? (Be honest)", options: { porn: { opt1: "Brain fog & poor concentration", opt2: "Erectile issues (PIED) / loss of libido", opt3: "Wasting time during work", opt4: "Social isolation / shame", opt5: "Feeling powerless" }, gettinggirls: { opt1: "Deep loneliness", opt2: "Fear of staying alone forever", opt3: "Jealousy of couples / other men", opt4: "Feeling inferior", opt5: "Sexual frustration" }, relationship: { opt1: "Sexual drought / 'roommate syndrome'", opt2: "Constant criticism & nagging", opt3: "Fear of separation / divorce", opt4: "I no longer feel comfortable at home", opt5: "Loss of respect" } } },
-                        
                         impact: { title: "DISTRESS LEVEL", question: "On a scale of 1-10: How urgently do you need to change this?", descriptions: { porn: { 1: "Hardly.", 2: "Very rarely.", 3: "From time to time.", 4: "Regularly.", 5: "It bothers me.", 6: "Straining.", 7: "Strong craving.", 8: "Critical.", 9: "Loss of control.", 10: "It is destroying my life." }, gettinggirls: { 1: "I just want to get better.", 2: "I feel okay.", 3: "Sometimes insecure.", 4: "Often inhibited.", 5: "Dissatisfied, but I cope.", 6: "Frustrating.", 7: "Lonely.", 8: "Painful.", 9: "Despair.", 10: "Loneliness is consuming me." }, relationship: { 1: "Small differences.", 2: "Mostly harmonious.", 3: "It is okay.", 4: "Recurring discussions.", 5: "Exhausting.", 6: "Straining.", 7: "Distant.", 8: "Critical.", 9: "Toxic.", 10: "Distress is at maximum." } } },
-                        
                         energy_level: { title: "ENERGY LEVEL", question: "How much energy do you currently have in daily life? (1-10)", descriptions: { porn: { 1: "Chronically exhausted.", 2: "Very low.", 3: "Tired.", 4: "Below average.", 5: "So-so.", 6: "Okay. I function.", 7: "Good.", 8: "Strong.", 9: "Very high.", 10: "Maximum." }, gettinggirls: { 1: "Chronically exhausted.", 2: "Very low.", 3: "Tired.", 4: "Below average.", 5: "So-so.", 6: "Okay. I function.", 7: "Good.", 8: "Strong.", 9: "Very high.", 10: "Maximum." }, relationship: { 1: "Chronically exhausted.", 2: "Very low.", 3: "Tired.", 4: "Below average.", 5: "So-so.", 6: "Okay. I function.", 7: "Good.", 8: "Strong.", 9: "Very high.", 10: "Maximum." } } },
-                        
                         available_time: { title: "TIME FOR YOURSELF", question: "How many minutes per day do you have ONLY for yourself?", options: ["0 - 15 Minutes", "30 Minutes", "60 Minutes", "90 Minutes", "2+ Hours"] },
-                        
                         commitment: { title: "COMMITMENT", question: "Are you ready to put in the work?", options: { yes: "Yes, I will do this (100%)", no: "I am still unsure" } },
                         rank_path: { title: "YOUR IDENTITY", question: "Which path of strength inspires you most?", options: { military: "Military", guardian: "The Guardian", samurai: "The Samurai", roman: "The Emperor" } },
                         goal: { title: "GOAL", question: "What is your main goal?", options: { porn: { freedom: "Mental freedom", health: "Healthy sexuality", power: "Regain respect" }, gettinggirls: { love: "Find the right one", ease: "Ease with women", confidence: "Self-confidence" }, relationship: { passion: "Reignite passion", leadership: "Respect", peace: "Peace" } } }
@@ -264,6 +275,7 @@
             },
             es: {
                 lang: { welcome: "BIENVENIDO", title: "ELIGE IDIOMA", subtitle: "Selecciona el idioma.", next: "CONTINUAR" },
+                disclaimer: { title: "Seguridad y Salud", sub: "Confirma los siguientes puntos antes de comenzar.", chk1: "Soy consciente de que esta aplicación no sustituye la terapia profesional y no hace promesas médicas de curación.", chk2: "Confirmo que me encuentro en una condición física y mental lo suficientemente estable para realizar este programa.", btn: "ENTENDIDO Y CONTINUAR" },
                 onboarding: {
                     buttons: { next: "SIGUIENTE", lets_go: "¡VAMOS! (100%)", back: "ATRÁS", not_sure: "No estoy seguro" },
                     labels: { not_urgent: "No urgente", very_urgent: "Muy urgente", no_energy: "Sin energía", very_energetic: "Muy enérgico", min_day: "Min/día", time_0: "0 min", time_120: "2+ h.", your_answer: "Tu respuesta..." },
@@ -276,27 +288,21 @@
                             extreme: { title: "EXTREMO", sub: "TU SISTEMA NERVIOSO ESTÁ AL LÍMITE", desc: "Solo funcionas en modo supervivencia. Cada fibra de tu cuerpo pide un cambio." },
                             dangerous: { title: "PELIGROSO", sub: "TU CUERPO ESTÁ AL LÍMITE", desc: "Estás crónicamente sobrecargado. Tu sistema funciona con reservas – y casi no quedan." },
                             alarming: { title: "ALARMANTE", sub: "TU SISTEMA NERVIOSO ESTÁ SOBRECARGADO", desc: "Estás bajo estrés constante. Tu cuerpo ya no puede recuperarse bien." },
-                            critical: { title: "CRÍTICO", sub: "TU SISTEMA ESTÁ BAJO ESTRÉS CONSTANTE", desc: "La carga va a fondo. Es hora de cambiar el rumbo. Puede que ni lo notes porque tu sistema está tan alterado – ese es justo el problema." }
+                            critical: { title: "CRÍTICO", sub: "TU SISTEMA ESTÁ BAJO ESTRÉS CONSTANTE", desc: "La carga va a fondo. Es hora de cambiar el rumbo." }
                         }
                     },
                     steps: {
                         root_problem: { title: "FASE 1: ESTADO", question: "¿Cuál es tu mayor problema ahora mismo?", disclaimer: "¡Esta app no sustituye una terapia!", options: { porn: "Consumo sexual digital excesivo", gettinggirls: "Citas e inseguridad social", relationship: "Conflicto constante de pareja y sin intimidad" } },
-                        
                         frequency: { title: "INTENSIDAD", question: "¿Con qué frecuencia aparece el problema / comportamiento?", options: { 
                             porn: { opt1: "Solo con mucho estrés", opt2: "Varias veces por semana", opt3: "Durante el trabajo / teletrabajo", opt4: "Diario", opt5: "Varias veces al día" }, 
                             gettinggirls: { opt1: "Solo los fines de semana (al salir)", opt2: "Cada vez que veo a una mujer", opt3: "Diario (darle vueltas)", opt4: "Evito por completo situaciones sociales" }, 
                             relationship: { opt1: "Los fines de semana son lo peor", opt2: "Varias veces por semana", opt3: "Diario (estado constante)", opt4: "Discusiones varias veces al día", opt5: "Casi solo queda silencio" } } 
                         },
-                        
                         history: { title: "HISTORIAL", question: "¿Cuánto tiempo llevas luchando con esto?", options: { opt1: "Menos de 1 año", opt2: "1 - 5 años", opt3: "5 - 10 años", opt4: "Desde la pubertad / Más de 10 años" } },
                         pain_point: { title: "CONSECUENCIAS", question: "¿Qué te está costando ahora mismo? (Sé honesto)", options: { porn: { opt1: "Niebla mental y falta de concentración", opt2: "Problemas de erección (PIED)", opt3: "Pérdida de tiempo", opt4: "Aislamiento social / vergüenza", opt5: "Sensación de impotencia" }, gettinggirls: { opt1: "Soledad profunda", opt2: "Miedo a quedarme solo", opt3: "Envidia", opt4: "Sentimiento de inferioridad", opt5: "Frustración sexual" }, relationship: { opt1: "Sequía sexual", opt2: "Crítica constante", opt3: "Miedo a separación", opt4: "Ya no me siento cómodo", opt5: "Pérdida de respeto" } } },
-                        
                         impact: { title: "NIVEL DE SUFRIMIENTO", question: "En una escala del 1 al 10: ¿qué urgencia tienes de cambiar esto?", descriptions: { porn: { 1: "Apenas.", 2: "Muy rara vez.", 3: "De vez en cuando.", 4: "Con regularidad.", 5: "Me molesta, pero funciono.", 6: "Agobiante.", 7: "Deseo fuerte.", 8: "Crítico.", 9: "Pérdida de control.", 10: "Está destruyendo mi vida." }, gettinggirls: { 1: "Solo quiero mejorar un poco.", 2: "Me siento bien.", 3: "A veces inseguro.", 4: "A menudo bloqueado.", 5: "Insatisfecho, pero me manejo.", 6: "Frustrante.", 7: "Solo.", 8: "Doloroso.", 9: "Desesperación.", 10: "La soledad me está consumiendo." }, relationship: { 1: "Solo diferencias pequeñas.", 2: "Mayormente armonioso.", 3: "Va bien.", 4: "Discusiones recurrentes.", 5: "Es agotador.", 6: "Agobiante.", 7: "Distante.", 8: "Crítico.", 9: "Tóxico.", 10: "El sufrimiento es máximo." } } },
-                        
                         energy_level: { title: "NIVEL DE ENERGÍA", question: "¿Cuánta energía tienes actualmente en tu día a día? (1-10)", descriptions: { porn: { 1: "Crónicamente agotado.", 2: "Muy baja.", 3: "Cansado.", 4: "Por debajo de la media.", 5: "Regular.", 6: "Bien. Funciono.", 7: "Bien.", 8: "Fuerte.", 9: "Muy alta.", 10: "Máxima." }, gettinggirls: { 1: "Crónicamente agotado.", 2: "Muy baja.", 3: "Cansado.", 4: "Por debajo de la media.", 5: "Regular.", 6: "Bien. Funciono.", 7: "Bien.", 8: "Fuerte.", 9: "Muy alta.", 10: "Máxima." }, relationship: { 1: "Crónicamente agotado.", 2: "Muy baja.", 3: "Cansado.", 4: "Por debajo de la media.", 5: "Regular.", 6: "Bien. Funciono.", 7: "Bien.", 8: "Fuerte.", 9: "Muy alta.", 10: "Máxima." } } },
-                        
                         available_time: { title: "TIEMPO PARA TI", question: "¿Cuántos minutos al día tienes SOLO para ti?", options: ["0 - 15 Minutos", "30 Minutos", "60 Minutos", "90 Minutos", "2+ Horas"] },
-                        
                         commitment: { title: "COMPROMISO", question: "¿Estás listo para hacer el trabajo?", options: { yes: "Sí, voy a hacerlo (100%)", no: "Aún no estoy seguro" } },
                         rank_path: { title: "TU IDENTIDAD", question: "¿Qué camino de fortaleza te inspira más?", options: { military: "Militar", guardian: "El Guardián", samurai: "El Samurái", roman: "El Emperador" } },
                         goal: { title: "OBJETIVO", question: "¿Cuál es tu objetivo principal?", options: { porn: { freedom: "Libertad y enfoque", health: "Sexualidad saludable", power: "Recuperar respeto" }, gettinggirls: { love: "Encontrar a la indicada", ease: "Naturalidad con mujeres", confidence: "Autoconfianza" }, relationship: { passion: "Reavivar pasión", leadership: "Liderazgo", peace: "Paz" } } }
@@ -314,9 +320,11 @@
 
         let currentLang = 'de'; let currentStep = 0; const answers = {}; 
         
-        // --- SCORE SYSTEM ---
         let totalStressScore = 0;
         let scoreAnswersCount = 0;
+
+        let disclaimer1Checked = false;
+        let disclaimer2Checked = false;
 
         function saveAnswer(stepId, value, scoreWeight) {
             answers[stepId] = value;
@@ -326,7 +334,6 @@
             }
         }
 
-        // Berechnet den finalen Score zwischen 70 und 90 Prozent
         function calculateFinalScore() {
             const averageWeight = scoreAnswersCount > 0 ? (totalStressScore / scoreAnswersCount) : 50;
             const finalScore = 70 + (averageWeight / 100) * 20;
@@ -346,103 +353,44 @@
             document.querySelectorAll('#step-0 .option-btn').forEach(btn => btn.classList.remove('selected'));
             document.getElementById(`lang-${lang}`).classList.add('selected');
             setText('lang-welcome', t[lang].lang.welcome); setText('lang-title', t[lang].lang.title); setText('lang-subtitle', t[lang].lang.subtitle);
-            document.getElementById('btn-start').disabled = false; document.getElementById('btn-start').innerText = t[lang].onboarding.buttons.next;
+            document.getElementById('btn-start').disabled = false; document.getElementById('btn-start').innerText = t[lang].lang.next;
             answers['language'] = lang;
+            
+            // Lade direkt die passenden Disclaimer-Texte vor
+            setText('disc-title', t[lang].disclaimer.title);
+            setText('disc-sub', t[lang].disclaimer.sub);
+            setText('disc-text-1', t[lang].disclaimer.chk1);
+            setText('disc-text-2', t[lang].disclaimer.chk2);
+            setText('btn-accept-disc', t[lang].disclaimer.btn);
         }
 
-        function startOnboarding() { document.getElementById('progressContainer').style.display = 'block'; buildStep1(); nextStep(); }
-
-        function buildStep1() {
-            const steps = t[currentLang].onboarding.steps;
-            setText('s1-label', steps.root_problem.title); setText('s1-title', steps.root_problem.question); setText('s1-disclaimer', steps.root_problem.disclaimer);
-            let html = ''; 
-            for (const [key, val] of Object.entries(steps.root_problem.options)) { 
-                html += `<button class="option-btn" onclick="selectRoot('${key}')">${val}</button>`; 
+        function toggleCheckbox(id) {
+            const el = document.getElementById(id);
+            if (id === 'chk-therapy') {
+                disclaimer1Checked = !disclaimer1Checked;
+                if (disclaimer1Checked) el.classList.add('checked'); else el.classList.remove('checked');
             }
-            document.getElementById('s1-options').innerHTML = html;
-        }
-
-        function selectRoot(rootKey) { 
-            answers['root'] = rootKey; 
-            saveAnswer('root_problem', rootKey, 80); 
-            buildDynamicSteps(); 
-            nextStep(); 
-        }
-
-        function buildDynamicSteps() {
-            const steps = t[currentLang].onboarding.steps; 
-            const root = answers['root'];
-
-            // stressIncreasesWithIndex: TRUE = Index 0 (Wenig) -> Wenig Stress, Max Index (Viel) -> Viel Stress.
-            const buildOpts = (id, stepData, optionsObj, stressIncreasesWithIndex = false) => {
-                setText(`${id}-label`, stepData.title); setText(`${id}-title`, stepData.question); 
-                let html = ''; 
-                const opts = Array.isArray(optionsObj) ? optionsObj : Object.values(optionsObj);
-                const maxIndex = opts.length - 1;
-                
-                opts.forEach((opt, index) => {
-                    const safeOpt = opt.replace(/'/g, "\\'");
-                    
-                    let scoreWeight = stressIncreasesWithIndex ? (index / maxIndex) * 100 : ((maxIndex - index) / maxIndex) * 100;
-                    
-                    html += `<button class="option-btn" onclick="saveAnswer('${id}', '${safeOpt}', ${scoreWeight}); nextStep()">${opt}</button>`;
-                });
-                document.getElementById(`${id}-options`).innerHTML = html;
-            };
-
-            // BEIDE auf "true" gestellt, da sie jetzt streng von WENIG -> VIEL geordnet sind
-            buildOpts('s2', steps.frequency, steps.frequency.options[root], true); 
-            buildOpts('s3', steps.history, steps.history.options, true); 
-            
-            buildOpts('s4', steps.pain_point, steps.pain_point.options[root], false); 
-            
-            // "Wenig Zeit" = Schlecht (also stressIncreasesWithIndex = false)
-            buildOpts('s7', steps.available_time, steps.available_time.options, false); 
-            
-            buildOpts('s10', steps.commitment, steps.commitment.options, false); 
-            buildOpts('s11', steps.goal, steps.goal.options[root], false); 
-            buildOpts('s12', steps.rank_path, steps.rank_path.options, false);
-
-            const labels = t[currentLang].onboarding.labels;
-            
-            // Leidensdruck (1-10): 1 = Wenig Leidensdruck (0 Stress), 10 = Viel Leidensdruck (100 Stress)
-            setText('s5-label', steps.impact.title); setText('s5-title', steps.impact.question); setText('s5-min', '1 - ' + labels.not_urgent); setText('s5-max', '10 - ' + labels.very_urgent); setText('s5-btn', t[currentLang].onboarding.buttons.next); 
-            let h5 = ''; for(let i=1; i<=10; i++) {
-                const stressVal = ((i - 1) / 9) * 100; 
-                h5 += `<button class="scale-btn" onclick="selectScale(this, 5, ${i}, 'distress', ${stressVal})">${i}</button>`;
+            if (id === 'chk-health') {
+                disclaimer2Checked = !disclaimer2Checked;
+                if (disclaimer2Checked) el.classList.add('checked'); else el.classList.remove('checked');
             }
-            document.getElementById('s5-options').innerHTML = h5;
             
-            // Energy Skala (1-10): 1 = Wenig Energie (100 Stress), 10 = Viel Energie (0 Stress)
-            setText('s6-label', steps.energy_level.title); setText('s6-title', steps.energy_level.question); setText('s6-min', '1 - ' + labels.no_energy); setText('s6-max', '10 - ' + labels.very_energetic); setText('s6-btn', t[currentLang].onboarding.buttons.next); 
-            let h6 = ''; for(let i=1; i<=10; i++) {
-                const stressVal = ((10 - i) / 9) * 100;
-                h6 += `<button class="scale-btn" onclick="selectScale(this, 6, ${i}, 'energy', ${stressVal})">${i}</button>`;
+            if (disclaimer1Checked && disclaimer2Checked) {
+                document.getElementById('btn-accept-disc').disabled = false;
+            } else {
+                document.getElementById('btn-accept-disc').disabled = true;
             }
-            document.getElementById('s6-options').innerHTML = h6;
-
-            setText('loading-title', t[currentLang].onboarding.result.calculating); setText('loading-sub', t[currentLang].web.loadingSub);
-            setText('res-label', t[currentLang].onboarding.result.title); setText('btn-res-next', t[currentLang].onboarding.buttons.next);
-
-            const pitch = t[currentLang].web.pitch;
-            setText('pitch-label', pitch.label); setText('pitch-headline', pitch.headline); setText('pitch-sub', pitch.sub); setText('pitch-title', pitch.title); 
-            setText('pitch-1', pitch.f1); setText('pitch-2', pitch.f2); setText('pitch-3', pitch.f3); setText('pitch-4', pitch.f4); setText('btn-checkout', pitch.btn);
-            
-            const reg = t[currentLang].web.reg;
-            setText('reg-label', reg.label); setText('reg-headline', reg.headline); setText('reg-sub', reg.sub); setText('btn-register', reg.btn);
-            document.getElementById('reg-email').placeholder = reg.email; document.getElementById('reg-password').placeholder = reg.pw;
-        }
-
-        function selectScale(btn, stepNum, val, type, scoreWeight) {
-            document.querySelectorAll(`#step-${stepNum} .scale-btn`).forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            setText(`s${stepNum}-desc-text`, `"${getScaleDesc(type, val)}"`);
-            document.getElementById(`s${stepNum}-desc-box`).style.display = 'block'; document.getElementById(`s${stepNum}-btn`).style.display = 'block';
-            saveAnswer('s' + stepNum, val, scoreWeight); 
         }
 
         function nextStep() {
             document.getElementById(`step-${currentStep}`).classList.remove('active');
+            
+            // Wenn wir vom Sprach-Screen kommen, zeige erst den Disclaimer (Step 0.5)
+            if (currentStep === 0) {
+                document.getElementById('step-0-5').classList.add('active');
+                return; // Verhindert, dass wir sofort zu Step 1 springen
+            }
+            
             currentStep++;
             if (currentStep > 0 && currentStep !== 8 && currentStep !== 13 && currentStep !== 14) {
                 document.getElementById('progressBar').style.width = `${Math.min((currentStep / 12) * 100, 100)}%`;
@@ -480,6 +428,103 @@
                     document.getElementById(`step-${currentStep}`).classList.add('active');
                 }, 3000);
             }
+        }
+
+        function startOnboarding() { 
+            // Speichere die Zustimmung ab
+            answers['disclaimer_accepted'] = true;
+            
+            // Verstecke Disclaimer
+            document.getElementById('step-0-5').classList.remove('active');
+            
+            // Starte Progress-Bar & lade erste echte Frage
+            document.getElementById('progressContainer').style.display = 'block'; 
+            buildStep1(); 
+            
+            // Gehe zu Step 1
+            currentStep = 1;
+            document.getElementById('step-1').classList.add('active');
+        }
+
+        function buildStep1() {
+            const steps = t[currentLang].onboarding.steps;
+            setText('s1-label', steps.root_problem.title); setText('s1-title', steps.root_problem.question); setText('s1-disclaimer', steps.root_problem.disclaimer);
+            let html = ''; 
+            for (const [key, val] of Object.entries(steps.root_problem.options)) { 
+                html += `<button class="option-btn" onclick="selectRoot('${key}')">${val}</button>`; 
+            }
+            document.getElementById('s1-options').innerHTML = html;
+        }
+
+        function selectRoot(rootKey) { 
+            answers['root'] = rootKey; 
+            saveAnswer('root_problem', rootKey, 80); 
+            buildDynamicSteps(); 
+            nextStep(); 
+        }
+
+        function buildDynamicSteps() {
+            const steps = t[currentLang].onboarding.steps; 
+            const root = answers['root'];
+
+            const buildOpts = (id, stepData, optionsObj, stressIncreasesWithIndex = false) => {
+                setText(`${id}-label`, stepData.title); setText(`${id}-title`, stepData.question); 
+                let html = ''; 
+                const opts = Array.isArray(optionsObj) ? optionsObj : Object.values(optionsObj);
+                const maxIndex = opts.length - 1;
+                
+                opts.forEach((opt, index) => {
+                    const safeOpt = opt.replace(/'/g, "\\'");
+                    
+                    let scoreWeight = stressIncreasesWithIndex ? (index / maxIndex) * 100 : ((maxIndex - index) / maxIndex) * 100;
+                    
+                    html += `<button class="option-btn" onclick="saveAnswer('${id}', '${safeOpt}', ${scoreWeight}); nextStep()">${opt}</button>`;
+                });
+                document.getElementById(`${id}-options`).innerHTML = html;
+            };
+
+            buildOpts('s2', steps.frequency, steps.frequency.options[root], true); 
+            buildOpts('s3', steps.history, steps.history.options, true); 
+            buildOpts('s4', steps.pain_point, steps.pain_point.options[root], false); 
+            buildOpts('s7', steps.available_time, steps.available_time.options, false); 
+            buildOpts('s10', steps.commitment, steps.commitment.options, false); 
+            buildOpts('s11', steps.goal, steps.goal.options[root], false); 
+            buildOpts('s12', steps.rank_path, steps.rank_path.options, false);
+
+            const labels = t[currentLang].onboarding.labels;
+            
+            setText('s5-label', steps.impact.title); setText('s5-title', steps.impact.question); setText('s5-min', '1 - ' + labels.not_urgent); setText('s5-max', '10 - ' + labels.very_urgent); setText('s5-btn', t[currentLang].onboarding.buttons.next); 
+            let h5 = ''; for(let i=1; i<=10; i++) {
+                const stressVal = ((i - 1) / 9) * 100; 
+                h5 += `<button class="scale-btn" onclick="selectScale(this, 5, ${i}, 'distress', ${stressVal})">${i}</button>`;
+            }
+            document.getElementById('s5-options').innerHTML = h5;
+            
+            setText('s6-label', steps.energy_level.title); setText('s6-title', steps.energy_level.question); setText('s6-min', '1 - ' + labels.no_energy); setText('s6-max', '10 - ' + labels.very_energetic); setText('s6-btn', t[currentLang].onboarding.buttons.next); 
+            let h6 = ''; for(let i=1; i<=10; i++) {
+                const stressVal = ((10 - i) / 9) * 100;
+                h6 += `<button class="scale-btn" onclick="selectScale(this, 6, ${i}, 'energy', ${stressVal})">${i}</button>`;
+            }
+            document.getElementById('s6-options').innerHTML = h6;
+
+            setText('loading-title', t[currentLang].onboarding.result.calculating); setText('loading-sub', t[currentLang].web.loadingSub);
+            setText('res-label', t[currentLang].onboarding.result.title); setText('btn-res-next', t[currentLang].onboarding.buttons.next);
+
+            const pitch = t[currentLang].web.pitch;
+            setText('pitch-label', pitch.label); setText('pitch-headline', pitch.headline); setText('pitch-sub', pitch.sub); setText('pitch-title', pitch.title); 
+            setText('pitch-1', pitch.f1); setText('pitch-2', pitch.f2); setText('pitch-3', pitch.f3); setText('pitch-4', pitch.f4); setText('btn-checkout', pitch.btn);
+            
+            const reg = t[currentLang].web.reg;
+            setText('reg-label', reg.label); setText('reg-headline', reg.headline); setText('reg-sub', reg.sub); setText('btn-register', reg.btn);
+            document.getElementById('reg-email').placeholder = reg.email; document.getElementById('reg-password').placeholder = reg.pw;
+        }
+
+        function selectScale(btn, stepNum, val, type, scoreWeight) {
+            document.querySelectorAll(`#step-${stepNum} .scale-btn`).forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            setText(`s${stepNum}-desc-text`, `"${getScaleDesc(type, val)}"`);
+            document.getElementById(`s${stepNum}-desc-box`).style.display = 'block'; document.getElementById(`s${stepNum}-btn`).style.display = 'block';
+            saveAnswer('s' + stepNum, val, scoreWeight); 
         }
 
         async function handleRegistration() {
