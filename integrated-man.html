@@ -21,7 +21,7 @@
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         body { margin: 0; padding: 0; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
         
-        .progress-container { width: 100%; height: 4px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; display: none; }
+        .progress-container { width: 100%; height: 4px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
         .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.3s ease; }
 
         main { flex: 1; padding: 40px 20px; max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
@@ -88,18 +88,10 @@
 </head>
 <body>
 
-    <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
 
     <main id="app-container">
-        <div class="step active" id="step-0">
-            <div class="label-gold">WELCOME</div>
-            <h1>Choose your language</h1>
-            <div class="quiz-btn" onclick="selectLang('de')"><div class="quiz-btn-text">🇩🇪 Deutsch</div></div>
-            <div class="quiz-btn" onclick="selectLang('en')"><div class="quiz-btn-text">🇬🇧 English</div></div>
-            <div class="quiz-btn" onclick="selectLang('es')"><div class="quiz-btn-text">🇪🇸 Español</div></div>
-        </div>
-
-        <div class="step" id="step-1">
+        <div class="step active" id="step-1">
             <div class="label-gold" id="s1-lbl"></div><h1 id="s1-title"></h1>
             <div id="s1-opts"></div>
         </div>
@@ -254,7 +246,7 @@
                 s9: { lbl: "COMMITMENT", title: "Bist du bereit, die Arbeit reinzustecken?", opts: ["Ja, ich ziehe das durch (100%)", "Ich bin mir noch unsicher"] },
                 s10: { lbl: "WICHTIGER HINWEIS", title: "Bitte aufmerksam lesen", desc: "Diese App bietet Tools zur persönlichen Weiterentwicklung. Sie ersetzt keine professionelle Behandlung.", c1: "Ich bestätige, dass ich aktuell psychisch stabil bin.", c2: "Ich verstehe, dass diese App keine Therapie ersetzt." },
                 s11: { title: "Welcher Weg der Stärke inspiriert dich am meisten?", opts: { military: "Militär (Disziplin und Härte)", guardian: "Der Hüter (Geist und Fokus)", samurai: "Der Samurai (Ehre und Ruhe)", roman: "Der Imperator (Macht und Stoizismus)" } },
-                s12: { lbl: "FINAL STEP", title: "Account erstellen", sub: "Sichere deinen Fortschritt.", em: "deine@email.com", pw: "Passwort (min. 6 Zeichen)", btn: "WEITER ZUR ZAHLUNG", errFill: "Fülle alle Felder aus.", errExists: "Email existiert bereits." }
+                s12: { lbl: "LETZTER SCHRITT", title: "Account erstellen", sub: "Sichere deinen Fortschritt.", em: "deine@email.com", pw: "Passwort (min. 6 Zeichen)", btn: "ZUR ZAHLUNG", errFill: "Fülle alle Felder aus.", errExists: "Email existiert bereits." }
             },
             en: {
                 btn: { next: "NEXT", back: "BACK", start: "START LIFE" },
@@ -273,7 +265,7 @@
                 s9: { lbl: "COMMITMENT", title: "Are you ready to put in the work?", opts: ["Yes, I will push through (100%)", "I am still unsure"] },
                 s10: { lbl: "IMPORTANT NOTICE", title: "Please read this carefully", desc: "This app provides tools for personal growth. It does not replace professional treatment.", c1: "I confirm that I am currently psychologically stable.", c2: "I understand that this app does not replace therapy." },
                 s11: { title: "Which path of strength inspires you the most?", opts: { military: "Military (discipline and toughness)", guardian: "The Guardian (mind and focus)", samurai: "The Samurai (honor and calm)", roman: "The Emperor (power and stoicism)" } },
-                s12: { lbl: "FINAL STEP", title: "Create Account", sub: "Secure protocol. Proceed to checkout.", em: "janoschbrase@gmail.com", pw: "•••••••••", btn: "PROCEED TO PAYMENT", errFill: "Fill all fields.", errExists: "Email exists." }
+                s12: { lbl: "FINAL STEP", title: "Create Account", sub: "Secure protocol. Proceed to checkout.", em: "your@email.com", pw: "Password (min. 6)", btn: "PROCEED TO PAYMENT", errFill: "Fill all fields.", errExists: "Email exists." }
             },
             es: {
                 btn: { next: "SIGUIENTE", back: "ATRÁS", start: "START LIFE" },
@@ -298,7 +290,7 @@
 
         // --- STATE ---
         let currentLang = localStorage.getItem('smh_language') || 'en';
-        let step = 0;
+        let step = 1; // Wir starten direkt bei Step 1, da Sprache schon auf der Index-Seite gewählt wird
         let answers = { root_problem: 'porn', pain_point: [], urgency: 5, energy: 5, available_time: 30, therapy1: false, therapy2: false };
 
         // --- DOM ELEMENTS ---
@@ -308,7 +300,7 @@
         const pCont = document.getElementById('progressContainer');
 
         function updateTexts() {
-            const l = t[currentLang];
+            const l = t[currentLang] || t['en'];
             bNext.innerText = l.btn.next;
             document.getElementById('btnBack').innerText = l.btn.back;
 
@@ -342,18 +334,16 @@
             updateAssessmentUI();
         }
 
-        window.onload = () => { selectLang(currentLang); };
-
-        function selectLang(lang) {
-            currentLang = lang;
-            localStorage.setItem('smh_language', lang);
+        window.onload = () => { 
             updateTexts();
             buildOptions();
-            handleNext(); // Go to step 1
-        }
+            
+            // Setzt Progress-Bar initial für Step 1
+            pBar.style.width = `${(1 / 11) * 100}%`;
+        };
 
         function buildOptions() {
-            const l = t[currentLang];
+            const l = t[currentLang] || t['en'];
             const root = answers.root_problem;
 
             // S1 (Root)
@@ -408,7 +398,7 @@
             document.getElementById('val-nrg').innerText = answers.energy;
             document.getElementById('val-tim').innerText = answers.available_time;
             
-            const l = t[currentLang].s5;
+            const l = t[currentLang] ? t[currentLang].s5 : t['en'].s5;
             document.getElementById('desc-urg').innerText = l.urgDesc[answers.urgency - 1];
             document.getElementById('desc-nrg').innerText = l.nrgDesc[answers.energy - 1];
             
@@ -441,7 +431,7 @@
             burden = Math.min(99, Math.round(burden));
             answers.calculated_stress_score = burden;
 
-            const res = t[currentLang].s7;
+            const res = t[currentLang] ? t[currentLang].s7 : t['en'].s7;
             let lvl, col;
             if (burden >= 86) { lvl = res.lvls.ext; col = '#ff0000'; }
             else if (burden >= 81) { lvl = res.lvls.dan; col = '#ff3333'; }
@@ -465,16 +455,21 @@
         }
 
         function handleNext() {
-            if (step > 0) document.getElementById(`step-${step}`).classList.remove('active');
+            document.getElementById(`step-${step}`).classList.remove('active');
             step++;
             
-            pCont.style.display = (step > 0 && step < 12 && step !== 6 && step !== 7 && step !== 8) ? 'block' : 'none';
-            if (pCont.style.display === 'block') pBar.style.width = `${(step / 11) * 100}%`;
+            if (step < 12 && step !== 6 && step !== 7 && step !== 8) {
+                pCont.style.display = 'block';
+                pBar.style.width = `${((step - 1) / 11) * 100}%`;
+            } else {
+                pCont.style.display = 'none';
+            }
 
             // Buttons Bar an/aus
             if (step === 4 || step === 5 || step === 7 || step === 8 || step === 10) {
                 bBar.style.display = 'flex';
-                if(step===10) bNext.innerText = t[currentLang].btn.start; else bNext.innerText = t[currentLang].btn.next;
+                if(step === 10) bNext.innerText = t[currentLang] ? t[currentLang].btn.start : t['en'].btn.start; 
+                else bNext.innerText = t[currentLang] ? t[currentLang].btn.next : t['en'].btn.next;
                 checkNextState();
             } else {
                 bBar.style.display = 'none';
@@ -494,12 +489,17 @@
             if(step === 6) step = 5; // skip loading backward
             document.getElementById(`step-${step}`).classList.add('active');
             
-            pCont.style.display = (step > 0 && step < 12 && step !== 6 && step !== 7 && step !== 8) ? 'block' : 'none';
-            if (pCont.style.display === 'block') pBar.style.width = `${(step / 11) * 100}%`;
+            if (step < 12 && step !== 6 && step !== 7 && step !== 8) {
+                pCont.style.display = 'block';
+                pBar.style.width = `${((step - 1) / 11) * 100}%`;
+            } else {
+                pCont.style.display = 'none';
+            }
             
             if (step === 4 || step === 5 || step === 7 || step === 8 || step === 10) {
                 bBar.style.display = 'flex';
-                if(step===10) bNext.innerText = t[currentLang].btn.start; else bNext.innerText = t[currentLang].btn.next;
+                if(step === 10) bNext.innerText = t[currentLang] ? t[currentLang].btn.start : t['en'].btn.start; 
+                else bNext.innerText = t[currentLang] ? t[currentLang].btn.next : t['en'].btn.next;
                 checkNextState();
             } else {
                 bBar.style.display = 'none';
@@ -507,82 +507,98 @@
             window.scrollTo(0,0);
         }
 
-        // --- SUPABASE REGISTRATION ---
+        // --- SUPABASE REGISTRATION & BULLETPROOF REDIRECT ---
+        function redirectToDigistore(userId) {
+            console.log("Navigiere zu Digistore. User ID:", userId);
+            const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['en'];
+            const targetUrl = digistoreBaseUrl + '?custom=' + userId;
+            
+            // Garantierte Weiterleitung (location.href löst den Browser-Redirect sicher aus)
+            window.location.href = targetUrl;
+        }
+
         async function handleRegistration() {
             const email = document.getElementById('reg-email').value;
             const password = document.getElementById('reg-password').value;
             const errEl = document.getElementById('reg-error');
             const btn = document.getElementById('btn-register'); 
-            const l = t[currentLang];
+            const l = t[currentLang] || t['en'];
             
             if(!email || password.length < 6) { 
                 errEl.innerText = l.s12.errFill; 
                 errEl.style.display = 'block'; 
                 return; 
             }
+            
             errEl.style.display = 'none';
             btn.disabled = true;
             btn.innerText = "...";
 
-            const db = initSupabase();
-            if (!db) { redirectToDigistore('guest_user'); return; }
+            // Failsafe: Falls Supabase durch Adblocker (Brave etc.) komplett geblockt wird
+            try {
+                const db = initSupabase();
+                if (!db) { 
+                    console.warn("Supabase konnte nicht initialisiert werden (evtl. Adblocker). Umleitung läuft trotzdem.");
+                    redirectToDigistore('guest_adblock_user'); 
+                    return; 
+                }
 
-            // EXACT PAYLOAD TO MATCH APP
-            const finalPayload = {
-                name: 'WebUser',
-                root_problem: answers.root_problem,
-                frequency: answers.frequency,
-                history: answers.history,
-                pain_point: answers.pain_point,
-                urgency: answers.urgency,
-                energy: answers.energy,
-                impact: answers.urgency,
-                energy_level: answers.energy,
-                available_time: answers.available_time,
-                belastung: answers.calculated_stress_score,
-                belastung_insights: "Web Assessment Completed",
-                health_confirmation: answers.therapy1,
-                disclaimer_accepted: answers.therapy2,
-                rank_path: answers.rank_path
-            };
+                const finalPayload = {
+                    name: 'WebUser',
+                    root_problem: answers.root_problem,
+                    frequency: answers.frequency,
+                    history: answers.history,
+                    pain_point: answers.pain_point,
+                    urgency: answers.urgency,
+                    energy: answers.energy,
+                    impact: answers.urgency,
+                    energy_level: answers.energy,
+                    available_time: answers.available_time,
+                    belastung: answers.calculated_stress_score,
+                    belastung_insights: "Web Assessment Completed",
+                    health_confirmation: answers.therapy1,
+                    disclaimer_accepted: answers.therapy2,
+                    rank_path: answers.rank_path
+                };
 
-            const { data, error } = await db.auth.signUp({ 
-                email, 
-                password, 
-                options: { 
-                    data: { 
-                        first_name: 'WebUser', 
-                        is_over_21: true,
-                        onboarding_data: finalPayload 
+                const { data, error } = await db.auth.signUp({ 
+                    email, 
+                    password, 
+                    options: { 
+                        data: { 
+                            first_name: 'WebUser', 
+                            is_over_21: true,
+                            onboarding_data: finalPayload 
+                        } 
                     } 
-                } 
-            });
+                });
 
-            if (error) {
-                if(error.message.includes('already registered')) {
-                    const { data: signInData, error: signInError } = await db.auth.signInWithPassword({ email, password });
-                    if(signInError) { 
-                        errEl.innerText = l.s12.errExists; 
-                        errEl.style.display = 'block'; 
+                if (error) {
+                    if (error.message.includes('already registered') || error.status === 400) {
+                        const { data: signInData, error: signInError } = await db.auth.signInWithPassword({ email, password });
+                        if (signInError) { 
+                            errEl.innerText = l.s12.errExists; 
+                            errEl.style.display = 'block'; 
+                            btn.disabled = false;
+                            btn.innerText = l.s12.btn;
+                            return; 
+                        }
+                        redirectToDigistore(signInData.user.id);
+                    } else {
+                        errEl.innerText = error.message; 
+                        errEl.style.display = 'block';
                         btn.disabled = false;
                         btn.innerText = l.s12.btn;
-                        return; 
                     }
-                    redirectToDigistore(signInData.user.id);
                 } else {
-                    errEl.innerText = error.message; 
-                    errEl.style.display = 'block';
-                    btn.disabled = false;
-                    btn.innerText = l.s12.btn;
+                    // Fallback falls User-Objekt leer ist, aber Registrierung geklappt hat
+                    redirectToDigistore(data?.user?.id || 'new_user_no_id');
                 }
-            } else if (data.user) {
-                redirectToDigistore(data.user.id);
+            } catch (e) {
+                console.error("Unerwarteter Fehler im Registrierungsprozess: ", e);
+                // Harte Failsafe-Weiterleitung bei JS Crash
+                redirectToDigistore('guest_crash_user');
             }
-        }
-
-        function redirectToDigistore(userId) {
-            const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['en'];
-            window.location.href = `${digistoreBaseUrl}?custom=${userId}`;
         }
     </script>
 </body>
