@@ -16,6 +16,7 @@
             --error: #ff5555;
             --success: #4caf50;
             --energy: #ffa500;
+            --time: #4caf50;
         }
 
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -151,7 +152,7 @@
 
         /* Input Fields for Register */
         .input-field { 
-            background-color: #fdfad5; /* Leicht gelblich wie auf dem Screenshot */
+            background-color: #fdfad5;
             border: 1px solid var(--border); 
             color: #000; 
             padding: 16px; 
@@ -317,10 +318,10 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         const digistoreLinks = { de: "https://www.checkout-ds24.com/product/675932/", en: "https://www.checkout-ds24.com/product/675950/", es: "https://www.checkout-ds24.com/product/675951/" };
 
-        // --- EXAKT AUSFÜHRLICHE ÜBERSETZUNGEN (1:1 aus der App) ---
+        // --- EXAKT AUSFÜHRLICHE ÜBERSETZUNGEN ---
         const t = {
             de: {
-                btn: { next: "WEITER", back: "ZURÜCK", start: "WEITER", pay: "PROCEED TO PAYMENT" },
+                btn: { next: "WEITER", back: "ZURÜCK", start: "WEITER", pay: "ZUR ZAHLUNG" },
                 s1: { 
                     lbl: "PHASE 1: STATUS", 
                     title: "Was ist deine größte Baustelle?", 
@@ -494,7 +495,7 @@
                 }
             },
             es: {
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "CONTINUAR", pay: "PROCEED TO PAYMENT" },
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "CONTINUAR", pay: "IR AL PAGO" },
                 s1: { 
                     lbl: "FASE 1: ESTADO", 
                     title: "¿Cuál es tu mayor problema?", 
@@ -571,11 +572,11 @@
                     opts: { military: "Militar (disciplina y dureza)", guardian: "El Guardián (mente y enfoque)", samurai: "El Samurái (honor y calma)", roman: "El Emperador (poder y estoicismo)" } 
                 },
                 s12: { 
-                    lbl: "FINAL STEP", 
-                    title: "Create Account", 
-                    sub: "Secure protocol. Proceed to checkout.", 
-                    em: "janoschbrase@gmail.com", 
-                    pw: "•••••••••", 
+                    lbl: "ÚLTIMO PASO", 
+                    title: "Crear Cuenta", 
+                    sub: "Asegura tu progreso.", 
+                    em: "tu@email.com", 
+                    pw: "Al menos 6 caracteres", 
                     errFill: "Completa todos los campos.", 
                     errExists: "Email existe." 
                 }
@@ -584,7 +585,9 @@
 
         // --- STATE ---
         let currentLang = localStorage.getItem('smh_language');
-        if (!['de', 'en', 'es'].includes(currentLang)) { currentLang = 'en'; }
+        if (!['de', 'en', 'es'].includes(currentLang)) {
+            currentLang = 'en';
+        }
         
         let step = 1;
         let answers = { root_problem: 'porn', pain_point: [], urgency: 5, energy: 5, available_time: 30, therapy1: false, therapy2: false };
@@ -607,7 +610,7 @@
             document.getElementById('s5-lbl').innerText = l.s5.lbl; document.getElementById('s5-title').innerText = l.s5.title;
             
             document.getElementById('s5-lbl-urg').innerText = l.s5.urgLbl; document.getElementById('hint-urg-min').innerText = l.s5.urgMin; document.getElementById('hint-urg-max').innerText = l.s5.urgMax;
-            document.getElementById('s5-lbl-nrg').innerText = l.s5.nrgLbl; document.getElementById('hint-n-min').innerText = l.s5.nrgMin; document.getElementById('hint-n-max').innerText = l.s5.nrgMax;
+            document.getElementById('s5-lbl-nrg').innerText = l.s5.nrgLbl; document.getElementById('hint-nrg-min').innerText = l.s5.nrgMin; document.getElementById('hint-nrg-max').innerText = l.s5.nrgMax;
             document.getElementById('s5-lbl-tim').innerText = l.s5.timLbl;
             
             document.getElementById('s6-title').innerText = l.s6.title; document.getElementById('s6-sub').innerText = l.s6.sub;
@@ -625,7 +628,9 @@
             document.getElementById('s12-sub').innerText = l.s12.sub;
             document.getElementById('reg-email').placeholder = l.s12.em; 
             document.getElementById('reg-password').placeholder = l.s12.pw;
-            document.getElementById('btn-register').innerText = l.s12.btn.pay;
+            
+            // HIER WURDE DER FEHLER BEHOBEN
+            document.getElementById('btn-register').innerText = l.btn.pay;
             
             updateAssessmentUI();
         }
@@ -634,9 +639,9 @@
             updateTexts();
             buildOptions();
             pBar.style.width = `${(1 / 11) * 100}%`;
-            checkNextState();
         };
 
+        // Nutze DOM Nodes statt HTML-Strings um Crashes durch Sonderzeichen zu vermeiden
         function createOptionBtn(text, isSelected, isMulti, onClick) {
             const div = document.createElement('div');
             div.className = `quiz-btn ${isSelected ? 'selected' : ''}`;
@@ -908,7 +913,7 @@
                             errEl.innerText = l.s12.errExists; 
                             errEl.style.display = 'block'; 
                             btn.disabled = false;
-                            btn.innerText = l.s12.btn.pay;
+                            btn.innerText = l.btn.pay;
                             return; 
                         }
                         redirectToDigistore(signInData.user.id);
@@ -916,7 +921,7 @@
                         errEl.innerText = error.message; 
                         errEl.style.display = 'block';
                         btn.disabled = false;
-                        btn.innerText = l.s12.btn.pay;
+                        btn.innerText = l.btn.pay;
                     }
                 } else {
                     redirectToDigistore(data?.user?.id || 'new_user_no_id');
