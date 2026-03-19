@@ -3,544 +3,548 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Integrated Man - Analyse</title>
+    <title>Integrated Man - Onboarding</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --bg: #000000; --card: #121212; --border: #2A2A2A;
-            --gold: #D4AF37; --gold-dim: rgba(212, 175, 55, 0.15);
-            --text: #FFFFFF; --text-dim: #888888; --danger: #C62828;
+            --bg: #000000;
+            --card: #111111;
+            --card-active: #1f1a0f;
+            --border: #333333;
+            --gold: #D4AF37;
+            --text: #FFFFFF;
+            --text-dim: #888888;
+            --danger: #FF3333;
+            --energy: #ffa500;
+            --time: #4caf50;
         }
-        * { box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { margin: 0; padding: 0; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
         
-        /* Progress Bar */
-        .progress-container { width: 100%; height: 6px; background-color: var(--card); position: fixed; top: 0; left: 0; z-index: 100; display: none; }
-        .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.4s ease; }
+        .progress-container { width: 100%; height: 4px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; display: none; }
+        .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.3s ease; }
 
-        main { flex: 1; padding: 40px 20px; max-width: 600px; margin: 40px auto 0 auto; width: 100%; display: flex; flex-direction: column; }
-        .step { display: none; animation: fadeIn 0.4s ease forwards; }
+        main { flex: 1; padding: 40px 20px; max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
+        
+        .step { display: none; animation: fadeIn 0.3s ease forwards; padding-bottom: 80px; }
         .step.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .label-gold { color: var(--gold); font-size: 0.8rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; text-align: center; }
-        h1 { font-size: 1.6rem; margin-bottom: 10px; text-align: center; line-height: 1.3; color: var(--text); }
-        .subtitle { text-align: center; color: var(--text-dim); margin-bottom: 30px; font-size: 0.95rem; line-height: 1.5; }
+        .label-gold { color: var(--gold); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+        h1 { font-size: 26px; margin-top: 0; margin-bottom: 20px; line-height: 1.3; color: var(--text); font-weight: bold; }
+        .subtitle { color: var(--text-dim); margin-bottom: 20px; font-size: 15px; line-height: 1.5; }
 
-        /* Buttons & Inputs */
-        .option-btn { background-color: var(--card); border: 2px solid var(--border); color: var(--text); padding: 20px; border-radius: 12px; font-size: 1.05rem; margin-bottom: 15px; cursor: pointer; text-align: left; transition: all 0.2s ease; width: 100%; font-weight: 500; display: flex; justify-content: space-between; align-items: center; line-height: 1.4; }
-        .option-btn:hover { border-color: #555; }
-        .option-btn.selected { border-color: var(--gold); background-color: var(--gold-dim); color: var(--gold); font-weight: bold; }
-        .lang-subtext { display: block; font-size: 0.85rem; color: var(--text-dim); font-weight: normal; margin-top: 4px; }
-        .input-field { background-color: var(--card); border: 2px solid var(--border); color: var(--text); padding: 18px; border-radius: 10px; font-size: 1.1rem; margin-bottom: 15px; width: 100%; }
-        .input-field:focus { border-color: var(--gold); outline: none; }
-
-        /* Checkbox Styling (Neu für Disclaimer) */
-        .checkbox-container { display: flex; align-items: flex-start; background-color: var(--card); border: 2px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 15px; cursor: pointer; transition: all 0.2s ease; }
-        .checkbox-container:hover { border-color: #555; }
-        .checkbox-container.checked { border-color: var(--gold); background-color: var(--gold-dim); }
-        .checkbox-custom { width: 24px; height: 24px; border: 2px solid var(--text-dim); border-radius: 6px; margin-right: 15px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
-        .checkbox-container.checked .checkbox-custom { background-color: var(--gold); border-color: var(--gold); }
-        .checkbox-custom::after { content: '✓'; color: #000; font-size: 16px; font-weight: bold; display: none; }
-        .checkbox-container.checked .checkbox-custom::after { display: block; }
-        .checkbox-text { font-size: 0.95rem; color: #DDD; line-height: 1.4; margin: 0; padding-top: 2px; }
-
-        /* Scales */
-        .scale-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 10px; }
-        .scale-btn { width: 45px; height: 45px; border-radius: 8px; border: 2px solid var(--border); background-color: var(--card); color: var(--text); font-size: 1.1rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
-        .scale-btn:hover { border-color: var(--gold); }
-        .scale-btn.selected { background-color: var(--gold); color: #000; border-color: var(--gold); }
-        .scale-labels { display: flex; justify-content: space-between; color: var(--text-dim); font-size: 0.75rem; font-weight: bold; text-transform: uppercase; margin-bottom: 20px; padding: 0 5px; }
-        .desc-box { background: #1a1a1a; padding: 20px; border-radius: 8px; border-left: 3px solid var(--gold); display: none; margin-bottom: 20px; animation: fadeIn 0.3s ease; }
-        .desc-text { margin: 0; color: #DDD; font-size: 0.95rem; font-style: italic; line-height: 1.5; font-weight: 500; }
-
-        /* Premium Result Card & Pitch */
-        .result-card { background-color: #1a0000; padding: 40px 20px; border-radius: 16px; border: 3px solid #FF3333; text-align: center; margin-top: 20px; margin-bottom: 25px; box-shadow: 0 0 30px rgba(255, 51, 51, 0.1); }
-        .result-score { font-size: 5.5rem; font-weight: 900; color: #FF3333; line-height: 1; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(255,51,51,0.3); }
-        .result-title { color: #FF3333; font-size: 1.5rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
-        .result-desc { color: #CCC; font-size: 1.05rem; line-height: 1.5; font-style: italic; }
+        /* Quiz Buttons (Radio / Checkbox style) */
+        .quiz-btn { background-color: var(--card); border: 2px solid var(--border); padding: 18px 20px; border-radius: 10px; margin-bottom: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; }
+        .quiz-btn:hover { border-color: #555; }
+        .quiz-btn.selected { border-color: var(--gold); background-color: var(--card-active); }
+        .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.4; }
+        .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: bold; }
         
-        /* Dynamic Cost Text */
-        .cost-wrapper { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 25px; text-align: center; }
-        .cost-prefix { color: var(--text-dim); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin: 0 0 10px 0; letter-spacing: 1px; }
-        .cost-dynamic { color: #FF3333; font-size: 1.2rem; font-weight: 800; margin: 0; line-height: 1.4; }
+        .radio-icon { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; }
+        .quiz-btn.selected .radio-icon { border-color: var(--gold); }
+        .radio-icon::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); display: none; }
+        .quiz-btn.selected .radio-icon::after { display: block; }
 
-        .pitch-card { margin-top: 20px; background-color: var(--card); padding: 25px 20px; border-radius: 12px; border: 1px solid var(--border); text-align: left; }
-        .pitch-card ul { list-style: none; padding: 0; margin: 0; }
-        .pitch-card li { margin-bottom: 15px; font-size: 1.05rem; color: #DDD; display: flex; align-items: flex-start; line-height: 1.4; }
-        .pitch-card li span { margin-right: 12px; color: var(--gold); font-weight: bold; }
+        .check-icon { width: 22px; height: 22px; border-radius: 4px; border: 2px solid #666; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; }
+        .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: #000; }
 
-        /* Action Buttons */
-        .btn-gold { background-color: var(--gold); color: #000; padding: 20px; border-radius: 12px; font-weight: 900; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 1px; border: none; width: 100%; cursor: pointer; margin-top: 10px; text-align: center; display: block; transition: all 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2); }
-        .btn-gold:active { transform: translateY(2px); box-shadow: none; }
-        .btn-gold:disabled { background-color: #333; color: #666; cursor: not-allowed; box-shadow: none; }
+        /* Assessment Counters */
+        .assessment-block { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 15px; text-align: center; }
+        .ass-label { color: var(--gold); font-size: 11px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .ass-value { font-size: 40px; font-weight: 800; margin: 10px 0; }
+        .ass-desc { color: #bbb; font-size: 13px; margin-bottom: 15px; min-height: 20px; }
+        .counter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-top: 1px solid var(--border); padding-top: 15px; }
+        .counter-btn { background: #222; border: none; color: inherit; width: 40px; height: 40px; border-radius: 8px; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .counter-btn:active { background: #333; }
+        .scale-hints { display: flex; justify-content: space-between; font-size: 11px; color: #777; }
 
-        .loading-screen { text-align: center; padding: 60px 0; }
-        .spinner { border: 4px solid rgba(255,255,255,0.1); border-left-color: var(--gold); border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 0 auto 25px auto; }
+        /* Result Card */
+        .result-card { background-color: #1a0000; border: 3px solid var(--danger); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 20px; }
+        .result-score { color: var(--danger); font-size: 70px; font-weight: 900; line-height: 1; margin-bottom: 10px; }
+        .result-level { color: #ff9999; font-size: 20px; font-weight: 800; text-transform: uppercase; }
+        .insight-card { background: #171717; border: 1px solid #2b2b2b; border-radius: 10px; padding: 20px; margin-bottom: 15px; }
+        .insight-title { color: #ccc; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+        .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.5; }
+        .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 20px; margin-bottom: 15px; }
+
+        /* Disclaimer Checkboxes */
+        .check-row { display: flex; align-items: flex-start; margin-bottom: 20px; cursor: pointer; }
+        .box-icon { width: 24px; height: 24px; border: 2px solid var(--gold); border-radius: 6px; margin-right: 15px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; }
+        .check-row.selected .box-icon { background: var(--gold); color: #000; }
+        .check-label { font-size: 14px; color: #ddd; line-height: 1.5; margin: 0; }
+
+        /* Fixed Bottom Button */
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bg); padding: 15px 20px 25px 20px; border-top: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; z-index: 10; }
+        .btn-gold { background-color: var(--gold); color: #000; padding: 18px; border-radius: 8px; font-weight: 900; font-size: 16px; text-transform: uppercase; border: none; width: 100%; max-width: 500px; cursor: pointer; text-align: center; }
+        .btn-gold:disabled { background-color: #333; color: #666; cursor: not-allowed; }
+        .btn-back { background: none; border: none; color: #666; margin-top: 15px; cursor: pointer; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .input-field { background-color: #fdfad5; border: 1px solid var(--border); color: #000; padding: 18px; border-radius: 8px; font-size: 16px; margin-bottom: 15px; width: 100%; font-weight: 500; }
+        .input-field:focus { border-color: var(--gold); outline: none; }
+        .spinner { border: 4px solid #333; border-top-color: var(--gold); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 40px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        .disclaimer { color: var(--text-dim); font-size: 0.8rem; text-align: center; margin-top: 20px; font-style: italic; }
     </style>
 </head>
 <body>
 
     <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar"></div></div>
 
-    <main id="quiz-container">
-        
+    <main id="app-container">
         <div class="step active" id="step-0">
-            <div class="label-gold" id="lang-welcome">WILLKOMMEN • WELCOME • BIENVENIDO</div>
-            <h1 id="lang-title" style="color: var(--gold); font-size: 1.8rem;">WÄHLE DEINE SPRACHE</h1>
-            <p class="subtitle" id="lang-subtitle">Wähle die Sprache, in der du die App nutzen möchtest.</p>
-            <button class="option-btn" id="lang-de" onclick="selectLanguage('de')"><div>🇩🇪 Deutsch<span class="lang-subtext">Deutsche Version</span></div></button>
-            <button class="option-btn" id="lang-en" onclick="selectLanguage('en')"><div>🇬🇧 English<span class="lang-subtext">English Version</span></div></button>
-            <button class="option-btn" id="lang-es" onclick="selectLanguage('es')"><div>🇪🇸 Español<span class="lang-subtext">Versión en Español</span></div></button>
-            <button class="btn-gold" id="btn-start" onclick="nextStep()" disabled>WEITER</button>
+            <div class="label-gold">WELCOME</div>
+            <h1>Choose your language</h1>
+            <div class="quiz-btn" onclick="selectLang('de')"><div class="quiz-btn-text">🇩🇪 Deutsch</div></div>
+            <div class="quiz-btn" onclick="selectLang('en')"><div class="quiz-btn-text">🇬🇧 English</div></div>
+            <div class="quiz-btn" onclick="selectLang('es')"><div class="quiz-btn-text">🇪🇸 Español</div></div>
         </div>
 
-        <div class="step" id="step-0-5">
-            <div class="label-gold" id="disc-label">WICHTIG • IMPORTANT</div>
-            <h1 id="disc-title">Sicherheit & Gesundheit</h1>
-            <p class="subtitle" id="disc-sub">Bitte bestätige die folgenden Punkte, bevor wir starten.</p>
+        <div class="step" id="step-1">
+            <div class="label-gold" id="s1-lbl"></div><h1 id="s1-title"></h1>
+            <div id="s1-opts"></div>
+        </div>
+
+        <div class="step" id="step-2">
+            <div class="label-gold" id="s2-lbl"></div><h1 id="s2-title"></h1>
+            <div id="s2-opts"></div>
+        </div>
+
+        <div class="step" id="step-3">
+            <div class="label-gold" id="s3-lbl"></div><h1 id="s3-title"></h1>
+            <div id="s3-opts"></div>
+        </div>
+
+        <div class="step" id="step-4">
+            <div class="label-gold" id="s4-lbl"></div><h1 id="s4-title"></h1>
+            <div id="s4-opts"></div>
+        </div>
+
+        <div class="step" id="step-5">
+            <div class="label-gold" id="s5-lbl"></div><h1 id="s5-title"></h1>
             
-            <div class="checkbox-container" id="chk-therapy" onclick="toggleCheckbox('chk-therapy')">
-                <div class="checkbox-custom"></div>
-                <p class="checkbox-text" id="disc-text-1">Mir ist bewusst, dass diese App keine professionelle Therapie ersetzt und keine medizinischen Heilversprechen gibt.</p>
+            <div class="assessment-block">
+                <div class="ass-label" id="s5-lbl-urg"></div>
+                <div class="ass-value" id="val-urg" style="color: var(--gold);">5</div>
+                <div class="ass-desc" id="desc-urg"></div>
+                <div class="counter-row">
+                    <button class="counter-btn" style="color: var(--gold);" onclick="adjCounter('urg', -1)">−</button>
+                    <button class="counter-btn" style="color: var(--gold);" onclick="adjCounter('urg', 1)">+</button>
+                </div>
+                <div class="scale-hints">
+                    <span id="hint-urg-min"></span><span id="hint-urg-max"></span>
+                </div>
             </div>
 
-            <div class="checkbox-container" id="chk-health" onclick="toggleCheckbox('chk-health')">
-                <div class="checkbox-custom"></div>
-                <p class="checkbox-text" id="disc-text-2">Ich bestätige, dass ich mich in einer ausreichend stabilen körperlichen und psychischen Verfassung befinde, um dieses Programm durchzuführen.</p>
+            <div class="assessment-block">
+                <div class="ass-label" id="s5-lbl-nrg"></div>
+                <div class="ass-value" id="val-nrg" style="color: var(--energy);">5</div>
+                <div class="ass-desc" id="desc-nrg"></div>
+                <div class="counter-row">
+                    <button class="counter-btn" style="color: var(--energy);" onclick="adjCounter('nrg', -1)">−</button>
+                    <button class="counter-btn" style="color: var(--energy);" onclick="adjCounter('nrg', 1)">+</button>
+                </div>
+                <div class="scale-hints">
+                    <span id="hint-nrg-min"></span><span id="hint-nrg-max"></span>
+                </div>
             </div>
 
-            <button class="btn-gold" id="btn-accept-disc" onclick="startOnboarding()" disabled>VERSTANDEN & WEITER</button>
+            <div class="assessment-block">
+                <div class="ass-label" id="s5-lbl-tim"></div>
+                <div class="ass-value" id="val-tim" style="color: var(--time);">30</div>
+                <div class="ass-desc" id="desc-tim"></div>
+                <div class="counter-row">
+                    <button class="counter-btn" style="color: var(--time);" onclick="adjCounter('tim', -5)">−</button>
+                    <button class="counter-btn" style="color: var(--time);" onclick="adjCounter('tim', 5)">+</button>
+                </div>
+                <div class="scale-hints">
+                    <span id="hint-tim-min">0 min</span><span id="hint-tim-max">120 min</span>
+                </div>
+            </div>
         </div>
 
-        <div class="step" id="step-1"><div class="label-gold" id="s1-label"></div><h1 id="s1-title"></h1><p class="subtitle" id="s1-sub"></p><div id="s1-options"></div><p class="disclaimer" id="s1-disclaimer"></p></div>
-        <div class="step" id="step-2"><div class="label-gold" id="s2-label"></div><h1 id="s2-title"></h1><p class="subtitle" id="s2-sub"></p><div id="s2-options"></div></div>
-        <div class="step" id="step-3"><div class="label-gold" id="s3-label"></div><h1 id="s3-title"></h1><p class="subtitle" id="s3-sub"></p><div id="s3-options"></div></div>
-        <div class="step" id="step-4"><div class="label-gold" id="s4-label"></div><h1 id="s4-title"></h1><p class="subtitle" id="s4-sub"></p><div id="s4-options"></div></div>
-        
-        <div class="step" id="step-5"><div class="label-gold" id="s5-label"></div><h1 id="s5-title"></h1><p class="subtitle" id="s5-sub"></p><div class="scale-grid" id="s5-options"></div><div class="scale-labels"><span id="s5-min"></span><span id="s5-max"></span></div><div class="desc-box" id="s5-desc-box"><p class="desc-text" id="s5-desc-text"></p></div><button class="btn-gold" id="s5-btn" style="display:none;" onclick="nextStep()"></button></div>
-        <div class="step" id="step-6"><div class="label-gold" id="s6-label"></div><h1 id="s6-title"></h1><p class="subtitle" id="s6-sub"></p><div class="scale-grid" id="s6-options"></div><div class="scale-labels"><span id="s6-min"></span><span id="s6-max"></span></div><div class="desc-box" id="s6-desc-box"><p class="desc-text" id="s6-desc-text"></p></div><button class="btn-gold" id="s6-btn" style="display:none;" onclick="nextStep()"></button></div>
-        
-        <div class="step" id="step-7"><div class="label-gold" id="s7-label"></div><h1 id="s7-title"></h1><p class="subtitle" id="s7-sub"></p><div id="s7-options"></div></div>
-        
-        <div class="step" id="step-8"><div class="loading-screen"><div class="spinner"></div><h2 style="color: var(--gold);" id="loading-title"></h2><p style="color: var(--text-dim); margin-top: 15px;" id="loading-sub"></p></div></div>
-        
-        <div class="step" id="step-9">
-            <div class="label-gold" id="res-label"></div>
-            <h1 id="res-headline"></h1>
-            <div class="result-card" id="resultCard">
+        <div class="step" id="step-6" style="text-align: center; padding-top: 50px;">
+            <div class="spinner"></div>
+            <h1 id="s6-title" style="color: var(--gold);"></h1>
+            <p class="subtitle" id="s6-sub"></p>
+        </div>
+
+        <div class="step" id="step-7">
+            <div class="label-gold" id="s7-lbl"></div>
+            <div class="result-card" id="res-card">
                 <div class="result-score" id="res-score"></div>
-                <div class="result-title" id="res-title"></div>
-                <div class="result-desc" id="res-desc"></div>
+                <div class="result-level" id="res-level"></div>
             </div>
-            <div class="cost-wrapper">
-                <p class="cost-prefix" id="res-cost-prefix"></p>
-                <p class="cost-dynamic" id="res-cost-dynamic"></p>
+            <div class="info-card" style="border-left: 4px solid var(--danger);" id="res-info-box">
+                <div class="insight-title" id="res-sub" style="color: var(--danger);"></div>
+                <div class="insight-text" id="res-desc"></div>
             </div>
-            <button class="btn-gold" id="btn-res-next" onclick="nextStep()"></button>
-        </div>
-        
-        <div class="step" id="step-10"><div class="label-gold" id="s10-label"></div><h1 id="s10-title"></h1><p class="subtitle" id="s10-sub"></p><div id="s10-options"></div></div>
-        <div class="step" id="step-11"><div class="label-gold" id="s11-label"></div><h1 id="s11-title"></h1><p class="subtitle" id="s11-sub"></p><div id="s11-options"></div></div>
-        <div class="step" id="step-12"><div class="label-gold" id="s12-label"></div><h1 id="s12-title"></h1><p class="subtitle" id="s12-sub"></p><div id="s12-options"></div></div>
-
-        <div class="step" id="step-13">
-            <div class="label-gold" id="pitch-label"></div>
-            <h1 id="pitch-headline"></h1>
-            <p class="subtitle" id="pitch-sub"></p>
-            <div class="pitch-card">
-                <h2 id="pitch-title" style="color: var(--gold); font-size: 1.2rem; margin-bottom: 15px; margin-top: 0;"></h2>
-                <ul>
-                    <li><span>✔</span> <div id="pitch-1"></div></li>
-                    <li><span>✔</span> <div id="pitch-2"></div></li>
-                    <li><span>✔</span> <div id="pitch-3"></div></li>
-                    <li><span>✔</span> <div id="pitch-4"></div></li>
-                </ul>
+            <div class="insight-card">
+                <div class="insight-title" id="res-cost-lbl"></div>
+                <div class="insight-text" id="res-cost-val"></div>
             </div>
-            <button class="btn-gold" id="btn-checkout" onclick="nextStep()"></button>
         </div>
 
-        <div class="step" id="step-14">
-            <div class="label-gold" id="reg-label">LETZTER SCHRITT</div>
-            <h1 id="reg-headline">Account erstellen</h1>
-            <p class="subtitle" id="reg-sub">Erstelle deinen Account, um dein Profil zu sichern. Danach geht es zur Kasse.</p>
-            <input type="email" id="reg-email" class="input-field" placeholder="deine@email.com" autocomplete="email">
-            <input type="password" id="reg-password" class="input-field" placeholder="Passwort (min. 6 Zeichen)">
-            <button class="btn-gold" id="btn-register" onclick="handleRegistration()">WEITER ZUR ZAHLUNG</button>
-            <p id="reg-error" style="color: var(--danger); text-align: center; display: none; margin-top: 15px; font-weight: bold;"></p>
+        <div class="step" id="step-8">
+            <h1 id="s8-title" style="color: #4caf50;">YOUR ASSESSMENT</h1>
+            <div class="info-card"><p class="insight-text" id="s8-msg" style="color: #fff; text-align: center;"></p></div>
+            <div class="info-card" style="border-left: 3px solid var(--gold);"><p class="insight-text" id="s8-disc"></p></div>
+        </div>
+
+        <div class="step" id="step-9">
+            <div class="label-gold" id="s9-lbl"></div><h1 id="s9-title"></h1>
+            <div id="s9-opts"></div>
+        </div>
+
+        <div class="step" id="step-10">
+            <div class="label-gold" id="s10-lbl"></div>
+            <h1 id="s10-title"></h1>
+            <div class="info-card"><p class="insight-text" id="s10-desc" style="color: #fff;"></p></div>
+            
+            <div class="check-row" id="chk1" onclick="toggleTherapy('chk1')">
+                <div class="box-icon">✓</div><p class="check-label" id="s10-c1"></p>
+            </div>
+            <div class="check-row" id="chk2" onclick="toggleTherapy('chk2')">
+                <div class="box-icon">✓</div><p class="check-label" id="s10-c2"></p>
+            </div>
+        </div>
+
+        <div class="step" id="step-11">
+            <h1 id="s11-title"></h1>
+            <div id="s11-opts"></div>
+        </div>
+
+        <div class="step" id="step-12">
+            <div class="label-gold" id="s12-lbl"></div>
+            <h1 id="s12-title"></h1>
+            <p class="subtitle" id="s12-sub"></p>
+            <input type="email" id="reg-email" class="input-field" autocomplete="email">
+            <input type="password" id="reg-password" class="input-field">
+            <button class="btn-gold" id="btn-register" onclick="handleRegistration()"></button>
+            <p id="reg-error" style="color: var(--danger); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
         </div>
 
     </main>
 
+    <div class="bottom-bar" id="bottomBar" style="display: none;">
+        <button class="btn-gold" id="btnNext" onclick="handleNext()"></button>
+        <button class="btn-back" id="btnBack" onclick="handleBack()">BACK</button>
+    </div>
+
     <script>
         const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
-        let dbClient = null;
+        const digistoreLinks = { de: "https://www.checkout-ds24.com/product/675932/", en: "https://www.checkout-ds24.com/product/675950/", es: "https://www.checkout-ds24.com/product/675951/" };
 
-        function initSupabase() {
-            if (!dbClient && window.supabase) {
-                try { dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } 
-                catch (e) { console.warn("Supabase blocked:", e); }
-            }
-            return dbClient;
-        }
-
-        function setText(id, text) { const el = document.getElementById(id); if(el) el.innerText = text || ''; }
-
-        // --- LOKALISIERUNG + PITCH/WEB-TEXTE ---
+        // --- TRANSLATIONS ---
         const t = {
             de: {
-                lang: { welcome: "WILLKOMMEN", title: "WÄHLE DEINE SPRACHE", subtitle: "Wähle die Sprache, in der du die App nutzen möchtest.", next: "WEITER" },
-                disclaimer: { title: "Sicherheit & Gesundheit", sub: "Bitte bestätige die folgenden Punkte, bevor wir starten.", chk1: "Mir ist bewusst, dass diese App keine professionelle Therapie ersetzt und keine medizinischen Heilversprechen gibt.", chk2: "Ich bestätige, dass ich mich in einer ausreichend stabilen körperlichen und psychischen Verfassung befinde, um dieses Programm durchzuführen.", btn: "VERSTANDEN & WEITER" },
-                onboarding: {
-                    buttons: { next: "WEITER", lets_go: "LOS GEHT'S (100%)", back: "ZURÜCK", not_sure: "Ich bin mir nicht sicher" },
-                    labels: { not_urgent: "Nicht dringend", very_urgent: "Sehr dringend", no_energy: "Keine Energie", very_energetic: "Sehr energiereich", min_day: "Min/Tag", time_0: "0 min", time_120: "2+ Std.", your_answer: "Deine Antwort..." },
-                    result: {
-                        title: "Belastung deines Systems:",
-                        calculating: "DEIN ERGEBNIS WIRD ERMITTELT...",
-                        cost_headline: "KONKRET KOSTET DICH DAS:",
-                        dynamicCost: { porn: "Deinen mentalen Fokus, echte Intimität und den tiefen Respekt vor dir selbst.", gettinggirls: "Die besten Jahre deines Lebens, gefangen in Isolation und Selbstzweifeln.", relationship: "Die emotionale Verbindung und letztendlich die Frau, die du liebst." },
-                        levels: {
-                            extreme: { title: "EXTREM", sub: "DEIN NERVENSYSTEM IST AM ANSCHLAG", desc: "Du funktionierst nur noch im Überlebensmodus. Jede Faser deines Körpers schreit nach Veränderung." },
-                            dangerous: { title: "GEFÄHRLICH", sub: "DEIN KÖRPER IST AM LIMIT", desc: "Du bist chronisch überlastet. Dein System läuft auf Reserve – und die Reserve ist fast leer." },
-                            alarming: { title: "ALARMIEREND", sub: "DEIN NERVENSYSTEM IST ÜBERLASTET", desc: "Du stehst unter Dauerstress. Dein Körper kann nicht mehr richtig regenerieren." },
-                            critical: { title: "KRITISCH", sub: "DEIN SYSTEM IST UNTER DAUERSTRESS", desc: "Die Belastung geht an die Substanz. Es ist Zeit, das Ruder herumzureißen." }
-                        }
-                    },
-                    steps: {
-                        root_problem: { title: "PHASE 1: STATUS", question: "Was ist deine größte Baustelle?", disclaimer: "Diese App ersetzt keine Therapie!", options: { porn: "Übermäßiger digitaler sexueller Konsum", gettinggirls: "Dating & soziale Unsicherheit", relationship: "Andauernder Beziehungsstreit und keine Intimität" } },
-                        frequency: { title: "INTENSITÄT", question: "Wie oft tritt das Problem / Verhalten auf?", options: { 
-                            porn: { opt1: "Nur bei starkem Stress", opt2: "Mehrmals die Woche", opt3: "Während der Arbeit / im Homeoffice", opt4: "Täglich", opt5: "Mehrmals täglich" }, 
-                            gettinggirls: { opt1: "Nur am Wochenende (beim Ausgehen)", opt2: "Jedes Mal, wenn ich eine Frau sehe", opt3: "Täglich (Gedankenkreisen)", opt4: "Vermeide soziale Situationen komplett" }, 
-                            relationship: { opt1: "Wochenende ist am schlimmsten", opt2: "Mehrmals die Woche", opt3: "Täglich (Dauerzustand)", opt4: "Mehrmals täglich Streit", opt5: "Es herrscht fast nur noch Schweigen" } } 
-                        },
-                        history: { title: "HISTORIE", question: "Wie lange kämpfst du schon damit?", options: { opt1: "Weniger als 1 Jahr", opt2: "1 - 5 Jahre", opt3: "5 - 10 Jahre", opt4: "Seit der Pubertät / Über 10 Jahre" } },
-                        pain_point: { title: "KONSEQUENZEN", question: "Was kostet es dich aktuell? (Ehrlich)", options: { porn: { opt1: "Gehirnnebel & Konzentrationsschwäche", opt2: "Erektile Probleme (PIED) / Libido-Verlust", opt3: "Zeitverschwendung während der Arbeit", opt4: "Soziale Isolation / Scham", opt5: "Gefühl der Machtlosigkeit" }, gettinggirls: { opt1: "Tiefe Einsamkeit", opt2: "Angst, für immer allein zu bleiben", opt3: "Neid auf Paare / andere Männer", opt4: "Gefühl von Minderwertigkeit", opt5: "Sexuelle Frustration" }, relationship: { opt1: "Sexuelle Flaute / 'Roommate-Syndrom'", opt2: "Ständige Kritik & Nörgelei", opt3: "Angst vor Trennung / Scheidung", opt4: "Ich fühle mich zu Hause nicht mehr wohl", opt5: "Verlust von Respekt" } } },
-                        impact: { title: "LEIDENSDRUCK", question: "Auf einer Skala von 1-10: Wie dringend musst du das ändern?", descriptions: { porn: { 1: "Kaum. Ist nur eine kleine Gewohnheit.", 2: "Sehr selten.", 3: "Ab und zu.", 4: "Regelmäßig.", 5: "Es stört, aber ich funktioniere noch.", 6: "Belastend.", 7: "Starkes Verlangen.", 8: "Kritisch.", 9: "Kontrollverlust.", 10: "Es zerstört mein Leben. Ich muss sofort aufhören." }, gettinggirls: { 1: "Ich will nur noch etwas besser werden.", 2: "Ich fühle mich okay.", 3: "Manchmal unsicher.", 4: "Oft gehemmt.", 5: "Ich bin unzufrieden, komme aber klar.", 6: "Frustrierend.", 7: "Einsam.", 8: "Schmerzhaft.", 9: "Verzweiflung.", 10: "Die Einsamkeit frisst mich auf. Ich brauche Hilfe." }, relationship: { 1: "Nur kleine Differenzen.", 2: "Meistens harmonisch.", 3: "Es läuft okay.", 4: "Wiederkehrende Diskussionen.", 5: "Es ist anstrengend.", 6: "Belastend.", 7: "Distanziert.", 8: "Kritisch.", 9: "Toxisch.", 10: "Der Leidensdruck ist maximal. Es muss sich was ändern." } } },
-                        energy_level: { title: "ENERGIE-LEVEL", question: "Wie viel Energie hast du aktuell im Alltag? (1-10)", descriptions: { porn: { 1: "Chronisch erschöpft.", 2: "Sehr niedrig.", 3: "Müde.", 4: "Unterdurchschnittlich.", 5: "Geht so.", 6: "Okay. Ich funktioniere.", 7: "Gut.", 8: "Stark.", 9: "Sehr hoch.", 10: "Maximal. Ich könnte Bäume ausreißen." }, gettinggirls: { 1: "Chronisch erschöpft.", 2: "Sehr niedrig.", 3: "Müde.", 4: "Unterdurchschnittlich.", 5: "Geht so.", 6: "Okay. Ich funktioniere.", 7: "Gut.", 8: "Stark.", 9: "Sehr hoch.", 10: "Maximal. Ich könnte Bäume ausreißen." }, relationship: { 1: "Chronisch erschöpft.", 2: "Sehr niedrig.", 3: "Müde.", 4: "Unterdurchschnittlich.", 5: "Geht so.", 6: "Okay. Ich funktioniere.", 7: "Gut.", 8: "Stark.", 9: "Sehr hoch.", 10: "Maximal." } } },
-                        available_time: { title: "ZEIT FÜR DICH", question: "Wie viele Minuten pro Tag hast du NUR für dich? (ohne Medien, Arbeit)", options: ["0 - 15 Minuten", "30 Minuten", "60 Minuten", "90 Minuten", "2+ Stunden"] },
-                        commitment: { title: "COMMITMENT", question: "Bist du bereit, die Arbeit reinzustecken?", options: { yes: "Ja, ich ziehe das durch (100%)", no: "Ich bin mir noch unsicher" } },
-                        rank_path: { title: "DEINE IDENTITÄT", question: "Welcher Weg der Stärke inspiriert dich am meisten?", options: { military: "Militär (Disziplin & Härte)", guardian: "Der Hüter (Geist & Fokus)", samurai: "Der Samurai (Ehre & Ruhe)", roman: "Der Imperator (Macht & Stoizismus)" } },
-                        goal: { title: "ZIEL", question: "Was ist dein Haupt-Ziel?", options: { porn: { freedom: "Mentale Freiheit & Fokus", health: "Gesunde Sexualität", power: "Selbstachtung zurückgewinnen" }, gettinggirls: { love: "Die Richtige finden", ease: "Lockerheit im Umgang mit Frauen", confidence: "Echtes Selbstvertrauen" }, relationship: { passion: "Leidenschaft entfachen", leadership: "Respekt & Führung", peace: "Frieden & Harmonie" } } }
-                    }
+                btn: { next: "Weiter", back: "Zurück", start: "START LIFE" },
+                s1: { lbl: "PHASE 1: STATUS", title: "Was ist deine größte Baustelle?", opts: { porn: "Übermäßiger digitaler sexueller Konsum", gettinggirls: "Dating und soziale Unsicherheit", relationship: "Andauernder Beziehungsstreit und keine Intimität" } },
+                s2: { lbl: "INTENSITÄT", title: "Wie oft tritt das Problem auf?", opts: { porn: ["Nur bei starkem Stress", "Mehrmals die Woche", "Während der Arbeit oder im Homeoffice", "Täglich", "Mehrmals täglich"], gettinggirls: ["Nur am Wochenende (beim Ausgehen)", "Jedes Mal, wenn ich eine Frau sehe", "Täglich (Gedankenkreisen)", "Ich vermeide soziale Situationen komplett"], relationship: ["Wochenende ist am schlimmsten", "Mehrmals die Woche", "Täglich (Dauerzustand)", "Mehrmals täglich Streit", "Es herrscht fast nur noch Schweigen"] } },
+                s3: { lbl: "HISTORIE", title: "Wie lange kämpfst du schon damit?", opts: ["Weniger als 1 Jahr", "1 - 5 Jahre", "5 - 10 Jahre", "Seit der Pubertät oder über 10 Jahre"] },
+                s4: { lbl: "KONSEQUENZEN", title: "Was kostet es dich aktuell?", opts: { porn: ["Gehirnnebel und Konzentrationsschwäche", "Erektile Probleme oder Libido-Verlust", "Zeitverschwendung während der Arbeit", "Soziale Isolation oder Scham", "Gefühl der Machtlosigkeit"], gettinggirls: ["Tiefe Einsamkeit", "Angst für immer allein zu bleiben", "Neid auf Paare oder andere Männer", "Gefühl von Minderwertigkeit", "Sexuelle Frustration"], relationship: ["Sexuelle Flaute oder Roommate-Syndrom", "Ständige Kritik und Nörgeln", "Angst vor Trennung oder Scheidung", "Ich fühle mich zu Hause nicht mehr wohl", "Verlust von Respekt"] } },
+                s5: { lbl: "DEINE AUSGANGSLAGE", title: "Wie sieht deine Situation gerade aus?", urgLbl: "Wie zufrieden bist du gerade im Leben?", nrgLbl: "Wie viel Energie hast du aktuell?", timLbl: "Minuten pro Tag nur für dich in Stille?", urgMin: "Sehr unzufrieden", urgMax: "Sehr zufrieden", nrgMin: "Keine Energie", nrgMax: "Sehr energiereich",
+                      urgDesc: ["Katastrophal.", "Sehr schlecht.", "Schlecht.", "Unterdurchschnittlich.", "Geht so. Mal mehr, mal weniger.", "Okay.", "Gut.", "Ziemlich gut.", "Sehr gut.", "Maximal zufrieden."],
+                      nrgDesc: ["Chronisch erschöpft.", "Sehr niedrig.", "Müde.", "Unterdurchschnittlich.", "Geht so. Mal mehr, mal weniger.", "Okay.", "Gut.", "Stark.", "Sehr hoch.", "Maximal."],
+                      timDesc: ["Ich habe gar keine Zeit.", "Kaum. Bin meist abgelenkt.", "Ein bisschen.", "Ausreichend.", "Viel Zeit für mich."]
                 },
-                web: {
-                    pitch: { label: "DIE LÖSUNG", headline: "Dein Weg zur Freiheit", sub: "Du hast dein Problem erkannt. Hier ist das präzise Werkzeug, um es endgültig zu lösen.", title: "Das Protokoll beinhaltet:", f1: "90-Tage Schritt-für-Schritt Programm", f2: "Die Essenz aus über 48 psychologischen Fachbüchern", f3: "Tägliches Journaling & hartes Trigger-Tracking", f4: "Eine Bruderschaft: Community & Squad Support", btn: "JETZT LÖSUNG FREISCHALTEN" },
-                    reg: { label: "LETZTER SCHRITT", headline: "Account erstellen", sub: "Erstelle deinen Account, um dein Protokoll zu sichern. Danach geht es zur Kasse.", email: "deine@email.com", pw: "Passwort (min. 6 Zeichen)", btn: "WEITER ZUR ZAHLUNG", errFill: "Bitte fülle alle Felder aus.", errExists: "Email existiert bereits!" },
-                    loadingSub: "Wir analysieren deine Antworten basierend auf den Daten tausender anderer Männer."
-                }
+                s6: { title: "DEIN ERGEBNIS WIRD ERMITTELT...", sub: "Wir analysieren deine Daten." },
+                s7: { lbl: "BELASTUNG DEINES SYSTEMS", costLbl: "KONKRET KOSTET DICH DAS:", costVal: { porn: "Deinen mentalen Fokus, echte Intimität und den tiefen Respekt vor dir selbst.", gettinggirls: "Die besten Jahre deines Lebens, gefangen in Isolation.", relationship: "Die emotionale Verbindung und die Frau, die du liebst." }, lvls: { ext: { t: "EXTREM", s: "DEIN NERVENSYSTEM IST AM ANSCHLAG", d: "Du funktionierst nur noch im Überlebensmodus." }, dan: { t: "GEFÄHRLICH", s: "DEIN KÖRPER IST AM LIMIT", d: "Du bist chronisch überlastet. Dein System läuft auf Reserve." }, ala: { t: "ALARMIEREND", s: "DEIN NERVENSYSTEM IST ÜBERLASTET", d: "Du stehst unter Dauerstress." }, cri: { t: "KRITISCH", s: "DEIN SYSTEM IST UNTER DAUERSTRESS", d: "Es ist Zeit, das Ruder herumzureißen." } } },
+                s8: { title: "DEINE EINSCHÄTZUNG", msg: "Danke für deine Offenheit. Deine Situation ist kein Charakterfehler, sondern ein gelerntes Muster. Diese App bietet wissenschaftlich fundierte Techniken. Es liegt an DIR, sie anzuwenden.", disc: "Die Tools ersetzen keine Therapie. Konsultiere bei Problemen einen Arzt." },
+                s9: { lbl: "COMMITMENT", title: "Bist du bereit, die Arbeit reinzustecken?", opts: ["Ja, ich ziehe das durch (100%)", "Ich bin mir noch unsicher"] },
+                s10: { lbl: "WICHTIGER HINWEIS", title: "Bitte aufmerksam lesen", desc: "Diese App bietet Tools zur persönlichen Weiterentwicklung. Sie ersetzt keine professionelle Behandlung.", c1: "Ich bestätige, dass ich aktuell psychisch stabil bin.", c2: "Ich verstehe, dass diese App keine Therapie ersetzt." },
+                s11: { title: "Welcher Weg der Stärke inspiriert dich am meisten?", opts: { military: "Militär (Disziplin und Härte)", guardian: "Der Hüter (Geist und Fokus)", samurai: "Der Samurai (Ehre und Ruhe)", roman: "Der Imperator (Macht und Stoizismus)" } },
+                s12: { lbl: "FINAL STEP", title: "Account erstellen", sub: "Sichere deinen Fortschritt.", em: "deine@email.com", pw: "Passwort (min. 6 Zeichen)", btn: "WEITER ZUR ZAHLUNG", errFill: "Fülle alle Felder aus.", errExists: "Email existiert bereits." }
             },
             en: {
-                lang: { welcome: "WELCOME", title: "CHOOSE LANGUAGE", subtitle: "Select app language.", next: "CONTINUE" },
-                disclaimer: { title: "Safety & Health", sub: "Please confirm the following points before we start.", chk1: "I am aware that this app does not replace professional therapy and makes no medical healing promises.", chk2: "I confirm that I am in a sufficiently stable physical and mental condition to undertake this program.", btn: "UNDERSTOOD & CONTINUE" },
-                onboarding: {
-                    buttons: { next: "NEXT", lets_go: "LET'S GO (100%)", back: "BACK", not_sure: "I'm not sure" },
-                    labels: { not_urgent: "Not urgent", very_urgent: "Very urgent", no_energy: "No energy", very_energetic: "Very energetic", min_day: "Min/day", time_0: "0 min", time_120: "2+ hrs.", your_answer: "Your answer..." },
-                    result: {
-                        title: "Your system's stress level:",
-                        calculating: "YOUR RESULT IS BEING CALCULATED...",
-                        cost_headline: "CONCRETELY THIS COSTS YOU:",
-                        dynamicCost: { porn: "Your mental focus, genuine intimacy, and deep self-respect.", gettinggirls: "The best years of your life, trapped in isolation.", relationship: "The emotional connection and the woman you love." },
-                        levels: {
-                            extreme: { title: "EXTREME", sub: "YOUR NERVOUS SYSTEM IS MAXED OUT", desc: "You are only functioning in survival mode. Every fiber of your body is screaming for change." },
-                            dangerous: { title: "DANGEROUS", sub: "YOUR BODY IS AT THE LIMIT", desc: "You are chronically overloaded. Your system is running on reserve – and the reserve is almost empty." },
-                            alarming: { title: "ALARMING", sub: "YOUR NERVOUS SYSTEM IS OVERLOADED", desc: "You are under constant stress. Your body can no longer properly recover." },
-                            critical: { title: "CRITICAL", sub: "YOUR SYSTEM IS UNDER CONSTANT STRESS", desc: "The stress is taking its toll. It's time to turn things around." }
-                        }
-                    },
-                    steps: {
-                        root_problem: { title: "PHASE 1: STATUS", question: "What is your biggest challenge?", disclaimer: "This app does not replace therapy!", options: { porn: "Excessive digital sexual consumption", gettinggirls: "Dating & social insecurity", relationship: "Ongoing relationship conflict and no intimacy" } },
-                        frequency: { title: "INTENSITY", question: "How often does the problem / behavior occur?", options: { 
-                            porn: { opt1: "Only under high stress", opt2: "Several times per week", opt3: "During work / home office", opt4: "Daily", opt5: "Multiple times daily" }, 
-                            gettinggirls: { opt1: "Only on weekends (when going out)", opt2: "Every time I see a woman", opt3: "Daily (rumination)", opt4: "Completely avoid social situations" }, 
-                            relationship: { opt1: "Weekends are the worst", opt2: "Several times per week", opt3: "Daily (constant state)", opt4: "Arguments several times daily", opt5: "There is almost only silence left" } } 
-                        },
-                        history: { title: "HISTORY", question: "How long have you been struggling with this?", options: { opt1: "Less than 1 year", opt2: "1 - 5 years", opt3: "5 - 10 years", opt4: "Since puberty / Over 10 years" } },
-                        pain_point: { title: "CONSEQUENCES", question: "What is it costing you right now? (Be honest)", options: { porn: { opt1: "Brain fog & poor concentration", opt2: "Erectile issues (PIED) / loss of libido", opt3: "Wasting time during work", opt4: "Social isolation / shame", opt5: "Feeling powerless" }, gettinggirls: { opt1: "Deep loneliness", opt2: "Fear of staying alone forever", opt3: "Jealousy of couples / other men", opt4: "Feeling inferior", opt5: "Sexual frustration" }, relationship: { opt1: "Sexual drought / 'roommate syndrome'", opt2: "Constant criticism & nagging", opt3: "Fear of separation / divorce", opt4: "I no longer feel comfortable at home", opt5: "Loss of respect" } } },
-                        impact: { title: "DISTRESS LEVEL", question: "On a scale of 1-10: How urgently do you need to change this?", descriptions: { porn: { 1: "Hardly.", 2: "Very rarely.", 3: "From time to time.", 4: "Regularly.", 5: "It bothers me.", 6: "Straining.", 7: "Strong craving.", 8: "Critical.", 9: "Loss of control.", 10: "It is destroying my life." }, gettinggirls: { 1: "I just want to get better.", 2: "I feel okay.", 3: "Sometimes insecure.", 4: "Often inhibited.", 5: "Dissatisfied, but I cope.", 6: "Frustrating.", 7: "Lonely.", 8: "Painful.", 9: "Despair.", 10: "Loneliness is consuming me." }, relationship: { 1: "Small differences.", 2: "Mostly harmonious.", 3: "It is okay.", 4: "Recurring discussions.", 5: "Exhausting.", 6: "Straining.", 7: "Distant.", 8: "Critical.", 9: "Toxic.", 10: "Distress is at maximum." } } },
-                        energy_level: { title: "ENERGY LEVEL", question: "How much energy do you currently have in daily life? (1-10)", descriptions: { porn: { 1: "Chronically exhausted.", 2: "Very low.", 3: "Tired.", 4: "Below average.", 5: "So-so.", 6: "Okay. I function.", 7: "Good.", 8: "Strong.", 9: "Very high.", 10: "Maximum." }, gettinggirls: { 1: "Chronically exhausted.", 2: "Very low.", 3: "Tired.", 4: "Below average.", 5: "So-so.", 6: "Okay. I function.", 7: "Good.", 8: "Strong.", 9: "Very high.", 10: "Maximum." }, relationship: { 1: "Chronically exhausted.", 2: "Very low.", 3: "Tired.", 4: "Below average.", 5: "So-so.", 6: "Okay. I function.", 7: "Good.", 8: "Strong.", 9: "Very high.", 10: "Maximum." } } },
-                        available_time: { title: "TIME FOR YOURSELF", question: "How many minutes per day do you have ONLY for yourself?", options: ["0 - 15 Minutes", "30 Minutes", "60 Minutes", "90 Minutes", "2+ Hours"] },
-                        commitment: { title: "COMMITMENT", question: "Are you ready to put in the work?", options: { yes: "Yes, I will do this (100%)", no: "I am still unsure" } },
-                        rank_path: { title: "YOUR IDENTITY", question: "Which path of strength inspires you most?", options: { military: "Military", guardian: "The Guardian", samurai: "The Samurai", roman: "The Emperor" } },
-                        goal: { title: "GOAL", question: "What is your main goal?", options: { porn: { freedom: "Mental freedom", health: "Healthy sexuality", power: "Regain respect" }, gettinggirls: { love: "Find the right one", ease: "Ease with women", confidence: "Self-confidence" }, relationship: { passion: "Reignite passion", leadership: "Respect", peace: "Peace" } } }
-                    }
+                btn: { next: "NEXT", back: "BACK", start: "START LIFE" },
+                s1: { lbl: "PHASE 1: STATUS", title: "What is your biggest challenge?", opts: { porn: "Excessive digital sexual consumption", gettinggirls: "Dating and social insecurity", relationship: "Constant relationship conflict and no intimacy" } },
+                s2: { lbl: "INTENSITY", title: "How often does the problem occur?", opts: { porn: ["Only under strong stress", "Several times per week", "During work", "Daily", "Multiple times daily"], gettinggirls: ["Only on weekends", "Every time I see a woman", "Daily (rumination)", "I avoid social situations completely"], relationship: ["Weekends are the worst", "Several times per week", "Daily (constant state)", "Arguments several times daily", "Mostly silence remains"] } },
+                s3: { lbl: "HISTORY", title: "How long have you been struggling with this?", opts: ["Less than 1 year", "1 - 5 years", "5 - 10 years", "Since puberty or over 10 years"] },
+                s4: { lbl: "CONSEQUENCES", title: "What is it costing you right now?", opts: { porn: ["Brain fog and poor focus", "Erectile issues or low libido", "Wasting time at work", "Social isolation or shame", "Feeling powerless"], gettinggirls: ["Deep loneliness", "Fear of staying alone forever", "Jealousy toward other men", "Feeling inferior", "Sexual frustration"], relationship: ["Sexual drought", "Constant criticism", "Fear of separation", "Don't feel comfortable at home", "Loss of respect"] } },
+                s5: { lbl: "YOUR STARTING POINT", title: "What does your situation look like right now?", urgLbl: "How satisfied are you with life right now?", nrgLbl: "How much energy do you currently have?", timLbl: "Minutes per day just for you in silence?", urgMin: "Not urgent", urgMax: "Very urgent", nrgMin: "No energy", nrgMax: "Very energetic",
+                      urgDesc: ["Catastrophic.", "Very bad.", "Bad.", "Below average.", "So-so. Sometimes more, sometimes less.", "Okay.", "Good.", "Pretty good.", "Very good.", "Maximum."],
+                      nrgDesc: ["Chronically exhausted.", "Very low.", "Tired.", "Below average.", "So-so. Sometimes more, sometimes less.", "Okay.", "Good.", "Strong.", "Very high.", "Maximum."],
+                      timDesc: ["No time at all.", "Little. I am mostly distracted.", "A bit.", "Sufficient.", "Lots of time for myself."]
                 },
-                web: {
-                    pitch: { label: "THE SOLUTION", headline: "Path to Freedom", sub: "You found the problem. Here is the tool.", title: "Protocol includes:", f1: "90-Day Step-by-Step", f2: "Essence of 48 books", f3: "Journaling & Tracking", f4: "Brotherhood Support", btn: "UNLOCK SOLUTION" },
-                    reg: { label: "FINAL STEP", headline: "Create Account", sub: "Secure protocol. Proceed to checkout.", email: "your@email.com", pw: "Password (min. 6)", btn: "PROCEED TO PAYMENT", errFill: "Fill all fields.", errExists: "Email exists!" },
-                    loadingSub: "Analyzing based on thousands of men."
-                }
+                s6: { title: "CALCULATING RESULT...", sub: "Analyzing your data." },
+                s7: { lbl: "YOUR SYSTEM'S STRESS LEVEL", costLbl: "CONCRETELY THIS COSTS YOU:", costVal: { porn: "Your mental focus, genuine intimacy, and deep self-respect.", gettinggirls: "The best years of your life, trapped in isolation.", relationship: "The emotional connection and the woman you love." }, lvls: { ext: { t: "EXTREME", s: "YOUR NERVOUS SYSTEM IS MAXED OUT", d: "You are only functioning in survival mode." }, dan: { t: "DANGEROUS", s: "YOUR BODY IS AT THE LIMIT", d: "You are chronically overloaded. Running on reserve." }, ala: { t: "ALARMING", s: "NERVOUS SYSTEM OVERLOADED", d: "You are under constant stress." }, cri: { t: "CRITICAL", s: "SYSTEM UNDER STRESS", d: "Time to turn things around." } } },
+                s8: { title: "YOUR ASSESSMENT", msg: "Thank you for your openness. Your situation is not a character flaw, but a learned pattern. This app offers proven techniques. It's up to YOU to use them.", disc: "Tools don't replace therapy. Consult a doctor if needed." },
+                s9: { lbl: "COMMITMENT", title: "Are you ready to put in the work?", opts: ["Yes, I will push through (100%)", "I am still unsure"] },
+                s10: { lbl: "IMPORTANT NOTICE", title: "Please read this carefully", desc: "This app provides tools for personal growth. It does not replace professional treatment.", c1: "I confirm that I am currently psychologically stable.", c2: "I understand that this app does not replace therapy." },
+                s11: { title: "Which path of strength inspires you the most?", opts: { military: "Military (discipline and toughness)", guardian: "The Guardian (mind and focus)", samurai: "The Samurai (honor and calm)", roman: "The Emperor (power and stoicism)" } },
+                s12: { lbl: "FINAL STEP", title: "Create Account", sub: "Secure protocol. Proceed to checkout.", em: "janoschbrase@gmail.com", pw: "•••••••••", btn: "PROCEED TO PAYMENT", errFill: "Fill all fields.", errExists: "Email exists." }
             },
             es: {
-                lang: { welcome: "BIENVENIDO", title: "ELIGE IDIOMA", subtitle: "Selecciona el idioma.", next: "CONTINUAR" },
-                disclaimer: { title: "Seguridad y Salud", sub: "Confirma los siguientes puntos antes de comenzar.", chk1: "Soy consciente de que esta aplicación no sustituye la terapia profesional y no hace promesas médicas de curación.", chk2: "Confirmo que me encuentro en una condición física y mental lo suficientemente estable para realizar este programa.", btn: "ENTENDIDO Y CONTINUAR" },
-                onboarding: {
-                    buttons: { next: "SIGUIENTE", lets_go: "¡VAMOS! (100%)", back: "ATRÁS", not_sure: "No estoy seguro" },
-                    labels: { not_urgent: "No urgente", very_urgent: "Muy urgente", no_energy: "Sin energía", very_energetic: "Muy enérgico", min_day: "Min/día", time_0: "0 min", time_120: "2+ h.", your_answer: "Tu respuesta..." },
-                    result: {
-                        title: "Nivel de estrés de tu sistema:",
-                        calculating: "TU RESULTADO SE ESTÁ CALCULANDO...",
-                        cost_headline: "CONCRETAMENTE TE CUESTA ESTO:",
-                        dynamicCost: { porn: "Tu enfoque mental, intimidad real y respeto propio.", gettinggirls: "Los mejores años de tu vida, atrapado en aislamiento.", relationship: "La conexión emocional y la mujer que amas." },
-                        levels: {
-                            extreme: { title: "EXTREMO", sub: "TU SISTEMA NERVIOSO ESTÁ AL LÍMITE", desc: "Solo funcionas en modo supervivencia. Cada fibra de tu cuerpo pide un cambio." },
-                            dangerous: { title: "PELIGROSO", sub: "TU CUERPO ESTÁ AL LÍMITE", desc: "Estás crónicamente sobrecargado. Tu sistema funciona con reservas – y casi no quedan." },
-                            alarming: { title: "ALARMANTE", sub: "TU SISTEMA NERVIOSO ESTÁ SOBRECARGADO", desc: "Estás bajo estrés constante. Tu cuerpo ya no puede recuperarse bien." },
-                            critical: { title: "CRÍTICO", sub: "TU SISTEMA ESTÁ BAJO ESTRÉS CONSTANTE", desc: "La carga va a fondo. Es hora de cambiar el rumbo." }
-                        }
-                    },
-                    steps: {
-                        root_problem: { title: "FASE 1: ESTADO", question: "¿Cuál es tu mayor problema ahora mismo?", disclaimer: "¡Esta app no sustituye una terapia!", options: { porn: "Consumo sexual digital excesivo", gettinggirls: "Citas e inseguridad social", relationship: "Conflicto constante de pareja y sin intimidad" } },
-                        frequency: { title: "INTENSIDAD", question: "¿Con qué frecuencia aparece el problema / comportamiento?", options: { 
-                            porn: { opt1: "Solo con mucho estrés", opt2: "Varias veces por semana", opt3: "Durante el trabajo / teletrabajo", opt4: "Diario", opt5: "Varias veces al día" }, 
-                            gettinggirls: { opt1: "Solo los fines de semana (al salir)", opt2: "Cada vez que veo a una mujer", opt3: "Diario (darle vueltas)", opt4: "Evito por completo situaciones sociales" }, 
-                            relationship: { opt1: "Los fines de semana son lo peor", opt2: "Varias veces por semana", opt3: "Diario (estado constante)", opt4: "Discusiones varias veces al día", opt5: "Casi solo queda silencio" } } 
-                        },
-                        history: { title: "HISTORIAL", question: "¿Cuánto tiempo llevas luchando con esto?", options: { opt1: "Menos de 1 año", opt2: "1 - 5 años", opt3: "5 - 10 años", opt4: "Desde la pubertad / Más de 10 años" } },
-                        pain_point: { title: "CONSECUENCIAS", question: "¿Qué te está costando ahora mismo? (Sé honesto)", options: { porn: { opt1: "Niebla mental y falta de concentración", opt2: "Problemas de erección (PIED)", opt3: "Pérdida de tiempo", opt4: "Aislamiento social / vergüenza", opt5: "Sensación de impotencia" }, gettinggirls: { opt1: "Soledad profunda", opt2: "Miedo a quedarme solo", opt3: "Envidia", opt4: "Sentimiento de inferioridad", opt5: "Frustración sexual" }, relationship: { opt1: "Sequía sexual", opt2: "Crítica constante", opt3: "Miedo a separación", opt4: "Ya no me siento cómodo", opt5: "Pérdida de respeto" } } },
-                        impact: { title: "NIVEL DE SUFRIMIENTO", question: "En una escala del 1 al 10: ¿qué urgencia tienes de cambiar esto?", descriptions: { porn: { 1: "Apenas.", 2: "Muy rara vez.", 3: "De vez en cuando.", 4: "Con regularidad.", 5: "Me molesta, pero funciono.", 6: "Agobiante.", 7: "Deseo fuerte.", 8: "Crítico.", 9: "Pérdida de control.", 10: "Está destruyendo mi vida." }, gettinggirls: { 1: "Solo quiero mejorar un poco.", 2: "Me siento bien.", 3: "A veces inseguro.", 4: "A menudo bloqueado.", 5: "Insatisfecho, pero me manejo.", 6: "Frustrante.", 7: "Solo.", 8: "Doloroso.", 9: "Desesperación.", 10: "La soledad me está consumiendo." }, relationship: { 1: "Solo diferencias pequeñas.", 2: "Mayormente armonioso.", 3: "Va bien.", 4: "Discusiones recurrentes.", 5: "Es agotador.", 6: "Agobiante.", 7: "Distante.", 8: "Crítico.", 9: "Tóxico.", 10: "El sufrimiento es máximo." } } },
-                        energy_level: { title: "NIVEL DE ENERGÍA", question: "¿Cuánta energía tienes actualmente en tu día a día? (1-10)", descriptions: { porn: { 1: "Crónicamente agotado.", 2: "Muy baja.", 3: "Cansado.", 4: "Por debajo de la media.", 5: "Regular.", 6: "Bien. Funciono.", 7: "Bien.", 8: "Fuerte.", 9: "Muy alta.", 10: "Máxima." }, gettinggirls: { 1: "Crónicamente agotado.", 2: "Muy baja.", 3: "Cansado.", 4: "Por debajo de la media.", 5: "Regular.", 6: "Bien. Funciono.", 7: "Bien.", 8: "Fuerte.", 9: "Muy alta.", 10: "Máxima." }, relationship: { 1: "Crónicamente agotado.", 2: "Muy baja.", 3: "Cansado.", 4: "Por debajo de la media.", 5: "Regular.", 6: "Bien. Funciono.", 7: "Bien.", 8: "Fuerte.", 9: "Muy alta.", 10: "Máxima." } } },
-                        available_time: { title: "TIEMPO PARA TI", question: "¿Cuántos minutos al día tienes SOLO para ti?", options: ["0 - 15 Minutos", "30 Minutos", "60 Minutos", "90 Minutos", "2+ Horas"] },
-                        commitment: { title: "COMPROMISO", question: "¿Estás listo para hacer el trabajo?", options: { yes: "Sí, voy a hacerlo (100%)", no: "Aún no estoy seguro" } },
-                        rank_path: { title: "TU IDENTIDAD", question: "¿Qué camino de fortaleza te inspira más?", options: { military: "Militar", guardian: "El Guardián", samurai: "El Samurái", roman: "El Emperador" } },
-                        goal: { title: "OBJETIVO", question: "¿Cuál es tu objetivo principal?", options: { porn: { freedom: "Libertad y enfoque", health: "Sexualidad saludable", power: "Recuperar respeto" }, gettinggirls: { love: "Encontrar a la indicada", ease: "Naturalidad con mujeres", confidence: "Autoconfianza" }, relationship: { passion: "Reavivar pasión", leadership: "Liderazgo", peace: "Paz" } } }
-                    }
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "START LIFE" },
+                s1: { lbl: "FASE 1: ESTADO", title: "¿Cuál es tu mayor problema?", opts: { porn: "Consumo sexual digital excesivo", gettinggirls: "Inseguridad social y citas", relationship: "Conflicto constante y sin intimidad" } },
+                s2: { lbl: "INTENSIDAD", title: "¿Con qué frecuencia ocurre?", opts: { porn: ["Solo bajo estrés", "Varias veces por semana", "Durante el trabajo", "Diario", "Varias veces al día"], gettinggirls: ["Solo fines de semana", "Cada vez que veo a una mujer", "Diario (dar vueltas)", "Evito situaciones sociales"], relationship: ["Fines de semana es peor", "Varias veces por semana", "Diario", "Discusiones diarias", "Casi solo silencio"] } },
+                s3: { lbl: "HISTORIAL", title: "¿Cuánto tiempo llevas con esto?", opts: ["Menos de 1 año", "1 - 5 años", "5 - 10 años", "Desde la pubertad"] },
+                s4: { lbl: "CONSECUENCIAS", title: "¿Qué te cuesta ahora mismo?", opts: { porn: ["Niebla mental", "Problemas de erección", "Pérdida de tiempo", "Aislamiento social", "Impotencia"], gettinggirls: ["Soledad profunda", "Miedo a quedarme solo", "Envidia", "Inferioridad", "Frustración sexual"], relationship: ["Sequedad sexual", "Crítica constante", "Miedo a separación", "No me siento cómodo", "Pérdida de respeto"] } },
+                s5: { lbl: "TU PUNTO DE PARTIDA", title: "¿Cómo es tu situación actual?", urgLbl: "¿Qué tan satisfecho estás?", nrgLbl: "¿Cuánta energía tienes?", timLbl: "¿Minutos al día para ti en silencio?", urgMin: "Nada", urgMax: "Mucho", nrgMin: "Sin energía", nrgMax: "Mucha",
+                      urgDesc: ["Catastrófico.", "Muy mal.", "Mal.", "Por debajo de la media.", "Regular. A veces más, a veces menos.", "Bien.", "Bueno.", "Bastante bien.", "Muy bueno.", "Máximo."],
+                      nrgDesc: ["Agotado.", "Muy baja.", "Cansado.", "Por debajo de la media.", "Regular.", "Bien.", "Bueno.", "Fuerte.", "Muy alta.", "Máxima."],
+                      timDesc: ["Nada de tiempo.", "Poco. Me distraigo.", "Un poco.", "Suficiente.", "Mucho tiempo."]
                 },
-                web: {
-                    pitch: { label: "LA SOLUCIÓN", headline: "Camino a la Libertad", sub: "Encontraste el problema. Aquí la herramienta.", title: "El Protocolo incluye:", f1: "Programa de 90 días", f2: "Esencia de 48 libros", f3: "Diario y Rastreo", f4: "Apoyo de Hermandad", btn: "DESBLOQUEAR SOLUCIÓN" },
-                    reg: { label: "ÚLTIMO PASO", headline: "Crear Cuenta", sub: "Asegura el protocolo y procede al pago.", email: "tu@email.com", pw: "Contraseña (mín. 6)", btn: "IR AL PAGO", errFill: "Llena los campos.", errExists: "Email existe!" },
-                    loadingSub: "Analizando miles de perfiles."
-                }
+                s6: { title: "CALCULANDO...", sub: "Analizando tus datos." },
+                s7: { lbl: "NIVEL DE ESTRÉS", costLbl: "ESTO TE CUESTA:", costVal: { porn: "Tu enfoque mental y respeto propio.", gettinggirls: "Los mejores años de tu vida en aislamiento.", relationship: "La conexión emocional." }, lvls: { ext: { t: "EXTREMO", s: "SISTEMA AL LÍMITE", d: "Modo supervivencia." }, dan: { t: "PELIGROSO", s: "CUERPO AL LÍMITE", d: "Sobrecarga crónica." }, ala: { t: "ALARMANTE", s: "SISTEMA SOBRECARGADO", d: "Estrés constante." }, cri: { t: "CRÍTICO", s: "BAJO ESTRÉS", d: "Es hora de cambiar." } } },
+                s8: { title: "TU EVALUACIÓN", msg: "Gracias por tu apertura. Esta app ofrece herramientas probadas. Depende de TI usarlas.", disc: "No sustituye terapia. Consulta a un médico." },
+                s9: { lbl: "COMPROMISO", title: "¿Estás listo para trabajar?", opts: ["Sí, lo haré (100%)", "Aún no estoy seguro"] },
+                s10: { lbl: "AVISO IMPORTANTE", title: "Lee esto con atención", desc: "Esta app no sustituye tratamiento profesional.", c1: "Confirmo que estoy estable.", c2: "Entiendo que no sustituye terapia." },
+                s11: { title: "¿Qué camino te inspira más?", opts: { military: "Militar", guardian: "El Guardián", samurai: "El Samurái", roman: "El Emperador" } },
+                s12: { lbl: "ÚLTIMO PASO", title: "Crear Cuenta", sub: "Asegura el protocolo.", em: "tu@email.com", pw: "Contraseña (mín. 6)", btn: "IR AL PAGO", errFill: "Llena los campos.", errExists: "Email existe." }
             }
         };
 
-        const digistoreLinks = { de: "https://www.checkout-ds24.com/product/675932/", en: "https://www.checkout-ds24.com/product/675950/", es: "https://www.checkout-ds24.com/product/675951/" };
+        // --- STATE ---
+        let currentLang = localStorage.getItem('smh_language') || 'en';
+        let step = 0;
+        let answers = { root_problem: 'porn', pain_point: [], urgency: 5, energy: 5, available_time: 30, therapy1: false, therapy2: false };
 
-        let currentLang = 'de'; let currentStep = 0; const answers = {}; 
-        
-        let totalStressScore = 0;
-        let scoreAnswersCount = 0;
+        // --- DOM ELEMENTS ---
+        const bBar = document.getElementById('bottomBar');
+        const bNext = document.getElementById('btnNext');
+        const pBar = document.getElementById('progressBar');
+        const pCont = document.getElementById('progressContainer');
 
-        let disclaimer1Checked = false;
-        let disclaimer2Checked = false;
+        function updateTexts() {
+            const l = t[currentLang];
+            bNext.innerText = l.btn.next;
+            document.getElementById('btnBack').innerText = l.btn.back;
 
-        function saveAnswer(stepId, value, scoreWeight) {
-            answers[stepId] = value;
-            if (scoreWeight !== undefined) {
-                totalStressScore += scoreWeight;
-                scoreAnswersCount++;
-            }
+            document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
+            document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
+            document.getElementById('s3-lbl').innerText = l.s3.lbl; document.getElementById('s3-title').innerText = l.s3.title;
+            document.getElementById('s4-lbl').innerText = l.s4.lbl; document.getElementById('s4-title').innerText = l.s4.title;
+            document.getElementById('s5-lbl').innerText = l.s5.lbl; document.getElementById('s5-title').innerText = l.s5.title;
+            
+            document.getElementById('s5-lbl-urg').innerText = l.s5.urgLbl; document.getElementById('hint-urg-min').innerText = l.s5.urgMin; document.getElementById('hint-urg-max').innerText = l.s5.urgMax;
+            document.getElementById('s5-lbl-nrg').innerText = l.s5.nrgLbl; document.getElementById('hint-nrg-min').innerText = l.s5.nrgMin; document.getElementById('hint-nrg-max').innerText = l.s5.nrgMax;
+            document.getElementById('s5-lbl-tim').innerText = l.s5.timLbl;
+            
+            document.getElementById('s6-title').innerText = l.s6.title; document.getElementById('s6-sub').innerText = l.s6.sub;
+            
+            document.getElementById('s8-title').innerText = l.s8.title; document.getElementById('s8-msg').innerText = l.s8.msg; document.getElementById('s8-disc').innerText = l.s8.disc;
+            document.getElementById('s9-lbl').innerText = l.s9.lbl; document.getElementById('s9-title').innerText = l.s9.title;
+            
+            document.getElementById('s10-lbl').innerText = l.s10.lbl; document.getElementById('s10-title').innerText = l.s10.title; document.getElementById('s10-desc').innerText = l.s10.desc;
+            document.getElementById('s10-c1').innerText = l.s10.c1; document.getElementById('s10-c2').innerText = l.s10.c2;
+            
+            document.getElementById('s11-title').innerText = l.s11.title;
+            
+            document.getElementById('s12-lbl').innerText = l.s12.lbl; 
+            document.getElementById('s12-title').innerText = l.s12.title; 
+            document.getElementById('s12-sub').innerText = l.s12.sub;
+            document.getElementById('reg-email').placeholder = l.s12.em; 
+            document.getElementById('reg-password').placeholder = l.s12.pw;
+            document.getElementById('btn-register').innerText = l.s12.btn;
+            
+            updateAssessmentUI();
         }
 
-        function calculateFinalScore() {
-            const averageWeight = scoreAnswersCount > 0 ? (totalStressScore / scoreAnswersCount) : 50;
-            const finalScore = 70 + (averageWeight / 100) * 20;
-            return Math.round(finalScore);
-        }
+        window.onload = () => { selectLang(currentLang); };
 
-        function getScaleDesc(scaleType, value) {
-            const steps = t[currentLang].onboarding.steps;
-            const root = answers['root'];
-            if(scaleType === 'distress') return steps.impact.descriptions[root][value];
-            if(scaleType === 'energy') return steps.energy_level.descriptions[root][value];
-            return "";
-        }
-
-        function selectLanguage(lang) {
+        function selectLang(lang) {
             currentLang = lang;
-            document.querySelectorAll('#step-0 .option-btn').forEach(btn => btn.classList.remove('selected'));
-            document.getElementById(`lang-${lang}`).classList.add('selected');
-            setText('lang-welcome', t[lang].lang.welcome); setText('lang-title', t[lang].lang.title); setText('lang-subtitle', t[lang].lang.subtitle);
-            document.getElementById('btn-start').disabled = false; document.getElementById('btn-start').innerText = t[lang].lang.next;
-            answers['language'] = lang;
-            
-            // Lade direkt die passenden Disclaimer-Texte vor
-            setText('disc-title', t[lang].disclaimer.title);
-            setText('disc-sub', t[lang].disclaimer.sub);
-            setText('disc-text-1', t[lang].disclaimer.chk1);
-            setText('disc-text-2', t[lang].disclaimer.chk2);
-            setText('btn-accept-disc', t[lang].disclaimer.btn);
+            localStorage.setItem('smh_language', lang);
+            updateTexts();
+            buildOptions();
+            handleNext(); // Go to step 1
         }
 
-        function toggleCheckbox(id) {
-            const el = document.getElementById(id);
-            if (id === 'chk-therapy') {
-                disclaimer1Checked = !disclaimer1Checked;
-                if (disclaimer1Checked) el.classList.add('checked'); else el.classList.remove('checked');
-            }
-            if (id === 'chk-health') {
-                disclaimer2Checked = !disclaimer2Checked;
-                if (disclaimer2Checked) el.classList.add('checked'); else el.classList.remove('checked');
-            }
+        function buildOptions() {
+            const l = t[currentLang];
+            const root = answers.root_problem;
+
+            // S1 (Root)
+            document.getElementById('s1-opts').innerHTML = Object.entries(l.s1.opts).map(([k, v]) => 
+                `<div class="quiz-btn ${root === k ? 'selected' : ''}" onclick="setAns('root_problem', '${k}'); buildOptions(); handleNext();"><div class="quiz-btn-text">${v}</div><div class="radio-icon"></div></div>`
+            ).join('');
+
+            // S2 (Frequency)
+            document.getElementById('s2-opts').innerHTML = l.s2.opts[root].map((v, i) => 
+                `<div class="quiz-btn ${answers.frequency === v ? 'selected' : ''}" onclick="setAns('frequency', '${v.replace(/'/g, "\\'")}'); buildOptions(); handleNext();"><div class="quiz-btn-text">${v}</div><div class="radio-icon"></div></div>`
+            ).join('');
+
+            // S3 (History)
+            document.getElementById('s3-opts').innerHTML = l.s3.opts.map((v, i) => 
+                `<div class="quiz-btn ${answers.history === v ? 'selected' : ''}" onclick="setAns('history', '${v.replace(/'/g, "\\'")}'); buildOptions(); handleNext();"><div class="quiz-btn-text">${v}</div><div class="radio-icon"></div></div>`
+            ).join('');
+
+            // S4 (Consequences - Multi)
+            document.getElementById('s4-opts').innerHTML = l.s4.opts[root].map((v) => {
+                const isSel = answers.pain_point.includes(v);
+                return `<div class="quiz-btn ${isSel ? 'selected' : ''}" onclick="togglePain('${v.replace(/'/g, "\\'")}'); buildOptions();"><div class="quiz-btn-text">${v}</div><div class="check-icon">✓</div></div>`;
+            }).join('');
+
+            // S9 (Commitment)
+            document.getElementById('s9-opts').innerHTML = l.s9.opts.map((v) => 
+                `<div class="quiz-btn ${answers.commitment === v ? 'selected' : ''}" onclick="setAns('commitment', '${v.replace(/'/g, "\\'")}'); buildOptions(); handleNext();"><div class="quiz-btn-text">${v}</div><div class="radio-icon"></div></div>`
+            ).join('');
+
+            // S11 (Rank Path)
+            document.getElementById('s11-opts').innerHTML = Object.entries(l.s11.opts).map(([k, v]) => 
+                `<div class="quiz-btn ${answers.rank_path === k ? 'selected' : ''}" onclick="setAns('rank_path', '${k}'); buildOptions(); handleNext();"><div class="quiz-btn-text">${v}</div><div class="radio-icon"></div></div>`
+            ).join('');
+        }
+
+        function setAns(key, val) { answers[key] = val; }
+        function togglePain(val) {
+            const idx = answers.pain_point.indexOf(val);
+            if (idx > -1) answers.pain_point.splice(idx, 1);
+            else answers.pain_point.push(val);
+            checkNextState();
+        }
+
+        function adjCounter(type, amount) {
+            if (type === 'urg') { answers.urgency = Math.max(1, Math.min(10, answers.urgency + amount)); }
+            if (type === 'nrg') { answers.energy = Math.max(1, Math.min(10, answers.energy + amount)); }
+            if (type === 'tim') { answers.available_time = Math.max(0, Math.min(120, answers.available_time + amount)); }
+            updateAssessmentUI();
+        }
+
+        function updateAssessmentUI() {
+            document.getElementById('val-urg').innerText = answers.urgency;
+            document.getElementById('val-nrg').innerText = answers.energy;
+            document.getElementById('val-tim').innerText = answers.available_time;
             
-            if (disclaimer1Checked && disclaimer2Checked) {
-                document.getElementById('btn-accept-disc').disabled = false;
+            const l = t[currentLang].s5;
+            document.getElementById('desc-urg').innerText = l.urgDesc[answers.urgency - 1];
+            document.getElementById('desc-nrg').innerText = l.nrgDesc[answers.energy - 1];
+            
+            let tIdx = 2;
+            if(answers.available_time < 15) tIdx = 0; else if(answers.available_time < 30) tIdx = 1; else if(answers.available_time >= 60) tIdx = 3; else if(answers.available_time >= 90) tIdx = 4;
+            document.getElementById('desc-tim').innerText = l.timDesc[tIdx];
+        }
+
+        function toggleTherapy(id) {
+            if(id === 'chk1') answers.therapy1 = !answers.therapy1;
+            if(id === 'chk2') answers.therapy2 = !answers.therapy2;
+            document.getElementById('chk1').className = `check-row ${answers.therapy1 ? 'selected' : ''}`;
+            document.getElementById('chk2').className = `check-row ${answers.therapy2 ? 'selected' : ''}`;
+            checkNextState();
+        }
+
+        function checkNextState() {
+            let canGo = false;
+            if(step === 4) canGo = answers.pain_point.length > 0;
+            else if(step === 5) canGo = true;
+            else if(step === 7) canGo = true;
+            else if(step === 8) canGo = true;
+            else if(step === 10) canGo = (answers.therapy1 && answers.therapy2);
+
+            bNext.disabled = !canGo;
+        }
+
+        function renderResult() {
+            let burden = 70 + (answers.urgency * 1.5) + ((10 - answers.energy) * 1.5);
+            burden = Math.min(99, Math.round(burden));
+            answers.calculated_stress_score = burden;
+
+            const res = t[currentLang].s7;
+            let lvl, col;
+            if (burden >= 86) { lvl = res.lvls.ext; col = '#ff0000'; }
+            else if (burden >= 81) { lvl = res.lvls.dan; col = '#ff3333'; }
+            else if (burden >= 76) { lvl = res.lvls.ala; col = '#ff6666'; }
+            else { lvl = res.lvls.cri; col = '#ff9999'; }
+
+            document.getElementById('s7-lbl').innerText = res.lbl;
+            document.getElementById('res-score').innerText = burden + '%';
+            document.getElementById('res-score').style.color = col;
+            document.getElementById('res-level').innerText = lvl.t;
+            document.getElementById('res-level').style.color = col;
+            document.getElementById('res-card').style.borderColor = col;
+
+            document.getElementById('res-sub').innerText = lvl.s;
+            document.getElementById('res-sub').style.color = col;
+            document.getElementById('res-desc').innerText = lvl.d;
+            document.getElementById('res-info-box').style.borderLeftColor = col;
+
+            document.getElementById('res-cost-lbl').innerText = res.costLbl;
+            document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
+        }
+
+        function handleNext() {
+            if (step > 0) document.getElementById(`step-${step}`).classList.remove('active');
+            step++;
+            
+            pCont.style.display = (step > 0 && step < 12 && step !== 6 && step !== 7 && step !== 8) ? 'block' : 'none';
+            if (pCont.style.display === 'block') pBar.style.width = `${(step / 11) * 100}%`;
+
+            // Buttons Bar an/aus
+            if (step === 4 || step === 5 || step === 7 || step === 8 || step === 10) {
+                bBar.style.display = 'flex';
+                if(step===10) bNext.innerText = t[currentLang].btn.start; else bNext.innerText = t[currentLang].btn.next;
+                checkNextState();
             } else {
-                document.getElementById('btn-accept-disc').disabled = true;
+                bBar.style.display = 'none';
+            }
+
+            document.getElementById(`step-${step}`).classList.add('active');
+            window.scrollTo(0,0);
+
+            if(step === 6) {
+                setTimeout(() => { handleNext(); renderResult(); }, 2500);
             }
         }
 
-        function nextStep() {
-            document.getElementById(`step-${currentStep}`).classList.remove('active');
+        function handleBack() {
+            document.getElementById(`step-${step}`).classList.remove('active');
+            step = Math.max(1, step - 1);
+            if(step === 6) step = 5; // skip loading backward
+            document.getElementById(`step-${step}`).classList.add('active');
             
-            // Wenn wir vom Sprach-Screen kommen, zeige erst den Disclaimer (Step 0.5)
-            if (currentStep === 0) {
-                document.getElementById('step-0-5').classList.add('active');
-                return; // Verhindert, dass wir sofort zu Step 1 springen
-            }
+            pCont.style.display = (step > 0 && step < 12 && step !== 6 && step !== 7 && step !== 8) ? 'block' : 'none';
+            if (pCont.style.display === 'block') pBar.style.width = `${(step / 11) * 100}%`;
             
-            currentStep++;
-            if (currentStep > 0 && currentStep !== 8 && currentStep !== 13 && currentStep !== 14) {
-                document.getElementById('progressBar').style.width = `${Math.min((currentStep / 12) * 100, 100)}%`;
+            if (step === 4 || step === 5 || step === 7 || step === 8 || step === 10) {
+                bBar.style.display = 'flex';
+                if(step===10) bNext.innerText = t[currentLang].btn.start; else bNext.innerText = t[currentLang].btn.next;
+                checkNextState();
+            } else {
+                bBar.style.display = 'none';
             }
-            document.getElementById(`step-${currentStep}`).classList.add('active');
-
-            if(currentStep === 8) {
-                setTimeout(() => {
-                    document.getElementById(`step-8`).classList.remove('active');
-                    currentStep++;
-                    
-                    const calculatedScore = calculateFinalScore();
-                    const tr = t[currentLang].onboarding.result;
-                    
-                    setText('res-score', `${calculatedScore}%`);
-                    
-                    let levelData;
-                    let color;
-                    
-                    if (calculatedScore >= 86) { levelData = tr.levels.extreme; color = "#FF0000"; }
-                    else if (calculatedScore >= 81) { levelData = tr.levels.dangerous; color = "#FF3333"; }
-                    else if (calculatedScore >= 76) { levelData = tr.levels.alarming; color = "#FF6600"; }
-                    else { levelData = tr.levels.critical; color = "#FFAA00"; }
-                    
-                    setText('res-title', levelData.title); 
-                    setText('res-desc', `${levelData.sub}\n\n${levelData.desc}`);
-                    
-                    setText('res-cost-prefix', tr.cost_headline);
-                    setText('res-cost-dynamic', tr.dynamicCost[answers['root']]);
-                    
-                    document.getElementById('res-score').style.color = color; 
-                    document.getElementById('res-title').style.color = color; 
-                    document.getElementById('resultCard').style.borderColor = color;
-                    
-                    document.getElementById(`step-${currentStep}`).classList.add('active');
-                }, 3000);
-            }
+            window.scrollTo(0,0);
         }
 
-        function startOnboarding() { 
-            // Speichere die Zustimmung ab
-            answers['disclaimer_accepted'] = true;
-            
-            // Verstecke Disclaimer
-            document.getElementById('step-0-5').classList.remove('active');
-            
-            // Starte Progress-Bar & lade erste echte Frage
-            document.getElementById('progressContainer').style.display = 'block'; 
-            buildStep1(); 
-            
-            // Gehe zu Step 1
-            currentStep = 1;
-            document.getElementById('step-1').classList.add('active');
-        }
-
-        function buildStep1() {
-            const steps = t[currentLang].onboarding.steps;
-            setText('s1-label', steps.root_problem.title); setText('s1-title', steps.root_problem.question); setText('s1-disclaimer', steps.root_problem.disclaimer);
-            let html = ''; 
-            for (const [key, val] of Object.entries(steps.root_problem.options)) { 
-                html += `<button class="option-btn" onclick="selectRoot('${key}')">${val}</button>`; 
-            }
-            document.getElementById('s1-options').innerHTML = html;
-        }
-
-        function selectRoot(rootKey) { 
-            answers['root'] = rootKey; 
-            saveAnswer('root_problem', rootKey, 80); 
-            buildDynamicSteps(); 
-            nextStep(); 
-        }
-
-        function buildDynamicSteps() {
-            const steps = t[currentLang].onboarding.steps; 
-            const root = answers['root'];
-
-            const buildOpts = (id, stepData, optionsObj, stressIncreasesWithIndex = false) => {
-                setText(`${id}-label`, stepData.title); setText(`${id}-title`, stepData.question); 
-                let html = ''; 
-                const opts = Array.isArray(optionsObj) ? optionsObj : Object.values(optionsObj);
-                const maxIndex = opts.length - 1;
-                
-                opts.forEach((opt, index) => {
-                    const safeOpt = opt.replace(/'/g, "\\'");
-                    
-                    let scoreWeight = stressIncreasesWithIndex ? (index / maxIndex) * 100 : ((maxIndex - index) / maxIndex) * 100;
-                    
-                    html += `<button class="option-btn" onclick="saveAnswer('${id}', '${safeOpt}', ${scoreWeight}); nextStep()">${opt}</button>`;
-                });
-                document.getElementById(`${id}-options`).innerHTML = html;
-            };
-
-            buildOpts('s2', steps.frequency, steps.frequency.options[root], true); 
-            buildOpts('s3', steps.history, steps.history.options, true); 
-            buildOpts('s4', steps.pain_point, steps.pain_point.options[root], false); 
-            buildOpts('s7', steps.available_time, steps.available_time.options, false); 
-            buildOpts('s10', steps.commitment, steps.commitment.options, false); 
-            buildOpts('s11', steps.goal, steps.goal.options[root], false); 
-            buildOpts('s12', steps.rank_path, steps.rank_path.options, false);
-
-            const labels = t[currentLang].onboarding.labels;
-            
-            setText('s5-label', steps.impact.title); setText('s5-title', steps.impact.question); setText('s5-min', '1 - ' + labels.not_urgent); setText('s5-max', '10 - ' + labels.very_urgent); setText('s5-btn', t[currentLang].onboarding.buttons.next); 
-            let h5 = ''; for(let i=1; i<=10; i++) {
-                const stressVal = ((i - 1) / 9) * 100; 
-                h5 += `<button class="scale-btn" onclick="selectScale(this, 5, ${i}, 'distress', ${stressVal})">${i}</button>`;
-            }
-            document.getElementById('s5-options').innerHTML = h5;
-            
-            setText('s6-label', steps.energy_level.title); setText('s6-title', steps.energy_level.question); setText('s6-min', '1 - ' + labels.no_energy); setText('s6-max', '10 - ' + labels.very_energetic); setText('s6-btn', t[currentLang].onboarding.buttons.next); 
-            let h6 = ''; for(let i=1; i<=10; i++) {
-                const stressVal = ((10 - i) / 9) * 100;
-                h6 += `<button class="scale-btn" onclick="selectScale(this, 6, ${i}, 'energy', ${stressVal})">${i}</button>`;
-            }
-            document.getElementById('s6-options').innerHTML = h6;
-
-            setText('loading-title', t[currentLang].onboarding.result.calculating); setText('loading-sub', t[currentLang].web.loadingSub);
-            setText('res-label', t[currentLang].onboarding.result.title); setText('btn-res-next', t[currentLang].onboarding.buttons.next);
-
-            const pitch = t[currentLang].web.pitch;
-            setText('pitch-label', pitch.label); setText('pitch-headline', pitch.headline); setText('pitch-sub', pitch.sub); setText('pitch-title', pitch.title); 
-            setText('pitch-1', pitch.f1); setText('pitch-2', pitch.f2); setText('pitch-3', pitch.f3); setText('pitch-4', pitch.f4); setText('btn-checkout', pitch.btn);
-            
-            const reg = t[currentLang].web.reg;
-            setText('reg-label', reg.label); setText('reg-headline', reg.headline); setText('reg-sub', reg.sub); setText('btn-register', reg.btn);
-            document.getElementById('reg-email').placeholder = reg.email; document.getElementById('reg-password').placeholder = reg.pw;
-        }
-
-        function selectScale(btn, stepNum, val, type, scoreWeight) {
-            document.querySelectorAll(`#step-${stepNum} .scale-btn`).forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            setText(`s${stepNum}-desc-text`, `"${getScaleDesc(type, val)}"`);
-            document.getElementById(`s${stepNum}-desc-box`).style.display = 'block'; document.getElementById(`s${stepNum}-btn`).style.display = 'block';
-            saveAnswer('s' + stepNum, val, scoreWeight); 
-        }
-
+        // --- SUPABASE REGISTRATION ---
         async function handleRegistration() {
             const email = document.getElementById('reg-email').value;
             const password = document.getElementById('reg-password').value;
             const errEl = document.getElementById('reg-error');
-            const btn = document.getElementById('btn-register');
-            const regTexts = t[currentLang].web.reg;
+            const btn = document.getElementById('btn-register'); 
+            const l = t[currentLang];
             
-            if(!email || password.length < 6) { errEl.innerText = regTexts.errFill; errEl.style.display = 'block'; return; }
-            errEl.style.display = 'none'; btn.innerText = "Lädt..."; btn.disabled = true;
+            if(!email || password.length < 6) { 
+                errEl.innerText = l.s12.errFill; 
+                errEl.style.display = 'block'; 
+                return; 
+            }
+            errEl.style.display = 'none';
+            btn.disabled = true;
+            btn.innerText = "...";
 
             const db = initSupabase();
-            if (!db) { redirectToDigistore('guest_user_' + Math.floor(Math.random() * 10000)); return; }
+            if (!db) { redirectToDigistore('guest_user'); return; }
 
-            answers['calculated_stress_score'] = calculateFinalScore();
+            // EXACT PAYLOAD TO MATCH APP
+            const finalPayload = {
+                name: 'WebUser',
+                root_problem: answers.root_problem,
+                frequency: answers.frequency,
+                history: answers.history,
+                pain_point: answers.pain_point,
+                urgency: answers.urgency,
+                energy: answers.energy,
+                impact: answers.urgency,
+                energy_level: answers.energy,
+                available_time: answers.available_time,
+                belastung: answers.calculated_stress_score,
+                belastung_insights: "Web Assessment Completed",
+                health_confirmation: answers.therapy1,
+                disclaimer_accepted: answers.therapy2,
+                rank_path: answers.rank_path
+            };
 
             const { data, error } = await db.auth.signUp({ 
                 email, 
@@ -549,7 +553,7 @@
                     data: { 
                         first_name: 'WebUser', 
                         is_over_21: true,
-                        onboarding_data: answers 
+                        onboarding_data: finalPayload 
                     } 
                 } 
             });
@@ -557,10 +561,19 @@
             if (error) {
                 if(error.message.includes('already registered')) {
                     const { data: signInData, error: signInError } = await db.auth.signInWithPassword({ email, password });
-                    if(signInError) { errEl.innerText = regTexts.errExists; errEl.style.display = 'block'; btn.innerText = regTexts.btn; btn.disabled = false; return; }
+                    if(signInError) { 
+                        errEl.innerText = l.s12.errExists; 
+                        errEl.style.display = 'block'; 
+                        btn.disabled = false;
+                        btn.innerText = l.s12.btn;
+                        return; 
+                    }
                     redirectToDigistore(signInData.user.id);
                 } else {
-                    errEl.innerText = error.message; errEl.style.display = 'block'; btn.innerText = regTexts.btn; btn.disabled = false;
+                    errEl.innerText = error.message; 
+                    errEl.style.display = 'block';
+                    btn.disabled = false;
+                    btn.innerText = l.s12.btn;
                 }
             } else if (data.user) {
                 redirectToDigistore(data.user.id);
@@ -568,7 +581,7 @@
         }
 
         function redirectToDigistore(userId) {
-            const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
+            const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['en'];
             window.location.href = `${digistoreBaseUrl}?custom=${userId}`;
         }
     </script>
