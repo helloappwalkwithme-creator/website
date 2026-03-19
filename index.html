@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,7 @@
             --primary-hover: #004494;
             --text-dark: #222;
             --text-light: #666;
+            --gold: #D4AF37;
         }
 
         body {
@@ -26,12 +27,12 @@
             background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('mathis-mauprivez-DrI1KoNiQiw-unsplash.jpg');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed; /* Das Bild bleibt beim Scrollen fixiert */
+            background-attachment: fixed;
         }
 
         nav {
-            background-color: rgba(255, 255, 255, 0.95); /* Leicht transparent */
-            padding: 20px 40px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px 40px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-between;
@@ -42,7 +43,20 @@
         }
         .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: var(--text-dark); }
         
-        /* Hero Section (nur noch Text-Container) */
+        /* Sprachwechsler in der Navigation */
+        .lang-selector {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            font-size: 0.95rem;
+            cursor: pointer;
+            outline: none;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+        .lang-selector:focus { border-color: var(--primary); }
+
         .hero {
             padding: 100px 20px 80px 20px;
             display: flex;
@@ -57,15 +71,13 @@
 
         main { flex: 1; padding: 0 20px 80px 20px; max-width: 1400px; margin: 0 auto; text-align: center; width: 100%; box-sizing: border-box; }
         
-        /* Überschriften sind jetzt weiß mit leichtem Schatten */
         h2 { font-size: 2.2rem; color: #fff; margin-bottom: 40px; position: relative; display: inline-block; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: var(--primary); }
         
         .section { margin-bottom: 80px; }
 
-        /* Coaching Card */
         .coaching-card { 
-            background: rgba(255, 255, 255, 0.95); /* Leicht transparentes Weiß */
+            background: rgba(255, 255, 255, 0.95); 
             padding: 50px 30px; 
             border-radius: 12px; 
             box-shadow: 0 10px 40px rgba(0,0,0,0.3); 
@@ -77,7 +89,6 @@
         .coaching-card h3 { margin-top: 0; font-size: 1.8rem; color: var(--text-dark); }
         .coaching-card p { color: var(--text-light); margin-bottom: 30px; font-size: 1.1rem; }
         
-        /* App Grid */
         .grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
@@ -97,74 +108,83 @@
         .card h3 { margin-top: 0; font-size: 1.3rem; color: var(--text-dark); }
         .card p { color: var(--text-light); margin-bottom: 25px; flex-grow: 1; font-size: 0.95rem; }
         
-        /* Buttons */
         .btn { display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; text-align: center; transition: background-color 0.2s; }
         .btn-primary { background-color: var(--primary); color: #fff; }
         .btn-primary:hover { background-color: var(--primary-hover); }
         .btn-disabled { background-color: #e0e0e0; color: #888; cursor: not-allowed; }
         
-        /* Footer */
         footer { background-color: rgba(255, 255, 255, 0.95); padding: 50px 20px; border-top: 1px solid rgba(0,0,0,0.1); text-align: center; }
         .legal-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 60px; max-width: 1000px; margin: 0 auto; }
         .language-column { display: flex; flex-direction: column; text-align: left; min-width: 200px; }
         .language-column h3 { font-size: 1.1rem; margin-bottom: 20px; color: #555; text-transform: uppercase; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
         .language-column a { color: var(--text-light); text-decoration: none; margin-bottom: 10px; font-size: 0.95rem; transition: color 0.2s; }
         .language-column a:hover { color: var(--primary); text-decoration: none; }
+
+        @media (max-width: 600px) {
+            nav { padding: 15px 20px; }
+            .logo { font-size: 1.2rem; }
+            .hero h1 { font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
 
     <nav>
         <a href="index.html" class="logo">Shift My Horizon</a>
+        <select class="lang-selector" id="languageSelect" onchange="changeLanguage(this.value)">
+            <option value="en">🇺🇸 English</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="es">🇪🇸 Español</option>
+        </select>
     </nav>
 
     <header class="hero">
         <h1>Shift My Horizon</h1>
-        <p class="subtitle">Personal Growth & Coaching</p>
+        <p class="subtitle" data-i18n="hero_sub">Personal Growth & Coaching</p>
     </header>
 
     <main>
         <section class="section">
-            <h2>Coaching & Mentoring</h2>
+            <h2 data-i18n="coach_h2">Coaching & Mentoring</h2>
             <div class="coaching-card">
-                <h3>1-on-1 Intensiv-Programm</h3>
-                <p>Du willst tiefer gehen, echte Klarheit gewinnen und persönliche Blockaden lösen? Wir erarbeiten gemeinsam deinen Weg zur Freiheit.</p>
-                <a href="mailto:hello@shiftmyhorizon.com" class="btn btn-primary">Kontakt aufnehmen</a>
+                <h3 data-i18n="coach_h3">1-on-1 Intensive Program</h3>
+                <p data-i18n="coach_p">You want to go deeper, gain true clarity, and release personal blockages? Together we pave your way to freedom.</p>
+                <a href="mailto:hello@shiftmyhorizon.com" class="btn btn-primary" data-i18n="coach_btn">Contact Us</a>
             </div>
         </section>
 
         <section class="section">
-            <h2>Unsere Apps</h2>
+            <h2 data-i18n="apps_h2">Our Apps</h2>
             <div class="grid">
                 
                 <div class="card">
                     <h3>Integrated Man</h3>
-                    <p>Der Weg zur besten Version deiner selbst. Tracke Fortschritte und stärke dein Mindset.</p>
-                    <a href="integrated-man.html" class="btn btn-primary">Zur App</a>
+                    <p data-i18n="app1_p">The path to the best version of yourself. Track progress and strengthen your mindset.</p>
+                    <a href="integrated-man.html" class="btn btn-primary" data-i18n="app_btn_active">To the App</a>
                 </div>
                 
                 <div class="card">
                     <h3>Projekt Alpha</h3>
-                    <p>Ein neues Tool für deine tägliche Produktivität und klaren Fokus.</p>
-                    <a href="#" class="btn btn-disabled">Bald verfügbar</a>
+                    <p data-i18n="app2_p">A new tool for your daily productivity and clear focus.</p>
+                    <a href="#" class="btn btn-disabled" data-i18n="app_btn_soon">Coming soon</a>
                 </div>
                 
                 <div class="card">
                     <h3>Projekt Beta</h3>
-                    <p>Erweitere deinen Horizont mit unserer kommenden Meditations-App.</p>
-                    <a href="#" class="btn btn-disabled">Bald verfügbar</a>
+                    <p data-i18n="app3_p">Expand your horizon with our upcoming meditation app.</p>
+                    <a href="#" class="btn btn-disabled" data-i18n="app_btn_soon">Coming soon</a>
                 </div>
 
                 <div class="card">
                     <h3>Projekt Gamma</h3>
-                    <p>Beziehungs-Tracking und Tools für Paare, um Kommunikation zu stärken.</p>
-                    <a href="#" class="btn btn-disabled">In Planung</a>
+                    <p data-i18n="app4_p">Relationship tracking and tools for couples to strengthen communication.</p>
+                    <a href="#" class="btn btn-disabled" data-i18n="app_btn_plan">In planning</a>
                 </div>
 
                 <div class="card">
                     <h3>Projekt Delta</h3>
-                    <p>Unterstützung und Ratgeber-Tools für bewusste Erziehung.</p>
-                    <a href="#" class="btn btn-disabled">In Planung</a>
+                    <p data-i18n="app5_p">Support and guidance tools for conscious parenting.</p>
+                    <a href="#" class="btn btn-disabled" data-i18n="app_btn_plan">In planning</a>
                 </div>
 
             </div>
@@ -197,5 +217,80 @@
         </div>
     </footer>
 
+    <script>
+        const translations = {
+            en: {
+                hero_sub: "Personal Growth & Coaching",
+                coach_h2: "Coaching & Mentoring",
+                coach_h3: "1-on-1 Intensive Program",
+                coach_p: "You want to go deeper, gain true clarity, and release personal blockages? Together we pave your way to freedom.",
+                coach_btn: "Contact Us",
+                apps_h2: "Our Apps",
+                app1_p: "The path to the best version of yourself. Track progress and strengthen your mindset.",
+                app2_p: "A new tool for your daily productivity and clear focus.",
+                app3_p: "Expand your horizon with our upcoming meditation app.",
+                app4_p: "Relationship tracking and tools for couples to strengthen communication.",
+                app5_p: "Support and guidance tools for conscious parenting.",
+                app_btn_active: "To the App",
+                app_btn_soon: "Coming soon",
+                app_btn_plan: "In planning"
+            },
+            de: {
+                hero_sub: "Persönliches Wachstum & Coaching",
+                coach_h2: "Coaching & Mentoring",
+                coach_h3: "1-on-1 Intensiv-Programm",
+                coach_p: "Du willst tiefer gehen, echte Klarheit gewinnen und persönliche Blockaden lösen? Wir erarbeiten gemeinsam deinen Weg zur Freiheit.",
+                coach_btn: "Kontakt aufnehmen",
+                apps_h2: "Unsere Apps",
+                app1_p: "Der Weg zur besten Version deiner selbst. Tracke Fortschritte und stärke dein Mindset.",
+                app2_p: "Ein neues Tool für deine tägliche Produktivität und klaren Fokus.",
+                app3_p: "Erweitere deinen Horizont mit unserer kommenden Meditations-App.",
+                app4_p: "Beziehungs-Tracking und Tools für Paare, um Kommunikation zu stärken.",
+                app5_p: "Unterstützung und Ratgeber-Tools für bewusste Erziehung.",
+                app_btn_active: "Zur App",
+                app_btn_soon: "Bald verfügbar",
+                app_btn_plan: "In Planung"
+            },
+            es: {
+                hero_sub: "Crecimiento Personal y Coaching",
+                coach_h2: "Coaching y Mentoría",
+                coach_h3: "Programa Intensivo 1-a-1",
+                coach_p: "¿Quieres profundizar, obtener verdadera claridad y liberar bloqueos personales? Juntos abrimos tu camino hacia la libertad.",
+                coach_btn: "Contáctanos",
+                apps_h2: "Nuestras Apps",
+                app1_p: "El camino hacia la mejor versión de ti mismo. Sigue tu progreso y fortalece tu mentalidad.",
+                app2_p: "Una nueva herramienta para tu productividad diaria y enfoque claro.",
+                app3_p: "Expande tu horizonte con nuestra próxima app de meditación.",
+                app4_p: "Rastreo de relaciones y herramientas para fortalecer la comunicación en pareja.",
+                app5_p: "Apoyo y herramientas de guía para una crianza consciente.",
+                app_btn_active: "Ir a la App",
+                app_btn_soon: "Próximamente",
+                app_btn_plan: "En planificación"
+            }
+        };
+
+        function changeLanguage(lang) {
+            // 1. Speichert die Sprache für andere Seiten (z. B. integrated-man.html)
+            localStorage.setItem('smh_language', lang);
+            document.documentElement.lang = lang;
+            
+            // 2. Setzt den Wert im Dropdown-Menü korrekt
+            document.getElementById('languageSelect').value = lang;
+
+            // 3. Tauscht alle Texte mit 'data-i18n' aus
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+        }
+
+        // Beim Laden der Seite: Gespeicherte Sprache abrufen, sonst 'en' (US)
+        window.onload = () => {
+            const savedLang = localStorage.getItem('smh_language') || 'en';
+            changeLanguage(savedLang);
+        };
+    </script>
 </body>
 </html>
