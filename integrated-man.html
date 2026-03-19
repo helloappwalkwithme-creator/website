@@ -7,15 +7,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --dark: #0a0a0a;
-            --gray: #1a1a1a;
+            --dark: #000000;
+            --gray: #111111;
+            --gray-active: #1f1a0f;
             --border: #333333;
             --gold: #d4af37;
             --text: #ffffff;
-            --error: #ff6b6b;
-            --success: #2e7d32;
+            --error: #ff5555;
+            --success: #4caf50;
             --energy: #ffa500;
-            --time: #4caf50;
         }
 
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -31,13 +31,13 @@
             overflow-x: hidden; 
         }
         
-        /* Progress Bar (Identisch zur App) */
+        /* Progress Bar */
         .progress-container { width: 100%; height: 4px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
         .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.3s ease; }
 
         main { 
             flex: 1; 
-            padding: 24px 20px 100px 20px; /* Padding bottom for the fixed bar */
+            padding: 30px 20px 100px 20px; 
             max-width: 500px; 
             margin: 0 auto; 
             width: 100%; 
@@ -50,16 +50,16 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Typography */
-        .flow-title { color: var(--gold); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .h1-title { font-size: 22px; font-weight: 700; margin-top: 0; margin-bottom: 18px; color: var(--text); line-height: 1.3; }
-        .subtitle { color: #aaaaaa; margin-bottom: 20px; font-size: 15px; line-height: 1.5; }
+        .flow-title { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .h1-title { font-size: 26px; font-weight: 800; margin-top: 0; margin-bottom: 24px; color: var(--text); line-height: 1.3; }
+        .subtitle { color: #aaaaaa; margin-bottom: 24px; font-size: 15px; line-height: 1.5; }
 
-        /* Quiz Buttons (Identisch zur App) */
+        /* Quiz Buttons */
         .quiz-btn { 
             background-color: var(--gray); 
             border: 1px solid var(--border); 
-            border-radius: 10px; 
-            padding: 16px; 
+            border-radius: 12px; 
+            padding: 18px 20px; 
             margin-bottom: 12px; 
             cursor: pointer; 
             display: flex; 
@@ -67,43 +67,44 @@
             align-items: center; 
             transition: all 0.2s ease; 
         }
-        .quiz-btn.selected { border-color: var(--gold); background-color: #1f1a0f; }
-        .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 10px; line-height: 1.4; }
+        .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
+        .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.4; font-weight: 500; }
         .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 700; }
         
-        .radio-icon { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; }
+        .radio-icon { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; }
         .quiz-btn.selected .radio-icon { border-color: var(--gold); }
-        .radio-icon::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); display: none; }
+        .radio-icon::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); display: none; }
         .quiz-btn.selected .radio-icon::after { display: block; }
 
-        .check-icon { width: 22px; height: 22px; border-radius: 4px; border: 2px solid #666; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; }
+        .check-icon { width: 24px; height: 24px; border-radius: 6px; border: 2px solid #666; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 14px; }
         .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: #000; }
 
         /* Assessment Counters */
-        .assessment-block { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
-        .ass-label { color: var(--gold); font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.4px; margin-bottom: 6px; }
-        .ass-value { font-size: 34px; font-weight: 800; text-align: center; margin-bottom: 6px; }
-        .ass-desc { color: #bbb; font-size: 12px; text-align: center; margin-bottom: 8px; min-height: 18px; line-height: 1.5; }
-        .counter-row { display: flex; justify-content: space-between; align-items: center; margin: 4px 0; }
-        .counter-btn { background: #222; border: none; color: inherit; border-radius: 6px; padding: 8px 14px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .scale-hints { display: flex; justify-content: space-between; font-size: 11px; color: #777; margin-top: 4px; }
+        .assessment-block { background: var(--gray); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
+        .ass-label { color: var(--gold); font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 10px; text-align: center; }
+        .ass-value { font-size: 40px; font-weight: 800; text-align: center; margin-bottom: 8px; }
+        .ass-desc { color: #bbb; font-size: 13px; text-align: center; margin-bottom: 12px; min-height: 18px; line-height: 1.5; }
+        .counter-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 15px; }
+        .counter-btn { background: #222; border: none; color: inherit; border-radius: 8px; width: 45px; height: 45px; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 300; }
+        .counter-btn:active { background: #333; }
+        .scale-hints { display: flex; justify-content: space-between; font-size: 11px; color: #777; margin-top: 8px; }
 
         /* Result Card */
-        .result-card { background-color: #1a0000; border: 3px solid var(--error); border-radius: 12px; padding: 18px; text-align: center; margin-bottom: 12px; }
-        .result-score { color: #ff6666; font-size: 56px; font-weight: 800; line-height: 58px; }
-        .result-level { color: #ff9999; font-size: 18px; font-weight: 800; margin-top: 8px; text-transform: uppercase; }
+        .result-card { background-color: #1a0000; border: 3px solid var(--error); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
+        .result-score { color: var(--error); font-size: 64px; font-weight: 900; line-height: 1; }
+        .result-level { color: #ff9999; font-size: 18px; font-weight: 800; margin-top: 12px; text-transform: uppercase; letter-spacing: 1px; }
         
-        .insight-card { background: #171717; border: 1px solid #2b2b2b; border-radius: 10px; padding: 14px; margin-bottom: 10px; }
-        .insight-title { color: #ccc; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
-        .insight-text { color: #b5b5b5; font-size: 13px; line-height: 1.5; }
+        .insight-card { background: #171717; border: 1px solid #2b2b2b; border-radius: 10px; padding: 18px; margin-bottom: 12px; }
+        .insight-title { color: #ccc; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.5; }
         
-        .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 16px; margin-bottom: 10px; }
+        .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 20px; margin-bottom: 12px; }
 
         /* Disclaimer Checkboxes */
-        .check-row { display: flex; align-items: flex-start; margin-top: 10px; margin-bottom: 6px; cursor: pointer; }
-        .box-icon { width: 24px; height: 24px; border: 2px solid var(--gold); border-radius: 6px; margin-right: 10px; margin-top: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; }
+        .check-row { display: flex; align-items: flex-start; margin-top: 15px; margin-bottom: 10px; cursor: pointer; }
+        .box-icon { width: 24px; height: 24px; border: 2px solid var(--gold); border-radius: 6px; margin-right: 12px; margin-top: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 14px;}
         .check-row.selected .box-icon { background: var(--gold); color: #000; }
-        .check-label { font-size: 14px; color: var(--text); line-height: 20px; flex: 1; }
+        .check-label { font-size: 14px; color: var(--text); line-height: 1.5; flex: 1; }
 
         /* Fixed Bottom Button */
         .bottom-bar { 
@@ -113,7 +114,7 @@
             width: 100%; 
             background: var(--dark); 
             border-top: 1px solid var(--border); 
-            padding: 12px 20px 22px 20px; 
+            padding: 15px 20px 25px 20px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
@@ -122,44 +123,47 @@
         .btn-gold { 
             background-color: var(--gold); 
             color: var(--dark); 
-            padding: 14px; 
-            border-radius: 8px; 
+            padding: 16px; 
+            border-radius: 10px; 
             font-weight: 800; 
             font-size: 15px; 
             text-transform: uppercase; 
             border: none; 
             width: 100%; 
-            max-width: 420px; 
+            max-width: 460px; 
             cursor: pointer; 
             text-align: center; 
+            letter-spacing: 0.5px;
         }
         .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
         
         .btn-back { 
             background: none; 
             border: none; 
-            color: #aaa; 
-            margin-top: 10px; 
-            padding: 8px 12px;
+            color: #888; 
+            margin-top: 12px; 
+            padding: 8px 16px;
             cursor: pointer; 
-            font-size: 14px; 
-            text-decoration: underline; 
+            font-size: 13px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Input Fields for Register */
         .input-field { 
-            background-color: var(--gray); 
+            background-color: #fdfad5; /* Leicht gelblich wie auf dem Screenshot */
             border: 1px solid var(--border); 
-            color: var(--text); 
-            padding: 12px 14px; 
+            color: #000; 
+            padding: 16px; 
             border-radius: 8px; 
-            font-size: 15px; 
+            font-size: 16px; 
             margin-bottom: 16px; 
             width: 100%; 
+            font-weight: 500; 
         }
         .input-field:focus { border-color: var(--gold); outline: none; }
         
-        .spinner { border: 4px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 40px auto; }
+        .spinner { border: 4px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 60px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
@@ -219,11 +223,11 @@
 
             <div class="assessment-block">
                 <div class="ass-label" id="s5-lbl-tim"></div>
-                <div class="ass-value" id="val-tim" style="color: var(--time);">30</div>
+                <div class="ass-value" id="val-tim" style="color: var(--success);">30</div>
                 <div class="ass-desc" id="desc-tim"></div>
                 <div class="counter-row">
-                    <button class="counter-btn" style="color: var(--time);" onclick="adjCounter('tim', -5)">−</button>
-                    <button class="counter-btn" style="color: var(--time);" onclick="adjCounter('tim', 5)">+</button>
+                    <button class="counter-btn" style="color: var(--success);" onclick="adjCounter('tim', -5)">−</button>
+                    <button class="counter-btn" style="color: var(--success);" onclick="adjCounter('tim', 5)">+</button>
                 </div>
                 <div class="scale-hints">
                     <span id="hint-tim-min">0 min</span><span id="hint-tim-max">120 min</span>
@@ -231,7 +235,7 @@
             </div>
         </div>
 
-        <div class="step" id="step-6" style="text-align: center; padding-top: 50px;">
+        <div class="step" id="step-6" style="text-align: center; padding-top: 60px;">
             <div class="spinner"></div>
             <h1 class="h1-title" id="s6-title" style="color: var(--gold);"></h1>
             <p class="subtitle" id="s6-sub"></p>
@@ -254,7 +258,7 @@
         </div>
 
         <div class="step" id="step-8">
-            <h1 class="h1-title" id="s8-title" style="color: var(--success); text-align: center;"></h1>
+            <h1 class="h1-title" id="s8-title" style="color: var(--success); text-align: center; margin-top: 20px;"></h1>
             <div class="info-card"><p class="insight-text" id="s8-msg" style="color: #fff; text-align: center;"></p></div>
             <div class="info-card" style="border-left: 3px solid var(--gold);"><p class="insight-text" id="s8-disc"></p></div>
         </div>
@@ -283,18 +287,18 @@
         </div>
 
         <div class="step" id="step-12">
-            <div class="flow-title" id="s12-lbl"></div>
-            <h1 class="h1-title" id="s12-title"></h1>
-            <p class="subtitle" id="s12-sub"></p>
-            
-            <div style="margin-bottom: 16px;">
-                <div class="flow-title" style="margin-bottom: 8px;">EMAIL</div>
-                <input type="email" id="reg-email" class="input-field" autocomplete="email">
+            <div style="text-align: center;">
+                <div class="flow-title" id="s12-lbl" style="justify-content: center;"></div>
+                <h1 class="h1-title" id="s12-title" style="margin-bottom: 10px;"></h1>
+                <p class="subtitle" id="s12-sub" style="margin-bottom: 30px;"></p>
             </div>
             
-            <div style="margin-bottom: 16px;">
-                <div class="flow-title" style="margin-bottom: 8px;">PASSWORD</div>
-                <input type="password" id="reg-password" class="input-field">
+            <div style="margin-bottom: 10px;">
+                <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="Email">
+            </div>
+            
+            <div style="margin-bottom: 10px;">
+                <input type="password" id="reg-password" class="input-field" placeholder="Password">
             </div>
             
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
@@ -313,10 +317,10 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         const digistoreLinks = { de: "https://www.checkout-ds24.com/product/675932/", en: "https://www.checkout-ds24.com/product/675950/", es: "https://www.checkout-ds24.com/product/675951/" };
 
-        // --- EXAKT AUSFÜHRLICHE ÜBERSETZUNGEN ---
+        // --- EXAKT AUSFÜHRLICHE ÜBERSETZUNGEN (1:1 aus der App) ---
         const t = {
             de: {
-                btn: { next: "Weiter", back: "Zurück", start: "ZUR PAYWALL", pay: "KONTO ERSTELLEN & WEITER" },
+                btn: { next: "WEITER", back: "ZURÜCK", start: "WEITER", pay: "PROCEED TO PAYMENT" },
                 s1: { 
                     lbl: "PHASE 1: STATUS", 
                     title: "Was ist deine größte Baustelle?", 
@@ -338,7 +342,7 @@
                 },
                 s4: { 
                     lbl: "KONSEQUENZEN", 
-                    title: "Was kostet es dich aktuell?", 
+                    title: "Was kostet es dich aktuell? (Sei ehrlich)", 
                     opts: { 
                         porn: ["Gehirnnebel und Konzentrationsschwäche", "Erektile Probleme oder Libido-Verlust", "Zeitverschwendung während der Arbeit", "Soziale Isolation oder Scham", "Gefühl der Machtlosigkeit"], 
                         gettinggirls: ["Tiefe Einsamkeit", "Angst für immer allein zu bleiben", "Neid auf Paare oder andere Männer", "Gefühl von Minderwertigkeit", "Sexuelle Frustration"], 
@@ -350,7 +354,7 @@
                     title: "Wie sieht deine Situation gerade aus?", 
                     urgLbl: "Wie zufrieden bist du gerade im Leben?", 
                     nrgLbl: "Wie viel Energie hast du aktuell?", 
-                    timLbl: "Minuten pro Tag nur für dich in Stille?", 
+                    timLbl: "Minuten pro Tag nur für dich in Stille? (Kein Handy, etc.)", 
                     urgMin: "Sehr unzufrieden", 
                     urgMax: "Sehr zufrieden", 
                     nrgMin: "Keine Energie", 
@@ -361,7 +365,7 @@
                 },
                 s6: { title: "DEIN ERGEBNIS WIRD ERMITTELT...", sub: "Wir analysieren deine Daten." },
                 s7: { 
-                    lbl: "BELASTUNG DEINES SYSTEMS", 
+                    lbl: "DEIN ERGEBNIS", 
                     costLbl: "KONKRET KOSTET DICH DAS:", 
                     costVal: { porn: "Deinen mentalen Fokus, echte Intimität und den tiefen Respekt vor dir selbst.", gettinggirls: "Die besten Jahre deines Lebens, gefangen in Isolation.", relationship: "Die emotionale Verbindung und die Frau, die du liebst." }, 
                     lvls: { 
@@ -384,7 +388,7 @@
                 s10: { 
                     lbl: "WICHTIGER HINWEIS", 
                     title: "Bitte aufmerksam lesen", 
-                    desc: "Diese App bietet strukturierte Leitfäden und Tools zur persönlichen Weiterentwicklung. Sie ersetzt keine professionelle medizinische, psychologische oder psychiatrische Behandlung.", 
+                    desc: "Diese App bietet strukturierte Leitfäden und Tools zur persönlichen Weiterentwicklung. Sie ersetzt keine professionelle medizinische, psychologische oder psychiatrische Behandlung. Jede Handlung erfolgt auf eigene Gefahr.", 
                     c1: "Ich bestätige, dass ich aktuell psychisch stabil bin und mich nicht in einer akuten Krise befinde.", 
                     c2: "Ich verstehe, dass diese App keine Therapie ersetzt." 
                 },
@@ -393,17 +397,17 @@
                     opts: { military: "Militär (Disziplin und Härte)", guardian: "Der Hüter (Geist und Fokus)", samurai: "Der Samurai (Ehre und Ruhe)", roman: "Der Imperator (Macht und Stoizismus)" } 
                 },
                 s12: { 
-                    lbl: "LETZTER SCHRITT", 
-                    title: "Account erstellen", 
-                    sub: "Sichere deinen Fortschritt.", 
-                    em: "deine@email.com", 
-                    pw: "Passwort (mindestens 6 Zeichen)", 
-                    errFill: "Bitte fülle alle Felder aus", 
+                    lbl: "FINAL STEP", 
+                    title: "Create Account", 
+                    sub: "Secure protocol. Proceed to checkout.", 
+                    em: "janoschbrase@gmail.com", 
+                    pw: "•••••••••", 
+                    errFill: "Bitte fülle alle Felder aus.", 
                     errExists: "Email existiert bereits." 
                 }
             },
             en: {
-                btn: { next: "Next", back: "Back", start: "GO TO PAYWALL", pay: "CREATE ACCOUNT" },
+                btn: { next: "NEXT", back: "BACK", start: "CONTINUE", pay: "PROCEED TO PAYMENT" },
                 s1: { 
                     lbl: "PHASE 1: STATUS", 
                     title: "What is your biggest challenge?", 
@@ -425,9 +429,9 @@
                 },
                 s4: { 
                     lbl: "CONSEQUENCES", 
-                    title: "What is it costing you right now?", 
+                    title: "What is it costing you right now? (Be honest)", 
                     opts: { 
-                        porn: ["Brain fog and poor focus", "Erectile issues or low libido", "Wasting time during work", "Social isolation or shame", "Feeling powerless"], 
+                        porn: ["Brain fog and poor focus", "Erectile issues (PIED) / loss of libido", "Wasting time during work", "Social isolation or shame", "Feeling powerless"], 
                         gettinggirls: ["Deep loneliness", "Fear of staying alone forever", "Jealousy toward couples or other men", "Feeling inferior", "Sexual frustration"], 
                         relationship: ["Sexual drought or roommate syndrome", "Constant criticism and nagging", "Fear of separation or divorce", "I no longer feel at home", "Loss of respect"] 
                     } 
@@ -437,9 +441,9 @@
                     title: "What does your situation look like right now?", 
                     urgLbl: "How satisfied are you with life right now?", 
                     nrgLbl: "How much energy do you currently have?", 
-                    timLbl: "Minutes per day just for you in silence?", 
-                    urgMin: "Very dissatisfied", 
-                    urgMax: "Very satisfied", 
+                    timLbl: "Minutes per day just for you in silence? (No phone, etc.)", 
+                    urgMin: "Not urgent", 
+                    urgMax: "Very urgent", 
                     nrgMin: "No energy", 
                     nrgMax: "Very energetic",
                     urgDesc: ["Catastrophic.", "Very bad.", "Bad.", "Below average.", "So-so. Sometimes more, sometimes less.", "Okay.", "Good.", "Pretty good.", "Very good.", "Maximum."],
@@ -448,8 +452,8 @@
                 },
                 s6: { title: "CALCULATING RESULT...", sub: "Analyzing your data." },
                 s7: { 
-                    lbl: "YOUR SYSTEM BURDEN", 
-                    costLbl: "THIS CURRENTLY COSTS YOU:", 
+                    lbl: "YOUR RESULT", 
+                    costLbl: "CONCRETELY THIS COSTS YOU:", 
                     costVal: { porn: "Your mental focus, genuine intimacy, and deep self-respect.", gettinggirls: "The best years of your life, trapped in isolation.", relationship: "The emotional connection and the woman you love." }, 
                     lvls: { 
                         ext: { t: "EXTREME", s: "YOUR NERVOUS SYSTEM IS MAXED OUT", d: "You are only functioning in survival mode. Every fiber of your body is screaming for change." }, 
@@ -471,8 +475,8 @@
                 s10: { 
                     lbl: "IMPORTANT NOTICE", 
                     title: "Please read this carefully", 
-                    desc: "This app provides structured guidance and tools for personal growth. It does not replace professional medical, psychological, or psychiatric treatment.", 
-                    c1: "I confirm that I am currently mentally stable and not in an acute crisis.", 
+                    desc: "This app provides structured guidance and tools for personal development. It does not replace professional medical, psychological, or psychiatric treatment. Any actions you take based on the content of this app are at your own risk.", 
+                    c1: "I confirm that I am currently psychologically stable and not in an acute crisis.", 
                     c2: "I understand that this app does not replace therapy." 
                 },
                 s11: { 
@@ -483,14 +487,14 @@
                     lbl: "FINAL STEP", 
                     title: "Create Account", 
                     sub: "Secure protocol. Proceed to checkout.", 
-                    em: "your@email.com", 
-                    pw: "At least 6 characters", 
-                    errFill: "Please fill in all fields", 
-                    errExists: "Email exists." 
+                    em: "janoschbrase@gmail.com", 
+                    pw: "•••••••••", 
+                    errFill: "Please fill in all fields.", 
+                    errExists: "Email already exists." 
                 }
             },
             es: {
-                btn: { next: "Siguiente", back: "Atrás", start: "IR AL PAYWALL", pay: "CREAR CUENTA" },
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "CONTINUAR", pay: "PROCEED TO PAYMENT" },
                 s1: { 
                     lbl: "FASE 1: ESTADO", 
                     title: "¿Cuál es tu mayor problema?", 
@@ -512,7 +516,7 @@
                 },
                 s4: { 
                     lbl: "CONSECUENCIAS", 
-                    title: "¿Qué te está costando ahora mismo?", 
+                    title: "¿Qué te está costando ahora mismo? (Sé honesto)", 
                     opts: { 
                         porn: ["Niebla mental y falta de concentración", "Problemas de erección o baja libido", "Perder tiempo durante el trabajo", "Aislamiento social o vergüenza", "Sensación de impotencia"], 
                         gettinggirls: ["Soledad profunda", "Miedo a quedarme solo para siempre", "Envidia hacia parejas u otros hombres", "Sentimiento de inferioridad", "Frustración sexual"], 
@@ -524,7 +528,7 @@
                     title: "¿Cómo es tu situación actual?", 
                     urgLbl: "¿Qué tan satisfecho estás con tu vida ahora mismo?", 
                     nrgLbl: "¿Cuánta energía tienes actualmente?", 
-                    timLbl: "¿Minutos al día solo para ti en silencio?", 
+                    timLbl: "¿Minutos al día solo para ti en silencio? (Sin móvil, etc.)", 
                     urgMin: "Muy insatisfecho", 
                     urgMax: "Muy satisfecho", 
                     nrgMin: "Sin energía", 
@@ -535,7 +539,7 @@
                 },
                 s6: { title: "CALCULANDO...", sub: "Analizando tus datos." },
                 s7: { 
-                    lbl: "CARGA DE TU SISTEMA", 
+                    lbl: "TU RESULTADO", 
                     costLbl: "ESTO TE CUESTA AHORA:", 
                     costVal: { porn: "Tu enfoque mental y respeto propio.", gettinggirls: "Los mejores años de tu vida en aislamiento.", relationship: "La conexión emocional." }, 
                     lvls: { 
@@ -563,17 +567,16 @@
                     c2: "Entiendo que esta app no sustituye una terapia." 
                 },
                 s11: { 
-                    title: "¿Qué camino de fuerza te inspira más?", 
+                    title: "¿Qué camino te inspira más?", 
                     opts: { military: "Militar (disciplina y dureza)", guardian: "El Guardián (mente y enfoque)", samurai: "El Samurái (honor y calma)", roman: "El Emperador (poder y estoicismo)" } 
                 },
                 s12: { 
-                    lbl: "ÚLTIMO PASO", 
-                    title: "Crear Cuenta", 
-                    sub: "Asegura tu progreso.", 
-                    em: "tu@email.com", 
-                    pw: "Al menos 6 caracteres", 
-                    btn: "CREAR CUENTA", 
-                    errFill: "Completa todos los campos", 
+                    lbl: "FINAL STEP", 
+                    title: "Create Account", 
+                    sub: "Secure protocol. Proceed to checkout.", 
+                    em: "janoschbrase@gmail.com", 
+                    pw: "•••••••••", 
+                    errFill: "Completa todos los campos.", 
                     errExists: "Email existe." 
                 }
             }
@@ -581,9 +584,7 @@
 
         // --- STATE ---
         let currentLang = localStorage.getItem('smh_language');
-        if (!['de', 'en', 'es'].includes(currentLang)) {
-            currentLang = 'en';
-        }
+        if (!['de', 'en', 'es'].includes(currentLang)) { currentLang = 'en'; }
         
         let step = 1;
         let answers = { root_problem: 'porn', pain_point: [], urgency: 5, energy: 5, available_time: 30, therapy1: false, therapy2: false };
@@ -606,7 +607,7 @@
             document.getElementById('s5-lbl').innerText = l.s5.lbl; document.getElementById('s5-title').innerText = l.s5.title;
             
             document.getElementById('s5-lbl-urg').innerText = l.s5.urgLbl; document.getElementById('hint-urg-min').innerText = l.s5.urgMin; document.getElementById('hint-urg-max').innerText = l.s5.urgMax;
-            document.getElementById('s5-lbl-nrg').innerText = l.s5.nrgLbl; document.getElementById('hint-nrg-min').innerText = l.s5.nrgMin; document.getElementById('hint-nrg-max').innerText = l.s5.nrgMax;
+            document.getElementById('s5-lbl-nrg').innerText = l.s5.nrgLbl; document.getElementById('hint-n-min').innerText = l.s5.nrgMin; document.getElementById('hint-n-max').innerText = l.s5.nrgMax;
             document.getElementById('s5-lbl-tim').innerText = l.s5.timLbl;
             
             document.getElementById('s6-title').innerText = l.s6.title; document.getElementById('s6-sub').innerText = l.s6.sub;
@@ -633,9 +634,9 @@
             updateTexts();
             buildOptions();
             pBar.style.width = `${(1 / 11) * 100}%`;
+            checkNextState();
         };
 
-        // Nutze DOM Nodes statt HTML-Strings um Crashes durch Sonderzeichen zu vermeiden
         function createOptionBtn(text, isSelected, isMulti, onClick) {
             const div = document.createElement('div');
             div.className = `quiz-btn ${isSelected ? 'selected' : ''}`;
