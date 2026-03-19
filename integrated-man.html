@@ -190,6 +190,15 @@
         }
         .input-field:focus { border-color: var(--gold); outline: none; }
         
+        /* Grid for First/Last Name */
+        .name-grid {
+            display: flex;
+            gap: 10px;
+        }
+        .name-grid .input-field {
+            margin-bottom: 10px;
+        }
+
         .spinner { border: 4px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 60px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
@@ -328,11 +337,29 @@
                 <p class="subtitle" id="s12-sub" style="margin-bottom: 30px;"></p>
             </div>
             
-            <div style="margin-bottom: 10px;">
+            <div class="name-grid">
+                <div style="flex: 1;">
+                    <div class="flow-title" id="lbl-fname" style="margin-bottom: 8px;">FIRST NAME</div>
+                    <input type="text" id="reg-fname" class="input-field" placeholder="John">
+                </div>
+                <div style="flex: 1;">
+                    <div class="flow-title" id="lbl-lname" style="margin-bottom: 8px;">LAST NAME</div>
+                    <input type="text" id="reg-lname" class="input-field" placeholder="Doe">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 10px; margin-top: 6px;">
+                <div class="flow-title" id="lbl-age" style="margin-bottom: 8px;">AGE</div>
+                <input type="number" id="reg-age" class="input-field" placeholder="25">
+            </div>
+            
+            <div style="margin-bottom: 10px; margin-top: 6px;">
+                <div class="flow-title" style="margin-bottom: 8px;">EMAIL</div>
                 <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="Email">
             </div>
             
-            <div style="margin-bottom: 10px;">
+            <div style="margin-bottom: 10px; margin-top: 6px;">
+                <div class="flow-title" id="lbl-pwd" style="margin-bottom: 8px;">PASSWORD</div>
                 <input type="password" id="reg-password" class="input-field" placeholder="Password">
             </div>
             
@@ -350,7 +377,13 @@
     <script>
         const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
-        const digistoreLinks = { de: "https://www.checkout-ds24.com/product/675932/", en: "https://www.checkout-ds24.com/product/675950/", es: "https://www.checkout-ds24.com/product/675951/" };
+        
+        // Digistore Checkout URLs
+        const digistoreLinks = { 
+            de: "https://www.checkout-ds24.com/product/675932/", 
+            en: "https://www.checkout-ds24.com/product/675950/", 
+            es: "https://www.checkout-ds24.com/product/675951/" 
+        };
 
         // --- TRANSLATIONS ---
         const t = {
@@ -433,9 +466,13 @@
                 },
                 s12: { 
                     lbl: "FINAL STEP", 
-                    title: "Create Account", 
-                    sub: "Secure protocol. Proceed to checkout.", 
-                    em: "janoschbrase@gmail.com", 
+                    title: "Account erstellen", 
+                    sub: "Sichere deinen Fortschritt.",
+                    lblFname: "VORNAME",
+                    lblLname: "NACHNAME",
+                    lblAge: "ALTER",
+                    lblPwd: "PASSWORT", 
+                    em: "deine@email.com", 
                     pw: "•••••••••", 
                     errFill: "Bitte fülle alle Felder aus.", 
                     errExists: "Email existiert bereits." 
@@ -521,7 +558,11 @@
                 s12: { 
                     lbl: "FINAL STEP", 
                     title: "Create Account", 
-                    sub: "Secure protocol. Proceed to checkout.", 
+                    sub: "Secure protocol. Proceed to checkout.",
+                    lblFname: "FIRST NAME",
+                    lblLname: "LAST NAME",
+                    lblAge: "AGE",
+                    lblPwd: "PASSWORD", 
                     em: "janoschbrase@gmail.com", 
                     pw: "•••••••••", 
                     errFill: "Please fill in all fields.", 
@@ -608,9 +649,13 @@
                 s12: { 
                     lbl: "ÚLTIMO PASO", 
                     title: "Crear Cuenta", 
-                    sub: "Asegura tu progreso.", 
+                    sub: "Asegura tu progreso.",
+                    lblFname: "NOMBRE",
+                    lblLname: "APELLIDO",
+                    lblAge: "EDAD",
+                    lblPwd: "CONTRASEÑA",  
                     em: "tu@email.com", 
-                    pw: "Al menos 6 caracteres", 
+                    pw: "Mínimo 6 caracteres", 
                     errFill: "Completa todos los campos.", 
                     errExists: "Email existe." 
                 }
@@ -660,6 +705,12 @@
             document.getElementById('s12-lbl').innerText = l.s12.lbl; 
             document.getElementById('s12-title').innerText = l.s12.title; 
             document.getElementById('s12-sub').innerText = l.s12.sub;
+            
+            document.getElementById('lbl-fname').innerText = l.s12.lblFname;
+            document.getElementById('lbl-lname').innerText = l.s12.lblLname;
+            document.getElementById('lbl-age').innerText = l.s12.lblAge;
+            document.getElementById('lbl-pwd').innerText = l.s12.lblPwd;
+            
             document.getElementById('reg-email').placeholder = l.s12.em; 
             document.getElementById('reg-password').placeholder = l.s12.pw;
             
@@ -885,21 +936,35 @@
             window.scrollTo(0,0);
         }
 
-        function redirectToDigistore(userId) {
+        // --- DIGISTORE REDIRECT ---
+        function redirectToDigistore(userId, fName, lName, email) {
             console.log("Navigiere zu Digistore. User ID:", userId);
+            
             const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['en'];
-            const targetUrl = digistoreBaseUrl + '?custom=' + userId;
+            
+            // Parameter an URL anhängen, damit Digistore sie automatisch ausfüllt
+            // Digistore nutzt oft Parameter wie: ?custom=USER_ID&first_name=X&last_name=Y&email=Z
+            let targetUrl = `${digistoreBaseUrl}?custom=${encodeURIComponent(userId)}`;
+            
+            if (fName) targetUrl += `&first_name=${encodeURIComponent(fName)}`;
+            if (lName) targetUrl += `&last_name=${encodeURIComponent(lName)}`;
+            if (email) targetUrl += `&email=${encodeURIComponent(email)}`;
+
             window.location.href = targetUrl;
         }
 
+        // --- SUPABASE REGISTRATION ---
         async function handleRegistration() {
-            const email = document.getElementById('reg-email').value;
+            const fname = document.getElementById('reg-fname').value.trim();
+            const lname = document.getElementById('reg-lname').value.trim();
+            const age = document.getElementById('reg-age').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
             const password = document.getElementById('reg-password').value;
             const errEl = document.getElementById('reg-error');
             const btn = document.getElementById('btn-register'); 
             const l = t[currentLang];
             
-            if(!email || password.length < 6) { 
+            if(!email || password.length < 6 || !fname || !lname || !age) { 
                 errEl.innerText = l.s12.errFill; 
                 errEl.style.display = 'block'; 
                 return; 
@@ -912,13 +977,14 @@
             try {
                 const db = initSupabase();
                 if (!db) { 
-                    console.warn("Supabase konnte nicht initialisiert werden (evtl. Adblocker). Umleitung läuft trotzdem.");
-                    redirectToDigistore('guest_adblock_user'); 
+                    console.warn("Supabase geblockt. Nutze Fallback.");
+                    redirectToDigistore('guest_adblock_user', fname, lname, email); 
                     return; 
                 }
 
                 const finalPayload = {
-                    name: 'WebUser',
+                    name: fname + ' ' + lname,
+                    age: parseInt(age, 10),
                     root_problem: answers.root_problem,
                     frequency: answers.frequency,
                     history: answers.history,
@@ -940,8 +1006,10 @@
                     password, 
                     options: { 
                         data: { 
-                            first_name: 'WebUser', 
-                            is_over_21: true,
+                            first_name: fname,
+                            last_name: lname,
+                            age: parseInt(age, 10),
+                            is_over_21: parseInt(age, 10) >= 21,
                             onboarding_data: finalPayload 
                         } 
                     } 
@@ -957,7 +1025,7 @@
                             btn.innerText = l.btn.pay;
                             return; 
                         }
-                        redirectToDigistore(signInData.user.id);
+                        redirectToDigistore(signInData.user.id, fname, lname, email);
                     } else {
                         errEl.innerText = error.message; 
                         errEl.style.display = 'block';
@@ -965,11 +1033,11 @@
                         btn.innerText = l.btn.pay;
                     }
                 } else {
-                    redirectToDigistore(data?.user?.id || 'new_user_no_id');
+                    redirectToDigistore(data?.user?.id || 'new_user_no_id', fname, lname, email);
                 }
             } catch (e) {
-                console.error("Unerwarteter Fehler im Registrierungsprozess: ", e);
-                redirectToDigistore('guest_crash_user');
+                console.error("Fehler: ", e);
+                redirectToDigistore('guest_crash_user', fname, lname, email);
             }
         }
     </script>
