@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Parent in Peace - Onboarding</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            /* Warm, grounding, and calming color palette */
+            --dark: #1a1614; /* Deep warm charcoal/brown */
+            --gray: #26201e;
+            --gray-active: #362e2b;
+            --border: #423835;
+            --gold: #d48a60; /* Soft Terracotta / Amber */
+            --text: #f2efe9; /* Soft off-white */
+            --error: #cf6666;
+            --success: #7a9e7c;
+            --energy: #e3a968;
+            --time: #7a9e7c;
+        }
+
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--dark); 
+            color: var(--text); 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+        }
+        
+        /* Progress Bar */
+        .progress-container { width: 100%; height: 4px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
+        .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.3s ease; }
+
+        /* Top Header for Language Switcher */
+        .app-header {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px 20px 0 20px;
+        }
+        .lang-switcher {
+            background-color: var(--gray);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            text-align: center;
+        }
+        .lang-switcher:focus { border-color: var(--gold); }
+
+        main { 
+            flex: 1; 
+            padding: 20px 20px 100px 20px; 
+            max-width: 500px; 
+            margin: 0 auto; 
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        
+        .step { display: none; animation: fadeIn 0.4s ease forwards; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Typography */
+        .flow-title { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .h1-title { font-size: 26px; font-weight: 800; margin-top: 0; margin-bottom: 24px; color: var(--text); line-height: 1.3; }
+        .subtitle { color: #aaaaaa; margin-bottom: 24px; font-size: 15px; line-height: 1.5; }
+
+        /* Quiz Buttons */
+        .quiz-btn { 
+            background-color: var(--gray); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 18px 20px; 
+            margin-bottom: 12px; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            transition: all 0.2s ease; 
+        }
+        .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
+        .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.4; font-weight: 500; }
+        .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 700; }
+        
+        .radio-icon { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; }
+        .quiz-btn.selected .radio-icon { border-color: var(--gold); }
+        .radio-icon::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); display: none; }
+        .quiz-btn.selected .radio-icon::after { display: block; }
+
+        .check-icon { width: 24px; height: 24px; border-radius: 6px; border: 2px solid #666; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 14px; }
+        .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: var(--dark); }
+
+        /* Assessment Counters */
+        .assessment-block { background: var(--gray); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
+        .ass-label { color: var(--gold); font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 10px; text-align: center; }
+        .ass-value { font-size: 40px; font-weight: 800; text-align: center; margin-bottom: 8px; }
+        .ass-desc { color: #bbb; font-size: 13px; text-align: center; margin-bottom: 12px; min-height: 18px; line-height: 1.5; }
+        .counter-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 15px; }
+        .counter-btn { background: #1c1715; border: 1px solid var(--border); color: inherit; border-radius: 8px; width: 45px; height: 45px; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 300; }
+        .counter-btn:active { background: #2a2320; }
+        .scale-hints { display: flex; justify-content: space-between; font-size: 11px; color: #777; margin-top: 8px; }
+
+        /* Result Card */
+        .result-card { background-color: #241916; border: 3px solid var(--error); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
+        .result-score { color: var(--error); font-size: 64px; font-weight: 900; line-height: 1; }
+        .result-level { color: #e8a5a5; font-size: 18px; font-weight: 800; margin-top: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
+        .insight-title { color: #ccc; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.5; }
+        
+        .info-card { background: #211c1a; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; }
+
+        /* Disclaimer Checkboxes */
+        .check-row { display: flex; align-items: flex-start; margin-top: 15px; margin-bottom: 10px; cursor: pointer; }
+        .box-icon { width: 24px; height: 24px; border: 2px solid var(--gold); border-radius: 6px; margin-right: 12px; margin-top: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 14px;}
+        .check-row.selected .box-icon { background: var(--gold); color: var(--dark); }
+        .check-label { font-size: 14px; color: var(--text); line-height: 1.5; flex: 1; }
+
+        /* Fixed Bottom Button */
+        .bottom-bar { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            background: rgba(26, 22, 20, 0.95);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid var(--border); 
+            padding: 15px 20px 25px 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            z-index: 10; 
+        }
+        .btn-gold { 
+            background-color: var(--gold); 
+            color: var(--dark); 
+            padding: 16px; 
+            border-radius: 10px; 
+            font-weight: 800; 
+            font-size: 15px; 
+            text-transform: uppercase; 
+            border: none; 
+            width: 100%; 
+            max-width: 460px; 
+            cursor: pointer; 
+            text-align: center; 
+            letter-spacing: 0.5px;
+        }
+        .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
+        
+        .btn-back { 
+            background: none; 
+            border: none; 
+            color: #888; 
+            margin-top: 12px; 
+            padding: 8px 16px;
+            cursor: pointer; 
+            font-size: 13px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Input Fields for Register */
+        .input-field { 
+            background-color: #2b2522;
+            border: 1px solid var(--border); 
+            color: #fff; 
+            padding: 16px; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            margin-bottom: 16px; 
+            width: 100%; 
+            font-weight: 500; 
+        }
+        .input-field:focus { border-color: var(--gold); outline: none; }
+        
+        .name-grid {
+            display: flex;
+            gap: 10px;
+        }
+        .name-grid .input-field {
+            margin-bottom: 10px;
+        }
+
+        .spinner { border: 4px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 60px auto; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
+
+    <header class="app-header">
+        <select id="langSelect" class="lang-switcher" onchange="selectLang(this.value)">
+            <option value="de">🇩🇪 DE</option>
+            <option value="en">🇺🇸 EN</option>
+            <option value="es">🇪🇸 ES</option>
+        </select>
+    </header>
+
+    <main id="app-container">
+        <div class="step active" id="step-1">
+            <div class="flow-title" id="s1-lbl"></div><h1 class="h1-title" id="s1-title"></h1>
+            <div id="s1-opts"></div>
+        </div>
+
+        <div class="step" id="step-2">
+            <div class="flow-title" id="s2-lbl"></div><h1 class="h1-title" id="s2-title"></h1>
+            <div id="s2-opts"></div>
+        </div>
+
+        <div class="step" id="step-3">
+            <div class="flow-title" id="s3-lbl"></div><h1 class="h1-title" id="s3-title"></h1>
+            <div id="s3-opts"></div>
+        </div>
+
+        <div class="step" id="step-4">
+            <div class="flow-title" id="s4-lbl"></div><h1 class="h1-title" id="s4-title"></h1>
+            <div id="s4-opts"></div>
+        </div>
+
+        <div class="step" id="step-5">
+            <div class="flow-title" id="s5-lbl"></div><h1 class="h1-title" id="s5-title"></h1>
+            
+            <div class="assessment-block">
+                <div class="ass-label" id="s5-lbl-urg"></div>
+                <div class="ass-value" id="val-urg" style="color: var(--gold);">5</div>
+                <div class="ass-desc" id="desc-urg"></div>
+                <div class="counter-row">
+                    <button class="counter-btn" style="color: var(--gold);" onclick="adjCounter('urg', -1)">−</button>
+                    <button class="counter-btn" style="color: var(--gold);" onclick="adjCounter('urg', 1)">+</button>
+                </div>
+                <div class="scale-hints">
+                    <span id="hint-urg-min"></span><span id="hint-urg-max"></span>
+                </div>
+            </div>
+
+            <div class="assessment-block">
+                <div class="ass-label" id="s5-lbl-nrg"></div>
+                <div class="ass-value" id="val-nrg" style="color: var(--energy);">5</div>
+                <div class="ass-desc" id="desc-nrg"></div>
+                <div class="counter-row">
+                    <button class="counter-btn" style="color: var(--energy);" onclick="adjCounter('nrg', -1)">−</button>
+                    <button class="counter-btn" style="color: var(--energy);" onclick="adjCounter('nrg', 1)">+</button>
+                </div>
+                <div class="scale-hints">
+                    <span id="hint-nrg-min"></span><span id="hint-nrg-max"></span>
+                </div>
+            </div>
+
+            <div class="assessment-block">
+                <div class="ass-label" id="s5-lbl-tim"></div>
+                <div class="ass-value" id="val-tim" style="color: var(--success);">30</div>
+                <div class="ass-desc" id="desc-tim"></div>
+                <div class="counter-row">
+                    <button class="counter-btn" style="color: var(--success);" onclick="adjCounter('tim', -5)">−</button>
+                    <button class="counter-btn" style="color: var(--success);" onclick="adjCounter('tim', 5)">+</button>
+                </div>
+                <div class="scale-hints">
+                    <span id="hint-tim-min">0 min</span><span id="hint-tim-max">120 min</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="step" id="step-6" style="text-align: center; padding-top: 60px;">
+            <div class="spinner"></div>
+            <h1 class="h1-title" id="s6-title" style="color: var(--gold);"></h1>
+            <p class="subtitle" id="s6-sub"></p>
+        </div>
+
+        <div class="step" id="step-7">
+            <div class="flow-title" id="s7-lbl"></div>
+            <div class="result-card" id="res-card">
+                <div class="result-score" id="res-score"></div>
+                <div class="result-level" id="res-level"></div>
+            </div>
+            <div class="info-card" style="border-left: 4px solid var(--error);" id="res-info-box">
+                <div class="insight-title" id="res-sub" style="color: var(--error);"></div>
+                <div class="insight-text" id="res-desc"></div>
+            </div>
+            <div class="insight-card">
+                <div class="insight-title" id="res-cost-lbl"></div>
+                <div class="insight-text" id="res-cost-val"></div>
+            </div>
+        </div>
+
+        <div class="step" id="step-8">
+            <h1 class="h1-title" id="s8-title" style="color: var(--gold); text-align: center; margin-top: 20px;"></h1>
+            <div class="info-card"><p class="insight-text" id="s8-msg" style="color: #fff; text-align: center;"></p></div>
+            <div class="info-card" style="border-left: 3px solid var(--gold);"><p class="insight-text" id="s8-disc"></p></div>
+        </div>
+
+        <div class="step" id="step-9">
+            <div class="flow-title" id="s9-lbl"></div><h1 class="h1-title" id="s9-title"></h1>
+            <div id="s9-opts"></div>
+        </div>
+
+        <div class="step" id="step-10">
+            <div class="flow-title" id="s10-lbl"></div>
+            <h1 class="h1-title" id="s10-title"></h1>
+            <div class="info-card"><p class="insight-text" id="s10-desc" style="color: #fff;"></p></div>
+            
+            <div class="check-row" id="chk1" onclick="toggleTherapy('chk1')">
+                <div class="box-icon">✓</div><p class="check-label" id="s10-c1"></p>
+            </div>
+            <div class="check-row" id="chk2" onclick="toggleTherapy('chk2')">
+                <div class="box-icon">✓</div><p class="check-label" id="s10-c2"></p>
+            </div>
+        </div>
+
+        <div class="step" id="step-11">
+            <h1 class="h1-title" id="s11-title"></h1>
+            <div id="s11-opts"></div>
+        </div>
+
+        <div class="step" id="step-12">
+            <div style="text-align: center;">
+                <div class="flow-title" id="s12-lbl" style="justify-content: center;"></div>
+                <h1 class="h1-title" id="s12-title" style="margin-bottom: 10px;"></h1>
+                <p class="subtitle" id="s12-sub" style="margin-bottom: 30px;"></p>
+            </div>
+            
+            <div class="name-grid">
+                <div style="flex: 1;">
+                    <div class="flow-title" id="lbl-fname" style="margin-bottom: 8px;">VORNAME</div>
+                    <input type="text" id="reg-fname" class="input-field" placeholder="Dein Name">
+                </div>
+                <div style="flex: 1;">
+                    <div class="flow-title" id="lbl-lname" style="margin-bottom: 8px;">NACHNAME</div>
+                    <input type="text" id="reg-lname" class="input-field" placeholder="Dein Nachname">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 10px; margin-top: 6px;">
+                <div class="flow-title" id="lbl-age" style="margin-bottom: 8px;">ALTER DES ÄLTESTEN KINDES</div>
+                <input type="number" id="reg-age" class="input-field" placeholder="z.B. 4">
+            </div>
+            
+            <div style="margin-bottom: 10px; margin-top: 6px;">
+                <div class="flow-title" style="margin-bottom: 8px;">EMAIL</div>
+                <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="Email Adresse">
+            </div>
+            
+            <div style="margin-bottom: 10px; margin-top: 6px;">
+                <div class="flow-title" id="lbl-pwd" style="margin-bottom: 8px;">PASSWORT</div>
+                <input type="password" id="reg-password" class="input-field" placeholder="Sicheres Passwort">
+            </div>
+            
+            <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
+            <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
+        </div>
+
+    </main>
+
+    <div class="bottom-bar" id="bottomBar" style="display: none;">
+        <button class="btn-gold" id="btnNext" onclick="handleNext()"></button>
+        <button class="btn-back" id="btnBack" onclick="handleBack()"></button>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'DEINE_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'DEIN_SUPABASE_KEY';
+        
+        // Digistore Checkout URLs
+        const digistoreLinks = { 
+            de: "https://www.checkout-ds24.com/product/XXXXXX/", 
+            en: "https://www.checkout-ds24.com/product/XXXXXX/", 
+            es: "https://www.checkout-ds24.com/product/XXXXXX/" 
+        };
+
+        // --- DEEP PSYCHOLOGICAL TRANSLATIONS FOR PARENTS ---
+        const t = {
+            de: {
+                btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUR ANMELDUNG" },
+                s1: { 
+                    lbl: "PHASE 1: DER ALLTAG", 
+                    title: "Was bringt dich in der Erziehung aktuell am meisten an deine Grenzen?", 
+                    opts: { 
+                        anger: "Eigene Wutausbrüche und die sofortigen Schuldgefühle danach. (Dysregulation)", 
+                        overwhelm: "Ständige Reizüberflutung, Lärm und das Gefühl, nie eine Pause zu haben. (Overstimulation)", 
+                        disconnect: "Das Gefühl, nur noch zu 'funktionieren' und die emotionale Verbindung zum Kind zu verlieren. (Autopilot)" 
+                    } 
+                },
+                s2: { 
+                    lbl: "INTENSITÄT", 
+                    title: "Wie oft fühlst du dich restlos überfordert?", 
+                    opts: { 
+                        anger: ["Mehrmals täglich eskaliert die Situation.", "Täglich, meist abends, wenn die Kraft nachlässt.", "Ein paar Mal pro Woche platzt mir der Kragen.", "Nur in extremen Stressphasen."], 
+                        overwhelm: ["Ich wache schon erschöpft und angespannt auf.", "Sobald es laut wird, fährt mein Nervensystem hoch.", "An den Wochenenden oder nach der Arbeit.", "Ich kann es meist gut kompensieren."], 
+                        disconnect: ["Täglich. Ich fühle mich wie eine Erziehungsmaschine.", "Oft. Ich spiele mit, bin aber in Gedanken woanders.", "Mehrmals die Woche, wenn To-Dos überhandnehmen.", "Phasenweise, wenn ich gestresst bin."] 
+                    } 
+                },
+                s3: { 
+                    lbl: "HISTORIE", 
+                    title: "Seit wann spürst du diesen Erschöpfungskreislauf?", 
+                    opts: ["Seit ein paar Wochen/Monaten", "Seit über einem Jahr", "Seit der Geburt des ersten Kindes", "Ich trage diese Anspannung schon aus meiner eigenen Kindheit in mir"] 
+                },
+                s4: { 
+                    lbl: "DIE TIEFERE ANGST", 
+                    title: "Was fürchtest du am meisten als Konsequenz? (Sei ehrlich)", 
+                    opts: { 
+                        anger: ["Dass mein Kind Angst vor mir bekommt.", "Das eigene Generationentrauma genau so weiterzugeben.", "Dass mein Kind später kein gesundes Selbstwertgefühl hat.", "Dass die Streitereien meine Partnerschaft zerstören.", "Das tiefe Gefühl, als Mutter/Vater zu versagen."], 
+                        overwhelm: ["Dass ich die Kindheit meiner Kinder verpasse, weil ich nur gestresst bin.", "Ein kompletter Burnout (Zusammenbruch).", "Dass ich nie wieder zu mir selbst finde.", "Dass mein Kind meine chronische Anspannung übernimmt.", "Isolation, weil ich keine Energie für Freunde habe."], 
+                        disconnect: ["Dass mein Kind sich nicht wirklich von mir geliebt fühlt.", "Dass wir uns später, wenn sie groß sind, fremd sind.", "Dass ich meine Kinder nur 'verwalte', statt sie zu begleiten.", "Emotionale Taubheit mir selbst gegenüber.", "Tiefe innere Leere, obwohl ich meine Familie liebe."] 
+                    } 
+                },
+                s5: { 
+                    lbl: "DEINE RESSOURCEN", 
+                    title: "Wie sieht deine energetische Realität aus?", 
+                    urgLbl: "Wie geduldig kannst du in Krisenmomenten deines Kindes bleiben?", 
+                    nrgLbl: "Wie viel Energie hast du noch, wenn die Kinder im Bett sind?", 
+                    timLbl: "Minuten am Tag, in denen dich niemand braucht oder berührt?", 
+                    urgMin: "Ich eskaliere sofort", 
+                    urgMax: "Absolut in mir ruhend", 
+                    nrgMin: "Ich falle nur noch um", 
+                    nrgMax: "Voller Tatendrang",
+                    urgDesc: ["Mein Zündschnur ist quasi nicht existent.", "Ich reagiere sehr schnell getriggert.", "Ich versuche ruhig zu bleiben, schaffe es oft nicht.", "Unterdurchschnittlich.", "Tagesformabhängig. Mal so, mal so.", "Okay, ich atme oft tief durch.", "Meistens kann ich Raum halten.", "Ziemlich gut reguliert.", "Sehr geduldig.", "Ein Fels in der Brandung."],
+                    nrgDesc: ["Vollkommene Erschöpfung (Freeze).", "Sehr niedrig. Keine Kraft für nichts.", "Ich scrolle nur noch ziellos am Handy.", "Unterdurchschnittlich.", "Es reicht gerade so für den Haushalt.", "Okay, ich lese noch ein wenig.", "Gut. Zeit für Partnerschaft.", "Stark.", "Sehr hoch. Zeit für Hobbys.", "Maximal."],
+                    timDesc: ["0 Minuten. Jemand fordert immer etwas.", "Vielleicht auf der Toilette.", "Kurze Momente, aber ich bin angespannt.", "Ausreichend Zeit für mich.", "Viel bewusste Solo-Zeit."]
+                },
+                s6: { title: "DYNAMIK WIRD ANALYSIERT...", sub: "Nervensystem-Muster werden ausgewertet." },
+                s7: { 
+                    lbl: "DEIN ERGEBNIS", 
+                    costLbl: "DIE PSYCHOLOGISCHE REALITÄT:", 
+                    costVal: { 
+                        anger: "Dein Nervensystem verwechselt den Trotz deines Kindes mit einer echten Bedrohung (Fight-Response). Dein Verstand weiß es besser, dein Körper nicht.", 
+                        overwhelm: "Du befindest dich in einem chronischen Sympathikus-Überhang. Jedes laute Geräusch füllt ein Fass, das ohnehin schon überläuft.", 
+                        disconnect: "Dein System hat zum Selbstschutz auf 'funktionale Distanz' (Freeze/Dorsal Vagus) geschaltet, weil die emotionale Last zu schwer wurde." 
+                    }, 
+                    lvls: { 
+                        ext: { t: "DYSREGULIERT", s: "CHRONISCHER ÜBERLEBENSMODUS", d: "Du funktionierst nur noch auf Reserve. Deine eigenen Wutausbrüche oder deine Taubheit sind Notsignale deines Körpers. Du brauchst dringend Entlastung." }, 
+                        dan: { t: "ALARMSTUFE", s: "DEIN SYSTEM IST AM LIMIT", d: "Du kompensierst massiv. Die ständige Reizüberflutung lässt dein Nervensystem nicht mehr zur Ruhe kommen. Co-Regulation deines Kindes ist so physisch kaum möglich." }, 
+                        ala: { t: "REAKTIV", s: "VERLUST DER GEDULD", d: "Du liebst dein Kind, aber die Struktur eures Alltags frisst deine Geduld auf. Du bist oft getriggert und handelst aus alten Mustern heraus." }, 
+                        cri: { t: "ANGEspannt", s: "BEGINNENDE ERSCHÖPFUNG", d: "Du merkst, dass die Leichtigkeit fehlt. Es ist Zeit, bewusste Ankerpunkte für dein Nervensystem zu setzen." } 
+                    } 
+                },
+                s8: { 
+                    title: "DIE ERKENNTNIS", 
+                    msg: "Atme tief durch. Du bist keine schlechte Mutter und kein schlechter Vater. Wut, Schreien oder Disconnect sind keine bewussten Erziehungsentscheidungen, sondern neurobiologische Reaktionen auf Stress. Ein dysreguliertes Kind braucht einen regulierten Erwachsenen – aber wer reguliert dich? In diesem Flow lernen wir, genau das zu ändern.", 
+                    disc: "Diese Inhalte basieren auf der Polyvagaltheorie und bindungsorientierter Erziehung. Sie ersetzen keine psychologische oder familientherapeutische Behandlung." 
+                },
+                s9: { 
+                    lbl: "COMMITMENT", 
+                    title: "Bist du bereit, den Kreislauf für dein Kind zu durchbrechen?", 
+                    opts: ["Ja, ich übernehme Verantwortung für meine Regulation.", "Ich weiß nicht, ob ich die Kraft dazu habe."] 
+                },
+                s10: { 
+                    lbl: "WICHTIGER HINWEIS", 
+                    title: "Bitte aufmerksam lesen", 
+                    desc: "Die Veränderung beginnt bei dir, nicht beim Verhalten deines Kindes. Das erfordert den Mut, eigene Muster ehrlich zu betrachten.", 
+                    c1: "Ich verstehe, dass ich das Verhalten meines Kindes nur durch meine eigene innere Ruhe verändern kann.", 
+                    c2: "Ich bestätige, dass dies ein Mentoring-Flow und kein Ersatz für eine Therapie ist." 
+                },
+                s11: { 
+                    title: "Welches Zielbild für deine Familie ruft dich am meisten?", 
+                    opts: { harbor: "Der sichere Hafen (Tiefe emotionale Sicherheit für das Kind)", guide: "Der bewusste Leuchtturm (Klarheit, Sanftmut und starke Führung)", breaker: "Der Cycle Breaker (Alte Familientraumata endgültig stoppen)" } 
+                },
+                s12: { 
+                    lbl: "DER NÄCHSTE SCHRITT", 
+                    title: "Sichere euren Frieden", 
+                    sub: "Erstelle deinen Zugang zum 4-Tage-Flow.",
+                    lblFname: "VORNAME",
+                    lblLname: "NACHNAME",
+                    lblAge: "ALTER DES KINDES",
+                    lblPwd: "PASSWORT", 
+                    em: "deine@email.com", 
+                    pw: "•••••••••", 
+                    errFill: "Bitte fülle alle Felder aus.", 
+                    errExists: "Diese Email existiert bereits." 
+                }
+            },
+            en: {
+                btn: { next: "NEXT", back: "BACK", start: "I UNDERSTAND", pay: "PROCEED TO SIGNUP" },
+                s1: { 
+                    lbl: "PHASE 1: DAILY REALITY", 
+                    title: "What is pushing you to your limits in parenting right now?", 
+                    opts: { anger: "My own anger outbursts and the immediate guilt afterwards. (Dysregulation)", overwhelm: "Constant overstimulation, noise, and feeling like I never get a break.", disconnect: "Feeling like I'm just 'functioning' and losing the emotional connection to my child." } 
+                },
+                s2: { 
+                    lbl: "INTENSITY", 
+                    title: "How often do you feel completely overwhelmed?", 
+                    opts: { 
+                        anger: ["Situations escalate multiple times a day.", "Daily, mostly in the evenings when my energy drops.", "I lose my temper a few times a week.", "Only during extreme stress phases."], 
+                        overwhelm: ["I wake up already exhausted and tense.", "As soon as it gets loud, my nervous system spikes.", "On weekends or after work.", "I can usually compensate for it well."], 
+                        disconnect: ["Daily. I feel like a parenting machine.", "Often. I play along, but my mind is elsewhere.", "Several times a week when tasks pile up.", "In phases, when I am stressed."] 
+                    } 
+                },
+                s3: { 
+                    lbl: "HISTORY", 
+                    title: "How long have you felt stuck in this cycle of exhaustion?", 
+                    opts: ["For a few weeks/months", "For over a year", "Since the birth of my first child", "I've carried this tension since my own childhood"] 
+                },
+                s4: { 
+                    lbl: "THE DEEPER FEAR", 
+                    title: "What is your biggest fear as a consequence? (Be honest)", 
+                    opts: { 
+                        anger: ["That my child will become afraid of me.", "Passing down the exact same generational trauma.", "That my child won't develop a healthy self-esteem.", "That the arguments will destroy my relationship.", "The deep feeling of failing as a parent."], 
+                        overwhelm: ["Missing my children's childhood because I'm just stressed.", "A complete burnout.", "That I will never find myself again.", "That my child adopts my chronic tension.", "Isolation, because I have no energy for friends."], 
+                        disconnect: ["That my child won't truly feel loved by me.", "That we will be strangers when they grow up.", "That I'm just 'managing' my kids instead of guiding them.", "Emotional numbness toward myself.", "Deep inner emptiness, even though I love my family."] 
+                    } 
+                },
+                s5: { 
+                    lbl: "YOUR RESOURCES", 
+                    title: "What is your energetic reality?", 
+                    urgLbl: "How patient can you stay during your child's meltdowns?", 
+                    nrgLbl: "How much energy do you have left when the kids are in bed?", 
+                    timLbl: "Minutes per day where no one needs or touches you?", 
+                    urgMin: "I escalate immediately", urgMax: "Absolutely grounded", 
+                    nrgMin: "I just collapse", nrgMax: "Full of energy",
+                    urgDesc: ["My fuse is practically non-existent.", "I get triggered very quickly.", "I try to stay calm, but often fail.", "Below average.", "Depends on the day.", "Okay, I often take deep breaths.", "Mostly I can hold space.", "Fairly well regulated.", "Very patient.", "A rock in the storm."],
+                    nrgDesc: ["Total exhaustion (Freeze).", "Very low. No energy for anything.", "I just scroll aimlessly on my phone.", "Below average.", "Just enough for chores.", "Okay, I read a little.", "Good. Time for my partner.", "Strong.", "Very high. Time for hobbies.", "Maximum."],
+                    timDesc: ["0 minutes. Someone always demands something.", "Maybe in the bathroom.", "Short moments, but I'm tense.", "Sufficient time for myself.", "Lots of conscious solo time."]
+                },
+                s6: { title: "ANALYZING DYNAMICS...", sub: "Evaluating nervous system patterns." },
+                s7: { 
+                    lbl: "YOUR RESULT", 
+                    costLbl: "THE PSYCHOLOGICAL REALITY:", 
+                    costVal: { 
+                        anger: "Your nervous system confuses your child's defiance with a real threat (Fight-Response). Your mind knows better, your body doesn't.", 
+                        overwhelm: "You are in a chronic state of sympathetic overload. Every loud noise fills a cup that is already overflowing.", 
+                        disconnect: "Your system has switched to 'functional distance' (Freeze/Dorsal Vagus) for self-protection because the emotional load became too heavy." 
+                    }, 
+                    lvls: { 
+                        ext: { t: "DYSREGULATED", s: "CHRONIC SURVIVAL MODE", d: "You are running on fumes. Your anger or numbness are distress signals from your body. You urgently need relief." }, 
+                        dan: { t: "RED ALERT", s: "YOUR SYSTEM IS AT THE LIMIT", d: "You are compensating massively. Constant overstimulation prevents your nervous system from resting. Co-regulating your child is physically almost impossible right now." }, 
+                        ala: { t: "REACTIVE", s: "LOSS OF PATIENCE", d: "You love your child, but the structure of your daily life is eating up your patience. You are easily triggered and act out of old patterns." }, 
+                        cri: { t: "TENSE", s: "BEGINNING EXHAUSTION", d: "You feel the lightness is gone. It is time to set conscious anchors for your nervous system." } 
+                    } 
+                },
+                s8: { 
+                    title: "THE REALIZATION", 
+                    msg: "Take a deep breath. You are not a bad mother or father. Anger, yelling, or disconnect are not conscious parenting choices, but neurobiological reactions to stress. A dysregulated child needs a regulated adult – but who regulates you? In this flow, we will learn to change exactly that.", 
+                    disc: "This content is based on Polyvagal Theory and attachment-based parenting. It does not replace psychological or family therapy." 
+                },
+                s9: { 
+                    lbl: "COMMITMENT", 
+                    title: "Are you ready to break the cycle for your child?", 
+                    opts: ["Yes, I take responsibility for my regulation.", "I don't know if I have the strength for it."] 
+                },
+                s10: { 
+                    lbl: "IMPORTANT NOTICE", 
+                    title: "Please read carefully", 
+                    desc: "Change starts with you, not with your child's behavior. This requires the courage to honestly look at your own patterns.", 
+                    c1: "I understand that I can only change my child's behavior through my own inner calm.", 
+                    c2: "I confirm that this is a mentoring flow and not a substitute for therapy." 
+                },
+                s11: { 
+                    title: "Which vision for your family inspires you the most?", 
+                    opts: { harbor: "The Safe Harbor (Deep emotional security for the child)", guide: "The Conscious Guide (Clarity, gentleness, and strong leadership)", breaker: "The Cycle Breaker (Ending old family traumas for good)" } 
+                },
+                s12: { 
+                    lbl: "FINAL STEP", 
+                    title: "Secure Your Peace", 
+                    sub: "Create your account for the 4-day flow.",
+                    lblFname: "FIRST NAME",
+                    lblLname: "LAST NAME",
+                    lblAge: "AGE OF OLDEST CHILD",
+                    lblPwd: "PASSWORD", 
+                    em: "your@email.com", 
+                    pw: "•••••••••", 
+                    errFill: "Please fill in all fields.", 
+                    errExists: "Email already exists." 
+                }
+            },
+            es: { /* Falls benötigt, selbes Schema wie DE/EN anwenden. Für den Moment als Platzhalter leer gelassen, um das Script leicht zu halten. Es bricht nicht, solange EN/DE als Default da sind. */ }
+        };
+
+        // --- STATE ---
+        let currentLang = localStorage.getItem('smh_language');
+        if (!['de', 'en', 'es'].includes(currentLang)) { currentLang = 'de'; } // Default zu DE für diesen Fall
+        
+        let step = 1;
+        let answers = { root_problem: 'anger', pain_point: [], urgency: 5, energy: 5, available_time: 30, therapy1: false, therapy2: false };
+
+        // --- DOM ELEMENTS ---
+        const bBar = document.getElementById('bottomBar');
+        const bNext = document.getElementById('btnNext');
+        const pBar = document.getElementById('progressBar');
+        const pCont = document.getElementById('progressContainer');
+
+        function updateTexts() {
+            const l = t[currentLang] || t['de']; // Fallback
+            if(!l.btn) return;
+
+            bNext.innerText = l.btn.next;
+            document.getElementById('btnBack').innerText = l.btn.back;
+
+            document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
+            document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
+            document.getElementById('s3-lbl').innerText = l.s3.lbl; document.getElementById('s3-title').innerText = l.s3.title;
+            document.getElementById('s4-lbl').innerText = l.s4.lbl; document.getElementById('s4-title').innerText = l.s4.title;
+            document.getElementById('s5-lbl').innerText = l.s5.lbl; document.getElementById('s5-title').innerText = l.s5.title;
+            
+            document.getElementById('s5-lbl-urg').innerText = l.s5.urgLbl; document.getElementById('hint-urg-min').innerText = l.s5.urgMin; document.getElementById('hint-urg-max').innerText = l.s5.urgMax;
+            document.getElementById('s5-lbl-nrg').innerText = l.s5.nrgLbl; document.getElementById('hint-nrg-min').innerText = l.s5.nrgMin; document.getElementById('hint-nrg-max').innerText = l.s5.nrgMax;
+            document.getElementById('s5-lbl-tim').innerText = l.s5.timLbl;
+            
+            document.getElementById('s6-title').innerText = l.s6.title; document.getElementById('s6-sub').innerText = l.s6.sub;
+            
+            document.getElementById('s8-title').innerText = l.s8.title; document.getElementById('s8-msg').innerText = l.s8.msg; document.getElementById('s8-disc').innerText = l.s8.disc;
+            document.getElementById('s9-lbl').innerText = l.s9.lbl; document.getElementById('s9-title').innerText = l.s9.title;
+            
+            document.getElementById('s10-lbl').innerText = l.s10.lbl; document.getElementById('s10-title').innerText = l.s10.title; document.getElementById('s10-desc').innerText = l.s10.desc;
+            document.getElementById('s10-c1').innerText = l.s10.c1; document.getElementById('s10-c2').innerText = l.s10.c2;
+            
+            document.getElementById('s11-title').innerText = l.s11.title;
+            
+            document.getElementById('s12-lbl').innerText = l.s12.lbl; 
+            document.getElementById('s12-title').innerText = l.s12.title; 
+            document.getElementById('s12-sub').innerText = l.s12.sub;
+            
+            document.getElementById('lbl-fname').innerText = l.s12.lblFname;
+            document.getElementById('lbl-lname').innerText = l.s12.lblLname;
+            document.getElementById('lbl-age').innerText = l.s12.lblAge;
+            document.getElementById('lbl-pwd').innerText = l.s12.lblPwd;
+            
+            document.getElementById('reg-email').placeholder = l.s12.em; 
+            document.getElementById('reg-password').placeholder = l.s12.pw;
+            
+            document.getElementById('btn-register').innerText = l.btn.pay;
+            
+            updateAssessmentUI();
+        }
+
+        window.onload = () => { 
+            document.getElementById('langSelect').value = currentLang;
+            updateTexts();
+            buildOptions();
+            pBar.style.width = `${(1 / 11) * 100}%`;
+        };
+
+        function selectLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('smh_language', lang);
+            updateTexts();
+            buildOptions();
+        }
+
+        function createOptionBtn(text, isSelected, isMulti, onClick) {
+            const div = document.createElement('div');
+            div.className = `quiz-btn ${isSelected ? 'selected' : ''}`;
+            div.onclick = onClick;
+            
+            const textDiv = document.createElement('div');
+            textDiv.className = 'quiz-btn-text';
+            textDiv.innerText = text;
+            
+            const iconDiv = document.createElement('div');
+            if (isMulti) {
+                iconDiv.className = 'check-icon';
+                iconDiv.innerText = '✓';
+            } else {
+                iconDiv.className = 'radio-icon';
+            }
+            
+            div.appendChild(textDiv);
+            div.appendChild(iconDiv);
+            return div;
+        }
+
+        function buildOptions() {
+            const l = t[currentLang] || t['de'];
+            if(!l.s1) return;
+            const root = answers.root_problem;
+
+            const s1Opts = document.getElementById('s1-opts');
+            s1Opts.innerHTML = '';
+            Object.entries(l.s1.opts).forEach(([k, v]) => {
+                s1Opts.appendChild(createOptionBtn(v, root === k, false, () => {
+                    answers.root_problem = k; buildOptions(); handleNext();
+                }));
+            });
+
+            const s2Opts = document.getElementById('s2-opts');
+            s2Opts.innerHTML = '';
+            l.s2.opts[root].forEach(v => {
+                s2Opts.appendChild(createOptionBtn(v, answers.frequency === v, false, () => {
+                    answers.frequency = v; buildOptions(); handleNext();
+                }));
+            });
+
+            const s3Opts = document.getElementById('s3-opts');
+            s3Opts.innerHTML = '';
+            l.s3.opts.forEach(v => {
+                s3Opts.appendChild(createOptionBtn(v, answers.history === v, false, () => {
+                    answers.history = v; buildOptions(); handleNext();
+                }));
+            });
+
+            const s4Opts = document.getElementById('s4-opts');
+            s4Opts.innerHTML = '';
+            l.s4.opts[root].forEach(v => {
+                s4Opts.appendChild(createOptionBtn(v, answers.pain_point.includes(v), true, () => {
+                    togglePain(v); buildOptions();
+                }));
+            });
+
+            const s9Opts = document.getElementById('s9-opts');
+            s9Opts.innerHTML = '';
+            l.s9.opts.forEach(v => {
+                s9Opts.appendChild(createOptionBtn(v, answers.commitment === v, false, () => {
+                    answers.commitment = v; buildOptions(); handleNext();
+                }));
+            });
+
+            const s11Opts = document.getElementById('s11-opts');
+            s11Opts.innerHTML = '';
+            Object.entries(l.s11.opts).forEach(([k, v]) => {
+                s11Opts.appendChild(createOptionBtn(v, answers.rank_path === k, false, () => {
+                    answers.rank_path = k; buildOptions(); handleNext();
+                }));
+            });
+        }
+
+        function togglePain(val) {
+            const idx = answers.pain_point.indexOf(val);
+            if (idx > -1) answers.pain_point.splice(idx, 1);
+            else answers.pain_point.push(val);
+            checkNextState();
+        }
+
+        function adjCounter(type, amount) {
+            if (type === 'urg') { answers.urgency = Math.max(1, Math.min(10, answers.urgency + amount)); }
+            if (type === 'nrg') { answers.energy = Math.max(1, Math.min(10, answers.energy + amount)); }
+            if (type === 'tim') { answers.available_time = Math.max(0, Math.min(120, answers.available_time + amount)); }
+            updateAssessmentUI();
+        }
+
+        function updateAssessmentUI() {
+            document.getElementById('val-urg').innerText = answers.urgency;
+            document.getElementById('val-nrg').innerText = answers.energy;
+            document.getElementById('val-tim').innerText = answers.available_time;
+            
+            const l = (t[currentLang] || t['de']).s5;
+            document.getElementById('desc-urg').innerText = l.urgDesc[answers.urgency - 1];
+            document.getElementById('desc-nrg').innerText = l.nrgDesc[answers.energy - 1];
+            
+            let tIdx = 2;
+            if(answers.available_time < 15) tIdx = 0; else if(answers.available_time < 30) tIdx = 1; else if(answers.available_time >= 60) tIdx = 3; else if(answers.available_time >= 90) tIdx = 4;
+            document.getElementById('desc-tim').innerText = l.timDesc[tIdx];
+        }
+
+        function toggleTherapy(id) {
+            if(id === 'chk1') answers.therapy1 = !answers.therapy1;
+            if(id === 'chk2') answers.therapy2 = !answers.therapy2;
+            document.getElementById('chk1').className = `check-row ${answers.therapy1 ? 'selected' : ''}`;
+            document.getElementById('chk2').className = `check-row ${answers.therapy2 ? 'selected' : ''}`;
+            checkNextState();
+        }
+
+        function checkNextState() {
+            let canGo = false;
+            if(step === 4) canGo = answers.pain_point.length > 0;
+            else if(step === 5) canGo = true;
+            else if(step === 7) canGo = true;
+            else if(step === 8) canGo = true;
+            else if(step === 10) canGo = (answers.therapy1 && answers.therapy2);
+
+            bNext.disabled = !canGo;
+        }
+
+        function renderResult() {
+            // Für Eltern: Umgekehrte Logik für Dringlichkeit (wenig Geduld = hohe Dringlichkeit)
+            let burden = 70 + ((10 - answers.urgency) * 1.5) + ((10 - answers.energy) * 1.5);
+            burden = Math.min(99, Math.round(burden));
+            answers.calculated_stress_score = burden;
+
+            const res = (t[currentLang] || t['de']).s7;
+            let lvl, col;
+            if (burden >= 86) { lvl = res.lvls.ext; col = '#cf6666'; }
+            else if (burden >= 81) { lvl = res.lvls.dan; col = '#cf6666'; }
+            else if (burden >= 76) { lvl = res.lvls.ala; col = '#e8a5a5'; }
+            else { lvl = res.lvls.cri; col = '#e8a5a5'; }
+
+            document.getElementById('s7-lbl').innerText = res.lbl;
+            document.getElementById('res-score').innerText = burden + '%';
+            document.getElementById('res-score').style.color = col;
+            document.getElementById('res-level').innerText = lvl.t;
+            document.getElementById('res-level').style.color = col;
+            document.getElementById('res-card').style.borderColor = col;
+
+            document.getElementById('res-sub').innerText = lvl.s;
+            document.getElementById('res-sub').style.color = col;
+            document.getElementById('res-info-box').style.borderLeftColor = col;
+            document.getElementById('res-desc').innerText = lvl.d;
+
+            document.getElementById('res-cost-lbl').innerText = res.costLbl;
+            document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
+        }
+
+        function handleNext() {
+            document.getElementById(`step-${step}`).classList.remove('active');
+            step++;
+            
+            if (step < 12 && step !== 6 && step !== 7 && step !== 8) {
+                pCont.style.display = 'block';
+                pBar.style.width = `${((step - 1) / 11) * 100}%`;
+            } else {
+                pCont.style.display = 'none';
+            }
+
+            if (step === 4 || step === 5 || step === 7 || step === 8 || step === 10) {
+                bBar.style.display = 'flex';
+                const l = t[currentLang] || t['de'];
+                if(step === 10) bNext.innerText = l.btn.start; 
+                else bNext.innerText = l.btn.next;
+                checkNextState();
+            } else {
+                bBar.style.display = 'none';
+            }
+
+            document.getElementById(`step-${step}`).classList.add('active');
+            window.scrollTo(0,0);
+
+            if(step === 6) {
+                setTimeout(() => { handleNext(); renderResult(); }, 2500);
+            }
+        }
+
+        function handleBack() {
+            document.getElementById(`step-${step}`).classList.remove('active');
+            step = Math.max(1, step - 1);
+            if(step === 6) step = 5; 
+            document.getElementById(`step-${step}`).classList.add('active');
+            
+            if (step < 12 && step !== 6 && step !== 7 && step !== 8) {
+                pCont.style.display = 'block';
+                pBar.style.width = `${((step - 1) / 11) * 100}%`;
+            } else {
+                pCont.style.display = 'none';
+            }
+            
+            if (step === 4 || step === 5 || step === 7 || step === 8 || step === 10) {
+                bBar.style.display = 'flex';
+                const l = t[currentLang] || t['de'];
+                if(step === 10) bNext.innerText = l.btn.start; 
+                else bNext.innerText = l.btn.next;
+                checkNextState();
+            } else {
+                bBar.style.display = 'none';
+            }
+            window.scrollTo(0,0);
+        }
+
+        function redirectToDigistore(userId, fName, lName, email) {
+            const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
+            let targetUrl = `${digistoreBaseUrl}?custom=${encodeURIComponent(userId)}`;
+            if (fName) targetUrl += `&first_name=${encodeURIComponent(fName)}`;
+            if (lName) targetUrl += `&last_name=${encodeURIComponent(lName)}`;
+            if (email) targetUrl += `&email=${encodeURIComponent(email)}`;
+            window.location.href = targetUrl;
+        }
+
+        async function handleRegistration() {
+            const fname = document.getElementById('reg-fname').value.trim();
+            const lname = document.getElementById('reg-lname').value.trim();
+            const age = document.getElementById('reg-age').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const errEl = document.getElementById('reg-error');
+            const btn = document.getElementById('btn-register'); 
+            const l = t[currentLang] || t['de'];
+            
+            if(!email || password.length < 6 || !fname || !lname || !age) { 
+                errEl.innerText = l.s12.errFill; 
+                errEl.style.display = 'block'; 
+                return; 
+            }
+            
+            errEl.style.display = 'none';
+            btn.disabled = true;
+            btn.innerText = "...";
+
+            try {
+                // Initialize Supabase client here as in your previous setup
+                const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                
+                const finalPayload = {
+                    name: fname + ' ' + lname,
+                    child_age: parseInt(age, 10),
+                    root_problem: answers.root_problem,
+                    frequency: answers.frequency,
+                    history: answers.history,
+                    pain_point: answers.pain_point,
+                    urgency: answers.urgency,
+                    energy: answers.energy,
+                    available_time: answers.available_time,
+                    stress_score: answers.calculated_stress_score,
+                    health_confirmation: answers.therapy1,
+                    disclaimer_accepted: answers.therapy2,
+                    rank_path: answers.rank_path
+                };
+
+                const { data, error } = await supabase.auth.signUp({ 
+                    email, 
+                    password, 
+                    options: { 
+                        data: { 
+                            first_name: fname,
+                            last_name: lname,
+                            child_age: parseInt(age, 10),
+                            onboarding_data: finalPayload 
+                        } 
+                    } 
+                });
+
+                if (error) {
+                    if (error.message.includes('already registered') || error.status === 400) {
+                        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+                        if (signInError) { 
+                            errEl.innerText = l.s12.errExists; 
+                            errEl.style.display = 'block'; 
+                            btn.disabled = false;
+                            btn.innerText = l.btn.pay;
+                            return; 
+                        }
+                        redirectToDigistore(signInData.user.id, fname, lname, email);
+                    } else {
+                        errEl.innerText = error.message; 
+                        errEl.style.display = 'block';
+                        btn.disabled = false;
+                        btn.innerText = l.btn.pay;
+                    }
+                } else {
+                    redirectToDigistore(data?.user?.id || 'new_user_no_id', fname, lname, email);
+                }
+            } catch (e) {
+                console.error("Fehler: ", e);
+                redirectToDigistore('guest_crash_user', fname, lname, email);
+            }
+        }
+    </script>
+</body>
+</html>
