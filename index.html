@@ -6,10 +6,12 @@
     <title>Shift My Horizon - Coaching & Apps</title>
     <style>
         :root {
-            --primary: #0056b3;
-            --primary-hover: #004494;
-            --text-dark: #222;
-            --text-light: #666;
+            /* General Theme Colors */
+            --bg-dark: #050505;
+            --card-bg: rgba(18, 18, 18, 0.95);
+            --card-border: #2a2a2a;
+            --text-light: #f0f0f0;
+            --text-dim: #888;
             
             /* App Specific Colors */
             --color-man: #d4af37;      /* Classic Gold */
@@ -22,23 +24,24 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
-            color: #333;
+            color: var(--text-light);
             line-height: 1.6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             
             /* BILD ALS VOLLBILD-HINTERGRUND */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('mathis-mauprivez-DrI1KoNiQiw-unsplash.jpg');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)), url('mathis-mauprivez-DrI1KoNiQiw-unsplash.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
 
         nav {
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(10, 10, 10, 0.95);
             padding: 15px 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            border-bottom: 1px solid var(--card-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -46,21 +49,21 @@
             top: 0;
             z-index: 100;
         }
-        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: var(--text-dark); }
+        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: var(--text-light); letter-spacing: 1px;}
         
         /* Sprachwechsler in der Navigation */
         .lang-selector {
             padding: 8px 12px;
             border-radius: 6px;
-            border: 1px solid #ccc;
-            background-color: #fff;
+            border: 1px solid #444;
+            background-color: #111;
             font-size: 0.95rem;
             cursor: pointer;
             outline: none;
             font-weight: bold;
-            color: var(--text-dark);
+            color: var(--text-light);
         }
-        .lang-selector:focus { border-color: var(--primary); }
+        .lang-selector:focus { border-color: var(--text-light); }
 
         .hero {
             padding: 100px 20px 80px 20px;
@@ -71,97 +74,105 @@
             text-align: center;
             color: #fff;
         }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 10px; text-shadow: 0 2px 6px rgba(0,0,0,0.5); }
-        .hero .subtitle { font-size: 1.4rem; color: #f0f0f0; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 10px; letter-spacing: 1px; }
+        .hero .subtitle { font-size: 1.4rem; color: #aaa; font-weight: 300; }
 
         main { flex: 1; padding: 0 20px 80px 20px; max-width: 1400px; margin: 0 auto; text-align: center; width: 100%; box-sizing: border-box; }
         
-        h2 { font-size: 2.2rem; color: #fff; margin-bottom: 40px; position: relative; display: inline-block; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: var(--primary); }
+        h2 { font-size: 2.2rem; color: #fff; margin-bottom: 40px; position: relative; display: inline-block; letter-spacing: 1px; }
+        h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 40px; height: 2px; background-color: #555; }
         
         .section { margin-bottom: 80px; }
 
+        /* Premium Coaching Card */
         .coaching-card { 
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 50px 30px; 
+            background: var(--card-bg); 
+            padding: 60px 40px; 
             border-radius: 12px; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3); 
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
             text-align: center; 
             max-width: 800px; 
             margin: 0 auto; 
-            border-top: 5px solid var(--primary);
         }
-        .coaching-card h3 { margin-top: 0; font-size: 1.8rem; color: var(--text-dark); }
-        .coaching-card p { color: var(--text-light); margin-bottom: 30px; font-size: 1.1rem; }
+        .coaching-card h3 { margin-top: 0; font-size: 2rem; color: var(--text-light); letter-spacing: 1px; }
+        .coaching-card p { color: var(--text-dim); margin-bottom: 35px; font-size: 1.15rem; line-height: 1.7; max-width: 600px; margin-left: auto; margin-right: auto;}
         
         .grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
             gap: 25px; 
         }
         
+        /* Premium App Cards */
         .card { 
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 30px 20px; 
+            background: var(--card-bg); 
+            padding: 40px 25px; 
             border-radius: 10px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2); 
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3); 
             text-align: center; 
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
         .card:hover { transform: translateY(-5px); }
         
         /* App Specific Card Styling */
-        .card-man { border-top: 4px solid var(--color-man); }
-        .card-woman { border-top: 4px solid var(--color-woman); }
-        .card-parent { border-top: 4px solid var(--color-parent); }
-        .card-soul { border-top: 4px solid var(--color-soul); }
+        .card-man:hover { border-color: var(--color-man); }
+        .card-woman:hover { border-color: var(--color-woman); }
+        .card-parent:hover { border-color: var(--color-parent); }
+        .card-soul:hover { border-color: var(--color-soul); }
 
         .app-icon {
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px auto;
-            color: #1a1a1a;
+            margin: 0 auto 20px auto;
+            color: #111;
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             letter-spacing: 1px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
 
-        .card h3 { margin-top: 0; font-size: 1.3rem; color: var(--text-dark); }
-        .card p { color: var(--text-light); margin-bottom: 25px; flex-grow: 1; font-size: 0.95rem; }
+        .card h3 { margin-top: 0; font-size: 1.4rem; color: var(--text-light); letter-spacing: 0.5px; }
+        .card p { color: var(--text-dim); margin-bottom: 30px; flex-grow: 1; font-size: 1rem; line-height: 1.6; }
         
-        .btn { display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; text-align: center; transition: background-color 0.2s; }
-        .btn-primary { background-color: var(--primary); color: #fff; }
-        .btn-primary:hover { background-color: var(--primary-hover); }
-        .btn-disabled { background-color: #e0e0e0; color: #888; cursor: not-allowed; }
+        /* Buttons */
+        .btn { display: inline-block; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; text-align: center; transition: all 0.2s; letter-spacing: 1px; text-transform: uppercase; font-size: 13px;}
+        
+        .btn-coaching { background-color: transparent; color: var(--text-light); border: 2px solid #555; }
+        .btn-coaching:hover { background-color: var(--text-light); color: #000; border-color: var(--text-light); }
 
         /* Custom Button Colors mapping to the App */
-        .btn-man { background-color: var(--color-man); color: #111; }
-        .btn-man:hover { background-color: #c49f2b; }
-        .btn-woman { background-color: var(--color-woman); color: #111; }
-        .btn-woman:hover { background-color: #c790a3; }
-        .btn-parent { background-color: var(--color-parent); color: #111; }
-        .btn-parent:hover { background-color: #c9794c; }
-        .btn-soul { background-color: var(--color-soul); color: #111; }
-        .btn-soul:hover { background-color: #bd9766; }
+        .btn-man { background-color: transparent; border: 1px solid var(--color-man); color: var(--color-man); }
+        .btn-man:hover { background-color: var(--color-man); color: #000; }
         
-        footer { background-color: rgba(255, 255, 255, 0.95); padding: 50px 20px; border-top: 1px solid rgba(0,0,0,0.1); text-align: center; }
+        .btn-woman { background-color: transparent; border: 1px solid var(--color-woman); color: var(--color-woman); }
+        .btn-woman:hover { background-color: var(--color-woman); color: #000; }
+        
+        .btn-parent { background-color: transparent; border: 1px solid var(--color-parent); color: var(--color-parent); }
+        .btn-parent:hover { background-color: var(--color-parent); color: #000; }
+        
+        .btn-soul { background-color: transparent; border: 1px solid var(--color-soul); color: var(--color-soul); }
+        .btn-soul:hover { background-color: var(--color-soul); color: #000; }
+        
+        footer { background-color: rgba(10, 10, 10, 0.95); padding: 60px 20px; border-top: 1px solid var(--card-border); text-align: center; }
         .legal-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 60px; max-width: 1000px; margin: 0 auto; }
         .language-column { display: flex; flex-direction: column; text-align: left; min-width: 200px; }
-        .language-column h3 { font-size: 1.1rem; margin-bottom: 20px; color: #555; text-transform: uppercase; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-        .language-column a { color: var(--text-light); text-decoration: none; margin-bottom: 10px; font-size: 0.95rem; transition: color 0.2s; }
-        .language-column a:hover { color: var(--primary); text-decoration: none; }
+        .language-column h3 { font-size: 1.1rem; margin-bottom: 20px; color: #aaa; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 10px; letter-spacing: 1px;}
+        .language-column a { color: #666; text-decoration: none; margin-bottom: 12px; font-size: 0.95rem; transition: color 0.2s; }
+        .language-column a:hover { color: var(--text-light); text-decoration: none; }
 
         @media (max-width: 600px) {
             nav { padding: 15px 20px; }
             .logo { font-size: 1.2rem; }
             .hero h1 { font-size: 2.5rem; }
+            .coaching-card { padding: 40px 20px; }
         }
     </style>
 </head>
@@ -187,7 +198,7 @@
             <div class="coaching-card">
                 <h3 data-i18n="coach_h3">1-on-1 Intensive Program</h3>
                 <p data-i18n="coach_p">You want to go deeper, gain true clarity, and release personal blockages? Together we pave your way to freedom.</p>
-                <a href="mailto:hello@shiftmyhorizon.com" class="btn btn-primary" data-i18n="coach_btn">Contact Us</a>
+                <a href="mentoring.html" class="btn btn-coaching" data-i18n="coach_btn">Apply Now</a>
             </div>
         </section>
 
@@ -260,7 +271,7 @@
                 coach_h2: "Coaching & Mentoring",
                 coach_h3: "1-on-1 Intensive Program",
                 coach_p: "You want to go deeper, gain true clarity, and release personal blockages? Together we pave your way to freedom.",
-                coach_btn: "Contact Us",
+                coach_btn: "Apply Now",
                 apps_h2: "Our Mentoring Flows",
                 app1_title: "Integrated Man",
                 app1_p: "The path to the best version of yourself. Break destructive habits and strengthen your mindset.",
@@ -277,7 +288,7 @@
                 coach_h2: "Coaching & Mentoring",
                 coach_h3: "1-on-1 Intensiv-Programm",
                 coach_p: "Du willst tiefer gehen, echte Klarheit gewinnen und persönliche Blockaden lösen? Wir erarbeiten gemeinsam deinen Weg zur Freiheit.",
-                coach_btn: "Kontakt aufnehmen",
+                coach_btn: "Jetzt bewerben",
                 apps_h2: "Unsere Mentoring Flows",
                 app1_title: "Integrated Man",
                 app1_p: "Der Weg zur stärksten Version deiner selbst. Brich destruktive Muster und stärke deinen mentalen Fokus.",
@@ -294,7 +305,7 @@
                 coach_h2: "Coaching y Mentoría",
                 coach_h3: "Programa Intensivo 1-a-1",
                 coach_p: "¿Quieres profundizar, obtener verdadera claridad y liberar bloqueos personales? Juntos abrimos tu camino hacia la libertad.",
-                coach_btn: "Contáctanos",
+                coach_btn: "Aplica Ahora",
                 apps_h2: "Nuestros Flujos de Mentoría",
                 app1_title: "Integrated Man",
                 app1_p: "El camino hacia la mejor versión de ti mismo. Rompe hábitos destructivos y fortalece tu mentalidad.",
