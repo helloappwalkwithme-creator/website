@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shift My Horizon - Mentoring Application</title>
+    <style>
+        :root {
+            --dark: #050505;
+            --gray: #121212;
+            --gray-active: #1e1e1e;
+            --border: #2a2a2a;
+            --gold: #D4AF37;
+            --gold-hover: #c49f2b;
+            --text: #f0f0f0;
+            --error: #ef4444;
+            --success: #4ade80;
+        }
+
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { 
+            margin: 0; padding: 0; background-color: var(--dark); color: var(--text); 
+            display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; 
+        }
+
+        .progress-container { width: 100%; height: 4px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; }
+        .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.4s ease; }
+
+        .app-header { width: 100%; max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; padding: 20px; align-items: center; }
+        .logo { color: var(--gold); font-weight: 800; letter-spacing: 1px; font-size: 14px; text-transform: uppercase; }
+        .lang-switcher { background-color: var(--gray); color: var(--text); border: 1px solid var(--border); padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; }
+
+        main { flex: 1; padding: 20px 20px 100px 20px; max-width: 600px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
+        
+        .step { display: none; animation: fadeIn 0.4s ease forwards; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .h1-title { font-size: 26px; font-weight: 800; margin-top: 0; margin-bottom: 8px; color: var(--text); line-height: 1.3; }
+        .subtitle { color: #888; margin-bottom: 30px; font-size: 15px; line-height: 1.5; }
+
+        /* Goal Grid */
+        .goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .goal-card { background: var(--gray); border: 2px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .goal-card.selected { border-color: var(--gold); background: #1a180b; }
+        .goal-icon { font-size: 24px; margin-bottom: 8px; }
+        .goal-label { font-size: 14px; font-weight: 700; color: #ccc; margin-bottom: 4px; }
+        .goal-card.selected .goal-label { color: var(--gold); }
+        .goal-desc { font-size: 11px; color: #666; line-height: 1.4; }
+
+        /* Slider */
+        .slider-container { background: var(--gray); padding: 30px 20px; border-radius: 12px; border: 1px solid var(--border); text-align: center; margin-bottom: 20px; }
+        .slider-val { font-size: 36px; font-weight: 800; color: var(--gold); margin-bottom: 5px; }
+        .slider-info { font-size: 12px; color: #888; margin-bottom: 20px; }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin-bottom: 10px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--gold); cursor: pointer; margin-top: -10px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #333; border-radius: 2px; }
+        
+        .package-box { background: #111; border: 1px solid var(--gold); border-radius: 8px; padding: 15px; text-align: left; margin-top: 20px; }
+        .pack-title { color: var(--gold); font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+        .pack-desc { color: #ccc; font-size: 13px; line-height: 1.5; margin-bottom: 10px; }
+        .pack-details { color: #888; font-size: 12px; line-height: 1.6; }
+
+        /* Mental Cost Checkboxes */
+        .cost-box { background: #151010; border: 1px solid #3a1a1a; border-radius: 10px; padding: 16px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: flex-start; transition: all 0.2s; }
+        .cost-box.selected { border-color: var(--error); background: #241212; }
+        .cost-box.selected .cost-check { background: var(--error); border-color: var(--error); color: #000; }
+        .cost-check { width: 24px; height: 24px; border: 2px solid #555; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; margin-right: 15px; color: transparent; flex-shrink: 0; margin-top: 2px; }
+        .cost-text-container { flex: 1; }
+        .cost-title { color: #eee; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .cost-desc { color: #999; font-size: 13px; line-height: 1.5; }
+
+        /* Forms */
+        .input-group { margin-bottom: 16px; }
+        .input-label { display: block; color: var(--gold); font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-input { width: 100%; background: var(--gray); border: 1px solid var(--border); color: #fff; padding: 15px; border-radius: 8px; font-size: 15px; }
+        .form-input:focus { outline: none; border-color: var(--gold); }
+        textarea.form-input { min-height: 100px; resize: vertical; }
+
+        /* Summary */
+        .summary-box { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 25px; }
+        .sum-row { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #222; }
+        .sum-row:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .sum-label { color: #888; font-size: 13px; }
+        .sum-val { color: #fff; font-size: 14px; font-weight: 600; text-align: right; max-width: 60%; }
+
+        /* Buttons */
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; justify-content: center; z-index: 10; }
+        .btn-wrapper { width: 100%; max-width: 600px; display: flex; gap: 10px; }
+        .btn { padding: 16px; border-radius: 8px; font-weight: 700; font-size: 14px; text-transform: uppercase; border: none; cursor: pointer; text-align: center; letter-spacing: 1px; transition: opacity 0.2s; flex: 1; }
+        .btn-gold { background-color: var(--gold); color: #000; }
+        .btn-gold:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-back { background: transparent; border: 1px solid #555; color: #aaa; flex: 0.4; }
+    </style>
+</head>
+<body>
+
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+    <header class="app-header">
+        <div class="logo">SMH Mentoring</div>
+        <select class="lang-switcher" id="langSelect" onchange="changeLanguage(this.value)">
+            <option value="de">🇩🇪 DE</option>
+            <option value="en">🇺🇸 EN</option>
+        </select>
+    </header>
+
+    <main>
+        <div class="step active" id="step-1">
+            <h1 class="h1-title" id="s1-title">Was willst du erreichen?</h1>
+            <p class="subtitle" id="s1-sub">Wähle dein wichtigstes Ziel für die Zusammenarbeit.</p>
+            
+            <div class="goal-grid" id="goal-container">
+                </div>
+
+            <div id="custom-goal-container" style="display: none;">
+                <label class="input-label" id="s1-custom-lbl">Dein individuelles Ziel</label>
+                <textarea class="form-input" id="custom-goal" placeholder="Beschreibe dein Ziel in 1-2 Sätzen..."></textarea>
+            </div>
+        </div>
+
+        <div class="step" id="step-2">
+            <h1 class="h1-title" id="s2-title">Dein Commitment</h1>
+            <p class="subtitle" id="s2-sub">Wieviel bist du bereit in dich zu investieren? Die Inhalte passen sich an.</p>
+            
+            <div class="slider-container">
+                <div class="slider-val" id="budget-display">4.000 €</div>
+                <div class="slider-info" id="s2-hint">Dies ist keine verbindliche Buchung, sondern hilft uns beim Matching.</div>
+                
+                <input type="range" id="budget-slider" min="1000" max="20000" step="500" value="4000" oninput="updateBudget(this.value)">
+                
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #666; margin-top: 5px;">
+                    <span>1.000 €</span>
+                    <span>20.000+ €</span>
+                </div>
+
+                <div class="package-box">
+                    <div class="pack-title" id="pack-title">Solide Transformation</div>
+                    <div class="pack-desc" id="pack-desc">Wir bauen Fundamente: Mindset, Routinen, erste Verhaltensänderungen.</div>
+                    <div class="pack-details" id="pack-details">⏱ 2-3 Monate | 👥 6-8 Sessions</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step" id="step-3">
+            <h1 class="h1-title" id="s3-title" style="color: var(--error);">Der Preis der Veränderung</h1>
+            <p class="subtitle" id="s3-sub">Geld ist der einfachste Teil. Mentoring bedeutet Reibung. Akzeptiere die psychologischen Kosten, bevor wir sprechen.</p>
+
+            <div class="cost-box" id="cost-1" onclick="toggleCost(1)">
+                <div class="cost-check">✓</div>
+                <div class="cost-text-container">
+                    <div class="cost-title" id="c1-title">Ego & Widerstand</div>
+                    <div class="cost-desc" id="c1-desc">Ich verstehe, dass mein Gehirn sich gegen Veränderung wehren wird. Ich bin bereit, Ausreden als das zu entlarven, was sie sind.</div>
+                </div>
+            </div>
+
+            <div class="cost-box" id="cost-2" onclick="toggleCost(2)">
+                <div class="cost-check">✓</div>
+                <div class="cost-text-container">
+                    <div class="cost-title" id="c2-title">Identitätsverlust</div>
+                    <div class="cost-desc" id="c2-desc">Wer ich sein will, erfordert, dass ich loslasse, wer ich aktuell bin. Das kann bedeuten, dass sich mein Umfeld verändert.</div>
+                </div>
+            </div>
+
+            <div class="cost-box" id="cost-3" onclick="toggleCost(3)">
+                <div class="cost-check">✓</div>
+                <div class="cost-text-container">
+                    <div class="cost-title" id="c3-title">Schmerz betrachten</div>
+                    <div class="cost-desc" id="c3-desc">Ich bin bereit, unbequeme Wahrheiten über mich selbst anzusehen, anstatt anderen oder den Umständen die Schuld zu geben.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step" id="step-4">
+            <h1 class="h1-title" id="s4-title">Fast geschafft!</h1>
+            <p class="subtitle" id="s4-sub">Hinterlasse deine Daten für den Fit-Check.</p>
+
+            <div class="summary-box">
+                <div class="sum-row">
+                    <span class="sum-label" id="sum-lbl-goal">Ziel</span>
+                    <span class="sum-val" id="sum-val-goal">-</span>
+                </div>
+                <div class="sum-row">
+                    <span class="sum-label" id="sum-lbl-budget">Investment</span>
+                    <span class="sum-val" id="sum-val-budget">-</span>
+                </div>
+                <div class="sum-row">
+                    <span class="sum-label" id="sum-lbl-mindset">Mindset</span>
+                    <span class="sum-val" style="color: var(--error);">Bereit für Reibung</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Name / Pseudonym</label>
+                <input type="text" id="inp-name" class="form-input" placeholder="Dein Name">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" id="lbl-phone">Telefonnummer</label>
+                <input type="tel" id="inp-phone" class="form-input" placeholder="+49 170 123 456">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" id="lbl-msg">Nachricht an uns (Optional)</label>
+                <textarea id="inp-msg" class="form-input" placeholder="Was sollten wir vorab wissen?"></textarea>
+            </div>
+        </div>
+    </main>
+
+    <div class="bottom-bar">
+        <div class="btn-wrapper">
+            <button class="btn btn-back" id="btn-back" onclick="prevStep()" style="display: none;">Zurück</button>
+            <button class="btn btn-gold" id="btn-next" onclick="nextStep()" disabled>Weiter</button>
+        </div>
+    </div>
+
+    <script>
+        const t = {
+            de: {
+                s1: { t: "Was willst du erreichen?", s: "Wähle dein wichtigstes Ziel für die Zusammenarbeit.", custom: "Dein individuelles Ziel" },
+                goals: [
+                    { id: 'business', icon: '🚀', label: 'Business & Karriere', desc: 'Gründen, Skalieren oder Aufsteigen' },
+                    { id: 'habits', icon: '🧠', label: 'Fokus & Disziplin', desc: 'Prokrastination beenden, Systeme bauen' },
+                    { id: 'relationship', icon: '❤️', label: 'Partnerschaft', desc: 'Beziehung retten oder neu aufbauen' },
+                    { id: 'confidence', icon: '🦁', label: 'Selbstvertrauen', desc: 'Innere Stärke und Grenzen setzen' },
+                    { id: 'purpose', icon: '🧭', label: 'Sinn & Richtung', desc: 'Lebensmission und Klarheit finden' },
+                    { id: 'other', icon: '✏️', label: 'Individuell', desc: 'Eigenes Ziel definieren' }
+                ],
+                s2: { t: "Dein Commitment", s: "Wieviel bist du bereit in dich zu investieren? Die Inhalte passen sich an.", hint: "Dies ist keine verbindliche Buchung, sondern hilft uns beim Matching." },
+                packs: [
+                    { max: 2000, t: "Grundlagen & Quick Wins", d: "Du bekommst sofort umsetzbare Strategien für deine größte Baustelle.", ext: "⏱ 4-6 Wochen | 👥 3-4 Sessions" },
+                    { max: 4000, t: "Solide Transformation", d: "Wir bauen Fundamente: Mindset, Routinen, erste Verhaltensänderungen.", ext: "⏱ 2-3 Monate | 👥 6-8 Sessions" },
+                    { max: 6000, t: "Tiefenarbeit & Neuausrichtung", d: "Wir arbeiten an Glaubenssätzen, emotionalen Mustern und Identität.", ext: "⏱ 3-4 Monate | 👥 12+ Sessions" },
+                    { max: 10000, t: "Intensive Transformation", d: "6 Monate intensives Coaching mit klarer Struktur und Feedback.", ext: "⏱ 6 Monate | 👥 20+ Sessions" },
+                    { max: 20000, t: "Mastery & Legacy", d: "Langfristige Begleitung mit maximaler Tiefe und Umsetzung im Alltag.", ext: "⏱ 12+ Monate | 👥 40+ Sessions" }
+                ],
+                s3: { 
+                    t: "Der Preis der Veränderung", s: "Geld ist der einfachste Teil. Mentoring bedeutet Reibung. Akzeptiere die psychologischen Kosten.",
+                    c1_t: "Ego & Widerstand", c1_d: "Ich verstehe, dass mein Gehirn sich gegen Veränderung wehren wird. Ich bin bereit, Ausreden zu entlarven.",
+                    c2_t: "Identitätsverlust", c2_d: "Wer ich sein will, erfordert, dass ich loslasse, wer ich aktuell bin. Das kann mein Umfeld verändern.",
+                    c3_t: "Schmerz betrachten", c3_d: "Ich bin bereit, unbequeme Wahrheiten über mich selbst anzusehen, anstatt anderen die Schuld zu geben."
+                },
+                s4: { 
+                    t: "Fast geschafft!", s: "Hinterlasse deine Daten für den Fit-Check.",
+                    l_goal: "Ziel", l_budget: "Investment", l_mind: "Mindset", l_phone: "Telefonnummer", l_msg: "Nachricht an uns (Optional)",
+                    btn_submit: "BEWERBUNG ABSENDEN"
+                },
+                btn: { next: "WEITER", back: "ZURÜCK", curr: "€" }
+            },
+            en: {
+                s1: { t: "What do you want to achieve?", s: "Choose your main goal for our collaboration.", custom: "Your custom goal" },
+                goals: [
+                    { id: 'business', icon: '🚀', label: 'Business & Career', desc: 'Start, scale, or advance' },
+                    { id: 'habits', icon: '🧠', label: 'Focus & Discipline', desc: 'End procrastination, build systems' },
+                    { id: 'relationship', icon: '❤️', label: 'Relationship', desc: 'Save or rebuild your partnership' },
+                    { id: 'confidence', icon: '🦁', label: 'Confidence', desc: 'Inner strength and boundaries' },
+                    { id: 'purpose', icon: '🧭', label: 'Meaning & Direction', desc: 'Find your life mission and clarity' },
+                    { id: 'other', icon: '✏️', label: 'Custom', desc: 'Define your own goal' }
+                ],
+                s2: { t: "Your Commitment", s: "How much are you willing to invest in yourself? Content adapts.", hint: "This is not a binding booking. It helps us match you." },
+                packs: [
+                    { max: 2000, t: "Foundations & Quick Wins", d: "You get immediately actionable strategies for your biggest challenge.", ext: "⏱ 4-6 Weeks | 👥 3-4 Sessions" },
+                    { max: 4000, t: "Solid Transformation", d: "We build foundations: mindset, routines, first behavior changes.", ext: "⏱ 2-3 Months | 👥 6-8 Sessions" },
+                    { max: 6000, t: "Deep Work & Realignment", d: "We work on beliefs, emotional patterns, and identity.", ext: "⏱ 3-4 Months | 👥 12+ Sessions" },
+                    { max: 10000, t: "Intensive Transformation", d: "6 months of intensive coaching with clear structure and feedback.", ext: "⏱ 6 Months | 👥 20+ Sessions" },
+                    { max: 20000, t: "Mastery & Legacy", d: "Long-term guidance with maximum depth and real-life implementation.", ext: "⏱ 12+ Months | 👥 40+ Sessions" }
+                ],
+                s3: { 
+                    t: "The Price of Change", s: "Money is the easy part. Mentoring means friction. Accept the psychological costs.",
+                    c1_t: "Ego & Resistance", c1_d: "I understand my brain will resist change. I am ready to expose excuses for what they are.",
+                    c2_t: "Identity Loss", c2_d: "Becoming who I want to be requires letting go of who I am. This might change my social circle.",
+                    c3_t: "Facing Pain", c3_d: "I am willing to look at uncomfortable truths about myself instead of blaming circumstances."
+                },
+                s4: { 
+                    t: "Almost done!", s: "Leave your details for the Fit-Check.",
+                    l_goal: "Goal", l_budget: "Investment", l_mind: "Mindset", l_phone: "Phone Number", l_msg: "Message to us (Optional)",
+                    btn_submit: "SEND APPLICATION"
+                },
+                btn: { next: "NEXT", back: "BACK", curr: "$" }
+            }
+        };
+
+        let lang = 'de';
+        let step = 1;
+        let data = { goalId: null, goalText: '', budget: 4000, costs: [false, false, false] };
+
+        function init() {
+            renderGoals();
+            updateBudget(4000);
+            updateUI();
+        }
+
+        function changeLanguage(l) {
+            lang = l;
+            renderGoals();
+            updateBudget(document.getElementById('budget-slider').value);
+            updateUI();
+        }
+
+        function updateUI() {
+            const d = t[lang];
+            document.getElementById('s1-title').innerText = d.s1.t; document.getElementById('s1-sub').innerText = d.s1.s; document.getElementById('s1-custom-lbl').innerText = d.s1.custom;
+            document.getElementById('s2-title').innerText = d.s2.t; document.getElementById('s2-sub').innerText = d.s2.s; document.getElementById('s2-hint').innerText = d.s2.hint;
+            document.getElementById('s3-title').innerText = d.s3.t; document.getElementById('s3-sub').innerText = d.s3.s;
+            document.getElementById('c1-title').innerText = d.s3.c1_t; document.getElementById('c1-desc').innerText = d.s3.c1_d;
+            document.getElementById('c2-title').innerText = d.s3.c2_t; document.getElementById('c2-desc').innerText = d.s3.c2_d;
+            document.getElementById('c3-title').innerText = d.s3.c3_t; document.getElementById('c3-desc').innerText = d.s3.c3_d;
+            document.getElementById('s4-title').innerText = d.s4.t; document.getElementById('s4-sub').innerText = d.s4.s;
+            document.getElementById('sum-lbl-goal').innerText = d.s4.l_goal; document.getElementById('sum-lbl-budget').innerText = d.s4.l_budget; document.getElementById('sum-lbl-mindset').innerText = d.s4.l_mind;
+            document.getElementById('lbl-phone').innerText = d.s4.l_phone; document.getElementById('lbl-msg').innerText = d.s4.l_msg;
+            document.getElementById('btn-back').innerText = d.btn.back;
+            
+            if (step === 4) document.getElementById('btn-next').innerText = d.s4.btn_submit;
+            else document.getElementById('btn-next').innerText = d.btn.next;
+        }
+
+        function renderGoals() {
+            const container = document.getElementById('goal-container');
+            container.innerHTML = '';
+            t[lang].goals.forEach(g => {
+                const div = document.createElement('div');
+                div.className = `goal-card ${data.goalId === g.id ? 'selected' : ''}`;
+                div.onclick = () => selectGoal(g.id, g.label);
+                div.innerHTML = `<div class="goal-icon">${g.icon}</div><div class="goal-label">${g.label}</div><div class="goal-desc">${g.desc}</div>`;
+                container.appendChild(div);
+            });
+        }
+
+        function selectGoal(id, label) {
+            data.goalId = id;
+            data.goalText = label;
+            renderGoals();
+            document.getElementById('custom-goal-container').style.display = id === 'other' ? 'block' : 'none';
+            checkNextState();
+        }
+
+        function updateBudget(val) {
+            data.budget = parseInt(val);
+            let formatted = new Intl.NumberFormat(lang === 'de' ? 'de-DE' : 'en-US').format(val);
+            if (val >= 20000) formatted = "20.000+";
+            document.getElementById('budget-display').innerText = `${lang === 'en' ? '$' : ''}${formatted} ${lang === 'de' ? '€' : ''}`.trim();
+            
+            const pack = t[lang].packs.find(p => val <= p.max) || t[lang].packs[t[lang].packs.length - 1];
+            document.getElementById('pack-title').innerText = pack.t;
+            document.getElementById('pack-desc').innerText = pack.d;
+            document.getElementById('pack-details').innerText = pack.ext;
+        }
+
+        function toggleCost(idx) {
+            data.costs[idx-1] = !data.costs[idx-1];
+            document.getElementById(`cost-${idx}`).className = `cost-box ${data.costs[idx-1] ? 'selected' : ''}`;
+            checkNextState();
+        }
+
+        function checkNextState() {
+            let canGo = false;
+            if (step === 1) {
+                if (data.goalId === 'other') canGo = document.getElementById('custom-goal').value.trim().length > 0;
+                else canGo = data.goalId !== null;
+            } else if (step === 2) {
+                canGo = true;
+            } else if (step === 3) {
+                canGo = data.costs.every(c => c === true); // All 3 must be checked
+            } else if (step === 4) {
+                canGo = document.getElementById('inp-name').value.trim().length > 0 && document.getElementById('inp-phone').value.trim().length > 0;
+            }
+            document.getElementById('btn-next').disabled = !canGo;
+        }
+
+        // Add event listeners for inputs to trigger validation
+        document.getElementById('custom-goal').addEventListener('input', checkNextState);
+        document.getElementById('inp-name').addEventListener('input', checkNextState);
+        document.getElementById('inp-phone').addEventListener('input', checkNextState);
+
+        function nextStep() {
+            if (step === 4) { submitForm(); return; }
+            document.getElementById(`step-${step}`).classList.remove('active');
+            step++;
+            
+            if (step === 4) {
+                document.getElementById('sum-val-goal').innerText = data.goalId === 'other' ? document.getElementById('custom-goal').value : data.goalText;
+                document.getElementById('sum-val-budget').innerText = document.getElementById('budget-display').innerText;
+                document.getElementById('btn-next').innerText = t[lang].s4.btn_submit;
+            } else {
+                document.getElementById('btn-next').innerText = t[lang].btn.next;
+            }
+
+            document.getElementById(`step-${step}`).classList.add('active');
+            document.getElementById('btn-back').style.display = 'block';
+            document.getElementById('progressBar').style.width = `${(step / 4) * 100}%`;
+            checkNextState();
+            window.scrollTo(0,0);
+        }
+
+        function prevStep() {
+            document.getElementById(`step-${step}`).classList.remove('active');
+            step--;
+            document.getElementById(`step-${step}`).classList.add('active');
+            document.getElementById('btn-next').innerText = t[lang].btn.next;
+            document.getElementById('btn-back').style.display = step === 1 ? 'none' : 'block';
+            document.getElementById('progressBar').style.width = `${(step / 4) * 100}%`;
+            checkNextState();
+            window.scrollTo(0,0);
+        }
+
+        function submitForm() {
+            const name = document.getElementById('inp-name').value.trim();
+            const phone = document.getElementById('inp-phone').value.trim();
+            const msg = document.getElementById('inp-msg').value.trim();
+            const finalGoal = data.goalId === 'other' ? document.getElementById('custom-goal').value.trim() : data.goalText;
+            const budgetStr = document.getElementById('budget-display').innerText;
+
+            const subject = lang === 'de' ? `Mentoring Bewerbung - ${name}` : `Mentoring Application - ${name}`;
+            let body = lang === 'de' ? 
+                `Neue Mentoring Bewerbung!\n\nName: ${name}\nTelefon: ${phone}\n\nZiel: ${finalGoal}\nBudget: ${budgetStr}\n\nMindset: Hat den Preis der Veränderung (Reibung, Ego, Identitätsverlust) akzeptiert.\n\nNachricht:\n${msg || '-'}` : 
+                `New Mentoring Application!\n\nName: ${name}\nPhone: ${phone}\n\nGoal: ${finalGoal}\nBudget: ${budgetStr}\n\nMindset: Accepted the price of change (Friction, Ego, Identity loss).\n\nMessage:\n${msg || '-'}`;
+
+            // Create mailto link
+            const mailtoUrl = `mailto:coaching@shiftmyhorizon.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Redirect to open email client
+            window.location.href = mailtoUrl;
+
+            // Optional: Provide feedback to user
+            setTimeout(() => {
+                alert(lang === 'de' ? 'Dein E-Mail Programm öffnet sich nun. Bitte sende die Nachricht ab.' : 'Your email client is opening. Please send the email.');
+            }, 500);
+        }
+
+        init();
+    </script>
+</body>
+</html>
