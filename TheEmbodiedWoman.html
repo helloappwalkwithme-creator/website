@@ -153,6 +153,7 @@
         <select id="langSelect" class="lang-switcher" onchange="selectLang(this.value)">
             <option value="de">🇩🇪 DE</option>
             <option value="en">🇺🇸 EN</option>
+            <option value="es">🇪🇸 ES</option>
         </select>
     </header>
 
@@ -274,28 +275,28 @@
             
             <div class="name-grid">
                 <div style="flex: 1;">
-                    <div class="flow-title" id="lbl-fname" style="margin-bottom: 8px;">VORNAME</div>
-                    <input type="text" id="reg-fname" class="input-field" placeholder="Anna">
+                    <div class="flow-title" id="lbl-fname" style="margin-bottom: 8px;"></div>
+                    <input type="text" id="reg-fname" class="input-field" placeholder="">
                 </div>
                 <div style="flex: 1;">
-                    <div class="flow-title" id="lbl-lname" style="margin-bottom: 8px;">NACHNAME</div>
-                    <input type="text" id="reg-lname" class="input-field" placeholder="Müller">
+                    <div class="flow-title" id="lbl-lname" style="margin-bottom: 8px;"></div>
+                    <input type="text" id="reg-lname" class="input-field" placeholder="">
                 </div>
             </div>
 
             <div style="margin-bottom: 10px; margin-top: 6px;">
-                <div class="flow-title" id="lbl-age" style="margin-bottom: 8px;">ALTER</div>
-                <input type="number" id="reg-age" class="input-field" placeholder="30">
+                <div class="flow-title" id="lbl-age" style="margin-bottom: 8px;"></div>
+                <input type="number" id="reg-age" class="input-field" placeholder="">
             </div>
             
             <div style="margin-bottom: 10px; margin-top: 6px;">
-                <div class="flow-title" style="margin-bottom: 8px;">EMAIL</div>
-                <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="Email">
+                <div class="flow-title" id="lbl-email" style="margin-bottom: 8px;">EMAIL</div>
+                <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
             </div>
             
             <div style="margin-bottom: 10px; margin-top: 6px;">
-                <div class="flow-title" id="lbl-pwd" style="margin-bottom: 8px;">PASSWORT</div>
-                <input type="password" id="reg-password" class="input-field" placeholder="Passwort">
+                <div class="flow-title" id="lbl-pwd" style="margin-bottom: 8px;"></div>
+                <input type="password" id="reg-password" class="input-field" placeholder="">
             </div>
             
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
@@ -315,10 +316,10 @@
         
         const digistoreLinks = { 
             de: "https://www.checkout-ds24.com/product/XXXXXX/", 
-            en: "https://www.checkout-ds24.com/product/XXXXXX/" 
+            en: "https://www.checkout-ds24.com/product/XXXXXX/",
+            es: "https://www.checkout-ds24.com/product/XXXXXX/"
         };
 
-        // --- TIEFENSPSYCHOLOGISCHER CONTENT FÜR FRAUEN ---
         const t = {
             de: {
                 btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM EMAIL-KURS" },
@@ -407,15 +408,200 @@
                     lbl: "DER NÄCHSTE SCHRITT", 
                     title: "Starte deinen 4-Tage-Flow", 
                     sub: "Lege dein Profil an, um deine Erkenntnisse zu sichern und den Flow zu starten.",
-                    lblFname: "VORNAME", lblLname: "NACHNAME", lblAge: "ALTER", lblPwd: "PASSWORT", 
+                    lblFname: "VORNAME", lblLname: "NACHNAME", lblAge: "ALTER", lblPwd: "PASSWORT", lblEmail: "EMAIL",
                     em: "deine@email.com", pw: "Mindestens 6 Zeichen", 
-                    errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits." 
+                    errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
+                    placeholders: { fname: "Anna", lname: "Müller", age: "30", email: "Email", pwd: "Passwort" }
                 }
             },
-            en: { /* Englische Übersetzung hier analog befüllen */ }
+            en: {
+                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "TO EMAIL COURSE" },
+                s1: { 
+                    lbl: "PHASE 1: INNER CARTOGRAPHY", 
+                    title: "What is currently draining your life energy the most?", 
+                    opts: { 
+                        peoplepleasing: "The feeling of having to please everyone and not being able to say 'no'. (Boundlessness)", 
+                        overthinking: "My mind never stops. I overthink situations until I'm completely exhausted. (Mental Load)", 
+                        somatic: "I feel disconnected from my body, just functioning and feeling a deep inner emptiness. (Emotional Numbness)" 
+                    } 
+                },
+                s2: { 
+                    lbl: "PHASE 2: INTENSITY", 
+                    title: "How strongly does this pattern dominate your everyday life?", 
+                    opts: { 
+                        peoplepleasing: ["I adapt to others hourly.", "Daily, especially in relationships/at work.", "Several times a week when conflicts threaten.", "Only under severe emotional pressure."], 
+                        overthinking: ["I wake up at night because my brain is ruminating on problems.", "Daily circling thoughts without a solution.", "As soon as I settle down in the evening, it starts.", "In phases, when I am stressed."], 
+                        somatic: ["I hardly feel my body anymore (permanent state).", "Daily somatic complaints (neck, stomach, migraines).", "I feel like I'm on autopilot several times a week.", "Only in extreme stress phases."] 
+                    } 
+                },
+                s3: { 
+                    lbl: "PHASE 3: CHRONIFICATION", 
+                    title: "How long have you been regulating your nervous system this way?", 
+                    opts: ["For a few months", "1 - 3 years", "3 - 7 years", "I don't know it any other way (Since childhood/youth)"] 
+                },
+                s4: { 
+                    lbl: "PHASE 4: THE PRICE", 
+                    title: "What does this adaptation cost you deep down? (Multiple choice)", 
+                    opts: { 
+                        peoplepleasing: ["Loss of my authentic identity (I don't know who I am).", "Pent-up, suppressed anger at myself and others.", "Deep exhaustion from constantly carrying other people's emotions.", "Feeling of worthlessness when I don't 'deliver'."], 
+                        overthinking: ["Insomnia and chronic fatigue.", "Anxiety and panic about losing control.", "Inability to feel real joy in the here and now.", "Decision paralysis (fear of making mistakes)."], 
+                        somatic: ["Loss of libido and lack of intimacy.", "The feeling that life is passing me by invisibly.", "Physical pain that no doctor can explain organically.", "Isolation because no one really 'sees' me."] 
+                    } 
+                },
+                s5: { 
+                    lbl: "YOUR RESOURCES", 
+                    title: "How is your system currently set up?", 
+                    urgLbl: "How connected do you feel to your own needs?", 
+                    nrgLbl: "How much emotional capacity do you have left for unforeseen crises?", 
+                    timLbl: "Minutes per day where you truly feel (no journaling/distraction, just being)?", 
+                    urgMin: "Completely disconnected", urgMax: "Very connected", 
+                    nrgMin: "Absolute emptiness", nrgMax: "High resilience",
+                    urgDesc: ["I live other people's lives.", "Highly alienated.", "I often override myself.", "I feel them, but don't act.", "Depends on the day.", "It's slowly getting better.", "I mostly know my limits.", "Good.", "Very strong.", "Fully integrated."],
+                    nrgDesc: ["The smallest trigger leads to a breakdown.", "I'm running on emergency power.", "Chronically thin-skinned.", "Little buffer available.", "Just enough.", "Okay, but I have to be careful.", "Stable.", "Good resilience.", "Strongly rooted.", "Unshakable."],
+                    timDesc: ["0 minutes. Constant avoidance.", "Hardly. Silence scares me.", "A few moments, often interrupted.", "I consciously make space for myself.", "Deep daily practice."]
+                },
+                s6: { title: "ANALYZING NERVOUS SYSTEM...", sub: "Patterns are being evaluated." },
+                s7: { 
+                    lbl: "YOUR STATUS QUO", 
+                    costLbl: "THE PSYCHOLOGICAL REALITY:", 
+                    costVal: { 
+                        peoplepleasing: "Your nervous system interprets setting boundaries as life-threatening. You sacrifice your life energy to avert the invisible danger of rejection.", 
+                        overthinking: "Your mind constantly simulates dangers to protect you. It is not a weakness, but an overactive survival mechanism (continuous sympathetic firing).", 
+                        somatic: "Your body has frozen emotions (Dorsal Vagal/Freeze response) because the perceived pain in the past was too overwhelming." 
+                    }, 
+                    lvls: { 
+                        ext: { t: "DYSREGULATED", s: "CHRONIC SURVIVAL RESPONSE", d: "Your system is under enormous tension. Your neurobiology is on constant alert. True healing now requires radical gentleness and somatic safety." }, 
+                        dan: { t: "EXHAUSTED", s: "HIGH ALLOSTATIC LOAD", d: "Compensation is costing you massive substance. You are burning out emotionally because your body no longer allows for deep phases of rest." }, 
+                        ala: { t: "REACTIVE", s: "LOSS OF CENTER", d: "You function in everyday life, but inner tension is your constant companion. Your capacity limit is almost reached." }, 
+                        cri: { t: "TENSE", s: "BEGINNING IMBALANCE", d: "You feel that your old patterns are no longer sustaining you. It is the perfect time for deeper integration." } 
+                    } 
+                },
+                s8: { 
+                    title: "THE REALIZATION", 
+                    msg: "It is important to understand: Your overthinking, your adapting, or your numbness are not flaws in your character. They are brilliant protective strategies that your nervous system developed when you were not safe. In our email flow, we will lovingly decode these mechanisms instead of fighting them.", 
+                    disc: "The tools provided are based on Somatic Experiencing and psychological models. They do not replace trauma therapy for clinical complaints." 
+                },
+                s9: { 
+                    lbl: "YOUR DECISION", 
+                    title: "Are you ready to be radically honest with yourself?", 
+                    opts: ["Yes, I want to learn to understand my patterns.", "I am still cautious."] 
+                },
+                s10: { 
+                    lbl: "MINDFULNESS", 
+                    title: "Framework Conditions", 
+                    desc: "Growth means feeling resistance. This process requires your willingness to reflect.", 
+                    c1: "I am ready to take responsibility for my emotions.", 
+                    c2: "I understand that this is a structured guide and not therapy." 
+                },
+                s11: { 
+                    title: "Which aspect of healing calls to you the most?", 
+                    opts: { boundaries: "The fierce protector (setting boundaries & saying no)", calm: "The still lake (calming the nervous system & enduring silence)", body: "The rooted one (returning to the body and finding feeling)" } 
+                },
+                s12: { 
+                    lbl: "THE NEXT STEP", 
+                    title: "Start your 4-day flow", 
+                    sub: "Create your profile to save your insights and start the flow.",
+                    lblFname: "FIRST NAME", lblLname: "LAST NAME", lblAge: "AGE", lblPwd: "PASSWORD", lblEmail: "EMAIL",
+                    em: "your@email.com", pw: "At least 6 characters", 
+                    errFill: "Please fill in all fields.", errExists: "This email already exists.",
+                    placeholders: { fname: "Anna", lname: "Smith", age: "30", email: "Email", pwd: "Password" }
+                }
+            },
+            es: {
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "AL CURSO POR EMAIL" },
+                s1: { 
+                    lbl: "FASE 1: CARTOGRAFÍA INTERNA", 
+                    title: "¿Qué es lo que más drena tu energía vital actualmente?", 
+                    opts: { 
+                        peoplepleasing: "La sensación de tener que complacer a todos y no poder decir 'no'. (Falta de límites)", 
+                        overthinking: "Mi mente nunca se detiene. Pienso demasiado las situaciones hasta quedar exhausta. (Carga mental)", 
+                        somatic: "Me siento desconectada de mi cuerpo, solo funciono y siento un profundo vacío interno. (Adormecimiento emocional)" 
+                    } 
+                },
+                s2: { 
+                    lbl: "FASE 2: INTENSIDAD", 
+                    title: "¿Qué tanto domina este patrón tu vida diaria?", 
+                    opts: { 
+                        peoplepleasing: ["Me adapto a los demás cada hora.", "A diario, especialmente en relaciones/en el trabajo.", "Varias veces a la semana cuando hay amenaza de conflicto.", "Solo bajo fuerte presión emocional."], 
+                        overthinking: ["Me despierto por la noche porque mi cerebro le da vueltas a los problemas.", "Pensamientos circulares a diario sin solución.", "En cuanto me relajo por la noche, empieza.", "Por fases, cuando estoy estresada."], 
+                        somatic: ["Ya casi no siento mi cuerpo (estado permanente).", "Molestias somáticas diarias (cuello, estómago, migrañas).", "Me siento en piloto automático varias veces a la semana.", "Solo en fases de estrés extremo."] 
+                    } 
+                },
+                s3: { 
+                    lbl: "FASE 3: CRONIFICACIÓN", 
+                    title: "¿Cuánto tiempo llevas regulando tu sistema nervioso de esta manera?", 
+                    opts: ["Desde hace unos meses", "1 - 3 años", "3 - 7 años", "No conozco otra forma (Desde la infancia/adolescencia)"] 
+                },
+                s4: { 
+                    lbl: "FASE 4: EL PRECIO", 
+                    title: "¿Qué te cuesta esta adaptación en el fondo? (Opción múltiple)", 
+                    opts: { 
+                        peoplepleasing: ["Pérdida de mi identidad auténtica (No sé quién soy).", "Ira acumulada y reprimida hacia mí y hacia los demás.", "Agotamiento profundo por cargar constantemente con las emociones de otros.", "Sentimiento de falta de valor cuando no 'cumplo'."], 
+                        overthinking: ["Insomnio y fatiga crónica.", "Ansiedad y pánico por perder el control.", "Incapacidad de sentir alegría real en el aquí y el ahora.", "Parálisis por análisis (miedo a cometer errores)."], 
+                        somatic: ["Pérdida de libido y falta de intimidad.", "La sensación de que la vida me pasa de largo invisiblemente.", "Dolor físico que ningún médico puede explicar orgánicamente.", "Aislamiento porque nadie me 've' realmente."] 
+                    } 
+                },
+                s5: { 
+                    lbl: "TUS RECURSOS", 
+                    title: "¿Cómo se encuentra tu sistema actualmente?", 
+                    urgLbl: "¿Qué tan conectada te sientes con tus propias necesidades?", 
+                    nrgLbl: "¿Cuánta capacidad emocional te queda para crisis imprevistas?", 
+                    timLbl: "¿Minutos al día en los que realmente sientes (sin diario/distracciones, solo ser)?", 
+                    urgMin: "Totalmente desconectada", urgMax: "Muy conectada", 
+                    nrgMin: "Vacío absoluto", nrgMax: "Alta resiliencia",
+                    urgDesc: ["Vivo la vida de otras personas.", "Altamente alienada.", "A menudo me ignoro a mí misma.", "Las siento, pero no actúo.", "Depende del día.", "Mejora lentamente.", "Casi siempre conozco mis límites.", "Bien.", "Muy fuerte.", "Totalmente integrada."],
+                    nrgDesc: ["El más mínimo detonante provoca un colapso.", "Funciono con energía de emergencia.", "Hipersensibilidad crónica.", "Poco margen disponible.", "Apenas suficiente.", "Bien, pero debo tener cuidado.", "Estable.", "Buena resiliencia.", "Fuertemente enraizada.", "Inquebrantable."],
+                    timDesc: ["0 minutos. Evitación constante.", "Apenas. El silencio me asusta.", "Algunos momentos, a menudo interrumpidos.", "Me hago espacio conscientemente.", "Práctica diaria profunda."]
+                },
+                s6: { title: "ANALIZANDO SISTEMA NERVIOSO...", sub: "Evaluando patrones." },
+                s7: { 
+                    lbl: "TU ESTATUS QUO", 
+                    costLbl: "LA REALIDAD PSICOLÓGICA:", 
+                    costVal: { 
+                        peoplepleasing: "Tu sistema nervioso interpreta el poner límites como una amenaza de muerte. Sacrificas tu energía vital para evitar el peligro invisible del rechazo.", 
+                        overthinking: "Tu mente simula peligros constantemente para protegerte. No es una debilidad, sino un mecanismo de supervivencia hiperactivo (disparo simpático continuo).", 
+                        somatic: "Tu cuerpo ha congelado las emociones (respuesta Vagal Dorsal/Congelación) porque el dolor percibido en el pasado fue demasiado abrumador." 
+                    }, 
+                    lvls: { 
+                        ext: { t: "DESREGULADO", s: "RESPUESTA CRÓNICA DE SUPERVIVENCIA", d: "Tu sistema está bajo una enorme tensión. Tu neurobiología está en alerta constante. La verdadera sanación ahora requiere una gentileza radical y seguridad somática." }, 
+                        dan: { t: "EXHAUSTA", s: "ALTA CARGA ALOSTÁTICA", d: "La compensación te está costando muchísima sustancia. Te estás agotando emocionalmente porque tu cuerpo ya no permite fases profundas de descanso." }, 
+                        ala: { t: "REACTIVO", s: "PÉRDIDA DEL CENTRO", d: "Funcionas en la vida diaria, pero la tensión interna es tu compañera constante. Has casi alcanzado tu límite de capacidad." }, 
+                        cri: { t: "TENSA", s: "DESEQUILIBRIO INCIPIENTE", d: "Sientes que tus viejos patrones ya no te sostienen. Es el momento perfecto para una integración más profunda." } 
+                    } 
+                },
+                s8: { 
+                    title: "LA TOMA DE CONCIENCIA", 
+                    msg: "Es importante entender: Tu sobrepensamiento, tu adaptación o tu adormecimiento no son fallos en tu carácter. Son estrategias de protección brillantes que tu sistema nervioso desarrolló cuando no estabas a salvo. En nuestro flujo de correos, descodificaremos amorosamente estos mecanismos en lugar de combatirlos.", 
+                    disc: "Las herramientas proporcionadas se basan en Somatic Experiencing y modelos psicológicos. No sustituyen la terapia de trauma para dolencias clínicas." 
+                },
+                s9: { 
+                    lbl: "TU DECISIÓN", 
+                    title: "¿Estás lista para ser radicalmente honesta contigo misma?", 
+                    opts: ["Sí, quiero aprender a entender mis patrones.", "Aún soy cautelosa."] 
+                },
+                s10: { 
+                    lbl: "ATENCIÓN PLENA", 
+                    title: "Condiciones Generales", 
+                    desc: "Crecer significa sentir resistencia. Este proceso requiere tu disposición a reflexionar.", 
+                    c1: "Estoy lista para asumir la responsabilidad de mis emociones.", 
+                    c2: "Entiendo que esta es una guía estructurada y no terapia." 
+                },
+                s11: { 
+                    title: "¿Qué aspecto de la sanación te llama más?", 
+                    opts: { boundaries: "La protectora feroz (poner límites y decir no)", calm: "El lago tranquilo (calmar el sistema nervioso y soportar el silencio)", body: "La enraizada (volver al cuerpo y encontrar el sentir)" } 
+                },
+                s12: { 
+                    lbl: "EL PRÓXIMO PASO", 
+                    title: "Inicia tu flujo de 4 días", 
+                    sub: "Crea tu perfil para guardar tus hallazgos e iniciar el flujo.",
+                    lblFname: "NOMBRE", lblLname: "APELLIDO", lblAge: "EDAD", lblPwd: "CONTRASEÑA", lblEmail: "EMAIL",
+                    em: "tu@email.com", pw: "Al menos 6 caracteres", 
+                    errFill: "Por favor, rellena todos los campos.", errExists: "Este correo ya existe.",
+                    placeholders: { fname: "Ana", lname: "García", age: "30", email: "Email", pwd: "Contraseña" }
+                }
+            }
         };
 
-        // --- CORE LOGIK ---
         let currentLang = 'de';
         let step = 1;
         let answers = { root_problem: 'peoplepleasing', pain_point: [], urgency: 5, energy: 5, available_time: 30, therapy1: false, therapy2: false };
@@ -423,6 +609,8 @@
 
         function updateTexts() {
             const l = t[currentLang];
+            document.documentElement.lang = currentLang;
+            
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
             document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
             document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
@@ -438,14 +626,29 @@
             document.getElementById('s10-lbl').innerText = l.s10.lbl; document.getElementById('s10-title').innerText = l.s10.title; document.getElementById('s10-desc').innerText = l.s10.desc;
             document.getElementById('s10-c1').innerText = l.s10.c1; document.getElementById('s10-c2').innerText = l.s10.c2;
             document.getElementById('s11-title').innerText = l.s11.title;
-            document.getElementById('s12-lbl').innerText = l.s12.lbl; document.getElementById('s12-title').innerText = l.s12.title; document.getElementById('s12-sub').innerText = l.s12.sub;
+            
+            document.getElementById('s12-lbl').innerText = l.s12.lbl; 
+            document.getElementById('s12-title').innerText = l.s12.title; 
+            document.getElementById('s12-sub').innerText = l.s12.sub;
+            document.getElementById('lbl-fname').innerText = l.s12.lblFname;
+            document.getElementById('lbl-lname').innerText = l.s12.lblLname;
+            document.getElementById('lbl-age').innerText = l.s12.lblAge;
+            document.getElementById('lbl-email').innerText = l.s12.lblEmail;
+            document.getElementById('lbl-pwd').innerText = l.s12.lblPwd;
+
+            document.getElementById('reg-fname').placeholder = l.s12.placeholders.fname;
+            document.getElementById('reg-lname').placeholder = l.s12.placeholders.lname;
+            document.getElementById('reg-age').placeholder = l.s12.placeholders.age;
+            document.getElementById('reg-email').placeholder = l.s12.placeholders.email;
+            document.getElementById('reg-password').placeholder = l.s12.placeholders.pwd;
+
             document.getElementById('btn-register').innerText = l.btn.pay;
             updateAssessmentUI();
         }
 
         window.onload = () => { updateTexts(); buildOptions(); pBar.style.width = `${(1 / 11) * 100}%`; };
 
-        function selectLang(lang) { currentLang = lang; updateTexts(); buildOptions(); }
+        function selectLang(lang) { currentLang = lang; updateTexts(); buildOptions(); if (step === 7) renderResult(); }
 
         function createOptionBtn(text, isSelected, isMulti, onClick) {
             const div = document.createElement('div'); div.className = `quiz-btn ${isSelected ? 'selected' : ''}`; div.onclick = onClick;
@@ -553,7 +756,6 @@
         }
 
         function handleRegistration() {
-            // Analog zum bestehenden Skript: Daten validieren und Supabase/Digistore Redirect
             console.log("Registrierung mit:", answers);
         }
     </script>
