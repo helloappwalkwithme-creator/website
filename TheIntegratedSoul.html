@@ -207,6 +207,7 @@
         <select id="langSelect" class="lang-switcher" onchange="selectLang(this.value)">
             <option value="de">🇩🇪 DE</option>
             <option value="en">🇺🇸 EN</option>
+            <option value="es">🇪🇸 ES</option>
         </select>
     </header>
 
@@ -335,27 +336,27 @@
             <div class="name-grid">
                 <div style="flex: 1;">
                     <div class="flow-title" id="lbl-fname" style="margin-bottom: 8px;">VORNAME</div>
-                    <input type="text" id="reg-fname" class="input-field" placeholder="Vorname">
+                    <input type="text" id="reg-fname" class="input-field" placeholder="">
                 </div>
                 <div style="flex: 1;">
                     <div class="flow-title" id="lbl-lname" style="margin-bottom: 8px;">NACHNAME</div>
-                    <input type="text" id="reg-lname" class="input-field" placeholder="Nachname">
+                    <input type="text" id="reg-lname" class="input-field" placeholder="">
                 </div>
             </div>
 
             <div style="margin-bottom: 10px; margin-top: 6px;">
                 <div class="flow-title" id="lbl-age" style="margin-bottom: 8px;">ALTER</div>
-                <input type="number" id="reg-age" class="input-field" placeholder="Dein Alter">
+                <input type="number" id="reg-age" class="input-field" placeholder="">
             </div>
             
             <div style="margin-bottom: 10px; margin-top: 6px;">
-                <div class="flow-title" style="margin-bottom: 8px;">EMAIL</div>
-                <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="Email Adresse">
+                <div class="flow-title" id="lbl-email" style="margin-bottom: 8px;">EMAIL</div>
+                <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
             </div>
             
             <div style="margin-bottom: 10px; margin-top: 6px;">
                 <div class="flow-title" id="lbl-pwd" style="margin-bottom: 8px;">PASSWORT</div>
-                <input type="password" id="reg-password" class="input-field" placeholder="Sicheres Passwort">
+                <input type="password" id="reg-password" class="input-field" placeholder="">
             </div>
             
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
@@ -376,7 +377,8 @@
         // Digistore Checkout URLs
         const digistoreLinks = { 
             de: "https://www.checkout-ds24.com/product/XXXXXX/", 
-            en: "https://www.checkout-ds24.com/product/XXXXXX/"
+            en: "https://www.checkout-ds24.com/product/XXXXXX/",
+            es: "https://www.checkout-ds24.com/product/XXXXXX/"
         };
 
         // --- DEEP JUNGIAN / SPIRITUAL TRANSLATIONS ---
@@ -474,10 +476,12 @@
                     lblLname: "NACHNAME",
                     lblAge: "ALTER",
                     lblPwd: "PASSWORT", 
+                    lblEmail: "EMAIL",
                     em: "deine@email.com", 
                     pw: "•••••••••", 
                     errFill: "Bitte fülle alle Felder aus.", 
-                    errExists: "Diese Email existiert bereits." 
+                    errExists: "Diese Email existiert bereits.",
+                    placeholders: { fname: "Vorname", lname: "Nachname", age: "Dein Alter" }
                 }
             },
             en: {
@@ -567,17 +571,120 @@
                     lblLname: "LAST NAME",
                     lblAge: "AGE",
                     lblPwd: "PASSWORD", 
+                    lblEmail: "EMAIL",
                     em: "your@email.com", 
                     pw: "•••••••••", 
                     errFill: "Please fill in all fields.", 
-                    errExists: "Email already exists." 
+                    errExists: "Email already exists.",
+                    placeholders: { fname: "First Name", lname: "Last Name", age: "Your Age" }
+                }
+            },
+            es: {
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTIENDO", pay: "ENTRAR AL CAMINO" },
+                s1: { 
+                    lbl: "FASE 1: LA SOMBRA", 
+                    title: "¿Qué sentimiento subyacente te acompaña más a menudo?", 
+                    opts: { 
+                        emptiness: "Un vacío interno profundo e inexplicable, sin importar lo que logre o consuma. (Crisis de sentido)", 
+                        bypassing: "Me refugio en la positividad y las prácticas espirituales, pero nada cambia en mi vida real. (Evasión espiritual)", 
+                        isolation: "Un aislamiento crónico y la sensación de estar fundamentalmente desconectada de la vida. (Separación)" 
+                    } 
+                },
+                s2: { 
+                    lbl: "INTENSIDAD", 
+                    title: "¿Qué tan presente está este estado en tu vida diaria?", 
+                    opts: { 
+                        emptiness: ["Es un ruido de fondo permanente.", "A diario, especialmente en momentos de silencio.", "Varias veces a la semana, a menudo por la noche o los fines de semana.", "Solo cuando se derrumban las estructuras externas."], 
+                        bypassing: ["Medito/escribo a diario, pero pierdo los estribos inmediatamente ante las críticas.", "He hecho docenas de cursos, pero estoy atascada en la vida.", "A menudo. Maquillo la realidad para evitar conflictos.", "Por fases, cuando los problemas se vuelven incómodos."], 
+                        isolation: ["Incluso en una habitación llena de gente, me siento invisible.", "A diario. Mis relaciones se sienten superficiales.", "Varias veces a la semana siento este velo.", "Solo en momentos de profunda tristeza."] 
+                    } 
+                },
+                s3: { 
+                    lbl: "HISTORIA", 
+                    title: "¿Cuánto tiempo llevas buscando la 'solución'?", 
+                    opts: ["Desde hace unos meses", "1 - 3 años", "3 - 7 años (He probado muchas prácticas)", "Casi toda mi vida"] 
+                },
+                s4: { 
+                    lbl: "LAS CONSECUENCIAS", 
+                    title: "¿Qué te cuesta esta desconexión aquí y ahora? (Opción múltiple)", 
+                    opts: { 
+                        emptiness: ["Adormecimiento frente a la verdadera alegría y el dolor.", "Compensación a través del exceso de trabajo, el consumo o la distracción.", "Falta de motivación para las cosas que realmente me importan.", "La sensación persistente de estar desperdiciando mi verdadero potencial.", "Problemas de relación por falta de presencia."], 
+                        bypassing: ["Falta de enraizamiento (pierdo el contacto con la realidad/el cuerpo).", "La positividad tóxica me aísla de las conexiones reales.", "Problemas financieros o profesionales porque no actúo.", "Ira reprimida y latente (aspectos de la sombra).", "Agotamiento por tener que 'sanar' constantemente."], 
+                        isolation: ["Incapacidad de permitir una intimidad profunda en pareja.", "Aislamiento social y comportamiento de ermitaño.", "Adormecimiento físico y somatización del estrés.", "Un sentimiento central de falta de valor.", "Pérdida de confianza en la vida misma."] 
+                    } 
+                },
+                s5: { 
+                    lbl: "TU ANCLAJE", 
+                    title: "¿Qué tan anclada está tu mente en tu cuerpo?", 
+                    urgLbl: "¿Con qué frecuencia sientes el suelo bajo tus pies (Enraizamiento)?", 
+                    nrgLbl: "¿Cuánta energía vital circula por tu cuerpo?", 
+                    timLbl: "¿Minutos al día en silencio consciente y sin propósito?", 
+                    urgMin: "Totalmente desarraigada", 
+                    urgMax: "Profundamente enraizada", 
+                    nrgMin: "Estancamiento/Rígida", 
+                    nrgMax: "Flujo vibrante",
+                    urgDesc: ["Vivo exclusivamente en mi cabeza.", "Muy rara vez. A menudo olvido mi cuerpo.", "A veces siento mi presencia física.", "Promedio.", "Intento conectar conscientemente.", "Bastante bien.", "Casi siempre siento mis raíces.", "Fuertemente conectada a la tierra.", "Muy presente en el aquí y ahora.", "Anclaje somático perfecto."],
+                    nrgDesc: ["Adormecimiento absoluto. Nada se mueve.", "Pesada y apática.", "Aguantando por pura fuerza de voluntad.", "Cansada pero funcionando.", "Más o menos. Depende.", "Equilibrada.", "Ligera y clara.", "Buena circulación y vitalidad.", "Alta resonancia.", "Vitalidad completa."],
+                    timDesc: ["0 minutos. El silencio me inquieta.", "Casi nada. Siempre necesito podcasts/música.", "Algunos momentos fugaces.", "Tiempo suficiente para la integración.", "Práctica contemplativa diaria y profunda."]
+                },
+                s6: { title: "REFLEJANDO TU ESTADO...", sub: "Integrando patrones arquetípicos." },
+                s7: { 
+                    lbl: "EL ESPEJO", 
+                    costLbl: "LA VERDAD PSICOLÓGICA:", 
+                    costVal: { 
+                        emptiness: "Tu sistema ha encapsulado las emociones. El vacío no es un defecto, sino el espacio que se crea cuando desterramos nuestras partes oscuras.", 
+                        bypassing: "Usas los conceptos espirituales como un escudo contra el dolor humano. El verdadero despertar no ocurre en la luz pura, sino en las raíces (cuerpo/sombra).", 
+                        isolation: "Tu aislamiento es un mecanismo de supervivencia. El sistema nervioso asocia la conexión con el peligro y cambia a la autosuficiencia." 
+                    }, 
+                    lvls: { 
+                        ext: { t: "FRAGMENTADA", s: "DESCONEXIÓN SOMÁTICA", d: "Vives casi exclusivamente en el éter o en el intelecto. Tu cuerpo y tus partes humanas están hambrientos de tu presencia." }, 
+                        dan: { t: "DESARRAIGADA", s: "BÚSQUEDA EN EL EXTERIOR", d: "Buscas la respuesta en la siguiente enseñanza, pero falta la base. Es hora de dirigir la atención radicalmente hacia adentro y hacia abajo (enraizamiento)." }, 
+                        ala: { t: "DISOCIADA", s: "ILUSIÓN DE CONTROL", d: "Has entendido los conceptos intelectualmente, pero aún no los encarnas. Tu mente está despierta, tu sistema nervioso está congelado." }, 
+                        cri: { t: "BUSCADORA", s: "INTEGRACIÓN INCIPIENTE", d: "Ya reconoces los patrones. Ahora se trata de transformar la teoría en experiencia física y vivida." } 
+                    } 
+                },
+                s8: { 
+                    title: "EL CAMINO A LA PLENITUD", 
+                    msg: "La espiritualidad no significa escapar de la humanidad, sino hundirse profundamente en ella. Mientras intentemos ser solo 'luz', seguiremos fragmentados. En este flujo, combinamos el trabajo de sombra junguiano con un profundo enraizamiento basado en el sistema nervioso. Traemos tu mente de vuelta al cuerpo.", 
+                    disc: "Este viaje requiere la disposición de sentir emociones incómodas. No reemplaza la terapia de trauma profesional." 
+                },
+                s9: { 
+                    lbl: "COMPROMISO", 
+                    title: "¿Estás lista para mirar también las partes que has rechazado hasta ahora?", 
+                    opts: ["Sí, estoy lista para una integración real.", "Todavía estoy insegura."] 
+                },
+                s10: { 
+                    lbl: "EL MARCO", 
+                    title: "Por favor, lee atentamente", 
+                    desc: "La verdadera transformación a menudo es incómoda antes de volverse liberadora. Asumes toda la responsabilidad de tu proceso interno.", 
+                    c1: "Estoy lista para soltar la ilusión de la positividad pura.", 
+                    c2: "Confirmo que esta es una guía psicoespiritual y no una terapia clínica." 
+                },
+                s11: { 
+                    title: "¿Qué arquetipo de integración te llama más?", 
+                    opts: { alchemist: "La Alquimista (Transformar el dolor en conocimiento)", earth: "La Caminante de la Tierra (El anclaje físico más profundo en el cuerpo)", mystic: "La Mística Integrada (Claridad, silencio y verdad)", weaver: "La Tejedora (Crear conexión entre el mundo interior y el exterior)" } 
+                },
+                s12: { 
+                    lbl: "EL PRÓXIMO PASO", 
+                    title: "Comienza la Integración", 
+                    sub: "Asegura tu acceso al flujo de 4 días.",
+                    lblFname: "NOMBRE",
+                    lblLname: "APELLIDO",
+                    lblAge: "EDAD",
+                    lblPwd: "CONTRASEÑA", 
+                    lblEmail: "EMAIL",
+                    em: "tu@email.com", 
+                    pw: "•••••••••", 
+                    errFill: "Por favor, completa todos los campos.", 
+                    errExists: "Este correo ya existe.",
+                    placeholders: { fname: "Nombre", lname: "Apellido", age: "Tu edad" }
                 }
             }
         };
 
         // --- STATE ---
         let currentLang = localStorage.getItem('smh_language');
-        if (!['de', 'en'].includes(currentLang)) { currentLang = 'de'; }
+        if (!['de', 'en', 'es'].includes(currentLang)) { currentLang = 'de'; }
         
         let step = 1;
         let answers = { root_problem: 'emptiness', pain_point: [], urgency: 5, energy: 5, available_time: 30, therapy1: false, therapy2: false };
@@ -587,6 +694,8 @@
 
         function updateTexts() {
             const l = t[currentLang];
+            document.documentElement.lang = currentLang;
+            
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
 
             document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
@@ -617,7 +726,11 @@
             document.getElementById('lbl-lname').innerText = l.s12.lblLname;
             document.getElementById('lbl-age').innerText = l.s12.lblAge;
             document.getElementById('lbl-pwd').innerText = l.s12.lblPwd;
+            document.getElementById('lbl-email').innerText = l.s12.lblEmail;
             
+            document.getElementById('reg-fname').placeholder = l.s12.placeholders.fname;
+            document.getElementById('reg-lname').placeholder = l.s12.placeholders.lname;
+            document.getElementById('reg-age').placeholder = l.s12.placeholders.age;
             document.getElementById('reg-email').placeholder = l.s12.em; 
             document.getElementById('reg-password').placeholder = l.s12.pw;
             
@@ -638,6 +751,7 @@
             localStorage.setItem('smh_language', lang);
             updateTexts();
             buildOptions();
+            if (step === 7) renderResult();
         }
 
         function createOptionBtn(text, isSelected, isMulti, onClick) {
