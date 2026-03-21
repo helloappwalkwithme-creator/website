@@ -165,8 +165,10 @@
     </div>
 
     <script>
-        const SUPABASE_URL = 'DEINE_SUPABASE_URL';
-        const SUPABASE_ANON_KEY = 'DEIN_SUPABASE_KEY';
+        const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
         const digistoreLinks = { 
             de: "https://www.checkout-ds24.com/product/XXXXXX/", 
@@ -518,15 +520,23 @@
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
             try {
-                // Hier fügst du bei Bedarf deinen Supabase Code ein:
-                // const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                // await supabase.from('leads').insert([{ email, first_name: fname, source: 'parent_in_peace_7step' }]);
+                const { error } = await supabase.from('leads').insert([
+                    { 
+                        email: email, 
+                        first_name: fname, 
+                        source: 'parent_in_peace',
+                        marketing_consent: true,
+                        onboarding_data: answers 
+                    }
+                ]);
+
+                if (error) throw error;
                 
                 const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
                 window.location.href = `${digistoreBaseUrl}?custom=pip_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
             } catch(e) {
-                console.error(e);
-                errEl.innerText = "Ein Fehler ist aufgetreten."; 
+                console.error("Fehler beim Speichern:", e);
+                errEl.innerText = "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal."; 
                 errEl.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
