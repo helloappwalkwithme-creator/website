@@ -18,6 +18,7 @@
             --color-woman: #d4a3b3;    /* Soft Rose/Taupe */
             --color-parent: #d48a60;   /* Terracotta/Amber */
             --color-soul: #cba677;     /* Alchemist Gold/Sand */
+            --color-couple: #d07c50;   /* Deep Terracotta/Rust */
         }
 
         body {
@@ -123,6 +124,7 @@
         .card-woman:hover { border-color: var(--color-woman); }
         .card-parent:hover { border-color: var(--color-parent); }
         .card-soul:hover { border-color: var(--color-soul); }
+        .card-couple:hover { border-color: var(--color-couple); }
 
         .app-icon {
             width: 55px;
@@ -160,6 +162,9 @@
         
         .btn-soul { background-color: transparent; border: 1px solid var(--color-soul); color: var(--color-soul); }
         .btn-soul:hover { background-color: var(--color-soul); color: #000; }
+        
+        .btn-couple { background-color: transparent; border: 1px solid var(--color-couple); color: var(--color-couple); }
+        .btn-couple:hover { background-color: var(--color-couple); color: #000; }
         
         footer { background-color: rgba(10, 10, 10, 0.95); padding: 60px 20px; border-top: 1px solid var(--card-border); text-align: center; }
         .legal-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 60px; max-width: 1000px; margin: 0 auto; }
@@ -218,6 +223,13 @@
                     <h3 data-i18n="app2_title">The Loving Woman</h3>
                     <p data-i18n="app2_p">Leave the mental loop behind. Reconnect with your body, set strong boundaries and overcome people-pleasing.</p>
                     <a href="ThelovingWoman.html" class="btn btn-woman" data-i18n="app_btn_active">To the Flow</a>
+                </div>
+                
+                <div class="card card-couple">
+                    <div class="app-icon" style="background-color: var(--color-couple);">CC</div>
+                    <h3 data-i18n="app5_title">Connected Couples</h3>
+                    <p data-i18n="app5_p">Break the cycle of conflict and distance. Regulate your nervous systems and rebuild deep, secure attachment together.</p>
+                    <a href="connectedcouple.html" class="btn btn-couple" data-i18n="app_btn_active">To the Flow</a>
                 </div>
                 
                 <div class="card card-parent">
@@ -281,6 +293,8 @@
                 app3_p: "Become the safe harbor for your child. Break generational trauma through true nervous system regulation.",
                 app4_title: "The Integrated Soul",
                 app4_p: "Connect your spirit to the material world. Deep somatic grounding and Jungian shadow integration.",
+                app5_title: "Connected Couples",
+                app5_p: "Break the cycle of conflict and distance. Regulate your nervous systems and rebuild deep, secure attachment together.",
                 app_btn_active: "Start the Flow"
             },
             de: {
@@ -298,6 +312,8 @@
                 app3_p: "Werde der sichere Hafen für dein Kind. Durchbrich das Generationentrauma durch echte Nervensystem-Regulation.",
                 app4_title: "The Integrated Soul",
                 app4_p: "Verbinde deinen Geist mit der Materie. Schattenintegration und tiefe somatische Erdung statt spirituellem Bypassing.",
+                app5_title: "Connected Couples",
+                app5_p: "Durchbrecht den Kreislauf aus Konflikt und Distanz. Reguliert eure Nervensysteme und baut gemeinsam eine sichere Bindung auf.",
                 app_btn_active: "Zum Flow"
             },
             es: {
@@ -315,6 +331,8 @@
                 app3_p: "Conviértete en el puerto seguro para tu hijo. Rompe el trauma generacional a través de la regulación real del sistema nervioso.",
                 app4_title: "The Integrated Soul",
                 app4_p: "Conecta tu espíritu con el mundo material. Profundo enraizamiento somático e integración de sombras.",
+                app5_title: "Connected Couples",
+                app5_p: "Rompan el ciclo de conflicto y distancia. Regulen sus sistemas nerviosos y reconstruyan juntos un apego profundo y seguro.",
                 app_btn_active: "Iniciar el Flujo"
             }
         };
