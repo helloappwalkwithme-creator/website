@@ -16,85 +16,33 @@
             --text: #e2e4e9;
             --error: #b05c6e;
             --success: #678c7a;
-            --energy: #a29ba8;
-            --time: #678c7a;
         }
 
         * { box-sizing: border-box; font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif, -apple-system, sans-serif; }
         
         body { 
-            margin: 0; 
-            padding: 0; 
-            background-color: var(--dark); 
-            color: var(--text); 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            overflow-x: hidden; 
+            margin: 0; padding: 0; background-color: var(--dark); color: var(--text); 
+            display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; 
         }
         
-        /* Progress Bar */
         .progress-container { width: 100%; height: 3px; background-color: #1a1a24; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
         .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.4s ease; }
 
-        /* Top Header for Language Switcher */
-        .app-header {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: flex-end;
-            padding: 20px 20px 0 20px;
-        }
-        .lang-switcher {
-            background-color: var(--gray);
-            color: var(--text);
-            border: 1px solid var(--border);
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            outline: none;
-            cursor: pointer;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            text-align: center;
-        }
+        .app-header { width: 100%; max-width: 500px; margin: 0 auto; display: flex; justify-content: flex-end; padding: 20px 20px 0 20px; }
+        .lang-switcher { background-color: var(--gray); color: var(--text); border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; outline: none; appearance: none; text-align: center; }
         .lang-switcher:focus { border-color: var(--gold); }
 
-        main { 
-            flex: 1; 
-            padding: 20px 20px 100px 20px; 
-            max-width: 500px; 
-            margin: 0 auto; 
-            width: 100%; 
-            display: flex; 
-            flex-direction: column; 
-        }
+        main { flex: 1; padding: 20px 20px 100px 20px; max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
         
         .step { display: none; animation: fadeIn 0.4s ease forwards; }
         .step.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Typography */
         .flow-title { color: var(--gold); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .h1-title { font-size: 26px; font-weight: 400; margin-top: 0; margin-bottom: 24px; color: var(--text); line-height: 1.35; }
         .subtitle { color: #a1a5b5; margin-bottom: 24px; font-size: 15px; line-height: 1.6; }
 
-        /* Quiz Buttons */
-        .quiz-btn { 
-            background-color: var(--gray); 
-            border: 1px solid var(--border); 
-            border-radius: 10px; 
-            padding: 18px 20px; 
-            margin-bottom: 12px; 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            transition: all 0.25s ease; 
-        }
+        .quiz-btn { background-color: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.25s ease; }
         .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
         .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.5; font-weight: 400; }
         .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 600; }
@@ -107,101 +55,41 @@
         .check-icon { width: 22px; height: 22px; border-radius: 4px; border: 1px solid #555; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px; }
         .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: var(--dark); }
 
-        /* Assessment Counters */
-        .assessment-block { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 15px; }
-        .ass-label { color: var(--gold); font-size: 11px; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; margin-bottom: 10px; text-align: center; }
-        .ass-value { font-size: 38px; font-weight: 400; text-align: center; margin-bottom: 8px; }
-        .ass-desc { color: #a1a5b5; font-size: 13px; text-align: center; margin-bottom: 12px; min-height: 18px; line-height: 1.5; }
-        .counter-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 15px; }
-        .counter-btn { background: #0a0c10; border: 1px solid var(--border); color: inherit; border-radius: 8px; width: 45px; height: 45px; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 300; }
-        .counter-btn:active { background: #1d2230; }
-        .scale-hints { display: flex; justify-content: space-between; font-size: 11px; color: #6b7280; margin-top: 8px; }
-
-        /* Result Card */
-        .result-card { background-color: #1a1214; border: 2px solid var(--error); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
-        .result-score { color: var(--error); font-size: 60px; font-weight: 400; line-height: 1; }
-        .result-level { color: #d698a6; font-size: 16px; font-weight: 600; margin-top: 12px; text-transform: uppercase; letter-spacing: 2px; }
+        .result-card { background-color: #1a1214; border: 2px solid var(--gold); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
+        .result-score { color: var(--gold); font-size: 32px; font-weight: 600; line-height: 1.2; margin-bottom: 5px; }
+        .result-level { color: #d698a6; font-size: 14px; font-weight: 400; text-transform: uppercase; letter-spacing: 2px; }
         
         .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
         .insight-title { color: #a1a5b5; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
         .insight-text { color: #d1d5db; font-size: 14px; line-height: 1.6; }
         
-        .info-card { background: #11141c; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; }
+        .info-card { background: #11141c; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
 
-        /* Disclaimer Checkboxes */
         .check-row { display: flex; align-items: flex-start; margin-top: 15px; margin-bottom: 10px; cursor: pointer; }
         .box-icon { width: 22px; height: 22px; border: 1px solid var(--gold); border-radius: 4px; margin-right: 12px; margin-top: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px;}
         .check-row.selected .box-icon { background: var(--gold); color: var(--dark); }
         .check-label { font-size: 14px; color: var(--text); line-height: 1.6; flex: 1; }
 
-        /* Fixed Bottom Button */
-        .bottom-bar { 
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            width: 100%; 
-            background: rgba(10, 12, 16, 0.95);
-            backdrop-filter: blur(8px);
-            border-top: 1px solid var(--border); 
-            padding: 15px 20px 25px 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            z-index: 10; 
-        }
-        .btn-gold { 
-            background-color: var(--gold); 
-            color: var(--dark); 
-            padding: 16px; 
-            border-radius: 8px; 
-            font-weight: 600; 
-            font-size: 14px; 
-            text-transform: uppercase; 
-            border: none; 
-            width: 100%; 
-            max-width: 460px; 
-            cursor: pointer; 
-            text-align: center; 
-            letter-spacing: 1.5px;
-        }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 12, 16, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
+        .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 8px; font-weight: 600; font-size: 14px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 1.5px; }
         .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
-        
-        .btn-back { 
-            background: none; 
-            border: none; 
-            color: #888; 
-            margin-top: 12px; 
-            padding: 8px 16px;
-            cursor: pointer; 
-            font-size: 12px; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .btn-back { background: none; border: none; color: #888; margin-top: 12px; padding: 8px 16px; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Input Fields for Register */
-        .input-field { 
-            background-color: #13161f;
-            border: 1px solid var(--border); 
-            color: #fff; 
-            padding: 16px; 
-            border-radius: 8px; 
-            font-size: 15px; 
-            margin-bottom: 16px; 
-            width: 100%; 
-            font-family: -apple-system, sans-serif;
-        }
+        .input-field { background-color: #13161f; border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-family: -apple-system, sans-serif; }
         .input-field:focus { border-color: var(--gold); outline: none; }
         
-        .name-grid { display: flex; gap: 10px; }
-        .name-grid .input-field { margin-bottom: 10px; }
-
         .spinner { border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 45px; height: 45px; animation: spin 1.2s linear infinite; margin: 60px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Legal Footer */
+        .legal-footer { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border); font-size: 11px; padding-bottom: 120px; font-family: -apple-system, sans-serif;}
+        .legal-footer a { color: #888; text-decoration: none; margin: 0 8px; transition: color 0.2s; }
+        .legal-footer a:hover { color: var(--gold); }
     </style>
 </head>
 <body>
 
-    <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
+    <div class="progress-container"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
 
     <header class="app-header">
         <select id="langSelect" class="lang-switcher" onchange="selectLang(this.value)">
@@ -232,138 +120,49 @@
             <div id="s4-opts"></div>
         </div>
 
-        <div class="step" id="step-5">
-            <div class="flow-title" id="s5-lbl"></div><h1 class="h1-title" id="s5-title"></h1>
-            
-            <div class="assessment-block">
-                <div class="ass-label" id="s5-lbl-urg"></div>
-                <div class="ass-value" id="val-urg" style="color: var(--gold);">5</div>
-                <div class="ass-desc" id="desc-urg"></div>
-                <div class="counter-row">
-                    <button class="counter-btn" style="color: var(--gold);" onclick="adjCounter('urg', -1)">−</button>
-                    <button class="counter-btn" style="color: var(--gold);" onclick="adjCounter('urg', 1)">+</button>
-                </div>
-                <div class="scale-hints">
-                    <span id="hint-urg-min"></span><span id="hint-urg-max"></span>
-                </div>
-            </div>
-
-            <div class="assessment-block">
-                <div class="ass-label" id="s5-lbl-nrg"></div>
-                <div class="ass-value" id="val-nrg" style="color: var(--energy);">5</div>
-                <div class="ass-desc" id="desc-nrg"></div>
-                <div class="counter-row">
-                    <button class="counter-btn" style="color: var(--energy);" onclick="adjCounter('nrg', -1)">−</button>
-                    <button class="counter-btn" style="color: var(--energy);" onclick="adjCounter('nrg', 1)">+</button>
-                </div>
-                <div class="scale-hints">
-                    <span id="hint-nrg-min"></span><span id="hint-nrg-max"></span>
-                </div>
-            </div>
-
-            <div class="assessment-block">
-                <div class="ass-label" id="s5-lbl-tim"></div>
-                <div class="ass-value" id="val-tim" style="color: var(--success);">30</div>
-                <div class="ass-desc" id="desc-tim"></div>
-                <div class="counter-row">
-                    <button class="counter-btn" style="color: var(--success);" onclick="adjCounter('tim', -5)">−</button>
-                    <button class="counter-btn" style="color: var(--success);" onclick="adjCounter('tim', 5)">+</button>
-                </div>
-                <div class="scale-hints">
-                    <span id="hint-tim-min">0 min</span><span id="hint-tim-max">120 min</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="step" id="step-6" style="text-align: center; padding-top: 60px;">
+        <div class="step" id="step-5" style="text-align: center; padding-top: 60px;">
             <div class="spinner"></div>
-            <h1 class="h1-title" id="s6-title" style="color: var(--gold);"></h1>
-            <p class="subtitle" id="s6-sub"></p>
+            <h1 class="h1-title" id="s5-title" style="color: var(--gold);"></h1>
+            <p class="subtitle" id="s5-sub"></p>
         </div>
 
-        <div class="step" id="step-7">
-            <div class="flow-title" id="s7-lbl"></div>
+        <div class="step" id="step-6">
+            <div class="flow-title" id="s6-lbl"></div>
             <div class="result-card" id="res-card">
                 <div class="result-score" id="res-score"></div>
                 <div class="result-level" id="res-level"></div>
-            </div>
-            <div class="info-card" style="border-left: 3px solid var(--error);" id="res-info-box">
-                <div class="insight-title" id="res-sub" style="color: var(--error);"></div>
-                <div class="insight-text" id="res-desc"></div>
             </div>
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
             </div>
+            <div class="info-card"><p class="insight-text" id="s6-msg" style="color: #e2e4e9; margin: 0;"></p></div>
         </div>
 
-        <div class="step" id="step-8">
-            <h1 class="h1-title" id="s8-title" style="color: var(--gold); text-align: center; margin-top: 20px;"></h1>
-            <div class="info-card"><p class="insight-text" id="s8-msg" style="color: #e2e4e9; text-align: center;"></p></div>
-            <div class="info-card" style="border-left: 2px solid var(--gold);"><p class="insight-text" id="s8-disc" style="font-size: 13px;"></p></div>
-        </div>
-
-        <div class="step" id="step-9">
-            <div class="flow-title" id="s9-lbl"></div><h1 class="h1-title" id="s9-title"></h1>
-            <div id="s9-opts"></div>
-        </div>
-
-        <div class="step" id="step-10">
-            <div class="flow-title" id="s10-lbl"></div>
-            <h1 class="h1-title" id="s10-title"></h1>
-            <div class="info-card"><p class="insight-text" id="s10-desc" style="color: #e2e4e9;"></p></div>
-            
-            <div class="check-row" id="chk1" onclick="toggleTherapy('chk1')">
-                <div class="box-icon">✓</div><p class="check-label" id="s10-c1"></p>
-            </div>
-            <div class="check-row" id="chk2" onclick="toggleTherapy('chk2')">
-                <div class="box-icon">✓</div><p class="check-label" id="s10-c2"></p>
-            </div>
-        </div>
-
-        <div class="step" id="step-11">
-            <h1 class="h1-title" id="s11-title"></h1>
-            <div id="s11-opts"></div>
-        </div>
-
-        <div class="step" id="step-12">
+        <div class="step" id="step-7">
             <div style="text-align: center;">
-                <div class="flow-title" id="s12-lbl" style="justify-content: center;"></div>
-                <h1 class="h1-title" id="s12-title" style="margin-bottom: 10px;"></h1>
-                <p class="subtitle" id="s12-sub" style="margin-bottom: 30px;"></p>
+                <div class="flow-title" id="s7-lbl"></div>
+                <h1 class="h1-title" id="s7-title"></h1>
+                <p class="subtitle" id="s7-sub"></p>
             </div>
             
-            <div class="name-grid">
-                <div style="flex: 1;">
-                    <div class="flow-title" id="lbl-fname" style="margin-bottom: 8px;">VORNAME</div>
-                    <input type="text" id="reg-fname" class="input-field" placeholder="">
-                </div>
-                <div style="flex: 1;">
-                    <div class="flow-title" id="lbl-lname" style="margin-bottom: 8px;">NACHNAME</div>
-                    <input type="text" id="reg-lname" class="input-field" placeholder="">
-                </div>
-            </div>
-
-            <div style="margin-bottom: 10px; margin-top: 6px;">
-                <div class="flow-title" id="lbl-age" style="margin-bottom: 8px;">ALTER</div>
-                <input type="number" id="reg-age" class="input-field" placeholder="">
-            </div>
+            <div class="flow-title" id="lbl-fname"></div>
+            <input type="text" id="reg-fname" class="input-field" placeholder="">
             
-            <div style="margin-bottom: 10px; margin-top: 6px;">
-                <div class="flow-title" id="lbl-email" style="margin-bottom: 8px;">EMAIL</div>
-                <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
-            </div>
-            
-            <div style="margin-bottom: 10px; margin-top: 6px;">
-                <div class="flow-title" id="lbl-pwd" style="margin-bottom: 8px;">PASSWORT</div>
-                <input type="password" id="reg-password" class="input-field" placeholder="">
-            </div>
+            <div class="flow-title" id="lbl-email"></div>
+            <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
             
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
         </div>
-
     </main>
+
+    <footer class="legal-footer">
+        <a href="impressum.html" id="link-imp">Impressum</a> | 
+        <a href="datenschutz.html" id="link-dat">Datenschutz</a> | 
+        <a href="agb.html" id="link-agb">AGB</a> | 
+        <a href="cookie.html" id="link-cook">Cookie-Richtlinie</a>
+    </footer>
 
     <div class="bottom-bar" id="bottomBar" style="display: none;">
         <button class="btn-gold" id="btnNext" onclick="handleNext()"></button>
@@ -374,210 +173,144 @@
         const SUPABASE_URL = 'DEINE_SUPABASE_URL';
         const SUPABASE_ANON_KEY = 'DEIN_SUPABASE_KEY';
         
-        // Digistore Checkout URLs
         const digistoreLinks = { 
             de: "https://www.checkout-ds24.com/product/XXXXXX/", 
             en: "https://www.checkout-ds24.com/product/XXXXXX/",
             es: "https://www.checkout-ds24.com/product/XXXXXX/"
         };
 
-        // --- DEEP JUNGIAN / SPIRITUAL TRANSLATIONS ---
         const t = {
             de: {
-                btn: { next: "WEITER", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "PFAD BETRETEN" },
+                btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "PFAD BETRETEN" },
                 s1: { 
                     lbl: "PHASE 1: DER SCHATTEN", 
                     title: "Welches Gefühl begleitet dich unterschwellig am häufigsten?", 
                     opts: { 
-                        emptiness: "Eine tiefe, unerklärliche innere Leere, egal wie viel ich erreiche oder konsumiere. (Sinnkrise)", 
-                        bypassing: "Ich flüchte in Positivität und spirituelle Praktiken, aber im echten Alltag ändert sich nichts. (Flucht)", 
-                        isolation: "Eine chronische Isolation und das Gefühl, fundamental vom Leben abgetrennt zu sein. (Getrenntheit)" 
+                        emptiness: "Eine tiefe, unerklärliche innere Leere, egal was ich erreiche. (Sinnkrise)", 
+                        bypassing: "Ich flüchte in Positivität, aber im Alltag ändert sich nichts. (Spiritual Bypassing)", 
+                        isolation: "Eine chronische Isolation und das Gefühl, abgetrennt zu sein. (Getrenntheit)" 
                     } 
                 },
                 s2: { 
-                    lbl: "INTENSITÄT", 
-                    title: "Wie präsent ist dieser Zustand in deinem Alltag?", 
+                    lbl: "PHASE 2: DIE KONSEQUENZEN", 
+                    title: "Was kostet dich diese Trennung im Hier und Jetzt? (Mehrfachauswahl)", 
                     opts: { 
-                        emptiness: ["Es ist ein permanentes Hintergrundrauschen.", "Täglich, besonders in leisen Momenten.", "Mehrmals die Woche, oft abends oder am Wochenende.", "Nur wenn äußere Strukturen wegbrechen."], 
-                        bypassing: ["Ich meditiere/journal täglich, verliere aber bei Kritik sofort die Fassung.", "Ich habe schon dutzende Kurse gemacht, stecke aber im Leben fest.", "Oft. Ich rede mir Dinge schön, um Konflikte zu meiden.", "Phasenweise, wenn Probleme unangenehm werden."], 
-                        isolation: ["Selbst in einem Raum voller Menschen fühle ich mich unsichtbar.", "Täglich. Meine Beziehungen fühlen sich oberflächlich an.", "Mehrmals die Woche spüre ich diesen Schleier.", "Nur in Momenten tiefer Traurigkeit."] 
+                        emptiness: ["Abstumpfung gegenüber echter Freude und Schmerz.", "Kompensation durch Überarbeiten oder Konsum.", "Das nagende Gefühl, mein Potenzial zu verschwenden."], 
+                        bypassing: ["Fehlende Erdung und Realitätsverlust.", "Unterdrückte, brodelnde Wut (Schatten).", "Erschöpfung vom ständigen 'Heilen-Müssen'."], 
+                        isolation: ["Unfähigkeit, echte Intimität zuzulassen.", "Körperliche Taubheit und Somatisierung.", "Ein Gefühl der Wertlosigkeit im Kern."] 
                     } 
                 },
                 s3: { 
-                    lbl: "HISTORIE", 
-                    title: "Wie lange suchst du schon nach der 'Lösung'?", 
-                    opts: ["Seit ein paar Monaten", "1 - 3 Jahre", "3 - 7 Jahre (Viele Praktiken ausprobiert)", "Fast mein ganzes Leben"] 
-                },
-                s4: { 
-                    lbl: "DIE KONSEQUENZEN", 
-                    title: "Was kostet dich diese Trennung im Hier und Jetzt? (Mehrfachauswahl)", 
+                    lbl: "PHASE 3: ERDUNG", 
+                    title: "Wie stark ist dein Geist im Körper verankert?", 
                     opts: { 
-                        emptiness: ["Abstumpfung gegenüber echter Freude und Schmerz.", "Kompensation durch Überarbeiten, Konsum oder Ablenkung.", "Mangelnde Antriebskraft für Dinge, die mir eigentlich wichtig sind.", "Das nagende Gefühl, mein wahres Potenzial zu verschwenden.", "Beziehungsprobleme durch fehlende Präsenz."], 
-                        bypassing: ["Fehlende Erdung (ich verliere den Bezug zur Realität/Körper).", "Toxische Positivität isoliert mich von echten Verbindungen.", "Finanzielle oder berufliche Probleme, weil ich nicht handele.", "Unterdrückte, brodelnde Wut (Schattenanteile).", "Erschöpfung vom ständigen 'Heilen-Müssen'."], 
-                        isolation: ["Unfähigkeit, tiefe Intimität in Partnerschaften zuzulassen.", "Sozialer Rückzug und Einsiedler-Verhalten.", "Körperliche Taubheit und Somatisierung von Stress.", "Ein Gefühl der Wertlosigkeit im Kern.", "Verlust des Vertrauens in das Leben selbst."] 
+                        high: "Ich lebe fast ausschließlich in meinem Kopf. Meinen Körper spüre ich kaum.", 
+                        med: "Ich spüre meinen Körper manchmal, verliere mich aber oft in Gedanken.", 
+                        low: "Ich bin meistens gut geerdet und mit meinen physischen Sinnen verbunden." 
                     } 
                 },
-                s5: { 
-                    lbl: "DEINE VERANKERUNG", 
-                    title: "Wie stark ist dein Geist im Körper verankert?", 
-                    urgLbl: "Wie oft spürst du den Boden unter deinen Füßen (Erdung)?", 
-                    nrgLbl: "Wie viel Lebensenergie zirkuliert in deinem Körper?", 
-                    timLbl: "Minuten pro Tag in bewusster, absichtsloser Stille?", 
-                    urgMin: "Völlig entwurzelt", 
-                    urgMax: "Tief geerdet", 
-                    nrgMin: "Stagnation/Starr", 
-                    nrgMax: "Lebendig fließend",
-                    urgDesc: ["Ich lebe ausschließlich in meinem Kopf.", "Sehr selten. Ich vergesse meinen Körper oft.", "Manchmal spüre ich meine physische Präsenz.", "Durchschnittlich.", "Ich versuche, bewusst einzuchecken.", "Ganz okay.", "Ich spüre meine Wurzeln meistens.", "Stark mit der Erde verbunden.", "Sehr präsent im Hier und Jetzt.", "Vollkommene somatische Verankerung."],
-                    nrgDesc: ["Absolute Taubheit. Nichts bewegt sich.", "Schwer und träge.", "Zähes Durchhalten.", "Müde, aber funktionierend.", "Geht so. Mal mehr, mal weniger.", "Im Gleichgewicht.", "Leicht und klar.", "Gut durchblutet und vital.", "Hohe Resonanz.", "Vollständige Vitalität."],
-                    timDesc: ["0 Minuten. Stille macht mich unruhig.", "Kaum. Ich brauche immer Podcasts/Musik.", "Einige flüchtige Momente.", "Ausreichend Zeit für Integration.", "Tiefe, tägliche kontemplative Praxis."]
+                s4: { 
+                    lbl: "PHASE 4: STILLE", 
+                    title: "Wenn du mit dir allein bist, ohne Ablenkung – was passiert?", 
+                    opts: { 
+                        high: "Es wird unerträglich laut. Ich brauche sofort einen Podcast oder Aktion.", 
+                        med: "Ich halte es kurz aus, suche dann aber nach einer Aufgabe.", 
+                        low: "Ich kann Stille genießen und als Quelle der Kraft nutzen." 
+                    } 
                 },
-                s6: { title: "DEIN ZUSTAND WIRD REFLEKTIERT...", sub: "Archetypische Muster werden integriert." },
-                s7: { 
+                s5: { title: "ZUSTAND WIRD REFLEKTIERT...", sub: "Archetypische Muster werden integriert." },
+                s6: { 
                     lbl: "DIE SPIEGELUNG", 
                     costLbl: "DIE PSYCHOLOGISCHE WAHRHEIT:", 
                     costVal: { 
-                        emptiness: "Dein System hat Emotionen abgekapselt. Die Leere ist kein Fehler, sondern der Raum, der entsteht, wenn wir unsere dunklen Anteile verbannen.", 
-                        bypassing: "Du nutzt spirituelle Konzepte als Schutzschild vor menschlichem Schmerz. Wahres Erwachen geschieht nicht im reinen Licht, sondern in den Wurzeln (Körper/Schatten).", 
-                        isolation: "Deine Isolation ist ein Überlebensmechanismus. Das Nervensystem assoziiert Verbindung mit Gefahr und schaltet auf Autarkie." 
+                        emptiness: "Dein System hat Emotionen abgekapselt. Die Leere ist kein Fehler, sondern der Raum, der entsteht, wenn wir dunkle Anteile verbannen.", 
+                        bypassing: "Du nutzt Spiritualität als Schild vor menschlichem Schmerz. Wahres Erwachen geschieht nicht im reinen Licht, sondern im Körper.", 
+                        isolation: "Deine Isolation ist ein Überlebensmechanismus. Dein Nervensystem assoziiert Verbindung mit Gefahr." 
                     }, 
+                    msg: "Spiritualität bedeutet nicht, dem Menschsein zu entfliehen, sondern tief hineinzusinken. In diesem Flow verbinden wir Jungsche Schattenarbeit mit nervensystembasierter Erdung.",
                     lvls: { 
-                        ext: { t: "FRAGMENTIERT", s: "SOMATISCHE ABTRENNUNG", d: "Du lebst fast ausschließlich im Äther oder im Intellekt. Dein Körper und deine menschlichen Anteile hungern nach deiner Präsenz." }, 
-                        dan: { t: "ENTWURZELT", s: "SUCHE IM AUSSEN", d: "Du suchst die Antwort in der nächsten Lehre, aber das Fundament fehlt. Es ist Zeit, die Aufmerksamkeit radikal nach innen und unten (Erdung) zu richten." }, 
-                        ala: { t: "DISSOZIIERT", s: "ILLUSION DER KONTROLLE", d: "Du hast Konzepte verstanden, verkörperst sie aber noch nicht. Dein Geist ist wach, dein Nervensystem ist im Freeze." }, 
-                        cri: { t: "SUCHEND", s: "BEGINNENDE INTEGRATION", d: "Du erkennst die Muster bereits. Jetzt geht es darum, die Theorie in gelebte, körperliche Erfahrung umzuwandeln." } 
+                        ext: { t: "FRAGMENTIERT", d: "Du lebst stark im Äther oder Intellekt. Dein Körper hungert nach deiner Präsenz." }, 
+                        dan: { t: "ENTWURZELT", d: "Du suchst Antworten im Außen. Es ist Zeit, die Aufmerksamkeit radikal nach innen und unten (Erdung) zu richten." }, 
+                        ala: { t: "DISSOZIIERT", d: "Du hast Konzepte verstanden, verkörperst sie aber noch nicht völlig. Zeit für somatische Integration." }, 
+                        cri: { t: "SUCHEND", d: "Du erkennst die Muster. Jetzt geht es darum, die Theorie in körperliche Erfahrung umzuwandeln." } 
                     } 
                 },
-                s8: { 
-                    title: "DER WEG ZUR GANZHEIT", 
-                    msg: "Spiritualität bedeutet nicht, dem Menschsein zu entfliehen, sondern tief in es hineinzusinken. Solange wir versuchen, nur 'Licht' zu sein, bleiben wir fragmentiert. In diesem Flow kombinieren wir Jungsche Schattenarbeit mit tiefer, nervensystembasierter Erdung. Wir holen deinen Geist zurück in den Körper.", 
-                    disc: "Diese Reise erfordert die Bereitschaft, unbequeme Emotionen zu fühlen. Sie ersetzt keine professionelle Traumatherapie." 
-                },
-                s9: { 
-                    lbl: "COMMITMENT", 
-                    title: "Bist du bereit, auch die Anteile anzusehen, die du bisher abgelehnt hast?", 
-                    opts: ["Ja, ich bin bereit für echte Integration.", "Ich bin noch unsicher."] 
-                },
-                s10: { 
-                    lbl: "DER RAHMEN", 
-                    title: "Bitte aufmerksam lesen", 
-                    desc: "Wahre Transformation ist oft unbequem, bevor sie befreiend wird. Du übernimmst die volle Verantwortung für deinen inneren Prozess.", 
-                    c1: "Ich bin bereit, die Illusion der reinen Positivität loszulassen.", 
-                    c2: "Ich bestätige, dass dies ein psychologisch-spiritueller Leitfaden und keine klinische Therapie ist." 
-                },
-                s11: { 
-                    title: "Welcher Archetyp der Integration ruft dich am meisten?", 
-                    opts: { alchemist: "Der Alchemist (Schmerz in Erkenntnis verwandeln)", earth: "Der Erd-Wanderer (Tiefste physische Verankerung im Körper)", mystic: "Der integrierte Mystiker (Klarheit, Stille und Wahrheit)", weaver: "Der Weber (Verbindung zwischen Innenwelt und Außenwelt herstellen)" } 
-                },
-                s12: { 
+                s7: { 
                     lbl: "DER NÄCHSTE SCHRITT", 
                     title: "Beginne die Integration", 
                     sub: "Sichere deinen Zugang zum 4-Tage-Flow.",
-                    lblFname: "VORNAME",
-                    lblLname: "NACHNAME",
-                    lblAge: "ALTER",
-                    lblPwd: "PASSWORT", 
-                    lblEmail: "EMAIL",
+                    lblFname: "VORNAME", lblEmail: "EMAIL",
                     em: "deine@email.com", 
-                    pw: "•••••••••", 
-                    errFill: "Bitte fülle alle Felder aus.", 
-                    errExists: "Diese Email existiert bereits.",
-                    placeholders: { fname: "Vorname", lname: "Nachname", age: "Dein Alter" }
-                }
+                    errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
+                    placeholders: { fname: "Dein Vorname" }
+                },
+                legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
             },
             en: {
-                btn: { next: "NEXT", back: "BACK", start: "I UNDERSTAND", pay: "ENTER THE PATH" },
+                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "ENTER THE PATH" },
                 s1: { 
                     lbl: "PHASE 1: THE SHADOW", 
                     title: "Which underlying feeling accompanies you the most?", 
-                    opts: { emptiness: "A deep, unexplainable inner emptiness, no matter what I achieve. (Crisis of meaning)", bypassing: "I escape into positivity and spiritual practices, but nothing changes in reality. (Bypassing)", isolation: "A chronic isolation and feeling fundamentally disconnected from life. (Separation)" } 
+                    opts: { 
+                        emptiness: "A deep, unexplainable inner emptiness, no matter what I achieve. (Crisis of meaning)", 
+                        bypassing: "I escape into positivity, but nothing changes in real life. (Spiritual Bypassing)", 
+                        isolation: "A chronic isolation and feeling fundamentally disconnected. (Separation)" 
+                    } 
                 },
                 s2: { 
-                    lbl: "INTENSITY", 
-                    title: "How present is this state in your daily life?", 
+                    lbl: "PHASE 2: THE CONSEQUENCES", 
+                    title: "What does this disconnection cost you right now? (Multiple choice)", 
                     opts: { 
-                        emptiness: ["It's a permanent background noise.", "Daily, especially in quiet moments.", "Several times a week, often in the evenings.", "Only when external structures collapse."], 
-                        bypassing: ["I meditate daily but lose my temper immediately when criticized.", "I've done dozens of courses but am stuck in life.", "Often. I sugarcoat things to avoid conflict.", "In phases, when problems get uncomfortable."], 
-                        isolation: ["Even in a room full of people, I feel invisible.", "Daily. My relationships feel superficial.", "Several times a week I feel this veil.", "Only in moments of deep sadness."] 
+                        emptiness: ["Numbness towards real joy and pain.", "Compensating through overworking or consumption.", "The gnawing feeling of wasting my potential."], 
+                        bypassing: ["Lack of grounding and loss of reality.", "Suppressed, seething anger (shadow aspects).", "Exhaustion from constantly 'having to heal'."], 
+                        isolation: ["Inability to allow true intimacy.", "Physical numbness and somatization.", "A core feeling of worthlessness."] 
                     } 
                 },
                 s3: { 
-                    lbl: "HISTORY", 
-                    title: "How long have you been searching for the 'solution'?", 
-                    opts: ["For a few months", "1 - 3 years", "3 - 7 years (Tried many practices)", "Almost my entire life"] 
-                },
-                s4: { 
-                    lbl: "THE CONSEQUENCES", 
-                    title: "What does this disconnection cost you right now? (Multiple choice)", 
+                    lbl: "PHASE 3: GROUNDING", 
+                    title: "How strongly is your mind anchored in your body?", 
                     opts: { 
-                        emptiness: ["Numbness towards real joy and pain.", "Compensating through overworking, consumption, or distraction.", "Lack of drive for things that actually matter to me.", "The gnawing feeling of wasting my true potential.", "Relationship issues due to lack of presence."], 
-                        bypassing: ["Lack of grounding (losing touch with reality/the body).", "Toxic positivity isolates me from real connections.", "Financial or career problems because I don't take action.", "Suppressed, seething anger (shadow aspects).", "Exhaustion from constantly 'having to heal'."], 
-                        isolation: ["Inability to allow deep intimacy in partnerships.", "Social withdrawal and hermit behavior.", "Physical numbness and somatization of stress.", "A core feeling of worthlessness.", "Loss of trust in life itself."] 
+                        high: "I live almost exclusively in my head. I hardly feel my body.", 
+                        med: "I sometimes feel my body, but often get lost in thoughts.", 
+                        low: "I am mostly well-grounded and connected to my physical senses." 
                     } 
                 },
-                s5: { 
-                    lbl: "YOUR ANCHOR", 
-                    title: "How strongly is your mind anchored in your body?", 
-                    urgLbl: "How often do you feel the ground beneath your feet (Grounding)?", 
-                    nrgLbl: "How much life energy circulates in your body?", 
-                    timLbl: "Minutes per day in conscious, aimless silence?", 
-                    urgMin: "Completely uprooted", urgMax: "Deeply grounded", 
-                    nrgMin: "Stagnant/Rigid", nrgMax: "Vibrantly flowing",
-                    urgDesc: ["I live entirely in my head.", "Very rarely. I forget my body.", "Sometimes I feel my physical presence.", "Average.", "I try to check in consciously.", "Fairly okay.", "I mostly feel my roots.", "Strongly connected to the earth.", "Very present here and now.", "Perfect somatic anchoring."],
-                    nrgDesc: ["Absolute numbness. Nothing moves.", "Heavy and sluggish.", "Enduring through sheer will.", "Tired but functioning.", "So-so. Depends.", "Balanced.", "Light and clear.", "Good circulation and vitality.", "High resonance.", "Complete vitality."],
-                    timDesc: ["0 minutes. Silence makes me anxious.", "Hardly. I always need podcasts/music.", "A few fleeting moments.", "Sufficient time for integration.", "Deep, daily contemplative practice."]
+                s4: { 
+                    lbl: "PHASE 4: SILENCE", 
+                    title: "When you are alone with yourself, without distraction – what happens?", 
+                    opts: { 
+                        high: "It gets unbearably loud. I immediately need a podcast or action.", 
+                        med: "I endure it briefly, but then look for a task.", 
+                        low: "I can enjoy silence and use it as a source of strength." 
+                    } 
                 },
-                s6: { title: "REFLECTING YOUR STATE...", sub: "Integrating archetypal patterns." },
-                s7: { 
+                s5: { title: "REFLECTING YOUR STATE...", sub: "Integrating archetypal patterns." },
+                s6: { 
                     lbl: "THE MIRROR", 
                     costLbl: "THE PSYCHOLOGICAL TRUTH:", 
                     costVal: { 
-                        emptiness: "Your system has encapsulated emotions. The emptiness is not a flaw, but the void created when we banish our dark parts.", 
-                        bypassing: "You use spiritual concepts as a shield against human pain. True awakening doesn't happen in pure light, but in the roots (body/shadow).", 
-                        isolation: "Your isolation is a survival mechanism. Your nervous system associates connection with danger and switches to self-sufficiency." 
+                        emptiness: "Your system has encapsulated emotions. Emptiness is not a flaw, but the void created when we banish dark parts.", 
+                        bypassing: "You use spirituality as a shield against human pain. True awakening doesn't happen in pure light, but in the body.", 
+                        isolation: "Your isolation is a survival mechanism. Your nervous system associates connection with danger." 
                     }, 
+                    msg: "Spirituality does not mean escaping humanity, but sinking deeply into it. In this flow, we combine Jungian shadow work with nervous-system-based grounding.",
                     lvls: { 
-                        ext: { t: "FRAGMENTED", s: "SOMATIC DISCONNECTION", d: "You live almost exclusively in the ether or intellect. Your body and human parts are starving for your presence." }, 
-                        dan: { t: "UNMOORED", s: "SEARCHING OUTSIDE", d: "You seek the answer in the next teaching, but the foundation is missing. It's time to radically direct your attention inward and downward (grounding)." }, 
-                        ala: { t: "DISSOCIATED", s: "ILLUSION OF CONTROL", d: "You understand concepts intellectually, but don't embody them yet. Your mind is awake, your nervous system is in freeze." }, 
-                        cri: { t: "SEARCHING", s: "BEGINNING INTEGRATION", d: "You recognize the patterns. Now it's about turning theory into lived, bodily experience." } 
+                        ext: { t: "FRAGMENTED", d: "You live heavily in the ether or intellect. Your body is starving for your presence." }, 
+                        dan: { t: "UNMOORED", d: "You seek answers outside. It's time to radically direct your attention inward and downward (grounding)." }, 
+                        ala: { t: "DISSOCIATED", d: "You understand concepts, but don't fully embody them yet. Time for somatic integration." }, 
+                        cri: { t: "SEARCHING", d: "You recognize the patterns. Now it's about turning theory into physical experience." } 
                     } 
                 },
-                s8: { 
-                    title: "THE PATH TO WHOLENESS", 
-                    msg: "Spirituality does not mean escaping humanity, but sinking deeply into it. As long as we try to be only 'light', we remain fragmented. In this flow, we combine Jungian shadow work with deep, nervous-system-based grounding. We bring your mind back into the body.", 
-                    disc: "This journey requires the willingness to feel uncomfortable emotions. It does not replace professional trauma therapy." 
-                },
-                s9: { 
-                    lbl: "COMMITMENT", 
-                    title: "Are you ready to look at the parts you have rejected so far?", 
-                    opts: ["Yes, I am ready for true integration.", "I am still unsure."] 
-                },
-                s10: { 
-                    lbl: "THE FRAMEWORK", 
-                    title: "Please read carefully", 
-                    desc: "True transformation is often uncomfortable before it becomes liberating. You take full responsibility for your inner process.", 
-                    c1: "I am ready to let go of the illusion of pure positivity.", 
-                    c2: "I confirm that this is a psycho-spiritual guide and not clinical therapy." 
-                },
-                s11: { 
-                    title: "Which archetype of integration calls you the most?", 
-                    opts: { alchemist: "The Alchemist (Turning pain into insight)", earth: "The Earth Walker (Deepest physical anchoring in the body)", mystic: "The Integrated Mystic (Clarity, silence, and truth)", weaver: "The Weaver (Creating connection between inner and outer worlds)" } 
-                },
-                s12: { 
+                s7: { 
                     lbl: "FINAL STEP", 
                     title: "Begin the Integration", 
                     sub: "Secure your access to the 4-day flow.",
-                    lblFname: "FIRST NAME",
-                    lblLname: "LAST NAME",
-                    lblAge: "AGE",
-                    lblPwd: "PASSWORD", 
-                    lblEmail: "EMAIL",
+                    lblFname: "FIRST NAME", lblEmail: "EMAIL",
                     em: "your@email.com", 
-                    pw: "•••••••••", 
-                    errFill: "Please fill in all fields.", 
-                    errExists: "Email already exists.",
-                    placeholders: { fname: "First Name", lname: "Last Name", age: "Your Age" }
-                }
+                    errFill: "Please fill in all fields.", errExists: "Email already exists.",
+                    placeholders: { fname: "Your First Name" }
+                },
+                legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
             },
             es: {
                 btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTIENDO", pay: "ENTRAR AL CAMINO" },
@@ -585,111 +318,72 @@
                     lbl: "FASE 1: LA SOMBRA", 
                     title: "¿Qué sentimiento subyacente te acompaña más a menudo?", 
                     opts: { 
-                        emptiness: "Un vacío interno profundo e inexplicable, sin importar lo que logre o consuma. (Crisis de sentido)", 
-                        bypassing: "Me refugio en la positividad y las prácticas espirituales, pero nada cambia en mi vida real. (Evasión espiritual)", 
-                        isolation: "Un aislamiento crónico y la sensación de estar fundamentalmente desconectada de la vida. (Separación)" 
+                        emptiness: "Un vacío profundo e inexplicable, sin importar lo que logre. (Crisis de sentido)", 
+                        bypassing: "Me refugio en la positividad, pero nada cambia en mi vida real. (Evasión)", 
+                        isolation: "Un aislamiento crónico y la sensación de estar desconectado/a. (Separación)" 
                     } 
                 },
                 s2: { 
-                    lbl: "INTENSIDAD", 
-                    title: "¿Qué tan presente está este estado en tu vida diaria?", 
+                    lbl: "FASE 2: LAS CONSECUENCIAS", 
+                    title: "¿Qué te cuesta esta desconexión aquí y ahora? (Opción múltiple)", 
                     opts: { 
-                        emptiness: ["Es un ruido de fondo permanente.", "A diario, especialmente en momentos de silencio.", "Varias veces a la semana, a menudo por la noche o los fines de semana.", "Solo cuando se derrumban las estructuras externas."], 
-                        bypassing: ["Medito/escribo a diario, pero pierdo los estribos inmediatamente ante las críticas.", "He hecho docenas de cursos, pero estoy atascada en la vida.", "A menudo. Maquillo la realidad para evitar conflictos.", "Por fases, cuando los problemas se vuelven incómodos."], 
-                        isolation: ["Incluso en una habitación llena de gente, me siento invisible.", "A diario. Mis relaciones se sienten superficiales.", "Varias veces a la semana siento este velo.", "Solo en momentos de profunda tristeza."] 
+                        emptiness: ["Adormecimiento frente a la verdadera alegría y el dolor.", "Compensación a través del exceso de trabajo o consumo.", "La sensación persistente de desperdiciar mi potencial."], 
+                        bypassing: ["Falta de enraizamiento y pérdida de realidad.", "Ira reprimida y latente (aspectos de la sombra).", "Agotamiento por tener que 'sanar' constantemente."], 
+                        isolation: ["Incapacidad de permitir una intimidad real.", "Adormecimiento físico y somatización.", "Un sentimiento central de falta de valor."] 
                     } 
                 },
                 s3: { 
-                    lbl: "HISTORIA", 
-                    title: "¿Cuánto tiempo llevas buscando la 'solución'?", 
-                    opts: ["Desde hace unos meses", "1 - 3 años", "3 - 7 años (He probado muchas prácticas)", "Casi toda mi vida"] 
-                },
-                s4: { 
-                    lbl: "LAS CONSECUENCIAS", 
-                    title: "¿Qué te cuesta esta desconexión aquí y ahora? (Opción múltiple)", 
+                    lbl: "FASE 3: ENRAIZAMIENTO", 
+                    title: "¿Qué tan anclada está tu mente en tu cuerpo?", 
                     opts: { 
-                        emptiness: ["Adormecimiento frente a la verdadera alegría y el dolor.", "Compensación a través del exceso de trabajo, el consumo o la distracción.", "Falta de motivación para las cosas que realmente me importan.", "La sensación persistente de estar desperdiciando mi verdadero potencial.", "Problemas de relación por falta de presencia."], 
-                        bypassing: ["Falta de enraizamiento (pierdo el contacto con la realidad/el cuerpo).", "La positividad tóxica me aísla de las conexiones reales.", "Problemas financieros o profesionales porque no actúo.", "Ira reprimida y latente (aspectos de la sombra).", "Agotamiento por tener que 'sanar' constantemente."], 
-                        isolation: ["Incapacidad de permitir una intimidad profunda en pareja.", "Aislamiento social y comportamiento de ermitaño.", "Adormecimiento físico y somatización del estrés.", "Un sentimiento central de falta de valor.", "Pérdida de confianza en la vida misma."] 
+                        high: "Vivo casi exclusivamente en mi cabeza. Apenas siento mi cuerpo.", 
+                        med: "A veces siento mi cuerpo, pero a menudo me pierdo en pensamientos.", 
+                        low: "Principalmente estoy bien enraizado/a y conectado/a con mis sentidos físicos." 
                     } 
                 },
-                s5: { 
-                    lbl: "TU ANCLAJE", 
-                    title: "¿Qué tan anclada está tu mente en tu cuerpo?", 
-                    urgLbl: "¿Con qué frecuencia sientes el suelo bajo tus pies (Enraizamiento)?", 
-                    nrgLbl: "¿Cuánta energía vital circula por tu cuerpo?", 
-                    timLbl: "¿Minutos al día en silencio consciente y sin propósito?", 
-                    urgMin: "Totalmente desarraigada", 
-                    urgMax: "Profundamente enraizada", 
-                    nrgMin: "Estancamiento/Rígida", 
-                    nrgMax: "Flujo vibrante",
-                    urgDesc: ["Vivo exclusivamente en mi cabeza.", "Muy rara vez. A menudo olvido mi cuerpo.", "A veces siento mi presencia física.", "Promedio.", "Intento conectar conscientemente.", "Bastante bien.", "Casi siempre siento mis raíces.", "Fuertemente conectada a la tierra.", "Muy presente en el aquí y ahora.", "Anclaje somático perfecto."],
-                    nrgDesc: ["Adormecimiento absoluto. Nada se mueve.", "Pesada y apática.", "Aguantando por pura fuerza de voluntad.", "Cansada pero funcionando.", "Más o menos. Depende.", "Equilibrada.", "Ligera y clara.", "Buena circulación y vitalidad.", "Alta resonancia.", "Vitalidad completa."],
-                    timDesc: ["0 minutos. El silencio me inquieta.", "Casi nada. Siempre necesito podcasts/música.", "Algunos momentos fugaces.", "Tiempo suficiente para la integración.", "Práctica contemplativa diaria y profunda."]
+                s4: { 
+                    lbl: "FASE 4: SILENCIO", 
+                    title: "Cuando estás a solas contigo mismo/a, sin distracciones, ¿qué pasa?", 
+                    opts: { 
+                        high: "Se vuelve insoportablemente ruidoso. Necesito acción o un podcast de inmediato.", 
+                        med: "Lo soporto brevemente, pero luego busco una tarea.", 
+                        low: "Puedo disfrutar del silencio y usarlo como fuente de fuerza." 
+                    } 
                 },
-                s6: { title: "REFLEJANDO TU ESTADO...", sub: "Integrando patrones arquetípicos." },
-                s7: { 
+                s5: { title: "REFLEJANDO TU ESTADO...", sub: "Integrando patrones arquetípicos." },
+                s6: { 
                     lbl: "EL ESPEJO", 
                     costLbl: "LA VERDAD PSICOLÓGICA:", 
                     costVal: { 
-                        emptiness: "Tu sistema ha encapsulado las emociones. El vacío no es un defecto, sino el espacio que se crea cuando desterramos nuestras partes oscuras.", 
-                        bypassing: "Usas los conceptos espirituales como un escudo contra el dolor humano. El verdadero despertar no ocurre en la luz pura, sino en las raíces (cuerpo/sombra).", 
-                        isolation: "Tu aislamiento es un mecanismo de supervivencia. El sistema nervioso asocia la conexión con el peligro y cambia a la autosuficiencia." 
+                        emptiness: "Tu sistema ha encapsulado emociones. El vacío no es un defecto, sino el espacio creado al desterrar partes oscuras.", 
+                        bypassing: "Usas la espiritualidad como escudo contra el dolor humano. El verdadero despertar no ocurre en la luz pura, sino en el cuerpo.", 
+                        isolation: "Tu aislamiento es un mecanismo de supervivencia. Tu sistema nervioso asocia la conexión con el peligro." 
                     }, 
+                    msg: "La espiritualidad no significa escapar de la humanidad, sino hundirse profundamente en ella. En este flujo, combinamos el trabajo de sombra con el enraizamiento somático.",
                     lvls: { 
-                        ext: { t: "FRAGMENTADA", s: "DESCONEXIÓN SOMÁTICA", d: "Vives casi exclusivamente en el éter o en el intelecto. Tu cuerpo y tus partes humanas están hambrientos de tu presencia." }, 
-                        dan: { t: "DESARRAIGADA", s: "BÚSQUEDA EN EL EXTERIOR", d: "Buscas la respuesta en la siguiente enseñanza, pero falta la base. Es hora de dirigir la atención radicalmente hacia adentro y hacia abajo (enraizamiento)." }, 
-                        ala: { t: "DISOCIADA", s: "ILUSIÓN DE CONTROL", d: "Has entendido los conceptos intelectualmente, pero aún no los encarnas. Tu mente está despierta, tu sistema nervioso está congelado." }, 
-                        cri: { t: "BUSCADORA", s: "INTEGRACIÓN INCIPIENTE", d: "Ya reconoces los patrones. Ahora se trata de transformar la teoría en experiencia física y vivida." } 
+                        ext: { t: "FRAGMENTADO", d: "Vives fuertemente en el éter o intelecto. Tu cuerpo está hambriento de tu presencia." }, 
+                        dan: { t: "DESARRAIGADO", d: "Buscas respuestas afuera. Es hora de dirigir tu atención radicalmente hacia adentro y hacia abajo." }, 
+                        ala: { t: "DISOCIADO", d: "Entiendes los conceptos, pero aún no los encarnas por completo. Tiempo para la integración somática." }, 
+                        cri: { t: "BUSCADOR", d: "Reconoces los patrones. Ahora se trata de convertir la teoría en experiencia física." } 
                     } 
                 },
-                s8: { 
-                    title: "EL CAMINO A LA PLENITUD", 
-                    msg: "La espiritualidad no significa escapar de la humanidad, sino hundirse profundamente en ella. Mientras intentemos ser solo 'luz', seguiremos fragmentados. En este flujo, combinamos el trabajo de sombra junguiano con un profundo enraizamiento basado en el sistema nervioso. Traemos tu mente de vuelta al cuerpo.", 
-                    disc: "Este viaje requiere la disposición de sentir emociones incómodas. No reemplaza la terapia de trauma profesional." 
-                },
-                s9: { 
-                    lbl: "COMPROMISO", 
-                    title: "¿Estás lista para mirar también las partes que has rechazado hasta ahora?", 
-                    opts: ["Sí, estoy lista para una integración real.", "Todavía estoy insegura."] 
-                },
-                s10: { 
-                    lbl: "EL MARCO", 
-                    title: "Por favor, lee atentamente", 
-                    desc: "La verdadera transformación a menudo es incómoda antes de volverse liberadora. Asumes toda la responsabilidad de tu proceso interno.", 
-                    c1: "Estoy lista para soltar la ilusión de la positividad pura.", 
-                    c2: "Confirmo que esta es una guía psicoespiritual y no una terapia clínica." 
-                },
-                s11: { 
-                    title: "¿Qué arquetipo de integración te llama más?", 
-                    opts: { alchemist: "La Alquimista (Transformar el dolor en conocimiento)", earth: "La Caminante de la Tierra (El anclaje físico más profundo en el cuerpo)", mystic: "La Mística Integrada (Claridad, silencio y verdad)", weaver: "La Tejedora (Crear conexión entre el mundo interior y el exterior)" } 
-                },
-                s12: { 
+                s7: { 
                     lbl: "EL PRÓXIMO PASO", 
                     title: "Comienza la Integración", 
                     sub: "Asegura tu acceso al flujo de 4 días.",
-                    lblFname: "NOMBRE",
-                    lblLname: "APELLIDO",
-                    lblAge: "EDAD",
-                    lblPwd: "CONTRASEÑA", 
-                    lblEmail: "EMAIL",
+                    lblFname: "NOMBRE", lblEmail: "EMAIL",
                     em: "tu@email.com", 
-                    pw: "•••••••••", 
-                    errFill: "Por favor, completa todos los campos.", 
-                    errExists: "Este correo ya existe.",
-                    placeholders: { fname: "Nombre", lname: "Apellido", age: "Tu edad" }
-                }
+                    errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
+                    placeholders: { fname: "Tu Nombre" }
+                },
+                legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
             }
         };
 
-        // --- STATE ---
-        let currentLang = localStorage.getItem('smh_language');
-        if (!['de', 'en', 'es'].includes(currentLang)) { currentLang = 'de'; }
-        
+        let currentLang = localStorage.getItem('smh_language') || 'de';
         let step = 1;
-        let answers = { root_problem: 'emptiness', pain_point: [], urgency: 5, energy: 5, available_time: 30, therapy1: false, therapy2: false };
-
-        // --- DOM ELEMENTS ---
+        let answers = { root_problem: 'emptiness', pain_point: [], grounding: 'low', silence: 'low' };
+        
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
         function updateTexts() {
@@ -697,299 +391,157 @@
             document.documentElement.lang = currentLang;
             
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
-
+            
             document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
             document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
             document.getElementById('s3-lbl').innerText = l.s3.lbl; document.getElementById('s3-title').innerText = l.s3.title;
             document.getElementById('s4-lbl').innerText = l.s4.lbl; document.getElementById('s4-title').innerText = l.s4.title;
-            document.getElementById('s5-lbl').innerText = l.s5.lbl; document.getElementById('s5-title').innerText = l.s5.title;
+            document.getElementById('s5-title').innerText = l.s5.title; document.getElementById('s5-sub').innerText = l.s5.sub;
             
-            document.getElementById('s5-lbl-urg').innerText = l.s5.urgLbl; document.getElementById('hint-urg-min').innerText = l.s5.urgMin; document.getElementById('hint-urg-max').innerText = l.s5.urgMax;
-            document.getElementById('s5-lbl-nrg').innerText = l.s5.nrgLbl; document.getElementById('hint-nrg-min').innerText = l.s5.nrgMin; document.getElementById('hint-nrg-max').innerText = l.s5.nrgMax;
-            document.getElementById('s5-lbl-tim').innerText = l.s5.timLbl;
+            document.getElementById('s6-lbl').innerText = l.s6.lbl; 
             
-            document.getElementById('s6-title').innerText = l.s6.title; document.getElementById('s6-sub').innerText = l.s6.sub;
+            document.getElementById('s7-lbl').innerText = l.s7.lbl; 
+            document.getElementById('s7-title').innerText = l.s7.title; 
+            document.getElementById('s7-sub').innerText = l.s7.sub;
             
-            document.getElementById('s8-title').innerText = l.s8.title; document.getElementById('s8-msg').innerText = l.s8.msg; document.getElementById('s8-disc').innerText = l.s8.disc;
-            document.getElementById('s9-lbl').innerText = l.s9.lbl; document.getElementById('s9-title').innerText = l.s9.title;
-            
-            document.getElementById('s10-lbl').innerText = l.s10.lbl; document.getElementById('s10-title').innerText = l.s10.title; document.getElementById('s10-desc').innerText = l.s10.desc;
-            document.getElementById('s10-c1').innerText = l.s10.c1; document.getElementById('s10-c2').innerText = l.s10.c2;
-            
-            document.getElementById('s11-title').innerText = l.s11.title;
-            
-            document.getElementById('s12-lbl').innerText = l.s12.lbl; 
-            document.getElementById('s12-title').innerText = l.s12.title; 
-            document.getElementById('s12-sub').innerText = l.s12.sub;
-            
-            document.getElementById('lbl-fname').innerText = l.s12.lblFname;
-            document.getElementById('lbl-lname').innerText = l.s12.lblLname;
-            document.getElementById('lbl-age').innerText = l.s12.lblAge;
-            document.getElementById('lbl-pwd').innerText = l.s12.lblPwd;
-            document.getElementById('lbl-email').innerText = l.s12.lblEmail;
-            
-            document.getElementById('reg-fname').placeholder = l.s12.placeholders.fname;
-            document.getElementById('reg-lname').placeholder = l.s12.placeholders.lname;
-            document.getElementById('reg-age').placeholder = l.s12.placeholders.age;
-            document.getElementById('reg-email').placeholder = l.s12.em; 
-            document.getElementById('reg-password').placeholder = l.s12.pw;
-            
+            document.getElementById('lbl-fname').innerText = l.s7.lblFname;
+            document.getElementById('lbl-email').innerText = l.s7.lblEmail;
+            document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
+            document.getElementById('reg-email').placeholder = l.s7.em; 
             document.getElementById('btn-register').innerText = l.btn.pay;
-            
-            updateAssessmentUI();
+
+            document.getElementById('link-imp').innerText = l.legal.imp;
+            document.getElementById('link-dat').innerText = l.legal.dat;
+            document.getElementById('link-agb').innerText = l.legal.agb;
+            document.getElementById('link-cook').innerText = l.legal.cook;
         }
 
         window.onload = () => { 
             document.getElementById('langSelect').value = currentLang;
-            updateTexts();
-            buildOptions();
-            pBar.style.width = `${(1 / 11) * 100}%`;
+            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`; 
         };
 
-        function selectLang(lang) {
-            currentLang = lang;
-            localStorage.setItem('smh_language', lang);
-            updateTexts();
-            buildOptions();
-            if (step === 7) renderResult();
+        function selectLang(lang) { 
+            currentLang = lang; localStorage.setItem('smh_language', lang);
+            updateTexts(); buildOptions(); if (step === 6) renderResult(); 
         }
 
         function createOptionBtn(text, isSelected, isMulti, onClick) {
-            const div = document.createElement('div');
-            div.className = `quiz-btn ${isSelected ? 'selected' : ''}`;
-            div.onclick = onClick;
-            
-            const textDiv = document.createElement('div');
-            textDiv.className = 'quiz-btn-text';
-            textDiv.innerText = text;
-            
-            const iconDiv = document.createElement('div');
-            if (isMulti) {
-                iconDiv.className = 'check-icon';
-                iconDiv.innerText = '✓';
-            } else {
-                iconDiv.className = 'radio-icon';
-            }
-            
-            div.appendChild(textDiv);
-            div.appendChild(iconDiv);
-            return div;
+            const div = document.createElement('div'); div.className = `quiz-btn ${isSelected ? 'selected' : ''}`; div.onclick = onClick;
+            const textDiv = document.createElement('div'); textDiv.className = 'quiz-btn-text'; textDiv.innerText = text;
+            const iconDiv = document.createElement('div'); iconDiv.className = isMulti ? 'check-icon' : 'radio-icon';
+            if (isMulti) iconDiv.innerText = '✓';
+            div.appendChild(textDiv); div.appendChild(iconDiv); return div;
         }
 
         function buildOptions() {
-            const l = t[currentLang];
-            const root = answers.root_problem;
-
+            const l = t[currentLang], root = answers.root_problem;
             const build = (id, opts, key, multi) => {
                 const el = document.getElementById(id); el.innerHTML = '';
-                const items = Array.isArray(opts) ? opts : Object.entries(opts);
-                items.forEach(item => {
-                    const [k, v] = Array.isArray(opts) ? [item, item] : item;
-                    const isSelected = multi ? answers[key].includes(v) : (answers[key] === k || answers[key] === v);
+                Object.entries(opts).forEach(([k, v]) => {
+                    const isSelected = multi ? answers[key].includes(v) : answers[key] === k;
                     el.appendChild(createOptionBtn(v, isSelected, multi, () => {
-                        if(multi) togglePain(v); else { answers[key] = k; handleNext(); }
-                        buildOptions();
+                        if(multi) {
+                            const idx = answers[key].indexOf(v);
+                            if (idx > -1) answers[key].splice(idx, 1); else answers[key].push(v);
+                            buildOptions(); checkNextState();
+                        } else {
+                            answers[key] = k; buildOptions(); checkNextState();
+                            setTimeout(() => handleNext(), 350);
+                        }
                     }));
                 });
             };
-
             build('s1-opts', l.s1.opts, 'root_problem', false);
-            build('s2-opts', l.s2.opts[root], 'frequency', false);
-            build('s3-opts', l.s3.opts, 'history', false);
-            build('s4-opts', l.s4.opts[root], 'pain_point', true);
-            build('s9-opts', l.s9.opts, 'commitment', false);
-            build('s11-opts', l.s11.opts, 'rank_path', false);
-        }
-
-        function togglePain(val) {
-            const idx = answers.pain_point.indexOf(val);
-            if (idx > -1) answers.pain_point.splice(idx, 1);
-            else answers.pain_point.push(val);
-            checkNextState();
-        }
-
-        function adjCounter(type, amount) {
-            if (type === 'urg') { answers.urgency = Math.max(1, Math.min(10, answers.urgency + amount)); }
-            if (type === 'nrg') { answers.energy = Math.max(1, Math.min(10, answers.energy + amount)); }
-            if (type === 'tim') { answers.available_time = Math.max(0, Math.min(120, answers.available_time + amount)); }
-            updateAssessmentUI();
-        }
-
-        function updateAssessmentUI() {
-            document.getElementById('val-urg').innerText = answers.urgency;
-            document.getElementById('val-nrg').innerText = answers.energy;
-            document.getElementById('val-tim').innerText = answers.available_time;
-            
-            const l = t[currentLang].s5;
-            document.getElementById('desc-urg').innerText = l.urgDesc[answers.urgency - 1];
-            document.getElementById('desc-nrg').innerText = l.nrgDesc[answers.energy - 1];
-            
-            let tIdx = answers.available_time < 15 ? 0 : answers.available_time < 30 ? 1 : answers.available_time >= 60 ? 3 : answers.available_time >= 90 ? 4 : 2;
-            document.getElementById('desc-tim').innerText = l.timDesc[tIdx];
-        }
-
-        function toggleTherapy(id) {
-            if(id === 'chk1') answers.therapy1 = !answers.therapy1;
-            if(id === 'chk2') answers.therapy2 = !answers.therapy2;
-            document.getElementById('chk1').className = `check-row ${answers.therapy1 ? 'selected' : ''}`;
-            document.getElementById('chk2').className = `check-row ${answers.therapy2 ? 'selected' : ''}`;
-            checkNextState();
+            build('s2-opts', l.s2.opts[root], 'pain_point', true);
+            build('s3-opts', l.s3.opts, 'grounding', false);
+            build('s4-opts', l.s4.opts, 'silence', false);
         }
 
         function checkNextState() {
-            let canGo = [4,5,7,8].includes(step) ? (step === 4 ? answers.pain_point.length > 0 : true) : step === 10 ? (answers.therapy1 && answers.therapy2) : false;
-            bNext.disabled = !canGo;
+            bNext.disabled = (step === 2 && answers.pain_point.length === 0);
         }
 
         function renderResult() {
-            // Calculation logic tailored for the spiritual aspect (low grounding/urgency = high fragmentation)
-            let burden = 70 + ((10 - answers.urgency) * 1.5) + ((10 - answers.energy) * 1.5);
-            burden = Math.min(99, Math.round(burden));
-            answers.calculated_stress_score = burden;
+            let score = 75;
+            if(answers.grounding === 'high') score += 12; else if(answers.grounding === 'med') score += 6;
+            if(answers.silence === 'high') score += 12; else if(answers.silence === 'med') score += 6;
+            
+            const res = t[currentLang].s6;
+            let lvl, col;
+            
+            if (score >= 90) { lvl = res.lvls.ext; col = '#b05c6e'; }
+            else if (score >= 85) { lvl = res.lvls.dan; col = '#b05c6e'; }
+            else if (score >= 80) { lvl = res.lvls.ala; col = '#d698a6'; }
+            else { lvl = res.lvls.cri; col = '#cba677'; }
 
-            const res = t[currentLang].s7;
-            let lvl = burden >= 86 ? res.lvls.ext : burden >= 81 ? res.lvls.dan : burden >= 76 ? res.lvls.ala : res.lvls.cri;
-            let col = burden >= 81 ? '#b05c6e' : burden >= 76 ? '#d698a6' : '#cba677';
-
-            document.getElementById('s7-lbl').innerText = res.lbl;
-            document.getElementById('res-score').innerText = burden + '%';
-            document.getElementById('res-score').style.color = col;
-            document.getElementById('res-level').innerText = lvl.t;
+            document.getElementById('s6-lbl').innerText = res.lbl;
+            document.getElementById('res-score').innerText = lvl.t; 
+            document.getElementById('res-score').style.color = col; 
+            document.getElementById('res-level').innerText = lvl.d; 
             document.getElementById('res-level').style.color = col;
             document.getElementById('res-card').style.borderColor = col;
-
-            document.getElementById('res-sub').innerText = lvl.s;
+            
+            document.getElementById('res-sub').innerText = res.costLbl; 
             document.getElementById('res-sub').style.color = col;
-            document.getElementById('res-info-box').style.borderLeftColor = col;
-            document.getElementById('res-desc').innerText = lvl.d;
-
-            document.getElementById('res-cost-lbl').innerText = res.costLbl;
+            document.getElementById('res-info-box').style.borderLeftColor = col; 
+            
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
+            document.getElementById('s6-msg').innerText = res.msg;
         }
 
         function handleNext() {
-            document.getElementById(`step-${step}`).classList.remove('active');
-            step++;
+            document.getElementById(`step-${step}`).classList.remove('active'); step++;
+            pCont.style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
+            pBar.style.width = `${((step - 1) / 6) * 100}%`;
             
-            pCont.style.display = (step < 12 && ![6,7,8].includes(step)) ? 'block' : 'none';
-            if (pCont.style.display === 'block') pBar.style.width = `${((step - 1) / 11) * 100}%`;
-
-            if ([4,5,7,8,10].includes(step)) {
-                bBar.style.display = 'flex';
-                bNext.innerText = step === 10 ? t[currentLang].btn.start : t[currentLang].btn.next;
-                checkNextState();
-            } else {
-                bBar.style.display = 'none';
-            }
-
-            document.getElementById(`step-${step}`).classList.add('active');
-            window.scrollTo(0,0);
-
-            if(step === 6) setTimeout(() => { handleNext(); renderResult(); }, 2500);
+            bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
+            if(step === 6) bNext.innerText = t[currentLang].btn.next;
+            checkNextState();
+            
+            document.getElementById(`step-${step}`).classList.add('active'); window.scrollTo(0,0);
+            if(step === 5) setTimeout(() => { handleNext(); renderResult(); }, 2000);
         }
 
         function handleBack() {
             document.getElementById(`step-${step}`).classList.remove('active');
-            step = Math.max(1, step === 7 ? 5 : step - 1); // Skip loading screen
+            step = Math.max(1, step === 6 ? 4 : step - 1);
             document.getElementById(`step-${step}`).classList.add('active');
-            
-            pCont.style.display = (step < 12 && ![6,7,8].includes(step)) ? 'block' : 'none';
-            if (pCont.style.display === 'block') pBar.style.width = `${((step - 1) / 11) * 100}%`;
-            
-            if ([4,5,7,8,10].includes(step)) {
-                bBar.style.display = 'flex';
-                bNext.innerText = step === 10 ? t[currentLang].btn.start : t[currentLang].btn.next;
-                checkNextState();
-            } else {
-                bBar.style.display = 'none';
-            }
-            window.scrollTo(0,0);
-        }
-
-        function redirectToDigistore(userId, fName, lName, email) {
-            const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
-            let targetUrl = `${digistoreBaseUrl}?custom=${encodeURIComponent(userId)}`;
-            if (fName) targetUrl += `&first_name=${encodeURIComponent(fName)}`;
-            if (lName) targetUrl += `&last_name=${encodeURIComponent(lName)}`;
-            if (email) targetUrl += `&email=${encodeURIComponent(email)}`;
-            window.location.href = targetUrl;
+            pCont.style.display = 'block';
+            pBar.style.width = `${((step - 1) / 6) * 100}%`;
+            bBar.style.display = (step === 2) ? 'flex' : 'none';
+            checkNextState(); window.scrollTo(0,0);
         }
 
         async function handleRegistration() {
             const fname = document.getElementById('reg-fname').value.trim();
-            const lname = document.getElementById('reg-lname').value.trim();
-            const age = document.getElementById('reg-age').value.trim();
             const email = document.getElementById('reg-email').value.trim();
-            const password = document.getElementById('reg-password').value;
             const errEl = document.getElementById('reg-error');
             const btn = document.getElementById('btn-register'); 
-            const l = t[currentLang];
             
-            if(!email || password.length < 6 || !fname || !lname || !age) { 
-                errEl.innerText = l.s12.errFill; 
-                errEl.style.display = 'block'; 
-                return; 
-            }
-            
-            errEl.style.display = 'none';
-            btn.disabled = true;
-            btn.innerText = "...";
+            if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
+            errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
             try {
+                // Supabase Tabellen-Insert (Leads)
+                /*
                 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                
-                const finalPayload = {
-                    name: fname + ' ' + lname,
-                    age: parseInt(age, 10),
-                    root_problem: answers.root_problem,
-                    frequency: answers.frequency,
-                    history: answers.history,
-                    pain_point: answers.pain_point,
-                    grounding_level: answers.urgency, // Mapping urgency to grounding
-                    energy: answers.energy,
-                    available_time: answers.available_time,
-                    fragmentation_score: answers.calculated_stress_score,
-                    health_confirmation: answers.therapy1,
-                    disclaimer_accepted: answers.therapy2,
-                    rank_path: answers.rank_path
-                };
+                await supabase.from('leads').insert([{ 
+                    email: email, 
+                    first_name: fname, 
+                    source: 'integrated_soul_7_step',
+                    onboarding_data: answers 
+                }]);
+                */
 
-                const { data, error } = await supabase.auth.signUp({ 
-                    email, 
-                    password, 
-                    options: { 
-                        data: { 
-                            first_name: fname,
-                            last_name: lname,
-                            age: parseInt(age, 10),
-                            onboarding_data: finalPayload 
-                        } 
-                    } 
-                });
-
-                if (error) {
-                    if (error.message.includes('already registered') || error.status === 400) {
-                        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-                        if (signInError) { 
-                            errEl.innerText = l.s12.errExists; 
-                            errEl.style.display = 'block'; 
-                            btn.disabled = false;
-                            btn.innerText = l.btn.pay;
-                            return; 
-                        }
-                        redirectToDigistore(signInData.user.id, fname, lname, email);
-                    } else {
-                        errEl.innerText = error.message; 
-                        errEl.style.display = 'block';
-                        btn.disabled = false;
-                        btn.innerText = l.btn.pay;
-                    }
-                } else {
-                    redirectToDigistore(data?.user?.id || 'new_user_no_id', fname, lname, email);
-                }
-            } catch (e) {
-                console.error("Fehler: ", e);
-                redirectToDigistore('guest_crash_user', fname, lname, email);
+                const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
+                window.location.href = `${digistoreBaseUrl}?custom=soul_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
+            } catch(e) {
+                console.error(e);
+                errEl.innerText = "Ein Fehler ist aufgetreten."; 
+                errEl.style.display = 'block';
+                btn.disabled = false;
+                btn.innerText = t[currentLang].btn.pay;
             }
         }
     </script>
