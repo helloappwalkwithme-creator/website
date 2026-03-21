@@ -84,7 +84,7 @@
 </head>
 <body>
 
-    <div class="progress-container"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
+    <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
 
     <header class="app-header">
         <select id="langSelect" class="lang-switcher" onchange="selectLang(this.value)">
@@ -131,7 +131,7 @@
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
             </div>
-            <div class="info-card"><p class="insight-text" id="s6-msg" style="color: #f2efe9; margin: 0;"></p></div>
+            <div class="info-card" id="res-info-box"><p class="insight-text" id="s6-msg" style="color: #f2efe9; margin: 0;"></p></div>
         </div>
 
         <div class="step" id="step-7">
@@ -167,8 +167,7 @@
     <script>
         const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let supabaseClient = null;
         
         const digistoreLinks = { 
             de: "https://www.checkout-ds24.com/product/XXXXXX/", 
@@ -377,7 +376,12 @@
             }
         };
 
-        let currentLang = localStorage.getItem('smh_language') || 'de';
+        // Sicherheits-Check für die Sprache
+        let currentLang = localStorage.getItem('smh_language');
+        if (!currentLang || !t[currentLang]) {
+            currentLang = 'de';
+        }
+        
         let step = 1;
         let answers = { root_problem: 'anger', pain_point: [], tolerance: 'low', capacity: 'low' };
         
@@ -479,8 +483,8 @@
             document.getElementById('res-level').style.color = col;
             document.getElementById('res-card').style.borderColor = col;
             
-            document.getElementById('res-sub').innerText = res.costLbl; 
-            document.getElementById('res-sub').style.color = col;
+            document.getElementById('res-cost-lbl').innerText = res.costLbl; 
+            document.getElementById('res-cost-lbl').style.color = col;
             document.getElementById('res-info-box').style.borderLeftColor = col; 
             
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
@@ -520,7 +524,12 @@
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
             try {
-                const { error } = await supabase.from('leads').insert([
+                // Supabase wird erst hier aufgerufen, damit das UI vorher nie blockiert wird
+                if (!supabaseClient) {
+                    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                }
+
+                const { error } = await supabaseClient.from('leads').insert([
                     { 
                         email: email, 
                         first_name: fname, 
