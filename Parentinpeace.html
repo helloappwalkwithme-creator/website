@@ -25,8 +25,8 @@
             display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; 
         }
         
-        .progress-container { width: 100%; height: 4px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
-        .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.3s ease; }
+        .progress-container { width: 100%; height: 3px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
+        .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.4s ease; }
 
         .app-header { width: 100%; max-width: 500px; margin: 0 auto; display: flex; justify-content: flex-end; padding: 20px 20px 0 20px; }
         .lang-switcher { background-color: var(--gray); color: var(--text); border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; outline: none; appearance: none; text-align: center; }
@@ -36,47 +36,48 @@
         
         .step { display: none; animation: fadeIn 0.4s ease forwards; }
         .step.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        .flow-title { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
-        .h1-title { font-size: 26px; font-weight: 800; margin-top: 0; margin-bottom: 24px; color: var(--text); line-height: 1.3; }
-        .subtitle { color: #aaaaaa; margin-bottom: 24px; font-size: 15px; line-height: 1.5; }
+        .flow-title { color: var(--gold); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .h1-title { font-size: 26px; font-weight: 800; margin-top: 0; margin-bottom: 24px; color: var(--text); line-height: 1.35; }
+        .subtitle { color: #aaaaaa; margin-bottom: 24px; font-size: 15px; line-height: 1.6; }
 
-        .quiz-btn { background-color: var(--gray); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; }
+        .quiz-btn { background-color: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.25s ease; }
         .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
-        .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.4; font-weight: 500; }
+        .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.5; font-weight: 500; }
         .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 700; }
         
-        .radio-icon { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; }
+        .radio-icon { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #555; display: flex; align-items: center; justify-content: center; }
         .quiz-btn.selected .radio-icon { border-color: var(--gold); }
-        .radio-icon::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); display: none; }
+        .radio-icon::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); display: none; }
         .quiz-btn.selected .radio-icon::after { display: block; }
 
-        .check-icon { width: 24px; height: 24px; border-radius: 6px; border: 2px solid #666; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 14px; }
+        .check-icon { width: 22px; height: 22px; border-radius: 4px; border: 1px solid #555; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px; }
         .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: var(--dark); }
 
         .result-card { background-color: #241916; border: 2px solid var(--gold); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
-        .result-score { color: var(--gold); font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 5px;}
+        .result-score { color: var(--gold); font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 5px; }
         .result-level { color: #e8a5a5; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
         
         .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
-        .insight-title { color: #ccc; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
-        .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.5; }
+        .insight-title { color: #ccc; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+        .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.6; }
         
         .info-card { background: #211c1a; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
 
         .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(26, 22, 20, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
-        .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 10px; font-weight: 800; font-size: 15px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 0.5px; }
+        .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 8px; font-weight: 800; font-size: 14px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 1.5px; }
         .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
-        .btn-back { background: none; border: none; color: #888; margin-top: 12px; padding: 8px 16px; cursor: pointer; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-back { background: none; border: none; color: #888; margin-top: 12px; padding: 8px 16px; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
 
-        .input-field { background-color: #2b2522; border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 16px; margin-bottom: 16px; width: 100%; font-weight: 500; }
+        .input-field { background-color: #2b2522; border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-family: -apple-system, sans-serif; font-weight: 500;}
         .input-field:focus { border-color: var(--gold); outline: none; }
         
-        .spinner { border: 4px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 60px auto; }
+        .spinner { border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 45px; height: 45px; animation: spin 1.2s linear infinite; margin: 60px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .legal-footer { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border); font-size: 11px; padding-bottom: 120px; }
+        /* Legal Footer */
+        .legal-footer { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border); font-size: 11px; padding-bottom: 120px; font-family: -apple-system, sans-serif;}
         .legal-footer a { color: #888; text-decoration: none; margin: 0 8px; transition: color 0.2s; }
         .legal-footer a:hover { color: var(--gold); }
     </style>
@@ -130,7 +131,7 @@
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
             </div>
-            <div class="info-card"><p class="insight-text" id="s6-msg" style="color: #eaeaea; margin: 0;"></p></div>
+            <div class="info-card"><p class="insight-text" id="s6-msg" style="color: #f2efe9; margin: 0;"></p></div>
         </div>
 
         <div class="step" id="step-7">
@@ -189,9 +190,9 @@
                     lbl: "PHASE 2: DER PREIS", 
                     title: "Was fürchtest du am meisten als Konsequenz? (Mehrfachauswahl)", 
                     opts: { 
-                        anger: ["Dass mein Kind Angst vor mir bekommt.", "Das eigene Generationentrauma genau so weiterzugeben.", "Dass mein Kind später kein gesundes Selbstwertgefühl hat.", "Das tiefe Gefühl, als Mutter/Vater zu versagen."], 
-                        overwhelm: ["Dass ich die Kindheit meiner Kinder verpasse, weil ich nur gestresst bin.", "Ein kompletter Burnout (Zusammenbruch).", "Dass ich nie wieder zu mir selbst finde.", "Dass mein Kind meine chronische Anspannung übernimmt."], 
-                        disconnect: ["Dass mein Kind sich nicht wirklich von mir geliebt fühlt.", "Dass wir uns später, wenn sie groß sind, fremd sind.", "Dass ich meine Kinder nur 'verwalte', statt sie zu begleiten.", "Emotionale Taubheit mir selbst gegenüber."] 
+                        anger: ["Dass mein Kind Angst vor mir bekommt.", "Das eigene Generationentrauma genau so weiterzugeben.", "Das tiefe Gefühl, als Mutter/Vater zu versagen."], 
+                        overwhelm: ["Dass ich die Kindheit meiner Kinder verpasse, weil ich nur gestresst bin.", "Ein kompletter Burnout (Zusammenbruch).", "Dass mein Kind meine chronische Anspannung übernimmt."], 
+                        disconnect: ["Dass mein Kind sich nicht wirklich von mir geliebt fühlt.", "Dass wir uns später, wenn sie groß sind, fremd sind.", "Emotionale Taubheit mir selbst gegenüber."] 
                     } 
                 },
                 s3: { 
@@ -200,7 +201,7 @@
                     opts: { 
                         high: "Ich eskaliere sofort mit und verliere völlig die Beherrschung (Fight/Flight).", 
                         med: "Ich versuche ruhig zu bleiben, aber innerlich brodelt es massiv.", 
-                        low: "Ich kann meine eigene Ruhe bewahren und den Raum für die Gefühle des Kindes halten." 
+                        low: "Ich kann meine eigene Ruhe bewahren und den Raum für das Kind halten." 
                     } 
                 },
                 s4: { 
@@ -219,13 +220,13 @@
                     costVal: { 
                         anger: "Dein Nervensystem verwechselt den Trotz deines Kindes mit einer echten Bedrohung (Fight-Response). Dein Verstand weiß es besser, dein Körper nicht.", 
                         overwhelm: "Du befindest dich in einem chronischen Sympathikus-Überhang. Jedes laute Geräusch füllt ein Fass, das ohnehin schon überläuft.", 
-                        disconnect: "Dein System hat zum Selbstschutz auf 'funktionale Distanz' (Freeze/Dorsal Vagus) geschaltet, weil die emotionale Last zu schwer wurde." 
+                        disconnect: "Dein System hat zum Selbstschutz auf 'funktionale Distanz' (Freeze) geschaltet, weil die emotionale Last zu schwer wurde." 
                     }, 
-                    msg: "Atme tief durch. Du bist kein schlechtes Elternteil. Wut, Schreien oder Disconnect sind keine bewussten Entscheidungen, sondern neurobiologische Reaktionen auf Stress. Ein dysreguliertes Kind braucht einen regulierten Erwachsenen. In diesem Flow lernen wir, genau das zu werden.",
+                    msg: "Atme tief durch. Du bist kein schlechtes Elternteil. Wut oder Disconnect sind keine bewussten Entscheidungen, sondern neurobiologische Reaktionen auf Stress. Ein dysreguliertes Kind braucht einen regulierten Erwachsenen. In diesem Flow lernen wir, genau das zu werden.",
                     lvls: { 
                         ext: { t: "DYSREGULIERT", d: "CHRONISCHER ÜBERLEBENSMODUS. Du funktionierst auf Reserve. Wutausbrüche oder Taubheit sind Notsignale deines Körpers. Du brauchst dringend Entlastung." }, 
-                        dan: { t: "ALARMSTUFE", d: "DEIN SYSTEM IST AM LIMIT. Du kompensierst massiv. Die Reizüberflutung lässt dein Nervensystem nicht mehr zur Ruhe kommen. Co-Regulation deines Kindes ist physisch kaum möglich." }, 
-                        ala: { t: "REAKTIV", d: "VERLUST DER GEDULD. Du liebst dein Kind, aber die Struktur des Alltags frisst deine Geduld auf. Du bist oft getriggert und handelst aus alten Mustern." }, 
+                        dan: { t: "ALARMSTUFE", d: "DEIN SYSTEM IST AM LIMIT. Du kompensierst massiv. Die Reizüberflutung lässt dein Nervensystem nicht zur Ruhe kommen." }, 
+                        ala: { t: "REAKTIV", d: "VERLUST DER GEDULD. Du liebst dein Kind, aber die Struktur des Alltags frisst deine Geduld auf. Du bist oft getriggert." }, 
                         cri: { t: "ANGESPANNT", d: "BEGINNENDE ERSCHÖPFUNG. Du merkst, dass die Leichtigkeit fehlt. Es ist Zeit, bewusste Ankerpunkte für dein Nervensystem zu setzen." } 
                     } 
                 },
@@ -255,9 +256,9 @@
                     lbl: "PHASE 2: THE PRICE", 
                     title: "What is your biggest fear as a consequence? (Multiple choice)", 
                     opts: { 
-                        anger: ["That my child will become afraid of me.", "Passing down the exact same generational trauma.", "That my child won't develop a healthy self-esteem.", "The deep feeling of failing as a parent."], 
-                        overwhelm: ["Missing my children's childhood because I'm just stressed.", "A complete burnout.", "That I will never find myself again.", "That my child adopts my chronic tension."], 
-                        disconnect: ["That my child won't truly feel loved by me.", "That we will be strangers when they grow up.", "That I'm just 'managing' my kids instead of guiding them.", "Emotional numbness toward myself."] 
+                        anger: ["That my child will become afraid of me.", "Passing down the exact same generational trauma.", "The deep feeling of failing as a parent."], 
+                        overwhelm: ["Missing my children's childhood because I'm just stressed.", "A complete burnout.", "That my child adopts my chronic tension."], 
+                        disconnect: ["That my child won't truly feel loved by me.", "That we will be strangers when they grow up.", "Emotional numbness toward myself."] 
                     } 
                 },
                 s3: { 
@@ -290,8 +291,8 @@
                     msg: "Take a deep breath. You are not a bad parent. Anger, yelling, or disconnect are not conscious choices, but neurobiological reactions to stress. A dysregulated child needs a regulated adult. In this flow, we learn to become exactly that.",
                     lvls: { 
                         ext: { t: "DYSREGULATED", d: "CHRONIC SURVIVAL MODE. You are running on fumes. Anger or numbness are distress signals from your body. You urgently need relief." }, 
-                        dan: { t: "RED ALERT", d: "YOUR SYSTEM IS AT THE LIMIT. You are compensating massively. Constant overstimulation prevents your nervous system from resting. Co-regulating your child is physically almost impossible right now." }, 
-                        ala: { t: "REACTIVE", d: "LOSS OF PATIENCE. You love your child, but the structure of your daily life is eating up your patience. You are easily triggered and act out of old patterns." }, 
+                        dan: { t: "RED ALERT", d: "YOUR SYSTEM IS AT THE LIMIT. You are compensating massively. Constant overstimulation prevents your nervous system from resting." }, 
+                        ala: { t: "REACTIVE", d: "LOSS OF PATIENCE. You love your child, but the structure of your daily life is eating up your patience. You are easily triggered." }, 
                         cri: { t: "TENSE", d: "BEGINNING EXHAUSTION. You feel the lightness is gone. It is time to set conscious anchors for your nervous system." } 
                     } 
                 },
@@ -321,9 +322,9 @@
                     lbl: "FASE 2: EL PRECIO", 
                     title: "¿Cuál es tu mayor miedo como consecuencia? (Opción múltiple)", 
                     opts: { 
-                        anger: ["Que mi hijo/a me tenga miedo.", "Transmitir exactamente el mismo trauma generacional.", "Que mi hijo/a no desarrolle una autoestima sana.", "El profundo sentimiento de fracasar como padre/madre."], 
-                        overwhelm: ["Perderme la infancia de mis hijos porque solo estoy estresado/a.", "Un colapso total (burnout).", "Que nunca volveré a encontrarme a mí mismo/a.", "Que mi hijo/a adopte mi tensión crónica."], 
-                        disconnect: ["Que mi hijo/a no se sienta realmente amado/a por mí.", "Que seamos extraños cuando crezcan.", "Que solo estoy 'gestionando' a mis hijos en lugar de guiarlos.", "Adormecimiento emocional hacia mí mismo/a."] 
+                        anger: ["Que mi hijo/a me tenga miedo.", "Transmitir exactamente el mismo trauma generacional.", "El profundo sentimiento de fracasar como padre/madre."], 
+                        overwhelm: ["Perderme la infancia de mis hijos porque solo estoy estresado/a.", "Un colapso total (burnout).", "Que mi hijo/a adopte mi tensión crónica."], 
+                        disconnect: ["Que mi hijo/a no se sienta realmente amado/a por mí.", "Que seamos extraños cuando crezcan.", "Adormecimiento emocional hacia mí mismo/a."] 
                     } 
                 },
                 s3: { 
@@ -349,16 +350,16 @@
                     lbl: "TU RESULTADO", 
                     costLbl: "LA REALIDAD PSICOLÓGICA:", 
                     costVal: { 
-                        anger: "Tu sistema nervioso confunde el desafío de tu hijo con una amenaza real (Respuesta de lucha). Tu mente lo sabe, tu cuerpo no.", 
+                        anger: "Tu sistema nervioso confunde el desafío de tu hijo con una amenaza real (Lucha). Tu mente lo sabe, tu cuerpo no.", 
                         overwhelm: "Estás en un estado crónico de sobrecarga simpática. Cada ruido fuerte llena un vaso que ya está desbordado.", 
-                        disconnect: "Tu sistema ha cambiado a 'distancia funcional' (Congelación/Vago Dorsal) por autoprotección porque la carga emocional se volvió demasiado pesada." 
+                        disconnect: "Tu sistema ha cambiado a 'distancia funcional' (Congelación) por autoprotección porque la carga emocional se volvió demasiado pesada." 
                     }, 
-                    msg: "Respira profundo. No eres un mal padre o madre. La ira, los gritos o la desconexión no son decisiones conscientes, sino reacciones neurobiológicas al estrés. Un niño desregulado necesita un adulto regulado. En este flujo, aprendemos a convertirnos exactamente en eso.",
+                    msg: "Respira profundo. No eres un mal padre o madre. La ira, los gritos o la desconexión no son decisiones conscientes, sino reacciones neurobiológicas al estrés. Un niño desregulado necesita un adulto regulado. En este flujo aprendemos a ser eso.",
                     lvls: { 
-                        ext: { t: "DESREGULADO", d: "MODO DE SUPERVIVENCIA CRÓNICO. Estás funcionando con las reservas. La ira o el adormecimiento son señales de socorro de tu cuerpo. Necesitas alivio urgentemente." }, 
-                        dan: { t: "ALERTA ROJA", d: "TU SISTEMA ESTÁ AL LÍMITE. Estás compensando masivamente. La sobrestimulación constante evita que tu sistema nervioso descanse. Corregular a tu hijo es físicamente casi imposible ahora." }, 
-                        ala: { t: "REACTIVO", d: "PÉRDIDA DE PACIENCIA. Amas a tu hijo, pero la estructura de tu vida diaria está consumiendo tu paciencia. Te detonas fácilmente y actúas desde viejos patrones." }, 
-                        cri: { t: "TENSO", d: "AGOTAMIENTO INCIPIENTE. Sientes que la ligereza se ha ido. Es hora de establecer anclajes conscientes para tu sistema nervioso." } 
+                        ext: { t: "DESREGULADO", d: "MODO DE SUPERVIVENCIA CRÓNICO. La ira o el adormecimiento son señales de socorro de tu cuerpo. Necesitas alivio urgentemente." }, 
+                        dan: { t: "ALERTA ROJA", d: "TU SISTEMA ESTÁ AL LÍMITE. La sobrestimulación constante evita que tu sistema nervioso descanse. Corregular a tu hijo es casi imposible." }, 
+                        ala: { t: "REACTIVO", d: "PÉRDIDA DE PACIENCIA. Amas a tu hijo, pero la estructura de tu vida diaria está consumiendo tu paciencia." }, 
+                        cri: { t: "TENSO", d: "AGOTAMIENTO INCIPIENTE. Sientes que la ligereza se ha ido. Es hora de establecer anclajes conscientes." } 
                     } 
                 },
                 s7: { 
@@ -441,7 +442,7 @@
                             buildOptions(); checkNextState();
                         } else {
                             answers[key] = k; buildOptions(); checkNextState();
-                            setTimeout(() => handleNext(), 350);
+                            setTimeout(() => handleNext(), 350); // Micro-Delay for UX
                         }
                     }));
                 });
@@ -457,7 +458,6 @@
         }
 
         function renderResult() {
-            // Calculation logic tailored to parent's tolerance and capacity
             let score = 75;
             if(answers.tolerance === 'high') score += 12; else if(answers.tolerance === 'med') score += 6;
             if(answers.capacity === 'high') score += 12; else if(answers.capacity === 'med') score += 6;
