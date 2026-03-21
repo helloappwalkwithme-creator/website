@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Integrated Soul - Onboarding</title>
+    <title>The Loving Woman - Onboarding</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            /* Mystical, deep, and grounded color palette */
-            --dark: #0a0c10; /* Void black/deepest night */
-            --gray: #13161f;
-            --gray-active: #1d2230;
-            --border: #2b3245;
-            --gold: #cba677; /* Muted alchemist gold */
-            --text: #e2e4e9;
-            --error: #b05c6e;
-            --success: #678c7a;
+            /* Loving Woman Color Palette */
+            --dark: #1f1a1c;
+            --gray: #2e2628;
+            --gray-active: #3f3537;
+            --border: #4d4044;
+            --gold: #d4a3b3; /* Soft Rose/Taupe */
+            --text: #fdfafb;
+            --error: #e07a7a;
+            --success: #88b08b;
         }
 
-        * { box-sizing: border-box; font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif, -apple-system, sans-serif; }
+        * { box-sizing: border-box; font-family: "Georgia", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
         body { 
             margin: 0; padding: 0; background-color: var(--dark); color: var(--text); 
             display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; 
         }
         
-        .progress-container { width: 100%; height: 3px; background-color: #1a1a24; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
+        .progress-container { width: 100%; height: 3px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
         .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.4s ease; }
 
         .app-header { width: 100%; max-width: 500px; margin: 0 auto; display: flex; justify-content: flex-end; padding: 20px 20px 0 20px; }
@@ -55,7 +55,7 @@
         .check-icon { width: 22px; height: 22px; border-radius: 4px; border: 1px solid #555; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px; }
         .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: var(--dark); }
 
-        .result-card { background-color: #1a1214; border: 2px solid var(--gold); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
+        .result-card { background-color: #2b2124; border: 2px solid var(--gold); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
         .result-score { color: var(--gold); font-size: 32px; font-weight: 600; line-height: 1.2; margin-bottom: 5px; }
         .result-level { color: #d698a6; font-size: 14px; font-weight: 400; text-transform: uppercase; letter-spacing: 2px; }
         
@@ -63,25 +63,19 @@
         .insight-title { color: #a1a5b5; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
         .insight-text { color: #d1d5db; font-size: 14px; line-height: 1.6; }
         
-        .info-card { background: #11141c; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
+        .info-card { background: #261f22; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
 
-        .check-row { display: flex; align-items: flex-start; margin-top: 15px; margin-bottom: 10px; cursor: pointer; }
-        .box-icon { width: 22px; height: 22px; border: 1px solid var(--gold); border-radius: 4px; margin-right: 12px; margin-top: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px;}
-        .check-row.selected .box-icon { background: var(--gold); color: var(--dark); }
-        .check-label { font-size: 14px; color: var(--text); line-height: 1.6; flex: 1; }
-
-        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 12, 16, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(31, 26, 28, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
         .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 8px; font-weight: 600; font-size: 14px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 1.5px; }
         .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
         .btn-back { background: none; border: none; color: #888; margin-top: 12px; padding: 8px 16px; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
 
-        .input-field { background-color: #13161f; border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-family: -apple-system, sans-serif; }
+        .input-field { background-color: var(--gray); border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-family: -apple-system, sans-serif; }
         .input-field:focus { border-color: var(--gold); outline: none; }
         
         .spinner { border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 45px; height: 45px; animation: spin 1.2s linear infinite; margin: 60px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Legal Footer */
         .legal-footer { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border); font-size: 11px; padding-bottom: 120px; font-family: -apple-system, sans-serif;}
         .legal-footer a { color: #888; text-decoration: none; margin: 0 8px; transition: color 0.2s; }
         .legal-footer a:hover { color: var(--gold); }
@@ -181,64 +175,64 @@
 
         const t = {
             de: {
-                btn: { next: "WEITER", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "PFAD BETRETEN" },
+                btn: { next: "WEITER", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "ZUM 4-TAGE-FLOW" },
                 s1: { 
-                    lbl: "PHASE 1: DER SCHATTEN", 
-                    title: "Welches Gefühl begleitet dich unterschwellig am häufigsten?", 
+                    lbl: "PHASE 1: INNERE KARTOGRAFIE", 
+                    title: "Was raubt dir aktuell am meisten Lebensenergie?", 
                     opts: { 
-                        emptiness: "Eine tiefe, unerklärliche innere Leere, egal was ich erreiche. (Sinnkrise)", 
-                        bypassing: "Ich flüchte in Positivität, aber im Alltag ändert sich nichts. (Spiritual Bypassing)", 
-                        isolation: "Eine chronische Isolation und das Gefühl, abgetrennt zu sein. (Getrenntheit)" 
+                        peoplepleasing: "Das Gefühl, es allen recht machen zu müssen und nicht 'Nein' sagen zu können. (Grenzenlosigkeit)", 
+                        overthinking: "Mein Kopf steht niemals still. Ich zerdenke Situationen, bis ich völlig erschöpft bin. (Mental Load)", 
+                        somatic: "Ich fühle mich vom Körper abgespalten und spüre eine tiefe innere Leere. (Taubheit)" 
                     } 
                 },
                 s2: { 
                     lbl: "PHASE 2: DIE KONSEQUENZEN", 
-                    title: "Was kostet dich diese Trennung im Hier und Jetzt? (Mehrfachauswahl)", 
+                    title: "Was kostet dich diese Anpassung tief im Inneren? (Mehrfachauswahl)", 
                     opts: { 
-                        emptiness: ["Abstumpfung gegenüber echter Freude und Schmerz.", "Kompensation durch Überarbeiten oder Konsum.", "Das nagende Gefühl, mein Potenzial zu verschwenden."], 
-                        bypassing: ["Fehlende Erdung und Realitätsverlust.", "Unterdrückte, brodelnde Wut (Schatten).", "Erschöpfung vom ständigen 'Heilen-Müssen'."], 
-                        isolation: ["Unfähigkeit, echte Intimität zuzulassen.", "Körperliche Taubheit und Somatisierung.", "Ein Gefühl der Wertlosigkeit im Kern."] 
+                        peoplepleasing: ["Verlust meiner Identität (Ich weiß nicht, wer ich bin).", "Aufgestaute, unterdrückte Wut auf mich und andere.", "Tiefe Erschöpfung durch das ständige Tragen fremder Emotionen."], 
+                        overthinking: ["Schlaflosigkeit und chronische Müdigkeit.", "Angstzustände und Panik vor Kontrollverlust.", "Unfähigkeit, im Hier und Jetzt echte Freude zu empfinden."], 
+                        somatic: ["Verlust der Libido und fehlende Intimität.", "Das Gefühl, das Leben zieht unsichtbar an mir vorbei.", "Körperlicher Schmerz, den kein Arzt organisch erklären kann."] 
                     } 
                 },
                 s3: { 
-                    lbl: "PHASE 3: ERDUNG", 
-                    title: "Wie stark ist dein Geist im Körper verankert?", 
+                    lbl: "PHASE 3: VERBINDUNG", 
+                    title: "Wie stark bist du mit deinen eigenen Bedürfnissen verbunden?", 
                     opts: { 
-                        high: "Ich lebe fast ausschließlich in meinem Kopf. Meinen Körper spüre ich kaum.", 
-                        med: "Ich spüre meinen Körper manchmal, verliere mich aber oft in Gedanken.", 
-                        low: "Ich bin meistens gut geerdet und mit meinen physischen Sinnen verbunden." 
+                        high: "Ich lebe fast ausschließlich das Leben der anderen und übergehe mich selbst.", 
+                        med: "Ich spüre meine Bedürfnisse, handle aber oft nicht danach.", 
+                        low: "Ich kenne meine Grenzen meistens und stehe für sie ein." 
                     } 
                 },
                 s4: { 
-                    lbl: "PHASE 4: STILLE", 
-                    title: "Wenn du mit dir allein bist, ohne Ablenkung – was passiert?", 
+                    lbl: "PHASE 4: GRENZEN", 
+                    title: "Was passiert in dir, wenn du jemanden enttäuschen musst?", 
                     opts: { 
-                        high: "Es wird unerträglich laut. Ich brauche sofort einen Podcast oder Aktion.", 
-                        med: "Ich halte es kurz aus, suche dann aber nach einer Aufgabe.", 
-                        low: "Ich kann Stille genießen und als Quelle der Kraft nutzen." 
+                        high: "Ich gerate innerlich in Panik und rudere oft sofort zurück.", 
+                        med: "Ich habe ein extrem schlechtes Gewissen, ziehe es aber manchmal durch.", 
+                        low: "Es ist unangenehm, aber ich kann die Enttäuschung des anderen aushalten." 
                     } 
                 },
-                s5: { title: "ZUSTAND WIRD REFLEKTIERT...", sub: "Archetypische Muster werden integriert." },
+                s5: { title: "MUSTER WIRD ANALYSIERT...", sub: "Dein Nervensystem-Profil wird erstellt." },
                 s6: { 
-                    lbl: "DIE SPIEGELUNG", 
+                    lbl: "DEIN PROFIL", 
                     costLbl: "DIE PSYCHOLOGISCHE WAHRHEIT:", 
                     costVal: { 
-                        emptiness: "Dein System hat Emotionen abgekapselt. Die Leere ist kein Fehler, sondern der Raum, der entsteht, wenn wir dunkle Anteile verbannen.", 
-                        bypassing: "Du nutzt Spiritualität als Schild vor menschlichem Schmerz. Wahres Erwachen geschieht nicht im reinen Licht, sondern im Körper.", 
-                        isolation: "Deine Isolation ist ein Überlebensmechanismus. Dein Nervensystem assoziiert Verbindung mit Gefahr." 
+                        peoplepleasing: "Dein Nervensystem interpretiert Abgrenzung als lebensbedrohlich. Du opferst deine Energie, um die Gefahr der Ablehnung abzuwenden.", 
+                        overthinking: "Dein Verstand simuliert ständig Gefahren, um dich zu schützen. Es ist ein überaktiver Überlebensmechanismus (Dauer-Alarm).", 
+                        somatic: "Dein Körper hat die Emotionen eingefroren (Freeze-Response), weil der gefühlte Schmerz in der Vergangenheit zu überwältigend war." 
                     }, 
-                    msg: "Spiritualität bedeutet nicht, dem Menschsein zu entfliehen, sondern tief hineinzusinken. In diesem Flow verbinden wir Jungsche Schattenarbeit mit nervensystembasierter Erdung.",
+                    msg: "Dein Verhalten ist keine Schwäche. Es sind brillante Schutzstrategien deines Nervensystems. In unserem E-Mail-Kurs entschlüsseln wir diese Mechanismen liebevoll, statt sie zu bekämpfen.",
                     lvls: { 
-                        ext: { t: "FRAGMENTIERT", d: "Du lebst stark im Äther oder Intellekt. Dein Körper hungert nach deiner Präsenz." }, 
-                        dan: { t: "ENTWURZELT", d: "Du suchst Antworten im Außen. Es ist Zeit, die Aufmerksamkeit radikal nach innen und unten (Erdung) zu richten." }, 
-                        ala: { t: "DISSOZIIERT", d: "Du hast Konzepte verstanden, verkörperst sie aber noch nicht völlig. Zeit für somatische Integration." }, 
-                        cri: { t: "SUCHEND", d: "Du erkennst die Muster. Jetzt geht es darum, die Theorie in körperliche Erfahrung umzuwandeln." } 
+                        ext: { t: "DYSREGULIERT", d: "Dein System steht unter enormer Anspannung. Deine Neurobiologie ist im Dauer-Alarm. Heilung erfordert jetzt somatische Sicherheit." }, 
+                        dan: { t: "ERSCHÖPFT", d: "Die Kompensation kostet dich massiv Substanz. Du brennst emotional aus, weil dein Körper keine tiefe Ruhe mehr zulässt." }, 
+                        ala: { t: "REAKTIV", d: "Du funktionierst im Alltag, aber die innere Anspannung ist dein ständiger Begleiter. Deine Kapazitätsgrenze ist erreicht." }, 
+                        cri: { t: "ANGEspannt", d: "Du spürst, dass deine alten Muster nicht mehr tragen. Es ist der perfekte Zeitpunkt für tiefere Integration." } 
                     } 
                 },
                 s7: { 
                     lbl: "DER NÄCHSTE SCHRITT", 
-                    title: "Beginne die Integration", 
-                    sub: "Sichere deinen Zugang zum 4-Tage-Flow.",
+                    title: "Beginne deinen Flow", 
+                    sub: "Sichere dir deinen Zugang zum 4-Tage-Flow.",
                     lblFname: "VORNAME", lblEmail: "EMAIL",
                     em: "deine@email.com", 
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
@@ -247,64 +241,64 @@
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
             },
             en: {
-                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "ENTER THE PATH" },
+                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START EMAIL COURSE" },
                 s1: { 
-                    lbl: "PHASE 1: THE SHADOW", 
-                    title: "Which underlying feeling accompanies you the most?", 
+                    lbl: "PHASE 1: INNER CARTOGRAPHY", 
+                    title: "What is currently draining your life energy the most?", 
                     opts: { 
-                        emptiness: "A deep, unexplainable inner emptiness, no matter what I achieve. (Crisis of meaning)", 
-                        bypassing: "I escape into positivity, but nothing changes in real life. (Spiritual Bypassing)", 
-                        isolation: "A chronic isolation and feeling fundamentally disconnected. (Separation)" 
+                        peoplepleasing: "The feeling of having to please everyone and not being able to say 'no'. (Boundlessness)", 
+                        overthinking: "My mind never stops. I overthink situations until I'm exhausted. (Mental Load)", 
+                        somatic: "I feel disconnected from my body, feeling a deep inner emptiness. (Numbness)" 
                     } 
                 },
                 s2: { 
                     lbl: "PHASE 2: THE CONSEQUENCES", 
-                    title: "What does this disconnection cost you right now? (Multiple choice)", 
+                    title: "What does this adaptation cost you deep down? (Multiple choice)", 
                     opts: { 
-                        emptiness: ["Numbness towards real joy and pain.", "Compensating through overworking or consumption.", "The gnawing feeling of wasting my potential."], 
-                        bypassing: ["Lack of grounding and loss of reality.", "Suppressed, seething anger (shadow aspects).", "Exhaustion from constantly 'having to heal'."], 
-                        isolation: ["Inability to allow true intimacy.", "Physical numbness and somatization.", "A core feeling of worthlessness."] 
+                        peoplepleasing: ["Loss of my authentic identity (I don't know who I am).", "Pent-up, suppressed anger at myself and others.", "Deep exhaustion from carrying other people's emotions."], 
+                        overthinking: ["Insomnia and chronic fatigue.", "Anxiety and panic about losing control.", "Inability to feel real joy in the here and now."], 
+                        somatic: ["Loss of libido and lack of intimacy.", "The feeling that life is passing me by invisibly.", "Physical pain that no doctor can explain."] 
                     } 
                 },
                 s3: { 
-                    lbl: "PHASE 3: GROUNDING", 
-                    title: "How strongly is your mind anchored in your body?", 
+                    lbl: "PHASE 3: CONNECTION", 
+                    title: "How connected are you to your own needs?", 
                     opts: { 
-                        high: "I live almost exclusively in my head. I hardly feel my body.", 
-                        med: "I sometimes feel my body, but often get lost in thoughts.", 
-                        low: "I am mostly well-grounded and connected to my physical senses." 
+                        high: "I live almost exclusively for others and ignore myself completely.", 
+                        med: "I feel my needs, but often don't act on them.", 
+                        low: "I mostly know my limits and stand up for them." 
                     } 
                 },
                 s4: { 
-                    lbl: "PHASE 4: SILENCE", 
-                    title: "When you are alone with yourself, without distraction – what happens?", 
+                    lbl: "PHASE 4: BOUNDARIES", 
+                    title: "What happens inside you when you have to disappoint someone?", 
                     opts: { 
-                        high: "It gets unbearably loud. I immediately need a podcast or action.", 
-                        med: "I endure it briefly, but then look for a task.", 
-                        low: "I can enjoy silence and use it as a source of strength." 
+                        high: "I panic internally and often immediately backtrack.", 
+                        med: "I feel extremely guilty, but sometimes push through anyway.", 
+                        low: "It's uncomfortable, but I can tolerate their disappointment." 
                     } 
                 },
-                s5: { title: "REFLECTING YOUR STATE...", sub: "Integrating archetypal patterns." },
+                s5: { title: "ANALYZING PATTERNS...", sub: "Creating your nervous system profile." },
                 s6: { 
-                    lbl: "THE MIRROR", 
+                    lbl: "YOUR PROFILE", 
                     costLbl: "THE PSYCHOLOGICAL TRUTH:", 
                     costVal: { 
-                        emptiness: "Your system has encapsulated emotions. Emptiness is not a flaw, but the void created when we banish dark parts.", 
-                        bypassing: "You use spirituality as a shield against human pain. True awakening doesn't happen in pure light, but in the body.", 
-                        isolation: "Your isolation is a survival mechanism. Your nervous system associates connection with danger." 
+                        peoplepleasing: "Your nervous system interprets setting boundaries as life-threatening. You sacrifice energy to avert rejection.", 
+                        overthinking: "Your mind constantly simulates dangers to protect you. It's an overactive survival mechanism (constant alert).", 
+                        somatic: "Your body has frozen emotions (Freeze response) because perceived pain in the past was too overwhelming." 
                     }, 
-                    msg: "Spirituality does not mean escaping humanity, but sinking deeply into it. In this flow, we combine Jungian shadow work with nervous-system-based grounding.",
+                    msg: "Your behavior is not a weakness. It's a brilliant protective strategy of your nervous system. In our email course, we lovingly decode these mechanisms.",
                     lvls: { 
-                        ext: { t: "FRAGMENTED", d: "You live heavily in the ether or intellect. Your body is starving for your presence." }, 
-                        dan: { t: "UNMOORED", d: "You seek answers outside. It's time to radically direct your attention inward and downward (grounding)." }, 
-                        ala: { t: "DISSOCIATED", d: "You understand concepts, but don't fully embody them yet. Time for somatic integration." }, 
-                        cri: { t: "SEARCHING", d: "You recognize the patterns. Now it's about turning theory into physical experience." } 
+                        ext: { t: "DYSREGULATED", d: "Your system is under enormous tension. Your neurobiology is on constant alert. Healing requires somatic safety now." }, 
+                        dan: { t: "EXHAUSTED", d: "Compensation is costing you massive substance. You are burning out because your body doesn't allow deep rest." }, 
+                        ala: { t: "REACTIVE", d: "You function in daily life, but inner tension is your constant companion. Your capacity limit is reached." }, 
+                        cri: { t: "TENSE", d: "You feel your old patterns are no longer sustaining you. It is the perfect time for deeper integration." } 
                     } 
                 },
                 s7: { 
                     lbl: "FINAL STEP", 
-                    title: "Begin the Integration", 
-                    sub: "Secure your access to the 4-day flow.",
+                    title: "Begin Your Flow", 
+                    sub: "Secure your free access.",
                     lblFname: "FIRST NAME", lblEmail: "EMAIL",
                     em: "your@email.com", 
                     errFill: "Please fill in all fields.", errExists: "Email already exists.",
@@ -313,63 +307,63 @@
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
             },
             es: {
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTIENDO", pay: "ENTRAR AL CAMINO" },
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTIENDO", pay: "INICIAR FLUJO" },
                 s1: { 
-                    lbl: "FASE 1: LA SOMBRA", 
-                    title: "¿Qué sentimiento subyacente te acompaña más a menudo?", 
+                    lbl: "FASE 1: CARTOGRAFÍA INTERNA", 
+                    title: "¿Qué es lo que más drena tu energía vital actualmente?", 
                     opts: { 
-                        emptiness: "Un vacío profundo e inexplicable, sin importar lo que logre. (Crisis de sentido)", 
-                        bypassing: "Me refugio en la positividad, pero nada cambia en mi vida real. (Evasión)", 
-                        isolation: "Un aislamiento crónico y la sensación de estar desconectado/a. (Separación)" 
+                        peoplepleasing: "La sensación de complacer a todos y no poder decir 'no'. (Falta de límites)", 
+                        overthinking: "Mi mente nunca se detiene. Pienso hasta quedar exhausta. (Carga mental)", 
+                        somatic: "Me siento desconectada de mi cuerpo y siento un vacío profundo. (Adormecimiento)" 
                     } 
                 },
                 s2: { 
                     lbl: "FASE 2: LAS CONSECUENCIAS", 
-                    title: "¿Qué te cuesta esta desconexión aquí y ahora? (Opción múltiple)", 
+                    title: "¿Qué te cuesta esta adaptación en el fondo? (Opción múltiple)", 
                     opts: { 
-                        emptiness: ["Adormecimiento frente a la verdadera alegría y el dolor.", "Compensación a través del exceso de trabajo o consumo.", "La sensación persistente de desperdiciar mi potencial."], 
-                        bypassing: ["Falta de enraizamiento y pérdida de realidad.", "Ira reprimida y latente (aspectos de la sombra).", "Agotamiento por tener que 'sanar' constantemente."], 
-                        isolation: ["Incapacidad de permitir una intimidad real.", "Adormecimiento físico y somatización.", "Un sentimiento central de falta de valor."] 
+                        peoplepleasing: ["Pérdida de mi identidad auténtica (No sé quién soy).", "Ira acumulada y reprimida hacia mí y hacia los demás.", "Agotamiento por cargar con las emociones de otros."], 
+                        overthinking: ["Insomnio y fatiga crónica.", "Ansiedad y pánico por perder el control.", "Incapacidad de sentir alegría real en el aquí y el ahora."], 
+                        somatic: ["Pérdida de libido y falta de intimidad.", "La sensación de que la vida me pasa de largo.", "Dolor físico que ningún médico puede explicar."] 
                     } 
                 },
                 s3: { 
-                    lbl: "FASE 3: ENRAIZAMIENTO", 
-                    title: "¿Qué tan anclada está tu mente en tu cuerpo?", 
+                    lbl: "FASE 3: CONEXIÓN", 
+                    title: "¿Qué tan conectada estás con tus propias necesidades?", 
                     opts: { 
-                        high: "Vivo casi exclusivamente en mi cabeza. Apenas siento mi cuerpo.", 
-                        med: "A veces siento mi cuerpo, pero a menudo me pierdo en pensamientos.", 
-                        low: "Principalmente estoy bien enraizado/a y conectado/a con mis sentidos físicos." 
+                        high: "Vivo casi exclusivamente para los demás y me ignoro por completo.", 
+                        med: "Siento mis necesidades, pero a menudo no actúo en consecuencia.", 
+                        low: "Principalmente conozco mis límites y los defiendo." 
                     } 
                 },
                 s4: { 
-                    lbl: "FASE 4: SILENCIO", 
-                    title: "Cuando estás a solas contigo mismo/a, sin distracciones, ¿qué pasa?", 
+                    lbl: "FASE 4: LÍMITES", 
+                    title: "¿Qué pasa dentro de ti cuando tienes que decepcionar a alguien?", 
                     opts: { 
-                        high: "Se vuelve insoportablemente ruidoso. Necesito acción o un podcast de inmediato.", 
-                        med: "Lo soporto brevemente, pero luego busco una tarea.", 
-                        low: "Puedo disfrutar del silencio y usarlo como fuente de fuerza." 
+                        high: "Entro en pánico internamente y a menudo retrocedo de inmediato.", 
+                        med: "Me siento muy culpable, pero a veces sigo adelante de todos modos.", 
+                        low: "Es incómodo, pero puedo tolerar la decepción de la otra persona." 
                     } 
                 },
-                s5: { title: "REFLEJANDO TU ESTADO...", sub: "Integrando patrones arquetípicos." },
+                s5: { title: "ANALIZANDO PATRONES...", sub: "Creando tu perfil del sistema nervioso." },
                 s6: { 
-                    lbl: "EL ESPEJO", 
+                    lbl: "TU PERFIL", 
                     costLbl: "LA VERDAD PSICOLÓGICA:", 
                     costVal: { 
-                        emptiness: "Tu sistema ha encapsulado emociones. El vacío no es un defecto, sino el espacio creado al desterrar partes oscuras.", 
-                        bypassing: "Usas la espiritualidad como escudo contra el dolor humano. El verdadero despertar no ocurre en la luz pura, sino en el cuerpo.", 
-                        isolation: "Tu aislamiento es un mecanismo de supervivencia. Tu sistema nervioso asocia la conexión con el peligro." 
+                        peoplepleasing: "Tu sistema nervioso interpreta poner límites como una amenaza. Sacrificas energía para evitar el rechazo.", 
+                        overthinking: "Tu mente simula peligros constantemente. Es un mecanismo de supervivencia hiperactivo (alerta constante).", 
+                        somatic: "Tu cuerpo ha congelado las emociones porque el dolor percibido en el pasado fue demasiado abrumador." 
                     }, 
-                    msg: "La espiritualidad no significa escapar de la humanidad, sino hundirse profundamente en ella. En este flujo, combinamos el trabajo de sombra con el enraizamiento somático.",
+                    msg: "Tu comportamiento no es una debilidad. Son estrategias brillantes de tu sistema nervioso. En nuestro curso por email las decodificamos.",
                     lvls: { 
-                        ext: { t: "FRAGMENTADO", d: "Vives fuertemente en el éter o intelecto. Tu cuerpo está hambriento de tu presencia." }, 
-                        dan: { t: "DESARRAIGADO", d: "Buscas respuestas afuera. Es hora de dirigir tu atención radicalmente hacia adentro y hacia abajo." }, 
-                        ala: { t: "DISOCIADO", d: "Entiendes los conceptos, pero aún no los encarnas por completo. Tiempo para la integración somática." }, 
-                        cri: { t: "BUSCADOR", d: "Reconoces los patrones. Ahora se trata de convertir la teoría en experiencia física." } 
+                        ext: { t: "DESREGULADA", d: "Tu sistema está bajo una enorme tensión. Tu neurobiología está en alerta constante. La sanación requiere seguridad somática ahora." }, 
+                        dan: { t: "EXHAUSTA", d: "La compensación te está costando masivamente. Te estás quemando porque tu cuerpo no permite un descanso profundo." }, 
+                        ala: { t: "REACTIVA", d: "Funcionas en la vida diaria, pero la tensión interna te acompaña. Has alcanzado tu límite de capacidad." }, 
+                        cri: { t: "TENSA", d: "Sientes que tus viejos patrones ya no te sostienen. Es el momento perfecto para una integración más profunda." } 
                     } 
                 },
                 s7: { 
                     lbl: "EL PRÓXIMO PASO", 
-                    title: "Comienza la Integración", 
+                    title: "Inicia tu Flujo", 
                     sub: "Asegura tu acceso al flujo de 4 días.",
                     lblFname: "NOMBRE", lblEmail: "EMAIL",
                     em: "tu@email.com", 
@@ -382,7 +376,7 @@
 
         let currentLang = localStorage.getItem('smh_language') || 'de';
         let step = 1;
-        let answers = { root_problem: 'emptiness', pain_point: [], grounding: 'low', silence: 'low' };
+        let answers = { root_problem: 'peoplepleasing', pain_point: [], connection: 'low', boundaries: 'low' };
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
@@ -454,8 +448,8 @@
             };
             build('s1-opts', l.s1.opts, 'root_problem', false);
             build('s2-opts', l.s2.opts[root], 'pain_point', true);
-            build('s3-opts', l.s3.opts, 'grounding', false);
-            build('s4-opts', l.s4.opts, 'silence', false);
+            build('s3-opts', l.s3.opts, 'connection', false);
+            build('s4-opts', l.s4.opts, 'boundaries', false);
         }
 
         function checkNextState() {
@@ -464,16 +458,16 @@
 
         function renderResult() {
             let score = 75;
-            if(answers.grounding === 'high') score += 12; else if(answers.grounding === 'med') score += 6;
-            if(answers.silence === 'high') score += 12; else if(answers.silence === 'med') score += 6;
+            if(answers.connection === 'high') score += 12; else if(answers.connection === 'med') score += 6;
+            if(answers.boundaries === 'high') score += 12; else if(answers.boundaries === 'med') score += 6;
             
             const res = t[currentLang].s6;
             let lvl, col;
             
-            if (score >= 90) { lvl = res.lvls.ext; col = '#b05c6e'; }
-            else if (score >= 85) { lvl = res.lvls.dan; col = '#b05c6e'; }
-            else if (score >= 80) { lvl = res.lvls.ala; col = '#d698a6'; }
-            else { lvl = res.lvls.cri; col = '#cba677'; }
+            if (score >= 90) { lvl = res.lvls.ext; col = '#e07a7a'; }
+            else if (score >= 85) { lvl = res.lvls.dan; col = '#e07a7a'; }
+            else if (score >= 80) { lvl = res.lvls.ala; col = '#e8a5a5'; }
+            else { lvl = res.lvls.cri; col = '#d4a3b3'; }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
             document.getElementById('res-score').innerText = lvl.t; 
@@ -521,24 +515,13 @@
             
             if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
-
+            
             try {
-                // Supabase Tabellen-Insert (Leads)
-                /*
-                const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                await supabase.from('leads').insert([{ 
-                    email: email, 
-                    first_name: fname, 
-                    source: 'integrated_soul_7_step',
-                    onboarding_data: answers 
-                }]);
-                */
-
                 const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
-                window.location.href = `${digistoreBaseUrl}?custom=soul_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
+                window.location.href = `${digistoreBaseUrl}?custom=loving_woman_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
             } catch(e) {
                 console.error(e);
-                errEl.innerText = "Ein Fehler ist aufgetreten."; 
+                errEl.innerText = "Ein Fehler ist aufgetreten. Bitte versuche es später erneut."; 
                 errEl.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
