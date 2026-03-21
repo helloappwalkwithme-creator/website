@@ -16,7 +16,6 @@
             --error: #ff5555;
             --success: #4caf50;
             --energy: #ffa500;
-            --time: #4caf50;
         }
 
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -55,8 +54,6 @@
             font-weight: 600;
             outline: none;
             cursor: pointer;
-            -webkit-appearance: none;
-            -moz-appearance: none;
             appearance: none;
             text-align: center;
         }
@@ -125,7 +122,7 @@
         .insight-title { color: #ccc; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
         .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.5; }
         
-        .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 20px; margin-bottom: 12px; }
+        .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
 
         /* Disclaimer Checkboxes */
         .check-row { display: flex; align-items: flex-start; margin-top: 15px; margin-bottom: 10px; cursor: pointer; }
@@ -190,17 +187,12 @@
         }
         .input-field:focus { border-color: var(--gold); outline: none; }
         
-        /* Grid for First/Last Name */
-        .name-grid {
-            display: flex;
-            gap: 10px;
-        }
-        .name-grid .input-field {
-            margin-bottom: 10px;
-        }
-
         .spinner { border: 4px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 60px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .legal-footer { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border); font-size: 11px; padding-bottom: 120px; }
+        .legal-footer a { color: #888; text-decoration: none; margin: 0 8px; transition: color 0.2s; }
+        .legal-footer a:hover { color: var(--gold); }
     </style>
 </head>
 <body>
@@ -209,8 +201,8 @@
 
     <header class="app-header">
         <select id="langSelect" class="lang-switcher" onchange="selectLang(this.value)">
-            <option value="en">🇺🇸 EN</option>
             <option value="de">🇩🇪 DE</option>
+            <option value="en">🇺🇸 EN</option>
             <option value="es">🇪🇸 ES</option>
         </select>
     </header>
@@ -236,138 +228,49 @@
             <div id="s4-opts"></div>
         </div>
 
-        <div class="step" id="step-5">
-            <div class="flow-title" id="s5-lbl"></div><h1 class="h1-title" id="s5-title"></h1>
-            
-            <div class="assessment-block">
-                <div class="ass-label" id="s5-lbl-urg"></div>
-                <div class="ass-value" id="val-urg" style="color: var(--gold);">5</div>
-                <div class="ass-desc" id="desc-urg"></div>
-                <div class="counter-row">
-                    <button class="counter-btn" style="color: var(--gold);" onclick="adjCounter('urg', -1)">−</button>
-                    <button class="counter-btn" style="color: var(--gold);" onclick="adjCounter('urg', 1)">+</button>
-                </div>
-                <div class="scale-hints">
-                    <span id="hint-urg-min"></span><span id="hint-urg-max"></span>
-                </div>
-            </div>
-
-            <div class="assessment-block">
-                <div class="ass-label" id="s5-lbl-nrg"></div>
-                <div class="ass-value" id="val-nrg" style="color: var(--energy);">5</div>
-                <div class="ass-desc" id="desc-nrg"></div>
-                <div class="counter-row">
-                    <button class="counter-btn" style="color: var(--energy);" onclick="adjCounter('nrg', -1)">−</button>
-                    <button class="counter-btn" style="color: var(--energy);" onclick="adjCounter('nrg', 1)">+</button>
-                </div>
-                <div class="scale-hints">
-                    <span id="hint-nrg-min"></span><span id="hint-nrg-max"></span>
-                </div>
-            </div>
-
-            <div class="assessment-block">
-                <div class="ass-label" id="s5-lbl-tim"></div>
-                <div class="ass-value" id="val-tim" style="color: var(--success);">30</div>
-                <div class="ass-desc" id="desc-tim"></div>
-                <div class="counter-row">
-                    <button class="counter-btn" style="color: var(--success);" onclick="adjCounter('tim', -5)">−</button>
-                    <button class="counter-btn" style="color: var(--success);" onclick="adjCounter('tim', 5)">+</button>
-                </div>
-                <div class="scale-hints">
-                    <span id="hint-tim-min">0 min</span><span id="hint-tim-max">120 min</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="step" id="step-6" style="text-align: center; padding-top: 60px;">
+        <div class="step" id="step-5" style="text-align: center; padding-top: 60px;">
             <div class="spinner"></div>
-            <h1 class="h1-title" id="s6-title" style="color: var(--gold);"></h1>
-            <p class="subtitle" id="s6-sub"></p>
+            <h1 class="h1-title" id="s5-title" style="color: var(--gold);"></h1>
+            <p class="subtitle" id="s5-sub"></p>
         </div>
 
-        <div class="step" id="step-7">
-            <div class="flow-title" id="s7-lbl"></div>
+        <div class="step" id="step-6">
+            <div class="flow-title" id="s6-lbl"></div>
             <div class="result-card" id="res-card">
                 <div class="result-score" id="res-score"></div>
                 <div class="result-level" id="res-level"></div>
-            </div>
-            <div class="info-card" style="border-left: 4px solid var(--error);" id="res-info-box">
-                <div class="insight-title" id="res-sub" style="color: var(--error);"></div>
-                <div class="insight-text" id="res-desc"></div>
             </div>
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
             </div>
+            <div class="info-card"><p class="insight-text" id="s6-msg" style="color: #fff; margin: 0;"></p></div>
         </div>
 
-        <div class="step" id="step-8">
-            <h1 class="h1-title" id="s8-title" style="color: var(--success); text-align: center; margin-top: 20px;"></h1>
-            <div class="info-card"><p class="insight-text" id="s8-msg" style="color: #fff; text-align: center;"></p></div>
-            <div class="info-card" style="border-left: 3px solid var(--gold);"><p class="insight-text" id="s8-disc"></p></div>
-        </div>
-
-        <div class="step" id="step-9">
-            <div class="flow-title" id="s9-lbl"></div><h1 class="h1-title" id="s9-title"></h1>
-            <div id="s9-opts"></div>
-        </div>
-
-        <div class="step" id="step-10">
-            <div class="flow-title" id="s10-lbl"></div>
-            <h1 class="h1-title" id="s10-title"></h1>
-            <div class="info-card"><p class="insight-text" id="s10-desc" style="color: #fff;"></p></div>
-            
-            <div class="check-row" id="chk1" onclick="toggleTherapy('chk1')">
-                <div class="box-icon">✓</div><p class="check-label" id="s10-c1"></p>
-            </div>
-            <div class="check-row" id="chk2" onclick="toggleTherapy('chk2')">
-                <div class="box-icon">✓</div><p class="check-label" id="s10-c2"></p>
-            </div>
-        </div>
-
-        <div class="step" id="step-11">
-            <h1 class="h1-title" id="s11-title"></h1>
-            <div id="s11-opts"></div>
-        </div>
-
-        <div class="step" id="step-12">
+        <div class="step" id="step-7">
             <div style="text-align: center;">
-                <div class="flow-title" id="s12-lbl" style="justify-content: center;"></div>
-                <h1 class="h1-title" id="s12-title" style="margin-bottom: 10px;"></h1>
-                <p class="subtitle" id="s12-sub" style="margin-bottom: 30px;"></p>
+                <div class="flow-title" id="s7-lbl"></div>
+                <h1 class="h1-title" id="s7-title"></h1>
+                <p class="subtitle" id="s7-sub"></p>
             </div>
             
-            <div class="name-grid">
-                <div style="flex: 1;">
-                    <div class="flow-title" id="lbl-fname" style="margin-bottom: 8px;">FIRST NAME</div>
-                    <input type="text" id="reg-fname" class="input-field" placeholder="John">
-                </div>
-                <div style="flex: 1;">
-                    <div class="flow-title" id="lbl-lname" style="margin-bottom: 8px;">LAST NAME</div>
-                    <input type="text" id="reg-lname" class="input-field" placeholder="Doe">
-                </div>
-            </div>
-
-            <div style="margin-bottom: 10px; margin-top: 6px;">
-                <div class="flow-title" id="lbl-age" style="margin-bottom: 8px;">AGE</div>
-                <input type="number" id="reg-age" class="input-field" placeholder="25">
-            </div>
+            <div class="flow-title" id="lbl-fname"></div>
+            <input type="text" id="reg-fname" class="input-field" placeholder="">
             
-            <div style="margin-bottom: 10px; margin-top: 6px;">
-                <div class="flow-title" style="margin-bottom: 8px;">EMAIL</div>
-                <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="Email">
-            </div>
-            
-            <div style="margin-bottom: 10px; margin-top: 6px;">
-                <div class="flow-title" id="lbl-pwd" style="margin-bottom: 8px;">PASSWORD</div>
-                <input type="password" id="reg-password" class="input-field" placeholder="Password">
-            </div>
+            <div class="flow-title" id="lbl-email"></div>
+            <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
             
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
         </div>
-
     </main>
+
+    <footer class="legal-footer">
+        <a href="impressum.html" id="link-imp">Impressum</a> | 
+        <a href="datenschutz.html" id="link-dat">Datenschutz</a> | 
+        <a href="agb.html" id="link-agb">AGB</a> | 
+        <a href="cookie.html" id="link-cook">Cookie-Richtlinie</a>
+    </footer>
 
     <div class="bottom-bar" id="bottomBar" style="display: none;">
         <button class="btn-gold" id="btnNext" onclick="handleNext()"></button>
@@ -375,669 +278,364 @@
     </div>
 
     <script>
-        const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+        const SUPABASE_URL = 'DEINE_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'DEIN_SUPABASE_KEY';
         
-        // Digistore Checkout URLs
         const digistoreLinks = { 
-            de: "https://www.checkout-ds24.com/product/675932/", 
-            en: "https://www.checkout-ds24.com/product/675950/", 
-            es: "https://www.checkout-ds24.com/product/675951/" 
+            de: "https://www.checkout-ds24.com/product/XXXXXX/", 
+            en: "https://www.checkout-ds24.com/product/XXXXXX/", 
+            es: "https://www.checkout-ds24.com/product/XXXXXX/" 
         };
 
-        // --- TRANSLATIONS ---
         const t = {
             de: {
-                btn: { next: "WEITER", back: "ZURÜCK", start: "WEITER", pay: "ZUR ZAHLUNG" },
+                btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM 4-TAGE-FLOW" },
                 s1: { 
                     lbl: "PHASE 1: STATUS", 
                     title: "Was ist deine größte Baustelle?", 
-                    opts: { porn: "Übermäßiger digitaler sexueller Konsum", gettinggirls: "Dating und soziale Unsicherheit", relationship: "Andauernder Beziehungsstreit und keine Intimität" } 
+                    opts: { 
+                        porn: "Übermäßiger digitaler sexueller Konsum / Dopamin-Sucht", 
+                        gettinggirls: "Mangelndes Selbstbewusstsein bei Frauen und soziale Unsicherheit", 
+                        relationship: "Andauernder Beziehungsstreit, fehlende Führung und keine Intimität" 
+                    } 
                 },
                 s2: { 
-                    lbl: "INTENSITÄT", 
-                    title: "Wie oft tritt das Problem auf?", 
+                    lbl: "PHASE 2: KONSEQUENZEN", 
+                    title: "Was kostet es dich aktuell? (Mehrfachauswahl)", 
                     opts: { 
-                        porn: ["Mehrmals täglich", "Täglich", "Während der Arbeit oder im Homeoffice", "Mehrmals die Woche", "Nur bei starkem Stress"], 
-                        gettinggirls: ["Täglich (Gedankenkreisen)", "Jedes Mal, wenn ich eine Frau sehe", "Nur am Wochenende (beim Ausgehen)", "Ich vermeide soziale Situationen komplett"], 
-                        relationship: ["Täglich (Dauerzustand)", "Mehrmals täglich Streit", "Mehrmals die Woche", "Wochenende ist am schlimmsten", "Es herrscht fast nur noch Schweigen"] 
+                        porn: ["Gehirnnebel und Konzentrationsschwäche", "Erektile Probleme oder Libido-Verlust", "Zeitverschwendung und Antriebslosigkeit"], 
+                        gettinggirls: ["Tiefe Einsamkeit", "Angst, für immer allein zu bleiben", "Gefühl von Minderwertigkeit im Vergleich zu anderen Männern"], 
+                        relationship: ["Sexuelle Flaute oder Roommate-Syndrom", "Ständige Kritik und Nörgeln der Partnerin", "Verlust von Respekt und Autorität"] 
                     } 
                 },
                 s3: { 
-                    lbl: "HISTORIE", 
-                    title: "Wie lange kämpfst du schon damit?", 
-                    opts: ["Weniger als 1 Jahr", "1 - 5 Jahre", "5 - 10 Jahre", "Seit der Pubertät oder über 10 Jahre"] 
+                    lbl: "PHASE 3: ENERGIE", 
+                    title: "Wie viel Energie und Drive hast du aktuell im Alltag?", 
+                    opts: { 
+                        low: "Ich bin chronisch erschöpft und brauche ständig Ablenkung.", 
+                        med: "Ich funktioniere, aber das wahre Feuer fehlt.", 
+                        high: "Ich habe viel Energie, kann sie aber nicht richtig fokussieren." 
+                    } 
                 },
                 s4: { 
-                    lbl: "KONSEQUENZEN", 
-                    title: "Was kostet es dich aktuell? (Sei ehrlich)", 
+                    lbl: "PHASE 4: ZUFRIEDENHEIT", 
+                    title: "Wie zufrieden bist du mit dir selbst als Mann?", 
                     opts: { 
-                        porn: ["Gehirnnebel und Konzentrationsschwäche", "Erektile Probleme oder Libido-Verlust", "Zeitverschwendung während der Arbeit", "Soziale Isolation oder Scham", "Gefühl der Machtlosigkeit"], 
-                        gettinggirls: ["Tiefe Einsamkeit", "Angst für immer allein zu bleiben", "Neid auf Paare oder andere Männer", "Gefühl von Minderwertigkeit", "Sexuelle Frustration"], 
-                        relationship: ["Sexuelle Flaute oder Roommate-Syndrom", "Ständige Kritik und Nörgeln", "Angst vor Trennung oder Scheidung", "Ich fühle mich zu Hause nicht mehr wohl", "Verlust von Respekt"] 
+                        low: "Ich schäme mich oft für mein Verhalten und meine Schwäche.", 
+                        med: "Ich weiß, ich könnte mehr sein, stagniere aber.", 
+                        high: "Ich bin auf einem guten Weg, aber brauche den nächsten Schritt." 
                     } 
                 },
-                s5: { 
-                    lbl: "DEINE AUSGANGSLAGE", 
-                    title: "Wie sieht deine Situation gerade aus?", 
-                    urgLbl: "Wie zufrieden bist du gerade im Leben?", 
-                    nrgLbl: "Wie viel Energie hast du aktuell?", 
-                    timLbl: "Minuten pro Tag nur für dich in Stille? (Kein Handy, etc.)", 
-                    urgMin: "Sehr unzufrieden", 
-                    urgMax: "Sehr zufrieden", 
-                    nrgMin: "Keine Energie", 
-                    nrgMax: "Sehr energiereich",
-                    urgDesc: ["Katastrophal.", "Sehr schlecht.", "Schlecht.", "Unterdurchschnittlich.", "Geht so. Mal mehr, mal weniger.", "Okay.", "Gut.", "Ziemlich gut.", "Sehr gut.", "Maximal zufrieden."],
-                    nrgDesc: ["Chronisch erschöpft.", "Sehr niedrig.", "Müde.", "Unterdurchschnittlich.", "Geht so. Mal mehr, mal weniger.", "Okay.", "Gut.", "Stark.", "Sehr hoch.", "Maximal."],
-                    timDesc: ["Ich habe gar keine Zeit.", "Kaum. Bin meist abgelenkt.", "Ein bisschen.", "Ausreichend.", "Viel Zeit für mich."]
-                },
-                s6: { title: "DEIN ERGEBNIS WIRD ERMITTELT...", sub: "Wir analysieren deine Daten." },
-                s7: { 
+                s5: { title: "DEIN ERGEBNIS WIRD ERMITTELT...", sub: "Wir analysieren deine Daten." },
+                s6: { 
                     lbl: "DEIN ERGEBNIS", 
                     costLbl: "KONKRET KOSTET DICH DAS:", 
-                    costVal: { porn: "Deinen mentalen Fokus, echte Intimität und den tiefen Respekt vor dir selbst.", gettinggirls: "Die besten Jahre deines Lebens, gefangen in Isolation.", relationship: "Die emotionale Verbindung und die Frau, die du liebst." }, 
+                    costVal: { 
+                        porn: "Deinen mentalen Fokus, echte Intimität und den tiefen Respekt vor dir selbst.", 
+                        gettinggirls: "Die besten Jahre deines Lebens, gefangen in Unsicherheit und Isolation.", 
+                        relationship: "Die emotionale Verbindung, Führungskraft und die Frau, die du liebst." 
+                    }, 
+                    msg: "Deine Situation ist kein Charakterfehler, sondern ein gelerntes Muster. Im E-Mail-Kurs brechen wir dieses Muster mit fundierten Techniken.",
                     lvls: { 
-                        ext: { t: "EXTREM", s: "DEIN NERVENSYSTEM IST AM ANSCHLAG", d: "Du funktionierst nur noch im Überlebensmodus. Jede Faser deines Körpers schreit nach Veränderung." }, 
-                        dan: { t: "GEFÄHRLICH", s: "DEIN KÖRPER IST AM LIMIT", d: "Du bist chronisch überlastet. Dein System läuft auf Reserve – und die Reserve ist fast leer." }, 
-                        ala: { t: "ALARMIEREND", s: "DEIN NERVENSYSTEM IST ÜBERLASTET", d: "Du stehst unter Dauerstress. Dein Körper kann nicht mehr richtig regenerieren." }, 
-                        cri: { t: "KRITISCH", s: "DEIN SYSTEM IST UNTER DAUERSTRESS", d: "Die Belastung geht an die Substanz. Es ist Zeit, das Ruder herumzureißen." } 
+                        ext: { t: "ALARMSTUFE", d: "Dein Nervensystem und Dopamin-Haushalt sind am Anschlag. Du lebst im Überlebensmodus. Es ist Zeit, Verantwortung zu übernehmen." }, 
+                        dan: { t: "GEFÄHRLICH", d: "Du bist chronisch überlastet und betäubst dich. Dein System läuft auf Reserve – die Substanz schwindet." }, 
+                        ala: { t: "STAGNIEREND", d: "Du funktionierst, aber du lebst nicht dein Potenzial. Deine Bequemlichkeit ist dein größter Feind." }, 
+                        cri: { t: "WACHSEND", d: "Du spürst den Schmerz und bist bereit. Es fehlt dir nur an der klaren, harten Struktur." } 
                     } 
                 },
-                s8: { 
-                    title: "DEINE EINSCHÄTZUNG", 
-                    msg: "Danke für deine Offenheit. Deine Situation ist kein Charakterfehler, sondern ein gelerntes Muster. Diese App bietet wissenschaftlich fundierte Techniken aus Neurobiologie und Verhaltensforschung. Das wird dir Werkzeuge und Struktur geben, aber es liegt an DIR, sie anzuwenden.", 
-                    disc: "Die hier vermittelten Tools und Strategien basieren auf allgemeinen psychologischen und neurobiologischen Prinzipien. Sie stellen keinen Ersatz für eine professionelle Therapie dar. Konsultiere bei tiefgreifenden Problemen bitte einen Arzt oder Therapeuten." 
-                },
-                s9: { 
-                    lbl: "COMMITMENT", 
-                    title: "Bist du bereit, die Arbeit reinzustecken?", 
-                    opts: ["Ja, ich ziehe das durch (100%)", "Ich bin mir noch unsicher"] 
-                },
-                s10: { 
-                    lbl: "WICHTIGER HINWEIS", 
-                    title: "Bitte aufmerksam lesen", 
-                    desc: "Diese App bietet strukturierte Leitfäden und Tools zur persönlichen Weiterentwicklung. Sie ersetzt keine professionelle medizinische, psychologische oder psychiatrische Behandlung. Jede Handlung erfolgt auf eigene Gefahr.", 
-                    c1: "Ich bestätige, dass ich aktuell psychisch stabil bin und mich nicht in einer akuten Krise befinde.", 
-                    c2: "Ich verstehe, dass diese App keine Therapie ersetzt." 
-                },
-                s11: { 
-                    title: "Welcher Weg der Stärke inspiriert dich am meisten?", 
-                    opts: { military: "Militär (Disziplin und Härte)", guardian: "Der Hüter (Geist und Fokus)", samurai: "Der Samurai (Ehre und Ruhe)", roman: "Der Imperator (Macht und Stoizismus)" } 
-                },
-                s12: { 
-                    lbl: "FINAL STEP", 
-                    title: "Account erstellen", 
-                    sub: "Sichere deinen Fortschritt.",
-                    lblFname: "VORNAME",
-                    lblLname: "NACHNAME",
-                    lblAge: "ALTER",
-                    lblPwd: "PASSWORT", 
+                s7: { 
+                    lbl: "DER NÄCHSTE SCHRITT", 
+                    title: "Dein 4-Tage-Flow", 
+                    sub: "Trage dich ein, um deine Baustellen zu fixen.",
+                    lblFname: "VORNAME", lblEmail: "EMAIL",
                     em: "deine@email.com", 
-                    pw: "•••••••••", 
-                    errFill: "Bitte fülle alle Felder aus.", 
-                    errExists: "Email existiert bereits." 
-                }
+                    errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
+                    placeholders: { fname: "Dein Vorname" }
+                },
+                legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
             },
             en: {
-                btn: { next: "NEXT", back: "BACK", start: "CONTINUE", pay: "PROCEED TO PAYMENT" },
+                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
                 s1: { 
                     lbl: "PHASE 1: STATUS", 
                     title: "What is your biggest challenge?", 
-                    opts: { porn: "Excessive digital sexual consumption", gettinggirls: "Dating and social insecurity", relationship: "Constant relationship conflict and no intimacy" } 
+                    opts: { 
+                        porn: "Excessive digital sexual consumption / Dopamine addiction", 
+                        gettinggirls: "Lack of confidence with women and social insecurity", 
+                        relationship: "Constant relationship conflict, lack of leadership and no intimacy" 
+                    } 
                 },
                 s2: { 
-                    lbl: "INTENSITY", 
-                    title: "How often does the problem occur?", 
+                    lbl: "PHASE 2: CONSEQUENCES", 
+                    title: "What is it costing you right now? (Multiple choice)", 
                     opts: { 
-                        porn: ["Multiple times daily", "Daily", "During work or home office", "Several times per week", "Only under strong stress"], 
-                        gettinggirls: ["Daily (rumination)", "Every time I see a woman", "Only on weekends (going out)", "I avoid social situations completely"], 
-                        relationship: ["Daily (constant state)", "Arguments several times daily", "Several times per week", "Weekends are the worst", "Mostly silence remains"] 
+                        porn: ["Brain fog and lack of concentration.", "Erectile issues or loss of libido.", "Wasting time and lack of drive."], 
+                        gettinggirls: ["Deep loneliness.", "Fear of staying alone forever.", "Feeling inferior compared to other men."], 
+                        relationship: ["Sexual drought or roommate syndrome.", "Constant criticism and nagging from partner.", "Loss of respect and authority."] 
                     } 
                 },
                 s3: { 
-                    lbl: "HISTORY", 
-                    title: "How long have you been struggling with this?", 
-                    opts: ["Less than 1 year", "1 - 5 years", "5 - 10 years", "Since puberty or over 10 years"] 
+                    lbl: "PHASE 3: ENERGY", 
+                    title: "How much energy and drive do you currently have?", 
+                    opts: { 
+                        low: "I am chronically exhausted and constantly need distraction.", 
+                        med: "I function, but the real fire is missing.", 
+                        high: "I have a lot of energy, but can't focus it properly." 
+                    } 
                 },
                 s4: { 
-                    lbl: "CONSEQUENCES", 
-                    title: "What is it costing you right now? (Be honest)", 
+                    lbl: "PHASE 4: SATISFACTION", 
+                    title: "How satisfied are you with yourself as a man?", 
                     opts: { 
-                        porn: ["Brain fog and poor focus", "Erectile issues (PIED) / loss of libido", "Wasting time during work", "Social isolation or shame", "Feeling powerless"], 
-                        gettinggirls: ["Deep loneliness", "Fear of staying alone forever", "Jealousy toward couples or other men", "Feeling inferior", "Sexual frustration"], 
-                        relationship: ["Sexual drought or roommate syndrome", "Constant criticism and nagging", "Fear of separation or divorce", "I no longer feel at home", "Loss of respect"] 
+                        low: "I often feel ashamed of my behavior and weakness.", 
+                        med: "I know I could be more, but I'm stagnating.", 
+                        high: "I'm on a good path, but need the next step." 
                     } 
                 },
-                s5: { 
-                    lbl: "YOUR STARTING POINT", 
-                    title: "What does your situation look like right now?", 
-                    urgLbl: "How satisfied are you with life right now?", 
-                    nrgLbl: "How much energy do you currently have?", 
-                    timLbl: "Minutes per day just for you in silence? (No phone, etc.)", 
-                    urgMin: "Not urgent", 
-                    urgMax: "Very urgent", 
-                    nrgMin: "No energy", 
-                    nrgMax: "Very energetic",
-                    urgDesc: ["Catastrophic.", "Very bad.", "Bad.", "Below average.", "So-so. Sometimes more, sometimes less.", "Okay.", "Good.", "Pretty good.", "Very good.", "Maximum."],
-                    nrgDesc: ["Chronically exhausted.", "Very low.", "Tired.", "Below average.", "So-so. Sometimes more, sometimes less.", "Okay.", "Good.", "Strong.", "Very high.", "Maximum."],
-                    timDesc: ["No time at all.", "Little. I am mostly distracted.", "A bit.", "Sufficient.", "Lots of time for myself."]
-                },
-                s6: { title: "CALCULATING RESULT...", sub: "Analyzing your data." },
-                s7: { 
+                s5: { title: "CALCULATING RESULT...", sub: "Analyzing your data." },
+                s6: { 
                     lbl: "YOUR RESULT", 
                     costLbl: "CONCRETELY THIS COSTS YOU:", 
-                    costVal: { porn: "Your mental focus, genuine intimacy, and deep self-respect.", gettinggirls: "The best years of your life, trapped in isolation.", relationship: "The emotional connection and the woman you love." }, 
+                    costVal: { 
+                        porn: "Your mental focus, genuine intimacy, and deep self-respect.", 
+                        gettinggirls: "The best years of your life, trapped in insecurity and isolation.", 
+                        relationship: "The emotional connection, leadership, and the woman you love." 
+                    }, 
+                    msg: "Your situation is not a character flaw, but a learned pattern. In the email course, we break this pattern with proven techniques.",
                     lvls: { 
-                        ext: { t: "EXTREME", s: "YOUR NERVOUS SYSTEM IS MAXED OUT", d: "You are only functioning in survival mode. Every fiber of your body is screaming for change." }, 
-                        dan: { t: "DANGEROUS", s: "YOUR BODY IS AT THE LIMIT", d: "You are chronically overloaded. Your system is running on reserve – and the reserve is almost empty." }, 
-                        ala: { t: "ALARMING", s: "YOUR NERVOUS SYSTEM OVERLOADED", d: "You are under constant stress. Your body can no longer properly recover." }, 
-                        cri: { t: "CRITICAL", s: "YOUR SYSTEM IS UNDER CONSTANT STRESS", d: "The stress is taking its toll. It's time to turn things around." } 
+                        ext: { t: "RED ALERT", d: "Your nervous system and dopamine levels are maxed out. You live in survival mode. It's time to take responsibility." }, 
+                        dan: { t: "DANGEROUS", d: "You are chronically overloaded and numbing yourself. Your system runs on reserve – substance is fading." }, 
+                        ala: { t: "STAGNATING", d: "You function, but you are not living your potential. Your comfort is your biggest enemy." }, 
+                        cri: { t: "GROWING", d: "You feel the pain and are ready. You just lack clear, hard structure." } 
                     } 
                 },
-                s8: { 
-                    title: "YOUR ASSESSMENT", 
-                    msg: "Thank you for your openness. Your situation is not a character flaw, but a learned pattern. This app offers scientifically proven techniques from neurobiology and behavioral research. It will give you tools and structure, but it's up to YOU to use them.", 
-                    disc: "The tools and strategies provided here are based on general psychological and neurobiological principles. They do not constitute a substitute for professional therapy. If you have deep-seated problems, please consult a doctor or therapist." 
+                s7: { 
+                    lbl: "THE NEXT STEP", 
+                    title: "Your 4-Day Flow", 
+                    sub: "Sign up to fix your challenges.",
+                    lblFname: "FIRST NAME", lblEmail: "EMAIL",
+                    em: "your@email.com", 
+                    errFill: "Please fill in all fields.", errExists: "This email already exists.",
+                    placeholders: { fname: "Your First Name" }
                 },
-                s9: { 
-                    lbl: "COMMITMENT", 
-                    title: "Are you ready to put in the work?", 
-                    opts: ["Yes, I will push through (100%)", "I am still unsure"] 
-                },
-                s10: { 
-                    lbl: "IMPORTANT NOTICE", 
-                    title: "Please read this carefully", 
-                    desc: "This app provides structured guidance and tools for personal development. It does not replace professional medical, psychological, or psychiatric treatment. Any actions you take based on the content of this app are at your own risk.", 
-                    c1: "I confirm that I am currently psychologically stable and not in an acute crisis.", 
-                    c2: "I understand that this app does not replace therapy." 
-                },
-                s11: { 
-                    title: "Which path of strength inspires you the most?", 
-                    opts: { military: "Military (discipline and toughness)", guardian: "The Guardian (mind and focus)", samurai: "The Samurai (honor and calm)", roman: "The Emperor (power and stoicism)" } 
-                },
-                s12: { 
-                    lbl: "FINAL STEP", 
-                    title: "Create Account", 
-                    sub: "Secure protocol. Proceed to checkout.",
-                    lblFname: "FIRST NAME",
-                    lblLname: "LAST NAME",
-                    lblAge: "AGE",
-                    lblPwd: "PASSWORD", 
-                    em: "janoschbrase@gmail.com", 
-                    pw: "•••••••••", 
-                    errFill: "Please fill in all fields.", 
-                    errExists: "Email already exists." 
-                }
+                legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
             },
             es: {
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "CONTINUAR", pay: "IR AL PAGO" },
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO" },
                 s1: { 
                     lbl: "FASE 1: ESTADO", 
                     title: "¿Cuál es tu mayor problema?", 
-                    opts: { porn: "Consumo sexual digital excesivo", gettinggirls: "Inseguridad social y citas", relationship: "Conflicto constante de pareja y sin intimidad" } 
+                    opts: { 
+                        porn: "Consumo sexual digital excesivo / Adicción a la dopamina", 
+                        gettinggirls: "Falta de confianza con mujeres e inseguridad social", 
+                        relationship: "Conflicto constante, falta de liderazgo y sin intimidad" 
+                    } 
                 },
                 s2: { 
-                    lbl: "INTENSIDAD", 
-                    title: "¿Con qué frecuencia aparece el problema?", 
+                    lbl: "FASE 2: CONSECUENCIAS", 
+                    title: "¿Qué te cuesta esto ahora mismo? (Opción múltiple)", 
                     opts: { 
-                        porn: ["Varias veces al día", "Diario", "Durante el trabajo o teletrabajo", "Varias veces por semana", "Solo con estrés fuerte"], 
-                        gettinggirls: ["Diario (dar vueltas)", "Cada vez que veo a una mujer", "Solo fines de semana (al salir)", "Evito situaciones sociales por completo"], 
-                        relationship: ["Diario (estado constante)", "Discusiones varias veces al día", "Varias veces por semana", "Los fines de semana son lo peor", "Casi solo queda silencio"] 
+                        porn: ["Niebla mental y falta de concentración.", "Problemas de erección o pérdida de libido.", "Pérdida de tiempo y falta de empuje."], 
+                        gettinggirls: ["Soledad profunda.", "Miedo a quedarme solo para siempre.", "Sentimiento de inferioridad frente a otros hombres."], 
+                        relationship: ["Sequía sexual o síndrome de compañeros de piso.", "Crítica constante de la pareja.", "Pérdida de respeto y autoridad."] 
                     } 
                 },
                 s3: { 
-                    lbl: "HISTORIAL", 
-                    title: "¿Cuánto tiempo llevas luchando con esto?", 
-                    opts: ["Menos de 1 año", "1 - 5 años", "5 - 10 años", "Desde la pubertad o más de 10 años"] 
+                    lbl: "FASE 3: ENERGÍA", 
+                    title: "¿Cuánta energía y empuje tienes actualmente?", 
+                    opts: { 
+                        low: "Estoy crónicamente exhausto y necesito distracción constante.", 
+                        med: "Funciono, pero falta el verdadero fuego.", 
+                        high: "Tengo mucha energía, pero no puedo enfocarla bien." 
+                    } 
                 },
                 s4: { 
-                    lbl: "CONSECUENCIAS", 
-                    title: "¿Qué te está costando ahora mismo? (Sé honesto)", 
+                    lbl: "FASE 4: SATISFACCIÓN", 
+                    title: "¿Qué tan satisfecho estás contigo mismo como hombre?", 
                     opts: { 
-                        porn: ["Niebla mental y falta de concentración", "Problemas de erección o baja libido", "Perder tiempo durante el trabajo", "Aislamiento social o vergüenza", "Sensación de impotencia"], 
-                        gettinggirls: ["Soledad profunda", "Miedo a quedarme solo para siempre", "Envidia hacia parejas u otros hombres", "Sentimiento de inferioridad", "Frustración sexual"], 
-                        relationship: ["Sequedad sexual o síndrome de compañeros de piso", "Crítica constante y reproches", "Miedo a separación o divorcio", "Ya no me siento cómodo en casa", "Pérdida de respeto"] 
+                        low: "A menudo me avergüenzo de mi comportamiento y debilidad.", 
+                        med: "Sé que podría ser más, pero estoy estancado.", 
+                        high: "Voy por buen camino, pero necesito el siguiente paso." 
                     } 
                 },
-                s5: { 
-                    lbl: "TU PUNTO DE PARTIDA", 
-                    title: "¿Cómo es tu situación actual?", 
-                    urgLbl: "¿Qué tan satisfecho estás con tu vida ahora mismo?", 
-                    nrgLbl: "¿Cuánta energía tienes actualmente?", 
-                    timLbl: "¿Minutos al día solo para ti en silencio? (Sin móvil, etc.)", 
-                    urgMin: "Muy insatisfecho", 
-                    urgMax: "Muy satisfecho", 
-                    nrgMin: "Sin energía", 
-                    nrgMax: "Muy energético",
-                    urgDesc: ["Catastrófico.", "Muy mal.", "Mal.", "Por debajo de la media.", "Regular. A veces más, a veces menos.", "Bien.", "Bueno.", "Bastante bien.", "Muy bueno.", "Máximo."],
-                    nrgDesc: ["Agotado.", "Muy baja.", "Cansado.", "Por debajo de la media.", "Regular.", "Bien.", "Bueno.", "Fuerte.", "Muy alta.", "Máxima."],
-                    timDesc: ["Nada de tiempo.", "Poco. Me distraigo.", "Un poco.", "Suficiente.", "Mucho tiempo."]
-                },
-                s6: { title: "CALCULANDO...", sub: "Analizando tus datos." },
-                s7: { 
+                s5: { title: "CALCULANDO RESULTADO...", sub: "Analizando tus datos." },
+                s6: { 
                     lbl: "TU RESULTADO", 
-                    costLbl: "ESTO TE CUESTA AHORA:", 
-                    costVal: { porn: "Tu enfoque mental y respeto propio.", gettinggirls: "Los mejores años de tu vida en aislamiento.", relationship: "La conexión emocional." }, 
+                    costLbl: "CONCRETAMENTE ESTO TE CUESTA:", 
+                    costVal: { 
+                        porn: "Tu enfoque mental, intimidad real y respeto propio.", 
+                        gettinggirls: "Los mejores años de tu vida en inseguridad y aislamiento.", 
+                        relationship: "La conexión emocional, el liderazgo y la mujer que amas." 
+                    }, 
+                    msg: "Tu situación no es un defecto de carácter, sino un patrón aprendido. En el curso por email rompemos este patrón con técnicas probadas.",
                     lvls: { 
-                        ext: { t: "EXTREMO", s: "SISTEMA AL LÍMITE", d: "Solo funcionas en modo supervivencia. Cada fibra de tu cuerpo pide un cambio." }, 
-                        dan: { t: "PELIGROSO", s: "CUERPO AL LÍMITE", d: "Estás crónicamente sobrecargado. Tu sistema funciona con reservas." }, 
-                        ala: { t: "ALARMANTE", s: "SISTEMA SOBRECARGADO", d: "Estás bajo estrés constante. Tu cuerpo ya no puede recuperarse." }, 
-                        cri: { t: "CRÍTICO", s: "BAJO ESTRÉS", d: "Es hora de cambiar." } 
+                        ext: { t: "ALERTA ROJA", d: "Tu sistema nervioso y dopamina están al límite. Vives en modo supervivencia. Es hora de asumir la responsabilidad." }, 
+                        dan: { t: "PELIGROSO", d: "Estás sobrecargado y anestesiado. Tu sistema funciona con reservas." }, 
+                        ala: { t: "ESTANCADO", d: "Funcionas, pero no vives tu potencial. La comodidad es tu mayor enemigo." }, 
+                        cri: { t: "CRECIENDO", d: "Sientes el dolor y estás listo. Solo te falta una estructura clara y dura." } 
                     } 
                 },
-                s8: { 
-                    title: "TU EVALUACIÓN", 
-                    msg: "Gracias por tu apertura. Tu situación no es un defecto de carácter, sino un patrón aprendido. Esta app ofrece herramientas comprobadas. Depende de TI usarlas.", 
-                    disc: "Esta app no sustituye tratamiento profesional médico. Consulta a un médico." 
-                },
-                s9: { 
-                    lbl: "COMPROMISO", 
-                    title: "¿Estás listo para trabajar?", 
-                    opts: ["Sí, lo haré (100%)", "Aún no estoy seguro"] 
-                },
-                s10: { 
-                    lbl: "AVISO IMPORTANTE", 
-                    title: "Lee esto con atención", 
-                    desc: "Esta app ofrece guías estructuradas y herramientas para el desarrollo personal. No sustituye tratamiento médico, psicológico o psiquiátrico.", 
-                    c1: "Confirmo que actualmente estoy mentalmente estable y no en una crisis aguda.", 
-                    c2: "Entiendo que esta app no sustituye una terapia." 
-                },
-                s11: { 
-                    title: "¿Qué camino te inspira más?", 
-                    opts: { military: "Militar (disciplina y dureza)", guardian: "El Guardián (mente y enfoque)", samurai: "El Samurái (honor y calma)", roman: "El Emperador (poder y estoicismo)" } 
-                },
-                s12: { 
-                    lbl: "ÚLTIMO PASO", 
-                    title: "Crear Cuenta", 
-                    sub: "Asegura tu progreso.",
-                    lblFname: "NOMBRE",
-                    lblLname: "APELLIDO",
-                    lblAge: "EDAD",
-                    lblPwd: "CONTRASEÑA",  
+                s7: { 
+                    lbl: "EL PRÓXIMO PASO", 
+                    title: "Tu Flujo de 4 Días", 
+                    sub: "Regístrate para solucionar tus problemas.",
+                    lblFname: "NOMBRE", lblEmail: "EMAIL",
                     em: "tu@email.com", 
-                    pw: "Mínimo 6 caracteres", 
-                    errFill: "Completa todos los campos.", 
-                    errExists: "Email existe." 
-                }
+                    errFill: "Por favor, rellena todos los campos.", errExists: "Este correo ya existe.",
+                    placeholders: { fname: "Tu Nombre" }
+                },
+                legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
             }
         };
 
-        // --- STATE ---
-        let currentLang = localStorage.getItem('smh_language');
-        if (!['de', 'en', 'es'].includes(currentLang)) {
-            currentLang = 'en'; // US default
-        }
-        
+        let currentLang = localStorage.getItem('smh_language') || 'de';
         let step = 1;
-        let answers = { root_problem: 'porn', pain_point: [], urgency: 5, energy: 5, available_time: 30, therapy1: false, therapy2: false };
-
-        // --- DOM ELEMENTS ---
-        const bBar = document.getElementById('bottomBar');
-        const bNext = document.getElementById('btnNext');
-        const pBar = document.getElementById('progressBar');
-        const pCont = document.getElementById('progressContainer');
+        let answers = { root_problem: 'porn', pain_point: [], energy: 'low', satisfaction: 'low' };
+        
+        const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
         function updateTexts() {
             const l = t[currentLang];
-            bNext.innerText = l.btn.next;
-            document.getElementById('btnBack').innerText = l.btn.back;
-
+            document.documentElement.lang = currentLang;
+            
+            bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
+            
             document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
             document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
             document.getElementById('s3-lbl').innerText = l.s3.lbl; document.getElementById('s3-title').innerText = l.s3.title;
             document.getElementById('s4-lbl').innerText = l.s4.lbl; document.getElementById('s4-title').innerText = l.s4.title;
-            document.getElementById('s5-lbl').innerText = l.s5.lbl; document.getElementById('s5-title').innerText = l.s5.title;
+            document.getElementById('s5-title').innerText = l.s5.title; document.getElementById('s5-sub').innerText = l.s5.sub;
             
-            document.getElementById('s5-lbl-urg').innerText = l.s5.urgLbl; document.getElementById('hint-urg-min').innerText = l.s5.urgMin; document.getElementById('hint-urg-max').innerText = l.s5.urgMax;
-            document.getElementById('s5-lbl-nrg').innerText = l.s5.nrgLbl; document.getElementById('hint-nrg-min').innerText = l.s5.nrgMin; document.getElementById('hint-nrg-max').innerText = l.s5.nrgMax;
-            document.getElementById('s5-lbl-tim').innerText = l.s5.timLbl;
+            document.getElementById('s6-lbl').innerText = l.s6.lbl; 
             
-            document.getElementById('s6-title').innerText = l.s6.title; document.getElementById('s6-sub').innerText = l.s6.sub;
+            document.getElementById('s7-lbl').innerText = l.s7.lbl; 
+            document.getElementById('s7-title').innerText = l.s7.title; 
+            document.getElementById('s7-sub').innerText = l.s7.sub;
             
-            document.getElementById('s8-title').innerText = l.s8.title; document.getElementById('s8-msg').innerText = l.s8.msg; document.getElementById('s8-disc').innerText = l.s8.disc;
-            document.getElementById('s9-lbl').innerText = l.s9.lbl; document.getElementById('s9-title').innerText = l.s9.title;
-            
-            document.getElementById('s10-lbl').innerText = l.s10.lbl; document.getElementById('s10-title').innerText = l.s10.title; document.getElementById('s10-desc').innerText = l.s10.desc;
-            document.getElementById('s10-c1').innerText = l.s10.c1; document.getElementById('s10-c2').innerText = l.s10.c2;
-            
-            document.getElementById('s11-title').innerText = l.s11.title;
-            
-            document.getElementById('s12-lbl').innerText = l.s12.lbl; 
-            document.getElementById('s12-title').innerText = l.s12.title; 
-            document.getElementById('s12-sub').innerText = l.s12.sub;
-            
-            document.getElementById('lbl-fname').innerText = l.s12.lblFname;
-            document.getElementById('lbl-lname').innerText = l.s12.lblLname;
-            document.getElementById('lbl-age').innerText = l.s12.lblAge;
-            document.getElementById('lbl-pwd').innerText = l.s12.lblPwd;
-            
-            document.getElementById('reg-email').placeholder = l.s12.em; 
-            document.getElementById('reg-password').placeholder = l.s12.pw;
-            
+            document.getElementById('lbl-fname').innerText = l.s7.lblFname;
+            document.getElementById('lbl-email').innerText = l.s7.lblEmail;
+            document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
+            document.getElementById('reg-email').placeholder = l.s7.em; 
             document.getElementById('btn-register').innerText = l.btn.pay;
-            
-            updateAssessmentUI();
+
+            document.getElementById('link-imp').innerText = l.legal.imp;
+            document.getElementById('link-dat').innerText = l.legal.dat;
+            document.getElementById('link-agb').innerText = l.legal.agb;
+            document.getElementById('link-cook').innerText = l.legal.cook;
         }
 
         window.onload = () => { 
-            // Set the dropdown to current language
             document.getElementById('langSelect').value = currentLang;
-            updateTexts();
-            buildOptions();
-            pBar.style.width = `${(1 / 11) * 100}%`;
+            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`; 
         };
 
-        function selectLang(lang) {
-            currentLang = lang;
-            localStorage.setItem('smh_language', lang);
-            updateTexts();
-            buildOptions();
+        function selectLang(lang) { 
+            currentLang = lang; localStorage.setItem('smh_language', lang);
+            updateTexts(); buildOptions(); if (step === 6) renderResult(); 
         }
 
         function createOptionBtn(text, isSelected, isMulti, onClick) {
-            const div = document.createElement('div');
-            div.className = `quiz-btn ${isSelected ? 'selected' : ''}`;
-            div.onclick = onClick;
-            
-            const textDiv = document.createElement('div');
-            textDiv.className = 'quiz-btn-text';
-            textDiv.innerText = text;
-            
-            const iconDiv = document.createElement('div');
-            if (isMulti) {
-                iconDiv.className = 'check-icon';
-                iconDiv.innerText = '✓';
-            } else {
-                iconDiv.className = 'radio-icon';
-            }
-            
-            div.appendChild(textDiv);
-            div.appendChild(iconDiv);
-            return div;
+            const div = document.createElement('div'); div.className = `quiz-btn ${isSelected ? 'selected' : ''}`; div.onclick = onClick;
+            const textDiv = document.createElement('div'); textDiv.className = 'quiz-btn-text'; textDiv.innerText = text;
+            const iconDiv = document.createElement('div'); iconDiv.className = isMulti ? 'check-icon' : 'radio-icon';
+            if (isMulti) iconDiv.innerText = '✓';
+            div.appendChild(textDiv); div.appendChild(iconDiv); return div;
         }
 
         function buildOptions() {
-            const l = t[currentLang];
-            const root = answers.root_problem;
-
-            const s1Opts = document.getElementById('s1-opts');
-            s1Opts.innerHTML = '';
-            Object.entries(l.s1.opts).forEach(([k, v]) => {
-                s1Opts.appendChild(createOptionBtn(v, root === k, false, () => {
-                    answers.root_problem = k; buildOptions(); handleNext();
-                }));
-            });
-
-            const s2Opts = document.getElementById('s2-opts');
-            s2Opts.innerHTML = '';
-            l.s2.opts[root].forEach(v => {
-                s2Opts.appendChild(createOptionBtn(v, answers.frequency === v, false, () => {
-                    answers.frequency = v; buildOptions(); handleNext();
-                }));
-            });
-
-            const s3Opts = document.getElementById('s3-opts');
-            s3Opts.innerHTML = '';
-            l.s3.opts.forEach(v => {
-                s3Opts.appendChild(createOptionBtn(v, answers.history === v, false, () => {
-                    answers.history = v; buildOptions(); handleNext();
-                }));
-            });
-
-            const s4Opts = document.getElementById('s4-opts');
-            s4Opts.innerHTML = '';
-            l.s4.opts[root].forEach(v => {
-                s4Opts.appendChild(createOptionBtn(v, answers.pain_point.includes(v), true, () => {
-                    togglePain(v); buildOptions();
-                }));
-            });
-
-            const s9Opts = document.getElementById('s9-opts');
-            s9Opts.innerHTML = '';
-            l.s9.opts.forEach(v => {
-                s9Opts.appendChild(createOptionBtn(v, answers.commitment === v, false, () => {
-                    answers.commitment = v; buildOptions(); handleNext();
-                }));
-            });
-
-            const s11Opts = document.getElementById('s11-opts');
-            s11Opts.innerHTML = '';
-            Object.entries(l.s11.opts).forEach(([k, v]) => {
-                s11Opts.appendChild(createOptionBtn(v, answers.rank_path === k, false, () => {
-                    answers.rank_path = k; buildOptions(); handleNext();
-                }));
-            });
-        }
-
-        function togglePain(val) {
-            const idx = answers.pain_point.indexOf(val);
-            if (idx > -1) answers.pain_point.splice(idx, 1);
-            else answers.pain_point.push(val);
-            checkNextState();
-        }
-
-        function adjCounter(type, amount) {
-            if (type === 'urg') { answers.urgency = Math.max(1, Math.min(10, answers.urgency + amount)); }
-            if (type === 'nrg') { answers.energy = Math.max(1, Math.min(10, answers.energy + amount)); }
-            if (type === 'tim') { answers.available_time = Math.max(0, Math.min(120, answers.available_time + amount)); }
-            updateAssessmentUI();
-        }
-
-        function updateAssessmentUI() {
-            document.getElementById('val-urg').innerText = answers.urgency;
-            document.getElementById('val-nrg').innerText = answers.energy;
-            document.getElementById('val-tim').innerText = answers.available_time;
-            
-            const l = t[currentLang].s5;
-            document.getElementById('desc-urg').innerText = l.urgDesc[answers.urgency - 1];
-            document.getElementById('desc-nrg').innerText = l.nrgDesc[answers.energy - 1];
-            
-            let tIdx = 2;
-            if(answers.available_time < 15) tIdx = 0; else if(answers.available_time < 30) tIdx = 1; else if(answers.available_time >= 60) tIdx = 3; else if(answers.available_time >= 90) tIdx = 4;
-            document.getElementById('desc-tim').innerText = l.timDesc[tIdx];
-        }
-
-        function toggleTherapy(id) {
-            if(id === 'chk1') answers.therapy1 = !answers.therapy1;
-            if(id === 'chk2') answers.therapy2 = !answers.therapy2;
-            document.getElementById('chk1').className = `check-row ${answers.therapy1 ? 'selected' : ''}`;
-            document.getElementById('chk2').className = `check-row ${answers.therapy2 ? 'selected' : ''}`;
-            checkNextState();
+            const l = t[currentLang], root = answers.root_problem;
+            const build = (id, opts, key, multi) => {
+                const el = document.getElementById(id); el.innerHTML = '';
+                Object.entries(opts).forEach(([k, v]) => {
+                    const isSelected = multi ? answers[key].includes(v) : answers[key] === k;
+                    el.appendChild(createOptionBtn(v, isSelected, multi, () => {
+                        if(multi) {
+                            const idx = answers[key].indexOf(v);
+                            if (idx > -1) answers[key].splice(idx, 1); else answers[key].push(v);
+                            buildOptions(); checkNextState();
+                        } else {
+                            answers[key] = k; buildOptions(); checkNextState();
+                            setTimeout(() => handleNext(), 350); 
+                        }
+                    }));
+                });
+            };
+            build('s1-opts', l.s1.opts, 'root_problem', false);
+            build('s2-opts', l.s2.opts[root], 'pain_point', true);
+            build('s3-opts', l.s3.opts, 'energy', false);
+            build('s4-opts', l.s4.opts, 'satisfaction', false);
         }
 
         function checkNextState() {
-            let canGo = false;
-            if(step === 4) canGo = answers.pain_point.length > 0;
-            else if(step === 5) canGo = true;
-            else if(step === 7) canGo = true;
-            else if(step === 8) canGo = true;
-            else if(step === 10) canGo = (answers.therapy1 && answers.therapy2);
-
-            bNext.disabled = !canGo;
+            bNext.disabled = (step === 2 && answers.pain_point.length === 0);
         }
 
         function renderResult() {
-            let burden = 70 + (answers.urgency * 1.5) + ((10 - answers.energy) * 1.5);
-            burden = Math.min(99, Math.round(burden));
-            answers.calculated_stress_score = burden;
-
-            const res = t[currentLang].s7;
+            let score = 75;
+            if(answers.energy === 'low') score += 12; else if(answers.energy === 'med') score += 6;
+            if(answers.satisfaction === 'low') score += 12; else if(answers.satisfaction === 'med') score += 6;
+            
+            const res = t[currentLang].s6;
             let lvl, col;
-            if (burden >= 86) { lvl = res.lvls.ext; col = '#ff6b6b'; }
-            else if (burden >= 81) { lvl = res.lvls.dan; col = '#ff6b6b'; }
-            else if (burden >= 76) { lvl = res.lvls.ala; col = '#ff9999'; }
-            else { lvl = res.lvls.cri; col = '#ffcccc'; }
+            
+            if (score >= 90) { lvl = res.lvls.ext; col = '#ff5555'; }
+            else if (score >= 85) { lvl = res.lvls.dan; col = '#ff5555'; }
+            else if (score >= 80) { lvl = res.lvls.ala; col = '#d4af37'; }
+            else { lvl = res.lvls.cri; col = '#d4af37'; }
 
-            document.getElementById('s7-lbl').innerText = res.lbl;
-            document.getElementById('res-score').innerText = burden + '%';
+            document.getElementById('s6-lbl').innerText = res.lbl;
+            document.getElementById('res-score').innerText = lvl.t; 
             document.getElementById('res-score').style.color = col;
-            document.getElementById('res-level').innerText = lvl.t;
-            document.getElementById('res-level').style.color = col;
+            document.getElementById('res-level').innerText = lvl.d; 
             document.getElementById('res-card').style.borderColor = col;
-
-            document.getElementById('res-sub').innerText = lvl.s;
-            document.getElementById('res-sub').style.color = col;
-            document.getElementById('res-info-box').style.borderLeftColor = col;
-            document.getElementById('res-desc').innerText = lvl.d;
-
-            document.getElementById('res-cost-lbl').innerText = res.costLbl;
+            
+            document.getElementById('res-cost-lbl').innerText = res.costLbl; 
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
+            document.getElementById('s6-msg').innerText = res.msg;
         }
 
         function handleNext() {
-            document.getElementById(`step-${step}`).classList.remove('active');
-            step++;
+            document.getElementById(`step-${step}`).classList.remove('active'); step++;
+            pCont.style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
+            pBar.style.width = `${((step - 1) / 6) * 100}%`;
             
-            if (step < 12 && step !== 6 && step !== 7 && step !== 8) {
-                pCont.style.display = 'block';
-                pBar.style.width = `${((step - 1) / 11) * 100}%`;
-            } else {
-                pCont.style.display = 'none';
-            }
-
-            if (step === 4 || step === 5 || step === 7 || step === 8 || step === 10) {
-                bBar.style.display = 'flex';
-                if(step === 10) bNext.innerText = t[currentLang].btn.start; 
-                else bNext.innerText = t[currentLang].btn.next;
-                checkNextState();
-            } else {
-                bBar.style.display = 'none';
-            }
-
-            document.getElementById(`step-${step}`).classList.add('active');
-            window.scrollTo(0,0);
-
-            if(step === 6) {
-                setTimeout(() => { handleNext(); renderResult(); }, 2500);
-            }
+            bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
+            if(step === 6) bNext.innerText = t[currentLang].btn.next;
+            checkNextState();
+            
+            document.getElementById(`step-${step}`).classList.add('active'); window.scrollTo(0,0);
+            if(step === 5) setTimeout(() => { handleNext(); renderResult(); }, 2000);
         }
 
         function handleBack() {
             document.getElementById(`step-${step}`).classList.remove('active');
-            step = Math.max(1, step - 1);
-            if(step === 6) step = 5; 
+            step = Math.max(1, step === 6 ? 4 : step - 1);
             document.getElementById(`step-${step}`).classList.add('active');
-            
-            if (step < 12 && step !== 6 && step !== 7 && step !== 8) {
-                pCont.style.display = 'block';
-                pBar.style.width = `${((step - 1) / 11) * 100}%`;
-            } else {
-                pCont.style.display = 'none';
-            }
-            
-            if (step === 4 || step === 5 || step === 7 || step === 8 || step === 10) {
-                bBar.style.display = 'flex';
-                if(step === 10) bNext.innerText = t[currentLang].btn.start; 
-                else bNext.innerText = t[currentLang].btn.next;
-                checkNextState();
-            } else {
-                bBar.style.display = 'none';
-            }
-            window.scrollTo(0,0);
+            pCont.style.display = 'block';
+            pBar.style.width = `${((step - 1) / 6) * 100}%`;
+            bBar.style.display = (step === 2) ? 'flex' : 'none';
+            checkNextState(); window.scrollTo(0,0);
         }
 
-        // --- DIGISTORE REDIRECT ---
-        function redirectToDigistore(userId, fName, lName, email) {
-            console.log("Navigiere zu Digistore. User ID:", userId);
-            
-            const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['en'];
-            
-            // Parameter an URL anhängen, damit Digistore sie automatisch ausfüllt
-            // Digistore nutzt oft Parameter wie: ?custom=USER_ID&first_name=X&last_name=Y&email=Z
-            let targetUrl = `${digistoreBaseUrl}?custom=${encodeURIComponent(userId)}`;
-            
-            if (fName) targetUrl += `&first_name=${encodeURIComponent(fName)}`;
-            if (lName) targetUrl += `&last_name=${encodeURIComponent(lName)}`;
-            if (email) targetUrl += `&email=${encodeURIComponent(email)}`;
-
-            window.location.href = targetUrl;
-        }
-
-        // --- SUPABASE REGISTRATION ---
         async function handleRegistration() {
             const fname = document.getElementById('reg-fname').value.trim();
-            const lname = document.getElementById('reg-lname').value.trim();
-            const age = document.getElementById('reg-age').value.trim();
             const email = document.getElementById('reg-email').value.trim();
-            const password = document.getElementById('reg-password').value;
             const errEl = document.getElementById('reg-error');
             const btn = document.getElementById('btn-register'); 
-            const l = t[currentLang];
             
-            if(!email || password.length < 6 || !fname || !lname || !age) { 
-                errEl.innerText = l.s12.errFill; 
-                errEl.style.display = 'block'; 
-                return; 
-            }
-            
-            errEl.style.display = 'none';
-            btn.disabled = true;
-            btn.innerText = "...";
+            if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
+            errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
             try {
-                const db = initSupabase();
-                if (!db) { 
-                    console.warn("Supabase geblockt. Nutze Fallback.");
-                    redirectToDigistore('guest_adblock_user', fname, lname, email); 
-                    return; 
-                }
-
-                const finalPayload = {
-                    name: fname + ' ' + lname,
-                    age: parseInt(age, 10),
-                    root_problem: answers.root_problem,
-                    frequency: answers.frequency,
-                    history: answers.history,
-                    pain_point: answers.pain_point,
-                    urgency: answers.urgency,
-                    energy: answers.energy,
-                    impact: answers.urgency,
-                    energy_level: answers.energy,
-                    available_time: answers.available_time,
-                    belastung: answers.calculated_stress_score,
-                    belastung_insights: "Web Assessment Completed",
-                    health_confirmation: answers.therapy1,
-                    disclaimer_accepted: answers.therapy2,
-                    rank_path: answers.rank_path
-                };
-
-                const { data, error } = await db.auth.signUp({ 
-                    email, 
-                    password, 
-                    options: { 
-                        data: { 
-                            first_name: fname,
-                            last_name: lname,
-                            age: parseInt(age, 10),
-                            is_over_21: parseInt(age, 10) >= 21,
-                            onboarding_data: finalPayload 
-                        } 
-                    } 
-                });
-
-                if (error) {
-                    if (error.message.includes('already registered') || error.status === 400) {
-                        const { data: signInData, error: signInError } = await db.auth.signInWithPassword({ email, password });
-                        if (signInError) { 
-                            errEl.innerText = l.s12.errExists; 
-                            errEl.style.display = 'block'; 
-                            btn.disabled = false;
-                            btn.innerText = l.btn.pay;
-                            return; 
-                        }
-                        redirectToDigistore(signInData.user.id, fname, lname, email);
-                    } else {
-                        errEl.innerText = error.message; 
-                        errEl.style.display = 'block';
-                        btn.disabled = false;
-                        btn.innerText = l.btn.pay;
-                    }
-                } else {
-                    redirectToDigistore(data?.user?.id || 'new_user_no_id', fname, lname, email);
-                }
-            } catch (e) {
-                console.error("Fehler: ", e);
-                redirectToDigistore('guest_crash_user', fname, lname, email);
+                // Supabase Logic
+                const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
+                window.location.href = `${digistoreBaseUrl}?custom=man_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
+            } catch(e) {
+                console.error(e);
+                errEl.innerText = "Ein Fehler ist aufgetreten."; 
+                errEl.style.display = 'block';
+                btn.disabled = false;
+                btn.innerText = t[currentLang].btn.pay;
             }
         }
     </script>
