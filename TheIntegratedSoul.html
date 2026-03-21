@@ -181,7 +181,7 @@
 
         const t = {
             de: {
-                btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "PFAD BETRETEN" },
+                btn: { next: "WEITER", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "PFAD BETRETEN" },
                 s1: { 
                     lbl: "PHASE 1: DER SCHATTEN", 
                     title: "Welches Gefühl begleitet dich unterschwellig am häufigsten?", 
@@ -447,7 +447,7 @@
                             buildOptions(); checkNextState();
                         } else {
                             answers[key] = k; buildOptions(); checkNextState();
-                            setTimeout(() => handleNext(), 350);
+                            setTimeout(() => handleNext(), 350); // Fast Auto-Advance
                         }
                     }));
                 });
@@ -492,7 +492,7 @@
 
         function handleNext() {
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
-            pCont.style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
+            document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
             
             bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
@@ -507,7 +507,7 @@
             document.getElementById(`step-${step}`).classList.remove('active');
             step = Math.max(1, step === 6 ? 4 : step - 1);
             document.getElementById(`step-${step}`).classList.add('active');
-            pCont.style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
             bBar.style.display = (step === 2) ? 'flex' : 'none';
             checkNextState(); window.scrollTo(0,0);
@@ -522,8 +522,11 @@
             if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
+            // DB / API Logik
+            console.log("Saving Lead:", fname, email, answers);
+            
             try {
-                // Supabase Tabellen-Insert (Leads)
+                // Hier könntest du den Lead in deine Supabase Tabelle speichern
                 /*
                 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 await supabase.from('leads').insert([{ 
@@ -538,7 +541,7 @@
                 window.location.href = `${digistoreBaseUrl}?custom=soul_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
             } catch(e) {
                 console.error(e);
-                errEl.innerText = "Ein Fehler ist aufgetreten."; 
+                errEl.innerText = "Ein Fehler ist aufgetreten. Bitte versuche es später erneut."; 
                 errEl.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
