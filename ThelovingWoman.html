@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Inner Balance - Onboarding</title>
+    <title>The Loving Woman - Onboarding</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
@@ -602,7 +602,9 @@
             }
         };
 
-        let currentLang = 'de';
+        let currentLang = localStorage.getItem('smh_language');
+        if (!['de', 'en', 'es'].includes(currentLang)) { currentLang = 'de'; }
+
         let step = 1;
         let answers = { root_problem: 'peoplepleasing', pain_point: [], urgency: 5, energy: 5, available_time: 30, therapy1: false, therapy2: false };
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
@@ -612,24 +614,31 @@
             document.documentElement.lang = currentLang;
             
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
+            
             document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
             document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
             document.getElementById('s3-lbl').innerText = l.s3.lbl; document.getElementById('s3-title').innerText = l.s3.title;
             document.getElementById('s4-lbl').innerText = l.s4.lbl; document.getElementById('s4-title').innerText = l.s4.title;
             document.getElementById('s5-lbl').innerText = l.s5.lbl; document.getElementById('s5-title').innerText = l.s5.title;
+            
             document.getElementById('s5-lbl-urg').innerText = l.s5.urgLbl; document.getElementById('hint-urg-min').innerText = l.s5.urgMin; document.getElementById('hint-urg-max').innerText = l.s5.urgMax;
             document.getElementById('s5-lbl-nrg').innerText = l.s5.nrgLbl; document.getElementById('hint-nrg-min').innerText = l.s5.nrgMin; document.getElementById('hint-nrg-max').innerText = l.s5.nrgMax;
             document.getElementById('s5-lbl-tim').innerText = l.s5.timLbl;
+            
             document.getElementById('s6-title').innerText = l.s6.title; document.getElementById('s6-sub').innerText = l.s6.sub;
+            
             document.getElementById('s8-title').innerText = l.s8.title; document.getElementById('s8-msg').innerText = l.s8.msg; document.getElementById('s8-disc').innerText = l.s8.disc;
             document.getElementById('s9-lbl').innerText = l.s9.lbl; document.getElementById('s9-title').innerText = l.s9.title;
+            
             document.getElementById('s10-lbl').innerText = l.s10.lbl; document.getElementById('s10-title').innerText = l.s10.title; document.getElementById('s10-desc').innerText = l.s10.desc;
             document.getElementById('s10-c1').innerText = l.s10.c1; document.getElementById('s10-c2').innerText = l.s10.c2;
+            
             document.getElementById('s11-title').innerText = l.s11.title;
             
             document.getElementById('s12-lbl').innerText = l.s12.lbl; 
             document.getElementById('s12-title').innerText = l.s12.title; 
             document.getElementById('s12-sub').innerText = l.s12.sub;
+            
             document.getElementById('lbl-fname').innerText = l.s12.lblFname;
             document.getElementById('lbl-lname').innerText = l.s12.lblLname;
             document.getElementById('lbl-age').innerText = l.s12.lblAge;
@@ -639,16 +648,28 @@
             document.getElementById('reg-fname').placeholder = l.s12.placeholders.fname;
             document.getElementById('reg-lname').placeholder = l.s12.placeholders.lname;
             document.getElementById('reg-age').placeholder = l.s12.placeholders.age;
-            document.getElementById('reg-email').placeholder = l.s12.placeholders.email;
-            document.getElementById('reg-password').placeholder = l.s12.placeholders.pwd;
-
+            document.getElementById('reg-email').placeholder = l.s12.em; 
+            document.getElementById('reg-password').placeholder = l.s12.pw;
+            
             document.getElementById('btn-register').innerText = l.btn.pay;
+            
             updateAssessmentUI();
         }
 
-        window.onload = () => { updateTexts(); buildOptions(); pBar.style.width = `${(1 / 11) * 100}%`; };
+        window.onload = () => { 
+            document.getElementById('langSelect').value = currentLang;
+            updateTexts(); 
+            buildOptions(); 
+            pBar.style.width = `${(1 / 11) * 100}%`; 
+        };
 
-        function selectLang(lang) { currentLang = lang; updateTexts(); buildOptions(); if (step === 7) renderResult(); }
+        function selectLang(lang) { 
+            currentLang = lang; 
+            localStorage.setItem('smh_language', lang);
+            updateTexts(); 
+            buildOptions(); 
+            if (step === 7) renderResult(); 
+        }
 
         function createOptionBtn(text, isSelected, isMulti, onClick) {
             const div = document.createElement('div'); div.className = `quiz-btn ${isSelected ? 'selected' : ''}`; div.onclick = onClick;
@@ -667,8 +688,18 @@
                     const [k, v] = Array.isArray(opts) ? [item, item] : item;
                     const isSelected = multi ? answers[key].includes(v) : answers[key] === k || answers[key] === v;
                     el.appendChild(createOptionBtn(v, isSelected, multi, () => {
-                        if(multi) togglePain(v); else { answers[key] = k; handleNext(); }
-                        buildOptions();
+                        if(multi) {
+                            togglePain(v);
+                            buildOptions(); // Re-render um die Checkboxen zu aktualisieren
+                        } else {
+                            answers[key] = k;
+                            buildOptions(); // Re-render für sofortiges visuelles Feedback (Auswahl wird markiert)
+                            
+                            // 450ms Verzögerung vor dem nächsten Schritt für eine weichere UX
+                            setTimeout(() => {
+                                handleNext();
+                            }, 450);
+                        }
                     }));
                 });
             };
@@ -755,8 +786,91 @@
             checkNextState(); window.scrollTo(0,0);
         }
 
-        function handleRegistration() {
-            console.log("Registrierung mit:", answers);
+        function redirectToDigistore(userId, fName, lName, email) {
+            const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
+            let targetUrl = `${digistoreBaseUrl}?custom=${encodeURIComponent(userId)}`;
+            if (fName) targetUrl += `&first_name=${encodeURIComponent(fName)}`;
+            if (lName) targetUrl += `&last_name=${encodeURIComponent(lName)}`;
+            if (email) targetUrl += `&email=${encodeURIComponent(email)}`;
+            window.location.href = targetUrl;
+        }
+
+        async function handleRegistration() {
+            const fname = document.getElementById('reg-fname').value.trim();
+            const lname = document.getElementById('reg-lname').value.trim();
+            const age = document.getElementById('reg-age').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const errEl = document.getElementById('reg-error');
+            const btn = document.getElementById('btn-register'); 
+            const l = t[currentLang];
+            
+            if(!email || password.length < 6 || !fname || !lname || !age) { 
+                errEl.innerText = l.s12.errFill; 
+                errEl.style.display = 'block'; 
+                return; 
+            }
+            
+            errEl.style.display = 'none';
+            btn.disabled = true;
+            btn.innerText = "...";
+
+            try {
+                const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                
+                const finalPayload = {
+                    name: fname + ' ' + lname,
+                    age: parseInt(age, 10),
+                    root_problem: answers.root_problem,
+                    frequency: answers.frequency,
+                    history: answers.history,
+                    pain_point: answers.pain_point,
+                    grounding_level: answers.urgency,
+                    energy: answers.energy,
+                    available_time: answers.available_time,
+                    fragmentation_score: answers.calculated_stress_score,
+                    health_confirmation: answers.therapy1,
+                    disclaimer_accepted: answers.therapy2,
+                    rank_path: answers.rank_path
+                };
+
+                const { data, error } = await supabase.auth.signUp({ 
+                    email, 
+                    password, 
+                    options: { 
+                        data: { 
+                            first_name: fname,
+                            last_name: lname,
+                            age: parseInt(age, 10),
+                            onboarding_data: finalPayload 
+                        } 
+                    } 
+                });
+
+                if (error) {
+                    if (error.message.includes('already registered') || error.status === 400) {
+                        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+                        if (signInError) { 
+                            errEl.innerText = l.s12.errExists; 
+                            errEl.style.display = 'block'; 
+                            btn.disabled = false;
+                            btn.innerText = l.btn.pay;
+                            return; 
+                        }
+                        redirectToDigistore(signInData.user.id, fname, lname, email);
+                    } else {
+                        errEl.innerText = error.message; 
+                        errEl.style.display = 'block';
+                        btn.disabled = false;
+                        btn.innerText = l.btn.pay;
+                    }
+                } else {
+                    redirectToDigistore(data?.user?.id || 'new_user_no_id', fname, lname, email);
+                }
+            } catch (e) {
+                console.error("Fehler: ", e);
+                redirectToDigistore('guest_crash_user', fname, lname, email);
+            }
         }
     </script>
 </body>
