@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Integrated Man - Onboarding</title>
+    <title id="page-title"></title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
@@ -103,16 +103,6 @@
         .check-icon { width: 24px; height: 24px; border-radius: 6px; border: 2px solid #666; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 14px; }
         .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: #000; }
 
-        /* Assessment Counters */
-        .assessment-block { background: var(--gray); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
-        .ass-label { color: var(--gold); font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 10px; text-align: center; }
-        .ass-value { font-size: 40px; font-weight: 800; text-align: center; margin-bottom: 8px; }
-        .ass-desc { color: #bbb; font-size: 13px; text-align: center; margin-bottom: 12px; min-height: 18px; line-height: 1.5; }
-        .counter-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 15px; }
-        .counter-btn { background: #222; border: none; color: inherit; border-radius: 8px; width: 45px; height: 45px; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 300; }
-        .counter-btn:active { background: #333; }
-        .scale-hints { display: flex; justify-content: space-between; font-size: 11px; color: #777; margin-top: 8px; }
-
         /* Result Card */
         .result-card { background-color: #1a0000; border: 3px solid var(--error); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
         .result-score { color: var(--error); font-size: 64px; font-weight: 900; line-height: 1; }
@@ -123,12 +113,6 @@
         .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.5; }
         
         .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
-
-        /* Disclaimer Checkboxes */
-        .check-row { display: flex; align-items: flex-start; margin-top: 15px; margin-bottom: 10px; cursor: pointer; }
-        .box-icon { width: 24px; height: 24px; border: 2px solid var(--gold); border-radius: 6px; margin-right: 12px; margin-top: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 14px;}
-        .check-row.selected .box-icon { background: var(--gold); color: #000; }
-        .check-label { font-size: 14px; color: var(--text); line-height: 1.5; flex: 1; }
 
         /* Fixed Bottom Button */
         .bottom-bar { 
@@ -266,10 +250,10 @@
     </main>
 
     <footer class="legal-footer">
-        <a href="impressum.html" id="link-imp">Impressum</a> | 
-        <a href="datenschutz.html" id="link-dat">Datenschutz</a> | 
-        <a href="agb.html" id="link-agb">AGB</a> | 
-        <a href="cookie.html" id="link-cook">Cookie-Richtlinie</a>
+        <a href="impressum.html" id="link-imp"></a> | 
+        <a href="datenschutz.html" id="link-dat"></a> | 
+        <a href="agb.html" id="link-agb"></a> | 
+        <a href="cookie.html" id="link-cook"></a>
     </footer>
 
     <div class="bottom-bar" id="bottomBar" style="display: none;">
@@ -280,6 +264,7 @@
     <script>
         const SUPABASE_URL = 'DEINE_SUPABASE_URL';
         const SUPABASE_ANON_KEY = 'DEIN_SUPABASE_KEY';
+        let supabaseClient = null;
         
         const digistoreLinks = { 
             de: "https://www.checkout-ds24.com/product/XXXXXX/", 
@@ -289,6 +274,7 @@
 
         const t = {
             de: {
+                pageTitle: "Integrated Man - Onboarding",
                 btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM 4-TAGE-FLOW" },
                 s1: { 
                     lbl: "PHASE 1: STATUS", 
@@ -350,11 +336,13 @@
                     lblFname: "VORNAME", lblEmail: "EMAIL",
                     em: "deine@email.com", 
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
+                    errServer: "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.",
                     placeholders: { fname: "Dein Vorname" }
                 },
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
             },
             en: {
+                pageTitle: "Integrated Man - Onboarding",
                 btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
                 s1: { 
                     lbl: "PHASE 1: STATUS", 
@@ -416,11 +404,13 @@
                     lblFname: "FIRST NAME", lblEmail: "EMAIL",
                     em: "your@email.com", 
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
+                    errServer: "An error occurred. Please try again later.",
                     placeholders: { fname: "Your First Name" }
                 },
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
             },
             es: {
+                pageTitle: "Integrated Man - Incorporación",
                 btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO" },
                 s1: { 
                     lbl: "FASE 1: ESTADO", 
@@ -482,6 +472,7 @@
                     lblFname: "NOMBRE", lblEmail: "EMAIL",
                     em: "tu@email.com", 
                     errFill: "Por favor, rellena todos los campos.", errExists: "Este correo ya existe.",
+                    errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
                     placeholders: { fname: "Tu Nombre" }
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
@@ -497,6 +488,7 @@
         function updateTexts() {
             const l = t[currentLang];
             document.documentElement.lang = currentLang;
+            document.title = l.pageTitle;
             
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
             
@@ -627,12 +619,27 @@
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
             try {
-                // Supabase Logic
+                if (!supabaseClient) {
+                    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                }
+
+                const { error } = await supabaseClient.from('leads').insert([
+                    { 
+                        email: email, 
+                        first_name: fname, 
+                        source: 'integrated_man_flow',
+                        marketing_consent: true,
+                        onboarding_data: answers 
+                    }
+                ]);
+
+                if (error) throw error;
+                
                 const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
                 window.location.href = `${digistoreBaseUrl}?custom=man_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
             } catch(e) {
-                console.error(e);
-                errEl.innerText = "Ein Fehler ist aufgetreten."; 
+                console.error("Fehler beim Speichern:", e);
+                errEl.innerText = t[currentLang].s7.errServer; 
                 errEl.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
