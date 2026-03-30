@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Parent in Peace - Onboarding</title>
+    <title>Parent in Peace</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
@@ -177,6 +177,7 @@
 
         const t = {
             de: {
+                pageTitle: "Parent in Peace - Onboarding",
                 btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM 4-TAGE-FLOW" },
                 s1: { 
                     lbl: "PHASE 1: DER ALLTAG", 
@@ -238,11 +239,13 @@
                     lblFname: "VORNAME", lblEmail: "EMAIL",
                     em: "deine@email.com", 
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
+                    errServer: "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal.",
                     placeholders: { fname: "Dein Vorname" }
                 },
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
             },
             en: {
+                pageTitle: "Parent in Peace - Onboarding",
                 btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
                 s1: { 
                     lbl: "PHASE 1: DAILY REALITY", 
@@ -304,11 +307,13 @@
                     lblFname: "FIRST NAME", lblEmail: "EMAIL",
                     em: "your@email.com", 
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
+                    errServer: "An error occurred. Please try again.",
                     placeholders: { fname: "Your First Name" }
                 },
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
             },
             es: {
+                pageTitle: "Parent in Peace - Incorporación",
                 btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO" },
                 s1: { 
                     lbl: "FASE 1: LA REALIDAD DIARIA", 
@@ -370,6 +375,7 @@
                     lblFname: "NOMBRE", lblEmail: "EMAIL",
                     em: "tu@email.com", 
                     errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
+                    errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
                     placeholders: { fname: "Tu Nombre" }
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
@@ -390,6 +396,7 @@
         function updateTexts() {
             const l = t[currentLang];
             document.documentElement.lang = currentLang;
+            document.title = l.pageTitle;
             
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
             
@@ -544,8 +551,8 @@
                 const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
                 window.location.href = `${digistoreBaseUrl}?custom=pip_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
             } catch(e) {
-                console.error("Fehler beim Speichern:", e);
-                errEl.innerText = "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal."; 
+                console.error("Error:", e);
+                errEl.innerText = t[currentLang].s7.errServer; 
                 errEl.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
