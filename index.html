@@ -31,7 +31,8 @@
             flex-direction: column;
             min-height: 100vh;
             
-            /* BILD ALS VOLLBILD-HINTERGRUND */
+            /* BILD ALS VOLLBILD-HINTERGRUND MIT FALLBACK-FARBE */
+            background-color: var(--bg-dark);
             background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)), url('mathis-mauprivez-DrI1KoNiQiw-unsplash.jpg');
             background-size: cover;
             background-position: center;
@@ -351,7 +352,7 @@
         }
 
         window.onload = () => {
-            const savedLang = localStorage.getItem('smh_language') || 'en';
+            const savedLang = localStorage.getItem('smh_language') || 'de'; // Setze Deutsch als Fallback-Standard
             changeLanguage(savedLang);
         };
     </script>
