@@ -89,7 +89,7 @@
 </head>
 <body>
 
-    <div class="progress-container"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
+    <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
 
     <header class="app-header">
         <select id="langSelect" class="lang-switcher" onchange="selectLang(this.value)">
@@ -136,7 +136,7 @@
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
             </div>
-            <div class="info-card"><p class="insight-text" id="s6-msg" style="color: #e2e4e9; margin: 0;"></p></div>
+            <div class="info-card" id="res-info-box"><p class="insight-text" id="s6-msg" style="color: #e2e4e9; margin: 0;"></p></div>
         </div>
 
         <div class="step" id="step-7">
@@ -170,8 +170,9 @@
     </div>
 
     <script>
-        const SUPABASE_URL = 'DEINE_SUPABASE_URL';
-        const SUPABASE_ANON_KEY = 'DEIN_SUPABASE_KEY';
+        const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+        let supabaseClient = null;
         
         const digistoreLinks = { 
             de: "https://www.checkout-ds24.com/product/XXXXXX/", 
@@ -181,6 +182,7 @@
 
         const t = {
             de: {
+                pageTitle: "The Integrated Soul - Onboarding",
                 btn: { next: "WEITER", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "PFAD BETRETEN" },
                 s1: { 
                     lbl: "PHASE 1: DER SCHATTEN", 
@@ -242,11 +244,13 @@
                     lblFname: "VORNAME", lblEmail: "EMAIL",
                     em: "deine@email.com", 
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
+                    errServer: "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.",
                     placeholders: { fname: "Dein Vorname" }
                 },
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
             },
             en: {
+                pageTitle: "The Integrated Soul - Onboarding",
                 btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "ENTER THE PATH" },
                 s1: { 
                     lbl: "PHASE 1: THE SHADOW", 
@@ -308,11 +312,13 @@
                     lblFname: "FIRST NAME", lblEmail: "EMAIL",
                     em: "your@email.com", 
                     errFill: "Please fill in all fields.", errExists: "Email already exists.",
+                    errServer: "An error occurred. Please try again later.",
                     placeholders: { fname: "Your First Name" }
                 },
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
             },
             es: {
+                pageTitle: "The Integrated Soul - Incorporación",
                 btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTIENDO", pay: "ENTRAR AL CAMINO" },
                 s1: { 
                     lbl: "FASE 1: LA SOMBRA", 
@@ -374,13 +380,19 @@
                     lblFname: "NOMBRE", lblEmail: "EMAIL",
                     em: "tu@email.com", 
                     errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
+                    errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
                     placeholders: { fname: "Tu Nombre" }
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
             }
         };
 
-        let currentLang = localStorage.getItem('smh_language') || 'de';
+        // Sicherheits-Check für die Sprache
+        let currentLang = localStorage.getItem('smh_language');
+        if (!currentLang || !t[currentLang]) {
+            currentLang = 'de';
+        }
+        
         let step = 1;
         let answers = { root_problem: 'emptiness', pain_point: [], grounding: 'low', silence: 'low' };
         
@@ -389,6 +401,7 @@
         function updateTexts() {
             const l = t[currentLang];
             document.documentElement.lang = currentLang;
+            document.title = l.pageTitle;
             
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
             
@@ -482,8 +495,8 @@
             document.getElementById('res-level').style.color = col;
             document.getElementById('res-card').style.borderColor = col;
             
-            document.getElementById('res-sub').innerText = res.costLbl; 
-            document.getElementById('res-sub').style.color = col;
+            document.getElementById('res-cost-lbl').innerText = res.costLbl; 
+            document.getElementById('res-cost-lbl').style.color = col;
             document.getElementById('res-info-box').style.borderLeftColor = col; 
             
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
@@ -522,26 +535,28 @@
             if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
-            // DB / API Logik
-            console.log("Saving Lead:", fname, email, answers);
-            
             try {
-                // Hier könntest du den Lead in deine Supabase Tabelle speichern
-                /*
-                const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                await supabase.from('leads').insert([{ 
-                    email: email, 
-                    first_name: fname, 
-                    source: 'integrated_soul_7_step',
-                    onboarding_data: answers 
-                }]);
-                */
+                if (!supabaseClient) {
+                    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                }
+
+                const { error } = await supabaseClient.from('leads').insert([
+                    { 
+                        email: email, 
+                        first_name: fname, 
+                        source: 'integrated_soul_7_step',
+                        marketing_consent: true,
+                        onboarding_data: answers 
+                    }
+                ]);
+
+                if (error) throw error;
 
                 const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
                 window.location.href = `${digistoreBaseUrl}?custom=soul_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
             } catch(e) {
                 console.error(e);
-                errEl.innerText = "Ein Fehler ist aufgetreten. Bitte versuche es später erneut."; 
+                errEl.innerText = t[currentLang].s7.errServer; 
                 errEl.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
