@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shift My Horizon - Mentoring Application</title>
+    <title id="page-title"></title>
     <style>
         :root {
             --dark: #050505;
@@ -104,7 +104,7 @@
     <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 
     <header class="app-header">
-        <div class="logo">SMH Mentoring</div>
+        <div class="logo" id="logo-text"></div>
         <select class="lang-switcher" id="langSelect" onchange="changeLanguage(this.value)">
             <option value="de">🇩🇪 DE</option>
             <option value="en">🇺🇸 EN</option>
@@ -114,123 +114,130 @@
 
     <main>
         <div class="step active" id="step-1">
-            <h1 class="h1-title" id="s1-title">Was willst du erreichen?</h1>
-            <p class="subtitle" id="s1-sub">Wähle dein wichtigstes Ziel für die Zusammenarbeit.</p>
+            <h1 class="h1-title" id="s1-title"></h1>
+            <p class="subtitle" id="s1-sub"></p>
             
             <div class="goal-grid" id="goal-container"></div>
 
             <div id="custom-goal-container" style="display: none; margin-top: 10px;">
-                <label class="input-label" id="s1-custom-lbl">Dein individuelles Ziel</label>
-                <textarea class="form-input" id="custom-goal" placeholder="Beschreibe dein Ziel in 1-2 Sätzen..."></textarea>
+                <label class="input-label" id="s1-custom-lbl"></label>
+                <textarea class="form-input" id="custom-goal" placeholder=""></textarea>
             </div>
         </div>
 
         <div class="step" id="step-2">
-            <h1 class="h1-title" id="s2-title">Dein Commitment</h1>
-            <p class="subtitle" id="s2-sub">Wieviel bist du bereit in dich zu investieren? Die Inhalte passen sich an.</p>
+            <h1 class="h1-title" id="s2-title"></h1>
+            <p class="subtitle" id="s2-sub"></p>
             
             <div class="slider-container">
-                <div class="slider-val" id="budget-display">4.000 €</div>
-                <div class="slider-info" id="s2-hint">Dies ist keine verbindliche Buchung, sondern hilft uns beim Matching.</div>
+                <div class="slider-val" id="budget-display"></div>
+                <div class="slider-info" id="s2-hint"></div>
                 
                 <input type="range" id="budget-slider" min="1000" max="20000" step="500" value="4000" oninput="updateBudget(this.value)">
                 
                 <div style="display: flex; justify-content: space-between; font-size: 11px; color: #666; margin-top: 5px;">
-                    <span>1.000</span>
-                    <span>20.000+</span>
+                    <span id="slider-min">1.000</span>
+                    <span id="slider-max">20.000+</span>
                 </div>
 
                 <div class="package-box">
-                    <div class="pack-title" id="pack-title">Solide Transformation</div>
-                    <div class="pack-desc" id="pack-desc">Wir bauen Fundamente: Mindset, Routinen, erste Verhaltensänderungen.</div>
-                    <div class="pack-details" id="pack-details">⏱ 2-3 Monate | 👥 6-8 Sessions</div>
+                    <div class="pack-title" id="pack-title"></div>
+                    <div class="pack-desc" id="pack-desc"></div>
+                    <div class="pack-details" id="pack-details"></div>
                 </div>
             </div>
         </div>
 
         <div class="step" id="step-3">
-            <h1 class="h1-title" id="s3-title" style="color: var(--error);">Der Preis der Veränderung</h1>
-            <p class="subtitle" id="s3-sub">Geld ist der einfachste Teil. Mentoring bedeutet Reibung. Akzeptiere die psychologischen Kosten, bevor wir sprechen.</p>
+            <h1 class="h1-title" id="s3-title" style="color: var(--error);"></h1>
+            <p class="subtitle" id="s3-sub"></p>
 
             <div class="cost-box" id="cost-1" onclick="toggleCost(1)">
                 <div class="cost-check">✓</div>
                 <div class="cost-text-container">
-                    <div class="cost-title" id="c1-title">Ego & Widerstand</div>
-                    <div class="cost-desc" id="c1-desc">Ich verstehe, dass mein Gehirn sich gegen Veränderung wehren wird. Ich bin bereit, Ausreden als das zu entlarven, was sie sind.</div>
+                    <div class="cost-title" id="c1-title"></div>
+                    <div class="cost-desc" id="c1-desc"></div>
                 </div>
             </div>
 
             <div class="cost-box" id="cost-2" onclick="toggleCost(2)">
                 <div class="cost-check">✓</div>
                 <div class="cost-text-container">
-                    <div class="cost-title" id="c2-title">Identitätsverlust</div>
-                    <div class="cost-desc" id="c2-desc">Wer ich sein will, erfordert, dass ich loslasse, wer ich aktuell bin. Das kann bedeuten, dass sich mein Umfeld verändert.</div>
+                    <div class="cost-title" id="c2-title"></div>
+                    <div class="cost-desc" id="c2-desc"></div>
                 </div>
             </div>
 
             <div class="cost-box" id="cost-3" onclick="toggleCost(3)">
                 <div class="cost-check">✓</div>
                 <div class="cost-text-container">
-                    <div class="cost-title" id="c3-title">Schmerz betrachten</div>
-                    <div class="cost-desc" id="c3-desc">Ich bin bereit, unbequeme Wahrheiten über mich selbst anzusehen, anstatt anderen oder den Umständen die Schuld zu geben.</div>
+                    <div class="cost-title" id="c3-title"></div>
+                    <div class="cost-desc" id="c3-desc"></div>
                 </div>
             </div>
         </div>
 
         <div class="step" id="step-4">
-            <h1 class="h1-title" id="s4-title">Fast geschafft!</h1>
-            <p class="subtitle" id="s4-sub">Hinterlasse deine Daten für den Fit-Check.</p>
+            <h1 class="h1-title" id="s4-title"></h1>
+            <p class="subtitle" id="s4-sub"></p>
 
             <div class="summary-box">
                 <div class="sum-row">
-                    <span class="sum-label" id="sum-lbl-goal">Ziel</span>
-                    <span class="sum-val" id="sum-val-goal">-</span>
+                    <span class="sum-label" id="sum-lbl-goal"></span>
+                    <span class="sum-val" id="sum-val-goal"></span>
                 </div>
                 <div class="sum-row">
-                    <span class="sum-label" id="sum-lbl-budget">Investment</span>
-                    <span class="sum-val" id="sum-val-budget">-</span>
+                    <span class="sum-label" id="sum-lbl-budget"></span>
+                    <span class="sum-val" id="sum-val-budget"></span>
                 </div>
                 <div class="sum-row">
-                    <span class="sum-label" id="sum-lbl-mindset">Mindset</span>
-                    <span class="sum-val" id="sum-val-mindset" style="color: var(--error);">Bereit für Reibung</span>
+                    <span class="sum-label" id="sum-lbl-mindset"></span>
+                    <span class="sum-val" id="sum-val-mindset" style="color: var(--error);"></span>
                 </div>
             </div>
 
             <div class="input-group">
-                <label class="input-label" id="lbl-name">Name / Pseudonym</label>
+                <label class="input-label" id="lbl-name"></label>
                 <input type="text" id="inp-name" class="form-input" placeholder="">
             </div>
 
             <div class="input-group">
-                <label class="input-label" id="lbl-phone">Telefonnummer</label>
+                <label class="input-label" id="lbl-phone"></label>
                 <input type="tel" id="inp-phone" class="form-input" placeholder="">
             </div>
 
             <div class="input-group">
-                <label class="input-label" id="lbl-msg">Nachricht an uns (Optional)</label>
+                <label class="input-label" id="lbl-msg"></label>
                 <textarea id="inp-msg" class="form-input" placeholder=""></textarea>
             </div>
         </div>
     </main>
 
     <footer class="legal-footer">
-        <a href="impressum.html" id="link-imp">Impressum</a> | 
-        <a href="datenschutz.html" id="link-dat">Datenschutz</a> | 
-        <a href="agb.html" id="link-agb">AGB</a> | 
-        <a href="cookie.html" id="link-cook">Cookie-Richtlinie</a>
+        <a href="impressum.html" id="link-imp"></a> | 
+        <a href="datenschutz.html" id="link-dat"></a> | 
+        <a href="agb.html" id="link-agb"></a> | 
+        <a href="cookie.html" id="link-cook"></a>
     </footer>
 
     <div class="bottom-bar">
         <div class="btn-wrapper">
-            <button class="btn btn-back" id="btn-back" onclick="prevStep()" style="display: none;">Zurück</button>
-            <button class="btn btn-gold" id="btn-next" onclick="nextStep()" disabled>Weiter</button>
+            <button class="btn btn-back" id="btn-back" onclick="prevStep()" style="display: none;"></button>
+            <button class="btn btn-gold" id="btn-next" onclick="nextStep()" disabled></button>
         </div>
     </div>
 
     <script>
         const t = {
             de: {
-                s1: { t: "Was willst du erreichen?", s: "Wähle dein wichtigstes Ziel für die Zusammenarbeit.", custom: "Dein individuelles Ziel" },
+                pageTitle: "Shift My Horizon - Mentoring Application",
+                logo: "SMH Mentoring",
+                s1: { 
+                    t: "Was willst du erreichen?", 
+                    s: "Wähle dein wichtigstes Ziel für die Zusammenarbeit.", 
+                    custom: "Dein individuelles Ziel",
+                    custom_ph: "Beschreibe dein Ziel in 1-2 Sätzen..."
+                },
                 goals: [
                     { id: 'business', icon: '🚀', label: 'Business & Karriere', desc: 'Gründen, Skalieren oder Aufsteigen' },
                     { id: 'habits', icon: '🧠', label: 'Fokus & Disziplin', desc: 'Prokrastination beenden, Systeme bauen' },
@@ -239,7 +246,11 @@
                     { id: 'purpose', icon: '🧭', label: 'Sinn & Richtung', desc: 'Lebensmission und Klarheit finden' },
                     { id: 'other', icon: '✏️', label: 'Individuell', desc: 'Eigenes Ziel definieren' }
                 ],
-                s2: { t: "Dein Commitment", s: "Wieviel bist du bereit in dich zu investieren? Die Inhalte passen sich an.", hint: "Dies ist keine verbindliche Buchung, sondern hilft uns beim Matching." },
+                s2: { 
+                    t: "Dein Commitment", 
+                    s: "Wieviel bist du bereit in dich zu investieren? Die Inhalte passen sich an.", 
+                    hint: "Dies ist keine verbindliche Buchung, sondern hilft uns beim Matching." 
+                },
                 packs: [
                     { max: 2000, t: "Grundlagen & Quick Wins", d: "Du bekommst sofort umsetzbare Strategien für deine größte Baustelle.", ext: "⏱ 4-6 Wochen | 👥 3-4 Sessions" },
                     { max: 4000, t: "Solide Transformation", d: "Wir bauen Fundamente: Mindset, Routinen, erste Verhaltensänderungen.", ext: "⏱ 2-3 Monate | 👥 6-8 Sessions" },
@@ -248,22 +259,39 @@
                     { max: 20000, t: "Mastery & Legacy", d: "Langfristige Begleitung mit maximaler Tiefe und Umsetzung im Alltag.", ext: "⏱ 12+ Monate | 👥 40+ Sessions" }
                 ],
                 s3: { 
-                    t: "Der Preis der Veränderung", s: "Geld ist der einfachste Teil. Mentoring bedeutet Reibung. Akzeptiere die psychologischen Kosten, bevor wir sprechen.",
+                    t: "Der Preis der Veränderung", 
+                    s: "Geld ist der einfachste Teil. Mentoring bedeutet Reibung. Akzeptiere die psychologischen Kosten, bevor wir sprechen.",
                     c1_t: "Ego & Widerstand", c1_d: "Ich verstehe, dass mein Gehirn sich gegen Veränderung wehren wird. Ich bin bereit, Ausreden als das zu entlarven, was sie sind.",
                     c2_t: "Identitätsverlust", c2_d: "Wer ich sein will, erfordert, dass ich loslasse, wer ich aktuell bin. Das kann bedeuten, dass sich mein Umfeld verändert.",
                     c3_t: "Schmerz betrachten", c3_d: "Ich bin bereit, unbequeme Wahrheiten über mich selbst anzusehen, anstatt anderen oder den Umständen die Schuld zu geben."
                 },
                 s4: { 
-                    t: "Fast geschafft!", s: "Hinterlasse deine Daten für den Fit-Check.",
+                    t: "Fast geschafft!", 
+                    s: "Hinterlasse deine Daten für den Fit-Check.",
                     l_goal: "Ziel", l_budget: "Investment", l_mind: "Mindset", l_name: "Name / Pseudonym", l_phone: "Telefonnummer", l_msg: "Nachricht an uns (Optional)",
                     btn_submit: "BEWERBUNG ABSENDEN", mind_val: "Bereit für Reibung",
                     placeholders: { name: "Dein Name", phone: "+49 170 123 456", msg: "Was sollten wir vorab wissen?" }
                 },
                 btn: { next: "WEITER", back: "ZURÜCK", curr: "€" },
-                legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
+                legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" },
+                mail: {
+                    subject: "Mentoring Bewerbung",
+                    intro: "Neue Mentoring Bewerbung!",
+                    name: "Name", phone: "Telefon", goal: "Ziel", budget: "Budget",
+                    mindset: "Mindset: Hat den Preis der Veränderung (Reibung, Ego, Identitätsverlust) akzeptiert.",
+                    msg: "Nachricht",
+                    alert: "Dein E-Mail Programm öffnet sich nun. Bitte sende die Nachricht ab."
+                }
             },
             en: {
-                s1: { t: "What do you want to achieve?", s: "Choose your main goal for our collaboration.", custom: "Your custom goal" },
+                pageTitle: "Shift My Horizon - Mentoring Application",
+                logo: "SMH Mentoring",
+                s1: { 
+                    t: "What do you want to achieve?", 
+                    s: "Choose your main goal for our collaboration.", 
+                    custom: "Your custom goal",
+                    custom_ph: "Describe your goal in 1-2 sentences..."
+                },
                 goals: [
                     { id: 'business', icon: '🚀', label: 'Business & Career', desc: 'Start, scale, or advance' },
                     { id: 'habits', icon: '🧠', label: 'Focus & Discipline', desc: 'End procrastination, build systems' },
@@ -272,7 +300,11 @@
                     { id: 'purpose', icon: '🧭', label: 'Meaning & Direction', desc: 'Find your life mission and clarity' },
                     { id: 'other', icon: '✏️', label: 'Custom', desc: 'Define your own goal' }
                 ],
-                s2: { t: "Your Commitment", s: "How much are you willing to invest in yourself? Content adapts.", hint: "This is not a binding booking. It helps us match you." },
+                s2: { 
+                    t: "Your Commitment", 
+                    s: "How much are you willing to invest in yourself? Content adapts.", 
+                    hint: "This is not a binding booking. It helps us match you." 
+                },
                 packs: [
                     { max: 2000, t: "Foundations & Quick Wins", d: "You get immediately actionable strategies for your biggest challenge.", ext: "⏱ 4-6 Weeks | 👥 3-4 Sessions" },
                     { max: 4000, t: "Solid Transformation", d: "We build foundations: mindset, routines, first behavior changes.", ext: "⏱ 2-3 Months | 👥 6-8 Sessions" },
@@ -281,22 +313,39 @@
                     { max: 20000, t: "Mastery & Legacy", d: "Long-term guidance with maximum depth and real-life implementation.", ext: "⏱ 12+ Months | 👥 40+ Sessions" }
                 ],
                 s3: { 
-                    t: "The Price of Change", s: "Money is the easy part. Mentoring means friction. Accept the psychological costs.",
+                    t: "The Price of Change", 
+                    s: "Money is the easy part. Mentoring means friction. Accept the psychological costs.",
                     c1_t: "Ego & Resistance", c1_d: "I understand my brain will resist change. I am ready to expose excuses for what they are.",
                     c2_t: "Identity Loss", c2_d: "Becoming who I want to be requires letting go of who I am. This might change my social circle.",
                     c3_t: "Facing Pain", c3_d: "I am willing to look at uncomfortable truths about myself instead of blaming circumstances."
                 },
                 s4: { 
-                    t: "Almost done!", s: "Leave your details for the Fit-Check.",
+                    t: "Almost done!", 
+                    s: "Leave your details for the Fit-Check.",
                     l_goal: "Goal", l_budget: "Investment", l_mind: "Mindset", l_name: "Name / Pseudonym", l_phone: "Phone Number", l_msg: "Message to us (Optional)",
                     btn_submit: "SEND APPLICATION", mind_val: "Ready for friction",
                     placeholders: { name: "Your Name", phone: "+1 555 123 4567", msg: "What should we know in advance?" }
                 },
                 btn: { next: "NEXT", back: "BACK", curr: "$" },
-                legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
+                legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" },
+                mail: {
+                    subject: "Mentoring Application",
+                    intro: "New Mentoring Application!",
+                    name: "Name", phone: "Phone", goal: "Goal", budget: "Budget",
+                    mindset: "Mindset: Accepted the price of change (Friction, Ego, Identity loss).",
+                    msg: "Message",
+                    alert: "Your email client is opening. Please send the email."
+                }
             },
             es: {
-                s1: { t: "¿Qué quieres lograr?", s: "Elige tu objetivo principal para nuestra colaboración.", custom: "Tu objetivo personalizado" },
+                pageTitle: "Shift My Horizon - Solicitud de Mentoría",
+                logo: "SMH Mentoring",
+                s1: { 
+                    t: "¿Qué quieres lograr?", 
+                    s: "Elige tu objetivo principal para nuestra colaboración.", 
+                    custom: "Tu objetivo personalizado",
+                    custom_ph: "Describe tu objetivo en 1-2 frases..."
+                },
                 goals: [
                     { id: 'business', icon: '🚀', label: 'Negocios y Carrera', desc: 'Fundar, escalar o avanzar' },
                     { id: 'habits', icon: '🧠', label: 'Enfoque y Disciplina', desc: 'Acabar con la procrastinación' },
@@ -305,7 +354,11 @@
                     { id: 'purpose', icon: '🧭', label: 'Propósito y Dirección', desc: 'Encontrar tu misión y claridad' },
                     { id: 'other', icon: '✏️', label: 'Personalizado', desc: 'Define tu propio objetivo' }
                 ],
-                s2: { t: "Tu Compromiso", s: "¿Cuánto estás dispuesto a invertir en ti? El contenido se adapta.", hint: "Esta no es una reserva vinculante, solo nos ayuda a emparejarte." },
+                s2: { 
+                    t: "Tu Compromiso", 
+                    s: "¿Cuánto estás dispuesto a invertir en ti? El contenido se adapta.", 
+                    hint: "Esta no es una reserva vinculante, solo nos ayuda a emparejarte." 
+                },
                 packs: [
                     { max: 2000, t: "Fundamentos y Victorias Rápidas", d: "Estrategias de aplicación inmediata para tu mayor obstáculo.", ext: "⏱ 4-6 Semanas | 👥 3-4 Sesiones" },
                     { max: 4000, t: "Transformación Sólida", d: "Construimos cimientos: mentalidad, rutinas, primeros cambios.", ext: "⏱ 2-3 Meses | 👥 6-8 Sesiones" },
@@ -314,19 +367,29 @@
                     { max: 20000, t: "Maestría y Legado", d: "Acompañamiento a largo plazo con máxima profundidad.", ext: "⏱ 12+ Meses | 👥 40+ Sesiones" }
                 ],
                 s3: { 
-                    t: "El Precio del Cambio", s: "El dinero es la parte fácil. La mentoría implica fricción. Acepta los costos psicológicos.",
+                    t: "El Precio del Cambio", 
+                    s: "El dinero es la parte fácil. La mentoría implica fricción. Acepta los costos psicológicos.",
                     c1_t: "Ego y Resistencia", c1_d: "Entiendo que mi cerebro se resistirá al cambio. Estoy listo para exponer las excusas por lo que son.",
                     c2_t: "Pérdida de Identidad", c2_d: "Convertirme en quien quiero ser requiere dejar ir a quien soy ahora. Esto puede cambiar mi entorno.",
                     c3_t: "Enfrentar el Dolor", c3_d: "Estoy dispuesto a ver verdades incómodas sobre mí mismo en lugar de culpar a las circunstancias."
                 },
                 s4: { 
-                    t: "¡Casi listo!", s: "Deja tus datos para el Fit-Check.",
+                    t: "¡Casi listo!", 
+                    s: "Deja tus datos para el Fit-Check.",
                     l_goal: "Objetivo", l_budget: "Inversión", l_mind: "Mentalidad", l_name: "Nombre / Seudónimo", l_phone: "Número de teléfono", l_msg: "Mensaje para nosotros (Opcional)",
                     btn_submit: "ENVIAR SOLICITUD", mind_val: "Listo para la fricción",
                     placeholders: { name: "Tu Nombre", phone: "+34 600 123 456", msg: "¿Qué deberíamos saber de antemano?" }
                 },
                 btn: { next: "SIGUIENTE", back: "ATRÁS", curr: "€" },
-                legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
+                legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" },
+                mail: {
+                    subject: "Solicitud de Mentoría",
+                    intro: "¡Nueva Solicitud de Mentoría!",
+                    name: "Nombre", phone: "Teléfono", goal: "Objetivo", budget: "Inversión",
+                    mindset: "Mentalidad: Aceptó el precio del cambio (Fricción, Ego, Pérdida de identidad).",
+                    msg: "Mensaje",
+                    alert: "Se está abriendo tu cliente de correo. Por favor, envía el correo."
+                }
             }
         };
 
@@ -339,9 +402,9 @@
         function init() {
             document.getElementById('langSelect').value = lang;
             document.documentElement.lang = lang;
+            updateUI();
             renderGoals();
             updateBudget(4000);
-            updateUI();
             document.getElementById('progressBar').style.width = `${(1 / 4) * 100}%`;
         }
 
@@ -349,22 +412,28 @@
             lang = l;
             localStorage.setItem('smh_language', lang);
             document.documentElement.lang = lang;
+            updateUI();
             renderGoals();
             updateBudget(document.getElementById('budget-slider').value);
-            updateUI();
         }
 
         function updateUI() {
             const d = t[lang];
             
+            document.title = d.pageTitle;
+            document.getElementById('logo-text').innerText = d.logo;
+
             document.getElementById('s1-title').innerText = d.s1.t; document.getElementById('s1-sub').innerText = d.s1.s; document.getElementById('s1-custom-lbl').innerText = d.s1.custom;
+            document.getElementById('custom-goal').placeholder = d.s1.custom_ph;
+            
             document.getElementById('s2-title').innerText = d.s2.t; document.getElementById('s2-sub').innerText = d.s2.s; document.getElementById('s2-hint').innerText = d.s2.hint;
+            
             document.getElementById('s3-title').innerText = d.s3.t; document.getElementById('s3-sub').innerText = d.s3.s;
             document.getElementById('c1-title').innerText = d.s3.c1_t; document.getElementById('c1-desc').innerText = d.s3.c1_d;
             document.getElementById('c2-title').innerText = d.s3.c2_t; document.getElementById('c2-desc').innerText = d.s3.c2_d;
             document.getElementById('c3-title').innerText = d.s3.c3_t; document.getElementById('c3-desc').innerText = d.s3.c3_d;
-            document.getElementById('s4-title').innerText = d.s4.t; document.getElementById('s4-sub').innerText = d.s4.s;
             
+            document.getElementById('s4-title').innerText = d.s4.t; document.getElementById('s4-sub').innerText = d.s4.s;
             document.getElementById('sum-lbl-goal').innerText = d.s4.l_goal; 
             document.getElementById('sum-lbl-budget').innerText = d.s4.l_budget; 
             document.getElementById('sum-lbl-mindset').innerText = d.s4.l_mind;
@@ -380,10 +449,12 @@
 
             document.getElementById('btn-back').innerText = d.btn.back;
             
-            if (step === 4) document.getElementById('btn-next').innerText = d.s4.btn_submit;
-            else document.getElementById('btn-next').innerText = d.btn.next;
+            if (step === 4) {
+                document.getElementById('btn-next').innerText = d.s4.btn_submit;
+            } else {
+                document.getElementById('btn-next').innerText = d.btn.next;
+            }
 
-            // Footer
             document.getElementById('link-imp').innerText = d.legal.imp;
             document.getElementById('link-dat').innerText = d.legal.dat;
             document.getElementById('link-agb').innerText = d.legal.agb;
@@ -400,16 +471,19 @@
                 div.innerHTML = `<div class="goal-icon">${g.icon}</div><div class="goal-label">${g.label}</div><div class="goal-desc">${g.desc}</div>`;
                 container.appendChild(div);
             });
+            if (data.goalId === 'other') {
+                document.getElementById('custom-goal-container').style.display = 'block';
+            } else {
+                document.getElementById('custom-goal-container').style.display = 'none';
+            }
         }
 
         function selectGoal(id, label) {
             data.goalId = id;
             data.goalText = label;
             renderGoals();
-            document.getElementById('custom-goal-container').style.display = id === 'other' ? 'block' : 'none';
             checkNextState();
             
-            // Micro-Delay (Auto-Advance), if they didn't select "Custom"
             if (id !== 'other') {
                 setTimeout(() => nextStep(), 400);
             }
@@ -419,7 +493,8 @@
             data.budget = parseInt(val);
             let formatted = new Intl.NumberFormat(lang === 'en' ? 'en-US' : (lang === 'es' ? 'es-ES' : 'de-DE')).format(val);
             if (val >= 20000) formatted = "20.000+";
-            document.getElementById('budget-display').innerText = `${lang === 'en' ? d.btn.curr : ''}${formatted} ${lang !== 'en' ? t[lang].btn.curr : ''}`.trim();
+            
+            document.getElementById('budget-display').innerText = `${lang === 'en' ? t[lang].btn.curr : ''}${formatted} ${lang !== 'en' ? t[lang].btn.curr : ''}`.trim();
             
             const pack = t[lang].packs.find(p => val <= p.max) || t[lang].packs[t[lang].packs.length - 1];
             document.getElementById('pack-title').innerText = pack.t;
@@ -432,7 +507,6 @@
             document.getElementById(`cost-${idx}`).className = `cost-box ${data.costs[idx-1] ? 'selected' : ''}`;
             checkNextState();
 
-            // Micro-Delay Auto-Advance if all three are checked
             if (data.costs.every(c => c === true) && step === 3) {
                 setTimeout(() => nextStep(), 450);
             }
@@ -495,27 +569,15 @@
             const finalGoal = data.goalId === 'other' ? document.getElementById('custom-goal').value.trim() : data.goalText;
             const budgetStr = document.getElementById('budget-display').innerText;
 
-            let subject, body;
-
-            if (lang === 'en') {
-                subject = `Mentoring Application - ${name}`;
-                body = `New Mentoring Application!\n\nName: ${name}\nPhone: ${phone}\n\nGoal: ${finalGoal}\nBudget: ${budgetStr}\n\nMindset: Accepted the price of change (Friction, Ego, Identity loss).\n\nMessage:\n${msg || '-'}`;
-            } else if (lang === 'es') {
-                subject = `Solicitud de Mentoría - ${name}`;
-                body = `¡Nueva Solicitud de Mentoría!\n\nNombre: ${name}\nTeléfono: ${phone}\n\nObjetivo: ${finalGoal}\nInversión: ${budgetStr}\n\nMentalidad: Aceptó el precio del cambio (Fricción, Ego, Pérdida de identidad).\n\nMensaje:\n${msg || '-'}`;
-            } else {
-                subject = `Mentoring Bewerbung - ${name}`;
-                body = `Neue Mentoring Bewerbung!\n\nName: ${name}\nTelefon: ${phone}\n\nZiel: ${finalGoal}\nBudget: ${budgetStr}\n\nMindset: Hat den Preis der Veränderung (Reibung, Ego, Identitätsverlust) akzeptiert.\n\nNachricht:\n${msg || '-'}`;
-            }
+            const m = t[lang].mail;
+            const subject = `${m.subject} - ${name}`;
+            const body = `${m.intro}\n\n${m.name}: ${name}\n${m.phone}: ${phone}\n\n${m.goal}: ${finalGoal}\n${m.budget}: ${budgetStr}\n\n${m.mindset}\n\n${m.msg}:\n${msg || '-'}`;
 
             const mailtoUrl = `mailto:coaching@shiftmyhorizon.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             window.location.href = mailtoUrl;
 
             setTimeout(() => {
-                let alertMsg = 'Dein E-Mail Programm öffnet sich nun. Bitte sende die Nachricht ab.';
-                if (lang === 'en') alertMsg = 'Your email client is opening. Please send the email.';
-                if (lang === 'es') alertMsg = 'Se está abriendo tu cliente de correo. Por favor, envía el correo.';
-                alert(alertMsg);
+                alert(m.alert);
             }, 500);
         }
 
