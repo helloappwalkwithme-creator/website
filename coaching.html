@@ -3,585 +3,565 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="page-title"></title>
+    <title>The Integrated Soul - Onboarding</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --dark: #050505;
-            --gray: #121212;
-            --gray-active: #1e1e1e;
-            --border: #2a2a2a;
-            --gold: #D4AF37;
-            --gold-hover: #c49f2b;
-            --text: #f0f0f0;
-            --error: #ef4444;
-            --success: #4ade80;
+            /* Mystical, deep, and grounded color palette */
+            --dark: #0a0c10; /* Void black/deepest night */
+            --gray: #13161f;
+            --gray-active: #1d2230;
+            --border: #2b3245;
+            --gold: #cba677; /* Muted alchemist gold */
+            --text: #e2e4e9;
+            --error: #b05c6e;
+            --success: #678c7a;
         }
 
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        * { box-sizing: border-box; font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif, -apple-system, sans-serif; }
         
         body { 
             margin: 0; padding: 0; background-color: var(--dark); color: var(--text); 
             display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; 
         }
-
-        .progress-container { width: 100%; height: 4px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; }
+        
+        .progress-container { width: 100%; height: 3px; background-color: #1a1a24; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
         .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.4s ease; }
 
-        .app-header { width: 100%; max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; padding: 20px; align-items: center; }
-        .logo { color: var(--gold); font-weight: 800; letter-spacing: 1px; font-size: 14px; text-transform: uppercase; }
-        .lang-switcher { background-color: var(--gray); color: var(--text); border: 1px solid var(--border); padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; }
+        .app-header { width: 100%; max-width: 500px; margin: 0 auto; display: flex; justify-content: flex-end; padding: 20px 20px 0 20px; }
+        .lang-switcher { background-color: var(--gray); color: var(--text); border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; outline: none; appearance: none; text-align: center; }
+        .lang-switcher:focus { border-color: var(--gold); }
 
-        main { flex: 1; padding: 20px 20px 100px 20px; max-width: 600px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
+        main { flex: 1; padding: 20px 20px 100px 20px; max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
         
         .step { display: none; animation: fadeIn 0.4s ease forwards; }
         .step.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        .h1-title { font-size: 26px; font-weight: 800; margin-top: 0; margin-bottom: 8px; color: var(--text); line-height: 1.3; }
-        .subtitle { color: #888; margin-bottom: 30px; font-size: 15px; line-height: 1.5; }
+        .flow-title { color: var(--gold); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+        .h1-title { font-size: 26px; font-weight: 400; margin-top: 0; margin-bottom: 24px; color: var(--text); line-height: 1.35; }
+        .subtitle { color: #a1a5b5; margin-bottom: 24px; font-size: 15px; line-height: 1.6; }
 
-        /* Goal Grid */
-        .goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .goal-card { background: var(--gray); border: 2px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s; }
-        .goal-card.selected { border-color: var(--gold); background: #1a180b; }
-        .goal-icon { font-size: 24px; margin-bottom: 8px; }
-        .goal-label { font-size: 14px; font-weight: 700; color: #ccc; margin-bottom: 4px; }
-        .goal-card.selected .goal-label { color: var(--gold); }
-        .goal-desc { font-size: 11px; color: #666; line-height: 1.4; }
-
-        /* Slider */
-        .slider-container { background: var(--gray); padding: 30px 20px; border-radius: 12px; border: 1px solid var(--border); text-align: center; margin-bottom: 20px; }
-        .slider-val { font-size: 36px; font-weight: 800; color: var(--gold); margin-bottom: 5px; }
-        .slider-info { font-size: 12px; color: #888; margin-bottom: 20px; }
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin-bottom: 10px; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--gold); cursor: pointer; margin-top: -10px; }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #333; border-radius: 2px; }
+        .quiz-btn { background-color: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.25s ease; }
+        .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
+        .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.5; font-weight: 400; }
+        .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 600; }
         
-        .package-box { background: #111; border: 1px solid var(--gold); border-radius: 8px; padding: 15px; text-align: left; margin-top: 20px; }
-        .pack-title { color: var(--gold); font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-        .pack-desc { color: #ccc; font-size: 13px; line-height: 1.5; margin-bottom: 10px; }
-        .pack-details { color: #888; font-size: 12px; line-height: 1.6; }
+        .radio-icon { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #555; display: flex; align-items: center; justify-content: center; }
+        .quiz-btn.selected .radio-icon { border-color: var(--gold); }
+        .radio-icon::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); display: none; }
+        .quiz-btn.selected .radio-icon::after { display: block; }
 
-        /* Mental Cost Checkboxes */
-        .cost-box { background: #151010; border: 1px solid #3a1a1a; border-radius: 10px; padding: 16px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: flex-start; transition: all 0.2s; }
-        .cost-box.selected { border-color: var(--error); background: #241212; }
-        .cost-box.selected .cost-check { background: var(--error); border-color: var(--error); color: #000; }
-        .cost-check { width: 24px; height: 24px; border: 2px solid #555; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; margin-right: 15px; color: transparent; flex-shrink: 0; margin-top: 2px; }
-        .cost-text-container { flex: 1; }
-        .cost-title { color: #eee; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-        .cost-desc { color: #999; font-size: 13px; line-height: 1.5; }
+        .check-icon { width: 22px; height: 22px; border-radius: 4px; border: 1px solid #555; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px; }
+        .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: var(--dark); }
 
-        /* Forms */
-        .input-group { margin-bottom: 16px; }
-        .input-label { display: block; color: var(--gold); font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .form-input { width: 100%; background: var(--gray); border: 1px solid var(--border); color: #fff; padding: 15px; border-radius: 8px; font-size: 15px; }
-        .form-input:focus { outline: none; border-color: var(--gold); }
-        textarea.form-input { min-height: 100px; resize: vertical; }
+        .result-card { background-color: #1a1214; border: 2px solid var(--gold); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
+        .result-score { color: var(--gold); font-size: 32px; font-weight: 600; line-height: 1.2; margin-bottom: 5px; }
+        .result-level { color: #d698a6; font-size: 14px; font-weight: 400; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
+        .insight-title { color: #a1a5b5; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+        .insight-text { color: #d1d5db; font-size: 14px; line-height: 1.6; }
+        
+        .info-card { background: #11141c; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
 
-        /* Summary */
-        .summary-box { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 25px; }
-        .sum-row { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #222; }
-        .sum-row:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
-        .sum-label { color: #888; font-size: 13px; }
-        .sum-val { color: #fff; font-size: 14px; font-weight: 600; text-align: right; max-width: 60%; }
+        .check-row { display: flex; align-items: flex-start; margin-top: 15px; margin-bottom: 10px; cursor: pointer; }
+        .box-icon { width: 22px; height: 22px; border: 1px solid var(--gold); border-radius: 4px; margin-right: 12px; margin-top: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px;}
+        .check-row.selected .box-icon { background: var(--gold); color: var(--dark); }
+        .check-label { font-size: 14px; color: var(--text); line-height: 1.6; flex: 1; }
 
-        /* Buttons */
-        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; justify-content: center; z-index: 10; }
-        .btn-wrapper { width: 100%; max-width: 600px; display: flex; gap: 10px; }
-        .btn { padding: 16px; border-radius: 8px; font-weight: 700; font-size: 14px; text-transform: uppercase; border: none; cursor: pointer; text-align: center; letter-spacing: 1px; transition: opacity 0.2s; flex: 1; }
-        .btn-gold { background-color: var(--gold); color: #000; }
-        .btn-gold:disabled { opacity: 0.4; cursor: not-allowed; }
-        .btn-back { background: transparent; border: 1px solid #555; color: #aaa; flex: 0.4; }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 12, 16, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
+        .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 8px; font-weight: 600; font-size: 14px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 1.5px; }
+        .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
+        .btn-back { background: none; border: none; color: #888; margin-top: 12px; padding: 8px 16px; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .input-field { background-color: #13161f; border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-family: -apple-system, sans-serif; }
+        .input-field:focus { border-color: var(--gold); outline: none; }
+        
+        .spinner { border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 45px; height: 45px; animation: spin 1.2s linear infinite; margin: 60px auto; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* Legal Footer */
-        .legal-footer { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border); font-size: 11px; padding-bottom: 100px; font-family: -apple-system, sans-serif;}
+        .legal-footer { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border); font-size: 11px; padding-bottom: 120px; font-family: -apple-system, sans-serif;}
         .legal-footer a { color: #888; text-decoration: none; margin: 0 8px; transition: color 0.2s; }
         .legal-footer a:hover { color: var(--gold); }
     </style>
 </head>
 <body>
 
-    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
 
     <header class="app-header">
-        <div class="logo" id="logo-text"></div>
-        <select class="lang-switcher" id="langSelect" onchange="changeLanguage(this.value)">
+        <select id="langSelect" class="lang-switcher" onchange="selectLang(this.value)">
             <option value="de">🇩🇪 DE</option>
             <option value="en">🇺🇸 EN</option>
             <option value="es">🇪🇸 ES</option>
         </select>
     </header>
 
-    <main>
+    <main id="app-container">
         <div class="step active" id="step-1">
-            <h1 class="h1-title" id="s1-title"></h1>
-            <p class="subtitle" id="s1-sub"></p>
-            
-            <div class="goal-grid" id="goal-container"></div>
-
-            <div id="custom-goal-container" style="display: none; margin-top: 10px;">
-                <label class="input-label" id="s1-custom-lbl"></label>
-                <textarea class="form-input" id="custom-goal" placeholder=""></textarea>
-            </div>
+            <div class="flow-title" id="s1-lbl"></div><h1 class="h1-title" id="s1-title"></h1>
+            <div id="s1-opts"></div>
         </div>
 
         <div class="step" id="step-2">
-            <h1 class="h1-title" id="s2-title"></h1>
-            <p class="subtitle" id="s2-sub"></p>
-            
-            <div class="slider-container">
-                <div class="slider-val" id="budget-display"></div>
-                <div class="slider-info" id="s2-hint"></div>
-                
-                <input type="range" id="budget-slider" min="1000" max="20000" step="500" value="4000" oninput="updateBudget(this.value)">
-                
-                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #666; margin-top: 5px;">
-                    <span id="slider-min">1.000</span>
-                    <span id="slider-max">20.000+</span>
-                </div>
-
-                <div class="package-box">
-                    <div class="pack-title" id="pack-title"></div>
-                    <div class="pack-desc" id="pack-desc"></div>
-                    <div class="pack-details" id="pack-details"></div>
-                </div>
-            </div>
+            <div class="flow-title" id="s2-lbl"></div><h1 class="h1-title" id="s2-title"></h1>
+            <div id="s2-opts"></div>
         </div>
 
         <div class="step" id="step-3">
-            <h1 class="h1-title" id="s3-title" style="color: var(--error);"></h1>
-            <p class="subtitle" id="s3-sub"></p>
-
-            <div class="cost-box" id="cost-1" onclick="toggleCost(1)">
-                <div class="cost-check">✓</div>
-                <div class="cost-text-container">
-                    <div class="cost-title" id="c1-title"></div>
-                    <div class="cost-desc" id="c1-desc"></div>
-                </div>
-            </div>
-
-            <div class="cost-box" id="cost-2" onclick="toggleCost(2)">
-                <div class="cost-check">✓</div>
-                <div class="cost-text-container">
-                    <div class="cost-title" id="c2-title"></div>
-                    <div class="cost-desc" id="c2-desc"></div>
-                </div>
-            </div>
-
-            <div class="cost-box" id="cost-3" onclick="toggleCost(3)">
-                <div class="cost-check">✓</div>
-                <div class="cost-text-container">
-                    <div class="cost-title" id="c3-title"></div>
-                    <div class="cost-desc" id="c3-desc"></div>
-                </div>
-            </div>
+            <div class="flow-title" id="s3-lbl"></div><h1 class="h1-title" id="s3-title"></h1>
+            <div id="s3-opts"></div>
         </div>
 
         <div class="step" id="step-4">
-            <h1 class="h1-title" id="s4-title"></h1>
-            <p class="subtitle" id="s4-sub"></p>
+            <div class="flow-title" id="s4-lbl"></div><h1 class="h1-title" id="s4-title"></h1>
+            <div id="s4-opts"></div>
+        </div>
 
-            <div class="summary-box">
-                <div class="sum-row">
-                    <span class="sum-label" id="sum-lbl-goal"></span>
-                    <span class="sum-val" id="sum-val-goal"></span>
-                </div>
-                <div class="sum-row">
-                    <span class="sum-label" id="sum-lbl-budget"></span>
-                    <span class="sum-val" id="sum-val-budget"></span>
-                </div>
-                <div class="sum-row">
-                    <span class="sum-label" id="sum-lbl-mindset"></span>
-                    <span class="sum-val" id="sum-val-mindset" style="color: var(--error);"></span>
-                </div>
-            </div>
+        <div class="step" id="step-5" style="text-align: center; padding-top: 60px;">
+            <div class="spinner"></div>
+            <h1 class="h1-title" id="s5-title" style="color: var(--gold);"></h1>
+            <p class="subtitle" id="s5-sub"></p>
+        </div>
 
-            <div class="input-group">
-                <label class="input-label" id="lbl-name"></label>
-                <input type="text" id="inp-name" class="form-input" placeholder="">
+        <div class="step" id="step-6">
+            <div class="flow-title" id="s6-lbl"></div>
+            <div class="result-card" id="res-card">
+                <div class="result-score" id="res-score"></div>
+                <div class="result-level" id="res-level"></div>
             </div>
+            <div class="insight-card">
+                <div class="insight-title" id="res-cost-lbl"></div>
+                <div class="insight-text" id="res-cost-val"></div>
+            </div>
+            <div class="info-card" id="res-info-box"><p class="insight-text" id="s6-msg" style="color: #e2e4e9; margin: 0;"></p></div>
+        </div>
 
-            <div class="input-group">
-                <label class="input-label" id="lbl-phone"></label>
-                <input type="tel" id="inp-phone" class="form-input" placeholder="">
+        <div class="step" id="step-7">
+            <div style="text-align: center;">
+                <div class="flow-title" id="s7-lbl"></div>
+                <h1 class="h1-title" id="s7-title"></h1>
+                <p class="subtitle" id="s7-sub"></p>
             </div>
-
-            <div class="input-group">
-                <label class="input-label" id="lbl-msg"></label>
-                <textarea id="inp-msg" class="form-input" placeholder=""></textarea>
-            </div>
+            
+            <div class="flow-title" id="lbl-fname"></div>
+            <input type="text" id="reg-fname" class="input-field" placeholder="">
+            
+            <div class="flow-title" id="lbl-email"></div>
+            <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
+            
+            <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
+            <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
         </div>
     </main>
 
     <footer class="legal-footer">
-        <a href="impressum.html" id="link-imp"></a> | 
-        <a href="datenschutz.html" id="link-dat"></a> | 
-        <a href="agb.html" id="link-agb"></a> | 
-        <a href="cookie.html" id="link-cook"></a>
+        <a href="impressum.html" id="link-imp">Impressum</a> | 
+        <a href="datenschutz.html" id="link-dat">Datenschutz</a> | 
+        <a href="agb.html" id="link-agb">AGB</a> | 
+        <a href="cookie.html" id="link-cook">Cookie-Richtlinie</a>
     </footer>
 
-    <div class="bottom-bar">
-        <div class="btn-wrapper">
-            <button class="btn btn-back" id="btn-back" onclick="prevStep()" style="display: none;"></button>
-            <button class="btn btn-gold" id="btn-next" onclick="nextStep()" disabled></button>
-        </div>
+    <div class="bottom-bar" id="bottomBar" style="display: none;">
+        <button class="btn-gold" id="btnNext" onclick="handleNext()"></button>
+        <button class="btn-back" id="btnBack" onclick="handleBack()"></button>
     </div>
 
     <script>
+        const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+        let supabaseClient = null;
+        
+        const digistoreLinks = { 
+            de: "https://www.checkout-ds24.com/product/XXXXXX/", 
+            en: "https://www.checkout-ds24.com/product/XXXXXX/",
+            es: "https://www.checkout-ds24.com/product/XXXXXX/"
+        };
+
         const t = {
             de: {
-                pageTitle: "Shift My Horizon - Mentoring Application",
-                logo: "SMH Mentoring",
+                pageTitle: "The Integrated Soul - Onboarding",
+                btn: { next: "WEITER", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "PFAD BETRETEN" },
                 s1: { 
-                    t: "Was willst du erreichen?", 
-                    s: "Wähle dein wichtigstes Ziel für die Zusammenarbeit.", 
-                    custom: "Dein individuelles Ziel",
-                    custom_ph: "Beschreibe dein Ziel in 1-2 Sätzen..."
+                    lbl: "PHASE 1: DER SCHATTEN", 
+                    title: "Welches Gefühl begleitet dich unterschwellig am häufigsten?", 
+                    opts: { 
+                        emptiness: "Eine tiefe, unerklärliche innere Leere, egal was ich erreiche. (Sinnkrise)", 
+                        bypassing: "Ich flüchte in Positivität, aber im Alltag ändert sich nichts. (Flucht)", 
+                        isolation: "Das Gefühl, von der Welt abgetrennt zu sein. (Getrenntheit)" 
+                    } 
                 },
-                goals: [
-                    { id: 'business', icon: '🚀', label: 'Business & Karriere', desc: 'Gründen, Skalieren oder Aufsteigen' },
-                    { id: 'habits', icon: '🧠', label: 'Fokus & Disziplin', desc: 'Prokrastination beenden, Systeme bauen' },
-                    { id: 'relationship', icon: '❤️', label: 'Partnerschaft', desc: 'Beziehung retten oder neu aufbauen' },
-                    { id: 'confidence', icon: '🦁', label: 'Selbstvertrauen', desc: 'Innere Stärke und Grenzen setzen' },
-                    { id: 'purpose', icon: '🧭', label: 'Sinn & Richtung', desc: 'Lebensmission und Klarheit finden' },
-                    { id: 'other', icon: '✏️', label: 'Individuell', desc: 'Eigenes Ziel definieren' }
-                ],
                 s2: { 
-                    t: "Dein Commitment", 
-                    s: "Wieviel bist du bereit in dich zu investieren? Die Inhalte passen sich an.", 
-                    hint: "Dies ist keine verbindliche Buchung, sondern hilft uns beim Matching." 
+                    lbl: "PHASE 2: DIE KONSEQUENZEN", 
+                    title: "Was kostet dich diese Trennung im Hier und Jetzt? (Mehrfachauswahl)", 
+                    opts: { 
+                        emptiness: ["Abstumpfung gegenüber echter Freude und Schmerz.", "Kompensation durch Überarbeiten oder Konsum.", "Das nagende Gefühl, mein Potenzial zu verschwenden."], 
+                        bypassing: ["Fehlende Erdung und fehlender Bezug zur Realität.", "Unterdrückte, brodelnde Wut (Schatten).", "Erschöpfung vom ständigen Drang zur Selbstoptimierung."], 
+                        isolation: ["Unfähigkeit, echte Intimität zuzulassen.", "Das Gefühl, den eigenen Körper kaum noch wahrzunehmen.", "Ein Gefühl der Wertlosigkeit im Kern."] 
+                    } 
                 },
-                packs: [
-                    { max: 2000, t: "Grundlagen & Quick Wins", d: "Du bekommst sofort umsetzbare Strategien für deine größte Baustelle.", ext: "⏱ 4-6 Wochen | 👥 3-4 Sessions" },
-                    { max: 4000, t: "Solide Transformation", d: "Wir bauen Fundamente: Mindset, Routinen, erste Verhaltensänderungen.", ext: "⏱ 2-3 Monate | 👥 6-8 Sessions" },
-                    { max: 6000, t: "Tiefenarbeit & Neuausrichtung", d: "Wir arbeiten an Glaubenssätzen, emotionalen Mustern und Identität.", ext: "⏱ 3-4 Monate | 👥 12+ Sessions" },
-                    { max: 10000, t: "Intensive Transformation", d: "6 Monate intensives Coaching mit klarer Struktur und Feedback.", ext: "⏱ 6 Monate | 👥 20+ Sessions" },
-                    { max: 20000, t: "Mastery & Legacy", d: "Langfristige Begleitung mit maximaler Tiefe und Umsetzung im Alltag.", ext: "⏱ 12+ Monate | 👥 40+ Sessions" }
-                ],
                 s3: { 
-                    t: "Der Preis der Veränderung", 
-                    s: "Geld ist der einfachste Teil. Mentoring bedeutet Reibung. Akzeptiere die psychologischen Kosten, bevor wir sprechen.",
-                    c1_t: "Ego & Widerstand", c1_d: "Ich verstehe, dass mein Gehirn sich gegen Veränderung wehren wird. Ich bin bereit, Ausreden als das zu entlarven, was sie sind.",
-                    c2_t: "Identitätsverlust", c2_d: "Wer ich sein will, erfordert, dass ich loslasse, wer ich aktuell bin. Das kann bedeuten, dass sich mein Umfeld verändert.",
-                    c3_t: "Schmerz betrachten", c3_d: "Ich bin bereit, unbequeme Wahrheiten über mich selbst anzusehen, anstatt anderen oder den Umständen die Schuld zu geben."
+                    lbl: "PHASE 3: ERDUNG", 
+                    title: "Wie stark ist dein Geist im Körper verankert?", 
+                    opts: { 
+                        high: "Ich lebe fast ausschließlich in meinem Kopf. Meinen Körper spüre ich kaum.", 
+                        med: "Ich spüre meinen Körper manchmal, verliere mich aber oft in Gedanken.", 
+                        low: "Ich bin meistens gut geerdet und mit meinen physischen Sinnen verbunden." 
+                    } 
                 },
                 s4: { 
-                    t: "Fast geschafft!", 
-                    s: "Hinterlasse deine Daten für den Fit-Check.",
-                    l_goal: "Ziel", l_budget: "Investment", l_mind: "Mindset", l_name: "Name / Pseudonym", l_phone: "Telefonnummer", l_msg: "Nachricht an uns (Optional)",
-                    btn_submit: "BEWERBUNG ABSENDEN", mind_val: "Bereit für Reibung",
-                    placeholders: { name: "Dein Name", phone: "+49 170 123 456", msg: "Was sollten wir vorab wissen?" }
+                    lbl: "PHASE 4: STILLE", 
+                    title: "Wenn du mit dir allein bist, ohne Ablenkung – was passiert?", 
+                    opts: { 
+                        high: "Es wird unerträglich laut. Ich brauche sofort einen Podcast oder Aktion.", 
+                        med: "Ich halte es kurz aus, suche dann aber nach einer Aufgabe.", 
+                        low: "Ich kann Stille genießen und als Quelle der Kraft nutzen." 
+                    } 
                 },
-                btn: { next: "WEITER", back: "ZURÜCK", curr: "€" },
-                legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" },
-                mail: {
-                    subject: "Mentoring Bewerbung",
-                    intro: "Neue Mentoring Bewerbung!",
-                    name: "Name", phone: "Telefon", goal: "Ziel", budget: "Budget",
-                    mindset: "Mindset: Hat den Preis der Veränderung (Reibung, Ego, Identitätsverlust) akzeptiert.",
-                    msg: "Nachricht",
-                    alert: "Dein E-Mail Programm öffnet sich nun. Bitte sende die Nachricht ab."
-                }
+                s5: { title: "ZUSTAND WIRD REFLEKTIERT...", sub: "Muster werden analysiert." },
+                s6: { 
+                    lbl: "DIE SPIEGELUNG", 
+                    costLbl: "DIE PSYCHOLOGISCHE WAHRHEIT:", 
+                    costVal: { 
+                        emptiness: "Dein System hat Emotionen abgekapselt. Die Leere ist kein Fehler, sondern der Raum, der entsteht, wenn wir unerwünschte Anteile verbannen.", 
+                        bypassing: "Du nutzt Positivität als Schutzschild. Wahre Entwicklung geschieht nicht im bloßen Intellekt, sondern im Spüren des Körpers.", 
+                        isolation: "Deine Isolation ist ein angelernter Schutz. Dein System hat gelernt, dass Verbindung Unsicherheit bedeutet." 
+                    }, 
+                    msg: "Entwicklung bedeutet nicht, dem Menschsein zu entfliehen, sondern tief hineinzusinken. In diesem Flow verbinden wir innere Reflexion mit konkreter körperlicher Erdung.",
+                    lvls: { 
+                        ext: { t: "FRAGMENTIERT", d: "Du lebst stark im Intellekt. Dein Körper braucht dringend deine Präsenz." }, 
+                        dan: { t: "ENTWURZELT", d: "Du suchst Antworten im Außen. Es ist Zeit, die Aufmerksamkeit nach innen zu richten." }, 
+                        ala: { t: "DISSOZIIERT", d: "Du verstehst vieles intellektuell, lebst es aber noch nicht im Körper. Zeit für Praxis." }, 
+                        cri: { t: "SUCHEND", d: "Du erkennst deine Muster. Jetzt geht es darum, diese Erkenntnisse in den Alltag zu bringen." } 
+                    } 
+                },
+                s7: { 
+                    lbl: "DER NÄCHSTE SCHRITT", 
+                    title: "Beginne die Integration", 
+                    sub: "Sichere deinen Zugang zum 4-Tage-Flow.",
+                    lblFname: "VORNAME", lblEmail: "EMAIL",
+                    em: "deine@email.com", 
+                    errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
+                    errServer: "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.",
+                    placeholders: { fname: "Dein Vorname" }
+                },
+                legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
             },
             en: {
-                pageTitle: "Shift My Horizon - Mentoring Application",
-                logo: "SMH Mentoring",
+                pageTitle: "The Integrated Soul - Onboarding",
+                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "ENTER THE PATH" },
                 s1: { 
-                    t: "What do you want to achieve?", 
-                    s: "Choose your main goal for our collaboration.", 
-                    custom: "Your custom goal",
-                    custom_ph: "Describe your goal in 1-2 sentences..."
+                    lbl: "PHASE 1: THE SHADOW", 
+                    title: "Which underlying feeling accompanies you the most?", 
+                    opts: { 
+                        emptiness: "A deep inner emptiness, no matter what I achieve. (Crisis of meaning)", 
+                        bypassing: "I escape into positivity, but nothing changes in real life. (Escapism)", 
+                        isolation: "A feeling of being disconnected from the world. (Separation)" 
+                    } 
                 },
-                goals: [
-                    { id: 'business', icon: '🚀', label: 'Business & Career', desc: 'Start, scale, or advance' },
-                    { id: 'habits', icon: '🧠', label: 'Focus & Discipline', desc: 'End procrastination, build systems' },
-                    { id: 'relationship', icon: '❤️', label: 'Relationship', desc: 'Save or rebuild your partnership' },
-                    { id: 'confidence', icon: '🦁', label: 'Confidence', desc: 'Inner strength and boundaries' },
-                    { id: 'purpose', icon: '🧭', label: 'Meaning & Direction', desc: 'Find your life mission and clarity' },
-                    { id: 'other', icon: '✏️', label: 'Custom', desc: 'Define your own goal' }
-                ],
                 s2: { 
-                    t: "Your Commitment", 
-                    s: "How much are you willing to invest in yourself? Content adapts.", 
-                    hint: "This is not a binding booking. It helps us match you." 
+                    lbl: "PHASE 2: THE CONSEQUENCES", 
+                    title: "What does this disconnection cost you right now? (Multiple choice)", 
+                    opts: { 
+                        emptiness: ["Numbness towards real joy and pain.", "Compensating through overworking or consumption.", "The gnawing feeling of wasting my potential."], 
+                        bypassing: ["Lack of grounding and loss of touch with reality.", "Suppressed, seething anger (shadow aspects).", "Exhaustion from the constant urge for self-optimization."], 
+                        isolation: ["Inability to allow true intimacy.", "The feeling of barely noticing my own body.", "A core feeling of worthlessness."] 
+                    } 
                 },
-                packs: [
-                    { max: 2000, t: "Foundations & Quick Wins", d: "You get immediately actionable strategies for your biggest challenge.", ext: "⏱ 4-6 Weeks | 👥 3-4 Sessions" },
-                    { max: 4000, t: "Solid Transformation", d: "We build foundations: mindset, routines, first behavior changes.", ext: "⏱ 2-3 Months | 👥 6-8 Sessions" },
-                    { max: 6000, t: "Deep Work & Realignment", d: "We work on beliefs, emotional patterns, and identity.", ext: "⏱ 3-4 Months | 👥 12+ Sessions" },
-                    { max: 10000, t: "Intensive Transformation", d: "6 months of intensive coaching with clear structure and feedback.", ext: "⏱ 6 Months | 👥 20+ Sessions" },
-                    { max: 20000, t: "Mastery & Legacy", d: "Long-term guidance with maximum depth and real-life implementation.", ext: "⏱ 12+ Months | 👥 40+ Sessions" }
-                ],
                 s3: { 
-                    t: "The Price of Change", 
-                    s: "Money is the easy part. Mentoring means friction. Accept the psychological costs.",
-                    c1_t: "Ego & Resistance", c1_d: "I understand my brain will resist change. I am ready to expose excuses for what they are.",
-                    c2_t: "Identity Loss", c2_d: "Becoming who I want to be requires letting go of who I am. This might change my social circle.",
-                    c3_t: "Facing Pain", c3_d: "I am willing to look at uncomfortable truths about myself instead of blaming circumstances."
+                    lbl: "PHASE 3: GROUNDING", 
+                    title: "How strongly is your mind anchored in your body?", 
+                    opts: { 
+                        high: "I live almost exclusively in my head. I hardly feel my body.", 
+                        med: "I sometimes feel my body, but often get lost in thoughts.", 
+                        low: "I am mostly well-grounded and connected to my physical senses." 
+                    } 
                 },
                 s4: { 
-                    t: "Almost done!", 
-                    s: "Leave your details for the Fit-Check.",
-                    l_goal: "Goal", l_budget: "Investment", l_mind: "Mindset", l_name: "Name / Pseudonym", l_phone: "Phone Number", l_msg: "Message to us (Optional)",
-                    btn_submit: "SEND APPLICATION", mind_val: "Ready for friction",
-                    placeholders: { name: "Your Name", phone: "+1 555 123 4567", msg: "What should we know in advance?" }
+                    lbl: "PHASE 4: SILENCE", 
+                    title: "When you are alone with yourself, without distraction – what happens?", 
+                    opts: { 
+                        high: "It gets unbearably loud. I immediately need a distraction or action.", 
+                        med: "I endure it briefly, but then look for a task.", 
+                        low: "I can enjoy silence and use it as a source of strength." 
+                    } 
                 },
-                btn: { next: "NEXT", back: "BACK", curr: "$" },
-                legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" },
-                mail: {
-                    subject: "Mentoring Application",
-                    intro: "New Mentoring Application!",
-                    name: "Name", phone: "Phone", goal: "Goal", budget: "Budget",
-                    mindset: "Mindset: Accepted the price of change (Friction, Ego, Identity loss).",
-                    msg: "Message",
-                    alert: "Your email client is opening. Please send the email."
-                }
+                s5: { title: "REFLECTING YOUR STATE...", sub: "Analyzing patterns." },
+                s6: { 
+                    lbl: "THE MIRROR", 
+                    costLbl: "THE PSYCHOLOGICAL TRUTH:", 
+                    costVal: { 
+                        emptiness: "Your system has encapsulated emotions. Emptiness is the void created when we banish unwanted parts of ourselves.", 
+                        bypassing: "You use positivity as a shield. True development doesn't happen merely in the intellect, but in feeling the body.", 
+                        isolation: "Your isolation is a learned protection. Your system has learned that connection means uncertainty." 
+                    }, 
+                    msg: "Development does not mean escaping humanity, but sinking deeply into it. In this flow, we combine inner reflection with physical grounding.",
+                    lvls: { 
+                        ext: { t: "FRAGMENTED", d: "You live heavily in your intellect. Your body urgently needs your presence." }, 
+                        dan: { t: "UNMOORED", d: "You seek answers outside. It's time to direct your attention inward." }, 
+                        ala: { t: "DISSOCIATED", d: "You understand a lot intellectually, but don't live it in your body yet. Time for practice." }, 
+                        cri: { t: "SEARCHING", d: "You recognize your patterns. Now it's about bringing these insights into your daily life." } 
+                    } 
+                },
+                s7: { 
+                    lbl: "FINAL STEP", 
+                    title: "Begin the Integration", 
+                    sub: "Secure your access to the 4-day flow.",
+                    lblFname: "FIRST NAME", lblEmail: "EMAIL",
+                    em: "your@email.com", 
+                    errFill: "Please fill in all fields.", errExists: "Email already exists.",
+                    errServer: "An error occurred. Please try again later.",
+                    placeholders: { fname: "Your First Name" }
+                },
+                legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
             },
             es: {
-                pageTitle: "Shift My Horizon - Solicitud de Mentoría",
-                logo: "SMH Mentoring",
+                pageTitle: "The Integrated Soul - Incorporación",
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTIENDO", pay: "ENTRAR AL CAMINO" },
                 s1: { 
-                    t: "¿Qué quieres lograr?", 
-                    s: "Elige tu objetivo principal para nuestra colaboración.", 
-                    custom: "Tu objetivo personalizado",
-                    custom_ph: "Describe tu objetivo en 1-2 frases..."
+                    lbl: "FASE 1: LA SOMBRA", 
+                    title: "¿Qué sentimiento subyacente te acompaña más a menudo?", 
+                    opts: { 
+                        emptiness: "Un vacío profundo, sin importar lo que logre. (Crisis de sentido)", 
+                        bypassing: "Me refugio en la positividad, pero nada cambia en la realidad. (Evasión)", 
+                        isolation: "La sensación de estar desconectado/a del mundo. (Separación)" 
+                    } 
                 },
-                goals: [
-                    { id: 'business', icon: '🚀', label: 'Negocios y Carrera', desc: 'Fundar, escalar o avanzar' },
-                    { id: 'habits', icon: '🧠', label: 'Enfoque y Disciplina', desc: 'Acabar con la procrastinación' },
-                    { id: 'relationship', icon: '❤️', label: 'Relaciones', desc: 'Salvar o reconstruir tu pareja' },
-                    { id: 'confidence', icon: '🦁', label: 'Autoconfianza', desc: 'Fuerza interior y poner límites' },
-                    { id: 'purpose', icon: '🧭', label: 'Propósito y Dirección', desc: 'Encontrar tu misión y claridad' },
-                    { id: 'other', icon: '✏️', label: 'Personalizado', desc: 'Define tu propio objetivo' }
-                ],
                 s2: { 
-                    t: "Tu Compromiso", 
-                    s: "¿Cuánto estás dispuesto a invertir en ti? El contenido se adapta.", 
-                    hint: "Esta no es una reserva vinculante, solo nos ayuda a emparejarte." 
+                    lbl: "FASE 2: LAS CONSECUENCIAS", 
+                    title: "¿Qué te cuesta esta desconexión aquí y ahora? (Opción múltiple)", 
+                    opts: { 
+                        emptiness: ["Adormecimiento frente a la verdadera alegría y el dolor.", "Compensación a través del exceso de trabajo o consumo.", "La sensación persistente de desperdiciar mi potencial."], 
+                        bypassing: ["Falta de enraizamiento y pérdida de contacto con la realidad.", "Ira reprimida y latente (aspectos de la sombra).", "Agotamiento por el impulso constante de autooptimización."], 
+                        isolation: ["Incapacidad de permitir una intimidad real.", "La sensación de apenas notar mi propio cuerpo.", "Un sentimiento central de falta de valor."] 
+                    } 
                 },
-                packs: [
-                    { max: 2000, t: "Fundamentos y Victorias Rápidas", d: "Estrategias de aplicación inmediata para tu mayor obstáculo.", ext: "⏱ 4-6 Semanas | 👥 3-4 Sesiones" },
-                    { max: 4000, t: "Transformación Sólida", d: "Construimos cimientos: mentalidad, rutinas, primeros cambios.", ext: "⏱ 2-3 Meses | 👥 6-8 Sesiones" },
-                    { max: 6000, t: "Trabajo Profundo y Realineación", d: "Trabajamos en creencias, patrones emocionales e identidad.", ext: "⏱ 3-4 Meses | 👥 12+ Sesiones" },
-                    { max: 10000, t: "Transformación Intensiva", d: "6 meses de coaching intensivo con estructura clara y feedback.", ext: "⏱ 6 Meses | 👥 20+ Sesiones" },
-                    { max: 20000, t: "Maestría y Legado", d: "Acompañamiento a largo plazo con máxima profundidad.", ext: "⏱ 12+ Meses | 👥 40+ Sesiones" }
-                ],
                 s3: { 
-                    t: "El Precio del Cambio", 
-                    s: "El dinero es la parte fácil. La mentoría implica fricción. Acepta los costos psicológicos.",
-                    c1_t: "Ego y Resistencia", c1_d: "Entiendo que mi cerebro se resistirá al cambio. Estoy listo para exponer las excusas por lo que son.",
-                    c2_t: "Pérdida de Identidad", c2_d: "Convertirme en quien quiero ser requiere dejar ir a quien soy ahora. Esto puede cambiar mi entorno.",
-                    c3_t: "Enfrentar el Dolor", c3_d: "Estoy dispuesto a ver verdades incómodas sobre mí mismo en lugar de culpar a las circunstancias."
+                    lbl: "FASE 3: ENRAIZAMIENTO", 
+                    title: "¿Qué tan anclada está tu mente en tu cuerpo?", 
+                    opts: { 
+                        high: "Vivo casi exclusivamente en mi cabeza. Apenas siento mi cuerpo.", 
+                        med: "A veces siento mi cuerpo, pero a menudo me pierdo en pensamientos.", 
+                        low: "Principalmente estoy bien enraizado/a y conectado/a con mis sentidos físicos." 
+                    } 
                 },
                 s4: { 
-                    t: "¡Casi listo!", 
-                    s: "Deja tus datos para el Fit-Check.",
-                    l_goal: "Objetivo", l_budget: "Inversión", l_mind: "Mentalidad", l_name: "Nombre / Seudónimo", l_phone: "Número de teléfono", l_msg: "Mensaje para nosotros (Opcional)",
-                    btn_submit: "ENVIAR SOLICITUD", mind_val: "Listo para la fricción",
-                    placeholders: { name: "Tu Nombre", phone: "+34 600 123 456", msg: "¿Qué deberíamos saber de antemano?" }
+                    lbl: "FASE 4: SILENCIO", 
+                    title: "Cuando estás a solas contigo mismo/a, sin distracciones, ¿qué pasa?", 
+                    opts: { 
+                        high: "Se vuelve insoportablemente ruidoso. Necesito acción o distracción de inmediato.", 
+                        med: "Lo soporto brevemente, pero luego busco una tarea.", 
+                        low: "Puedo disfrutar del silencio y usarlo como fuente de fuerza." 
+                    } 
                 },
-                btn: { next: "SIGUIENTE", back: "ATRÁS", curr: "€" },
-                legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" },
-                mail: {
-                    subject: "Solicitud de Mentoría",
-                    intro: "¡Nueva Solicitud de Mentoría!",
-                    name: "Nombre", phone: "Teléfono", goal: "Objetivo", budget: "Inversión",
-                    mindset: "Mentalidad: Aceptó el precio del cambio (Fricción, Ego, Pérdida de identidad).",
-                    msg: "Mensaje",
-                    alert: "Se está abriendo tu cliente de correo. Por favor, envía el correo."
-                }
+                s5: { title: "REFLEJANDO TU ESTADO...", sub: "Analizando patrones." },
+                s6: { 
+                    lbl: "EL ESPEJO", 
+                    costLbl: "LA VERDAD PSICOLÓGICA:", 
+                    costVal: { 
+                        emptiness: "Tu sistema ha encapsulado emociones. El vacío es el espacio creado al desterrar partes no deseadas de nosotros mismos.", 
+                        bypassing: "Usas la positividad como escudo. El verdadero desarrollo no ocurre solo en el intelecto, sino sintiendo el cuerpo.", 
+                        isolation: "Tu aislamiento es una protección aprendida. Tu sistema ha aprendido que la conexión significa incertidumbre." 
+                    }, 
+                    msg: "El desarrollo no significa escapar de la humanidad, sino hundirse profundamente en ella. En este flujo, combinamos la reflexión interior con el enraizamiento físico.",
+                    lvls: { 
+                        ext: { t: "FRAGMENTADO", d: "Vives fuertemente en tu intelecto. Tu cuerpo necesita urgentemente tu presencia." }, 
+                        dan: { t: "DESARRAIGADO", d: "Buscas respuestas afuera. Es hora de dirigir tu atención hacia adentro." }, 
+                        ala: { t: "DISOCIADO", d: "Entiendes mucho intelectualmente, pero aún no lo vives en tu cuerpo. Tiempo de práctica." }, 
+                        cri: { t: "BUSCADOR", d: "Reconoces tus patrones. Ahora se trata de llevar estas percepciones a tu vida diaria." } 
+                    } 
+                },
+                s7: { 
+                    lbl: "EL PRÓXIMO PASO", 
+                    title: "Comienza la Integración", 
+                    sub: "Asegura tu acceso al flujo de 4 días.",
+                    lblFname: "NOMBRE", lblEmail: "EMAIL",
+                    em: "tu@email.com", 
+                    errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
+                    errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
+                    placeholders: { fname: "Tu Nombre" }
+                },
+                legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
             }
         };
 
-        let lang = localStorage.getItem('smh_language') || 'de';
-        if (!['de', 'en', 'es'].includes(lang)) { lang = 'de'; }
-
+        // Sicherheits-Check für die Sprache
+        let currentLang = localStorage.getItem('smh_language');
+        if (!currentLang || !t[currentLang]) {
+            currentLang = 'de';
+        }
+        
         let step = 1;
-        let data = { goalId: null, goalText: '', budget: 4000, costs: [false, false, false] };
+        let answers = { root_problem: 'emptiness', pain_point: [], grounding: 'low', silence: 'low' };
+        
+        const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
-        function init() {
-            document.getElementById('langSelect').value = lang;
-            document.documentElement.lang = lang;
-            updateUI();
-            renderGoals();
-            updateBudget(4000);
-            document.getElementById('progressBar').style.width = `${(1 / 4) * 100}%`;
+        function updateTexts() {
+            const l = t[currentLang];
+            document.documentElement.lang = currentLang;
+            document.title = l.pageTitle;
+            
+            bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
+            
+            document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
+            document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
+            document.getElementById('s3-lbl').innerText = l.s3.lbl; document.getElementById('s3-title').innerText = l.s3.title;
+            document.getElementById('s4-lbl').innerText = l.s4.lbl; document.getElementById('s4-title').innerText = l.s4.title;
+            document.getElementById('s5-title').innerText = l.s5.title; document.getElementById('s5-sub').innerText = l.s5.sub;
+            
+            document.getElementById('s6-lbl').innerText = l.s6.lbl; 
+            
+            document.getElementById('s7-lbl').innerText = l.s7.lbl; 
+            document.getElementById('s7-title').innerText = l.s7.title; 
+            document.getElementById('s7-sub').innerText = l.s7.sub;
+            
+            document.getElementById('lbl-fname').innerText = l.s7.lblFname;
+            document.getElementById('lbl-email').innerText = l.s7.lblEmail;
+            document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
+            document.getElementById('reg-email').placeholder = l.s7.em; 
+            document.getElementById('btn-register').innerText = l.btn.pay;
+
+            document.getElementById('link-imp').innerText = l.legal.imp;
+            document.getElementById('link-dat').innerText = l.legal.dat;
+            document.getElementById('link-agb').innerText = l.legal.agb;
+            document.getElementById('link-cook').innerText = l.legal.cook;
         }
 
-        function changeLanguage(l) {
-            lang = l;
-            localStorage.setItem('smh_language', lang);
-            document.documentElement.lang = lang;
-            updateUI();
-            renderGoals();
-            updateBudget(document.getElementById('budget-slider').value);
+        window.onload = () => { 
+            document.getElementById('langSelect').value = currentLang;
+            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`; 
+        };
+
+        function selectLang(lang) { 
+            currentLang = lang; localStorage.setItem('smh_language', lang);
+            updateTexts(); buildOptions(); if (step === 6) renderResult(); 
         }
 
-        function updateUI() {
-            const d = t[lang];
-            
-            document.title = d.pageTitle;
-            document.getElementById('logo-text').innerText = d.logo;
-
-            document.getElementById('s1-title').innerText = d.s1.t; document.getElementById('s1-sub').innerText = d.s1.s; document.getElementById('s1-custom-lbl').innerText = d.s1.custom;
-            document.getElementById('custom-goal').placeholder = d.s1.custom_ph;
-            
-            document.getElementById('s2-title').innerText = d.s2.t; document.getElementById('s2-sub').innerText = d.s2.s; document.getElementById('s2-hint').innerText = d.s2.hint;
-            
-            document.getElementById('s3-title').innerText = d.s3.t; document.getElementById('s3-sub').innerText = d.s3.s;
-            document.getElementById('c1-title').innerText = d.s3.c1_t; document.getElementById('c1-desc').innerText = d.s3.c1_d;
-            document.getElementById('c2-title').innerText = d.s3.c2_t; document.getElementById('c2-desc').innerText = d.s3.c2_d;
-            document.getElementById('c3-title').innerText = d.s3.c3_t; document.getElementById('c3-desc').innerText = d.s3.c3_d;
-            
-            document.getElementById('s4-title').innerText = d.s4.t; document.getElementById('s4-sub').innerText = d.s4.s;
-            document.getElementById('sum-lbl-goal').innerText = d.s4.l_goal; 
-            document.getElementById('sum-lbl-budget').innerText = d.s4.l_budget; 
-            document.getElementById('sum-lbl-mindset').innerText = d.s4.l_mind;
-            document.getElementById('sum-val-mindset').innerText = d.s4.mind_val;
-
-            document.getElementById('lbl-name').innerText = d.s4.l_name;
-            document.getElementById('lbl-phone').innerText = d.s4.l_phone; 
-            document.getElementById('lbl-msg').innerText = d.s4.l_msg;
-
-            document.getElementById('inp-name').placeholder = d.s4.placeholders.name;
-            document.getElementById('inp-phone').placeholder = d.s4.placeholders.phone;
-            document.getElementById('inp-msg').placeholder = d.s4.placeholders.msg;
-
-            document.getElementById('btn-back').innerText = d.btn.back;
-            
-            if (step === 4) {
-                document.getElementById('btn-next').innerText = d.s4.btn_submit;
-            } else {
-                document.getElementById('btn-next').innerText = d.btn.next;
-            }
-
-            document.getElementById('link-imp').innerText = d.legal.imp;
-            document.getElementById('link-dat').innerText = d.legal.dat;
-            document.getElementById('link-agb').innerText = d.legal.agb;
-            document.getElementById('link-cook').innerText = d.legal.cook;
+        function createOptionBtn(text, isSelected, isMulti, onClick) {
+            const div = document.createElement('div'); div.className = `quiz-btn ${isSelected ? 'selected' : ''}`; div.onclick = onClick;
+            const textDiv = document.createElement('div'); textDiv.className = 'quiz-btn-text'; textDiv.innerText = text;
+            const iconDiv = document.createElement('div'); iconDiv.className = isMulti ? 'check-icon' : 'radio-icon';
+            if (isMulti) iconDiv.innerText = '✓';
+            div.appendChild(textDiv); div.appendChild(iconDiv); return div;
         }
 
-        function renderGoals() {
-            const container = document.getElementById('goal-container');
-            container.innerHTML = '';
-            t[lang].goals.forEach(g => {
-                const div = document.createElement('div');
-                div.className = `goal-card ${data.goalId === g.id ? 'selected' : ''}`;
-                div.onclick = () => selectGoal(g.id, g.label);
-                div.innerHTML = `<div class="goal-icon">${g.icon}</div><div class="goal-label">${g.label}</div><div class="goal-desc">${g.desc}</div>`;
-                container.appendChild(div);
-            });
-            if (data.goalId === 'other') {
-                document.getElementById('custom-goal-container').style.display = 'block';
-            } else {
-                document.getElementById('custom-goal-container').style.display = 'none';
-            }
-        }
-
-        function selectGoal(id, label) {
-            data.goalId = id;
-            data.goalText = label;
-            renderGoals();
-            checkNextState();
-            
-            if (id !== 'other') {
-                setTimeout(() => nextStep(), 400);
-            }
-        }
-
-        function updateBudget(val) {
-            data.budget = parseInt(val);
-            let formatted = new Intl.NumberFormat(lang === 'en' ? 'en-US' : (lang === 'es' ? 'es-ES' : 'de-DE')).format(val);
-            if (val >= 20000) formatted = "20.000+";
-            
-            document.getElementById('budget-display').innerText = `${lang === 'en' ? t[lang].btn.curr : ''}${formatted} ${lang !== 'en' ? t[lang].btn.curr : ''}`.trim();
-            
-            const pack = t[lang].packs.find(p => val <= p.max) || t[lang].packs[t[lang].packs.length - 1];
-            document.getElementById('pack-title').innerText = pack.t;
-            document.getElementById('pack-desc').innerText = pack.d;
-            document.getElementById('pack-details').innerText = pack.ext;
-        }
-
-        function toggleCost(idx) {
-            data.costs[idx-1] = !data.costs[idx-1];
-            document.getElementById(`cost-${idx}`).className = `cost-box ${data.costs[idx-1] ? 'selected' : ''}`;
-            checkNextState();
-
-            if (data.costs.every(c => c === true) && step === 3) {
-                setTimeout(() => nextStep(), 450);
-            }
+        function buildOptions() {
+            const l = t[currentLang], root = answers.root_problem;
+            const build = (id, opts, key, multi) => {
+                const el = document.getElementById(id); el.innerHTML = '';
+                Object.entries(opts).forEach(([k, v]) => {
+                    const isSelected = multi ? answers[key].includes(v) : answers[key] === k;
+                    el.appendChild(createOptionBtn(v, isSelected, multi, () => {
+                        if(multi) {
+                            const idx = answers[key].indexOf(v);
+                            if (idx > -1) answers[key].splice(idx, 1); else answers[key].push(v);
+                            buildOptions(); checkNextState();
+                        } else {
+                            answers[key] = k; buildOptions(); checkNextState();
+                            setTimeout(() => handleNext(), 350); // Fast Auto-Advance
+                        }
+                    }));
+                });
+            };
+            build('s1-opts', l.s1.opts, 'root_problem', false);
+            build('s2-opts', l.s2.opts[root], 'pain_point', true);
+            build('s3-opts', l.s3.opts, 'grounding', false);
+            build('s4-opts', l.s4.opts, 'silence', false);
         }
 
         function checkNextState() {
-            let canGo = false;
-            if (step === 1) {
-                if (data.goalId === 'other') canGo = document.getElementById('custom-goal').value.trim().length > 0;
-                else canGo = data.goalId !== null;
-            } else if (step === 2) {
-                canGo = true;
-            } else if (step === 3) {
-                canGo = data.costs.every(c => c === true);
-            } else if (step === 4) {
-                canGo = document.getElementById('inp-name').value.trim().length > 0 && document.getElementById('inp-phone').value.trim().length > 0;
-            }
-            document.getElementById('btn-next').disabled = !canGo;
+            bNext.disabled = (step === 2 && answers.pain_point.length === 0);
         }
 
-        document.getElementById('custom-goal').addEventListener('input', checkNextState);
-        document.getElementById('inp-name').addEventListener('input', checkNextState);
-        document.getElementById('inp-phone').addEventListener('input', checkNextState);
-
-        function nextStep() {
-            if (step === 4) { submitForm(); return; }
-            document.getElementById(`step-${step}`).classList.remove('active');
-            step++;
+        function renderResult() {
+            let score = 75;
+            if(answers.grounding === 'high') score += 12; else if(answers.grounding === 'med') score += 6;
+            if(answers.silence === 'high') score += 12; else if(answers.silence === 'med') score += 6;
             
-            if (step === 4) {
-                document.getElementById('sum-val-goal').innerText = data.goalId === 'other' ? document.getElementById('custom-goal').value : data.goalText;
-                document.getElementById('sum-val-budget').innerText = document.getElementById('budget-display').innerText;
-                document.getElementById('btn-next').innerText = t[lang].s4.btn_submit;
-            } else {
-                document.getElementById('btn-next').innerText = t[lang].btn.next;
-            }
+            const res = t[currentLang].s6;
+            let lvl, col;
+            
+            if (score >= 90) { lvl = res.lvls.ext; col = '#b05c6e'; }
+            else if (score >= 85) { lvl = res.lvls.dan; col = '#b05c6e'; }
+            else if (score >= 80) { lvl = res.lvls.ala; col = '#d698a6'; }
+            else { lvl = res.lvls.cri; col = '#cba677'; }
 
-            document.getElementById(`step-${step}`).classList.add('active');
-            document.getElementById('btn-back').style.display = 'block';
-            document.getElementById('progressBar').style.width = `${(step / 4) * 100}%`;
-            checkNextState();
-            window.scrollTo(0,0);
+            document.getElementById('s6-lbl').innerText = res.lbl;
+            document.getElementById('res-score').innerText = lvl.t; 
+            document.getElementById('res-score').style.color = col; 
+            document.getElementById('res-level').innerText = lvl.d; 
+            document.getElementById('res-level').style.color = col;
+            document.getElementById('res-card').style.borderColor = col;
+            
+            document.getElementById('res-cost-lbl').innerText = res.costLbl; 
+            document.getElementById('res-cost-lbl').style.color = col;
+            document.getElementById('res-info-box').style.borderLeftColor = col; 
+            
+            document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
+            document.getElementById('s6-msg').innerText = res.msg;
         }
 
-        function prevStep() {
+        function handleNext() {
+            document.getElementById(`step-${step}`).classList.remove('active'); step++;
+            document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
+            pBar.style.width = `${((step - 1) / 6) * 100}%`;
+            
+            bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
+            if(step === 6) bNext.innerText = t[currentLang].btn.next;
+            checkNextState();
+            
+            document.getElementById(`step-${step}`).classList.add('active'); window.scrollTo(0,0);
+            if(step === 5) setTimeout(() => { handleNext(); renderResult(); }, 2000);
+        }
+
+        function handleBack() {
             document.getElementById(`step-${step}`).classList.remove('active');
-            step--;
+            step = Math.max(1, step === 6 ? 4 : step - 1);
             document.getElementById(`step-${step}`).classList.add('active');
-            document.getElementById('btn-next').innerText = t[lang].btn.next;
-            document.getElementById('btn-back').style.display = step === 1 ? 'none' : 'block';
-            document.getElementById('progressBar').style.width = `${(step / 4) * 100}%`;
-            checkNextState();
-            window.scrollTo(0,0);
+            document.querySelector('.progress-container').style.display = 'block';
+            pBar.style.width = `${((step - 1) / 6) * 100}%`;
+            bBar.style.display = (step === 2) ? 'flex' : 'none';
+            checkNextState(); window.scrollTo(0,0);
         }
 
-        function submitForm() {
-            const name = document.getElementById('inp-name').value.trim();
-            const phone = document.getElementById('inp-phone').value.trim();
-            const msg = document.getElementById('inp-msg').value.trim();
-            const finalGoal = data.goalId === 'other' ? document.getElementById('custom-goal').value.trim() : data.goalText;
-            const budgetStr = document.getElementById('budget-display').innerText;
+        async function handleRegistration() {
+            const fname = document.getElementById('reg-fname').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const errEl = document.getElementById('reg-error');
+            const btn = document.getElementById('btn-register'); 
+            
+            if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
+            errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
-            const m = t[lang].mail;
-            const subject = `${m.subject} - ${name}`;
-            const body = `${m.intro}\n\n${m.name}: ${name}\n${m.phone}: ${phone}\n\n${m.goal}: ${finalGoal}\n${m.budget}: ${budgetStr}\n\n${m.mindset}\n\n${m.msg}:\n${msg || '-'}`;
+            try {
+                if (!supabaseClient) {
+                    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                }
 
-            const mailtoUrl = `mailto:coaching@shiftmyhorizon.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.location.href = mailtoUrl;
+                const { error } = await supabaseClient.from('leads').insert([
+                    { 
+                        email: email, 
+                        first_name: fname, 
+                        source: 'integrated_soul_7_step',
+                        marketing_consent: true,
+                        onboarding_data: answers 
+                    }
+                ]);
 
-            setTimeout(() => {
-                alert(m.alert);
-            }, 500);
+                if (error) throw error;
+
+                const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
+                window.location.href = `${digistoreBaseUrl}?custom=soul_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
+            } catch(e) {
+                console.error(e);
+                errEl.innerText = t[currentLang].s7.errServer; 
+                errEl.style.display = 'block';
+                btn.disabled = false;
+                btn.innerText = t[currentLang].btn.pay;
+            }
         }
-
-        init();
     </script>
 </body>
 </html>
