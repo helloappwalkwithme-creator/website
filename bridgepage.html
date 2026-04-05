@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" id="html-tag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title id="page-title">Shift My Horizon - The Next Step</title>
+    <style>
+        :root {
+            --dark: #000000;
+            --gray: #111111;
+            --border: #333333;
+            --gold: #d4af37;
+            --text: #ffffff;
+            --highlight: #1a1a1a;
+        }
+
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--dark); 
+            color: var(--text); 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        main { 
+            flex: 1; 
+            padding: 40px 20px 100px 20px; 
+            max-width: 600px; 
+            margin: 0 auto; 
+            width: 100%; 
+        }
+
+        .flow-title { color: var(--gold); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; text-align: center; }
+        .h1-title { font-size: 32px; font-weight: 800; margin-top: 0; margin-bottom: 20px; color: var(--text); line-height: 1.2; text-align: center; }
+        
+        .hero-box {
+            background-color: var(--highlight);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--gold);
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+        }
+
+        .hero-text { font-size: 16px; color: #e0e0e0; margin: 0; }
+
+        .feature-list { list-style: none; padding: 0; margin: 0 0 40px 0; }
+        .feature-item { 
+            display: flex; 
+            align-items: flex-start; 
+            margin-bottom: 16px; 
+            background: var(--gray);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .check-icon { color: var(--gold); font-weight: bold; margin-right: 12px; font-size: 18px; }
+        .feature-text { font-size: 15px; color: #ccc; margin: 0; }
+        .feature-title { color: #fff; font-weight: 700; display: block; margin-bottom: 4px; }
+
+        .btn-gold { 
+            background-color: var(--gold); 
+            color: var(--dark); 
+            padding: 18px; 
+            border-radius: 10px; 
+            font-weight: 800; 
+            font-size: 16px; 
+            text-transform: uppercase; 
+            border: none; 
+            width: 100%; 
+            cursor: pointer; 
+            text-align: center; 
+            letter-spacing: 0.5px;
+            display: block;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+        .btn-gold:active { transform: scale(0.98); }
+
+        .guarantee { text-align: center; font-size: 13px; color: #888; margin-top: 16px; }
+
+        .legal-footer { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border); font-size: 11px; }
+        .legal-footer a { color: #888; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+<body>
+
+    <main>
+        <div class="flow-title" id="ui-flow-title"></div>
+        <h1 class="h1-title" id="dynamic-headline"></h1>
+
+        <div class="hero-box">
+            <p class="hero-text" id="dynamic-hero"></p>
+        </div>
+
+        <ul class="feature-list">
+            <li class="feature-item">
+                <div class="check-icon">✓</div>
+                <div>
+                    <span class="feature-title" id="feat-1-title"></span>
+                    <p class="feature-text" id="feat-1-text"></p>
+                </div>
+            </li>
+            <li class="feature-item">
+                <div class="check-icon">✓</div>
+                <div>
+                    <span class="feature-title" id="ui-feat-2-title"></span>
+                    <p class="feature-text" id="ui-feat-2-text"></p>
+                </div>
+            </li>
+            <li class="feature-item">
+                <div class="check-icon">✓</div>
+                <div>
+                    <span class="feature-title" id="ui-feat-3-title"></span>
+                    <p class="feature-text" id="ui-feat-3-text"></p>
+                </div>
+            </li>
+        </ul>
+
+        <a href="#" id="checkout-btn" class="btn-gold" onclick="goToCheckout(event)"></a>
+        <div class="guarantee" id="ui-guarantee"></div>
+    </main>
+
+    <footer class="legal-footer">
+        <a href="impressum.html" id="link-imp"></a> | 
+        <a href="datenschutz.html" id="link-dat"></a> | 
+        <a href="agb.html" id="link-agb"></a>
+    </footer>
+
+    <script>
+        const DIGISTORE_BASE_URL = "https://www.checkout-ds24.com/product/XXXXXX/";
+
+        // Komplette Sprach- und Content-Datenbank
+        const t = {
+            en: {
+                ui: {
+                    pageTitle: "Shift My Horizon - The Next Step",
+                    flowTitle: "Your 4-Day Journey is Complete",
+                    feat2Title: "Uncompromising Accountability",
+                    feat2Text: "Track your progress and eliminate the excuses you identified in Day 2.",
+                    feat3Title: "The Brotherhood (Spartan Squad)",
+                    feat3Text: "Surround yourself with men on the exact same mission. No judgment, just forward momentum.",
+                    btn: "Unlock Full Access Now",
+                    guarantee: "🔒 Secure Checkout via Digistore24",
+                    legal: { imp: "Imprint", dat: "Privacy", agb: "Terms" }
+                },
+                problems: {
+                    porn: {
+                        headline: "The Structure to Reclaim Your Focus, <span id='user-name' style='color: var(--gold);'>Brother</span>.",
+                        hero: "Motivation fades. To break your dopamine addiction and digital overconsumption permanently, you need accountability and a hard reset for your brain. This is what the app provides.",
+                        feat1Title: "Dopamine Reset Protocol",
+                        feat1Text: "Daily actionable tasks to replace mindless scrolling and porn with relentless, focused execution."
+                    },
+                    gettinggirls: {
+                        headline: "The Structure to Build Bulletproof Confidence, <span id='user-name' style='color: var(--gold);'>Brother</span>.",
+                        hero: "Motivation fades. To break your social hesitation and anxiety around women, you need constant exposure, structure, and real action steps. This is what the app provides.",
+                        feat1Title: "Social Integration Protocol",
+                        feat1Text: "Daily field missions to kill approach anxiety and build natural, grounded masculine polarity."
+                    },
+                    relationship: {
+                        headline: "The Structure to Reclaim Your Leadership, <span id='user-name' style='color: var(--gold);'>Brother</span>.",
+                        hero: "Motivation fades. To stop the constant conflicts and rebuild intimacy and respect, you need to establish a solid frame and daily leadership. This is what the app provides.",
+                        feat1Title: "Masculine Frame Protocol",
+                        feat1Text: "Daily tasks to ground yourself, stop reacting emotionally, and lead your relationship with certainty."
+                    },
+                    default: {
+                        headline: "The Structure You Need to Build Lasting Momentum, <span id='user-name' style='color: var(--gold);'>Brother</span>.",
+                        hero: "Motivation fades. To break your old patterns permanently, you need accountability, hard structure, and a clear mission path. This is what the app provides.",
+                        feat1Title: "Daily Mission Protocol",
+                        feat1Text: "Actionable tasks replacing your old habits with relentless execution."
+                    }
+                }
+            },
+            de: {
+                ui: {
+                    pageTitle: "Shift My Horizon - Der nächste Schritt",
+                    flowTitle: "Deine 4-Tage-Reise ist abgeschlossen",
+                    feat2Title: "Kompromisslose Verantwortlichkeit",
+                    feat2Text: "Verfolge deinen Fortschritt und eliminiere die Ausreden, die du an Tag 2 identifiziert hast.",
+                    feat3Title: "Die Bruderschaft (Spartan Squad)",
+                    feat3Text: "Umgib dich mit Männern, die auf der exakt gleichen Mission sind. Kein Verurteilen, nur Fortschritt.",
+                    btn: "Jetzt vollständigen Zugang sichern",
+                    guarantee: "🔒 Sichere Kasse via Digistore24",
+                    legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB" }
+                },
+                problems: {
+                    porn: {
+                        headline: "Die Struktur, um deinen Fokus zurückzugewinnen, <span id='user-name' style='color: var(--gold);'>Bruder</span>.",
+                        hero: "Motivation verblasst. Um deine Dopaminsucht und den digitalen Überkonsum dauerhaft zu brechen, brauchst du einen harten Reset für dein Gehirn. Genau das liefert die App.",
+                        feat1Title: "Dopamin-Reset-Protokoll",
+                        feat1Text: "Tägliche Aufgaben, um sinnloses Scrollen durch unerbittliche, fokussierte Umsetzung zu ersetzen."
+                    },
+                    gettinggirls: {
+                        headline: "Die Struktur für unerschütterliches Selbstbewusstsein, <span id='user-name' style='color: var(--gold);'>Bruder</span>.",
+                        hero: "Motivation verblasst. Um deine soziale Zurückhaltung bei Frauen zu brechen, brauchst du Struktur und echte Handlungsschritte. Genau das liefert die App.",
+                        feat1Title: "Soziales Integrations-Protokoll",
+                        feat1Text: "Tägliche Missionen, um Ansprechängste zu vernichten und natürliche, maskuline Polarität aufzubauen."
+                    },
+                    relationship: {
+                        headline: "Die Struktur, um deine Führung zurückzugewinnen, <span id='user-name' style='color: var(--gold);'>Bruder</span>.",
+                        hero: "Motivation verblasst. Um ständige Konflikte zu stoppen und Intimität neu aufzubauen, musst du einen soliden Rahmen etablieren. Genau das liefert die App.",
+                        feat1Title: "Maskulines Rahmen-Protokoll",
+                        feat1Text: "Tägliche Aufgaben, um dich zu erden, emotionale Reaktionen zu stoppen und deine Beziehung zu führen."
+                    },
+                    default: {
+                        headline: "Die Struktur, um echtes Momentum aufzubauen, <span id='user-name' style='color: var(--gold);'>Bruder</span>.",
+                        hero: "Motivation verblasst. Um alte Muster dauerhaft zu brechen, brauchst du harte Struktur und einen klaren Missionspfad. Genau das liefert die App.",
+                        feat1Title: "Tägliches Missions-Protokoll",
+                        feat1Text: "Umsetzbare Aufgaben, die deine alten Gewohnheiten durch Disziplin ersetzen."
+                    }
+                }
+            },
+            es: {
+                ui: {
+                    pageTitle: "Shift My Horizon - El siguiente paso",
+                    flowTitle: "Tu viaje de 4 días ha terminado",
+                    feat2Title: "Responsabilidad inquebrantable",
+                    feat2Text: "Sigue tu progreso y elimina las excusas que identificaste en el Día 2.",
+                    feat3Title: "La Hermandad (Spartan Squad)",
+                    feat3Text: "Rodéate de hombres en la misma misión. Sin juicios, solo avance.",
+                    btn: "Desbloquear acceso completo ahora",
+                    guarantee: "🔒 Pago seguro a través de Digistore24",
+                    legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos" }
+                },
+                problems: {
+                    porn: {
+                        headline: "La estructura para recuperar tu enfoque, <span id='user-name' style='color: var(--gold);'>Hermano</span>.",
+                        hero: "La motivación se desvanece. Para romper tu adicción a la dopamina y el consumo digital permanentemente, necesitas un reinicio para tu cerebro. Esto es lo que ofrece la aplicación.",
+                        feat1Title: "Protocolo de Reinicio de Dopamina",
+                        feat1Text: "Tareas diarias para reemplazar el scrolling sin sentido con ejecución enfocada e implacable."
+                    },
+                    gettinggirls: {
+                        headline: "La estructura para una confianza a prueba de balas, <span id='user-name' style='color: var(--gold);'>Hermano</span>.",
+                        hero: "La motivación se desvanece. Para romper tu ansiedad social con las mujeres, necesitas estructura y pasos de acción reales. Esto es lo que ofrece la aplicación.",
+                        feat1Title: "Protocolo de Integración Social",
+                        feat1Text: "Misiones diarias para eliminar la ansiedad de acercamiento y construir polaridad masculina."
+                    },
+                    relationship: {
+                        headline: "La estructura para recuperar tu liderazgo, <span id='user-name' style='color: var(--gold);'>Hermano</span>.",
+                        hero: "La motivación se desvanece. Para detener los conflictos y reconstruir la intimidad, debes establecer un marco sólido. Esto es lo que ofrece la aplicación.",
+                        feat1Title: "Protocolo de Marco Masculino",
+                        feat1Text: "Tareas diarias para detener las reacciones emocionales y liderar tu relación con certeza."
+                    },
+                    default: {
+                        headline: "La estructura para construir un impulso duradero, <span id='user-name' style='color: var(--gold);'>Hermano</span>.",
+                        hero: "La motivación se desvanece. Para romper tus viejos patrones de forma permanente, necesitas estructura dura. Esto es lo que ofrece la aplicación.",
+                        feat1Title: "Protocolo de Misiones Diarias",
+                        feat1Text: "Tareas para reemplazar tus viejos hábitos con ejecución implacable."
+                    }
+                }
+            }
+        };
+
+        // 1. URL Parameter auslesen
+        const urlParams = new URLSearchParams(window.location.search);
+        let fname = urlParams.get('fname');
+        const email = urlParams.get('email');
+        const rawLang = urlParams.get('lang') || 'en';
+        const problem = urlParams.get('problem') || 'default';
+
+        // Sprache verifizieren (Fallback auf Englisch, falls ein ungültiger Code mitgegeben wird)
+        const lang = t[rawLang] ? rawLang : 'en';
+        const content = t[lang];
+        const problemContent = content.problems[problem] || content.problems['default'];
+
+        // 2. HTML Tag Language setzen
+        document.getElementById('html-tag').lang = lang;
+        document.getElementById('page-title').innerText = content.ui.pageTitle;
+
+        // 3. UI Elemente übersetzen
+        document.getElementById('ui-flow-title').innerText = content.ui.flowTitle;
+        document.getElementById('ui-feat-2-title').innerText = content.ui.feat2Title;
+        document.getElementById('ui-feat-2-text').innerText = content.ui.feat2Text;
+        document.getElementById('ui-feat-3-title').innerText = content.ui.feat3Title;
+        document.getElementById('ui-feat-3-text').innerText = content.ui.feat3Text;
+        document.getElementById('checkout-btn').innerText = content.ui.btn;
+        document.getElementById('ui-guarantee').innerText = content.ui.guarantee;
+        document.getElementById('link-imp').innerText = content.ui.legal.imp;
+        document.getElementById('link-dat').innerText = content.ui.legal.dat;
+        document.getElementById('link-agb').innerText = content.ui.legal.agb;
+
+        // 4. Problem-spezifische Inhalte setzen
+        document.getElementById('dynamic-headline').innerHTML = problemContent.headline;
+        document.getElementById('dynamic-hero').innerText = problemContent.hero;
+        document.getElementById('feat-1-title').innerText = problemContent.feat1Title;
+        document.getElementById('feat-1-text').innerText = problemContent.feat1Text;
+
+        // 5. Namen personalisieren
+        if (fname && fname.trim() !== '') {
+            document.getElementById('user-name').innerText = decodeURIComponent(fname);
+        }
+
+        // 6. Checkout-Link generieren
+        function goToCheckout(e) {
+            e.preventDefault();
+            let finalUrl = DIGISTORE_BASE_URL + "?custom=bridge_page";
+            
+            if (fname) finalUrl += "&first_name=" + encodeURIComponent(fname);
+            if (email) finalUrl += "&email=" + encodeURIComponent(email);
+            
+            window.location.href = finalUrl;
+        }
+    </script>
+</body>
+</html>
