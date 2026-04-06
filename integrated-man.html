@@ -278,7 +278,6 @@
     <script>
         const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
-        const MAKE_WEBHOOK_URL = 'DEINE_MAKE_WEBHOOK_URL';
 
         let supabaseClient = null;
 
@@ -503,7 +502,8 @@
 
         let currentLang = localStorage.getItem('smh_language') || 'de';
         let step = 1;
-        let answers = { root_problem: 'porn', pain_point: [], energy: 'low', satisfaction: 'low' };
+        // HIER WURDEN DIE VORAUSGEWÄHLTEN PLATZHALTER ENTFERNT:
+        let answers = { root_problem: '', pain_point: [], energy: '', satisfaction: '' }; 
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
@@ -578,7 +578,8 @@
                 });
             };
             build('s1-opts', l.s1.opts, 'root_problem', false);
-            build('s2-opts', l.s2.opts[root], 'pain_point', true);
+            // HIER WURDE EIN FALLBACK HINZUGEFÜGT (|| {}), DAMIT DAS SKRIPT BEIM START NICHT ABSTÜRZT
+            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true); 
             build('s3-opts', l.s3.opts, 'energy', false);
             build('s4-opts', l.s4.opts, 'satisfaction', false);
         }
@@ -654,6 +655,7 @@
                         email: email, 
                         first_name: fname, 
                         source: 'integrated_man_flow',
+                        language: currentLang,
                         marketing_consent: true,
                         onboarding_data: answers
                     }
@@ -661,19 +663,6 @@
 
                 if (error) throw error;
                 
-                if(MAKE_WEBHOOK_URL !== 'DEINE_MAKE_WEBHOOK_URL') {
-                    await fetch(MAKE_WEBHOOK_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            email: email, 
-                            first_name: fname, 
-                            language: currentLang,
-                            answers: answers
-                        })
-                    }).catch(e => console.error("Webhook-Fehler:", e));
-                }
-
                 document.getElementById('step-7').classList.remove('active');
                 document.getElementById('step-8').classList.add('active');
                 bBar.style.display = 'none';
