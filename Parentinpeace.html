@@ -371,11 +371,11 @@
                 s7: { 
                     lbl: "EL PRÓXIMO PASO", 
                     title: "Tu Flujo de 4 Días", 
-                    sub: "Asegura tu acceso y explora nuevos caminos.",
+                    sub: "Regístrate para afrontar tus desafíos.",
                     lblFname: "NOMBRE", lblEmail: "EMAIL",
                     em: "tu@email.com", 
-                    errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
-                    errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
+                    errFill: "Por favor, rellena todos los campos.", errExists: "Este correo ya existe.",
+                    errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
                     placeholders: { fname: "Tu Nombre" }
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
@@ -389,7 +389,8 @@
         }
         
         let step = 1;
-        let answers = { root_problem: 'anger', pain_point: [], tolerance: 'low', capacity: 'low' };
+        // HIER WURDEN DIE VORAUSGEWÄHLTEN PLATZHALTER ENTFERNT:
+        let answers = { root_problem: '', pain_point: [], tolerance: '', capacity: '' }; 
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
@@ -461,7 +462,8 @@
                 });
             };
             build('s1-opts', l.s1.opts, 'root_problem', false);
-            build('s2-opts', l.s2.opts[root], 'pain_point', true);
+            // HIER WURDE EIN FALLBACK HINZUGEFÜGT (|| {}), DAMIT DAS SKRIPT BEIM START NICHT ABSTÜRZT
+            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true); 
             build('s3-opts', l.s3.opts, 'tolerance', false);
             build('s4-opts', l.s4.opts, 'capacity', false);
         }
