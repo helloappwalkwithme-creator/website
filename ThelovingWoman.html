@@ -388,7 +388,8 @@
         }
         
         let step = 1;
-        let answers = { root_problem: 'peoplepleasing', pain_point: [], connection: 'low', boundaries: 'low' };
+        // HIER WURDEN DIE VORAUSGEWÄHLTEN PLATZHALTER ENTFERNT:
+        let answers = { root_problem: '', pain_point: [], connection: '', boundaries: '' }; 
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
@@ -454,13 +455,14 @@
                             buildOptions(); checkNextState();
                         } else {
                             answers[key] = k; buildOptions(); checkNextState();
-                            setTimeout(() => handleNext(), 350);
+                            setTimeout(() => handleNext(), 350); 
                         }
                     }));
                 });
             };
             build('s1-opts', l.s1.opts, 'root_problem', false);
-            build('s2-opts', l.s2.opts[root], 'pain_point', true);
+            // HIER WURDE EIN FALLBACK HINZUGEFÜGT (|| {}), DAMIT DAS SKRIPT BEIM START NICHT ABSTÜRZT
+            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true); 
             build('s3-opts', l.s3.opts, 'connection', false);
             build('s4-opts', l.s4.opts, 'boundaries', false);
         }
