@@ -389,7 +389,8 @@
         }
         
         let step = 1;
-        let answers = { root_problem: 'communication', pain_point: [], anxiety: 'low', avoidance: 'low' };
+        // HIER WURDEN DIE VORAUSGEWÄHLTEN PLATZHALTER ENTFERNT:
+        let answers = { root_problem: '', pain_point: [], anxiety: '', avoidance: '' }; 
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
@@ -461,7 +462,8 @@
                 });
             };
             build('s1-opts', l.s1.opts, 'root_problem', false);
-            build('s2-opts', l.s2.opts[root], 'pain_point', true);
+            // HIER WURDE EIN FALLBACK HINZUGEFÜGT (|| {}), DAMIT DAS SKRIPT BEIM START NICHT ABSTÜRZT
+            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true); 
             build('s3-opts', l.s3.opts, 'anxiety', false);
             build('s4-opts', l.s4.opts, 'avoidance', false);
         }
