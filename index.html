@@ -103,15 +103,19 @@
         .coaching-card h3 { margin-top: 0; font-size: 2rem; color: var(--text-light); letter-spacing: 1px; }
         .coaching-card p { color: var(--text-dim); margin-bottom: 35px; font-size: 1.15rem; line-height: 1.7; max-width: 600px; margin-left: auto; margin-right: auto;}
         
+        /* Flexbox Layout für sauberes Zentrieren der letzten Reihe */
         .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 25px; 
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px; 
             align-items: stretch; 
         }
         
         /* Premium App Cards */
         .card { 
+            width: 100%;
+            max-width: 290px;
             background: var(--card-bg); 
             padding: 40px 25px; 
             border-radius: 10px; 
