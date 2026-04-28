@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="de" id="html-tag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title id="page-title">Shift My Horizon - Vielen Dank</title>
+    <style>
+        :root {
+            --dark: #121212;
+            --gray: #1e1e1e;
+            --border: #333333;
+            --accent: #d4af37; 
+            --success: #4caf50;
+            --text: #ffffff;
+        }
+
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--dark); 
+            color: var(--text); 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+            line-height: 1.6;
+            align-items: center;
+            justify-content: center;
+        }
+
+        main { 
+            padding: 40px 20px; 
+            max-width: 600px; 
+            width: 100%; 
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
+            background: rgba(76, 175, 80, 0.1); 
+            border: 3px solid var(--success);
+            color: var(--success); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 40px; 
+            font-weight: bold; 
+            margin: 0 auto 32px auto;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .h1-title { font-size: 32px; font-weight: 800; margin-top: 0; margin-bottom: 16px; color: var(--text); }
+        .subtitle { font-size: 16px; color: #aaaaaa; margin-bottom: 40px; }
+
+        .steps-container {
+            text-align: left;
+            background: var(--gray);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        .step-item:last-child { margin-bottom: 0; }
+
+        .step-number {
+            background: var(--accent);
+            color: #000;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            margin-right: 16px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-text h3 { margin: 0 0 4px 0; font-size: 16px; color: #fff; }
+        .step-text p { margin: 0; font-size: 14px; color: #ccc; }
+
+        .btn-home { 
+            background-color: transparent; 
+            color: var(--accent); 
+            padding: 16px 32px; 
+            border-radius: 8px; 
+            font-weight: 700; 
+            font-size: 14px; 
+            text-transform: uppercase; 
+            border: 2px solid var(--accent); 
+            cursor: pointer; 
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+        .btn-home:hover { background-color: var(--accent); color: #000; }
+
+        .legal-footer { text-align: center; padding: 20px; width: 100%; border-top: 1px solid var(--border); font-size: 11px; margin-top: auto; }
+        .legal-footer a { color: #888; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+<body>
+
+    <main>
+        <div class="success-icon">✓</div>
+        <h1 class="h1-title" id="ui-headline"></h1>
+        <p class="subtitle" id="ui-subtitle"></p>
+
+        <div class="steps-container">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-text">
+                    <h3 id="ui-step1-title"></h3>
+                    <p id="ui-step1-text"></p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-text">
+                    <h3 id="ui-step2-title"></h3>
+                    <p id="ui-step2-text"></p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-text">
+                    <h3 id="ui-step3-title"></h3>
+                    <p id="ui-step3-text"></p>
+                </div>
+            </div>
+        </div>
+
+        <a href="https://shiftmyhorizon.com" class="btn-home" id="ui-btn-home"></a>
+    </main>
+
+    <footer class="legal-footer">
+        <a href="impressum.html" id="link-imp"></a> | 
+        <a href="datenschutz.html" id="link-dat"></a> | 
+        <a href="agb.html" id="link-agb"></a>
+    </footer>
+
+    <script>
+        const t = {
+            de: {
+                pageTitle: "Shift My Horizon - Vielen Dank",
+                headline: "Willkommen an Bord!",
+                subtitle: "Deine Bestellung war erfolgreich. Dein 90-Tage Flow wird jetzt vom System generiert.",
+                step1Title: "Prüfe dein E-Mail-Postfach",
+                step1Text: "Wir senden dir in wenigen Minuten deine Zugangsdaten an die beim Kauf angegebene E-Mail-Adresse.",
+                step2Title: "Öffne die E-Mail",
+                step2Text: "Schau auch in deinem Spam-Ordner nach, falls du die E-Mail von 'Shift My Horizon' nicht sofort siehst.",
+                step3Title: "Aktiviere deinen Flow",
+                step3Text: "Klicke auf deinen persönlichen Zugangslink in der E-Mail, um sofort in deinem gewählten Messenger (Telegram/WhatsApp) zu starten.",
+                btnHome: "Zurück zur Startseite",
+                legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB" }
+            },
+            en: {
+                pageTitle: "Shift My Horizon - Thank You",
+                headline: "Welcome aboard!",
+                subtitle: "Your order was successful. Your 90-Day Flow is currently being generated by our system.",
+                step1Title: "Check your email inbox",
+                step1Text: "We will send your access details to the email address provided during checkout in a few minutes.",
+                step2Title: "Open the email",
+                step2Text: "Please also check your spam folder if you don't see the email from 'Shift My Horizon' right away.",
+                step3Title: "Activate your Flow",
+                step3Text: "Click on your personal access link in the email to start immediately in your chosen messenger (Telegram/WhatsApp).",
+                btnHome: "Back to Homepage",
+                legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms" }
+            },
+            es: {
+                pageTitle: "Shift My Horizon - Gracias",
+                headline: "¡Bienvenido a bordo!",
+                subtitle: "Tu pedido se ha realizado con éxito. Nuestro sistema está generando tu Flujo de 90 Días.",
+                step1Title: "Revisa tu bandeja de entrada",
+                step1Text: "En unos minutos enviaremos tus datos de acceso a la dirección de correo proporcionada durante la compra.",
+                step2Title: "Abre el correo",
+                step2Text: "Revisa también tu carpeta de spam si no ves el correo de 'Shift My Horizon' de inmediato.",
+                step3Title: "Activa tu Flujo",
+                step3Text: "Haz clic en tu enlace de acceso personal en el correo para empezar de inmediato en el mensajero que elegiste (Telegram/WhatsApp).",
+                btnHome: "Volver a la página principal",
+                legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos" }
+            }
+        };
+
+        // 1. Sprache ermitteln (Priorität: 1. URL Parameter, 2. LocalStorage, 3. Browser Sprache, 4. Fallback 'de')
+        const urlParams = new URLSearchParams(window.location.search);
+        let detectedLang = urlParams.get('lang') || urlParams.get('language');
+        
+        if (!detectedLang) {
+            detectedLang = localStorage.getItem('smh_language');
+        }
+        
+        if (!detectedLang) {
+            detectedLang = navigator.language.slice(0, 2);
+        }
+
+        // Gültigkeit prüfen
+        const lang = t[detectedLang] ? detectedLang : 'de';
+        const content = t[lang];
+
+        // 2. HTML Tag Language setzen
+        document.getElementById('html-tag').lang = lang;
+        document.getElementById('page-title').innerText = content.pageTitle;
+
+        // 3. UI Elemente übersetzen
+        document.getElementById('ui-headline').innerText = content.headline;
+        document.getElementById('ui-subtitle').innerText = content.subtitle;
+        
+        document.getElementById('ui-step1-title').innerText = content.step1Title;
+        document.getElementById('ui-step1-text').innerText = content.step1Text;
+        
+        document.getElementById('ui-step2-title').innerText = content.step2Title;
+        document.getElementById('ui-step2-text').innerText = content.step2Text;
+        
+        document.getElementById('ui-step3-title').innerText = content.step3Title;
+        document.getElementById('ui-step3-text').innerText = content.step3Text;
+
+        document.getElementById('ui-btn-home').innerText = content.btnHome;
+
+        // Footer
+        document.getElementById('link-imp').innerText = content.legal.imp;
+        document.getElementById('link-dat').innerText = content.legal.dat;
+        document.getElementById('link-agb').innerText = content.legal.agb;
+    </script>
+</body>
+</html>
