@@ -20,6 +20,8 @@
             --color-parent: #d48a60;   /* Terracotta/Amber */
             --color-soul: #cba677;     /* Alchemist Gold/Sand */
             --color-couple: #d07c50;   /* Deep Terracotta/Rust */
+            --color-career: #c2a370;   /* Muted Gold / Bronze */
+            --color-closer: #4e9b62;   /* Money/Growth Green */
         }
 
         body {
@@ -128,6 +130,8 @@
         .card-parent:hover { border-color: var(--color-parent); }
         .card-soul:hover { border-color: var(--color-soul); }
         .card-couple:hover { border-color: var(--color-couple); }
+        .card-career:hover { border-color: var(--color-career); }
+        .card-closer:hover { border-color: var(--color-closer); }
 
         .app-icon {
             width: 55px;
@@ -198,6 +202,12 @@
         
         .btn-couple { background-color: transparent; border: 1px solid var(--color-couple); color: var(--color-couple); }
         .btn-couple:hover { background-color: var(--color-couple); color: #000; }
+
+        .btn-career { background-color: transparent; border: 1px solid var(--color-career); color: var(--color-career); }
+        .btn-career:hover { background-color: var(--color-career); color: #000; }
+
+        .btn-closer { background-color: transparent; border: 1px solid var(--color-closer); color: var(--color-closer); }
+        .btn-closer:hover { background-color: var(--color-closer); color: #000; }
         
         footer { background-color: rgba(10, 10, 10, 0.95); padding: 60px 20px; border-top: 1px solid var(--card-border); text-align: center; }
         .legal-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 60px; max-width: 1000px; margin: 0 auto; }
@@ -279,6 +289,20 @@
                     <a href="TheIntegratedSoul.html" class="btn btn-soul" data-i18n="app_btn_active">To the Flow</a>
                 </div>
 
+                <div class="card card-career">
+                    <div class="app-icon" style="background-color: var(--color-career);">CP</div>
+                    <h3 data-i18n="app6_title">Career & Power</h3>
+                    <p data-i18n="app6_p">See through the power dynamics in your job. Learn strategic positioning and take control.</p>
+                    <a href="careerandpower.html" class="btn btn-career" data-i18n="app_btn_active">To the Flow</a>
+                </div>
+
+                <div class="card card-closer">
+                    <div class="app-icon" style="background-color: var(--color-closer);">EC</div>
+                    <h3 data-i18n="app7_title">The Elite Closer</h3>
+                    <p data-i18n="app7_p">Sales psychology at the highest level. Handle objections confidently and close high-ticket deals.</p>
+                    <a href="elitecloser.html" class="btn btn-closer" data-i18n="app_btn_active">To the Flow</a>
+                </div>
+
             </div>
         </section>
     </main>
@@ -328,6 +352,10 @@
                 app4_p: "Connect your spirit to the material world. Learn deeper somatic awareness and integrate unconscious parts into your life.",
                 app5_title: "Connected Couples",
                 app5_p: "Break the cycle of conflict and distance. Find more emotional balance and strengthen your connection as a couple.",
+                app6_title: "Career & Power",
+                app6_p: "See through the power dynamics in your job. Learn strategic positioning and take control.",
+                app7_title: "The Elite Closer",
+                app7_p: "Sales psychology at the highest level. Handle objections confidently and close high-ticket deals.",
                 app_btn_active: "Start the Flow"
             },
             de: {
@@ -347,6 +375,10 @@
                 app4_p: "Verbinde deinen Geist mit der Materie. Lerne tiefere somatische Achtsamkeit und integriere unbewusste Anteile in deinen Alltag.",
                 app5_title: "Connected Couples",
                 app5_p: "Durchbrecht den Kreislauf aus Konflikt und Distanz. Findet zu mehr emotionaler Balance und stärkt eure partnerschaftliche Verbindung.",
+                app6_title: "Career & Power",
+                app6_p: "Durchschaue die Machtstrukturen in deinem Job. Lerne strategische Positionierung und übernimm die Kontrolle.",
+                app7_title: "The Elite Closer",
+                app7_p: "Verkaufspsychologie auf höchstem Niveau. Baue Einwände souverän ab und schließe hochpreisig ab.",
                 app_btn_active: "Zum Flow"
             },
             es: {
@@ -366,6 +398,10 @@
                 app4_p: "Conecta tu espíritu con el mundo material. Aprende una mayor conciencia somática e integra partes inconscientes en tu vida.",
                 app5_title: "Connected Couples",
                 app5_p: "Rompan el ciclo de conflicto y distancia. Encuentren más equilibrio emocional y fortalezcan su conexión de pareja.",
+                app6_title: "Career & Power",
+                app6_p: "Entiende las dinámicas de poder en tu trabajo. Aprende posicionamiento estratégico y toma el control.",
+                app7_title: "The Elite Closer",
+                app7_p: "Psicología de ventas al más alto nivel. Maneja objeciones con confianza y cierra tratos de alto valor.",
                 app_btn_active: "Iniciar el Flujo"
             }
         };
