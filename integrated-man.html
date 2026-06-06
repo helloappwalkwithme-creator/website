@@ -165,26 +165,15 @@
         }
         .input-field:focus { border-color: var(--gold); outline: none; }
         
+        .legal-disclaimer { font-size: 12px; color: #aaaaaa; margin-top: 20px; line-height: 1.6; text-align: center; border-top: 1px solid var(--border); padding-top: 15px; font-family: -apple-system, sans-serif; }
+        .legal-disclaimer strong { color: var(--gold); font-weight: 600; }
+
         .spinner { border: 4px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 60px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         .legal-footer { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border); font-size: 11px; padding-bottom: 120px; }
         .legal-footer a { color: #888; text-decoration: none; margin: 0 8px; transition: color 0.2s; }
         .legal-footer a:hover { color: var(--gold); }
-
-        .success-icon {
-            width: 80px; 
-            height: 80px; 
-            border-radius: 50%; 
-            background: var(--gold); 
-            color: #000; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 40px; 
-            font-weight: bold; 
-            margin: 0 auto 24px auto;
-        }
     </style>
 </head>
 <body>
@@ -251,23 +240,27 @@
             
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
+
+            <!-- NEU: Channel Selector -->
+            <div class="flow-title" id="lbl-channel"></div>
+            <select id="reg-channel" class="input-field" style="appearance: none; cursor: pointer;">
+                <option value="whatsapp">WhatsApp</option>
+                <option value="telegram">Telegram</option>
+            </select>
             
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
-        </div>
 
-        <div class="step" id="step-8" style="text-align: center; padding-top: 40px;">
-            <div class="success-icon">✓</div>
-            <h1 class="h1-title" id="s8-title"></h1>
-            <p class="subtitle" id="s8-sub"></p>
+            <!-- NEU: Trust Disclaimer -->
+            <p class="legal-disclaimer" id="s7-disclaimer"></p>
         </div>
     </main>
 
     <footer class="legal-footer">
-        <a href="impressum.html" id="link-imp"></a> | 
-        <a href="datenschutz.html" id="link-dat"></a> | 
-        <a href="agb.html" id="link-agb"></a> | 
-        <a href="cookie.html" id="link-cook"></a>
+        <a href="impressum.html" id="link-imp">Impressum</a> | 
+        <a href="datenschutz.html" id="link-dat">Datenschutz</a> | 
+        <a href="agb.html" id="link-agb">AGB</a> | 
+        <a href="cookie.html" id="link-cook">Cookie-Richtlinie</a>
     </footer>
 
     <div class="bottom-bar" id="bottomBar" style="display: none;">
@@ -281,10 +274,16 @@
 
         let supabaseClient = null;
 
+        // HIER trägst du die direkten Links zu deinen Bots ein
+        const botLinks = { 
+            telegram: "https://t.me/DEIN_BOT_NAME?start=", 
+            whatsapp: "https://wa.me/DEINE_NUMMER?text=Start%20" 
+        };
+
         const t = {
             de: {
                 pageTitle: "Integrated Man - Onboarding",
-                btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM 4-TAGE-FLOW" },
+                btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "4-TAGE FLOW STARTEN" },
                 s1: { 
                     lbl: "PHASE 1: STATUS", 
                     title: "Was ist deine größte Baustelle?", 
@@ -330,7 +329,7 @@
                         gettinggirls: "Die besten Jahre deines Lebens, gefangen in Unsicherheit und Isolation.", 
                         relationship: "Die emotionale Verbindung, Führungskraft und die Frau, die du liebst." 
                     }, 
-                    msg: "Deine Situation ist kein Charakterfehler, sondern ein gelerntes Muster. Im E-Mail-Kurs brechen wir dieses Muster mit fundierten Techniken.",
+                    msg: "Deine Situation ist kein Charakterfehler, sondern ein gelerntes Muster. Im Flow brechen wir dieses Muster mit fundierten Techniken.",
                     lvls: { 
                         ext: { t: "ALARMSTUFE", d: "Dein Stresslevel ist am Anschlag. Du reagierst nur noch, statt zu agieren. Es ist Zeit, Verantwortung zu übernehmen." }, 
                         dan: { t: "RISIKOBEREICH", d: "Du bist dauerhaft gestresst und lenkst dich ab. Dein System läuft auf Reserve – die Substanz schwindet." }, 
@@ -341,16 +340,13 @@
                 s7: { 
                     lbl: "DER NÄCHSTE SCHRITT", 
                     title: "Dein 4-Tage-Flow", 
-                    sub: "Trage dich ein, um deine Baustellen anzugehen.",
-                    lblFname: "VORNAME", lblEmail: "EMAIL",
+                    sub: "Erhalte 4 Tage lang tiefe Impulse und konkrete Aufgaben direkt in deinen Messenger – völlig kostenlos. Kein Spam, keine Umwege.",
+                    lblFname: "VORNAME", lblEmail: "EMAIL", lblChannel: "AUSLIEFERUNG ÜBER",
                     em: "deine@email.com", 
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
                     errServer: "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.",
-                    placeholders: { fname: "Dein Vorname" }
-                },
-                s8: { 
-                    title: "ERFOLGREICH!", 
-                    sub: "Dein 4-Tage-Flow ist auf dem Weg in dein Postfach. Bitte überprüfe auch deinen Spam-Ordner." 
+                    placeholders: { fname: "Dein Vorname" },
+                    disclaimer: "<strong>Wichtig:</strong> Deine Daten werden zu 100% ausschließlich für die automatisierte Bereitstellung dieses Kurses genutzt. Wir geben niemals Daten an Dritte weiter. Dein Vertrauen ist unser höchstes Gut."
                 },
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
             },
@@ -402,7 +398,7 @@
                         gettinggirls: "The best years of your life, trapped in insecurity and isolation.", 
                         relationship: "The emotional connection, leadership, and the woman you love." 
                     }, 
-                    msg: "Your situation is not a character flaw, but a learned pattern. In the email course, we break this pattern with proven techniques.",
+                    msg: "Your situation is not a character flaw, but a learned pattern. In the flow, we break this pattern with proven techniques.",
                     lvls: { 
                         ext: { t: "RED ALERT", d: "Your stress levels are maxed out and your focus is suffering. You live in survival mode. It's time to take responsibility." }, 
                         dan: { t: "DANGEROUS", d: "You are constantly stressed and distracting yourself. Your system runs on reserve – substance is fading." }, 
@@ -413,22 +409,19 @@
                 s7: { 
                     lbl: "THE NEXT STEP", 
                     title: "Your 4-Day Flow", 
-                    sub: "Sign up to tackle your challenges.",
-                    lblFname: "FIRST NAME", lblEmail: "EMAIL",
+                    sub: "Receive deep insights and actionable tasks directly in your messenger for 4 days – completely free. No spam, no detours.",
+                    lblFname: "FIRST NAME", lblEmail: "EMAIL", lblChannel: "DELIVERY VIA",
                     em: "your@email.com", 
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
                     errServer: "An error occurred. Please try again later.",
-                    placeholders: { fname: "Your First Name" }
-                },
-                s8: { 
-                    title: "SUCCESS!", 
-                    sub: "Your 4-Day Flow is on its way to your inbox. Please also check your spam folder." 
+                    placeholders: { fname: "Your First Name" },
+                    disclaimer: "<strong>Important:</strong> Your data will 100% only be used for the automated delivery of this course. We will never share your data with third parties. Your trust is sacred to us."
                 },
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
             },
             es: {
                 pageTitle: "Integrated Man - Incorporación",
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO" },
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
                 s1: { 
                     lbl: "FASE 1: ESTADO", 
                     title: "¿Cuál es tu mayor desafío?", 
@@ -474,7 +467,7 @@
                         gettinggirls: "Los mejores años de tu vida en inseguridad y aislamiento.", 
                         relationship: "La conexión emocional, el liderazgo y la mujer que amas." 
                     }, 
-                    msg: "Tu situación no es un defecto de carácter, sino un patrón aprendido. En el curso por email rompemos este patrón con técnicas probadas.",
+                    msg: "Tu situación no es un defecto de carácter, sino un patrón aprendido. En el flujo rompemos este patrón con técnicas probadas.",
                     lvls: { 
                         ext: { t: "ALERTA ROJA", d: "Tus niveles de estrés están al límite y tu enfoque sufre. Vives en modo supervivencia. Es hora de asumir la responsabilidad." }, 
                         dan: { t: "PELIGROSO", d: "Estás constantemente estresado y te distraes. Tu sistema funciona con reservas." }, 
@@ -485,16 +478,13 @@
                 s7: { 
                     lbl: "EL PRÓXIMO PASO", 
                     title: "Tu Flujo de 4 Días", 
-                    sub: "Regístrate para afrontar tus desafíos.",
-                    lblFname: "NOMBRE", lblEmail: "EMAIL",
+                    sub: "Recibe impulsos profundos y tareas concretas directamente en tu messenger durante 4 días, totalmente gratis. Sin spam, sin desvíos.",
+                    lblFname: "NOMBRE", lblEmail: "EMAIL", lblChannel: "ENTREGA VÍA",
                     em: "tu@email.com", 
                     errFill: "Por favor, rellena todos los campos.", errExists: "Este correo ya existe.",
                     errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
-                    placeholders: { fname: "Tu Nombre" }
-                },
-                s8: { 
-                    title: "¡ÉXITO!", 
-                    sub: "Tu Flujo de 4 Días está en camino a tu bandeja de entrada. Por favor revisa también la carpeta de spam." 
+                    placeholders: { fname: "Tu Nombre" },
+                    disclaimer: "<strong>Importante:</strong> Tus datos se utilizarán 100% exclusivamente para la entrega automatizada de este curso. Nunca compartiremos tus datos con terceros. Tu confianza es sagrada para nosotros."
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
             }
@@ -502,7 +492,6 @@
 
         let currentLang = localStorage.getItem('smh_language') || 'de';
         let step = 1;
-        // HIER WURDEN DIE VORAUSGEWÄHLTEN PLATZHALTER ENTFERNT:
         let answers = { root_problem: '', pain_point: [], energy: '', satisfaction: '' }; 
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
@@ -528,12 +517,15 @@
             
             document.getElementById('lbl-fname').innerText = l.s7.lblFname;
             document.getElementById('lbl-email').innerText = l.s7.lblEmail;
+            document.getElementById('lbl-channel').innerText = l.s7.lblChannel;
+            
             document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
             document.getElementById('reg-email').placeholder = l.s7.em; 
+            
             document.getElementById('btn-register').innerText = l.btn.pay;
-
-            document.getElementById('s8-title').innerText = l.s8.title;
-            document.getElementById('s8-sub').innerText = l.s8.sub;
+            if(l.s7.disclaimer) {
+                document.getElementById('s7-disclaimer').innerHTML = l.s7.disclaimer;
+            }
 
             document.getElementById('link-imp').innerText = l.legal.imp;
             document.getElementById('link-dat').innerText = l.legal.dat;
@@ -543,7 +535,7 @@
 
         window.onload = () => { 
             document.getElementById('langSelect').value = currentLang;
-            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 7) * 100}%`; 
+            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`; 
         };
 
         function selectLang(lang) { 
@@ -578,7 +570,6 @@
                 });
             };
             build('s1-opts', l.s1.opts, 'root_problem', false);
-            // HIER WURDE EIN FALLBACK HINZUGEFÜGT (|| {}), DAMIT DAS SKRIPT BEIM START NICHT ABSTÜRZT
             build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true); 
             build('s3-opts', l.s3.opts, 'energy', false);
             build('s4-opts', l.s4.opts, 'satisfaction', false);
@@ -615,8 +606,8 @@
 
         function handleNext() {
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
-            pCont.style.display = (step < 7 && step !== 5 && step !== 6 && step !== 8) ? 'block' : 'none';
-            pBar.style.width = `${((step - 1) / 7) * 100}%`;
+            pCont.style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
+            pBar.style.width = `${((step - 1) / 6) * 100}%`;
             
             bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
             if(step === 6) bNext.innerText = t[currentLang].btn.next;
@@ -631,7 +622,7 @@
             step = Math.max(1, step === 6 ? 4 : step - 1);
             document.getElementById(`step-${step}`).classList.add('active');
             pCont.style.display = 'block';
-            pBar.style.width = `${((step - 1) / 7) * 100}%`;
+            pBar.style.width = `${((step - 1) / 6) * 100}%`;
             bBar.style.display = (step === 2) ? 'flex' : 'none';
             checkNextState(); window.scrollTo(0,0);
         }
@@ -639,6 +630,7 @@
         async function handleRegistration() {
             const fname = document.getElementById('reg-fname').value.trim();
             const email = document.getElementById('reg-email').value.trim();
+            const channel = document.getElementById('reg-channel').value;
             const errEl = document.getElementById('reg-error');
             const btn = document.getElementById('btn-register'); 
             
@@ -650,23 +642,29 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                const { error } = await supabaseClient.from('leads').insert([
+                const { data, error } = await supabaseClient.from('leads').insert([
                     { 
                         email: email, 
                         first_name: fname, 
+                        delivery_channel: channel,
                         source: 'integrated_man_flow',
                         language: currentLang,
                         marketing_consent: true,
-                        onboarding_data: answers
+                        onboarding_data: answers,
+                        has_paid: false,
+                        current_mentoring_day: 1
                     }
-                ]);
+                ]).select();
 
                 if (error) throw error;
                 
-                document.getElementById('step-7').classList.remove('active');
-                document.getElementById('step-8').classList.add('active');
-                bBar.style.display = 'none';
-                pCont.style.display = 'none';
+                const leadId = data[0].id;
+                
+                if(channel === 'telegram') {
+                    window.location.href = `${botLinks.telegram}${leadId}`;
+                } else {
+                    window.location.href = `${botLinks.whatsapp}${leadId}`;
+                }
                 
             } catch(e) {
                 console.error("Fehler beim Speichern:", e);
