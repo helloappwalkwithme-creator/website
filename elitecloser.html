@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            var(--dark): #101512; 
+            --dark: #101512; 
             --gray: #1b241e;
             --gray-active: #243028;
             --border: #2e4033;
@@ -20,7 +20,7 @@
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
         body { 
-            margin: 0; padding: 0; background-color: #101512; color: var(--text); 
+            margin: 0; padding: 0; background-color: var(--dark); color: var(--text); 
             display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; 
         }
         
@@ -72,6 +72,9 @@
         .input-field { background-color: #202b24; border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-family: -apple-system, sans-serif; font-weight: 500;}
         .input-field:focus { border-color: var(--gold); outline: none; }
         
+        .legal-disclaimer { font-size: 12px; color: #aaaaaa; margin-top: 20px; line-height: 1.6; text-align: center; border-top: 1px solid var(--border); padding-top: 15px; font-family: -apple-system, sans-serif; }
+        .legal-disclaimer strong { color: var(--gold); font-weight: 600; }
+
         .spinner { border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 45px; height: 45px; animation: spin 1.2s linear infinite; margin: 60px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
@@ -144,9 +147,19 @@
             
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
+
+            <!-- NEU: Channel Selector -->
+            <div class="flow-title" id="lbl-channel"></div>
+            <select id="reg-channel" class="input-field" style="appearance: none; cursor: pointer;">
+                <option value="whatsapp">WhatsApp</option>
+                <option value="telegram">Telegram</option>
+            </select>
             
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
+
+            <!-- NEU: Trust Disclaimer -->
+            <p class="legal-disclaimer" id="s7-disclaimer"></p>
         </div>
     </main>
 
@@ -167,10 +180,10 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
         
-        const digistoreLinks = { 
-            de: "https://www.checkout-ds24.com/product/XXXXXX/", 
-            en: "https://www.checkout-ds24.com/product/XXXXXX/",
-            es: "https://www.checkout-ds24.com/product/XXXXXX/"
+        // HIER trägst du die direkten Links zu deinen Bots ein
+        const botLinks = { 
+            telegram: "https://t.me/DEIN_BOT_NAME?start=", 
+            whatsapp: "https://wa.me/DEINE_NUMMER?text=Start%20" 
         };
 
         const t = {
@@ -234,11 +247,12 @@
                     lbl: "DER NÄCHSTE SCHRITT", 
                     title: "Dein 4-Tage-Flow", 
                     sub: "Sichere dir deinen Zugang und werde zum Closer.",
-                    lblFname: "VORNAME", lblEmail: "EMAIL",
+                    lblFname: "VORNAME", lblEmail: "EMAIL", lblChannel: "AUSLIEFERUNG ÜBER",
                     em: "deine@email.com", 
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
                     errServer: "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal.",
-                    placeholders: { fname: "Dein Vorname" }
+                    placeholders: { fname: "Dein Vorname" },
+                    disclaimer: "<strong>Wichtig:</strong> Deine Daten werden zu 100% ausschließlich für die automatisierte Bereitstellung dieses Kurses genutzt. Wir geben niemals Daten an Dritte weiter. Dein Vertrauen ist unser höchstes Gut."
                 },
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
             },
@@ -302,11 +316,12 @@
                     lbl: "THE NEXT STEP", 
                     title: "Your 4-Day Flow", 
                     sub: "Secure your access and become a closer.",
-                    lblFname: "FIRST NAME", lblEmail: "EMAIL",
+                    lblFname: "FIRST NAME", lblEmail: "EMAIL", lblChannel: "DELIVERY VIA",
                     em: "your@email.com", 
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
                     errServer: "An error occurred. Please try again.",
-                    placeholders: { fname: "Your First Name" }
+                    placeholders: { fname: "Your First Name" },
+                    disclaimer: "<strong>Important:</strong> Your data will 100% only be used for the automated delivery of this course. We will never share your data with third parties. Your trust is sacred to us."
                 },
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
             },
@@ -370,11 +385,12 @@
                     lbl: "EL PRÓXIMO PASO", 
                     title: "Tu Flujo de 4 Días", 
                     sub: "Asegura tu acceso y conviértete en un Closer.",
-                    lblFname: "NOMBRE", lblEmail: "EMAIL",
+                    lblFname: "NOMBRE", lblEmail: "EMAIL", lblChannel: "ENTREGA VÍA",
                     em: "tu@email.com", 
                     errFill: "Por favor, rellena todos los campos.", errExists: "Este correo ya existe.",
                     errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
-                    placeholders: { fname: "Tu Nombre" }
+                    placeholders: { fname: "Tu Nombre" },
+                    disclaimer: "<strong>Importante:</strong> Tus datos se utilizarán 100% exclusivamente para la entrega automatizada de este curso. Nunca compartiremos tus datos con terceros. Tu confianza es sagrada para nosotros."
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
             }
@@ -411,9 +427,15 @@
             
             document.getElementById('lbl-fname').innerText = l.s7.lblFname;
             document.getElementById('lbl-email').innerText = l.s7.lblEmail;
+            document.getElementById('lbl-channel').innerText = l.s7.lblChannel;
+            
             document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
             document.getElementById('reg-email').placeholder = l.s7.em; 
+            
             document.getElementById('btn-register').innerText = l.btn.pay;
+            if(l.s7.disclaimer) {
+                document.getElementById('s7-disclaimer').innerHTML = l.s7.disclaimer;
+            }
 
             document.getElementById('link-imp').innerText = l.legal.imp;
             document.getElementById('link-dat').innerText = l.legal.dat;
@@ -452,7 +474,7 @@
                             buildOptions(); checkNextState();
                         } else {
                             answers[key] = k; buildOptions(); checkNextState();
-                            setTimeout(() => handleNext(), 350);
+                            setTimeout(() => handleNext(), 350); 
                         }
                     }));
                 });
@@ -497,7 +519,7 @@
 
         function handleNext() {
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
-            pCont.style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
+            document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
             
             bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
@@ -512,7 +534,7 @@
             document.getElementById(`step-${step}`).classList.remove('active');
             step = Math.max(1, step === 6 ? 4 : step - 1);
             document.getElementById(`step-${step}`).classList.add('active');
-            pCont.style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
             bBar.style.display = (step === 2) ? 'flex' : 'none';
             checkNextState(); window.scrollTo(0,0);
@@ -521,6 +543,7 @@
         async function handleRegistration() {
             const fname = document.getElementById('reg-fname').value.trim();
             const email = document.getElementById('reg-email').value.trim();
+            const channel = document.getElementById('reg-channel').value;
             const errEl = document.getElementById('reg-error');
             const btn = document.getElementById('btn-register'); 
             
@@ -532,21 +555,29 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                const { error } = await supabaseClient.from('leads').insert([
+                const { data, error } = await supabaseClient.from('leads').insert([
                     { 
                         email: email, 
                         first_name: fname, 
+                        delivery_channel: channel,
                         source: 'elite_closer',
                         language: currentLang,
                         marketing_consent: true,
-                        onboarding_data: answers 
+                        onboarding_data: answers,
+                        has_paid: false,
+                        current_mentoring_day: 1
                     }
-                ]);
+                ]).select();
 
                 if (error) throw error;
                 
-                const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
-                window.location.href = `${digistoreBaseUrl}?custom=closer_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
+                const leadId = data[0].id;
+                
+                if(channel === 'telegram') {
+                    window.location.href = `${botLinks.telegram}${leadId}`;
+                } else {
+                    window.location.href = `${botLinks.whatsapp}${leadId}`;
+                }
             } catch(e) {
                 console.error("Error:", e);
                 errEl.innerText = t[currentLang].s7.errServer; 
