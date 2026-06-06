@@ -73,6 +73,9 @@
         .input-field { background-color: #292421; border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-weight: 400; }
         .input-field:focus { border-color: var(--gold); outline: none; }
         
+        .legal-disclaimer { font-size: 12px; color: #bbbbbb; margin-top: 20px; line-height: 1.6; text-align: center; border-top: 1px solid var(--border); padding-top: 15px; font-family: -apple-system, sans-serif; }
+        .legal-disclaimer strong { color: var(--gold); font-weight: 600; }
+
         .spinner { border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 60px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
@@ -146,9 +149,19 @@
             
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
+
+            <!-- NEU: Channel Selector -->
+            <div class="flow-title" id="lbl-channel"></div>
+            <select id="reg-channel" class="input-field" style="appearance: none; cursor: pointer;">
+                <option value="whatsapp">WhatsApp</option>
+                <option value="telegram">Telegram</option>
+            </select>
             
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
+
+            <!-- NEU: Trust Disclaimer -->
+            <p class="legal-disclaimer" id="s7-disclaimer"></p>
         </div>
     </main>
 
@@ -169,16 +182,16 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
         
-        const digistoreLinks = { 
-            de: "https://www.checkout-ds24.com/product/XXXXXX/", 
-            en: "https://www.checkout-ds24.com/product/XXXXXX/",
-            es: "https://www.checkout-ds24.com/product/XXXXXX/"
+        // HIER trägst du die direkten Links zu deinen Bots ein
+        const botLinks = { 
+            telegram: "https://t.me/DEIN_BOT_NAME?start=", 
+            whatsapp: "https://wa.me/DEINE_NUMMER?text=Start%20" 
         };
 
         const t = {
             de: {
                 pageTitle: "Connected Couples - Onboarding",
-                btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM 4-TAGE-FLOW" },
+                btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "4-TAGE FLOW STARTEN" },
                 s1: { 
                     lbl: "PHASE 1: DIE DYNAMIK", 
                     title: "Welche Dynamik belastet eure Beziehung aktuell am meisten?", 
@@ -224,7 +237,7 @@
                         intimacy: "Der Verlust an Nähe ist kein Mangel an Liebe, sondern eine emotionale Abschottung. Ihr befindet euch im Überlebensmodus.", 
                         conflict: "Eure Konflikte sind unregulierte Versuche, Verbindung herzustellen. Unter jedem Vorwurf liegt die Frage: 'Bist du noch für mich da?'" 
                     }, 
-                    msg: "Diese Muster sind keine Charakterschwäche, sondern unbewusste Schutzstrategien. In unserem E-Mail-Kurs entschlüsseln wir, wie ihr den Kreislauf durchbrecht und wieder zu einem sicheren Hafen füreinander werdet.",
+                    msg: "Diese Muster sind keine Charakterschwäche, sondern unbewusste Schutzstrategien. In unserem Flow entschlüsseln wir, wie ihr den Kreislauf durchbrecht und wieder zu einem sicheren Hafen füreinander werdet.",
                     lvls: { 
                         sec: { t: "SICHERER TYP", d: "Du neigst zu einem sicheren Bindungsmuster. Dein Ziel ist es, deinen Partner aus seiner Anspannung zu holen, ohne dich selbst zu verlieren." }, 
                         anx: { t: "ÄNGSTLICHER TYP", d: "Du suchst stark nach Nähe. Die Distanz deines Partners löst Stress aus. Dein Weg führt über innere Beruhigung statt Überanpassung." }, 
@@ -235,12 +248,13 @@
                 s7: { 
                     lbl: "DER NÄCHSTE SCHRITT", 
                     title: "Dein 4-Tage-Flow", 
-                    sub: "Trage dich ein, um eure Dynamik zu drehen.",
-                    lblFname: "VORNAME", lblEmail: "EMAIL",
+                    sub: "Erhalte 4 Tage lang tiefe Impulse und konkrete Aufgaben direkt in deinen Messenger – völlig kostenlos. Kein Spam, keine Umwege.",
+                    lblFname: "VORNAME", lblEmail: "EMAIL", lblChannel: "AUSLIEFERUNG ÜBER",
                     em: "deine@email.com", 
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
                     errServer: "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal.",
-                    placeholders: { fname: "Dein Vorname" }
+                    placeholders: { fname: "Dein Vorname" },
+                    disclaimer: "<strong>Wichtig:</strong> Deine Daten werden zu 100% ausschließlich für die automatisierte Bereitstellung dieses Kurses genutzt. Wir geben niemals Daten an Dritte weiter. Dein Vertrauen ist unser höchstes Gut."
                 },
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
             },
@@ -292,7 +306,7 @@
                         intimacy: "The loss of closeness is not a lack of love, but an emotional shutdown. You are in survival mode.", 
                         conflict: "Your conflicts are uncalibrated attempts to connect. Beneath every accusation lies the question: 'Are you still there for me?'" 
                     }, 
-                    msg: "These patterns are not character flaws, but unconscious protective strategies. In our email course, we decode how you can break the cycle and become a safe haven for each other again.",
+                    msg: "These patterns are not character flaws, but unconscious protective strategies. In our 4-day flow, we decode how you can break the cycle and become a safe haven for each other again.",
                     lvls: { 
                         sec: { t: "SECURE ATTACHMENT", d: "You tend to have a secure attachment style. Your goal is to help your partner out of their tension without losing yourself." }, 
                         anx: { t: "ANXIOUS ATTACHMENT", d: "You seek closeness. Your partner's distance triggers stress. Your path is through inner calming rather than over-adaptation." }, 
@@ -303,18 +317,19 @@
                 s7: { 
                     lbl: "THE NEXT STEP", 
                     title: "Your 4-Day Flow", 
-                    sub: "Sign up to shift your dynamic.",
-                    lblFname: "FIRST NAME", lblEmail: "EMAIL",
+                    sub: "Receive deep insights and actionable tasks directly in your messenger for 4 days – completely free. No spam, no detours.",
+                    lblFname: "FIRST NAME", lblEmail: "EMAIL", lblChannel: "DELIVERY VIA",
                     em: "your@email.com", 
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
                     errServer: "An error occurred. Please try again later.",
-                    placeholders: { fname: "Your First Name" }
+                    placeholders: { fname: "Your First Name" },
+                    disclaimer: "<strong>Important:</strong> Your data will 100% only be used for the automated delivery of this course. We will never share your data with third parties. Your trust is sacred to us."
                 },
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
             },
             es: {
                 pageTitle: "Connected Couples - Incorporación",
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR CURSO" },
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
                 s1: { 
                     lbl: "FASE 1: LA DINÁMICA", 
                     title: "¿Qué es lo que más agota su relación actualmente?", 
@@ -360,7 +375,7 @@
                         intimacy: "La pérdida de cercanía no es falta de amor, sino un apagado emocional. Están en modo de supervivencia.", 
                         conflict: "Sus conflictos son intentos desregulados de conectar. Debajo de cada acusación está la pregunta: '¿Sigues ahí para mí?'" 
                     }, 
-                    msg: "Estos patrones no son defectos de carácter, sino estrategias de protección. En nuestro curso por email, decodificamos cómo romper el ciclo y volver a ser un puerto seguro el uno para el otro.",
+                    msg: "Estos patrones no son defectos de carácter, sino estrategias de protección. En nuestro flujo de 4 días, decodificamos cómo romper el ciclo y volver a ser un puerto seguro el uno para el otro.",
                     lvls: { 
                         sec: { t: "APEGO SEGURO", d: "Tiendes a tener un estilo de apego seguro. Tu objetivo es sacar a tu pareja de su tensión sin perderte a ti mismo." }, 
                         anx: { t: "APEGO ANSIOSO", d: "Buscas cercanía. La distancia de tu pareja detona estrés. Tu camino pasa por la calma interior en lugar de la sobre-adaptación." }, 
@@ -371,12 +386,13 @@
                 s7: { 
                     lbl: "EL PRÓXIMO PASO", 
                     title: "Tu Flujo de 4 Días", 
-                    sub: "Regístrate para cambiar su dinámica.",
-                    lblFname: "NOMBRE", lblEmail: "EMAIL",
+                    sub: "Recibe impulsos profundos y tareas concretas directamente en tu messenger durante 4 días, totalmente gratis. Sin spam, sin desvíos.",
+                    lblFname: "NOMBRE", lblEmail: "EMAIL", lblChannel: "ENTREGA VÍA",
                     em: "tu@email.com", 
                     errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
                     errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
-                    placeholders: { fname: "Tu Nombre" }
+                    placeholders: { fname: "Tu Nombre" },
+                    disclaimer: "<strong>Importante:</strong> Tus datos se utilizarán 100% exclusivamente para la entrega automatizada de este curso. Nunca compartiremos tus datos con terceros. Tu confianza es sagrada para nosotros."
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
             }
@@ -389,7 +405,6 @@
         }
         
         let step = 1;
-        // HIER WURDEN DIE VORAUSGEWÄHLTEN PLATZHALTER ENTFERNT:
         let answers = { root_problem: '', pain_point: [], anxiety: '', avoidance: '' }; 
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
@@ -415,9 +430,15 @@
             
             document.getElementById('lbl-fname').innerText = l.s7.lblFname;
             document.getElementById('lbl-email').innerText = l.s7.lblEmail;
+            document.getElementById('lbl-channel').innerText = l.s7.lblChannel;
+            
             document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
             document.getElementById('reg-email').placeholder = l.s7.em; 
+            
             document.getElementById('btn-register').innerText = l.btn.pay;
+            if(l.s7.disclaimer) {
+                document.getElementById('s7-disclaimer').innerHTML = l.s7.disclaimer;
+            }
 
             document.getElementById('link-imp').innerText = l.legal.imp;
             document.getElementById('link-dat').innerText = l.legal.dat;
@@ -462,7 +483,6 @@
                 });
             };
             build('s1-opts', l.s1.opts, 'root_problem', false);
-            // HIER WURDE EIN FALLBACK HINZUGEFÜGT (|| {}), DAMIT DAS SKRIPT BEIM START NICHT ABSTÜRZT
             build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true); 
             build('s3-opts', l.s3.opts, 'anxiety', false);
             build('s4-opts', l.s4.opts, 'avoidance', false);
@@ -521,6 +541,7 @@
         async function handleRegistration() {
             const fname = document.getElementById('reg-fname').value.trim();
             const email = document.getElementById('reg-email').value.trim();
+            const channel = document.getElementById('reg-channel').value;
             const errEl = document.getElementById('reg-error');
             const btn = document.getElementById('btn-register'); 
             
@@ -532,21 +553,29 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                const { error } = await supabaseClient.from('leads').insert([
+                const { data, error } = await supabaseClient.from('leads').insert([
                     { 
                         email: email, 
                         first_name: fname, 
+                        delivery_channel: channel,
                         source: 'connected_couples_flow',
                         language: currentLang,
                         marketing_consent: true,
-                        onboarding_data: answers 
+                        onboarding_data: answers,
+                        has_paid: false,
+                        current_mentoring_day: 1
                     }
-                ]);
+                ]).select();
 
                 if (error) throw error;
                 
-                const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
-                window.location.href = `${digistoreBaseUrl}?custom=cc_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
+                const leadId = data[0].id;
+                
+                if(channel === 'telegram') {
+                    window.location.href = `${botLinks.telegram}${leadId}`;
+                } else {
+                    window.location.href = `${botLinks.whatsapp}${leadId}`;
+                }
             } catch(e) {
                 console.error("Fehler beim Speichern:", e);
                 errEl.innerText = t[currentLang].s7.errServer; 
