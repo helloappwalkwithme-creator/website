@@ -8,7 +8,7 @@
     <style>
         :root {
             /* Warm, grounding, and calming color palette */
-            --dark: #1a1614; /* Deep warm charcoal/brown */
+            --dark: #1a1614; 
             --gray: #26201e;
             --gray-active: #362e2b;
             --border: #423835;
@@ -16,6 +16,7 @@
             --text: #f2efe9; /* Soft off-white */
             --error: #cf6666;
             --success: #7a9e7c;
+            --action: #88a382; /* Calming sage green for action plan */
         }
 
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -55,18 +56,19 @@
         .check-icon { width: 22px; height: 22px; border-radius: 4px; border: 1px solid #555; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px; }
         .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: var(--dark); }
 
-        .result-card { background-color: #241916; border: 2px solid var(--gold); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
-        .result-score { color: var(--gold); font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 5px; }
-        .result-level { color: #e8a5a5; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+        /* NEU: Result Card Styling als "Aktionsplan" */
+        .result-card { background-color: #20231f; border: 2px solid var(--action); border-radius: 12px; padding: 25px 20px; text-align: center; margin-bottom: 16px; }
+        .result-score { color: var(--action); font-size: 22px; font-weight: 800; line-height: 1.3; margin-bottom: 10px; }
+        .result-level { color: #d0d0d0; font-size: 15px; font-weight: 500; line-height: 1.5; }
         
         .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
         .insight-title { color: #ccc; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
         .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.6; }
         
-        .info-card { background: #211c1a; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
+        .info-card { background: #211c1a; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 3px solid var(--gold); }
 
         .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(26, 22, 20, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
-        .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 8px; font-weight: 800; font-size: 14px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 1.5px; }
+        .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 8px; font-weight: 800; font-size: 14px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 1.5px; transition: opacity 0.2s; }
         .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
         .btn-back { background: none; border: none; color: #888; margin-top: 12px; padding: 8px 16px; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
 
@@ -79,7 +81,6 @@
         .spinner { border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 45px; height: 45px; animation: spin 1.2s linear infinite; margin: 60px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Legal Footer */
         .legal-footer { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border); font-size: 11px; padding-bottom: 120px; font-family: -apple-system, sans-serif;}
         .legal-footer a { color: #888; text-decoration: none; margin: 0 8px; transition: color 0.2s; }
         .legal-footer a:hover { color: var(--gold); }
@@ -126,15 +127,20 @@
 
         <div class="step" id="step-6">
             <div class="flow-title" id="s6-lbl"></div>
+            
             <div class="result-card" id="res-card">
                 <div class="result-score" id="res-score"></div>
                 <div class="result-level" id="res-level"></div>
             </div>
+            
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
             </div>
-            <div class="info-card" id="res-info-box"><p class="insight-text" id="s6-msg" style="color: #f2efe9; margin: 0;"></p></div>
+            <div class="info-card" id="res-info-box">
+                <div class="insight-title" id="res-action-lbl" style="color: var(--gold);"></div>
+                <p class="insight-text" id="s6-msg" style="color: #f2efe9; margin: 0;"></p>
+            </div>
         </div>
 
         <div class="step" id="step-7">
@@ -150,7 +156,6 @@
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
 
-            <!-- NEU: Channel Selector -->
             <div class="flow-title" id="lbl-channel"></div>
             <select id="reg-channel" class="input-field" style="appearance: none; cursor: pointer;">
                 <option value="whatsapp">WhatsApp</option>
@@ -160,7 +165,6 @@
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
 
-            <!-- NEU: Trust Disclaimer -->
             <p class="legal-disclaimer" id="s7-disclaimer"></p>
         </div>
     </main>
@@ -228,27 +232,28 @@
                         low: "Ganz okay. Ich habe noch Energie für mich selbst oder meine Partnerschaft." 
                     } 
                 },
-                s5: { title: "DYNAMIK WIRD ANALYSIERT...", sub: "Reaktionsmuster werden ausgewertet." },
+                s5: { title: "DYNAMIK WIRD ANALYSIERT...", sub: "Ausgangslage wird ausgewertet." },
                 s6: { 
-                    lbl: "DEIN ERGEBNIS", 
-                    costLbl: "HINTER DEN KULISSEN:", 
+                    lbl: "DEIN AKTIONSPLAN", 
+                    costLbl: "DEINE AUSGANGSLAGE:", 
+                    actionLbl: "HANDLUNGSEMPFEHLUNG:",
                     costVal: { 
-                        anger: "Dein Körper verwechselt den Trotz deines Kindes mit einer echten Bedrohung. Dein Verstand weiß es besser, dein Körper reagiert instinktiv.", 
+                        anger: "Dein Körper verwechselt den Trotz deines Kindes mit einer echten Bedrohung. Dein Verstand weiß es besser, aber dein Nervensystem schaltet instinktiv auf Kampf.", 
                         overwhelm: "Dein Stresslevel ist dauerhaft zu hoch. Jedes laute Geräusch füllt ein Fass, das ohnehin schon überläuft.", 
-                        disconnect: "Um dich selbst zu schützen, hast du unbewusst auf emotionale Distanz geschaltet, weil die Last zu schwer wurde." 
+                        disconnect: "Um dich selbst zu schützen, hast du unbewusst auf emotionale Distanz geschaltet, weil die alltägliche Last zu schwer wurde." 
                     }, 
-                    msg: "Atme tief durch. Du bist kein schlechtes Elternteil. Wutausbrüche oder emotionale Distanz sind keine bewussten Entscheidungen, sondern Reaktionen auf zu viel Stress. Ein aufgewühltes Kind braucht einen gelassenen Erwachsenen. In diesem Flow lernen wir, genau das zu verkörpern.",
+                    msg: "Du brauchst keine weiteren Erziehungstipps, du brauchst Entlastung. Dieser 4-Tage-Flow ist exakt darauf ausgelegt, deinen mentalen Autopiloten zu stoppen, Schuldgefühle aufzulösen und dir das Werkzeug für echte innere Ruhe zu geben.",
                     lvls: { 
-                        ext: { t: "ÜBERLASTET", d: "DAUERHAFTER STRESSMODUS. Du funktionierst auf Reserve. Wutausbrüche oder Taubheit sind Signale deines Körpers, dass du dringend Entlastung brauchst." }, 
-                        dan: { t: "ALARMSTUFE", d: "AM LIMIT. Du kompensierst massiv. Die ständige Reizüberflutung lässt dich kaum zur Ruhe kommen." }, 
-                        ala: { t: "REAKTIV", d: "VERLUST DER GEDULD. Du liebst dein Kind, aber die Struktur des Alltags frisst deine Geduld auf. Du bist schnell gereizt." }, 
-                        cri: { t: "ANGESPANNT", d: "BEGINNENDE ERSCHÖPFUNG. Du merkst, dass die Leichtigkeit fehlt. Es ist Zeit, bewusste Ankerpunkte für deinen Alltag zu setzen." } 
+                        ext: { t: "ZIEL: RAUS AUS DEM ALARMZUSTAND", d: "Dein System läuft auf Hochtouren. Der erste Schritt ist, die Reizüberflutung zu stoppen, damit du wieder durchatmen kannst." }, 
+                        dan: { t: "ZIEL: REAKTIVITÄT SENKEN", d: "Wir bauen deine Trigger ab, damit du in hitzigen Momenten die Kontrolle behältst und nicht aus dem Stress heraus reagierst." }, 
+                        ala: { t: "ZIEL: KAPAZITÄT AUFBAUEN", d: "Wir schaffen neue Pufferzonen, damit deine Geduld nicht schon mittags aufgebraucht ist und du den Alltag wieder steuern kannst." }, 
+                        cri: { t: "ZIEL: VERBINDUNG STÄRKEN", d: "Die Basis stimmt, aber die Leichtigkeit fehlt. Wir fokussieren uns darauf, emotionale Brücken wieder aufzubauen." } 
                     } 
                 },
                 s7: { 
                     lbl: "DER NÄCHSTE SCHRITT", 
                     title: "Dein 4-Tage-Flow", 
-                    sub: "Sichere dir deinen Zugang und lerne neue Wege kennen.",
+                    sub: "Sichere dir deinen Zugang und starte den Prozess.",
                     lblFname: "VORNAME", lblEmail: "EMAIL", lblChannel: "AUSLIEFERUNG ÜBER",
                     em: "deine@email.com", 
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
@@ -260,7 +265,7 @@
             },
             en: {
                 pageTitle: "Parent in Peace - Onboarding",
-                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "TO THE 4-DAY FLOW" },
+                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
                 s1: { 
                     lbl: "PHASE 1: DAILY REALITY", 
                     title: "What is pushing you to your limits in parenting right now?", 
@@ -297,27 +302,28 @@
                         low: "Fairly okay. I still have energy for myself or my partnership." 
                     } 
                 },
-                s5: { title: "ANALYZING DYNAMICS...", sub: "Evaluating reaction patterns." },
+                s5: { title: "ANALYZING DYNAMICS...", sub: "Evaluating your current state." },
                 s6: { 
-                    lbl: "YOUR RESULT", 
-                    costLbl: "BEHIND THE SCENES:", 
+                    lbl: "YOUR ACTION PLAN", 
+                    costLbl: "YOUR STARTING POINT:", 
+                    actionLbl: "RECOMMENDATION:",
                     costVal: { 
-                        anger: "Your body confuses your child's defiance with a real threat. Your mind knows better, but your body reacts instinctively.", 
+                        anger: "Your body confuses your child's defiance with a real threat. Your mind knows better, but your nervous system instinctively switches to fight mode.", 
                         overwhelm: "Your stress level is chronically high. Every loud noise fills a cup that is already overflowing.", 
-                        disconnect: "To protect yourself, you have unconsciously switched to emotional distance because the load became too heavy." 
+                        disconnect: "To protect yourself, you have unconsciously switched to emotional distance because the daily load became too heavy." 
                     }, 
-                    msg: "Take a deep breath. You are not a bad parent. Anger outbursts or emotional distance are not conscious choices, but reactions to too much stress. An overwhelmed child needs a calm adult. In this flow, we learn to embody exactly that.",
+                    msg: "You don't need more parenting tips, you need relief. This 4-Day Flow is designed exactly to stop your mental autopilot, dissolve guilt, and give you the tools for real inner peace.",
                     lvls: { 
-                        ext: { t: "OVERWHELMED", d: "CHRONIC STRESS MODE. You are running on fumes. Anger or numbness are signals from your body that you urgently need relief." }, 
-                        dan: { t: "RED ALERT", d: "AT THE LIMIT. You are compensating massively. Constant overstimulation prevents you from resting." }, 
-                        ala: { t: "REACTIVE", d: "LOSS OF PATIENCE. You love your child, but the structure of your daily life is eating up your patience. You are easily irritated." }, 
-                        cri: { t: "TENSE", d: "BEGINNING EXHAUSTION. You feel the lightness is gone. It is time to set conscious anchors for your daily life." } 
+                        ext: { t: "GOAL: EXIT ALARM MODE", d: "Your system is running on overdrive. The first step is to stop the overstimulation so you can breathe again." }, 
+                        dan: { t: "GOAL: LOWER REACTIVITY", d: "We will dismantle your triggers so you maintain control in heated moments and stop reacting out of stress." }, 
+                        ala: { t: "GOAL: BUILD CAPACITY", d: "We will create new buffer zones so your patience isn't depleted by noon and you can steer your daily life again." }, 
+                        cri: { t: "GOAL: STRENGTHEN CONNECTION", d: "The foundation is there, but the lightness is missing. We will focus on rebuilding emotional bridges." } 
                     } 
                 },
                 s7: { 
                     lbl: "THE NEXT STEP", 
                     title: "Your 4-Day Flow", 
-                    sub: "Secure your access and explore new paths.",
+                    sub: "Secure your access and start the process.",
                     lblFname: "FIRST NAME", lblEmail: "EMAIL", lblChannel: "DELIVERY VIA",
                     em: "your@email.com", 
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
@@ -366,27 +372,28 @@
                         low: "Bastante bien. Todavía tengo energía para mí o mi pareja." 
                     } 
                 },
-                s5: { title: "ANALIZANDO DINÁMICAS...", sub: "Evaluando patrones de reacción." },
+                s5: { title: "ANALIZANDO DINÁMICAS...", sub: "Evaluando tu situación actual." },
                 s6: { 
-                    lbl: "TU RESULTADO", 
-                    costLbl: "DETRÁS DE ESCENA:", 
+                    lbl: "TU PLAN DE ACCIÓN", 
+                    costLbl: "PUNTO DE PARTIDA:", 
+                    actionLbl: "RECOMENDACIÓN:",
                     costVal: { 
-                        anger: "Tu cuerpo confunde el desafío de tu hijo con una amenaza real. Tu mente lo sabe, pero tu cuerpo reacciona instintivamente.", 
+                        anger: "Tu cuerpo confunde el desafío de tu hijo con una amenaza real. Tu mente lo sabe, pero tu sistema nervioso cambia instintivamente al modo de lucha.", 
                         overwhelm: "Tu nivel de estrés es crónicamente alto. Cada ruido fuerte llena un vaso que ya está desbordado.", 
-                        disconnect: "Para protegerte, has pasado inconscientemente a la distancia emocional porque la carga se volvió demasiado pesada." 
+                        disconnect: "Para protegerte, has pasado inconscientemente a la distancia emocional porque la carga diaria se volvió demasiado pesada." 
                     }, 
-                    msg: "Respira profundo. No eres un mal padre o madre. Los ataques de ira o la distancia emocional no son decisiones conscientes, sino reacciones a demasiado estrés. Un niño abrumado necesita un adulto tranquilo. En este flujo aprendemos a encarnar exactamente eso.",
+                    msg: "No necesitas más consejos de crianza, necesitas alivio. Este flujo de 4 días está diseñado exactamente para detener tu piloto automático, disolver la culpa y darte las herramientas para una paz real.",
                     lvls: { 
-                        ext: { t: "ABRUMADO", d: "MODO DE ESTRÉS CRÓNICO. La ira o el adormecimiento son señales de tu cuerpo de que necesitas alivio urgentemente." }, 
-                        dan: { t: "ALERTA ROJA", d: "AL LÍMITE. Estás compensando masivamente. La sobrestimulación constante te impide descansar." }, 
-                        ala: { t: "REACTIVO", d: "PÉRDIDA DE PACIENCIA. Amas a tu hijo, pero la estructura de tu vida diaria está consumiendo tu paciencia. Te irritas con facilidad." }, 
-                        cri: { t: "TENSO", d: "AGOTAMIENTO INCIPIENTE. Sientes que la ligereza se ha ido. Es hora de establecer anclajes conscientes para tu día a día." } 
+                        ext: { t: "META: SALIR DEL MODO ALARMA", d: "Tu sistema está sobrecargado. El primer paso es detener la sobreestimulación para que puedas volver a respirar." }, 
+                        dan: { t: "META: REDUCIR REACTIVIDAD", d: "Desarmaremos tus factores desencadenantes para que mantengas el control en momentos tensos y dejes de reaccionar por estrés." }, 
+                        ala: { t: "META: CREAR CAPACIDAD", d: "Crearemos nuevas zonas de amortiguación para que tu paciencia no se agote al mediodía y puedas volver a dirigir tu día." }, 
+                        cri: { t: "META: FORTALECER CONEXIÓN", d: "La base está ahí, pero falta la ligereza. Nos centraremos en reconstruir los puentes emocionales." } 
                     } 
                 },
                 s7: { 
                     lbl: "EL PRÓXIMO PASO", 
                     title: "Tu Flujo de 4 Días", 
-                    sub: "Regístrate para afrontar tus desafíos.",
+                    sub: "Asegura tu acceso y comienza el proceso.",
                     lblFname: "NOMBRE", lblEmail: "EMAIL", lblChannel: "ENTREGA VÍA",
                     em: "tu@email.com", 
                     errFill: "Por favor, rellena todos los campos.", errExists: "Este correo ya existe.",
@@ -398,7 +405,6 @@
             }
         };
 
-        // Sicherheits-Check für die Sprache
         let currentLang = localStorage.getItem('smh_language');
         if (!currentLang || !t[currentLang]) {
             currentLang = 'de';
@@ -475,7 +481,7 @@
                             buildOptions(); checkNextState();
                         } else {
                             answers[key] = k; buildOptions(); checkNextState();
-                            setTimeout(() => handleNext(), 350); // Micro-Delay for UX
+                            setTimeout(() => handleNext(), 350); 
                         }
                     }));
                 });
@@ -492,103 +498,4 @@
 
         function renderResult() {
             let score = 75;
-            if(answers.tolerance === 'high') score += 12; else if(answers.tolerance === 'med') score += 6;
-            if(answers.capacity === 'high') score += 12; else if(answers.capacity === 'med') score += 6;
-            
-            const res = t[currentLang].s6;
-            let lvl, col;
-            
-            if (score >= 90) { lvl = res.lvls.ext; col = '#cf6666'; }
-            else if (score >= 85) { lvl = res.lvls.dan; col = '#cf6666'; }
-            else if (score >= 80) { lvl = res.lvls.ala; col = '#d48a60'; }
-            else { lvl = res.lvls.cri; col = '#d48a60'; }
-
-            document.getElementById('s6-lbl').innerText = res.lbl;
-            document.getElementById('res-score').innerText = lvl.t; 
-            document.getElementById('res-score').style.color = col; 
-            document.getElementById('res-level').innerText = lvl.d; 
-            document.getElementById('res-level').style.color = col;
-            document.getElementById('res-card').style.borderColor = col;
-            
-            document.getElementById('res-cost-lbl').innerText = res.costLbl; 
-            document.getElementById('res-cost-lbl').style.color = col;
-            document.getElementById('res-info-box').style.borderLeftColor = col; 
-            
-            document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
-            document.getElementById('s6-msg').innerText = res.msg;
-        }
-
-        function handleNext() {
-            document.getElementById(`step-${step}`).classList.remove('active'); step++;
-            pCont.style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
-            pBar.style.width = `${((step - 1) / 6) * 100}%`;
-            
-            bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
-            if(step === 6) bNext.innerText = t[currentLang].btn.next;
-            checkNextState();
-            
-            document.getElementById(`step-${step}`).classList.add('active'); window.scrollTo(0,0);
-            if(step === 5) setTimeout(() => { handleNext(); renderResult(); }, 2000);
-        }
-
-        function handleBack() {
-            document.getElementById(`step-${step}`).classList.remove('active');
-            step = Math.max(1, step === 6 ? 4 : step - 1);
-            document.getElementById(`step-${step}`).classList.add('active');
-            pCont.style.display = 'block';
-            pBar.style.width = `${((step - 1) / 6) * 100}%`;
-            bBar.style.display = (step === 2) ? 'flex' : 'none';
-            checkNextState(); window.scrollTo(0,0);
-        }
-
-        async function handleRegistration() {
-            const fname = document.getElementById('reg-fname').value.trim();
-            const email = document.getElementById('reg-email').value.trim();
-            const channel = document.getElementById('reg-channel').value;
-            const errEl = document.getElementById('reg-error');
-            const btn = document.getElementById('btn-register'); 
-            
-            if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
-            errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
-
-            try {
-                // Supabase wird erst hier aufgerufen, damit das UI vorher nie blockiert wird
-                if (!supabaseClient) {
-                    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                }
-
-                const { data, error } = await supabaseClient.from('leads').insert([
-                    { 
-                        email: email, 
-                        first_name: fname, 
-                        delivery_channel: channel,
-                        source: 'parent_in_peace',
-                        language: currentLang,
-                        marketing_consent: true,
-                        onboarding_data: answers,
-                        has_paid: false,
-                        current_mentoring_day: 1
-                    }
-                ]).select();
-
-                if (error) throw error;
-                
-                const leadId = data[0].id;
-                
-                // Direkte Weiterleitung
-                if(channel === 'telegram') {
-                    window.location.href = `${botLinks.telegram}${leadId}`;
-                } else {
-                    window.location.href = `${botLinks.whatsapp}${leadId}`;
-                }
-            } catch(e) {
-                console.error("Error:", e);
-                errEl.innerText = t[currentLang].s7.errServer; 
-                errEl.style.display = 'block';
-                btn.disabled = false;
-                btn.innerText = t[currentLang].btn.pay;
-            }
-        }
-    </script>
-</body>
-</html>
+            if(answers.tolerance === 'high') score += 12; else if(answers.
