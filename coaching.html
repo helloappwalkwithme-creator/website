@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Integrated Soul - Onboarding</title>
+    <title>1-on-1 Coaching - Application</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             /* Mystical, deep, and grounded color palette */
-            --dark: #0a0c10; /* Void black/deepest night */
+            --dark: #0a0c10; 
             --gray: #13161f;
             --gray-active: #1d2230;
             --border: #2b3245;
-            --gold: #cba677; /* Muted alchemist gold */
+            --gold: #cba677; 
             --text: #e2e4e9;
             --error: #b05c6e;
             --success: #678c7a;
+            --action: #cba677; /* Grounded Gold for Coaching Goal */
         }
 
         * { box-sizing: border-box; font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif, -apple-system, sans-serif; }
@@ -55,20 +56,16 @@
         .check-icon { width: 22px; height: 22px; border-radius: 4px; border: 1px solid #555; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px; }
         .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: var(--dark); }
 
-        .result-card { background-color: #1a1214; border: 2px solid var(--gold); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
-        .result-score { color: var(--gold); font-size: 32px; font-weight: 600; line-height: 1.2; margin-bottom: 5px; }
-        .result-level { color: #d698a6; font-size: 14px; font-weight: 400; text-transform: uppercase; letter-spacing: 2px; }
+        /* Coaching Result Styling */
+        .result-card { background-color: #1a1214; border: 2px solid var(--action); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
+        .result-score { color: var(--action); font-size: 20px; font-weight: 700; line-height: 1.3; margin-bottom: 10px; text-transform: uppercase;}
+        .result-level { color: #d1d5db; font-size: 15px; font-weight: 400; line-height: 1.5; }
         
         .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
         .insight-title { color: #a1a5b5; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
         .insight-text { color: #d1d5db; font-size: 14px; line-height: 1.6; }
         
-        .info-card { background: #11141c; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
-
-        .check-row { display: flex; align-items: flex-start; margin-top: 15px; margin-bottom: 10px; cursor: pointer; }
-        .box-icon { width: 22px; height: 22px; border: 1px solid var(--gold); border-radius: 4px; margin-right: 12px; margin-top: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px;}
-        .check-row.selected .box-icon { background: var(--gold); color: var(--dark); }
-        .check-label { font-size: 14px; color: var(--text); line-height: 1.6; flex: 1; }
+        .info-card { background: #11141c; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 3px solid var(--gold); }
 
         .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 12, 16, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
         .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 8px; font-weight: 600; font-size: 14px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 1.5px; }
@@ -128,15 +125,20 @@
 
         <div class="step" id="step-6">
             <div class="flow-title" id="s6-lbl"></div>
-            <div class="result-card" id="res-card">
-                <div class="result-score" id="res-score"></div>
-                <div class="result-level" id="res-level"></div>
-            </div>
+            
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
             </div>
-            <div class="info-card" id="res-info-box"><p class="insight-text" id="s6-msg" style="color: #e2e4e9; margin: 0;"></p></div>
+
+            <div class="result-card" id="res-card">
+                <div class="result-score" id="res-score"></div>
+                <div class="result-level" id="res-level"></div>
+            </div>
+
+            <div class="info-card" id="res-info-box">
+                <p class="insight-text" id="s6-msg" style="color: #e2e4e9; margin: 0;"></p>
+            </div>
         </div>
 
         <div class="step" id="step-7">
@@ -182,8 +184,8 @@
 
         const t = {
             de: {
-                pageTitle: "The Integrated Soul - Onboarding",
-                btn: { next: "WEITER", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "PFAD BETRETEN" },
+                pageTitle: "1-on-1 Coaching - Bewerbung",
+                btn: { next: "WEITER", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "ZUR COACHING-ANMELDUNG" },
                 s1: { 
                     lbl: "PHASE 1: DER SCHATTEN", 
                     title: "Welches Gefühl begleitet dich unterschwellig am häufigsten?", 
@@ -222,25 +224,25 @@
                 },
                 s5: { title: "ZUSTAND WIRD REFLEKTIERT...", sub: "Muster werden analysiert." },
                 s6: { 
-                    lbl: "DIE SPIEGELUNG", 
-                    costLbl: "DIE PSYCHOLOGISCHE WAHRHEIT:", 
+                    lbl: "DEINE COACHING-AUSWERTUNG", 
+                    costLbl: "DEIN AKTUELLER SCHMERZ (PAIN):", 
                     costVal: { 
-                        emptiness: "Dein System hat Emotionen abgekapselt. Die Leere ist kein Fehler, sondern der Raum, der entsteht, wenn wir unerwünschte Anteile verbannen.", 
-                        bypassing: "Du nutzt Positivität als Schutzschild. Wahre Entwicklung geschieht nicht im bloßen Intellekt, sondern im Spüren des Körpers.", 
-                        isolation: "Deine Isolation ist ein angelernter Schutz. Dein System hat gelernt, dass Verbindung Unsicherheit bedeutet." 
+                        emptiness: "Du spürst eine Leere, die sich durch äußere Dinge nicht füllen lässt. Dein System hat als Schutzmechanismus gelernt, Emotionen abzukapseln.", 
+                        bypassing: "Du weichst tiefen Emotionen aus, indem du dich in Positivität flüchtest. Dieser unbewusste Schutzmechanismus kostet im Alltag viel Kraft.", 
+                        isolation: "Du fühlst dich oft abgetrennt von anderen. Das ist eine erlernte Vermeidungsstrategie, die echte, tiefe Verbindung aktuell blockiert." 
                     }, 
-                    msg: "Entwicklung bedeutet nicht, dem Menschsein zu entfliehen, sondern tief hineinzusinken. In diesem Flow verbinden wir innere Reflexion mit konkreter körperlicher Erdung.",
+                    msg: "Wir lieben es, genau dieses Wissen im 1-on-1 zu vermitteln. Wir sehen deinen aktuellen Schmerz und das Ziel, das du erreichen willst. Ohne Übertreibung oder Esoterik: Unser Coaching gibt dir einen pragmatischen, direkten Fahrplan, um diese Muster Schritt für Schritt aufzubrechen.",
                     lvls: { 
-                        ext: { t: "FRAGMENTIERT", d: "Du lebst stark im Intellekt. Dein Körper braucht dringend deine Präsenz." }, 
-                        dan: { t: "ENTWURZELT", d: "Du suchst Antworten im Außen. Es ist Zeit, die Aufmerksamkeit nach innen zu richten." }, 
-                        ala: { t: "DISSOZIIERT", d: "Du verstehst vieles intellektuell, lebst es aber noch nicht im Körper. Zeit für Praxis." }, 
-                        cri: { t: "SUCHEND", d: "Du erkennst deine Muster. Jetzt geht es darum, diese Erkenntnisse in den Alltag zu bringen." } 
+                        ext: { t: "ZIEL: PRÄSENZ AUFBAUEN", d: "Dein Verstand ist überlastet. Das primäre Ziel im Coaching ist es, eine spürbare und ruhige Verbindung zu deinem Körper herzustellen." }, 
+                        dan: { t: "ZIEL: ERDUNG FINDEN", d: "Du suchst oft im Außen nach Halt. Unser Ziel ist es, den Fokus nach innen zu richten und dort echte Stabilität zu entwickeln." }, 
+                        ala: { t: "ZIEL: WISSEN INTEGRIEREN", d: "Du verstehst deine Muster bereits intellektuell. Das Ziel ist es nun, dieses Wissen messbar und pragmatisch in den Alltag zu integrieren." }, 
+                        cri: { t: "ZIEL: MUSTER BRECHEN", d: "Du kennst deine Blockaden. Wir konzentrieren uns im Coaching auf die konsequente, strukturierte Umsetzung neuer Verhaltensweisen." } 
                     } 
                 },
                 s7: { 
                     lbl: "DER NÄCHSTE SCHRITT", 
-                    title: "Beginne die Integration", 
-                    sub: "Sichere deinen Zugang zum 4-Tage-Flow.",
+                    title: "Dein 1-on-1 Coaching", 
+                    sub: "Sichere dir deinen Platz für die direkte Zusammenarbeit.",
                     lblFname: "VORNAME", lblEmail: "EMAIL",
                     em: "deine@email.com", 
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
@@ -250,8 +252,8 @@
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
             },
             en: {
-                pageTitle: "The Integrated Soul - Onboarding",
-                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "ENTER THE PATH" },
+                pageTitle: "1-on-1 Coaching - Application",
+                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "ENTER COACHING APPLICATION" },
                 s1: { 
                     lbl: "PHASE 1: THE SHADOW", 
                     title: "Which underlying feeling accompanies you the most?", 
@@ -290,25 +292,25 @@
                 },
                 s5: { title: "REFLECTING YOUR STATE...", sub: "Analyzing patterns." },
                 s6: { 
-                    lbl: "THE MIRROR", 
-                    costLbl: "THE PSYCHOLOGICAL TRUTH:", 
+                    lbl: "YOUR COACHING EVALUATION", 
+                    costLbl: "YOUR CURRENT PAIN:", 
                     costVal: { 
-                        emptiness: "Your system has encapsulated emotions. Emptiness is the void created when we banish unwanted parts of ourselves.", 
-                        bypassing: "You use positivity as a shield. True development doesn't happen merely in the intellect, but in feeling the body.", 
-                        isolation: "Your isolation is a learned protection. Your system has learned that connection means uncertainty." 
+                        emptiness: "You feel an inner emptiness that cannot be filled by external success. Your system has learned to encapsulate emotions as a defense mechanism.", 
+                        bypassing: "You escape into positivity to avoid conflicts and deep emotions. This unconscious protective strategy costs an enormous amount of energy in everyday life.", 
+                        isolation: "You often feel isolated and disconnected. This is a learned avoidance strategy that currently prevents true, deep connection." 
                     }, 
-                    msg: "Development does not mean escaping humanity, but sinking deeply into it. In this flow, we combine inner reflection with physical grounding.",
+                    msg: "We love conveying exactly this knowledge in 1-on-1 settings. We clearly see your current pain and the goal you want to achieve. Without exaggeration or esotericism: Our coaching provides a pragmatic, direct roadmap to break these patterns step by step.",
                     lvls: { 
-                        ext: { t: "FRAGMENTED", d: "You live heavily in your intellect. Your body urgently needs your presence." }, 
-                        dan: { t: "UNMOORED", d: "You seek answers outside. It's time to direct your attention inward." }, 
-                        ala: { t: "DISSOCIATED", d: "You understand a lot intellectually, but don't live it in your body yet. Time for practice." }, 
-                        cri: { t: "SEARCHING", d: "You recognize your patterns. Now it's about bringing these insights into your daily life." } 
+                        ext: { t: "GOAL: BUILD PRESENCE", d: "Your mind is overloaded. The primary goal in coaching is to establish a tangible, calm connection to your body." }, 
+                        dan: { t: "GOAL: FIND GROUNDING", d: "You often seek stability on the outside. Our goal is to direct your focus inward to develop genuine grounding." }, 
+                        ala: { t: "GOAL: INTEGRATE KNOWLEDGE", d: "You already understand your patterns intellectually. The goal now is to measurably translate this knowledge into your physical reality." }, 
+                        cri: { t: "GOAL: BREAK PATTERNS", d: "You know your blockages. We concentrate on the consistent, structured implementation of new behaviors." } 
                     } 
                 },
                 s7: { 
                     lbl: "FINAL STEP", 
-                    title: "Begin the Integration", 
-                    sub: "Secure your access to the 4-day flow.",
+                    title: "Your 1-on-1 Coaching", 
+                    sub: "Secure your spot for our direct collaboration.",
                     lblFname: "FIRST NAME", lblEmail: "EMAIL",
                     em: "your@email.com", 
                     errFill: "Please fill in all fields.", errExists: "Email already exists.",
@@ -318,8 +320,8 @@
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
             },
             es: {
-                pageTitle: "The Integrated Soul - Incorporación",
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTIENDO", pay: "ENTRAR AL CAMINO" },
+                pageTitle: "1-on-1 Coaching - Aplicación",
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTIENDO", pay: "ENTRAR AL COACHING" },
                 s1: { 
                     lbl: "FASE 1: LA SOMBRA", 
                     title: "¿Qué sentimiento subyacente te acompaña más a menudo?", 
@@ -358,25 +360,25 @@
                 },
                 s5: { title: "REFLEJANDO TU ESTADO...", sub: "Analizando patrones." },
                 s6: { 
-                    lbl: "EL ESPEJO", 
-                    costLbl: "LA VERDAD PSICOLÓGICA:", 
+                    lbl: "TU EVALUACIÓN DE COACHING", 
+                    costLbl: "TU DOLOR ACTUAL (PAIN):", 
                     costVal: { 
-                        emptiness: "Tu sistema ha encapsulado emociones. El vacío es el espacio creado al desterrar partes no deseadas de nosotros mismos.", 
-                        bypassing: "Usas la positividad como escudo. El verdadero desarrollo no ocurre solo en el intelecto, sino sintiendo el cuerpo.", 
-                        isolation: "Tu aislamiento es una protección aprendida. Tu sistema ha aprendido que la conexión significa incertidumbre." 
+                        emptiness: "Sientes un vacío que no se puede llenar con éxitos externos. Tu sistema ha aprendido a encapsular las emociones como mecanismo de defensa.", 
+                        bypassing: "Evades emociones profundas refugiándote en la positividad. Esta estrategia de protección inconsciente cuesta mucha energía en el día a día.", 
+                        isolation: "A menudo te sientes desconectado/a de los demás. Esta es una estrategia de evitación aprendida que actualmente bloquea una conexión real." 
                     }, 
-                    msg: "El desarrollo no significa escapar de la humanidad, sino hundirse profundamente en ella. En este flujo, combinamos la reflexión interior con el enraizamiento físico.",
+                    msg: "Nos encanta transmitir exactamente este conocimiento en un entorno 1-a-1. Vemos claramente tu dolor actual y la meta que deseas alcanzar. Sin exageraciones ni esoterismos: Nuestro coaching te ofrece una hoja de ruta pragmática y directa para romper estos patrones paso a paso.",
                     lvls: { 
-                        ext: { t: "FRAGMENTADO", d: "Vives fuertemente en tu intelecto. Tu cuerpo necesita urgentemente tu presencia." }, 
-                        dan: { t: "DESARRAIGADO", d: "Buscas respuestas afuera. Es hora de dirigir tu atención hacia adentro." }, 
-                        ala: { t: "DISOCIADO", d: "Entiendes mucho intelectualmente, pero aún no lo vives en tu cuerpo. Tiempo de práctica." }, 
-                        cri: { t: "BUSCADOR", d: "Reconoces tus patrones. Ahora se trata de llevar estas percepciones a tu vida diaria." } 
+                        ext: { t: "META: CONSTRUIR PRESENCIA", d: "Tu mente está sobrecargada. El objetivo principal en el coaching es establecer una conexión tangible y tranquila con tu cuerpo." }, 
+                        dan: { t: "META: ENCONTRAR ARRAIGO", d: "Buscas apoyo en el exterior. Trabajamos en dirigir el enfoque hacia adentro para desarrollar una verdadera estabilidad." }, 
+                        ala: { t: "META: INTEGRAR CONOCIMIENTO", d: "Ya entiendes tus patrones intelectualmente. El objetivo ahora es traducir este conocimiento a la vida cotidiana de forma pragmática." }, 
+                        cri: { t: "META: ROMPER PATRONES", d: "Conoces tus bloqueos. Nos concentramos en la implementación estructurada y constante de nuevos comportamientos." } 
                     } 
                 },
                 s7: { 
                     lbl: "EL PRÓXIMO PASO", 
-                    title: "Comienza la Integración", 
-                    sub: "Asegura tu acceso al flujo de 4 días.",
+                    title: "Tu Coaching 1-a-1", 
+                    sub: "Asegura tu lugar para nuestra colaboración directa.",
                     lblFname: "NOMBRE", lblEmail: "EMAIL",
                     em: "tu@email.com", 
                     errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
@@ -387,7 +389,6 @@
             }
         };
 
-        // Sicherheits-Check für die Sprache
         let currentLang = localStorage.getItem('smh_language');
         if (!currentLang || !t[currentLang]) {
             currentLang = 'de';
@@ -460,7 +461,7 @@
                             buildOptions(); checkNextState();
                         } else {
                             answers[key] = k; buildOptions(); checkNextState();
-                            setTimeout(() => handleNext(), 350); // Fast Auto-Advance
+                            setTimeout(() => handleNext(), 350); 
                         }
                     }));
                 });
@@ -544,7 +545,8 @@
                     { 
                         email: email, 
                         first_name: fname, 
-                        source: 'integrated_soul_7_step',
+                        source: 'coaching_application',
+                        language: currentLang,
                         marketing_consent: true,
                         onboarding_data: answers 
                     }
@@ -553,7 +555,7 @@
                 if (error) throw error;
 
                 const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
-                window.location.href = `${digistoreBaseUrl}?custom=soul_flow&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
+                window.location.href = `${digistoreBaseUrl}?custom=coaching&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
             } catch(e) {
                 console.error(e);
                 errEl.innerText = t[currentLang].s7.errServer; 
