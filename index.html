@@ -22,6 +22,7 @@
             --color-couple: #d07c50;   /* Deep Terracotta/Rust */
             --color-career: #c2a370;   /* Muted Gold / Bronze */
             --color-closer: #4e9b62;   /* Money/Growth Green */
+            --color-lightness: #8eb6d9; /* Calming Airy Blue */
         }
 
         body {
@@ -136,6 +137,7 @@
         .card-couple:hover { border-color: var(--color-couple); }
         .card-career:hover { border-color: var(--color-career); }
         .card-closer:hover { border-color: var(--color-closer); }
+        .card-lightness:hover { border-color: var(--color-lightness); }
 
         .app-icon {
             width: 55px;
@@ -212,6 +214,9 @@
 
         .btn-closer { background-color: transparent; border: 1px solid var(--color-closer); color: var(--color-closer); }
         .btn-closer:hover { background-color: var(--color-closer); color: #000; }
+
+        .btn-lightness { background-color: transparent; border: 1px solid var(--color-lightness); color: var(--color-lightness); }
+        .btn-lightness:hover { background-color: var(--color-lightness); color: #000; }
         
         footer { background-color: rgba(10, 10, 10, 0.95); padding: 60px 20px; border-top: 1px solid var(--card-border); text-align: center; }
         .legal-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 60px; max-width: 1000px; margin: 0 auto; }
@@ -258,6 +263,13 @@
             <h2 data-i18n="apps_h2">Our Mentoring Flows</h2>
             <div class="grid">
                 
+                <div class="card card-lightness">
+                    <div class="app-icon" style="background-color: var(--color-lightness);">PL</div>
+                    <h3 data-i18n="app8_title">The Path to Lightness</h3>
+                    <p data-i18n="app8_p">Clear the mental fog. Overcome cognitive overload, set boundaries, and regulate your nervous system for effortless living.</p>
+                    <a href="lightness.html" class="btn btn-lightness" data-i18n="app_btn_active">To the Flow</a>
+                </div>
+
                 <div class="card card-man">
                     <div class="app-icon" style="background-color: var(--color-man);">IM</div>
                     <h3 data-i18n="app1_title">Integrated Man</h3>
@@ -360,6 +372,8 @@
                 app6_p: "See through the power dynamics in your job. Learn strategic positioning and take control.",
                 app7_title: "The Elite Closer",
                 app7_p: "Sales psychology at the highest level. Handle objections confidently and close high-ticket deals.",
+                app8_title: "The Path to Lightness",
+                app8_p: "Clear the mental fog. Overcome cognitive overload, set boundaries, and regulate your nervous system for effortless living.",
                 app_btn_active: "Start the Flow"
             },
             de: {
@@ -383,6 +397,8 @@
                 app6_p: "Durchschaue die Machtstrukturen in deinem Job. Lerne strategische Positionierung und übernimm die Kontrolle.",
                 app7_title: "The Elite Closer",
                 app7_p: "Verkaufspsychologie auf höchstem Niveau. Baue Einwände souverän ab und schließe hochpreisig ab.",
+                app8_title: "Der Weg zur Leichtigkeit",
+                app8_p: "Lichte den mentalen Nebel. Überwinde kognitive Überlastung, setze Grenzen und reguliere dein Nervensystem für ein müheloses Leben.",
                 app_btn_active: "Zum Flow"
             },
             es: {
@@ -406,6 +422,8 @@
                 app6_p: "Entiende las dinámicas de poder en tu trabajo. Aprende posicionamiento estratégico y toma el control.",
                 app7_title: "The Elite Closer",
                 app7_p: "Psicología de ventas al más alto nivel. Maneja objeciones con confianza y cierra tratos de alto valor.",
+                app8_title: "El Camino a la Ligereza",
+                app8_p: "Despeja la niebla mental. Supera la sobrecarga cognitiva, establece límites y regula tu sistema nervioso para una vida sin esfuerzo.",
                 app_btn_active: "Iniciar el Flujo"
             }
         };
