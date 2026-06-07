@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Career & Power</title>
+    <title>Career & Power - Onboarding</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
@@ -15,12 +15,13 @@
             --text: #f2efe9; 
             --error: #cf6666;
             --success: #7a9e7c;
+            --action: #8ea3b8; /* Strategic, calm slate blue for the action plan */
         }
 
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
         body { 
-            margin: 0; padding: 0; background-color: #121417; color: var(--text); 
+            margin: 0; padding: 0; background-color: var(--dark); color: var(--text); 
             display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; 
         }
         
@@ -54,18 +55,19 @@
         .check-icon { width: 22px; height: 22px; border-radius: 4px; border: 1px solid #555; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px; }
         .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: #121417; }
 
-        .result-card { background-color: #17191c; border: 2px solid var(--gold); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
-        .result-score { color: var(--gold); font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 5px; }
-        .result-level { color: #b5c4d1; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+        /* NEU: Result Card Styling als Aktionsplan */
+        .result-card { background-color: #1a1e22; border: 2px solid var(--action); border-radius: 12px; padding: 25px 20px; text-align: center; margin-bottom: 16px; }
+        .result-score { color: var(--action); font-size: 22px; font-weight: 800; line-height: 1.3; margin-bottom: 10px; text-transform: uppercase; }
+        .result-level { color: #b5c4d1; font-size: 15px; font-weight: 500; line-height: 1.5; }
         
         .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
         .insight-title { color: #ccc; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
         .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.6; }
         
-        .info-card { background: #1a1e22; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
+        .info-card { background: #1a1e22; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 3px solid var(--gold); }
 
         .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(18, 20, 23, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
-        .btn-gold { background-color: var(--gold); color: #121417; padding: 16px; border-radius: 8px; font-weight: 800; font-size: 14px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 1.5px; }
+        .btn-gold { background-color: var(--gold); color: #121417; padding: 16px; border-radius: 8px; font-weight: 800; font-size: 14px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 1.5px; transition: opacity 0.2s; }
         .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
         .btn-back { background: none; border: none; color: #888; margin-top: 12px; padding: 8px 16px; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
 
@@ -124,15 +126,20 @@
 
         <div class="step" id="step-6">
             <div class="flow-title" id="s6-lbl"></div>
+            
             <div class="result-card" id="res-card">
                 <div class="result-score" id="res-score"></div>
                 <div class="result-level" id="res-level"></div>
             </div>
+            
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
             </div>
-            <div class="info-card" id="res-info-box"><p class="insight-text" id="s6-msg" style="color: #f2efe9; margin: 0;"></p></div>
+            <div class="info-card" id="res-info-box">
+                <div class="insight-title" id="res-action-lbl" style="color: var(--gold);"></div>
+                <p class="insight-text" id="s6-msg" style="color: #f2efe9; margin: 0;"></p>
+            </div>
         </div>
 
         <div class="step" id="step-7">
@@ -148,7 +155,6 @@
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
 
-            <!-- NEU: Channel Selector -->
             <div class="flow-title" id="lbl-channel"></div>
             <select id="reg-channel" class="input-field" style="appearance: none; cursor: pointer;">
                 <option value="whatsapp">WhatsApp</option>
@@ -158,7 +164,6 @@
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
 
-            <!-- NEU: Trust Disclaimer -->
             <p class="legal-disclaimer" id="s7-disclaimer"></p>
         </div>
     </main>
@@ -226,21 +231,22 @@
                         low: "Ziemlich klar. Ich kann gut abschalten und habe Energie für mein Privatleben." 
                     } 
                 },
-                s5: { title: "DYNAMIK WIRD ANALYSIERT...", sub: "Machtstrukturen und Muster werden ausgewertet." },
+                s5: { title: "DYNAMIK WIRD ANALYSIERT...", sub: "Ausgangslage wird ausgewertet." },
                 s6: { 
-                    lbl: "DEIN ERGEBNIS", 
-                    costLbl: "HINTER DEN KULISSEN:", 
+                    lbl: "DEIN AKTIONSPLAN", 
+                    costLbl: "DEINE AUSGANGSLAGE:", 
+                    actionLbl: "HANDLUNGSEMPFEHLUNG:",
                     costVal: { 
-                        stagnation: "Dein Umfeld nimmt dich als 'Arbeitstier' wahr, nicht als Leader. Fachkompetenz allein bringt dich ab hier nicht mehr weiter.", 
-                        overload: "Du löst die Probleme anderer, statt an deiner eigenen Position zu arbeiten. Deine Kapazität wird ausgenutzt.", 
-                        invisibility: "Du signalisierst unbewusst Unterordnung. Machtstrukturen verzeihen keine Schwäche in der Körpersprache und Rhetorik." 
+                        stagnation: "Dein Umfeld nimmt dich als zuverlässigen Arbeiter wahr, nicht als strategischen Leader. Fleiß ist wichtig, skaliert aber auf diesem Level nicht mehr.", 
+                        overload: "Du übernimmst die operative Last anderer, wodurch dir die Kapazität für die eigene strategische Positionierung fehlt.", 
+                        invisibility: "Du signalisierst unbewusst Zurückhaltung. Auf dem Executive-Level werden jedoch Präsenz und souveräne Körpersprache erwartet." 
                     }, 
-                    msg: "Erkenne die Realität: Die Spielregeln für die nächste Stufe haben sich geändert. Was dich hierher gebracht hat, wird dich nicht weiterbringen. Es geht nicht mehr um Fleiß, sondern um Positionierung, Verhandlung und Machtdynamiken. In diesem Flow lernst du, das Spiel zu deinen Gunsten zu drehen.",
+                    msg: "Du bist nicht festgefahren, du hast nur das Spielfeld gewechselt. Was dich hierher gebracht hat, reicht nicht für die nächste Stufe. In diesem 4-Tage-Flow erhältst du die strategischen Werkzeuge, um nicht mehr nur zu leisten, sondern wirkungsvoll zu führen und Machtdynamiken zu steuern.",
                     lvls: { 
-                        ext: { t: "AUSGEBRANNT", d: "ALARMSTUFE ROT. Du opferst dich für ein System auf, das dich nicht belohnt. Es ist Zeit für einen radikalen Strategiewechsel." }, 
-                        dan: { t: "STAGNIEREND", d: "GEFAHR DES STILLSTANDS. Du steckst fest. Ohne bewusste Positionierung wirst du langfristig abgehängt." }, 
-                        ala: { t: "REAKTIV", d: "FEHLENDER FOKUS. Du reagierst nur noch auf Anforderungen, anstatt deine Karriere proaktiv zu steuern." }, 
-                        cri: { t: "POTENZIAL", d: "BEREIT FÜR DEN AUFSTIEG. Die Basis stimmt, aber dir fehlt das letzte Prozent an strategischer Durchsetzungskraft." } 
+                        ext: { t: "ZIEL: STRATEGISCHER FOKUS", d: "Dein System ist überladen. Der erste Schritt ist, den operativen Ballast abzuwerfen und wieder Zeit für echte Strategie zu gewinnen." }, 
+                        dan: { t: "ZIEL: POSITIONIERUNG", d: "Fachliche Leistung allein reicht nicht mehr. Wir etablieren eine klare, sichtbare Alpha-Präsenz, die von Entscheidern respektiert wird." }, 
+                        ala: { t: "ZIEL: MACHTDYNAMIKEN NUTZEN", d: "Du leistest viel, aber steuerst nicht. Wir fokussieren uns darauf, verborgene Spielregeln zu erkennen und proaktiv zu lenken." }, 
+                        cri: { t: "ZIEL: DURCHSETZUNGSKRAFT", d: "Die Basis ist exzellent. Jetzt geht es um die letzten Prozente, um in entscheidenden Momenten souverän den Raum zu halten." } 
                     } 
                 },
                 s7: { 
@@ -295,21 +301,22 @@
                         low: "Fairly clear. I can disconnect well and have energy for my private life." 
                     } 
                 },
-                s5: { title: "ANALYZING DYNAMICS...", sub: "Evaluating power structures and patterns." },
+                s5: { title: "ANALYZING DYNAMICS...", sub: "Evaluating your current foundation." },
                 s6: { 
-                    lbl: "YOUR RESULT", 
-                    costLbl: "BEHIND THE SCENES:", 
+                    lbl: "YOUR ACTION PLAN", 
+                    costLbl: "YOUR STARTING POINT:", 
+                    actionLbl: "RECOMMENDATION:",
                     costVal: { 
-                        stagnation: "Your environment perceives you as a 'workhorse', not a leader. Technical competence alone won't get you any further from here.", 
-                        overload: "You are solving other people's problems instead of working on your own position. Your capacity is being exploited.", 
-                        invisibility: "You subconsciously signal subordination. Power structures do not forgive weakness in body language and rhetoric." 
+                        stagnation: "Your environment perceives you as a reliable worker, not a strategic leader. Hard work is important, but it no longer scales at this level.", 
+                        overload: "You carry the operational burden of others, leaving you without the capacity for your own strategic positioning.", 
+                        invisibility: "You unconsciously signal restraint. However, at the executive level, presence and confident body language are expected." 
                     }, 
-                    msg: "Acknowledge reality: The rules of the game for the next level have changed. What got you here won't get you there. It's no longer about hard work, but about positioning, negotiation, and power dynamics. In this flow, you will learn to turn the game in your favor.",
+                    msg: "You are not stuck; you have merely changed the playing field. What got you here is not enough for the next level. In this 4-Day Flow, you will receive the strategic tools to not just perform, but to lead effectively and navigate power dynamics.",
                     lvls: { 
-                        ext: { t: "BURNT OUT", d: "RED ALERT. You are sacrificing yourself for a system that doesn't reward you. It's time for a radical change in strategy." }, 
-                        dan: { t: "STAGNATING", d: "DANGER OF STANDSTILL. You are stuck. Without conscious positioning, you will be left behind in the long run." }, 
-                        ala: { t: "REACTIVE", d: "LACK OF FOCUS. You are only reacting to demands instead of proactively steering your career." }, 
-                        cri: { t: "POTENTIAL", d: "READY FOR PROMOTION. The foundation is there, but you lack the final percentage of strategic assertiveness." } 
+                        ext: { t: "GOAL: STRATEGIC FOCUS", d: "Your system is overloaded. The first step is to drop the operational baggage and regain time for real strategy." }, 
+                        dan: { t: "GOAL: POSITIONING", d: "Technical performance alone is no longer enough. We will establish a clear, visible alpha presence that is respected by decision-makers." }, 
+                        ala: { t: "GOAL: LEVERAGE DYNAMICS", d: "You achieve a lot, but you are not steering. We will focus on recognizing hidden rules and proactively guiding them." }, 
+                        cri: { t: "GOAL: ASSERTIVENESS", d: "The foundation is excellent. Now it's about the final percentages to confidently hold the room in crucial moments." } 
                     } 
                 },
                 s7: { 
@@ -327,7 +334,7 @@
             },
             es: {
                 pageTitle: "Carrera y Poder - Incorporación",
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO" },
+                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
                 s1: { 
                     lbl: "FASE 1: EL STATUS QUO", 
                     title: "¿Qué es lo que más bloquea tu ascenso profesional actualmente?", 
@@ -364,21 +371,22 @@
                         low: "Bastante claro/a. Puedo desconectar bien y tengo energía para mi vida privada." 
                     } 
                 },
-                s5: { title: "ANALIZANDO DINÁMICAS...", sub: "Evaluando estructuras y patrones de poder." },
+                s5: { title: "ANALIZANDO DINÁMICAS...", sub: "Evaluando tu punto de partida." },
                 s6: { 
-                    lbl: "TU RESULTADO", 
-                    costLbl: "DETRÁS DE ESCENA:", 
+                    lbl: "TU PLAN DE ACCIÓN", 
+                    costLbl: "PUNTO DE PARTIDA:", 
+                    actionLbl: "RECOMENDACIÓN:",
                     costVal: { 
-                        stagnation: "Tu entorno te percibe como un 'caballo de batalla', no como un líder. La competencia técnica por sí sola no te llevará más lejos.", 
-                        overload: "Estás resolviendo los problemas de otras personas en lugar de trabajar en tu propia posición. Tu capacidad está siendo explotada.", 
-                        invisibility: "Inconscientemente señalas subordinación. Las estructuras de poder no perdonan la debilidad en el lenguaje corporal y la retórica." 
+                        stagnation: "Tu entorno te percibe como un trabajador confiable, no como un líder estratégico. El trabajo duro es importante, pero ya no escala a este nivel.", 
+                        overload: "Llevas la carga operativa de los demás, lo que te deja sin capacidad para tu propio posicionamiento estratégico.", 
+                        invisibility: "Inconscientemente señalas contención. Sin embargo, a nivel ejecutivo se espera presencia y un lenguaje corporal seguro." 
                     }, 
-                    msg: "Reconoce la realidad: Las reglas del juego para el siguiente nivel han cambiado. Lo que te trajo aquí no te llevará allí. Ya no se trata de trabajar duro, sino de posicionamiento, negociación y dinámicas de poder. En este flujo, aprenderás a cambiar el juego a tu favor.",
+                    msg: "No estás estancado/a; simplemente has cambiado de campo de juego. Lo que te trajo aquí no es suficiente para el siguiente nivel. En este Flujo de 4 Días recibirás las herramientas estratégicas para no solo rendir, sino liderar de manera efectiva y navegar las dinámicas de poder.",
                     lvls: { 
-                        ext: { t: "AGOTADO", d: "ALERTA ROJA. Te estás sacrificando por un sistema que no te recompensa. Es hora de un cambio radical de estrategia." }, 
-                        dan: { t: "ESTANCADO", d: "PELIGRO DE PARALIZACIÓN. Estás atascado. Sin un posicionamiento consciente, te quedarás atrás a largo plazo." }, 
-                        ala: { t: "REACTIVO", d: "FALTA DE ENFOQUE. Solo reaccionas a las demandas en lugar de dirigir proactivamente tu carrera." }, 
-                        cri: { t: "POTENZIAL", d: "LISTO PARA EL ASCENSO. La base está ahí, pero te falta el último porcentaje de asertividad estratégica." } 
+                        ext: { t: "META: ENFOQUE ESTRATÉGICO", d: "Tu sistema está sobrecargado. El primer paso es soltar la carga operativa y recuperar tiempo para la verdadera estrategia." }, 
+                        dan: { t: "META: POSICIONAMIENTO", d: "El rendimiento técnico por sí solo ya no es suficiente. Estableceremos una presencia alfa clara y visible que sea respetada por los tomadores de decisiones." }, 
+                        ala: { t: "META: USAR DINÁMICAS", d: "Logras mucho, pero no estás dirigiendo. Nos enfocaremos en reconocer las reglas ocultas y guiar proactivamente el entorno." }, 
+                        cri: { t: "META: ASERTIVIDAD", d: "La base es excelente. Ahora se trata de los últimos porcentajes para mantener con confianza tu posición en los momentos cruciales." } 
                     } 
                 },
                 s7: { 
@@ -495,31 +503,27 @@
             if(answers.capacity === 'high') score += 12; else if(answers.capacity === 'med') score += 6;
             
             const res = t[currentLang].s6;
-            let lvl, col;
+            let lvl;
             
-            if (score >= 90) { lvl = res.lvls.ext; col = '#cf6666'; }
-            else if (score >= 85) { lvl = res.lvls.dan; col = '#cf6666'; }
-            else if (score >= 80) { lvl = res.lvls.ala; col = '#c2a370'; }
-            else { lvl = res.lvls.cri; col = '#c2a370'; }
+            if (score >= 90) { lvl = res.lvls.ext; }
+            else if (score >= 85) { lvl = res.lvls.dan; }
+            else if (score >= 80) { lvl = res.lvls.ala; }
+            else { lvl = res.lvls.cri; }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
             document.getElementById('res-score').innerText = lvl.t; 
-            document.getElementById('res-score').style.color = col; 
             document.getElementById('res-level').innerText = lvl.d; 
-            document.getElementById('res-level').style.color = col;
-            document.getElementById('res-card').style.borderColor = col;
             
             document.getElementById('res-cost-lbl').innerText = res.costLbl; 
-            document.getElementById('res-cost-lbl').style.color = col;
-            document.getElementById('res-info-box').style.borderLeftColor = col; 
-            
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
+            
+            document.getElementById('res-action-lbl').innerText = res.actionLbl; 
             document.getElementById('s6-msg').innerText = res.msg;
         }
 
         function handleNext() {
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
-            pCont.style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
+            document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
             
             bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
@@ -534,7 +538,7 @@
             document.getElementById(`step-${step}`).classList.remove('active');
             step = Math.max(1, step === 6 ? 4 : step - 1);
             document.getElementById(`step-${step}`).classList.add('active');
-            pCont.style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
             bBar.style.display = (step === 2) ? 'flex' : 'none';
             checkNextState(); window.scrollTo(0,0);
@@ -555,28 +559,54 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                const { data, error } = await supabaseClient.from('leads').insert([
-                    { 
-                        email: email, 
-                        first_name: fname, 
-                        delivery_channel: channel,
-                        source: 'career_power',
-                        language: currentLang,
-                        marketing_consent: true,
-                        onboarding_data: answers,
-                        has_paid: false,
-                        current_mentoring_day: 1
-                    }
-                ]).select();
+                // 1. CHECK: Existiert die E-Mail bereits in der Leads-Tabelle?
+                let { data: existingLead, error: searchError } = await supabaseClient
+                    .from('leads')
+                    .select('id, email')
+                    .eq('email', email)
+                    .single();
 
-                if (error) throw error;
-                
-                const leadId = data[0].id;
-                
-                if(channel === 'telegram') {
-                    window.location.href = `${botLinks.telegram}${leadId}`;
+                let currentLeadId;
+
+                if (!existingLead) {
+                    // SZENARIO A: Neuer Nutzer.
+                    const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
+                        { 
+                            email: email, 
+                            first_name: fname, 
+                            delivery_channel: channel,
+                            source: 'career_power',
+                            language: currentLang,
+                            marketing_consent: true,
+                            onboarding_data: answers
+                        }
+                    ]).select().single();
+
+                    if (insertError) throw insertError;
+                    currentLeadId = newLead.id;
                 } else {
-                    window.location.href = `${botLinks.whatsapp}${leadId}`;
+                    // SZENARIO B: Nutzer existiert bereits.
+                    currentLeadId = existingLead.id;
+                }
+
+                // 2. KURS STARTEN: Wir eintragen den Nutzer in die 'active_flows' Tabelle ein.
+                const { data: newFlow, error: flowError } = await supabaseClient.from('active_flows').insert([
+                    { 
+                        lead_email: email, 
+                        flow_name: 'Career & Power',
+                        current_mentoring_day: 1,
+                        has_paid: false,
+                        status: 'active'
+                    }
+                ]);
+
+                if (flowError) throw flowError;
+                
+                // 3. WEITERLEITUNG ZUM MESSENGER
+                if(channel === 'telegram') {
+                    window.location.href = `${botLinks.telegram}${currentLeadId}`;
+                } else {
+                    window.location.href = `${botLinks.whatsapp}${currentLeadId}`;
                 }
             } catch(e) {
                 console.error("Error:", e);
