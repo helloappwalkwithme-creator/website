@@ -16,7 +16,7 @@
             --text: #ffffff;
             --error: #ff5555;
             --success: #4caf50;
-            --energy: #ffa500;
+            --action: #d4af37; /* Strong, constructive gold for action plan */
         }
 
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -100,15 +100,16 @@
         .check-icon { width: 24px; height: 24px; border-radius: 6px; border: 2px solid #666; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 14px; }
         .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: #000; }
 
-        .result-card { background-color: #1a0000; border: 3px solid var(--error); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
-        .result-score { color: var(--error); font-size: 64px; font-weight: 900; line-height: 1; }
-        .result-level { color: #ff9999; font-size: 18px; font-weight: 800; margin-top: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        /* NEU: Result Card Styling als Aktionsplan */
+        .result-card { background-color: #111; border: 2px solid var(--action); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
+        .result-score { color: var(--action); font-size: 24px; font-weight: 900; line-height: 1.2; text-transform: uppercase; margin-bottom: 8px;}
+        .result-level { color: #dcdcdc; font-size: 15px; font-weight: 500; line-height: 1.5; }
         
         .insight-card { background: #171717; border: 1px solid #2b2b2b; border-radius: 10px; padding: 18px; margin-bottom: 12px; }
         .insight-title { color: #ccc; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
         .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.5; }
         
-        .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
+        .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 3px solid var(--gold); }
 
         .bottom-bar { 
             position: fixed; 
@@ -137,6 +138,7 @@
             cursor: pointer; 
             text-align: center; 
             letter-spacing: 0.5px;
+            transition: opacity 0.2s;
         }
         .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
         
@@ -153,9 +155,9 @@
         }
 
         .input-field { 
-            background-color: #fdfad5;
+            background-color: #111;
             border: 1px solid var(--border); 
-            color: #000; 
+            color: #fff; 
             padding: 16px; 
             border-radius: 8px; 
             font-size: 16px; 
@@ -217,15 +219,20 @@
 
         <div class="step" id="step-6">
             <div class="flow-title" id="s6-lbl"></div>
+            
             <div class="result-card" id="res-card">
                 <div class="result-score" id="res-score"></div>
                 <div class="result-level" id="res-level"></div>
             </div>
+            
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
             </div>
-            <div class="info-card"><p class="insight-text" id="s6-msg" style="color: #fff; margin: 0;"></p></div>
+            <div class="info-card" id="res-info-box">
+                <div class="insight-title" id="res-action-lbl" style="color: var(--gold);"></div>
+                <p class="insight-text" id="s6-msg" style="color: #ffffff; margin: 0;"></p>
+            </div>
         </div>
 
         <div class="step" id="step-7">
@@ -241,7 +248,6 @@
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
 
-            <!-- NEU: Channel Selector -->
             <div class="flow-title" id="lbl-channel"></div>
             <select id="reg-channel" class="input-field" style="appearance: none; cursor: pointer;">
                 <option value="whatsapp">WhatsApp</option>
@@ -251,7 +257,6 @@
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
 
-            <!-- NEU: Trust Disclaimer -->
             <p class="legal-disclaimer" id="s7-disclaimer"></p>
         </div>
     </main>
@@ -322,19 +327,20 @@
                 },
                 s5: { title: "DEIN ERGEBNIS WIRD ERMITTELT...", sub: "Wir analysieren deine Daten." },
                 s6: { 
-                    lbl: "DEIN ERGEBNIS", 
-                    costLbl: "KONKRET KOSTET DICH DAS:", 
+                    lbl: "DEIN AKTIONSPLAN", 
+                    costLbl: "DEINE AUSGANGSLAGE:", 
+                    actionLbl: "HANDLUNGSEMPFEHLUNG:",
                     costVal: { 
-                        porn: "Deinen mentalen Fokus, echte Intimität und den tiefen Respekt vor dir selbst.", 
-                        gettinggirls: "Die besten Jahre deines Lebens, gefangen in Unsicherheit und Isolation.", 
-                        relationship: "Die emotionale Verbindung, Führungskraft und die Frau, die du liebst." 
+                        porn: "Du flüchtest in digitale Stimulation, um Stress abzubauen. Diese ständige Dopamin-Ausschüttung betäubt jedoch deinen natürlichen Antrieb und deine maskuline Präsenz.", 
+                        gettinggirls: "Dein System verknüpft Ablehnung unbewusst mit Lebensgefahr. Das blockiert deinen natürlichen Selbstausdruck und macht dich übervorsichtig.", 
+                        relationship: "Die ständigen Konflikte sind oft ein Test für deine Führungskraft. Wenn die Polarität fehlt, rutscht die Beziehung in eine frustrierende Mitbewohner-Dynamik." 
                     }, 
-                    msg: "Deine Situation ist kein Charakterfehler, sondern ein gelerntes Muster. Im Flow brechen wir dieses Muster mit fundierten Techniken.",
+                    msg: "Das ist kein Charakterfehler, sondern ein Zeichen, dass du nicht in deiner vollen Kraft bist. In diesem 4-Tage-Flow erhältst du die klaren, pragmatischen Werkzeuge, um den mentalen Nebel zu lichten und die Kontrolle über deinen Fokus, deine Energie und deine Beziehungen zurückzugewinnen.",
                     lvls: { 
-                        ext: { t: "ALARMSTUFE", d: "Dein Stresslevel ist am Anschlag. Du reagierst nur noch, statt zu agieren. Es ist Zeit, Verantwortung zu übernehmen." }, 
-                        dan: { t: "RISIKOBEREICH", d: "Du bist dauerhaft gestresst und lenkst dich ab. Dein System läuft auf Reserve – die Substanz schwindet." }, 
-                        ala: { t: "STAGNIEREND", d: "Du funktionierst, aber du lebst nicht dein Potenzial. Deine Bequemlichkeit ist dein größter Feind." }, 
-                        cri: { t: "WACHSEND", d: "Du spürst den Schmerz und bist bereit. Es fehlt dir nur an der klaren, harten Struktur." } 
+                        ext: { t: "ZIEL: RADIKALER FOKUS", d: "Dein System ist überreizt. Der erste Schritt ist ein harter Schnitt bei allen billigen Dopaminquellen, um deinen natürlichen Antrieb zu reaktivieren." }, 
+                        dan: { t: "ZIEL: ENERGIE-AUFBAU", d: "Du lebst auf Reserve. Wir etablieren absolute Klarheit und Routinen, um dich aus dem mentalen Nebel direkt in die Umsetzung zu bringen." }, 
+                        ala: { t: "ZIEL: INNERE FÜHRUNG", d: "Du bist bequem geworden. Es ist Zeit, die Komfortzone zu verlassen und wieder echte Verantwortung für deine Resultate zu übernehmen." }, 
+                        cri: { t: "ZIEL: MÄNNLICHE PRÄSENZ", d: "Die Basis ist da. Wir fokussieren uns jetzt darauf, deine Energie zu bündeln und echte, unerschütterliche Präsenz aufzubauen." } 
                     } 
                 },
                 s7: { 
@@ -391,19 +397,20 @@
                 },
                 s5: { title: "CALCULATING RESULT...", sub: "Analyzing your data." },
                 s6: { 
-                    lbl: "YOUR RESULT", 
-                    costLbl: "CONCRETELY THIS COSTS YOU:", 
+                    lbl: "YOUR ACTION PLAN", 
+                    costLbl: "YOUR STARTING POINT:", 
+                    actionLbl: "RECOMMENDATION:",
                     costVal: { 
-                        porn: "Your mental focus, genuine intimacy, and deep self-respect.", 
-                        gettinggirls: "The best years of your life, trapped in insecurity and isolation.", 
-                        relationship: "The emotional connection, leadership, and the woman you love." 
+                        porn: "You escape into digital stimulation to relieve stress. This constant dopamine spike numbs your natural drive and masculine presence.", 
+                        gettinggirls: "Your system unconsciously links rejection with mortal danger. This blocks your natural self-expression and makes you overly cautious.", 
+                        relationship: "Constant conflicts are often a test of your leadership. Without polarity, the relationship slips into a frustrating roommate dynamic." 
                     }, 
-                    msg: "Your situation is not a character flaw, but a learned pattern. In the flow, we break this pattern with proven techniques.",
+                    msg: "This is not a character flaw, but a sign that you are not in your full power. In this 4-Day Flow, you will receive clear, pragmatic tools to clear the mental fog and regain control over your focus, energy, and relationships.",
                     lvls: { 
-                        ext: { t: "RED ALERT", d: "Your stress levels are maxed out and your focus is suffering. You live in survival mode. It's time to take responsibility." }, 
-                        dan: { t: "DANGEROUS", d: "You are constantly stressed and distracting yourself. Your system runs on reserve – substance is fading." }, 
-                        ala: { t: "STAGNATING", d: "You function, but you are not living your potential. Your comfort is your biggest enemy." }, 
-                        cri: { t: "GROWING", d: "You feel the pain and are ready. You just lack clear, hard structure." } 
+                        ext: { t: "GOAL: RADICAL FOCUS", d: "Your system is overstimulated. The first step is to cut cheap dopamine to reactivate your natural drive." }, 
+                        dan: { t: "GOAL: ENERGY BUILDING", d: "You are living on reserve. We will establish absolute clarity and routines to get you out of the mental fog." }, 
+                        ala: { t: "GOAL: INNER LEADERSHIP", d: "You have become too comfortable. It's time to step out of your comfort zone and take real responsibility." }, 
+                        cri: { t: "GOAL: MASCULINE PRESENCE", d: "The foundation is there. We now focus on channeling your energy and building unshakable presence." } 
                     } 
                 },
                 s7: { 
@@ -460,19 +467,20 @@
                 },
                 s5: { title: "CALCULANDO RESULTADO...", sub: "Analizando tus datos." },
                 s6: { 
-                    lbl: "TU RESULTADO", 
-                    costLbl: "CONCRETAMENTE ESTO TE CUESTA:", 
+                    lbl: "TU PLAN DE ACCIÓN", 
+                    costLbl: "PUNTO DE PARTIDA:", 
+                    actionLbl: "RECOMENDACIÓN:",
                     costVal: { 
-                        porn: "Tu enfoque mental, intimidad real y respeto propio.", 
-                        gettinggirls: "Los mejores años de tu vida en inseguridad y aislamiento.", 
-                        relationship: "La conexión emocional, el liderazgo y la mujer que amas." 
+                        porn: "Te refugias en la estimulación digital para aliviar el estrés. Este pico constante de dopamina adormece tu impulso natural y tu presencia masculina.", 
+                        gettinggirls: "Tu sistema asocia inconscientemente el rechazo con un peligro mortal. Esto bloquea tu autoexpresión natural y te vuelve demasiado cauteloso.", 
+                        relationship: "Los conflictos constantes son a menudo una prueba de tu liderazgo. Sin polaridad, la relación cae en una frustrante dinámica de compañeros de cuarto." 
                     }, 
-                    msg: "Tu situación no es un defecto de carácter, sino un patrón aprendido. En el flujo rompemos este patrón con técnicas probadas.",
+                    msg: "Esto no es un defecto de carácter, sino una señal de que no estás en tu máximo poder. En este Flujo de 4 Días recibirás las herramientas pragmáticas para despejar la niebla mental y recuperar el control sobre tu enfoque, energía y relaciones.",
                     lvls: { 
-                        ext: { t: "ALERTA ROJA", d: "Tus niveles de estrés están al límite y tu enfoque sufre. Vives en modo supervivencia. Es hora de asumir la responsabilidad." }, 
-                        dan: { t: "PELIGROSO", d: "Estás constantemente estresado y te distraes. Tu sistema funciona con reservas." }, 
-                        ala: { t: "ESTANCADO", d: "Funcionas, pero no vives tu potencial. La comodidad es tu mayor enemigo." }, 
-                        cri: { t: "CRECIENDO", d: "Sientes el dolor y estás listo. Solo te falta una estructura clara y dura." } 
+                        ext: { t: "META: ENFOQUE RADICAL", d: "Tu sistema está sobreestimulado. El primer paso es cortar la dopamina barata para reactivar tu impulso natural." }, 
+                        dan: { t: "META: CONSTRUIR ENERGÍA", d: "Vives en reserva. Estableceremos claridad absoluta y rutinas para sacarte de la niebla mental." }, 
+                        ala: { t: "META: LIDERAZGO INTERIOR", d: "Te has vuelto demasiado cómodo. Es hora de salir de tu zona de confort y asumir una responsabilidad real." }, 
+                        cri: { t: "META: PRESENCIA MASCULINA", d: "La base está ahí. Ahora nos enfocamos en canalizar tu energía y construir una presencia inquebrantable." } 
                     } 
                 },
                 s7: { 
@@ -585,28 +593,27 @@
             if(answers.satisfaction === 'low') score += 12; else if(answers.satisfaction === 'med') score += 6;
             
             const res = t[currentLang].s6;
-            let lvl, col;
+            let lvl;
             
-            if (score >= 90) { lvl = res.lvls.ext; col = '#ff5555'; }
-            else if (score >= 85) { lvl = res.lvls.dan; col = '#ff5555'; }
-            else if (score >= 80) { lvl = res.lvls.ala; col = '#d4af37'; }
-            else { lvl = res.lvls.cri; col = '#d4af37'; }
+            if (score >= 90) { lvl = res.lvls.ext; }
+            else if (score >= 85) { lvl = res.lvls.dan; }
+            else if (score >= 80) { lvl = res.lvls.ala; }
+            else { lvl = res.lvls.cri; }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
             document.getElementById('res-score').innerText = lvl.t; 
-            document.getElementById('res-score').style.color = col;
             document.getElementById('res-level').innerText = lvl.d; 
-            document.getElementById('res-level').style.color = col; 
-            document.getElementById('res-card').style.borderColor = col;
             
             document.getElementById('res-cost-lbl').innerText = res.costLbl; 
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
+            
+            document.getElementById('res-action-lbl').innerText = res.actionLbl; 
             document.getElementById('s6-msg').innerText = res.msg;
         }
 
         function handleNext() {
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
-            pCont.style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
+            document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
             
             bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
@@ -621,7 +628,7 @@
             document.getElementById(`step-${step}`).classList.remove('active');
             step = Math.max(1, step === 6 ? 4 : step - 1);
             document.getElementById(`step-${step}`).classList.add('active');
-            pCont.style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
             bBar.style.display = (step === 2) ? 'flex' : 'none';
             checkNextState(); window.scrollTo(0,0);
@@ -642,28 +649,54 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                const { data, error } = await supabaseClient.from('leads').insert([
-                    { 
-                        email: email, 
-                        first_name: fname, 
-                        delivery_channel: channel,
-                        source: 'integrated_man_flow',
-                        language: currentLang,
-                        marketing_consent: true,
-                        onboarding_data: answers,
-                        has_paid: false,
-                        current_mentoring_day: 1
-                    }
-                ]).select();
+                // 1. CHECK: Existiert die E-Mail bereits in der Leads-Tabelle?
+                let { data: existingLead, error: searchError } = await supabaseClient
+                    .from('leads')
+                    .select('id, email')
+                    .eq('email', email)
+                    .single();
 
-                if (error) throw error;
-                
-                const leadId = data[0].id;
-                
-                if(channel === 'telegram') {
-                    window.location.href = `${botLinks.telegram}${leadId}`;
+                let currentLeadId;
+
+                if (!existingLead) {
+                    // SZENARIO A: Neuer Nutzer.
+                    const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
+                        { 
+                            email: email, 
+                            first_name: fname, 
+                            delivery_channel: channel,
+                            source: 'integrated_man_flow',
+                            language: currentLang,
+                            marketing_consent: true,
+                            onboarding_data: answers
+                        }
+                    ]).select().single();
+
+                    if (insertError) throw insertError;
+                    currentLeadId = newLead.id;
                 } else {
-                    window.location.href = `${botLinks.whatsapp}${leadId}`;
+                    // SZENARIO B: Nutzer existiert bereits.
+                    currentLeadId = existingLead.id;
+                }
+
+                // 2. KURS STARTEN: Wir tragen den Nutzer in die 'active_flows' Tabelle ein.
+                const { data: newFlow, error: flowError } = await supabaseClient.from('active_flows').insert([
+                    { 
+                        lead_email: email, 
+                        flow_name: 'Integrated Man',
+                        current_mentoring_day: 1,
+                        has_paid: false,
+                        status: 'active'
+                    }
+                ]);
+
+                if (flowError) throw flowError;
+                
+                // 3. WEITERLEITUNG ZUM MESSENGER
+                if(channel === 'telegram') {
+                    window.location.href = `${botLinks.telegram}${currentLeadId}`;
+                } else {
+                    window.location.href = `${botLinks.whatsapp}${currentLeadId}`;
                 }
                 
             } catch(e) {
