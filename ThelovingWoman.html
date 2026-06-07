@@ -16,6 +16,7 @@
             --text: #fdfafb;
             --error: #e07a7a;
             --success: #88b08b;
+            --action: #88b08b; /* Calming sage green for action plan */
         }
 
         * { box-sizing: border-box; font-family: "Georgia", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -55,18 +56,19 @@
         .check-icon { width: 22px; height: 22px; border-radius: 4px; border: 1px solid #555; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px; }
         .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: var(--dark); }
 
-        .result-card { background-color: #2b2124; border: 2px solid var(--gold); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
-        .result-score { color: var(--gold); font-size: 32px; font-weight: 600; line-height: 1.2; margin-bottom: 5px; }
-        .result-level { color: #d698a6; font-size: 14px; font-weight: 400; text-transform: uppercase; letter-spacing: 2px; }
+        /* NEU: Result Card Styling als "Aktionsplan" */
+        .result-card { background-color: #2b2124; border: 2px solid var(--action); border-radius: 12px; padding: 25px 20px; text-align: center; margin-bottom: 16px; }
+        .result-score { color: var(--action); font-size: 22px; font-weight: 600; line-height: 1.3; margin-bottom: 10px; }
+        .result-level { color: #d1d5db; font-size: 15px; font-weight: 400; line-height: 1.5; }
         
         .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
         .insight-title { color: #a1a5b5; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
         .insight-text { color: #d1d5db; font-size: 14px; line-height: 1.6; }
         
-        .info-card { background: #261f22; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 2px solid var(--gold); }
+        .info-card { background: #261f22; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 3px solid var(--gold); }
 
         .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(31, 26, 28, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
-        .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 8px; font-weight: 600; font-size: 14px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 1.5px; }
+        .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 8px; font-weight: 600; font-size: 14px; text-transform: uppercase; border: none; width: 100%; max-width: 460px; cursor: pointer; text-align: center; letter-spacing: 1.5px; transition: opacity 0.2s; }
         .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
         .btn-back { background: none; border: none; color: #888; margin-top: 12px; padding: 8px 16px; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
 
@@ -125,15 +127,20 @@
 
         <div class="step" id="step-6">
             <div class="flow-title" id="s6-lbl"></div>
+            
             <div class="result-card" id="res-card">
                 <div class="result-score" id="res-score"></div>
                 <div class="result-level" id="res-level"></div>
             </div>
+            
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
             </div>
-            <div class="info-card" id="res-info-box"><p class="insight-text" id="s6-msg" style="color: #fdfafb; margin: 0;"></p></div>
+            <div class="info-card" id="res-info-box">
+                <div class="insight-title" id="res-action-lbl" style="color: var(--gold);"></div>
+                <p class="insight-text" id="s6-msg" style="color: #fdfafb; margin: 0;"></p>
+            </div>
         </div>
 
         <div class="step" id="step-7">
@@ -149,7 +156,6 @@
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
 
-            <!-- NEU: Channel Selector -->
             <div class="flow-title" id="lbl-channel"></div>
             <select id="reg-channel" class="input-field" style="appearance: none; cursor: pointer;">
                 <option value="whatsapp">WhatsApp</option>
@@ -159,7 +165,6 @@
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
 
-            <!-- NEU: Trust Disclaimer -->
             <p class="legal-disclaimer" id="s7-disclaimer"></p>
         </div>
     </main>
@@ -227,21 +232,22 @@
                         low: "Es ist unangenehm, aber ich kann die Enttäuschung des anderen aushalten." 
                     } 
                 },
-                s5: { title: "MUSTER WIRD ANALYSIERT...", sub: "Dein Profil wird erstellt." },
+                s5: { title: "MUSTER WIRD ANALYSIERT...", sub: "Ausgangslage wird ausgewertet." },
                 s6: { 
-                    lbl: "DEIN PROFIL", 
-                    costLbl: "HINTER DEN KULISSEN:", 
+                    lbl: "DEIN AKTIONSPLAN", 
+                    costLbl: "DEINE AUSGANGSLAGE:", 
+                    actionLbl: "HANDLUNGSEMPFEHLUNG:",
                     costVal: { 
                         peoplepleasing: "Dein Körper interpretiert Abgrenzung unbewusst als Risiko. Du nutzt deine Energie, um mögliche Ablehnung im Vorfeld abzuwenden.", 
                         overthinking: "Dein Verstand plant ständig voraus, um dich vor Überraschungen zu schützen. Es ist eine extrem anstrengende Vermeidungsstrategie.", 
                         somatic: "Dein System hat Emotionen gedämpft, weil die gefühlte Last in der Vergangenheit zu überwältigend war." 
                     }, 
-                    msg: "Dein Verhalten ist keine Schwäche. Es sind clevere Schutzstrategien, die du dir angeeignet hast. In unserem Flow lernen wir, diese Muster zu verstehen, statt sie zu bekämpfen.",
+                    msg: "Du bist nicht kaputt, du hast dir nur clevere Schutzstrategien angeeignet, die dich jetzt zu viel Energie kosten. Dieser 4-Tage-Flow gibt dir die Erlaubnis und die Werkzeuge, um diese alte Rüstung abzulegen und wieder in deine weiche, aber grenzenlose Kraft zu treten.",
                     lvls: { 
-                        ext: { t: "ÜBERLASTET", d: "Dein System steht unter enormer Anspannung. Du befindest dich in ständiger Alarmbereitschaft. Zeit, den Druck herauszunehmen." }, 
-                        dan: { t: "ERSCHÖPFT", d: "Die ständige Anpassung kostet dich massiv Substanz. Dir fehlt die nötige Ruhe, um tief durchzuatmen." }, 
-                        ala: { t: "REAKTIV", d: "Du funktionierst im Alltag, aber die innere Anspannung begleitet dich ständig. Deine Kapazitätsgrenze ist in Sicht." }, 
-                        cri: { t: "ANGEspannt", d: "Du spürst, dass deine aktuellen Muster dir im Weg stehen. Es ist der perfekte Zeitpunkt für neue Perspektiven." } 
+                        ext: { t: "ZIEL: DRUCK RAUSNEHMEN", d: "Dein System steht unter enormer Anspannung. Der erste Schritt ist, den ständigen Alarmzustand zu beruhigen, damit du wieder tief durchatmen kannst." }, 
+                        dan: { t: "ZIEL: GRENZEN ZIEHEN", d: "Die ständige Anpassung kostet dich massiv Substanz. Wir etablieren sanfte, aber glasklare Grenzen, um deine Energie zu schützen." }, 
+                        ala: { t: "ZIEL: KAPAZITÄT AUFBAUEN", d: "Du funktionierst, aber die innere Anspannung bleibt. Wir schaffen neue Pufferzonen für echte, bedingungslose Erholung." }, 
+                        cri: { t: "ZIEL: VERBINDUNG VERTIEFEN", d: "Du erkennst deine Muster bereits. Jetzt geht es darum, diese Erkenntnisse mutig und weich im Alltag zu leben." } 
                     } 
                 },
                 s7: { 
@@ -296,21 +302,22 @@
                         low: "It's uncomfortable, but I can tolerate their disappointment." 
                     } 
                 },
-                s5: { title: "ANALYZING PATTERNS...", sub: "Creating your profile." },
+                s5: { title: "ANALYZING PATTERNS...", sub: "Evaluating your starting point." },
                 s6: { 
-                    lbl: "YOUR PROFILE", 
-                    costLbl: "BEHIND THE SCENES:", 
+                    lbl: "YOUR ACTION PLAN", 
+                    costLbl: "YOUR STARTING POINT:", 
+                    actionLbl: "RECOMMENDATION:",
                     costVal: { 
                         peoplepleasing: "Your body unconsciously interprets setting boundaries as a risk. You use your energy to avert possible rejection in advance.", 
                         overthinking: "Your mind constantly plans ahead to protect you from surprises. It's an extremely exhausting avoidance strategy.", 
                         somatic: "Your system has dampened emotions because the perceived burden in the past was too overwhelming." 
                     }, 
-                    msg: "Your behavior is not a weakness. These are clever protective strategies you have acquired. In our flow, we learn to understand these patterns instead of fighting them.",
+                    msg: "You are not broken; you just acquired clever protective strategies that are now costing you too much energy. This 4-Day Flow gives you the permission and tools to shed this old armor and step back into your soft yet boundless power.",
                     lvls: { 
-                        ext: { t: "OVERBURDENED", d: "Your system is under enormous tension. You are in a state of constant alert. Time to release the pressure." }, 
-                        dan: { t: "EXHAUSTED", d: "The constant adaptation is costing you massively. You lack the necessary rest to take a deep breath." }, 
-                        ala: { t: "REACTIVE", d: "You function in daily life, but inner tension is your constant companion. Your capacity limit is in sight." }, 
-                        cri: { t: "TENSE", d: "You feel that your current patterns are standing in your way. It is the perfect time for new perspectives." } 
+                        ext: { t: "GOAL: RELEASE PRESSURE", d: "Your system is under enormous tension. The first step is to calm the constant state of alert so you can breathe deeply again." }, 
+                        dan: { t: "GOAL: SET BOUNDARIES", d: "The constant adaptation is costing you massively. We will establish gentle but crystal-clear boundaries to protect your energy." }, 
+                        ala: { t: "GOAL: BUILD CAPACITY", d: "You function, but inner tension remains. We will create new buffer zones for true, unconditional rest." }, 
+                        cri: { t: "GOAL: DEEPEN CONNECTION", d: "You already recognize your patterns. Now it's about living these insights courageously and softly in your everyday life." } 
                     } 
                 },
                 s7: { 
@@ -365,21 +372,22 @@
                         low: "Es incómodo, pero puedo tolerar la decepción de la otra persona." 
                     } 
                 },
-                s5: { title: "ANALIZANDO PATRONES...", sub: "Creando tu perfil." },
+                s5: { title: "ANALIZANDO PATRONES...", sub: "Evaluando tu punto de partida." },
                 s6: { 
-                    lbl: "TU PERFIL", 
-                    costLbl: "DETRÁS DE ESCENA:", 
+                    lbl: "TU PLAN DE ACCIÓN", 
+                    costLbl: "PUNTO DE PARTIDA:", 
+                    actionLbl: "RECOMENDACIÓN:",
                     costVal: { 
                         peoplepleasing: "Tu cuerpo interpreta inconscientemente establecer límites como un riesgo. Usas tu energía para evitar un posible rechazo por adelantado.", 
                         overthinking: "Tu mente planea constantemente con anticipación para protegerte de sorpresas. Es una estrategia de evitación extremadamente agotadora.", 
                         somatic: "Tu sistema ha amortiguado las emociones porque la carga percibida en el pasado era demasiado abrumadora." 
                     }, 
-                    msg: "Tu comportamiento no es una debilidad. Son estrategias de protección inteligentes que has adquirido. En nuestro flujo, aprendemos a comprender estos patrones en lugar de combatirlos.",
+                    msg: "No estás rota, solo has adquirido estrategias de protección inteligentes que ahora te cuestan demasiada energía. Este Flujo de 4 Días te da el permiso y las herramientas para quitarte esta vieja armadura y volver a tu poder suave pero ilimitado.",
                     lvls: { 
-                        ext: { t: "SOBRECARGADA", d: "Tu sistema está bajo una enorme tensión. Estás en un estado de alerta constante. Es hora de liberar la presión." }, 
-                        dan: { t: "EXHAUSTA", d: "La adaptación constante te está costando masivamente. Te falta el descanso necesario para respirar profundamente." }, 
-                        ala: { t: "REACTIVA", d: "Funcionas en la vida diaria, pero la tensión interna te acompaña constantemente. Tu límite de capacidad está a la vista." }, 
-                        cri: { t: "TENSA", d: "Sientes que tus patrones actuales se interponen en tu camino. Es el momento perfecto para nuevas perspectivas." } 
+                        ext: { t: "META: LIBERAR PRESIÓN", d: "Tu sistema está bajo una enorme tensión. El primer paso es calmar el estado de alerta constante para que puedas volver a respirar profundamente." }, 
+                        dan: { t: "META: ESTABLECER LÍMITES", d: "La adaptación constante te está costando masivamente. Estableceremos límites suaves pero muy claros para proteger tu energía." }, 
+                        ala: { t: "META: CREAR CAPACIDAD", d: "Funcionas, pero la tensión interna se mantiene. Crearemos nuevas zonas de amortiguación para un descanso verdadero e incondicional." }, 
+                        cri: { t: "META: PROFUNDIZAR CONEXIÓN", d: "Ya reconoces tus patrones. Ahora se trata de vivir estas percepciones con valentía y suavidad en tu vida cotidiana." } 
                     } 
                 },
                 s7: { 
@@ -390,13 +398,13 @@
                     em: "tu@email.com", 
                     errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
                     errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
-                    placeholders: { fname: "Tu Nombre" }
+                    placeholders: { fname: "Tu Nombre" },
+                    disclaimer: "<strong>Importante:</strong> Tus datos se utilizarán 100% exclusivamente para la entrega automatizada de este curso. Nunca compartiremos tus datos con terceros. Tu confianza es sagrada para nosotros."
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
             }
         };
 
-        // Sicherheits-Check für die Sprache
         let currentLang = localStorage.getItem('smh_language');
         if (!currentLang || !t[currentLang]) {
             currentLang = 'de';
@@ -496,25 +504,21 @@
             if(answers.boundaries === 'high') score += 12; else if(answers.boundaries === 'med') score += 6;
             
             const res = t[currentLang].s6;
-            let lvl, col;
+            let lvl;
             
-            if (score >= 90) { lvl = res.lvls.ext; col = '#e07a7a'; }
-            else if (score >= 85) { lvl = res.lvls.dan; col = '#e07a7a'; }
-            else if (score >= 80) { lvl = res.lvls.ala; col = '#e8a5a5'; }
-            else { lvl = res.lvls.cri; col = '#d4a3b3'; }
+            if (score >= 90) { lvl = res.lvls.ext; }
+            else if (score >= 85) { lvl = res.lvls.dan; }
+            else if (score >= 80) { lvl = res.lvls.ala; }
+            else { lvl = res.lvls.cri; }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
             document.getElementById('res-score').innerText = lvl.t; 
-            document.getElementById('res-score').style.color = col; 
             document.getElementById('res-level').innerText = lvl.d; 
-            document.getElementById('res-level').style.color = col;
-            document.getElementById('res-card').style.borderColor = col;
             
             document.getElementById('res-cost-lbl').innerText = res.costLbl; 
-            document.getElementById('res-cost-lbl').style.color = col;
-            document.getElementById('res-info-box').style.borderLeftColor = col; 
-            
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
+            
+            document.getElementById('res-action-lbl').innerText = res.actionLbl; 
             document.getElementById('s6-msg').innerText = res.msg;
         }
 
@@ -556,30 +560,56 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                const { data, error } = await supabaseClient.from('leads').insert([
-                    { 
-                        email: email, 
-                        first_name: fname, 
-                        delivery_channel: channel,
-                        source: 'loving_woman_flow',
-                        language: currentLang,
-                        marketing_consent: true,
-                        onboarding_data: answers,
-                        has_paid: false,
-                        current_mentoring_day: 1
-                    }
-                ]).select();
+                // 1. CHECK: Existiert die E-Mail bereits in der Leads-Tabelle?
+                let { data: existingLead, error: searchError } = await supabaseClient
+                    .from('leads')
+                    .select('id, email')
+                    .eq('email', email)
+                    .single();
 
-                if (error) throw error;
+                let currentLeadId;
 
-                const leadId = data[0].id;
+                if (!existingLead) {
+                    // SZENARIO A: Neuer Nutzer.
+                    const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
+                        { 
+                            email: email, 
+                            first_name: fname, 
+                            delivery_channel: channel,
+                            source: 'loving_woman',
+                            language: currentLang,
+                            marketing_consent: true,
+                            onboarding_data: answers
+                        }
+                    ]).select().single();
 
-                // Direkte Weiterleitung
-                if(channel === 'telegram') {
-                    window.location.href = `${botLinks.telegram}${leadId}`;
+                    if (insertError) throw insertError;
+                    currentLeadId = newLead.id;
                 } else {
-                    window.location.href = `${botLinks.whatsapp}${leadId}`;
+                    // SZENARIO B: Nutzer existiert bereits.
+                    currentLeadId = existingLead.id;
                 }
+
+                // 2. KURS STARTEN: Wir eintragen den Nutzer in die 'active_flows' Tabelle ein.
+                const { data: newFlow, error: flowError } = await supabaseClient.from('active_flows').insert([
+                    { 
+                        lead_email: email, 
+                        flow_name: 'The Loving Woman',
+                        current_mentoring_day: 1,
+                        has_paid: false,
+                        status: 'active'
+                    }
+                ]);
+
+                if (flowError) throw flowError;
+
+                // 3. WEITERLEITUNG ZUM MESSENGER
+                if(channel === 'telegram') {
+                    window.location.href = `${botLinks.telegram}${currentLeadId}`;
+                } else {
+                    window.location.href = `${botLinks.whatsapp}${currentLeadId}`;
+                }
+                
             } catch(e) {
                 console.error("Fehler beim Speichern:", e);
                 errEl.innerText = t[currentLang].s7.errServer; 
