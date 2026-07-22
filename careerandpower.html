@@ -197,10 +197,15 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
         
-        // HIER trägst du die direkten Links zu deinen Bots ein
-        const botLinks = { 
-            telegram: "https://t.me/DEIN_BOT_NAME?start=", 
-            whatsapp: "https://wa.me/DEINE_NUMMER?text=Start%20" 
+        // HIER deine WhatsApp Nummer und den Telegram Bot Namen eintragen
+        const waNumber = "491632225456"; 
+        const tgBotName = "DEIN_BOT_NAME"; 
+
+        // Die vorgefertigten Texte je nach Sprache
+        const botMessages = {
+            de: "Start 4-Tage-Flow DE",
+            en: "Start 4-Day-Flow EN",
+            es: "Iniciar flujo de 4 días ES"
         };
 
         const t = {
@@ -614,11 +619,15 @@
 
                 if (flowError) throw flowError;
                 
-                // 3. WEITERLEITUNG ZUM MESSENGER
+                // 3. WEITERLEITUNG ZUM MESSENGER MIT SPRACH-ID
+                const baseMessage = botMessages[currentLang] || botMessages['de'];
+                // Nachricht mit der Sprache und der jeweiligen User-ID für deine Datenbank zusammenbauen
+                const encodedMessage = encodeURIComponent(`${baseMessage} (ID: ${currentLeadId})`);
+
                 if(channel === 'telegram') {
-                    window.location.href = `${botLinks.telegram}${currentLeadId}`;
+                    window.location.href = `https://t.me/${tgBotName}?text=${encodedMessage}`;
                 } else {
-                    window.location.href = `${botLinks.whatsapp}${currentLeadId}`;
+                    window.location.href = `https://wa.me/${waNumber}?text=${encodedMessage}`;
                 }
             } catch(e) {
                 console.error("Error:", e);
