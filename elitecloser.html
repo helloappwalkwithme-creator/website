@@ -8,10 +8,11 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
     <!-- End Google Tag Manager -->
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Elite Closer - Onboarding</title>
+    <script type="text/javascript" src="https://embeds.iubenda.com/widgets/ba1bdae0-e28c-45b5-8134-d89a53fafd44.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
@@ -63,7 +64,6 @@
         .check-icon { width: 22px; height: 22px; border-radius: 4px; border: 1px solid #555; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 13px; }
         .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: #101512; }
 
-        /* NEU: Result Card Styling als Aktionsplan */
         .result-card { background-color: #161c18; border: 2px solid var(--action); border-radius: 12px; padding: 25px 20px; text-align: center; margin-bottom: 16px; }
         .result-score { color: var(--action); font-size: 22px; font-weight: 800; line-height: 1.3; margin-bottom: 10px; text-transform: uppercase; }
         .result-level { color: #a5e8b4; font-size: 15px; font-weight: 500; line-height: 1.5; }
@@ -94,8 +94,11 @@
     </style>
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
 
     <header class="app-header">
@@ -198,11 +201,16 @@
         const waNumber = "491632225456"; 
         const tgBotName = "DEIN_BOT_NAME"; 
 
-        // Die vorgefertigten Texte je nach Sprache
         const botMessages = {
-            de: "Start 4-Tage-Flow DE",
-            en: "Start 4-Day-Flow EN",
-            es: "Iniciar flujo de 4 días ES"
+            de: "Hallo, ich möchte meinen kostenlosen The Elite Closer Flow starten. Bitte aktiviere meinen Zugang.",
+            en: "Hello, I would like to start my free The Elite Closer flow. Please activate my access.",
+            es: "Hola, me gustaría iniciar mi flujo gratuito The Elite Closer. Por favor, activa mi acceso."
+        };
+
+        const accessLabels = {
+            de: "Mein Zugangscode:",
+            en: "My access code:",
+            es: "Mi código de acceso:"
         };
 
         const t = {
@@ -255,12 +263,12 @@
                         reluctance: "Dein System wertet ein vertriebliches 'Nein' unbewusst als persönliche Ablehnung. Das erzeugt inneren Widerstand und kostet dich wertvolle Schlagzahl.", 
                         discounting: "Du knickst ein, um den Deal zu retten. Dem Kunden signalisiert das unbewusst, dass dein Angebot den Vollpreis eventuell nicht wert ist." 
                     }, 
-                    msg: "Verkaufen ist keine Magie, sondern erlernbare Verkaufspsychologie. Ein 'Nein' ist keine persönliche Ablehnung, sondern eine Bitte um mehr Sicherheit. In diesem flow, du wirst lernen how to confidently build authority and close high-ticket deals without being pushy.",
+                    msg: "Verkaufen ist keine Magie, sondern erlernbare Verkaufspsychologie. Ein 'Nein' ist keine persönliche Ablehnung, sondern eine Bitte um mehr Sicherheit. In diesem Flow wirst du lernen, Autorität aufzubauen und High-Ticket Deals zu closen, ohne pushy zu sein.",
                     lvls: { 
-                        ext: { t: "GOAL: SYSTEMATIC CLOSING", d: "Your sales process often resembles a gamble. The first step is to establish a crystal-clear, psychological framework that gives you absolute certainty." }, 
-                        dan: { t: "GOAL: CONFIDENT LEADERSHIP", d: "You hope for the close instead of leading the prospect there. We will establish a clear alpha presence for your calls." }, 
-                        ala: { t: "GOAL: PRICE STABILITY", d: "You close, but leave margin on the table. We will train your objection handling so you defend your value 100%." }, 
-                        cri: { t: "GOAL: CLOSING MASTERY", d: "Your foundation is solid. Now it's about the psychological nuances to maximize your conversion rate." } 
+                        ext: { t: "ZIEL: SYSTEMATISCHES CLOSING", d: "Dein Verkaufsprozess ist oft ein Glücksspiel. Der erste Schritt ist, ein klares psychologisches Framework zu etablieren, das dir Sicherheit gibt." }, 
+                        dan: { t: "ZIEL: SOUVERÄNE FÜHRUNG", d: "Du hoffst auf den Abschluss, statt den Kunden dorthin zu führen. Wir werden eine klare Alpha-Präsenz für deine Calls etablieren." }, 
+                        ala: { t: "ZIEL: PREISSTABILITÄT", d: "Du fastest den Deal, lässt aber Marge liegen. Wir trainieren deine Einwandbehandlung, damit du deinen Wert zu 100% verteidigst." }, 
+                        cri: { t: "ZIEL: CLOSING MASTERY", d: "Deine Basis ist solide. Jetzt geht es um die psychologischen Nuancen, um deine Conversion-Rate zu maximieren." } 
                     } 
                 },
                 s7: { 
@@ -558,6 +566,12 @@
             checkNextState(); window.scrollTo(0,0);
         }
 
+        function generateAccessCode() { 
+            const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
+            const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
+            return p1 + '-' + p2;
+        }
+
         async function handleRegistration() {
             const fname = document.getElementById('reg-fname').value.trim();
             const email = document.getElementById('reg-email').value.trim();
@@ -568,12 +582,14 @@
             if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
+            const accessCode = generateAccessCode();
+            answers.access_code = accessCode;
+
             try {
                 if (!supabaseClient) {
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                // 1. CHECK: Existiert die E-Mail bereits in der Leads-Tabelle?
                 let { data: existingLead, error: searchError } = await supabaseClient
                     .from('leads')
                     .select('id, email')
@@ -583,27 +599,32 @@
                 let currentLeadId;
 
                 if (!existingLead) {
-                    // SZENARIO A: Neuer Nutzer.
                     const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
                         { 
                             email: email, 
                             first_name: fname, 
                             delivery_channel: channel,
-                            source: 'elite_closer',
+                            source: 'elite_closer_flow',
                             language: currentLang,
                             marketing_consent: true,
-                            onboarding_data: answers
+                            onboarding_data: answers 
                         }
                     ]).select().single();
 
                     if (insertError) throw insertError;
                     currentLeadId = newLead.id;
                 } else {
-                    // SZENARIO B: Nutzer existiert bereits.
                     currentLeadId = existingLead.id;
+                    const { error: updateError } = await supabaseClient.from('leads').update({
+                        first_name: fname,
+                        delivery_channel: channel,
+                        language: currentLang,
+                        onboarding_data: answers
+                    }).eq('id', existingLead.id);
+
+                    if (updateError) throw updateError;
                 }
 
-                // 2. KURS STARTEN: Wir eintragen den Nutzer in die 'active_flows' Tabelle ein.
                 const { data: newFlow, error: flowError } = await supabaseClient.from('active_flows').insert([
                     { 
                         lead_email: email, 
@@ -615,11 +636,12 @@
                 ]);
 
                 if (flowError) throw flowError;
-                
-                // 3. WEITERLEITUNG ZUM MESSENGER MIT SPRACH-ID
+
                 const baseMessage = botMessages[currentLang] || botMessages['de'];
-                // Nachricht mit der Sprache und der jeweiligen User-ID für deine Datenbank zusammenbauen
-                const encodedMessage = encodeURIComponent(`${baseMessage} (ID: ${currentLeadId})`);
+                const accessLabel = accessLabels[currentLang] || accessLabels['de'];
+                const finalMessage = `${baseMessage}\n\n${accessLabel} ${accessCode}`;
+                
+                const encodedMessage = encodeURIComponent(finalMessage);
 
                 if(channel === 'telegram') {
                     window.location.href = `https://t.me/${tgBotName}?text=${encodedMessage}`;
