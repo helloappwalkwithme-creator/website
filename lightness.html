@@ -198,15 +198,19 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
         
-        // HIER deine WhatsApp Nummer und den Telegram Bot Namen eintragen
         const waNumber = "491632225456"; 
         const tgBotName = "DEIN_BOT_NAME"; 
 
-        // Die vorgefertigten Texte je nach Sprache
         const botMessages = {
-            de: "Start 4-Tage-Flow DE",
-            en: "Start 4-Day-Flow EN",
-            es: "Iniciar flujo de 4 días ES"
+            de: "Hallo, ich möchte meinen kostenlosen The Path to Lightness Flow starten. Bitte aktiviere meinen Zugang.",
+            en: "Hello, I would like to start my free The Path to Lightness flow. Please activate my access.",
+            es: "Hola, me gustaría iniciar mi flujo gratuito The Path to Lightness. Por favor, activa mi acceso."
+        };
+
+        const accessLabels = {
+            de: "Mein Zugangscode:",
+            en: "My access code:",
+            es: "Mi código de acceso:"
         };
 
         const t = {
@@ -540,6 +544,11 @@
         }
 
         function handleNext() {
+            if(step === 1 && !answers.root_problem) return;
+            if(step === 2 && answers.pain_point.length === 0) return;
+            if(step === 3 && !answers.nervous_system) return;
+            if(step === 4 && !answers.evening) return;
+            
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
             document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
@@ -562,6 +571,12 @@
             checkNextState(); window.scrollTo(0,0);
         }
 
+        function generateAccessCode() { 
+            const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
+            const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
+            return p1 + '-' + p2;
+        }
+
         async function handleRegistration() {
             const fname = document.getElementById('reg-fname').value.trim();
             const email = document.getElementById('reg-email').value.trim();
@@ -572,12 +587,14 @@
             if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
+            const accessCode = generateAccessCode();
+            answers.access_code = accessCode;
+
             try {
                 if (!supabaseClient) {
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                // 1. CHECK: Existiert die E-Mail bereits in der Leads-Tabelle?
                 let { data: existingLead, error: searchError } = await supabaseClient
                     .from('leads')
                     .select('id, email')
@@ -587,27 +604,32 @@
                 let currentLeadId;
 
                 if (!existingLead) {
-                    // SZENARIO A: Neuer Nutzer.
                     const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
                         { 
                             email: email, 
                             first_name: fname, 
                             delivery_channel: channel,
-                            source: 'path_to_lightness',
+                            source: 'path_to_lightness_flow',
                             language: currentLang,
                             marketing_consent: true,
-                            onboarding_data: answers
+                            onboarding_data: answers 
                         }
                     ]).select().single();
 
                     if (insertError) throw insertError;
                     currentLeadId = newLead.id;
                 } else {
-                    // SZENARIO B: Nutzer existiert bereits.
                     currentLeadId = existingLead.id;
+                    const { error: updateError } = await supabaseClient.from('leads').update({
+                        first_name: fname,
+                        delivery_channel: channel,
+                        language: currentLang,
+                        onboarding_data: answers
+                    }).eq('id', existingLead.id);
+
+                    if (updateError) throw updateError;
                 }
 
-                // 2. KURS STARTEN: Wir eintragen den Nutzer in die 'active_flows' Tabelle ein.
                 const { data: newFlow, error: flowError } = await supabaseClient.from('active_flows').insert([
                     { 
                         lead_email: email, 
@@ -619,10 +641,12 @@
                 ]);
 
                 if (flowError) throw flowError;
-                
-                // 3. WEITERLEITUNG ZUM MESSENGER MIT SPRACH-ID
+
                 const baseMessage = botMessages[currentLang] || botMessages['de'];
-                const encodedMessage = encodeURIComponent(`${baseMessage} (ID: ${currentLeadId})`);
+                const accessLabel = accessLabels[currentLang] || accessLabels['de'];
+                const finalMessage = `${baseMessage}\n\n${accessLabel} ${accessCode}`;
+                
+                const encodedMessage = encodeURIComponent(finalMessage);
 
                 if(channel === 'telegram') {
                     window.location.href = `https://t.me/${tgBotName}?text=${encodedMessage}`;
