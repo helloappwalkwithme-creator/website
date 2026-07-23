@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" id="html-tag">
 <head>
-    <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
-    <!-- End Google Tag Manager -->
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title id="page-title">Shift My Horizon - The Next Step</title>
@@ -122,11 +119,8 @@
     </style>
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
     <header class="app-header">
         <select id="langSelect" class="lang-switcher" onchange="selectLang(this.value)">
             <option value="de">🇩🇪 DE</option>
@@ -178,9 +172,6 @@
     </footer>
 
     <script>
-        // HIER DEINEN ECHTEN DIGISTORE LINK EINTRAGEN
-        const DIGISTORE_BASE_URL = "https://www.checkout-ds24.com/product/XXXXXX";
-
         const t = {
             de: {
                 ui: {
@@ -238,6 +229,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         let fname = urlParams.get('fname') || '';
         let leadId = urlParams.get('id') || '';
+        let productId = urlParams.get('pid') || ''; 
         
         let currentLang = localStorage.getItem('smh_language') || urlParams.get('lang') || 'de';
         if (!t[currentLang]) currentLang = 'de';
@@ -284,9 +276,13 @@
         function goToCheckout(e) {
             e.preventDefault();
             
-            let finalUrl = DIGISTORE_BASE_URL;
+            if (!productId) {
+                alert("Fehler: Keine Produkt-ID gefunden. Bitte öffne den Link erneut aus deiner Nachricht.");
+                return;
+            }
             
-            // Wenn eine ID aus der URL vorhanden ist, hängen wir sie für Make.com an den Digistore-Link an
+            let finalUrl = "https://www.checkout-ds24.com/product/" + encodeURIComponent(productId);
+            
             if (leadId) {
                 finalUrl += "?custom=" + encodeURIComponent(leadId);
             }
