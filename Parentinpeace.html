@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+    <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+    <!-- End Google Tag Manager -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Parent in Peace</title>
@@ -192,25 +195,22 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
         
-        // --- DYNAMISCHE BOT-KONFIGURATION ---
+        // HIER deine WhatsApp Nummer und den Telegram Bot Namen eintragen
         const waNumber = "491632225456"; 
         const tgBotName = "DEIN_BOT_NAME"; 
 
+        // Die natürlichen, vertrauenserweckenden Start-Nachrichten
         const botMessages = {
-            de: "Start 4-Tage-Flow DE",
-            en: "Start 4-Day-Flow EN",
-            es: "Iniciar flujo de 4 días ES"
+            de: "Hallo, ich möchte meinen kostenlosen Parent in Peace Flow starten. Bitte aktiviere meinen Zugang.",
+            en: "Hello, I would like to start my free Parent in Peace flow. Please activate my access.",
+            es: "Hola, me gustaría iniciar mi flujo gratuito Parent in Peace. Por favor, activa mi acceso."
         };
 
-        function getBotLink(channel) {
-            const text = encodeURIComponent(botMessages[currentLang]);
-            if (channel === 'whatsapp') {
-                return `https://wa.me/${waNumber}?text=${text}`;
-            } else {
-                return `https://t.me/${tgBotName}?text=${text}`;
-            }
-        }
-        // ------------------------------------
+        const accessLabels = {
+            de: "Mein Zugangscode:",
+            en: "My access code:",
+            es: "Mi código de acceso:"
+        };
 
         const t = {
             de: {
@@ -462,7 +462,9 @@
             document.getElementById('reg-email').placeholder = l.s7.em; 
             
             document.getElementById('btn-register').innerText = l.btn.pay;
-            document.getElementById('s7-disclaimer').innerHTML = l.s7.disclaimer;
+            if(l.s7.disclaimer) {
+                document.getElementById('s7-disclaimer').innerHTML = l.s7.disclaimer;
+            }
 
             document.getElementById('link-imp').innerText = l.legal.imp;
             document.getElementById('link-dat').innerText = l.legal.dat;
@@ -516,7 +518,6 @@
             bNext.disabled = (step === 2 && answers.pain_point.length === 0);
         }
 
-        // HIER beginnt der vervollständigte Code, der im ursprünglichen Prompt abgeschnitten war
         function renderResult() {
             let score = 75;
             if(answers.tolerance === 'high') score += 12; else if(answers.tolerance === 'med') score += 6;
@@ -598,27 +599,104 @@
             }
         }
 
-        function handleRegistration() {
+        function generateAccessCode() {
+            const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
+            const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
+            return p1 + '-' + p2;
+        }
+
+        async function handleRegistration() {
             const fname = document.getElementById('reg-fname').value.trim();
             const email = document.getElementById('reg-email').value.trim();
             const channel = document.getElementById('reg-channel').value;
-            const err = document.getElementById('reg-error');
+            const errEl = document.getElementById('reg-error');
+            const btn = document.getElementById('btn-register');
             
             if(!fname || !email) {
-                err.innerText = t[currentLang].s7.errFill;
-                err.style.display = 'block';
+                errEl.innerText = t[currentLang].s7.errFill;
+                errEl.style.display = 'block';
                 return;
             }
             
-            err.style.display = 'none';
-            const btn = document.getElementById('btn-register');
+            errEl.style.display = 'none';
             btn.disabled = true;
+            btn.innerText = "...";
             
-            // Hier wird die Sprach-dynamische URL abgerufen und der Nutzer weitergeleitet
-            const link = getBotLink(channel);
-            window.location.href = link;
+            const accessCode = generateAccessCode();
+            answers.access_code = accessCode;
             
-            setTimeout(() => { btn.disabled = false; }, 2000);
+            try {
+                if (!supabaseClient) {
+                    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                }
+
+                // 1. CHECK: Existiert die E-Mail bereits in der Leads-Tabelle?
+                let { data: existingLead, error: searchError } = await supabaseClient
+                    .from('leads')
+                    .select('id, email')
+                    .eq('email', email)
+                    .single();
+
+                if (!existingLead) {
+                    // SZENARIO A: Neuer Nutzer.
+                    const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
+                        { 
+                            email: email, 
+                            first_name: fname, 
+                            delivery_channel: channel,
+                            source: 'parent_in_peace_flow',
+                            language: currentLang,
+                            marketing_consent: true,
+                            onboarding_data: answers
+                        }
+                    ]).select().single();
+
+                    if (insertError) throw insertError;
+                } else {
+                    // SZENARIO B: Nutzer existiert bereits.
+                    const { error: updateError } = await supabaseClient.from('leads').update({
+                        first_name: fname,
+                        delivery_channel: channel,
+                        language: currentLang,
+                        onboarding_data: answers
+                    }).eq('id', existingLead.id);
+
+                    if (updateError) throw updateError;
+                }
+
+                // 2. KURS STARTEN: Wir tragen den Nutzer in die 'active_flows' Tabelle ein.
+                const { data: newFlow, error: flowError } = await supabaseClient.from('active_flows').insert([
+                    { 
+                        lead_email: email, 
+                        flow_name: 'Parent in Peace',
+                        current_mentoring_day: 1,
+                        has_paid: false,
+                        status: 'active'
+                    }
+                ]);
+
+                if (flowError) throw flowError;
+                
+                // 3. WEITERLEITUNG ZUM MESSENGER MIT SCHÖNEM TEXT UND ZUGANGSCODE
+                const baseMessage = botMessages[currentLang] || botMessages['de'];
+                const accessLabel = accessLabels[currentLang] || accessLabels['de'];
+                const finalMessage = `${baseMessage}\n\n${accessLabel} ${accessCode}`;
+                
+                const encodedMessage = encodeURIComponent(finalMessage);
+
+                if(channel === 'telegram') {
+                    window.location.href = `https://t.me/${tgBotName}?text=${encodedMessage}`;
+                } else {
+                    window.location.href = `https://wa.me/${waNumber}?text=${encodedMessage}`;
+                }
+                
+            } catch(e) {
+                console.error("Fehler beim Speichern:", e);
+                errEl.innerText = t[currentLang].s7.errServer; 
+                errEl.style.display = 'block';
+                btn.disabled = false;
+                btn.innerText = t[currentLang].btn.pay;
+            }
         }
     </script>
 </body>
