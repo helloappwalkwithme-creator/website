@@ -8,7 +8,7 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
     <!-- End Google Tag Manager -->
-
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>1-on-1 Coaching - Application</title>
@@ -188,6 +188,7 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
         
+        // HIER DEINE ECHTEN DIGISTORE LINKS EINTRAGEN
         const digistoreLinks = { 
             de: "https://www.checkout-ds24.com/product/XXXXXX/", 
             en: "https://www.checkout-ds24.com/product/XXXXXX/",
@@ -407,7 +408,7 @@
         }
         
         let step = 1;
-        let answers = { root_problem: 'emptiness', pain_point: [], grounding: 'low', silence: 'low' };
+        let answers = { root_problem: '', pain_point: [], grounding: '', silence: '' };
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
@@ -432,6 +433,7 @@
             
             document.getElementById('lbl-fname').innerText = l.s7.lblFname;
             document.getElementById('lbl-email').innerText = l.s7.lblEmail;
+            
             document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
             document.getElementById('reg-email').placeholder = l.s7.em; 
             document.getElementById('btn-register').innerText = l.btn.pay;
@@ -464,6 +466,7 @@
             const l = t[currentLang], root = answers.root_problem;
             const build = (id, opts, key, multi) => {
                 const el = document.getElementById(id); el.innerHTML = '';
+                if (!opts) return;
                 Object.entries(opts).forEach(([k, v]) => {
                     const isSelected = multi ? answers[key].includes(v) : answers[key] === k;
                     el.appendChild(createOptionBtn(v, isSelected, multi, () => {
@@ -512,7 +515,7 @@
             document.getElementById('res-cost-lbl').style.color = col;
             document.getElementById('res-info-box').style.borderLeftColor = col; 
             
-            document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
+            document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem] || '';
             document.getElementById('s6-msg').innerText = res.msg;
         }
 
@@ -553,21 +556,60 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                const { error } = await supabaseClient.from('leads').insert([
-                    { 
-                        email: email, 
-                        first_name: fname, 
-                        source: 'coaching_application',
+                // 1. CHECK: Existiert die E-Mail bereits in der Leads-Tabelle?
+                let { data: existingLead, error: searchError } = await supabaseClient
+                    .from('leads')
+                    .select('id, email')
+                    .eq('email', email)
+                    .single();
+
+                let currentLeadId;
+
+                if (!existingLead) {
+                    // SZENARIO A: Neuer Nutzer. Wir legen ihn in 'leads' an.
+                    const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
+                        { 
+                            email: email, 
+                            first_name: fname, 
+                            source: 'coaching_application',
+                            language: currentLang,
+                            marketing_consent: true,
+                            onboarding_data: answers 
+                        }
+                    ]).select().single();
+
+                    if (insertError) throw insertError;
+                    currentLeadId = newLead.id;
+                } else {
+                    // SZENARIO B: Nutzer existiert bereits. Update der Daten.
+                    currentLeadId = existingLead.id;
+                    const { error: updateError } = await supabaseClient.from('leads').update({
+                        first_name: fname,
                         language: currentLang,
-                        marketing_consent: true,
-                        onboarding_data: answers 
+                        onboarding_data: answers
+                    }).eq('id', existingLead.id);
+
+                    if (updateError) throw updateError;
+                }
+
+                // 2. STATUS IN ACTIVE_FLOWS EINTRAGEN (Zur sauberen Protokollierung)
+                const { error: flowError } = await supabaseClient.from('active_flows').insert([
+                    { 
+                        lead_email: email, 
+                        flow_name: '1-on-1 Coaching',
+                        current_mentoring_day: 0,
+                        has_paid: false,
+                        status: 'checkout_pending'
                     }
                 ]);
-
-                if (error) throw error;
-
+                
+                // 3. WEITERLEITUNG ZU DIGISTORE24 INKLUSIVE CUSTOM ID FÜR MAKE.COM
                 const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
-                window.location.href = `${digistoreBaseUrl}?custom=coaching&first_name=${encodeURIComponent(fname)}&email=${encodeURIComponent(email)}`;
+                
+                // Die Datenbank-ID wird als custom-Parameter an Digistore übergeben
+                // Digistore leitet diese ID beim Kauf über den Webhook an Make.com weiter
+                window.location.href = `${digistoreBaseUrl}?custom=${encodeURIComponent(currentLeadId)}`;
+                
             } catch(e) {
                 console.error(e);
                 errEl.innerText = t[currentLang].s7.errServer; 
