@@ -432,6 +432,7 @@
         
         let step = 1;
         let answers = { root_problem: '', pain_point: [], tolerance: '', capacity: '' }; 
+        let chosenPath = ''; 
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
@@ -528,6 +529,8 @@
             if(score >= 90) lvlKey = 'ext';
             else if(score >= 80) lvlKey = 'dan';
             else if(score >= 70) lvlKey = 'ala';
+
+            chosenPath = lvlKey; 
 
             document.getElementById('res-score').innerText = score + "/100";
             document.getElementById('res-level').innerText = l.lvls[lvlKey].t;
@@ -647,7 +650,9 @@
                             source: 'parent_in_peace_flow',
                             language: currentLang,
                             marketing_consent: true,
-                            onboarding_data: answers
+                            onboarding_data: answers,
+                            access_code: accessCode,
+                            chosen_path: chosenPath
                         }
                     ]).select().single();
 
@@ -658,7 +663,9 @@
                         first_name: fname,
                         delivery_channel: channel,
                         language: currentLang,
-                        onboarding_data: answers
+                        onboarding_data: answers,
+                        access_code: accessCode,
+                        chosen_path: chosenPath
                     }).eq('id', existingLead.id);
 
                     if (updateError) throw updateError;
