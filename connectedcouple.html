@@ -432,6 +432,7 @@
         
         let step = 1;
         let answers = { root_problem: '', pain_point: [], anxiety: '', avoidance: '' }; 
+        let chosenPath = ''; 
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
@@ -525,12 +526,16 @@
             // Korrekte Zuweisung des Bindungstyps
             if (answers.anxiety === 'low' && answers.avoidance === 'low') {
                 lvl = res.lvls.sec;
+                chosenPath = 'sec';
             } else if (answers.anxiety === 'high' && answers.avoidance === 'low') {
                 lvl = res.lvls.anx;
+                chosenPath = 'anx';
             } else if (answers.avoidance === 'high' && answers.anxiety !== 'high') {
                 lvl = res.lvls.avo;
+                chosenPath = 'avo';
             } else {
                 lvl = res.lvls.dis; 
+                chosenPath = 'dis';
             }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
@@ -613,7 +618,9 @@
                             source: 'connected_couples_flow',
                             language: currentLang,
                             marketing_consent: true,
-                            onboarding_data: answers 
+                            onboarding_data: answers,
+                            access_code: accessCode,
+                            chosen_path: chosenPath
                         }
                     ]).select().single();
 
@@ -625,7 +632,9 @@
                         first_name: fname,
                         delivery_channel: channel,
                         language: currentLang,
-                        onboarding_data: answers
+                        onboarding_data: answers,
+                        access_code: accessCode,
+                        chosen_path: chosenPath
                     }).eq('id', existingLead.id);
 
                     if (updateError) throw updateError;
