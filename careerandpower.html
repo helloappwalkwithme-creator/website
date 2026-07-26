@@ -434,6 +434,7 @@
         
         let step = 1;
         let answers = { root_problem: '', pain_point: [], tolerance: '', capacity: '' }; 
+        let chosenPath = ''; 
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
@@ -528,10 +529,22 @@
             const res = t[currentLang].s6;
             let lvl;
             
-            if (score >= 90) { lvl = res.lvls.ext; }
-            else if (score >= 85) { lvl = res.lvls.dan; }
-            else if (score >= 80) { lvl = res.lvls.ala; }
-            else { lvl = res.lvls.cri; }
+            if (score >= 90) { 
+                lvl = res.lvls.ext; 
+                chosenPath = 'ext';
+            }
+            else if (score >= 85) { 
+                lvl = res.lvls.dan; 
+                chosenPath = 'dan';
+            }
+            else if (score >= 80) { 
+                lvl = res.lvls.ala; 
+                chosenPath = 'ala';
+            }
+            else { 
+                lvl = res.lvls.cri; 
+                chosenPath = 'cri';
+            }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
             document.getElementById('res-score').innerText = lvl.t; 
@@ -545,29 +558,68 @@
         }
 
         function handleNext() {
-            document.getElementById(`step-${step}`).classList.remove('active'); step++;
-            document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
-            pBar.style.width = `${((step - 1) / 6) * 100}%`;
+            if(step === 1 && !answers.root_problem) return;
+            if(step === 2 && answers.pain_point.length === 0) return;
+            if(step === 3 && !answers.tolerance) return;
+            if(step === 4 && !answers.capacity) return;
             
-            bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
-            if(step === 6) bNext.innerText = t[currentLang].btn.next;
-            checkNextState();
+            document.getElementById(`step-${step}`).classList.remove('active');
+            step++;
             
-            document.getElementById(`step-${step}`).classList.add('active'); window.scrollTo(0,0);
-            if(step === 5) setTimeout(() => { handleNext(); renderResult(); }, 2000);
+            if(step === 5) {
+                bBar.style.display = 'none';
+                document.getElementById('step-5').classList.add('active');
+                pBar.style.width = '83%';
+                setTimeout(() => {
+                    document.getElementById('step-5').classList.remove('active');
+                    step = 6;
+                    document.getElementById('step-6').classList.add('active');
+                    renderResult();
+                    bBar.style.display = 'flex';
+                    bNext.innerText = t[currentLang].btn.start;
+                    pBar.style.width = '100%';
+                }, 2000);
+                return;
+            }
+            
+            if(step === 6) {
+                renderResult();
+                bNext.innerText = t[currentLang].btn.start;
+            }
+            
+            if(step === 7) {
+                bBar.style.display = 'none';
+                pCont.style.display = 'none';
+            }
+            
+            document.getElementById(`step-${step}`).classList.add('active');
+            if(step < 5) {
+                bBar.style.display = 'flex';
+                pBar.style.width = `${(step / 6) * 100}%`;
+                bNext.innerText = t[currentLang].btn.next;
+            }
         }
 
         function handleBack() {
+            if(step === 1) return;
             document.getElementById(`step-${step}`).classList.remove('active');
-            step = Math.max(1, step === 6 ? 4 : step - 1);
+            step--;
+            if(step === 5) step = 4;
+            
             document.getElementById(`step-${step}`).classList.add('active');
-            document.querySelector('.progress-container').style.display = 'block';
-            pBar.style.width = `${((step - 1) / 6) * 100}%`;
-            bBar.style.display = (step === 2) ? 'flex' : 'none';
-            checkNextState(); window.scrollTo(0,0);
+            
+            if(step < 5) {
+                bBar.style.display = 'flex';
+                pBar.style.width = `${(step / 6) * 100}%`;
+                bNext.innerText = t[currentLang].btn.next;
+                pCont.style.display = 'block';
+            }
+            if(step === 6) {
+                bNext.innerText = t[currentLang].btn.start;
+            }
         }
 
-        function generateAccessCode() { 
+        function generateAccessCode() {
             const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
             const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
             return p1 + '-' + p2;
@@ -578,14 +630,21 @@
             const email = document.getElementById('reg-email').value.trim();
             const channel = document.getElementById('reg-channel').value;
             const errEl = document.getElementById('reg-error');
-            const btn = document.getElementById('btn-register'); 
+            const btn = document.getElementById('btn-register');
             
-            if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
-            errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
-
+            if(!fname || !email) {
+                errEl.innerText = t[currentLang].s7.errFill;
+                errEl.style.display = 'block';
+                return;
+            }
+            
+            errEl.style.display = 'none';
+            btn.disabled = true;
+            btn.innerText = "...";
+            
             const accessCode = generateAccessCode();
             answers.access_code = accessCode;
-
+            
             try {
                 if (!supabaseClient) {
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -606,7 +665,9 @@
                             source: 'career_power_flow',
                             language: currentLang,
                             marketing_consent: true,
-                            onboarding_data: answers 
+                            onboarding_data: answers,
+                            access_code: accessCode,
+                            chosen_path: chosenPath
                         }
                     ]).select().single();
 
@@ -616,7 +677,9 @@
                         first_name: fname,
                         delivery_channel: channel,
                         language: currentLang,
-                        onboarding_data: answers
+                        onboarding_data: answers,
+                        access_code: accessCode,
+                        chosen_path: chosenPath
                     }).eq('id', existingLead.id);
 
                     if (updateError) throw updateError;
