@@ -433,6 +433,7 @@
         
         let step = 1;
         let answers = { root_problem: '', pain_point: [], nervous_system: '', evening: '' }; 
+        let chosenPath = ''; 
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
@@ -527,10 +528,22 @@
             const res = t[currentLang].s6;
             let lvl;
             
-            if (score >= 90) { lvl = res.lvls.ext; }
-            else if (score >= 85) { lvl = res.lvls.dan; }
-            else if (score >= 80) { lvl = res.lvls.ala; }
-            else { lvl = res.lvls.cri; }
+            if (score >= 90) { 
+                lvl = res.lvls.ext; 
+                chosenPath = 'ext';
+            }
+            else if (score >= 85) { 
+                lvl = res.lvls.dan; 
+                chosenPath = 'dan';
+            }
+            else if (score >= 80) { 
+                lvl = res.lvls.ala; 
+                chosenPath = 'ala';
+            }
+            else { 
+                lvl = res.lvls.cri; 
+                chosenPath = 'cri';
+            }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
             document.getElementById('res-score').innerText = lvl.t; 
@@ -601,8 +614,6 @@
                     .eq('email', email)
                     .single();
 
-                let currentLeadId;
-
                 if (!existingLead) {
                     const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
                         { 
@@ -612,19 +623,21 @@
                             source: 'path_to_lightness_flow',
                             language: currentLang,
                             marketing_consent: true,
-                            onboarding_data: answers 
+                            onboarding_data: answers,
+                            access_code: accessCode,
+                            chosen_path: chosenPath
                         }
                     ]).select().single();
 
                     if (insertError) throw insertError;
-                    currentLeadId = newLead.id;
                 } else {
-                    currentLeadId = existingLead.id;
                     const { error: updateError } = await supabaseClient.from('leads').update({
                         first_name: fname,
                         delivery_channel: channel,
                         language: currentLang,
-                        onboarding_data: answers
+                        onboarding_data: answers,
+                        access_code: accessCode,
+                        chosen_path: chosenPath
                     }).eq('id', existingLead.id);
 
                     if (updateError) throw updateError;
