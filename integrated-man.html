@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+    <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+    <!-- End Google Tag Manager -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Integrated Man - Onboarding</title>
@@ -515,6 +518,7 @@
         let currentLang = localStorage.getItem('smh_language') || 'de';
         let step = 1;
         let answers = { root_problem: '', pain_point: [], energy: '', satisfaction: '' }; 
+        let chosenPath = ''; 
         
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
@@ -609,10 +613,22 @@
             const res = t[currentLang].s6;
             let lvl;
             
-            if (score >= 90) { lvl = res.lvls.ext; }
-            else if (score >= 85) { lvl = res.lvls.dan; }
-            else if (score >= 80) { lvl = res.lvls.ala; }
-            else { lvl = res.lvls.cri; }
+            if (score >= 90) { 
+                lvl = res.lvls.ext; 
+                chosenPath = 'ext';
+            }
+            else if (score >= 85) { 
+                lvl = res.lvls.dan; 
+                chosenPath = 'dan';
+            }
+            else if (score >= 80) { 
+                lvl = res.lvls.ala; 
+                chosenPath = 'ala';
+            }
+            else { 
+                lvl = res.lvls.cri; 
+                chosenPath = 'cri';
+            }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
             document.getElementById('res-score').innerText = lvl.t; 
@@ -626,6 +642,11 @@
         }
 
         function handleNext() {
+            if(step === 1 && !answers.root_problem) return;
+            if(step === 2 && answers.pain_point.length === 0) return;
+            if(step === 3 && !answers.energy) return;
+            if(step === 4 && !answers.satisfaction) return;
+            
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
             document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
@@ -687,7 +708,9 @@
                             source: 'integrated_man_flow',
                             language: currentLang,
                             marketing_consent: true,
-                            onboarding_data: answers 
+                            onboarding_data: answers,
+                            access_code: accessCode,
+                            chosen_path: chosenPath
                         }
                     ]).select().single();
 
@@ -697,7 +720,9 @@
                         first_name: fname,
                         delivery_channel: channel,
                         language: currentLang,
-                        onboarding_data: answers
+                        onboarding_data: answers,
+                        access_code: accessCode,
+                        chosen_path: chosenPath
                     }).eq('id', existingLead.id);
 
                     if (updateError) throw updateError;
