@@ -28,21 +28,21 @@
         }
 
         * { box-sizing: border-box; font-family: "Georgia", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        
-        body { 
-            margin: 0; padding: 0; background-color: var(--dark); color: var(--text); 
-            display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; 
+
+        body {
+            margin: 0; padding: 0; background-color: var(--dark); color: var(--text);
+            display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden;
         }
-        
+
         .progress-container { width: 100%; height: 3px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; }
         .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.4s ease; }
 
         .app-header { width: 100%; max-width: 500px; margin: 0 auto; display: flex; justify-content: flex-end; padding: 20px 20px 0 20px; }
         .lang-switcher { background-color: var(--gray); color: var(--text); border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; outline: none; appearance: none; text-align: center; }
         .lang-switcher:focus { border-color: var(--gold); }
-        
+
         main { flex: 1; padding: 20px 20px 100px 20px; max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
-        
+
         .step { display: none; animation: fadeIn 0.4s ease forwards; }
         .step.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -55,7 +55,7 @@
         .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
         .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.4; font-weight: 400; }
         .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 600; }
-        
+
         .radio-icon { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #777; display: flex; align-items: center; justify-content: center; }
         .quiz-btn.selected .radio-icon { border-color: var(--gold); }
         .radio-icon::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); display: none; }
@@ -67,11 +67,11 @@
         .result-card { background-color: #1a1e1b; border: 2px solid var(--action); border-radius: 12px; padding: 25px 20px; text-align: center; margin-bottom: 16px; }
         .result-score { color: var(--action); font-size: 22px; font-weight: 600; line-height: 1.3; margin-bottom: 10px; text-transform: uppercase; }
         .result-level { color: #dcdcdc; font-size: 15px; font-weight: 400; line-height: 1.5; }
-        
+
         .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
         .insight-title { color: #dcdcdc; font-size: 11px; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
         .insight-text { color: #c4c4c4; font-size: 14px; line-height: 1.6; }
-        
+
         .info-card { background: #211d1a; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 3px solid var(--gold); }
 
         .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(26, 23, 21, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
@@ -81,7 +81,9 @@
 
         .input-field { background-color: #292421; border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-weight: 400; }
         .input-field:focus { border-color: var(--gold); outline: none; }
-        
+
+        .channel-note { font-size: 12px; color: #bbbbbb; margin: -8px 0 16px 0; line-height: 1.5; }
+
         .legal-disclaimer { font-size: 12px; color: #bbbbbb; margin-top: 20px; line-height: 1.6; text-align: center; border-top: 1px solid var(--border); padding-top: 15px; font-family: -apple-system, sans-serif; }
         .legal-disclaimer strong { color: var(--gold); font-weight: 600; }
 
@@ -138,12 +140,12 @@
 
         <div class="step" id="step-6">
             <div class="flow-title" id="s6-lbl"></div>
-            
+
             <div class="result-card" id="res-card">
                 <div class="result-score" id="res-score"></div>
                 <div class="result-level" id="res-level"></div>
             </div>
-            
+
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
@@ -160,10 +162,10 @@
                 <h1 class="h1-title" id="s7-title"></h1>
                 <p class="subtitle" id="s7-sub"></p>
             </div>
-            
+
             <div class="flow-title" id="lbl-fname"></div>
             <input type="text" id="reg-fname" class="input-field" placeholder="">
-            
+
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
 
@@ -172,7 +174,8 @@
                 <option value="whatsapp">WhatsApp</option>
                 <option value="telegram">Telegram</option>
             </select>
-            
+            <p class="channel-note" id="channel-note"></p>
+
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
 
@@ -181,9 +184,9 @@
     </main>
 
     <footer class="legal-footer">
-        <a href="impressum.html" id="link-imp">Impressum</a> | 
-        <a href="datenschutz.html" id="link-dat">Datenschutz</a> | 
-        <a href="agb.html" id="link-agb">AGB</a> | 
+        <a href="impressum.html" id="link-imp">Impressum</a> |
+        <a href="datenschutz.html" id="link-dat">Datenschutz</a> |
+        <a href="agb.html" id="link-agb">AGB</a> |
         <a href="cookie.html" id="link-cook">Cookie-Richtlinie</a>
     </footer>
 
@@ -196,9 +199,9 @@
         const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
-        
-        const waNumber = "491632225456"; 
-        const tgBotName = "DEIN_BOT_NAME"; 
+
+        const waNumber = "491632225456";
+        const tgBotName = "DEIN_BOT_NAME";
 
         const botMessages = {
             de: "Hallo, ich möchte meinen kostenlosen Connected Couples Flow starten. Bitte aktiviere meinen Zugang.",
@@ -216,69 +219,70 @@
             de: {
                 pageTitle: "Connected Couples - Onboarding",
                 btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "4-TAGE FLOW STARTEN" },
-                s1: { 
-                    lbl: "PHASE 1: DIE DYNAMIK", 
-                    title: "Welche Dynamik belastet eure Beziehung aktuell am meisten?", 
-                    opts: { 
-                        communication: "Wir reden aneinander vorbei. Gespräche drehen sich im Kreis und enden oft in Frustration.", 
-                        intimacy: "Wir funktionieren nur noch wie Mitbewohner. Die echte Nähe fehlt.", 
-                        conflict: "Kleinigkeiten führen sofort zu intensiven Streits." 
-                    } 
+                s1: {
+                    lbl: "PHASE 1: DIE DYNAMIK",
+                    title: "Welche Dynamik belastet eure Beziehung aktuell am meisten?",
+                    opts: {
+                        communication: "Wir reden aneinander vorbei. Gespräche drehen sich im Kreis und enden oft in Frustration.",
+                        intimacy: "Wir funktionieren nur noch wie Mitbewohner. Die echte Nähe fehlt.",
+                        conflict: "Kleinigkeiten führen sofort zu intensiven Streits."
+                    }
                 },
-                s2: { 
-                    lbl: "PHASE 2: DER PREIS", 
-                    title: "Was kostet dich das im tiefsten Inneren? (Mehrfachauswahl)", 
-                    opts: { 
-                        communication: ["Tiefe Einsamkeit, obwohl der Partner da ist.", "Das Gefühl, nicht wirklich gesehen zu werden.", "Emotionale Erschöpfung."], 
-                        intimacy: ["Schwindendes Vertrauen und Angst vor dem Ende.", "Frustration über unerfüllte Bedürfnisse.", "Schleichende emotionale Kälte."], 
-                        conflict: ["Tiefe Verletzungen, die sich aufstauen.", "Permanenter Stress und Angst vorm nächsten Ausbruch.", "Das Gefühl, gegeneinander zu kämpfen."] 
-                    } 
+                s2: {
+                    lbl: "PHASE 2: DER PREIS",
+                    title: "Was kostet dich das im tiefsten Inneren? (Mehrfachauswahl)",
+                    opts: {
+                        communication: ["Tiefe Einsamkeit, obwohl der Partner da ist.", "Das Gefühl, nicht wirklich gesehen zu werden.", "Emotionale Erschöpfung."],
+                        intimacy: ["Schwindendes Vertrauen und Angst vor dem Ende.", "Frustration über unerfüllte Bedürfnisse.", "Schleichende emotionale Kälte."],
+                        conflict: ["Tiefe Verletzungen, die sich aufstauen.", "Permanenter Stress und Angst vorm nächsten Ausbruch.", "Das Gefühl, gegeneinander zu kämpfen."]
+                    }
                 },
-                s3: { 
-                    lbl: "PHASE 3: VERLUSTANGST", 
-                    title: "Wenn dein Partner sich emotional oder räumlich distanziert, wie reagierst du?", 
-                    opts: { 
-                        high: "Ich werde innerlich extrem unruhig und versuche, sofort wieder Nähe oder Klärung herzustellen.", 
-                        med: "Ich frage mich kurz, ob ich etwas falsch gemacht habe, bleibe aber meistens ruhig.", 
-                        low: "Es löst bei mir keine Panik aus. Ich vertraue auf unsere Bindung." 
-                    } 
+                s3: {
+                    lbl: "PHASE 3: VERLUSTANGST",
+                    title: "Wenn dein Partner sich emotional oder räumlich distanziert, wie reagierst du?",
+                    opts: {
+                        high: "Ich werde innerlich extrem unruhig und versuche, sofort wieder Nähe oder Klärung herzustellen.",
+                        med: "Ich frage mich kurz, ob ich etwas falsch gemacht habe, bleibe aber meistens ruhig.",
+                        low: "Es löst bei mir keine Panik aus. Ich vertraue auf unsere Bindung."
+                    }
                 },
-                s4: { 
-                    lbl: "PHASE 4: VERMEIDUNG", 
-                    title: "Wenn dein Partner sehr starke Emotionen zeigt oder viel Nähe einfordert, wie reagierst du?", 
-                    opts: { 
-                        high: "Ich fühle mich schnell überfordert, genervt oder ziehe mich instinktiv zurück (Mauern).", 
-                        med: "Ich brauche manchmal etwas Raum, kann mich aber wieder öffnen.", 
-                        low: "Ich bleibe emotional offen und halte den Raum für die Gefühle des anderen." 
-                    } 
+                s4: {
+                    lbl: "PHASE 4: VERMEIDUNG",
+                    title: "Wenn dein Partner sehr starke Emotionen zeigt oder viel Nähe einfordert, wie reagierst du?",
+                    opts: {
+                        high: "Ich fühle mich schnell überfordert, genervt oder ziehe mich instinktiv zurück (Mauern).",
+                        med: "Ich brauche manchmal etwas Raum, kann mich aber wieder öffnen.",
+                        low: "Ich bleibe emotional offen und halte den Raum für die Gefühle des anderen."
+                    }
                 },
                 s5: { title: "DYNAMIK WIRD ANALYSIERT...", sub: "Ausgangslage wird ausgewertet." },
-                s6: { 
-                    lbl: "EUER AKTIONSPLAN", 
-                    costLbl: "EURE AUSGANGSLAGE:", 
+                s6: {
+                    lbl: "EUER AKTIONSPLAN",
+                    costLbl: "EURE AUSGANGSLAGE:",
                     actionLbl: "HANDLUNGSEMPFEHLUNG:",
-                    costVal: { 
-                        communication: "Eure ständigen Diskussionen sind ein unbewusster Schutzmechanismus. Euer System hält den anderen auf Distanz, weil echte, verletzliche Nähe aktuell als riskant empfunden wird.", 
-                        intimacy: "Der Verlust an Nähe ist kein Mangel an Liebe, sondern eine unbewusste emotionale Abschottung zum Selbstschutz. Ihr befindet euch im Überlebensmodus.", 
-                        conflict: "Eure Konflikte sind oft verzweifelte, unregulierte Versuche, wieder Verbindung herzustellen. Unter jedem harten Vorwurf liegt eigentlich die verletzliche Frage: 'Bist du noch für mich da?'" 
-                    }, 
+                    costVal: {
+                        communication: "Eure ständigen Diskussionen sind ein unbewusster Schutzmechanismus. Euer System hält den anderen auf Distanz, weil echte, verletzliche Nähe aktuell als riskant empfunden wird.",
+                        intimacy: "Der Verlust an Nähe ist kein Mangel an Liebe, sondern eine unbewusste emotionale Abschottung zum Selbstschutz. Ihr befindet euch im Überlebensmodus.",
+                        conflict: "Eure Konflikte sind oft verzweifelte, unregulierte Versuche, wieder Verbindung herzustellen. Unter jedem harten Vorwurf liegt eigentlich die verletzliche Frage: 'Bist du noch für mich da?'"
+                    },
                     msg: "Ihr seid nicht unfähig zu lieben, ihr habt euch nur in dysfunktionalen Schutzmustern verfangen. Dieser 4-Tage-Flow gibt euch die konkreten Werkzeuge, um diese Dynamik zu stoppen und wieder ein sicherer Hafen füreinander zu werden.",
-                    lvls: { 
-                        sec: { t: "ZIEL: SICHERHEIT VERANKERN", d: "Ihr habt eine gute Basis. Jetzt geht es darum, bei Stress nicht in alte Reaktionsmuster zu verfallen, sondern bewusst die Verbindung zu halten." }, 
-                        anx: { t: "ZIEL: INNERE BERUHIGUNG", d: "Distanz löst bei dir schnell Panik aus. Wir üben, wie du dich selbst regulierst, anstatt durch Vorwürfe Nähe erzwingen zu wollen." }, 
-                        avo: { t: "ZIEL: MAUERN ABBAUEN", d: "Unter Stress ziehst du dich stark zurück. Wir lernen, wie du Raum für dich nehmen kannst, ohne deinen Partner emotional auszusperren." }, 
-                        dis: { t: "ZIEL: VERTRAUEN AUFBAUEN", d: "Ihr steckt in einer Push-and-Pull-Dynamik fest. Unser Fokus liegt darauf, das tiefe Misstrauen aufzulösen und Verlässlichkeit zu trainieren." } 
-                    } 
+                    lvls: {
+                        sec: { t: "ZIEL: SICHERHEIT VERANKERN", d: "Ihr habt eine gute Basis. Jetzt geht es darum, bei Stress nicht in alte Reaktionsmuster zu verfallen, sondern bewusst die Verbindung zu halten." },
+                        anx: { t: "ZIEL: INNERE BERUHIGUNG", d: "Distanz löst bei dir schnell Panik aus. Wir üben, wie du dich selbst regulierst, anstatt durch Vorwürfe Nähe erzwingen zu wollen." },
+                        avo: { t: "ZIEL: MAUERN ABBAUEN", d: "Unter Stress ziehst du dich stark zurück. Wir lernen, wie du Raum für dich nehmen kannst, ohne deinen Partner emotional auszusperren." },
+                        dis: { t: "ZIEL: VERTRAUEN AUFBAUEN", d: "Ihr steckt in einer Push-and-Pull-Dynamik fest. Unser Fokus liegt darauf, das tiefe Misstrauen aufzulösen und Verlässlichkeit zu trainieren." }
+                    }
                 },
-                s7: { 
-                    lbl: "DER NÄCHSTE SCHRITT", 
-                    title: "Dein 4-Tage-Flow", 
+                s7: {
+                    lbl: "DER NÄCHSTE SCHRITT",
+                    title: "Dein 4-Tage-Flow",
                     sub: "Erhalte 4 Tage lang tiefe Impulse und konkrete Aufgaben direkt in deinen Messenger – völlig kostenlos. Kein Spam, keine Umwege.",
                     lblFname: "VORNAME", lblEmail: "EMAIL", lblChannel: "AUSLIEFERUNG ÜBER",
-                    em: "deine@email.com", 
+                    em: "deine@email.com",
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
                     errServer: "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal.",
                     placeholders: { fname: "Dein Vorname" },
+                    channelNote: "ℹ️ Deine kostenlosen ersten 4 Tage bekommst du über den hier gewählten Kanal. Die anschließenden 90 Tage Begleitung werden standardmäßig per <strong>Telegram</strong> zugestellt (kostenlos inklusive). Wenn du lieber dauerhaft per <strong>WhatsApp</strong> begleitet werden möchtest, kannst du das WhatsApp-Upgrade separat hinzubuchen.",
                     disclaimer: "<strong>Wichtig:</strong> Deine Daten werden zu 100% ausschließlich für die automatisierte Bereitstellung dieses Kurses genutzt. Wir geben niemals Daten an Dritte weiter. Dein Vertrauen ist unser höchstes Gut."
                 },
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
@@ -286,69 +290,70 @@
             en: {
                 pageTitle: "Connected Couples - Onboarding",
                 btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
-                s1: { 
-                    lbl: "PHASE 1: THE DYNAMIC", 
-                    title: "What is currently draining your relationship the most?", 
-                    opts: { 
-                        communication: "Conversations go in circles and often end in frustration.", 
-                        intimacy: "We function like roommates. True closeness is missing.", 
-                        conflict: "Little things immediately lead to intense fights." 
-                    } 
+                s1: {
+                    lbl: "PHASE 1: THE DYNAMIC",
+                    title: "What is currently draining your relationship the most?",
+                    opts: {
+                        communication: "Conversations go in circles and often end in frustration.",
+                        intimacy: "We function like roommates. True closeness is missing.",
+                        conflict: "Little things immediately lead to intense fights."
+                    }
                 },
-                s2: { 
-                    lbl: "PHASE 2: THE PRICE", 
-                    title: "What does this cost you deep down? (Multiple choice)", 
-                    opts: { 
-                        communication: ["Deep loneliness, even when my partner is there.", "The feeling of not truly being seen.", "Emotional exhaustion."], 
-                        intimacy: ["Fading trust and fear of the end.", "Frustration over unmet needs.", "Creeping emotional coldness."], 
-                        conflict: ["Deep wounds that pile up.", "Permanent stress and fear of the next outburst.", "The feeling of fighting each other."] 
-                    } 
+                s2: {
+                    lbl: "PHASE 2: THE PRICE",
+                    title: "What does this cost you deep down? (Multiple choice)",
+                    opts: {
+                        communication: ["Deep loneliness, even when my partner is there.", "The feeling of not truly being seen.", "Emotional exhaustion."],
+                        intimacy: ["Fading trust and fear of the end.", "Frustration over unmet needs.", "Creeping emotional coldness."],
+                        conflict: ["Deep wounds that pile up.", "Permanent stress and fear of the next outburst.", "The feeling of fighting each other."]
+                    }
                 },
-                s3: { 
-                    lbl: "PHASE 3: ATTACHMENT ANXIETY", 
-                    title: "When your partner distances themselves emotionally or physically, how do you react?", 
-                    opts: { 
-                        high: "I get extremely restless and try to establish closeness or clarity immediately.", 
-                        med: "I briefly wonder if I did something wrong, but mostly stay calm.", 
-                        low: "It doesn't cause me panic. I trust our connection." 
-                    } 
+                s3: {
+                    lbl: "PHASE 3: ATTACHMENT ANXIETY",
+                    title: "When your partner distances themselves emotionally or physically, how do you react?",
+                    opts: {
+                        high: "I get extremely restless and try to establish closeness or clarity immediately.",
+                        med: "I briefly wonder if I did something wrong, but mostly stay calm.",
+                        low: "It doesn't cause me panic. I trust our connection."
+                    }
                 },
-                s4: { 
-                    lbl: "PHASE 4: AVOIDANCE", 
-                    title: "When your partner shows strong emotions or demands a lot of closeness, how do you react?", 
-                    opts: { 
-                        high: "I quickly feel overwhelmed, annoyed, or instinctively withdraw (stonewalling).", 
-                        med: "I sometimes need some space, but can open up again.", 
-                        low: "I stay emotionally open and hold space for their feelings." 
-                    } 
+                s4: {
+                    lbl: "PHASE 4: AVOIDANCE",
+                    title: "When your partner shows strong emotions or demands a lot of closeness, how do you react?",
+                    opts: {
+                        high: "I quickly feel overwhelmed, annoyed, or instinctively withdraw (stonewalling).",
+                        med: "I sometimes need some space, but can open up again.",
+                        low: "I stay emotionally open and hold space for their feelings."
+                    }
                 },
                 s5: { title: "ANALYZING PATTERNS...", sub: "Evaluating your starting point." },
-                s6: { 
-                    lbl: "YOUR ACTION PLAN", 
-                    costLbl: "YOUR STARTING POINT:", 
+                s6: {
+                    lbl: "YOUR ACTION PLAN",
+                    costLbl: "YOUR STARTING POINT:",
                     actionLbl: "RECOMMENDATION:",
-                    costVal: { 
-                        communication: "Your constant arguments are an unconscious defense mechanism. The system keeps the other at a distance because true, vulnerable closeness feels risky right now.", 
-                        intimacy: "The loss of closeness is not a lack of love, but an unconscious emotional shutdown for self-protection. You are in survival mode.", 
-                        conflict: "Your conflicts are often desperate, unregulated attempts to reconnect. Beneath every harsh accusation lies the vulnerable question: 'Are you still there for me?'" 
-                    }, 
+                    costVal: {
+                        communication: "Your constant arguments are an unconscious defense mechanism. The system keeps the other at a distance because true, vulnerable closeness feels risky right now.",
+                        intimacy: "The loss of closeness is not a lack of love, but an unconscious emotional shutdown for self-protection. You are in survival mode.",
+                        conflict: "Your conflicts are often desperate, unregulated attempts to reconnect. Beneath every harsh accusation lies the vulnerable question: 'Are you still there for me?'"
+                    },
                     msg: "You are not incapable of loving; you have just gotten caught in dysfunctional protective patterns. This 4-Day Flow gives you the concrete tools to stop this dynamic and become a safe haven for each other again.",
-                    lvls: { 
-                        sec: { t: "GOAL: ANCHOR SECURITY", d: "You have a good foundation. Now it's about not falling into old reaction patterns under stress, but consciously maintaining connection." }, 
-                        anx: { t: "GOAL: INNER CALMING", d: "Distance quickly triggers panic in you. We will practice how to regulate yourself instead of trying to force closeness through accusations." }, 
-                        avo: { t: "GOAL: DISMANTLING WALLS", d: "Under stress, you strongly withdraw. We will learn how you can take space for yourself without emotionally locking your partner out." }, 
-                        dis: { t: "GOAL: BUILDING TRUST", d: "You are stuck in a push-and-pull dynamic. Our focus is on dissolving deep mistrust and training reliability." } 
-                    } 
+                    lvls: {
+                        sec: { t: "GOAL: ANCHOR SECURITY", d: "You have a good foundation. Now it's about not falling into old reaction patterns under stress, but consciously maintaining connection." },
+                        anx: { t: "GOAL: INNER CALMING", d: "Distance quickly triggers panic in you. We will practice how to regulate yourself instead of trying to force closeness through accusations." },
+                        avo: { t: "GOAL: DISMANTLING WALLS", d: "Under stress, you strongly withdraw. We will learn how you can take space for yourself without emotionally locking your partner out." },
+                        dis: { t: "GOAL: BUILDING TRUST", d: "You are stuck in a push-and-pull dynamic. Our focus is on dissolving deep mistrust and training reliability." }
+                    }
                 },
-                s7: { 
-                    lbl: "THE NEXT STEP", 
-                    title: "Your 4-Day Flow", 
+                s7: {
+                    lbl: "THE NEXT STEP",
+                    title: "Your 4-Day Flow",
                     sub: "Receive deep insights and actionable tasks directly in your messenger for 4 days – completely free. No spam, no detours.",
                     lblFname: "FIRST NAME", lblEmail: "EMAIL", lblChannel: "DELIVERY VIA",
-                    em: "your@email.com", 
+                    em: "your@email.com",
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
                     errServer: "An error occurred. Please try again later.",
                     placeholders: { fname: "Your First Name" },
+                    channelNote: "ℹ️ You'll receive your free first 4 days through the channel you choose here. The following 90 days of guidance are delivered via <strong>Telegram</strong> by default (included at no extra cost). If you'd rather stay connected via <strong>WhatsApp</strong> long-term, you can add the separate WhatsApp Upgrade.",
                     disclaimer: "<strong>Important:</strong> Your data will 100% only be used for the automated delivery of this course. We will never share your data with third parties. Your trust is sacred to us."
                 },
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
@@ -356,69 +361,70 @@
             es: {
                 pageTitle: "Connected Couples - Incorporación",
                 btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
-                s1: { 
-                    lbl: "FASE 1: LA DINÁMICA", 
-                    title: "¿Qué es lo que más agota su relación actualmente?", 
-                    opts: { 
-                        communication: "Las conversaciones dan vueltas y terminan en frustración.", 
-                        intimacy: "Funcionamos como compañeros de piso. Falta cercanía real.", 
-                        conflict: "Las pequeñeces provocan peleas intensas de inmediato." 
-                    } 
+                s1: {
+                    lbl: "FASE 1: LA DINÁMICA",
+                    title: "¿Qué es lo que más agota su relación actualmente?",
+                    opts: {
+                        communication: "Las conversaciones dan vueltas y terminan en frustración.",
+                        intimacy: "Funcionamos como compañeros de piso. Falta cercanía real.",
+                        conflict: "Las pequeñeces provocan peleas intensas de inmediato."
+                    }
                 },
-                s2: { 
-                    lbl: "FASE 2: EL PRECIO", 
-                    title: "¿Qué te cuesta esto en el fondo? (Opción múltiple)", 
-                    opts: { 
-                        communication: ["Profunda soledad, incluso con mi pareja ahí.", "La sensación de no ser realmente visto.", "Agotamiento emocional."], 
-                        intimacy: ["Pérdida de confianza y miedo al final.", "Frustración por necesidades insatisfechas.", "Una frialdad emocional progresiva."], 
-                        conflict: ["Heridas profundas que se acumulan.", "Estrés permanente y miedo al próximo estallido.", "La sensación de luchar el uno contra el otro."] 
-                    } 
+                s2: {
+                    lbl: "FASE 2: EL PRECIO",
+                    title: "¿Qué te cuesta esto en el fondo? (Opción múltiple)",
+                    opts: {
+                        communication: ["Profunda soledad, incluso con mi pareja ahí.", "La sensación de no ser realmente visto.", "Agotamiento emocional."],
+                        intimacy: ["Pérdida de confianza y miedo al final.", "Frustración por necesidades insatisfechas.", "Una frialdad emocional progresiva."],
+                        conflict: ["Heridas profundas que se acumulan.", "Estrés permanente y miedo al próximo estallido.", "La sensación de luchar el uno contra el otro."]
+                    }
                 },
-                s3: { 
-                    lbl: "FASE 3: ANSIEDAD", 
-                    title: "Cuando tu pareja se distancia emocional o físicamente, ¿cómo reaccionas?", 
-                    opts: { 
-                        high: "Me pongo extremadamente inquieto e intento establecer cercanía o claridad de inmediato.", 
-                        med: "Me pregunto brevemente si hice algo mal, pero mayormente mantengo la calma.", 
-                        low: "No me causa pánico. Confío en nuestra conexión." 
-                    } 
+                s3: {
+                    lbl: "FASE 3: ANSIEDAD",
+                    title: "Cuando tu pareja se distancia emocional o físicamente, ¿cómo reaccionas?",
+                    opts: {
+                        high: "Me pongo extremadamente inquieto e intento establecer cercanía o claridad de inmediato.",
+                        med: "Me pregunto brevemente si hice algo mal, pero mayormente mantengo la calma.",
+                        low: "No me causa pánico. Confío en nuestra conexión."
+                    }
                 },
-                s4: { 
-                    lbl: "FASE 4: EVITACIÓN", 
-                    title: "Cuando tu pareja muestra emociones fuertes o exige mucha cercanía, ¿cómo reaccionas?", 
-                    opts: { 
-                        high: "Me siento rápidamente abrumado, molesto o me retiro instintivamente (muro).", 
-                        med: "A veces necesito espacio, pero puedo volver a abrirme.", 
-                        low: "Me mantengo abierto emocionalmente y doy espacio a sus sentimientos." 
-                    } 
+                s4: {
+                    lbl: "FASE 4: EVITACIÓN",
+                    title: "Cuando tu pareja muestra emociones fuertes o exige mucha cercanía, ¿cómo reaccionas?",
+                    opts: {
+                        high: "Me siento rápidamente abrumado, molesto o me retiro instintivamente (muro).",
+                        med: "A veces necesito espacio, pero puedo volver a abrirme.",
+                        low: "Me mantengo abierto emocionalmente y doy espacio a sus sentimientos."
+                    }
                 },
                 s5: { title: "ANALIZANDO PATRONES...", sub: "Evaluando tu punto de partida." },
-                s6: { 
-                    lbl: "TU PLAN DE ACCIÓN", 
-                    costLbl: "PUNTO DE PARTIDA:", 
+                s6: {
+                    lbl: "TU PLAN DE ACCIÓN",
+                    costLbl: "PUNTO DE PARTIDA:",
                     actionLbl: "RECOMENDACIÓN:",
-                    costVal: { 
-                        communication: "Sus constantes discusiones son un mecanismo de defensa inconsciente. El sistema mantiene al otro a distancia porque la verdadera y vulnerable cercanía se siente arriesgada actualmente.", 
-                        intimacy: "La pérdida de cercanía no es falta de amor, sino un aislamiento emocional inconsciente para autoprotegerse. Están en modo de supervivencia.", 
-                        conflict: "Sus conflictos son a menudo intentos desesperados y desregulados de reconectar. Debajo de cada dura acusación yace la pregunta vulnerable: '¿Sigues ahí para mí?'" 
-                    }, 
+                    costVal: {
+                        communication: "Sus constantes discusiones son un mecanismo de defensa inconsciente. El sistema mantiene al otro a distancia porque la verdadera y vulnerable cercanía se siente arriesgada actualmente.",
+                        intimacy: "La pérdida de cercanía no es falta de amor, sino un aislamiento emocional inconsciente para autoprotegerse. Están en modo de supervivencia.",
+                        conflict: "Sus conflictos son a menudo intentos desesperados y desregulados de reconectar. Debajo de cada dura acusación yace la pregunta vulnerable: '¿Sigues ahí para mí?'"
+                    },
                     msg: "No son incapaces de amar; simplemente se han quedado atrapados en patrones de protección disfuncionales. Este Flujo de 4 Días les da las herramientas concretas para detener esta dinámica y volver a ser un puerto seguro el uno para el otro.",
-                    lvls: { 
-                        sec: { t: "META: ANCLAR LA SEGURIDAD", d: "Tienen una buena base. Ahora se trata de no caer en viejos patrones de reacción bajo estrés, sino de mantener conscientemente la conexión." }, 
-                        anx: { t: "META: CALMA INTERIOR", d: "La distancia detona rápidamente pánico en ti. Practicaremos cómo regularte a ti mismo en lugar de intentar forzar la cercanía a través de acusaciones." }, 
-                        avo: { t: "META: DERRIBAR MUROS", d: "Bajo estrés, te retiras fuertemente. Aprenderemos cómo puedes tomar espacio para ti sin bloquear emocionalmente a tu pareja." }, 
-                        dis: { t: "META: CONSTRUIR CONFIANZA", d: "Están atrapados en una dinámica de empujar y tirar. Nuestro enfoque es disolver la desconfianza profunda y entrenar la confiabilidad." } 
-                    } 
+                    lvls: {
+                        sec: { t: "META: ANCLAR LA SEGURIDAD", d: "Tienen una buena base. Ahora se trata de no caer en viejos patrones de reacción bajo estrés, sino de mantener conscientemente la conexión." },
+                        anx: { t: "META: CALMA INTERIOR", d: "La distancia detona rápidamente pánico en ti. Practicaremos cómo regularte a ti mismo en lugar de intentar forzar la cercanía a través de acusaciones." },
+                        avo: { t: "META: DERRIBAR MUROS", d: "Bajo estrés, te retiras fuertemente. Aprenderemos cómo puedes tomar espacio para ti sin bloquear emocionalmente a tu pareja." },
+                        dis: { t: "META: CONSTRUIR CONFIANZA", d: "Están atrapados en una dinámica de empujar y tirar. Nuestro enfoque es disolver la desconfianza profunda y entrenar la confiabilidad." }
+                    }
                 },
-                s7: { 
-                    lbl: "EL PRÓXIMO PASO", 
-                    title: "Tu Flujo de 4 Días", 
+                s7: {
+                    lbl: "EL PRÓXIMO PASO",
+                    title: "Tu Flujo de 4 Días",
                     sub: "Recibe impulsos profundos y tareas concretas directamente en tu messenger durante 4 días, totalmente gratis. Sin spam, sin desvíos.",
                     lblFname: "NOMBRE", lblEmail: "EMAIL", lblChannel: "ENTREGA VÍA",
-                    em: "tu@email.com", 
+                    em: "tu@email.com",
                     errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
                     errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
                     placeholders: { fname: "Tu Nombre" },
+                    channelNote: "ℹ️ Recibirás tus primeros 4 días gratuitos a través del canal que elijas aquí. El acompañamiento posterior de 90 días se entrega por defecto vía <strong>Telegram</strong> (incluido sin coste adicional). Si prefieres seguir acompañado/a por <strong>WhatsApp</strong> de forma permanente, puedes añadir el Upgrade de WhatsApp por separado.",
                     disclaimer: "<strong>Importante:</strong> Tus datos se utilizarán 100% exclusivamente para la entrega automatizada de este curso. Nunca compartiremos tus datos con terceros. Tu confianza es sagrada para nosotros."
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
@@ -429,40 +435,41 @@
         if (!currentLang || !t[currentLang]) {
             currentLang = 'de';
         }
-        
+
         let step = 1;
-        let answers = { root_problem: '', pain_point: [], anxiety: '', avoidance: '' }; 
-        let chosenPath = ''; 
-        
+        let answers = { root_problem: '', pain_point: [], anxiety: '', avoidance: '' };
+        let chosenPath = '';
+
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
         function updateTexts() {
             const l = t[currentLang];
             document.documentElement.lang = currentLang;
             document.title = l.pageTitle;
-            
+
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
-            
+
             document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
             document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
             document.getElementById('s3-lbl').innerText = l.s3.lbl; document.getElementById('s3-title').innerText = l.s3.title;
             document.getElementById('s4-lbl').innerText = l.s4.lbl; document.getElementById('s4-title').innerText = l.s4.title;
             document.getElementById('s5-title').innerText = l.s5.title; document.getElementById('s5-sub').innerText = l.s5.sub;
-            
-            document.getElementById('s6-lbl').innerText = l.s6.lbl; 
-            
-            document.getElementById('s7-lbl').innerText = l.s7.lbl; 
-            document.getElementById('s7-title').innerText = l.s7.title; 
+
+            document.getElementById('s6-lbl').innerText = l.s6.lbl;
+
+            document.getElementById('s7-lbl').innerText = l.s7.lbl;
+            document.getElementById('s7-title').innerText = l.s7.title;
             document.getElementById('s7-sub').innerText = l.s7.sub;
-            
+
             document.getElementById('lbl-fname').innerText = l.s7.lblFname;
             document.getElementById('lbl-email').innerText = l.s7.lblEmail;
             document.getElementById('lbl-channel').innerText = l.s7.lblChannel;
-            
+
             document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
-            document.getElementById('reg-email').placeholder = l.s7.em; 
-            
+            document.getElementById('reg-email').placeholder = l.s7.em;
+
             document.getElementById('btn-register').innerText = l.btn.pay;
+            document.getElementById('channel-note').innerHTML = l.s7.channelNote;
             if(l.s7.disclaimer) {
                 document.getElementById('s7-disclaimer').innerHTML = l.s7.disclaimer;
             }
@@ -473,14 +480,14 @@
             document.getElementById('link-cook').innerText = l.legal.cook;
         }
 
-        window.onload = () => { 
+        window.onload = () => {
             document.getElementById('langSelect').value = currentLang;
-            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`; 
+            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`;
         };
 
-        function selectLang(lang) { 
+        function selectLang(lang) {
             currentLang = lang; localStorage.setItem('smh_language', lang);
-            updateTexts(); buildOptions(); if (step === 6) renderResult(); 
+            updateTexts(); buildOptions(); if (step === 6) renderResult();
         }
 
         function createOptionBtn(text, isSelected, isMulti, onClick) {
@@ -504,13 +511,13 @@
                             buildOptions(); checkNextState();
                         } else {
                             answers[key] = k; buildOptions(); checkNextState();
-                            setTimeout(() => handleNext(), 350); 
+                            setTimeout(() => handleNext(), 350);
                         }
                     }));
                 });
             };
             build('s1-opts', l.s1.opts, 'root_problem', false);
-            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true); 
+            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true);
             build('s3-opts', l.s3.opts, 'anxiety', false);
             build('s4-opts', l.s4.opts, 'avoidance', false);
         }
@@ -522,7 +529,7 @@
         function renderResult() {
             const res = t[currentLang].s6;
             let lvl;
-            
+
             // Korrekte Zuweisung des Bindungstyps
             if (answers.anxiety === 'low' && answers.avoidance === 'low') {
                 lvl = res.lvls.sec;
@@ -534,18 +541,18 @@
                 lvl = res.lvls.avo;
                 chosenPath = 'avo';
             } else {
-                lvl = res.lvls.dis; 
+                lvl = res.lvls.dis;
                 chosenPath = 'dis';
             }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
-            document.getElementById('res-score').innerText = lvl.t; 
-            document.getElementById('res-level').innerText = lvl.d; 
-            
-            document.getElementById('res-cost-lbl').innerText = res.costLbl; 
+            document.getElementById('res-score').innerText = lvl.t;
+            document.getElementById('res-level').innerText = lvl.d;
+
+            document.getElementById('res-cost-lbl').innerText = res.costLbl;
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
-            
-            document.getElementById('res-action-lbl').innerText = res.actionLbl; 
+
+            document.getElementById('res-action-lbl').innerText = res.actionLbl;
             document.getElementById('s6-msg').innerText = res.msg;
         }
 
@@ -554,15 +561,15 @@
             if(step === 2 && answers.pain_point.length === 0) return;
             if(step === 3 && !answers.anxiety) return;
             if(step === 4 && !answers.avoidance) return;
-            
+
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
             document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
-            
+
             bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
             if(step === 6) bNext.innerText = t[currentLang].btn.next;
             checkNextState();
-            
+
             document.getElementById(`step-${step}`).classList.add('active'); window.scrollTo(0,0);
             if(step === 5) setTimeout(() => { handleNext(); renderResult(); }, 2000);
         }
@@ -577,7 +584,7 @@
             checkNextState(); window.scrollTo(0,0);
         }
 
-        function generateAccessCode() { 
+        function generateAccessCode() {
             const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
             const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
             return p1 + '-' + p2;
@@ -588,8 +595,8 @@
             const email = document.getElementById('reg-email').value.trim();
             const channel = document.getElementById('reg-channel').value;
             const errEl = document.getElementById('reg-error');
-            const btn = document.getElementById('btn-register'); 
-            
+            const btn = document.getElementById('btn-register');
+
             if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
@@ -601,61 +608,40 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                let { data: existingLead, error: searchError } = await supabaseClient
-                    .from('leads')
-                    .select('id, email')
-                    .eq('email', email)
-                    .single();
-
-                let currentLeadId;
-
-                if (!existingLead) {
-                    const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
-                        { 
-                            email: email, 
-                            first_name: fname, 
-                            delivery_channel: channel,
-                            source: 'connected_couples_flow',
-                            language: currentLang,
-                            marketing_consent: true,
-                            onboarding_data: answers,
-                            access_code: accessCode,
-                            chosen_path: chosenPath
-                        }
-                    ]).select().single();
-
-                    if (insertError) throw insertError;
-                    currentLeadId = newLead.id;
-                } else {
-                    currentLeadId = existingLead.id;
-                    const { error: updateError } = await supabaseClient.from('leads').update({
+                const { error: upsertError } = await supabaseClient.from('leads').upsert(
+                    {
+                        email: email,
                         first_name: fname,
                         delivery_channel: channel,
+                        source: 'connected_couples_flow',
                         language: currentLang,
+                        marketing_consent: true,
                         onboarding_data: answers,
                         access_code: accessCode,
                         chosen_path: chosenPath
-                    }).eq('id', existingLead.id);
+                    },
+                    { onConflict: 'email' }
+                );
 
-                    if (updateError) throw updateError;
-                }
+                if (upsertError) throw upsertError;
 
-                const { data: newFlow, error: flowError } = await supabaseClient.from('active_flows').insert([
-                    { 
-                        lead_email: email, 
+                const { error: flowError } = await supabaseClient.from('active_flows').upsert(
+                    {
+                        lead_email: email,
                         flow_name: 'Connected Couples',
                         current_mentoring_day: 1,
                         has_paid: false,
                         status: 'active'
-                    }
-                ]);
+                    },
+                    { onConflict: 'lead_email,flow_name' }
+                );
 
                 if (flowError) throw flowError;
-                
+
                 const baseMessage = botMessages[currentLang] || botMessages['de'];
                 const accessLabel = accessLabels[currentLang] || accessLabels['de'];
                 const finalMessage = `${baseMessage}\n\n${accessLabel} ${accessCode}`;
-                
+
                 const encodedMessage = encodeURIComponent(finalMessage);
 
                 if(channel === 'telegram') {
@@ -665,7 +651,7 @@
                 }
             } catch(e) {
                 console.error("Fehler beim Speichern:", e);
-                errEl.innerText = t[currentLang].s7.errServer; 
+                errEl.innerText = t[currentLang].s7.errServer;
                 errEl.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
