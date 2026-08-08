@@ -26,22 +26,22 @@
             --text: #ffffff;
             --error: #ff5555;
             --success: #4caf50;
-            --action: #d4af37; 
+            --action: #d4af37;
         }
 
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        
-        body { 
-            margin: 0; 
-            padding: 0; 
-            background-color: var(--dark); 
-            color: var(--text); 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            overflow-x: hidden; 
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-        
+
         .progress-container { width: 100%; height: 4px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
         .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.3s ease; }
 
@@ -68,16 +68,16 @@
         }
         .lang-switcher:focus { border-color: var(--gold); }
 
-        main { 
-            flex: 1; 
-            padding: 20px 20px 100px 20px; 
-            max-width: 500px; 
-            margin: 0 auto; 
-            width: 100%; 
-            display: flex; 
-            flex-direction: column; 
+        main {
+            flex: 1;
+            padding: 20px 20px 100px 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
         }
-        
+
         .step { display: none; animation: fadeIn 0.3s ease forwards; }
         .step.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -86,22 +86,22 @@
         .h1-title { font-size: 26px; font-weight: 800; margin-top: 0; margin-bottom: 24px; color: var(--text); line-height: 1.3; }
         .subtitle { color: #aaaaaa; margin-bottom: 24px; font-size: 15px; line-height: 1.5; }
 
-        .quiz-btn { 
-            background-color: var(--gray); 
-            border: 1px solid var(--border); 
-            border-radius: 12px; 
-            padding: 18px 20px; 
-            margin-bottom: 12px; 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            transition: all 0.2s ease; 
+        .quiz-btn {
+            background-color: var(--gray);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
         }
         .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
         .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.4; font-weight: 500; }
         .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 700; }
-        
+
         .radio-icon { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; }
         .quiz-btn.selected .radio-icon { border-color: var(--gold); }
         .radio-icon::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); display: none; }
@@ -113,69 +113,71 @@
         .result-card { background-color: #111; border: 2px solid var(--action); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
         .result-score { color: var(--action); font-size: 24px; font-weight: 900; line-height: 1.2; text-transform: uppercase; margin-bottom: 8px;}
         .result-level { color: #dcdcdc; font-size: 15px; font-weight: 500; line-height: 1.5; }
-        
+
         .insight-card { background: #171717; border: 1px solid #2b2b2b; border-radius: 10px; padding: 18px; margin-bottom: 12px; }
         .insight-title { color: #ccc; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
         .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.5; }
-        
+
         .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 3px solid var(--gold); }
 
-        .bottom-bar { 
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            width: 100%; 
-            background: var(--dark); 
-            border-top: 1px solid var(--border); 
-            padding: 15px 20px 25px 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            z-index: 10; 
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--dark);
+            border-top: 1px solid var(--border);
+            padding: 15px 20px 25px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
         }
-        .btn-gold { 
-            background-color: var(--gold); 
-            color: var(--dark); 
-            padding: 16px; 
-            border-radius: 10px; 
-            font-weight: 800; 
-            font-size: 15px; 
-            text-transform: uppercase; 
-            border: none; 
-            width: 100%; 
-            max-width: 460px; 
-            cursor: pointer; 
-            text-align: center; 
+        .btn-gold {
+            background-color: var(--gold);
+            color: var(--dark);
+            padding: 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 15px;
+            text-transform: uppercase;
+            border: none;
+            width: 100%;
+            max-width: 460px;
+            cursor: pointer;
+            text-align: center;
             letter-spacing: 0.5px;
             transition: opacity 0.2s;
         }
         .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
-        
-        .btn-back { 
-            background: none; 
-            border: none; 
-            color: #888; 
-            margin-top: 12px; 
+
+        .btn-back {
+            background: none;
+            border: none;
+            color: #888;
+            margin-top: 12px;
             padding: 8px 16px;
-            cursor: pointer; 
-            font-size: 13px; 
+            cursor: pointer;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .input-field { 
+        .input-field {
             background-color: #111;
-            border: 1px solid var(--border); 
-            color: #fff; 
-            padding: 16px; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            margin-bottom: 16px; 
-            width: 100%; 
-            font-weight: 500; 
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 16px;
+            width: 100%;
+            font-weight: 500;
         }
         .input-field:focus { border-color: var(--gold); outline: none; }
-        
+
+        .channel-note { font-size: 12px; color: #aaaaaa; margin: -8px 0 16px 0; line-height: 1.5; }
+
         .legal-disclaimer { font-size: 12px; color: #aaaaaa; margin-top: 20px; line-height: 1.6; text-align: center; border-top: 1px solid var(--border); padding-top: 15px; font-family: -apple-system, sans-serif; }
         .legal-disclaimer strong { color: var(--gold); font-weight: 600; }
 
@@ -229,12 +231,12 @@
 
         <div class="step" id="step-6">
             <div class="flow-title" id="s6-lbl"></div>
-            
+
             <div class="result-card" id="res-card">
                 <div class="result-score" id="res-score"></div>
                 <div class="result-level" id="res-level"></div>
             </div>
-            
+
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
@@ -251,10 +253,10 @@
                 <h1 class="h1-title" id="s7-title"></h1>
                 <p class="subtitle" id="s7-sub"></p>
             </div>
-            
+
             <div class="flow-title" id="lbl-fname"></div>
             <input type="text" id="reg-fname" class="input-field" placeholder="">
-            
+
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
 
@@ -263,7 +265,8 @@
                 <option value="whatsapp">WhatsApp</option>
                 <option value="telegram">Telegram</option>
             </select>
-            
+            <p class="channel-note" id="channel-note"></p>
+
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
 
@@ -272,9 +275,9 @@
     </main>
 
     <footer class="legal-footer">
-        <a href="impressum.html" id="link-imp">Impressum</a> | 
-        <a href="datenschutz.html" id="link-dat">Datenschutz</a> | 
-        <a href="agb.html" id="link-agb">AGB</a> | 
+        <a href="impressum.html" id="link-imp">Impressum</a> |
+        <a href="datenschutz.html" id="link-dat">Datenschutz</a> |
+        <a href="agb.html" id="link-agb">AGB</a> |
         <a href="cookie.html" id="link-cook">Cookie-Richtlinie</a>
     </footer>
 
@@ -289,8 +292,8 @@
 
         let supabaseClient = null;
 
-        const waNumber = "491632225456"; 
-        const tgBotName = "DEIN_BOT_NAME"; 
+        const waNumber = "491632225456";
+        const tgBotName = "DEIN_BOT_NAME";
 
         const botMessages = {
             de: "Hallo, ich möchte meinen kostenlosen Integrated Man Flow starten. Bitte aktiviere meinen Zugang.",
@@ -308,69 +311,70 @@
             de: {
                 pageTitle: "Integrated Man - Onboarding",
                 btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "4-TAGE FLOW STARTEN" },
-                s1: { 
-                    lbl: "PHASE 1: STATUS", 
-                    title: "Was ist deine größte Baustelle?", 
-                    opts: { 
-                        porn: "Starker digitaler Konsum / Ständiger Drang nach Ablenkung", 
-                        gettinggirls: "Mangelndes Selbstbewusstsein bei Frauen und soziale Zurückhaltung", 
-                        relationship: "Andauernder Beziehungsstreit, fehlende Führung und keine Intimität" 
-                    } 
+                s1: {
+                    lbl: "PHASE 1: STATUS",
+                    title: "Was ist deine größte Baustelle?",
+                    opts: {
+                        porn: "Starker digitaler Konsum / Ständiger Drang nach Ablenkung",
+                        gettinggirls: "Mangelndes Selbstbewusstsein bei Frauen und soziale Zurückhaltung",
+                        relationship: "Andauernder Beziehungsstreit, fehlende Führung und keine Intimität"
+                    }
                 },
-                s2: { 
-                    lbl: "PHASE 2: KONSEQUENZEN", 
-                    title: "Was kostet es dich aktuell? (Mehrfachauswahl)", 
-                    opts: { 
-                        porn: ["Mentale Erschöpfung und Konzentrationsschwäche", "Fehlende männliche Energie und Leidenschaft", "Zeitverschwendung und Antriebslosigkeit"], 
-                        gettinggirls: ["Tiefe Einsamkeit", "Sorge, für immer allein zu bleiben", "Gefühl von Minderwertigkeit im Vergleich zu anderen Männern"], 
-                        relationship: ["Sexuelle Flaute oder Roommate-Syndrom", "Ständige Kritik und Nörgeln der Partnerin", "Verlust von Respekt und Autorität"] 
-                    } 
+                s2: {
+                    lbl: "PHASE 2: KONSEQUENZEN",
+                    title: "Was kostet es dich aktuell? (Mehrfachauswahl)",
+                    opts: {
+                        porn: ["Mentale Erschöpfung und Konzentrationsschwäche", "Fehlende männliche Energie und Leidenschaft", "Zeitverschwendung und Antriebslosigkeit"],
+                        gettinggirls: ["Tiefe Einsamkeit", "Sorge, für immer allein zu bleiben", "Gefühl von Minderwertigkeit im Vergleich zu anderen Männern"],
+                        relationship: ["Sexuelle Flaute oder Roommate-Syndrom", "Ständige Kritik und Nörgeln der Partnerin", "Verlust von Respekt und Autorität"]
+                    }
                 },
-                s3: { 
-                    lbl: "PHASE 3: ENERGIE", 
-                    title: "Wie viel Energie und Drive hast du aktuell im Alltag?", 
-                    opts: { 
-                        low: "Ich bin oft erschöpft und brauche ständig Ablenkung.", 
-                        med: "Ich funktioniere, aber das wahre Feuer fehlt.", 
-                        high: "Ich habe viel Energie, kann sie aber nicht richtig fokussieren." 
-                    } 
+                s3: {
+                    lbl: "PHASE 3: ENERGIE",
+                    title: "Wie viel Energie und Drive hast du aktuell im Alltag?",
+                    opts: {
+                        low: "Ich bin oft erschöpft und brauche ständig Ablenkung.",
+                        med: "Ich funktioniere, aber das wahre Feuer fehlt.",
+                        high: "Ich habe viel Energie, kann sie aber nicht richtig fokussieren."
+                    }
                 },
-                s4: { 
-                    lbl: "PHASE 4: ZUFRIEDENHEIT", 
-                    title: "Wie zufrieden bist du mit dir selbst als Mann?", 
-                    opts: { 
-                        low: "Ich schäme mich oft für mein Verhalten und fehlende Stärke.", 
-                        med: "Ich weiß, ich könnte mehr sein, stagniere aber.", 
-                        high: "Ich bin auf einem guten Weg, aber brauche den nächsten Schritt." 
-                    } 
+                s4: {
+                    lbl: "PHASE 4: ZUFRIEDENHEIT",
+                    title: "Wie zufrieden bist du mit dir selbst als Mann?",
+                    opts: {
+                        low: "Ich schäme mich oft für mein Verhalten und fehlende Stärke.",
+                        med: "Ich weiß, ich könnte mehr sein, stagniere aber.",
+                        high: "Ich bin auf einem guten Weg, aber brauche den nächsten Schritt."
+                    }
                 },
                 s5: { title: "DEIN ERGEBNIS WIRD ERMITTELT...", sub: "Wir analysieren deine Daten." },
-                s6: { 
-                    lbl: "DEIN AKTIONSPLAN", 
-                    costLbl: "DEINE AUSGANGSLAGE:", 
+                s6: {
+                    lbl: "DEIN AKTIONSPLAN",
+                    costLbl: "DEINE AUSGANGSLAGE:",
                     actionLbl: "HANDLUNGSEMPFEHLUNG:",
-                    costVal: { 
-                        porn: "Du flüchtest in digitale Stimulation, um Stress abzubauen. Diese ständige Dopamin-Ausschüttung betäubt jedoch deinen natürlichen Antrieb und deine maskuline Präsenz.", 
-                        gettinggirls: "Dein System verknüpft Ablehnung unbewusst mit Lebensgefahr. Das blockiert deinen natürlichen Selbstausdruck und macht dich übervorsichtig.", 
-                        relationship: "Die ständigen Konflikte sind oft ein Test für deine Führungskraft. Wenn die Polarität fehlt, rutscht die Beziehung in eine frustrierende Mitbewohner-Dynamik." 
-                    }, 
+                    costVal: {
+                        porn: "Du flüchtest in digitale Stimulation, um Stress abzubauen. Diese ständige Dopamin-Ausschüttung betäubt jedoch deinen natürlichen Antrieb und deine maskuline Präsenz.",
+                        gettinggirls: "Dein System verknüpft Ablehnung unbewusst mit Lebensgefahr. Das blockiert deinen natürlichen Selbstausdruck und macht dich übervorsichtig.",
+                        relationship: "Die ständigen Konflikte sind oft ein Test für deine Führungskraft. Wenn die Polarität fehlt, rutscht die Beziehung in eine frustrierende Mitbewohner-Dynamik."
+                    },
                     msg: "Das ist kein Charakterfehler, sondern ein Zeichen, dass du nicht in deiner vollen Kraft bist. In diesem 4-Tage-Flow erhältst du die klaren, pragmatischen Werkzeuge, um den mentalen Nebel zu lichten und die Kontrolle über deinen Fokus, deine Energie und deine Beziehungen zurückzugewinnen.",
-                    lvls: { 
-                        ext: { t: "ZIEL: RADIKALER FOKUS", d: "Dein System ist überreizt. Der erste Schritt ist ein harter Schnitt bei allen billigen Dopaminquellen, um deinen natürlichen Antrieb zu reaktivieren." }, 
-                        dan: { t: "ZIEL: ENERGIE-AUFBAU", d: "Du lebst auf Reserve. Wir etablieren absolute Klarheit und Routinen, um dich aus dem mentalen Nebel direkt in die Umsetzung zu bringen." }, 
-                        ala: { t: "ZIEL: INNERE FÜHRUNG", d: "Du bist bequem geworden. Es ist Zeit, die Komfortzone zu verlassen und wieder echte Verantwortung für deine Resultate zu übernehmen." }, 
-                        cri: { t: "ZIEL: MÄNNLICHE PRÄSENZ", d: "Die Basis ist da. Wir fokussieren uns jetzt darauf, deine Energie zu bündeln und echte, unerschütterliche Präsenz aufzubauen." } 
-                    } 
+                    lvls: {
+                        ext: { t: "ZIEL: RADIKALER FOKUS", d: "Dein System ist überreizt. Der erste Schritt ist ein harter Schnitt bei allen billigen Dopaminquellen, um deinen natürlichen Antrieb zu reaktivieren." },
+                        dan: { t: "ZIEL: ENERGIE-AUFBAU", d: "Du lebst auf Reserve. Wir etablieren absolute Klarheit und Routinen, um dich aus dem mentalen Nebel direkt in die Umsetzung zu bringen." },
+                        ala: { t: "ZIEL: INNERE FÜHRUNG", d: "Du bist bequem geworden. Es ist Zeit, die Komfortzone zu verlassen und wieder echte Verantwortung für deine Resultate zu übernehmen." },
+                        cri: { t: "ZIEL: MÄNNLICHE PRÄSENZ", d: "Die Basis ist da. Wir fokussieren uns jetzt darauf, deine Energie zu bündeln und echte, unerschütterliche Präsenz aufzubauen." }
+                    }
                 },
-                s7: { 
-                    lbl: "DER NÄCHSTE SCHRITT", 
-                    title: "Dein 4-Tage-Flow", 
+                s7: {
+                    lbl: "DER NÄCHSTE SCHRITT",
+                    title: "Dein 4-Tage-Flow",
                     sub: "Erhalte 4 Tage lang tiefe Impulse und konkrete Aufgaben direkt in deinen Messenger – völlig kostenlos. Kein Spam, keine Umwege.",
                     lblFname: "VORNAME", lblEmail: "EMAIL", lblChannel: "AUSLIEFERUNG ÜBER",
-                    em: "deine@email.com", 
+                    em: "deine@email.com",
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
                     errServer: "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.",
                     placeholders: { fname: "Dein Vorname" },
+                    channelNote: "ℹ️ Deine kostenlosen ersten 4 Tage bekommst du über den hier gewählten Kanal. Die anschließenden 90 Tage Begleitung laufen standardmäßig über <strong>Telegram</strong> (kostenlos inklusive). Willst du dauerhaft über <strong>WhatsApp</strong> begleitet werden, kannst du das WhatsApp-Upgrade separat buchen.",
                     disclaimer: "<strong>Wichtig:</strong> Deine Daten werden zu 100% ausschließlich für die automatisierte Bereitstellung dieses Kurses genutzt. Wir geben niemals Daten an Dritte weiter. Dein Vertrauen ist unser höchstes Gut."
                 },
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
@@ -378,69 +382,70 @@
             en: {
                 pageTitle: "Integrated Man - Onboarding",
                 btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
-                s1: { 
-                    lbl: "PHASE 1: STATUS", 
-                    title: "What is your biggest challenge?", 
-                    opts: { 
-                        porn: "Strong digital consumption / Constant need for distraction", 
-                        gettinggirls: "Lack of confidence with women and social hesitation", 
-                        relationship: "Constant relationship conflict, lack of leadership and no intimacy" 
-                    } 
+                s1: {
+                    lbl: "PHASE 1: STATUS",
+                    title: "What is your biggest challenge?",
+                    opts: {
+                        porn: "Strong digital consumption / Constant need for distraction",
+                        gettinggirls: "Lack of confidence with women and social hesitation",
+                        relationship: "Constant relationship conflict, lack of leadership and no intimacy"
+                    }
                 },
-                s2: { 
-                    lbl: "PHASE 2: CONSEQUENCES", 
-                    title: "What is it costing you right now? (Multiple choice)", 
-                    opts: { 
-                        porn: ["Mental exhaustion and lack of concentration.", "Lack of masculine energy and passion.", "Wasting time and lack of drive."], 
-                        gettinggirls: ["Deep loneliness.", "Fear of staying alone forever.", "Feeling inferior compared to other men."], 
-                        relationship: ["Sexual drought or roommate syndrome.", "Constant criticism and nagging from partner.", "Loss of respect and authority."] 
-                    } 
+                s2: {
+                    lbl: "PHASE 2: CONSEQUENCES",
+                    title: "What is it costing you right now? (Multiple choice)",
+                    opts: {
+                        porn: ["Mental exhaustion and lack of concentration.", "Lack of masculine energy and passion.", "Wasting time and lack of drive."],
+                        gettinggirls: ["Deep loneliness.", "Fear of staying alone forever.", "Feeling inferior compared to other men."],
+                        relationship: ["Sexual drought or roommate syndrome.", "Constant criticism and nagging from partner.", "Loss of respect and authority."]
+                    }
                 },
-                s3: { 
-                    lbl: "PHASE 3: ENERGY", 
-                    title: "How much energy and drive do you currently have?", 
-                    opts: { 
-                        low: "I am often exhausted and constantly need distraction.", 
-                        med: "I function, but the real fire is missing.", 
-                        high: "I have a lot of energy, but can't focus it properly." 
-                    } 
+                s3: {
+                    lbl: "PHASE 3: ENERGY",
+                    title: "How much energy and drive do you currently have?",
+                    opts: {
+                        low: "I am often exhausted and constantly need distraction.",
+                        med: "I function, but the real fire is missing.",
+                        high: "I have a lot of energy, but can't focus it properly."
+                    }
                 },
-                s4: { 
-                    lbl: "PHASE 4: SATISFACTION", 
-                    title: "How satisfied are you with yourself as a man?", 
-                    opts: { 
-                        low: "I often feel ashamed of my behavior and lack of strength.", 
-                        med: "I know I could be more, but I'm stagnating.", 
-                        high: "I'm on a good path, but need the next step." 
-                    } 
+                s4: {
+                    lbl: "PHASE 4: SATISFACTION",
+                    title: "How satisfied are you with yourself as a man?",
+                    opts: {
+                        low: "I often feel ashamed of my behavior and lack of strength.",
+                        med: "I know I could be more, but I'm stagnating.",
+                        high: "I'm on a good path, but need the next step."
+                    }
                 },
                 s5: { title: "CALCULATING RESULT...", sub: "Analyzing your data." },
-                s6: { 
-                    lbl: "YOUR ACTION PLAN", 
-                    costLbl: "YOUR STARTING POINT:", 
+                s6: {
+                    lbl: "YOUR ACTION PLAN",
+                    costLbl: "YOUR STARTING POINT:",
                     actionLbl: "RECOMMENDATION:",
-                    costVal: { 
-                        porn: "You escape into digital stimulation to relieve stress. This constant dopamine spike numbs your natural drive and masculine presence.", 
-                        gettinggirls: "Your system unconsciously links rejection with mortal danger. This blocks your natural self-expression and makes you overly cautious.", 
-                        relationship: "Constant conflicts are often a test of your leadership. Without polarity, the relationship slips into a frustrating roommate dynamic." 
-                    }, 
+                    costVal: {
+                        porn: "You escape into digital stimulation to relieve stress. This constant dopamine spike numbs your natural drive and masculine presence.",
+                        gettinggirls: "Your system unconsciously links rejection with mortal danger. This blocks your natural self-expression and makes you overly cautious.",
+                        relationship: "Constant conflicts are often a test of your leadership. Without polarity, the relationship slips into a frustrating roommate dynamic."
+                    },
                     msg: "This is not a character flaw, but a sign that you are not in your full power. In this 4-Day Flow, you will receive clear, pragmatic tools to clear the mental fog and regain control over your focus, energy, and relationships.",
-                    lvls: { 
-                        ext: { t: "GOAL: RADICAL FOCUS", d: "Your system is overstimulated. The first step is to cut cheap dopamine to reactivate your natural drive." }, 
-                        dan: { t: "GOAL: ENERGY BUILDING", d: "You are living on reserve. We will establish absolute clarity and routines to get you out of the mental fog." }, 
-                        ala: { t: "GOAL: INNER LEADERSHIP", d: "You have become too comfortable. It's time to step out of your comfort zone and take real responsibility." }, 
-                        cri: { t: "GOAL: MASCULINE PRESENCE", d: "The foundation is there. We now focus on channeling your energy and building unshakable presence." } 
-                    } 
+                    lvls: {
+                        ext: { t: "GOAL: RADICAL FOCUS", d: "Your system is overstimulated. The first step is to cut cheap dopamine to reactivate your natural drive." },
+                        dan: { t: "GOAL: ENERGY BUILDING", d: "You are living on reserve. We will establish absolute clarity and routines to get you out of the mental fog." },
+                        ala: { t: "GOAL: INNER LEADERSHIP", d: "You have become too comfortable. It's time to step out of your comfort zone and take real responsibility." },
+                        cri: { t: "GOAL: MASCULINE PRESENCE", d: "The foundation is there. We now focus on channeling your energy and building unshakable presence." }
+                    }
                 },
-                s7: { 
-                    lbl: "THE NEXT STEP", 
-                    title: "Your 4-Day Flow", 
+                s7: {
+                    lbl: "THE NEXT STEP",
+                    title: "Your 4-Day Flow",
                     sub: "Receive deep insights and actionable tasks directly in your messenger for 4 days – completely free. No spam, no detours.",
                     lblFname: "FIRST NAME", lblEmail: "EMAIL", lblChannel: "DELIVERY VIA",
-                    em: "your@email.com", 
+                    em: "your@email.com",
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
                     errServer: "An error occurred. Please try again later.",
                     placeholders: { fname: "Your First Name" },
+                    channelNote: "ℹ️ You get your free first 4 days through the channel you pick here. The following 90 days run via <strong>Telegram</strong> by default (included at no extra cost). Want to stay on <strong>WhatsApp</strong> long-term instead? Add the separate WhatsApp Upgrade.",
                     disclaimer: "<strong>Important:</strong> Your data will 100% only be used for the automated delivery of this course. We will never share your data with third parties. Your trust is sacred to us."
                 },
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
@@ -448,69 +453,70 @@
             es: {
                 pageTitle: "Integrated Man - Incorporación",
                 btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
-                s1: { 
-                    lbl: "FASE 1: ESTADO", 
-                    title: "¿Cuál es tu mayor desafío?", 
-                    opts: { 
-                        porn: "Alto consumo digital / Necesidad constante de distracción", 
-                        gettinggirls: "Falta de confianza con mujeres e inseguridad social", 
-                        relationship: "Conflicto constante, falta de liderazgo y sin intimidad" 
-                    } 
+                s1: {
+                    lbl: "FASE 1: ESTADO",
+                    title: "¿Cuál es tu mayor desafío?",
+                    opts: {
+                        porn: "Alto consumo digital / Necesidad constante de distracción",
+                        gettinggirls: "Falta de confianza con mujeres e inseguridad social",
+                        relationship: "Conflicto constante, falta de liderazgo y sin intimidad"
+                    }
                 },
-                s2: { 
-                    lbl: "FASE 2: CONSECUENCIAS", 
-                    title: "¿Qué te cuesta esto ahora mismo? (Opción múltiple)", 
-                    opts: { 
-                        porn: ["Agotamiento mental y falta de concentración.", "Falta de energía masculina y pasión.", "Pérdida de tiempo y falta de empuje."], 
-                        gettinggirls: ["Soledad profunda.", "Miedo a quedarme solo para siempre.", "Sentimiento de inferioridad frente a otros hombres."], 
-                        relationship: ["Sequía sexual o síndrome de compañeros de piso.", "Crítica constante de la pareja.", "Pérdida de respeto y autoridad."] 
-                    } 
+                s2: {
+                    lbl: "FASE 2: CONSECUENCIAS",
+                    title: "¿Qué te cuesta esto ahora mismo? (Opción múltiple)",
+                    opts: {
+                        porn: ["Agotamiento mental y falta de concentración.", "Falta de energía masculina y pasión.", "Pérdida de tiempo y falta de empuje."],
+                        gettinggirls: ["Soledad profunda.", "Miedo a quedarme solo para siempre.", "Sentimiento de inferioridad frente a otros hombres."],
+                        relationship: ["Sequía sexual o síndrome de compañeros de piso.", "Crítica constante de la pareja.", "Pérdida de respeto y autoridad."]
+                    }
                 },
-                s3: { 
-                    lbl: "FASE 3: ENERGÍA", 
-                    title: "¿Cuánta energía y empuje tienes actualmente?", 
-                    opts: { 
-                        low: "Estoy a menudo exhausto y necesito distracción constante.", 
-                        med: "Funciono, pero falta el verdadero fuego.", 
-                        high: "Tengo mucha energía, pero no puedo enfocarla bien." 
-                    } 
+                s3: {
+                    lbl: "FASE 3: ENERGÍA",
+                    title: "¿Cuánta energía y empuje tienes actualmente?",
+                    opts: {
+                        low: "Estoy a menudo exhausto y necesito distracción constante.",
+                        med: "Funciono, pero falta el verdadero fuego.",
+                        high: "Tengo mucha energía, pero no puedo enfocarla bien."
+                    }
                 },
-                s4: { 
-                    lbl: "FASE 4: SATISFACCIÓN", 
-                    title: "¿Qué tan satisfecho estás contigo mismo como hombre?", 
-                    opts: { 
-                        low: "A menudo me avergüenzo de mi comportamiento y debilidad.", 
-                        med: "Sé que podría ser más, pero estoy estancado.", 
-                        high: "Voy por buen camino, pero necesito el siguiente paso." 
-                    } 
+                s4: {
+                    lbl: "FASE 4: SATISFACCIÓN",
+                    title: "¿Qué tan satisfecho estás contigo mismo como hombre?",
+                    opts: {
+                        low: "A menudo me avergüenzo de mi comportamiento y debilidad.",
+                        med: "Sé que podría ser más, pero estoy estancado.",
+                        high: "Voy por buen camino, pero necesito el siguiente paso."
+                    }
                 },
                 s5: { title: "CALCULANDO RESULTADO...", sub: "Analizando tus datos." },
-                s6: { 
-                    lbl: "TU PLAN DE ACCIÓN", 
-                    costLbl: "PUNTO DE PARTIDA:", 
+                s6: {
+                    lbl: "TU PLAN DE ACCIÓN",
+                    costLbl: "PUNTO DE PARTIDA:",
                     actionLbl: "RECOMENDACIÓN:",
-                    costVal: { 
-                        porn: "Te refugias en la estimulación digital para aliviar el estrés. Este pico constante de dopamina adormece tu impulso natural y tu presencia masculina.", 
-                        gettinggirls: "Tu sistema asocia inconscientemente el rechazo con un peligro mortal. Esto bloquea tu autoexpresión natural y te vuelve demasiado cauteloso.", 
-                        relationship: "Los conflictos constantes son a menudo una prueba de tu liderazgo. Sin polaridad, la relación cae en una frustrante dinámica de compañeros de cuarto." 
-                    }, 
+                    costVal: {
+                        porn: "Te refugias en la estimulación digital para aliviar el estrés. Este pico constante de dopamina adormece tu impulso natural y tu presencia masculina.",
+                        gettinggirls: "Tu sistema asocia inconscientemente el rechazo con un peligro mortal. Esto bloquea tu autoexpresión natural y te vuelve demasiado cauteloso.",
+                        relationship: "Los conflictos constantes son a menudo una prueba de tu liderazgo. Sin polaridad, la relación cae en una frustrante dinámica de compañeros de cuarto."
+                    },
                     msg: "Esto no es un defecto de carácter, sino una señal de que no estás en tu máximo poder. En este Flujo de 4 Días recibirás las herramientas pragmáticas para despejar la niebla mental y recuperar el control sobre tu enfoque, energía y relaciones.",
-                    lvls: { 
-                        ext: { t: "META: ENFOQUE RADICAL", d: "Tu sistema está sobreestimulado. El primer paso es cortar la dopamina barata para reactivar tu impulso natural." }, 
-                        dan: { t: "META: CONSTRUIR ENERGÍA", d: "Vives en reserva. Estableceremos claridad absoluta y rutinas para sacarte de la niebla mental." }, 
-                        ala: { t: "META: LIDERAZGO INTERIOR", d: "Te has vuelto demasiado cómodo. Es hora de salir de tu zona de confort y asumir una responsabilidad real." }, 
-                        cri: { t: "META: PRESENCIA MASCULINA", d: "La base está ahí. Ahora nos enfocamos en canalizar tu energía y construir una presencia inquebrantable." } 
-                    } 
+                    lvls: {
+                        ext: { t: "META: ENFOQUE RADICAL", d: "Tu sistema está sobreestimulado. El primer paso es cortar la dopamina barata para reactivar tu impulso natural." },
+                        dan: { t: "META: CONSTRUIR ENERGÍA", d: "Vives en reserva. Estableceremos claridad absoluta y rutinas para sacarte de la niebla mental." },
+                        ala: { t: "META: LIDERAZGO INTERIOR", d: "Te has vuelto demasiado cómodo. Es hora de salir de tu zona de confort y asumir una responsabilidad real." },
+                        cri: { t: "META: PRESENCIA MASCULINA", d: "La base está ahí. Ahora nos enfocamos en canalizar tu energía y construir una presencia inquebrantable." }
+                    }
                 },
-                s7: { 
-                    lbl: "EL PRÓXIMO PASO", 
-                    title: "Tu Flujo de 4 Días", 
+                s7: {
+                    lbl: "EL PRÓXIMO PASO",
+                    title: "Tu Flujo de 4 Días",
                     sub: "Recibe impulsos profundos y tareas concretas directamente en tu messenger durante 4 días, totalmente gratis. Sin spam, sin desvíos.",
                     lblFname: "NOMBRE", lblEmail: "EMAIL", lblChannel: "ENTREGA VÍA",
-                    em: "tu@email.com", 
+                    em: "tu@email.com",
                     errFill: "Por favor, rellena todos los campos.", errExists: "Este correo ya existe.",
                     errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
                     placeholders: { fname: "Tu Nombre" },
+                    channelNote: "ℹ️ Recibes tus primeros 4 días gratuitos a través del canal que elijas aquí. Los siguientes 90 días se entregan por defecto vía <strong>Telegram</strong> (incluido sin coste adicional). Si prefieres continuar por <strong>WhatsApp</strong> de forma permanente, puedes añadir el Upgrade de WhatsApp por separado.",
                     disclaimer: "<strong>Importante:</strong> Tus datos se utilizarán 100% exclusivamente para la entrega automatizada de este curso. Nunca compartiremos tus datos con terceros. Tu confianza es sagrada para nosotros."
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
@@ -519,38 +525,39 @@
 
         let currentLang = localStorage.getItem('smh_language') || 'de';
         let step = 1;
-        let answers = { root_problem: '', pain_point: [], energy: '', satisfaction: '' }; 
-        let chosenPath = ''; 
-        
+        let answers = { root_problem: '', pain_point: [], energy: '', satisfaction: '' };
+        let chosenPath = '';
+
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
         function updateTexts() {
             const l = t[currentLang];
             document.documentElement.lang = currentLang;
             document.title = l.pageTitle;
-            
+
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
-            
+
             document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
             document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
             document.getElementById('s3-lbl').innerText = l.s3.lbl; document.getElementById('s3-title').innerText = l.s3.title;
             document.getElementById('s4-lbl').innerText = l.s4.lbl; document.getElementById('s4-title').innerText = l.s4.title;
             document.getElementById('s5-title').innerText = l.s5.title; document.getElementById('s5-sub').innerText = l.s5.sub;
-            
-            document.getElementById('s6-lbl').innerText = l.s6.lbl; 
-            
-            document.getElementById('s7-lbl').innerText = l.s7.lbl; 
-            document.getElementById('s7-title').innerText = l.s7.title; 
+
+            document.getElementById('s6-lbl').innerText = l.s6.lbl;
+
+            document.getElementById('s7-lbl').innerText = l.s7.lbl;
+            document.getElementById('s7-title').innerText = l.s7.title;
             document.getElementById('s7-sub').innerText = l.s7.sub;
-            
+
             document.getElementById('lbl-fname').innerText = l.s7.lblFname;
             document.getElementById('lbl-email').innerText = l.s7.lblEmail;
             document.getElementById('lbl-channel').innerText = l.s7.lblChannel;
-            
+
             document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
-            document.getElementById('reg-email').placeholder = l.s7.em; 
-            
+            document.getElementById('reg-email').placeholder = l.s7.em;
+
             document.getElementById('btn-register').innerText = l.btn.pay;
+            document.getElementById('channel-note').innerHTML = l.s7.channelNote;
             if(l.s7.disclaimer) {
                 document.getElementById('s7-disclaimer').innerHTML = l.s7.disclaimer;
             }
@@ -561,14 +568,14 @@
             document.getElementById('link-cook').innerText = l.legal.cook;
         }
 
-        window.onload = () => { 
+        window.onload = () => {
             document.getElementById('langSelect').value = currentLang;
-            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`; 
+            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`;
         };
 
-        function selectLang(lang) { 
+        function selectLang(lang) {
             currentLang = lang; localStorage.setItem('smh_language', lang);
-            updateTexts(); buildOptions(); if (step === 6) renderResult(); 
+            updateTexts(); buildOptions(); if (step === 6) renderResult();
         }
 
         function createOptionBtn(text, isSelected, isMulti, onClick) {
@@ -592,13 +599,13 @@
                             buildOptions(); checkNextState();
                         } else {
                             answers[key] = k; buildOptions(); checkNextState();
-                            setTimeout(() => handleNext(), 350); 
+                            setTimeout(() => handleNext(), 350);
                         }
                     }));
                 });
             };
             build('s1-opts', l.s1.opts, 'root_problem', false);
-            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true); 
+            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true);
             build('s3-opts', l.s3.opts, 'energy', false);
             build('s4-opts', l.s4.opts, 'satisfaction', false);
         }
@@ -611,35 +618,35 @@
             let score = 75;
             if(answers.energy === 'low') score += 12; else if(answers.energy === 'med') score += 6;
             if(answers.satisfaction === 'low') score += 12; else if(answers.satisfaction === 'med') score += 6;
-            
+
             const res = t[currentLang].s6;
             let lvl;
-            
-            if (score >= 90) { 
-                lvl = res.lvls.ext; 
+
+            if (score >= 90) {
+                lvl = res.lvls.ext;
                 chosenPath = 'ext';
             }
-            else if (score >= 85) { 
-                lvl = res.lvls.dan; 
+            else if (score >= 85) {
+                lvl = res.lvls.dan;
                 chosenPath = 'dan';
             }
-            else if (score >= 80) { 
-                lvl = res.lvls.ala; 
+            else if (score >= 80) {
+                lvl = res.lvls.ala;
                 chosenPath = 'ala';
             }
-            else { 
-                lvl = res.lvls.cri; 
+            else {
+                lvl = res.lvls.cri;
                 chosenPath = 'cri';
             }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
-            document.getElementById('res-score').innerText = lvl.t; 
-            document.getElementById('res-level').innerText = lvl.d; 
-            
-            document.getElementById('res-cost-lbl').innerText = res.costLbl; 
+            document.getElementById('res-score').innerText = lvl.t;
+            document.getElementById('res-level').innerText = lvl.d;
+
+            document.getElementById('res-cost-lbl').innerText = res.costLbl;
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
-            
-            document.getElementById('res-action-lbl').innerText = res.actionLbl; 
+
+            document.getElementById('res-action-lbl').innerText = res.actionLbl;
             document.getElementById('s6-msg').innerText = res.msg;
         }
 
@@ -648,15 +655,15 @@
             if(step === 2 && answers.pain_point.length === 0) return;
             if(step === 3 && !answers.energy) return;
             if(step === 4 && !answers.satisfaction) return;
-            
+
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
             document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
-            
+
             bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
             if(step === 6) bNext.innerText = t[currentLang].btn.next;
             checkNextState();
-            
+
             document.getElementById(`step-${step}`).classList.add('active'); window.scrollTo(0,0);
             if(step === 5) setTimeout(() => { handleNext(); renderResult(); }, 2000);
         }
@@ -671,7 +678,7 @@
             checkNextState(); window.scrollTo(0,0);
         }
 
-        function generateAccessCode() { 
+        function generateAccessCode() {
             const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
             const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
             return p1 + '-' + p2;
@@ -682,8 +689,8 @@
             const email = document.getElementById('reg-email').value.trim();
             const channel = document.getElementById('reg-channel').value;
             const errEl = document.getElementById('reg-error');
-            const btn = document.getElementById('btn-register'); 
-            
+            const btn = document.getElementById('btn-register');
+
             if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
@@ -695,57 +702,24 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                let { data: existingLead, error: searchError } = await supabaseClient
-                    .from('leads')
-                    .select('id, email')
-                    .eq('email', email)
-                    .single();
+                const { error: rpcError } = await supabaseClient.rpc('register_lead', {
+                    p_email: email,
+                    p_first_name: fname,
+                    p_delivery_channel: channel,
+                    p_source: 'integrated_man_flow',
+                    p_language: currentLang,
+                    p_onboarding_data: answers,
+                    p_access_code: accessCode,
+                    p_chosen_path: chosenPath,
+                    p_flow_name: 'Integrated Man'
+                });
 
-                if (!existingLead) {
-                    const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
-                        { 
-                            email: email, 
-                            first_name: fname, 
-                            delivery_channel: channel,
-                            source: 'integrated_man_flow',
-                            language: currentLang,
-                            marketing_consent: true,
-                            onboarding_data: answers,
-                            access_code: accessCode,
-                            chosen_path: chosenPath
-                        }
-                    ]).select().single();
+                if (rpcError) throw rpcError;
 
-                    if (insertError) throw insertError;
-                } else {
-                    const { error: updateError } = await supabaseClient.from('leads').update({
-                        first_name: fname,
-                        delivery_channel: channel,
-                        language: currentLang,
-                        onboarding_data: answers,
-                        access_code: accessCode,
-                        chosen_path: chosenPath
-                    }).eq('id', existingLead.id);
-
-                    if (updateError) throw updateError;
-                }
-
-                const { data: newFlow, error: flowError } = await supabaseClient.from('active_flows').insert([
-                    { 
-                        lead_email: email, 
-                        flow_name: 'Integrated Man',
-                        current_mentoring_day: 1,
-                        has_paid: false,
-                        status: 'active'
-                    }
-                ]);
-
-                if (flowError) throw flowError;
-                
                 const baseMessage = botMessages[currentLang] || botMessages['de'];
                 const accessLabel = accessLabels[currentLang] || accessLabels['de'];
                 const finalMessage = `${baseMessage}\n\n${accessLabel} ${accessCode}`;
-                
+
                 const encodedMessage = encodeURIComponent(finalMessage);
 
                 if(channel === 'telegram') {
@@ -753,10 +727,10 @@
                 } else {
                     window.location.href = `https://wa.me/${waNumber}?text=${encodedMessage}`;
                 }
-                
+
             } catch(e) {
                 console.error("Fehler beim Speichern:", e);
-                errEl.innerText = t[currentLang].s7.errServer; 
+                errEl.innerText = t[currentLang].s7.errServer;
                 errEl.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
