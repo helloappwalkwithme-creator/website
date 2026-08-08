@@ -10,7 +10,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1430151545959801"
      crossorigin="anonymous"></script>
     <!-- End Google Tag Manager -->
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>1-on-1 Coaching - Application</title>
@@ -18,11 +18,11 @@
     <style>
         :root {
             /* Mystical, deep, and grounded color palette */
-            --dark: #0a0c10; 
+            --dark: #0a0c10;
             --gray: #13161f;
             --gray-active: #1d2230;
             --border: #2b3245;
-            --gold: #cba677; 
+            --gold: #cba677;
             --text: #e2e4e9;
             --error: #b05c6e;
             --success: #678c7a;
@@ -30,12 +30,12 @@
         }
 
         * { box-sizing: border-box; font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif, -apple-system, sans-serif; }
-        
-        body { 
-            margin: 0; padding: 0; background-color: var(--dark); color: var(--text); 
-            display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; 
+
+        body {
+            margin: 0; padding: 0; background-color: var(--dark); color: var(--text);
+            display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden;
         }
-        
+
         .progress-container { width: 100%; height: 3px; background-color: #1a1a24; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
         .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.4s ease; }
 
@@ -44,7 +44,7 @@
         .lang-switcher:focus { border-color: var(--gold); }
 
         main { flex: 1; padding: 20px 20px 100px 20px; max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
-        
+
         .step { display: none; animation: fadeIn 0.4s ease forwards; }
         .step.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -57,7 +57,7 @@
         .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
         .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.5; font-weight: 400; }
         .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 600; }
-        
+
         .radio-icon { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #555; display: flex; align-items: center; justify-content: center; }
         .quiz-btn.selected .radio-icon { border-color: var(--gold); }
         .radio-icon::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); display: none; }
@@ -70,11 +70,11 @@
         .result-card { background-color: #1a1214; border: 2px solid var(--action); border-radius: 12px; padding: 30px 20px; text-align: center; margin-bottom: 16px; }
         .result-score { color: var(--action); font-size: 20px; font-weight: 700; line-height: 1.3; margin-bottom: 10px; text-transform: uppercase;}
         .result-level { color: #d1d5db; font-size: 15px; font-weight: 400; line-height: 1.5; }
-        
+
         .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
         .insight-title { color: #a1a5b5; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
         .insight-text { color: #d1d5db; font-size: 14px; line-height: 1.6; }
-        
+
         .info-card { background: #11141c; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 3px solid var(--gold); }
 
         .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 12, 16, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
@@ -84,7 +84,7 @@
 
         .input-field { background-color: #13161f; border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-family: -apple-system, sans-serif; }
         .input-field:focus { border-color: var(--gold); outline: none; }
-        
+
         .spinner { border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; width: 45px; height: 45px; animation: spin 1.2s linear infinite; margin: 60px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
@@ -139,7 +139,7 @@
 
         <div class="step" id="step-6">
             <div class="flow-title" id="s6-lbl"></div>
-            
+
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
@@ -161,22 +161,22 @@
                 <h1 class="h1-title" id="s7-title"></h1>
                 <p class="subtitle" id="s7-sub"></p>
             </div>
-            
+
             <div class="flow-title" id="lbl-fname"></div>
             <input type="text" id="reg-fname" class="input-field" placeholder="">
-            
+
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
-            
+
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
         </div>
     </main>
 
     <footer class="legal-footer">
-        <a href="impressum.html" id="link-imp">Impressum</a> | 
-        <a href="datenschutz.html" id="link-dat">Datenschutz</a> | 
-        <a href="agb.html" id="link-agb">AGB</a> | 
+        <a href="impressum.html" id="link-imp">Impressum</a> |
+        <a href="datenschutz.html" id="link-dat">Datenschutz</a> |
+        <a href="agb.html" id="link-agb">AGB</a> |
         <a href="cookie.html" id="link-cook">Cookie-Richtlinie</a>
     </footer>
 
@@ -189,10 +189,10 @@
         const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
-        
+
         // HIER DEINE ECHTEN DIGISTORE LINKS EINTRAGEN
-        const digistoreLinks = { 
-            de: "https://www.checkout-ds24.com/product/XXXXXX/", 
+        const digistoreLinks = {
+            de: "https://www.checkout-ds24.com/product/XXXXXX/",
             en: "https://www.checkout-ds24.com/product/XXXXXX/",
             es: "https://www.checkout-ds24.com/product/XXXXXX/"
         };
@@ -201,65 +201,65 @@
             de: {
                 pageTitle: "1-on-1 Coaching - Bewerbung",
                 btn: { next: "WEITER", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "ZUR COACHING-ANMELDUNG" },
-                s1: { 
-                    lbl: "PHASE 1: DER SCHATTEN", 
-                    title: "Welches Gefühl begleitet dich unterschwellig am häufigsten?", 
-                    opts: { 
-                        emptiness: "Eine tiefe, unerklärliche innere Leere, egal was ich erreiche. (Sinnkrise)", 
-                        bypassing: "Ich flüchte in Positivität, aber im Alltag ändert sich nichts. (Flucht)", 
-                        isolation: "Das Gefühl, von der Welt abgetrennt zu sein. (Getrenntheit)" 
-                    } 
+                s1: {
+                    lbl: "PHASE 1: DER SCHATTEN",
+                    title: "Welches Gefühl begleitet dich unterschwellig am häufigsten?",
+                    opts: {
+                        emptiness: "Eine tiefe, unerklärliche innere Leere, egal was ich erreiche. (Sinnkrise)",
+                        bypassing: "Ich flüchte in Positivität, aber im Alltag ändert sich nichts. (Flucht)",
+                        isolation: "Das Gefühl, von der Welt abgetrennt zu sein. (Getrenntheit)"
+                    }
                 },
-                s2: { 
-                    lbl: "PHASE 2: DIE KONSEQUENZEN", 
-                    title: "Was kostet dich diese Trennung im Hier und Jetzt? (Mehrfachauswahl)", 
-                    opts: { 
-                        emptiness: ["Abstumpfung gegenüber echter Freude und Schmerz.", "Kompensation durch Überarbeiten oder Konsum.", "Das nagende Gefühl, mein Potenzial zu verschwenden."], 
-                        bypassing: ["Fehlende Erdung und fehlender Bezug zur Realität.", "Unterdrückte, brodelnde Wut (Schatten).", "Erschöpfung vom ständigen Drang zur Selbstoptimierung."], 
-                        isolation: ["Unfähigkeit, echte Intimität zuzulassen.", "Das Gefühl, den eigenen Körper kaum noch wahrzunehmen.", "Ein Gefühl der Wertlosigkeit im Kern."] 
-                    } 
+                s2: {
+                    lbl: "PHASE 2: DIE KONSEQUENZEN",
+                    title: "Was kostet dich diese Trennung im Hier und Jetzt? (Mehrfachauswahl)",
+                    opts: {
+                        emptiness: ["Abstumpfung gegenüber echter Freude und Schmerz.", "Kompensation durch Überarbeiten oder Konsum.", "Das nagende Gefühl, mein Potenzial zu verschwenden."],
+                        bypassing: ["Fehlende Erdung und fehlender Bezug zur Realität.", "Unterdrückte, brodelnde Wut (Schatten).", "Erschöpfung vom ständigen Drang zur Selbstoptimierung."],
+                        isolation: ["Unfähigkeit, echte Intimität zuzulassen.", "Das Gefühl, den eigenen Körper kaum noch wahrzunehmen.", "Ein Gefühl der Wertlosigkeit im Kern."]
+                    }
                 },
-                s3: { 
-                    lbl: "PHASE 3: ERDUNG", 
-                    title: "Wie stark ist dein Geist im Körper verankert?", 
-                    opts: { 
-                        high: "Ich lebe fast ausschließlich in meinem Kopf. Meinen Körper spüre ich kaum.", 
-                        med: "Ich spüre meinen Körper manchmal, verliere mich aber oft in Gedanken.", 
-                        low: "Ich bin meistens gut geerdet und mit meinen physischen Sinnen verbunden." 
-                    } 
+                s3: {
+                    lbl: "PHASE 3: ERDUNG",
+                    title: "Wie stark ist dein Geist im Körper verankert?",
+                    opts: {
+                        high: "Ich lebe fast ausschließlich in meinem Kopf. Meinen Körper spüre ich kaum.",
+                        med: "Ich spüre meinen Körper manchmal, verliere mich aber oft in Gedanken.",
+                        low: "Ich bin meistens gut geerdet und mit meinen physischen Sinnen verbunden."
+                    }
                 },
-                s4: { 
-                    lbl: "PHASE 4: STILLE", 
-                    title: "Wenn du mit dir allein bist, ohne Ablenkung – was passiert?", 
-                    opts: { 
-                        high: "Es wird unerträglich laut. Ich brauche sofort einen Podcast oder Aktion.", 
-                        med: "Ich halte es kurz aus, suche dann aber nach einer Aufgabe.", 
-                        low: "Ich kann Stille genießen und als Quelle der Kraft nutzen." 
-                    } 
+                s4: {
+                    lbl: "PHASE 4: STILLE",
+                    title: "Wenn du mit dir allein bist, ohne Ablenkung – was passiert?",
+                    opts: {
+                        high: "Es wird unerträglich laut. Ich brauche sofort einen Podcast oder Aktion.",
+                        med: "Ich halte es kurz aus, suche dann aber nach einer Aufgabe.",
+                        low: "Ich kann Stille genießen und als Quelle der Kraft nutzen."
+                    }
                 },
                 s5: { title: "ZUSTAND WIRD REFLEKTIERT...", sub: "Muster werden analysiert." },
-                s6: { 
-                    lbl: "DEINE COACHING-AUSWERTUNG", 
-                    costLbl: "DEIN AKTUELLER SCHMERZ (PAIN):", 
-                    costVal: { 
-                        emptiness: "Du spürst eine Leere, die sich durch äußere Dinge nicht füllen lässt. Dein System hat als Schutzmechanismus gelernt, Emotionen abzukapseln.", 
-                        bypassing: "Du weichst tiefen Emotionen aus, indem du dich in Positivität flüchtest. Dieser unbewusste Schutzmechanismus kostet im Alltag viel Kraft.", 
-                        isolation: "Du fühlst dich oft abgetrennt von anderen. Das ist eine erlernte Vermeidungsstrategie, die echte, tiefe Verbindung aktuell blockiert." 
-                    }, 
+                s6: {
+                    lbl: "DEINE COACHING-AUSWERTUNG",
+                    costLbl: "DEIN AKTUELLER SCHMERZ (PAIN):",
+                    costVal: {
+                        emptiness: "Du spürst eine Leere, die sich durch äußere Dinge nicht füllen lässt. Dein System hat als Schutzmechanismus gelernt, Emotionen abzukapseln.",
+                        bypassing: "Du weichst tiefen Emotionen aus, indem du dich in Positivität flüchtest. Dieser unbewusste Schutzmechanismus kostet im Alltag viel Kraft.",
+                        isolation: "Du fühlst dich oft abgetrennt von anderen. Das ist eine erlernte Vermeidungsstrategie, die echte, tiefe Verbindung aktuell blockiert."
+                    },
                     msg: "Wir lieben es, genau dieses Wissen im 1-on-1 zu vermitteln. Wir sehen deinen aktuellen Schmerz und das Ziel, das du erreichen willst. Ohne Übertreibung oder Esoterik: Unser Coaching gibt dir einen pragmatischen, direkten Fahrplan, um diese Muster Schritt für Schritt aufzubrechen.",
-                    lvls: { 
-                        ext: { t: "ZIEL: PRÄSENZ AUFBAUEN", d: "Dein Verstand ist überlastet. Das primäre Ziel im Coaching ist es, eine spürbare und ruhige Verbindung zu deinem Körper herzustellen." }, 
-                        dan: { t: "ZIEL: ERDUNG FINDEN", d: "Du suchst oft im Außen nach Halt. Unser Ziel ist es, den Fokus nach innen zu richten und dort echte Stabilität zu entwickeln." }, 
-                        ala: { t: "ZIEL: WISSEN INTEGRIEREN", d: "Du verstehst deine Muster bereits intellektuell. Das Ziel ist es nun, dieses Wissen messbar und pragmatisch in den Alltag zu integrieren." }, 
-                        cri: { t: "ZIEL: MUSTER BRECHEN", d: "Du kennst deine Blockaden. Wir konzentrieren uns im Coaching auf die konsequente, strukturierte Umsetzung neuer Verhaltensweisen." } 
-                    } 
+                    lvls: {
+                        ext: { t: "ZIEL: PRÄSENZ AUFBAUEN", d: "Dein Verstand ist überlastet. Das primäre Ziel im Coaching ist es, eine spürbare und ruhige Verbindung zu deinem Körper herzustellen." },
+                        dan: { t: "ZIEL: ERDUNG FINDEN", d: "Du suchst oft im Außen nach Halt. Unser Ziel ist es, den Fokus nach innen zu richten und dort echte Stabilität zu entwickeln." },
+                        ala: { t: "ZIEL: WISSEN INTEGRIEREN", d: "Du verstehst deine Muster bereits intellektuell. Das Ziel ist es nun, dieses Wissen messbar und pragmatisch in den Alltag zu integrieren." },
+                        cri: { t: "ZIEL: MUSTER BRECHEN", d: "Du kennst deine Blockaden. Wir konzentrieren uns im Coaching auf die konsequente, strukturierte Umsetzung neuer Verhaltensweisen." }
+                    }
                 },
-                s7: { 
-                    lbl: "DER NÄCHSTE SCHRITT", 
-                    title: "Dein 1-on-1 Coaching", 
+                s7: {
+                    lbl: "DER NÄCHSTE SCHRITT",
+                    title: "Dein 1-on-1 Coaching",
                     sub: "Sichere dir deinen Platz für die direkte Zusammenarbeit.",
                     lblFname: "VORNAME", lblEmail: "EMAIL",
-                    em: "deine@email.com", 
+                    em: "deine@email.com",
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
                     errServer: "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.",
                     placeholders: { fname: "Dein Vorname" }
@@ -269,65 +269,65 @@
             en: {
                 pageTitle: "1-on-1 Coaching - Application",
                 btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "ENTER COACHING APPLICATION" },
-                s1: { 
-                    lbl: "PHASE 1: THE SHADOW", 
-                    title: "Which underlying feeling accompanies you the most?", 
-                    opts: { 
-                        emptiness: "A deep inner emptiness, no matter what I achieve. (Crisis of meaning)", 
-                        bypassing: "I escape into positivity, but nothing changes in real life. (Escapism)", 
-                        isolation: "A feeling of being disconnected from the world. (Separation)" 
-                    } 
+                s1: {
+                    lbl: "PHASE 1: THE SHADOW",
+                    title: "Which underlying feeling accompanies you the most?",
+                    opts: {
+                        emptiness: "A deep inner emptiness, no matter what I achieve. (Crisis of meaning)",
+                        bypassing: "I escape into positivity, but nothing changes in real life. (Escapism)",
+                        isolation: "A feeling of being disconnected from the world. (Separation)"
+                    }
                 },
-                s2: { 
-                    lbl: "PHASE 2: THE CONSEQUENCES", 
-                    title: "What does this disconnection cost you right now? (Multiple choice)", 
-                    opts: { 
-                        emptiness: ["Numbness towards real joy and pain.", "Compensating through overworking or consumption.", "The gnawing feeling of wasting my potential."], 
-                        bypassing: ["Lack of grounding and loss of touch with reality.", "Suppressed, seething anger (shadow aspects).", "Exhaustion from the constant urge for self-optimization."], 
-                        isolation: ["Inability to allow true intimacy.", "The feeling of barely noticing my own body.", "A core feeling of worthlessness."] 
-                    } 
+                s2: {
+                    lbl: "PHASE 2: THE CONSEQUENCES",
+                    title: "What does this disconnection cost you right now? (Multiple choice)",
+                    opts: {
+                        emptiness: ["Numbness towards real joy and pain.", "Compensating through overworking or consumption.", "The gnawing feeling of wasting my potential."],
+                        bypassing: ["Lack of grounding and loss of touch with reality.", "Suppressed, seething anger (shadow aspects).", "Exhaustion from the constant urge for self-optimization."],
+                        isolation: ["Inability to allow true intimacy.", "The feeling of barely noticing my own body.", "A core feeling of worthlessness."]
+                    }
                 },
-                s3: { 
-                    lbl: "PHASE 3: GROUNDING", 
-                    title: "How strongly is your mind anchored in your body?", 
-                    opts: { 
-                        high: "I live almost exclusively in my head. I hardly feel my body.", 
-                        med: "I sometimes feel my body, but often get lost in thoughts.", 
-                        low: "I am mostly well-grounded and connected to my physical senses." 
-                    } 
+                s3: {
+                    lbl: "PHASE 3: GROUNDING",
+                    title: "How strongly is your mind anchored in your body?",
+                    opts: {
+                        high: "I live almost exclusively in my head. I hardly feel my body.",
+                        med: "I sometimes feel my body, but often get lost in thoughts.",
+                        low: "I am mostly well-grounded and connected to my physical senses."
+                    }
                 },
-                s4: { 
-                    lbl: "PHASE 4: SILENCE", 
-                    title: "When you are alone with yourself, without distraction – what happens?", 
-                    opts: { 
-                        high: "It gets unbearably loud. I immediately need a distraction or action.", 
-                        med: "I endure it briefly, but then look for a task.", 
-                        low: "I can enjoy silence and use it as a source of strength." 
-                    } 
+                s4: {
+                    lbl: "PHASE 4: SILENCE",
+                    title: "When you are alone with yourself, without distraction – what happens?",
+                    opts: {
+                        high: "It gets unbearably loud. I immediately need a distraction or action.",
+                        med: "I endure it briefly, but then look for a task.",
+                        low: "I can enjoy silence and use it as a source of strength."
+                    }
                 },
                 s5: { title: "REFLECTING YOUR STATE...", sub: "Analyzing patterns." },
-                s6: { 
-                    lbl: "YOUR COACHING EVALUATION", 
-                    costLbl: "YOUR CURRENT PAIN:", 
-                    costVal: { 
-                        emptiness: "You feel an inner emptiness that cannot be filled by external success. Your system has learned to encapsulate emotions as a defense mechanism.", 
-                        bypassing: "You escape into positivity to avoid conflicts and deep emotions. This unconscious protective strategy costs an enormous amount of energy in everyday life.", 
-                        isolation: "You often feel isolated and disconnected. This is a learned avoidance strategy that currently prevents true, deep connection." 
-                    }, 
+                s6: {
+                    lbl: "YOUR COACHING EVALUATION",
+                    costLbl: "YOUR CURRENT PAIN:",
+                    costVal: {
+                        emptiness: "You feel an inner emptiness that cannot be filled by external success. Your system has learned to encapsulate emotions as a defense mechanism.",
+                        bypassing: "You escape into positivity to avoid conflicts and deep emotions. This unconscious protective strategy costs an enormous amount of energy in everyday life.",
+                        isolation: "You often feel isolated and disconnected. This is a learned avoidance strategy that currently prevents true, deep connection."
+                    },
                     msg: "We love conveying exactly this knowledge in 1-on-1 settings. We clearly see your current pain and the goal you want to achieve. Without exaggeration or esotericism: Our coaching provides a pragmatic, direct roadmap to break these patterns step by step.",
-                    lvls: { 
-                        ext: { t: "GOAL: BUILD PRESENCE", d: "Your mind is overloaded. The primary goal in coaching is to establish a tangible, calm connection to your body." }, 
-                        dan: { t: "GOAL: FIND GROUNDING", d: "You often seek stability on the outside. Our goal is to direct your focus inward to develop genuine grounding." }, 
-                        ala: { t: "GOAL: INTEGRATE KNOWLEDGE", d: "You already understand your patterns intellectually. The goal now is to measurably translate this knowledge into your physical reality." }, 
-                        cri: { t: "GOAL: BREAK PATTERNS", d: "You know your blockages. We concentrate on the consistent, structured implementation of new behaviors." } 
-                    } 
+                    lvls: {
+                        ext: { t: "GOAL: BUILD PRESENCE", d: "Your mind is overloaded. The primary goal in coaching is to establish a tangible, calm connection to your body." },
+                        dan: { t: "GOAL: FIND GROUNDING", d: "You often seek stability on the outside. Our goal is to direct your focus inward to develop genuine grounding." },
+                        ala: { t: "GOAL: INTEGRATE KNOWLEDGE", d: "You already understand your patterns intellectually. The goal now is to measurably translate this knowledge into your physical reality." },
+                        cri: { t: "GOAL: BREAK PATTERNS", d: "You know your blockages. We concentrate on the consistent, structured implementation of new behaviors." }
+                    }
                 },
-                s7: { 
-                    lbl: "FINAL STEP", 
-                    title: "Your 1-on-1 Coaching", 
+                s7: {
+                    lbl: "FINAL STEP",
+                    title: "Your 1-on-1 Coaching",
                     sub: "Secure your spot for our direct collaboration.",
                     lblFname: "FIRST NAME", lblEmail: "EMAIL",
-                    em: "your@email.com", 
+                    em: "your@email.com",
                     errFill: "Please fill in all fields.", errExists: "Email already exists.",
                     errServer: "An error occurred. Please try again later.",
                     placeholders: { fname: "Your First Name" }
@@ -337,65 +337,65 @@
             es: {
                 pageTitle: "1-on-1 Coaching - Aplicación",
                 btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTIENDO", pay: "ENTRAR AL COACHING" },
-                s1: { 
-                    lbl: "FASE 1: LA SOMBRA", 
-                    title: "¿Qué sentimiento subyacente te acompaña más a menudo?", 
-                    opts: { 
-                        emptiness: "Un vacío profundo, sin importar lo que logre. (Crisis de sentido)", 
-                        bypassing: "Me refugio en la positividad, pero nada cambia en la realidad. (Evasión)", 
-                        isolation: "La sensación de estar desconectado/a del mundo. (Separación)" 
-                    } 
+                s1: {
+                    lbl: "FASE 1: LA SOMBRA",
+                    title: "¿Qué sentimiento subyacente te acompaña más a menudo?",
+                    opts: {
+                        emptiness: "Un vacío profundo, sin importar lo que logre. (Crisis de sentido)",
+                        bypassing: "Me refugio en la positividad, pero nada cambia en la realidad. (Evasión)",
+                        isolation: "La sensación de estar desconectado/a del mundo. (Separación)"
+                    }
                 },
-                s2: { 
-                    lbl: "FASE 2: LAS CONSECUENCIAS", 
-                    title: "¿Qué te cuesta esta desconexión aquí y ahora? (Opción múltiple)", 
-                    opts: { 
-                        emptiness: ["Adormecimiento frente a la verdadera alegría y el dolor.", "Compensación a través del exceso de trabajo o consumo.", "La sensación persistente de desperdiciar mi potencial."], 
-                        bypassing: ["Falta de enraizamiento y pérdida de contacto con la realidad.", "Ira reprimida y latente (aspectos de la sombra).", "Agotamiento por el impulso constante de autooptimización."], 
-                        isolation: ["Incapacidad de permitir una intimidad real.", "La sensación de apenas notar mi propio cuerpo.", "Un sentimiento central de falta de valor."] 
-                    } 
+                s2: {
+                    lbl: "FASE 2: LAS CONSECUENCIAS",
+                    title: "¿Qué te cuesta esta desconexión aquí y ahora? (Opción múltiple)",
+                    opts: {
+                        emptiness: ["Adormecimiento frente a la verdadera alegría y el dolor.", "Compensación a través del exceso de trabajo o consumo.", "La sensación persistente de desperdiciar mi potencial."],
+                        bypassing: ["Falta de enraizamiento y pérdida de contacto con la realidad.", "Ira reprimida y latente (aspectos de la sombra).", "Agotamiento por el impulso constante de autooptimización."],
+                        isolation: ["Incapacidad de permitir una intimidad real.", "La sensación de apenas notar mi propio cuerpo.", "Un sentimiento central de falta de valor."]
+                    }
                 },
-                s3: { 
-                    lbl: "FASE 3: ENRAIZAMIENTO", 
-                    title: "¿Qué tan anclada está tu mente en tu cuerpo?", 
-                    opts: { 
-                        high: "Vivo casi exclusivamente en mi cabeza. Apenas siento mi cuerpo.", 
-                        med: "A veces siento mi cuerpo, pero a menudo me pierdo en pensamientos.", 
-                        low: "Principalmente estoy bien enraizado/a y conectado/a con mis sentidos físicos." 
-                    } 
+                s3: {
+                    lbl: "FASE 3: ENRAIZAMIENTO",
+                    title: "¿Qué tan anclada está tu mente en tu cuerpo?",
+                    opts: {
+                        high: "Vivo casi exclusivamente en mi cabeza. Apenas siento mi cuerpo.",
+                        med: "A veces siento mi cuerpo, pero a menudo me pierdo en pensamientos.",
+                        low: "Principalmente estoy bien enraizado/a y conectado/a con mis sentidos físicos."
+                    }
                 },
-                s4: { 
-                    lbl: "FASE 4: SILENCIO", 
-                    title: "Cuando estás a solas contigo mismo/a, sin distracciones, ¿qué pasa?", 
-                    opts: { 
-                        high: "Se vuelve insoportablemente ruidoso. Necesito acción o distracción de inmediato.", 
-                        med: "Lo soporto brevemente, pero luego busco una tarea.", 
-                        low: "Puedo disfrutar del silencio y usarlo como fuente de fuerza." 
-                    } 
+                s4: {
+                    lbl: "FASE 4: SILENCIO",
+                    title: "Cuando estás a solas contigo mismo/a, sin distracciones, ¿qué pasa?",
+                    opts: {
+                        high: "Se vuelve insoportablemente ruidoso. Necesito acción o distracción de inmediato.",
+                        med: "Lo soporto brevemente, pero luego busco una tarea.",
+                        low: "Puedo disfrutar del silencio y usarlo como fuente de fuerza."
+                    }
                 },
                 s5: { title: "REFLEJANDO TU ESTADO...", sub: "Analizando patrones." },
-                s6: { 
-                    lbl: "TU EVALUACIÓN DE COACHING", 
-                    costLbl: "TU DOLOR ACTUAL (PAIN):", 
-                    costVal: { 
-                        emptiness: "Sientes un vacío que no se puede llenar con éxitos externos. Tu sistema ha aprendido a encapsular las emociones como mecanismo de defensa.", 
-                        bypassing: "Evades emociones profundas refugiándote en la positividad. Esta estrategia de protección inconsciente cuesta mucha energía en el día a día.", 
-                        isolation: "A menudo te sientes desconectado/a de los demás. Esta es una estrategia de evitación aprendida que actualmente bloquea una conexión real." 
-                    }, 
+                s6: {
+                    lbl: "TU EVALUACIÓN DE COACHING",
+                    costLbl: "TU DOLOR ACTUAL (PAIN):",
+                    costVal: {
+                        emptiness: "Sientes un vacío que no se puede llenar con éxitos externos. Tu sistema ha aprendido a encapsular las emociones como mecanismo de defensa.",
+                        bypassing: "Evades emociones profundas refugiándote en la positividad. Esta estrategia de protección inconsciente cuesta mucha energía en el día a día.",
+                        isolation: "A menudo te sientes desconectado/a de los demás. Esta es una estrategia de evitación aprendida que actualmente bloquea una conexión real."
+                    },
                     msg: "Nos encanta transmitir exactamente este conocimiento en un entorno 1-a-1. Vemos claramente tu dolor actual y la meta que deseas alcanzar. Sin exageraciones ni esoterismos: Nuestro coaching te ofrece una hoja de ruta pragmática y directa para romper estos patrones paso a paso.",
-                    lvls: { 
-                        ext: { t: "META: CONSTRUIR PRESENCIA", d: "Tu mente está sobrecargada. El objetivo principal en el coaching es establecer una conexión tangible y tranquila con tu cuerpo." }, 
-                        dan: { t: "META: ENCONTRAR ARRAIGO", d: "Buscas apoyo en el exterior. Trabajamos en dirigir el enfoque hacia adentro para desarrollar una verdadera estabilidad." }, 
-                        ala: { t: "META: INTEGRAR CONOCIMIENTO", d: "Ya entiendes tus patrones intelectualmente. El objetivo ahora es traducir este conocimiento a la vida cotidiana de forma pragmática." }, 
-                        cri: { t: "META: ROMPER PATRONES", d: "Conoces tus bloqueos. Nos concentramos en la implementación estructurada y constante de nuevos comportamientos." } 
-                    } 
+                    lvls: {
+                        ext: { t: "META: CONSTRUIR PRESENCIA", d: "Tu mente está sobrecargada. El objetivo principal en el coaching es establecer una conexión tangible y tranquila con tu cuerpo." },
+                        dan: { t: "META: ENCONTRAR ARRAIGO", d: "Buscas apoyo en el exterior. Trabajamos en dirigir el enfoque hacia adentro para desarrollar una verdadera estabilidad." },
+                        ala: { t: "META: INTEGRAR CONOCIMIENTO", d: "Ya entiendes tus patrones intelectualmente. El objetivo ahora es traducir este conocimiento a la vida cotidiana de forma pragmática." },
+                        cri: { t: "META: ROMPER PATRONES", d: "Conoces tus bloqueos. Nos concentramos en la implementación estructurada y constante de nuevos comportamientos." }
+                    }
                 },
-                s7: { 
-                    lbl: "EL PRÓXIMO PASO", 
-                    title: "Tu Coaching 1-a-1", 
+                s7: {
+                    lbl: "EL PRÓXIMO PASO",
+                    title: "Tu Coaching 1-a-1",
                     sub: "Asegura tu lugar para nuestra colaboración directa.",
                     lblFname: "NOMBRE", lblEmail: "EMAIL",
-                    em: "tu@email.com", 
+                    em: "tu@email.com",
                     errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
                     errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
                     placeholders: { fname: "Tu Nombre" }
@@ -408,36 +408,36 @@
         if (!currentLang || !t[currentLang]) {
             currentLang = 'de';
         }
-        
+
         let step = 1;
         let answers = { root_problem: '', pain_point: [], grounding: '', silence: '' };
-        
+
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
         function updateTexts() {
             const l = t[currentLang];
             document.documentElement.lang = currentLang;
             document.title = l.pageTitle;
-            
+
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
-            
+
             document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
             document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
             document.getElementById('s3-lbl').innerText = l.s3.lbl; document.getElementById('s3-title').innerText = l.s3.title;
             document.getElementById('s4-lbl').innerText = l.s4.lbl; document.getElementById('s4-title').innerText = l.s4.title;
             document.getElementById('s5-title').innerText = l.s5.title; document.getElementById('s5-sub').innerText = l.s5.sub;
-            
-            document.getElementById('s6-lbl').innerText = l.s6.lbl; 
-            
-            document.getElementById('s7-lbl').innerText = l.s7.lbl; 
-            document.getElementById('s7-title').innerText = l.s7.title; 
+
+            document.getElementById('s6-lbl').innerText = l.s6.lbl;
+
+            document.getElementById('s7-lbl').innerText = l.s7.lbl;
+            document.getElementById('s7-title').innerText = l.s7.title;
             document.getElementById('s7-sub').innerText = l.s7.sub;
-            
+
             document.getElementById('lbl-fname').innerText = l.s7.lblFname;
             document.getElementById('lbl-email').innerText = l.s7.lblEmail;
-            
+
             document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
-            document.getElementById('reg-email').placeholder = l.s7.em; 
+            document.getElementById('reg-email').placeholder = l.s7.em;
             document.getElementById('btn-register').innerText = l.btn.pay;
 
             document.getElementById('link-imp').innerText = l.legal.imp;
@@ -446,14 +446,14 @@
             document.getElementById('link-cook').innerText = l.legal.cook;
         }
 
-        window.onload = () => { 
+        window.onload = () => {
             document.getElementById('langSelect').value = currentLang;
-            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`; 
+            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`;
         };
 
-        function selectLang(lang) { 
+        function selectLang(lang) {
             currentLang = lang; localStorage.setItem('smh_language', lang);
-            updateTexts(); buildOptions(); if (step === 6) renderResult(); 
+            updateTexts(); buildOptions(); if (step === 6) renderResult();
         }
 
         function createOptionBtn(text, isSelected, isMulti, onClick) {
@@ -478,7 +478,7 @@
                             buildOptions(); checkNextState();
                         } else {
                             answers[key] = k; buildOptions(); checkNextState();
-                            setTimeout(() => handleNext(), 350); 
+                            setTimeout(() => handleNext(), 350);
                         }
                     }));
                 });
@@ -497,26 +497,26 @@
             let score = 75;
             if(answers.grounding === 'high') score += 12; else if(answers.grounding === 'med') score += 6;
             if(answers.silence === 'high') score += 12; else if(answers.silence === 'med') score += 6;
-            
+
             const res = t[currentLang].s6;
             let lvl, col;
-            
+
             if (score >= 90) { lvl = res.lvls.ext; col = '#b05c6e'; }
             else if (score >= 85) { lvl = res.lvls.dan; col = '#b05c6e'; }
             else if (score >= 80) { lvl = res.lvls.ala; col = '#d698a6'; }
             else { lvl = res.lvls.cri; col = '#cba677'; }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
-            document.getElementById('res-score').innerText = lvl.t; 
-            document.getElementById('res-score').style.color = col; 
-            document.getElementById('res-level').innerText = lvl.d; 
+            document.getElementById('res-score').innerText = lvl.t;
+            document.getElementById('res-score').style.color = col;
+            document.getElementById('res-level').innerText = lvl.d;
             document.getElementById('res-level').style.color = col;
             document.getElementById('res-card').style.borderColor = col;
-            
-            document.getElementById('res-cost-lbl').innerText = res.costLbl; 
+
+            document.getElementById('res-cost-lbl').innerText = res.costLbl;
             document.getElementById('res-cost-lbl').style.color = col;
-            document.getElementById('res-info-box').style.borderLeftColor = col; 
-            
+            document.getElementById('res-info-box').style.borderLeftColor = col;
+
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem] || '';
             document.getElementById('s6-msg').innerText = res.msg;
         }
@@ -525,11 +525,11 @@
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
             document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
-            
+
             bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
             if(step === 6) bNext.innerText = t[currentLang].btn.next;
             checkNextState();
-            
+
             document.getElementById(`step-${step}`).classList.add('active'); window.scrollTo(0,0);
             if(step === 5) setTimeout(() => { handleNext(); renderResult(); }, 2000);
         }
@@ -548,8 +548,8 @@
             const fname = document.getElementById('reg-fname').value.trim();
             const email = document.getElementById('reg-email').value.trim();
             const errEl = document.getElementById('reg-error');
-            const btn = document.getElementById('btn-register'); 
-            
+            const btn = document.getElementById('btn-register');
+
             if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
@@ -558,63 +558,24 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                // 1. CHECK: Existiert die E-Mail bereits in der Leads-Tabelle?
-                let { data: existingLead, error: searchError } = await supabaseClient
-                    .from('leads')
-                    .select('id, email')
-                    .eq('email', email)
-                    .single();
+                const { data: leadId, error: rpcError } = await supabaseClient.rpc('register_coaching_lead', {
+                    p_email: email,
+                    p_first_name: fname,
+                    p_language: currentLang,
+                    p_onboarding_data: answers
+                });
+                if (rpcError) throw rpcError;
 
-                let currentLeadId;
-
-                if (!existingLead) {
-                    // SZENARIO A: Neuer Nutzer. Wir legen ihn in 'leads' an.
-                    const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
-                        { 
-                            email: email, 
-                            first_name: fname, 
-                            source: 'coaching_application',
-                            language: currentLang,
-                            marketing_consent: true,
-                            onboarding_data: answers 
-                        }
-                    ]).select().single();
-
-                    if (insertError) throw insertError;
-                    currentLeadId = newLead.id;
-                } else {
-                    // SZENARIO B: Nutzer existiert bereits. Update der Daten.
-                    currentLeadId = existingLead.id;
-                    const { error: updateError } = await supabaseClient.from('leads').update({
-                        first_name: fname,
-                        language: currentLang,
-                        onboarding_data: answers
-                    }).eq('id', existingLead.id);
-
-                    if (updateError) throw updateError;
-                }
-
-                // 2. STATUS IN ACTIVE_FLOWS EINTRAGEN (Zur sauberen Protokollierung)
-                const { error: flowError } = await supabaseClient.from('active_flows').insert([
-                    { 
-                        lead_email: email, 
-                        flow_name: '1-on-1 Coaching',
-                        current_mentoring_day: 0,
-                        has_paid: false,
-                        status: 'checkout_pending'
-                    }
-                ]);
-                
-                // 3. WEITERLEITUNG ZU DIGISTORE24 INKLUSIVE CUSTOM ID FÜR MAKE.COM
+                // leadId is now the lead's UUID — used exactly where currentLeadId was used before:
                 const digistoreBaseUrl = digistoreLinks[currentLang] || digistoreLinks['de'];
-                
+
                 // Die Datenbank-ID wird als custom-Parameter an Digistore übergeben
                 // Digistore leitet diese ID beim Kauf über den Webhook an Make.com weiter
-                window.location.href = `${digistoreBaseUrl}?custom=${encodeURIComponent(currentLeadId)}`;
-                
+                window.location.href = `${digistoreBaseUrl}?custom=${encodeURIComponent(leadId)}`;
+
             } catch(e) {
                 console.error(e);
-                errEl.innerText = t[currentLang].s7.errServer; 
+                errEl.innerText = t[currentLang].s7.errServer;
                 errEl.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
