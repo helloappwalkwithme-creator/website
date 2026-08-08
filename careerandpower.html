@@ -657,36 +657,26 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                // Upsert instead of select-then-insert/update: anon has no SELECT access on
-                // leads (PII protection), so a pre-check read always comes back empty and a
-                // chained .select() after insert fails RLS's RETURNING-visibility check.
-                // Upsert resolves the email conflict server-side without ever reading the row back.
-                const { error: upsertError } = await supabaseClient.from('leads').upsert({
-                    email: email,
-                    first_name: fname,
-                    delivery_channel: channel,
-                    source: 'career_power_flow',
-                    language: currentLang,
-                    marketing_consent: true,
-                    onboarding_data: answers,
-                    access_code: accessCode,
-                    chosen_path: chosenPath
-                }, { onConflict: 'email' });
+                // anon has no SELECT access on leads (PII protection, intentional). PostgREST
+                // always builds an internal RETURNING clause for inserts/upserts regardless of
+                // Prefer headers, so any direct table write from anon fails that RLS check no
+                // matter how it's shaped. Fix: a SECURITY DEFINER RPC does both writes
+                // server-side and returns nothing, so there's no RETURNING to violate RLS.
+                // It also upserts active_flows on (lead_email, flow_name), so registering for a
+                // second, different flow adds a new row instead of erroring or overwriting.
+                const { error: rpcError } = await supabaseClient.rpc('register_lead', {
+                    p_email: email,
+                    p_first_name: fname,
+                    p_delivery_channel: channel,
+                    p_source: 'career_power_flow',
+                    p_language: currentLang,
+                    p_onboarding_data: answers,
+                    p_access_code: accessCode,
+                    p_chosen_path: chosenPath,
+                    p_flow_name: 'Career & Power'
+                });
 
-                if (upsertError) throw upsertError;
-
-                // Same reasoning: upsert on (lead_email, flow_name) so registering for a
-                // second, different flow adds a new row, while re-registering for the SAME
-                // flow updates it instead of erroring or silently duplicating.
-                const { error: flowError } = await supabaseClient.from('active_flows').upsert({
-                    lead_email: email,
-                    flow_name: 'Career & Power',
-                    current_mentoring_day: 1,
-                    has_paid: false,
-                    status: 'active'
-                }, { onConflict: 'lead_email,flow_name' });
-
-                if (flowError) throw flowError;
+                if (rpcError) throw rpcError;
 
                 const baseMessage = botMessages[currentLang] || botMessages['de'];
                 const accessLabel = accessLabels[currentLang] || accessLabels['de'];
