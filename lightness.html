@@ -17,24 +17,24 @@
     <style>
         :root {
             /* Calming, airy color palette for "Lightness" */
-            --dark: #0d1117; 
+            --dark: #0d1117;
             --gray: #161b22;
             --gray-active: #21262d;
             --border: #30363d;
             --gold: #8eb6d9; /* Calming Airy Blue */
-            --text: #f0f6fc; 
+            --text: #f0f6fc;
             --error: #f85149;
             --success: #3fb950;
-            --action: #8eb6d9; 
+            --action: #8eb6d9;
         }
 
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        
-        body { 
-            margin: 0; padding: 0; background-color: var(--dark); color: var(--text); 
-            display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; 
+
+        body {
+            margin: 0; padding: 0; background-color: var(--dark); color: var(--text);
+            display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden;
         }
-        
+
         .progress-container { width: 100%; height: 3px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
         .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.4s ease; }
 
@@ -43,7 +43,7 @@
         .lang-switcher:focus { border-color: var(--gold); }
 
         main { flex: 1; padding: 20px 20px 100px 20px; max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
-        
+
         .step { display: none; animation: fadeIn 0.4s ease forwards; }
         .step.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -56,7 +56,7 @@
         .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
         .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.5; font-weight: 500; }
         .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 700; }
-        
+
         .radio-icon { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #555; display: flex; align-items: center; justify-content: center; }
         .quiz-btn.selected .radio-icon { border-color: var(--gold); }
         .radio-icon::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); display: none; }
@@ -68,11 +68,11 @@
         .result-card { background-color: #0d1117; border: 2px solid var(--action); border-radius: 12px; padding: 25px 20px; text-align: center; margin-bottom: 16px; }
         .result-score { color: var(--action); font-size: 22px; font-weight: 800; line-height: 1.3; margin-bottom: 10px; text-transform: uppercase; }
         .result-level { color: #c9d1d9; font-size: 15px; font-weight: 500; line-height: 1.5; }
-        
+
         .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
         .insight-title { color: #8b949e; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
         .insight-text { color: #c9d1d9; font-size: 14px; line-height: 1.6; }
-        
+
         .info-card { background: #0d1117; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 3px solid var(--gold); }
 
         .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(13, 17, 23, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
@@ -82,7 +82,9 @@
 
         .input-field { background-color: var(--gray); border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-family: -apple-system, sans-serif; font-weight: 500;}
         .input-field:focus { border-color: var(--gold); outline: none; }
-        
+
+        .channel-note { font-size: 12px; color: #8b949e; margin: -8px 0 16px 0; line-height: 1.5; }
+
         .legal-disclaimer { font-size: 12px; color: #8b949e; margin-top: 20px; line-height: 1.6; text-align: center; border-top: 1px solid var(--border); padding-top: 15px; font-family: -apple-system, sans-serif; }
         .legal-disclaimer strong { color: var(--gold); font-weight: 600; }
 
@@ -139,12 +141,12 @@
 
         <div class="step" id="step-6">
             <div class="flow-title" id="s6-lbl"></div>
-            
+
             <div class="result-card" id="res-card">
                 <div class="result-score" id="res-score"></div>
                 <div class="result-level" id="res-level"></div>
             </div>
-            
+
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
@@ -161,10 +163,10 @@
                 <h1 class="h1-title" id="s7-title"></h1>
                 <p class="subtitle" id="s7-sub"></p>
             </div>
-            
+
             <div class="flow-title" id="lbl-fname"></div>
             <input type="text" id="reg-fname" class="input-field" placeholder="">
-            
+
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
 
@@ -173,7 +175,8 @@
                 <option value="whatsapp">WhatsApp</option>
                 <option value="telegram">Telegram</option>
             </select>
-            
+            <p class="channel-note" id="channel-note"></p>
+
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
 
@@ -182,9 +185,9 @@
     </main>
 
     <footer class="legal-footer">
-        <a href="impressum.html" id="link-imp">Impressum</a> | 
-        <a href="datenschutz.html" id="link-dat">Datenschutz</a> | 
-        <a href="agb.html" id="link-agb">AGB</a> | 
+        <a href="impressum.html" id="link-imp">Impressum</a> |
+        <a href="datenschutz.html" id="link-dat">Datenschutz</a> |
+        <a href="agb.html" id="link-agb">AGB</a> |
         <a href="cookie.html" id="link-cook">Cookie-Richtlinie</a>
     </footer>
 
@@ -197,9 +200,9 @@
         const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
-        
-        const waNumber = "491632225456"; 
-        const tgBotName = "DEIN_BOT_NAME"; 
+
+        const waNumber = "491632225456";
+        const tgBotName = "DEIN_BOT_NAME";
 
         const botMessages = {
             de: "Hallo, ich möchte meinen kostenlosen The Path to Lightness Flow starten. Bitte aktiviere meinen Zugang.",
@@ -217,69 +220,70 @@
             de: {
                 pageTitle: "The Path to Lightness - Onboarding",
                 btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM 4-TAGE-FLOW" },
-                s1: { 
-                    lbl: "PHASE 1: DER BALLAST", 
-                    title: "Was erzeugt in deinem Alltag aktuell die größte Schwere?", 
-                    opts: { 
-                        overload: "Mein Kopf steht nie still. Ich zerdenke alles und bin mental erschöpft. (Overthinking)", 
-                        boundaries: "Ich sage zu oft 'Ja' zu anderen und verliere mich in Verpflichtungen. (Grenzenlosigkeit)", 
-                        tension: "Ich spüre eine ständige, unterschwellige körperliche Anspannung und Unruhe. (Stress)" 
-                    } 
+                s1: {
+                    lbl: "PHASE 1: DER BALLAST",
+                    title: "Was erzeugt in deinem Alltag aktuell die größte Schwere?",
+                    opts: {
+                        overload: "Mein Kopf steht nie still. Ich zerdenke alles und bin mental erschöpft. (Overthinking)",
+                        boundaries: "Ich sage zu oft 'Ja' zu anderen und verliere mich in Verpflichtungen. (Grenzenlosigkeit)",
+                        tension: "Ich spüre eine ständige, unterschwellige körperliche Anspannung und Unruhe. (Stress)"
+                    }
                 },
-                s2: { 
-                    lbl: "PHASE 2: DIE KONSEQUENZEN", 
-                    title: "Was kostet dich dieser Zustand am meisten? (Mehrfachauswahl)", 
-                    opts: { 
-                        overload: ["Ich verliere den Fokus auf das, was wirklich wichtig ist.", "Ich bin abends zu müde für die schönen Dinge des Lebens.", "Ich lebe fast ausschließlich in der Zukunft oder Vergangenheit."], 
-                        boundaries: ["Tiefe Unzufriedenheit, weil meine eigenen Bedürfnisse auf der Strecke bleiben.", "Aufgestaute Wut, die sich an den falschen Stellen entlädt.", "Ich fühle mich wie ein Passagier in meinem eigenen Leben."], 
-                        tension: ["Ich kann echte Pausen nicht mehr genießen, ohne ein schlechtes Gewissen zu haben.", "Chronische Verspannungen oder Schlafprobleme.", "Das Gefühl, ständig auf der Flucht zu sein."] 
-                    } 
+                s2: {
+                    lbl: "PHASE 2: DIE KONSEQUENZEN",
+                    title: "Was kostet dich dieser Zustand am meisten? (Mehrfachauswahl)",
+                    opts: {
+                        overload: ["Ich verliere den Fokus auf das, was wirklich wichtig ist.", "Ich bin abends zu müde für die schönen Dinge des Lebens.", "Ich lebe fast ausschließlich in der Zukunft oder Vergangenheit."],
+                        boundaries: ["Tiefe Unzufriedenheit, weil meine eigenen Bedürfnisse auf der Strecke bleiben.", "Aufgestaute Wut, die sich an den falschen Stellen entlädt.", "Ich fühle mich wie ein Passagier in meinem eigenen Leben."],
+                        tension: ["Ich kann echte Pausen nicht mehr genießen, ohne ein schlechtes Gewissen zu haben.", "Chronische Verspannungen oder Schlafprobleme.", "Das Gefühl, ständig auf der Flucht zu sein."]
+                    }
                 },
-                s3: { 
-                    lbl: "PHASE 3: DAS NERVENSYSTEM", 
-                    title: "Wenn unvorhergesehener Stress auftritt, wie reagiert dein System?", 
-                    opts: { 
-                        high: "Ich werde sofort panisch, hektisch oder extrem gereizt (Kampf/Flucht).", 
-                        med: "Ich friere innerlich ein, schiebe auf oder betäube mich (Erstarren).", 
-                        low: "Ich kann meistens kurz durchatmen und dann klar handeln." 
-                    } 
+                s3: {
+                    lbl: "PHASE 3: DAS NERVENSYSTEM",
+                    title: "Wenn unvorhergesehener Stress auftritt, wie reagiert dein System?",
+                    opts: {
+                        high: "Ich werde sofort panisch, hektisch oder extrem gereizt (Kampf/Flucht).",
+                        med: "Ich friere innerlich ein, schiebe auf oder betäube mich (Erstarren).",
+                        low: "Ich kann meistens kurz durchatmen und dann klar handeln."
+                    }
                 },
-                s4: { 
-                    lbl: "PHASE 4: DER ABEND", 
-                    title: "Wie leicht fällt es dir, am Ende des Tages wirklich abzuschalten?", 
-                    opts: { 
-                        high: "Gar nicht. Ohne ständige Ablenkung (Handy, TV) halte ich die innere Lautstärke nicht aus.", 
-                        med: "Es dauert sehr lange. Mein Gehirn braucht Stunden, um herunterzufahren.", 
-                        low: "Ziemlich leicht. Ich finde gut in die Ruhe und brauche keine permanente Stimulation." 
-                    } 
+                s4: {
+                    lbl: "PHASE 4: DER ABEND",
+                    title: "Wie leicht fällt es dir, am Ende des Tages wirklich abzuschalten?",
+                    opts: {
+                        high: "Gar nicht. Ohne ständige Ablenkung (Handy, TV) halte ich die innere Lautstärke nicht aus.",
+                        med: "Es dauert sehr lange. Mein Gehirn braucht Stunden, um herunterzufahren.",
+                        low: "Ziemlich leicht. Ich finde gut in die Ruhe und brauche keine permanente Stimulation."
+                    }
                 },
                 s5: { title: "DYNAMIK WIRD ANALYSIERT...", sub: "Kognitive Muster und Neurozeption werden ausgewertet." },
-                s6: { 
-                    lbl: "DEIN AKTIONSPLAN", 
-                    costLbl: "DEINE AUSGANGSLAGE:", 
+                s6: {
+                    lbl: "DEIN AKTIONSPLAN",
+                    costLbl: "DEINE AUSGANGSLAGE:",
                     actionLbl: "HANDLUNGSEMPFEHLUNG:",
-                    costVal: { 
-                        overload: "Du läufst auf dem unbewussten 'schnellen' System (Kahneman). Dein Gehirn produziert Schwere, weil es nicht mehr filtert, was wirklich essenziell ist.", 
-                        boundaries: "Du nutzt deine Energie, um die Erwartungen anderer zu erfüllen. Wahre Leichtigkeit entsteht aber nicht durch mehr Kapazität, sondern durch den Mut, unwesentlichen Ballast abzuwerfen.", 
-                        tension: "Dein Nervensystem meldet permanent Gefahr (Neurozeption). Solange der Körper nicht physiologisch auf Sicherheit schaltet, ist mentale Leichtigkeit biologisch unmöglich." 
-                    }, 
+                    costVal: {
+                        overload: "Du läufst auf dem unbewussten 'schnellen' System (Kahneman). Dein Gehirn produziert Schwere, weil es nicht mehr filtert, was wirklich essenziell ist.",
+                        boundaries: "Du nutzt deine Energie, um die Erwartungen anderer zu erfüllen. Wahre Leichtigkeit entsteht aber nicht durch mehr Kapazität, sondern durch den Mut, unwesentlichen Ballast abzuwerfen.",
+                        tension: "Dein Nervensystem meldet permanent Gefahr (Neurozeption). Solange der Körper nicht physiologisch auf Sicherheit schaltet, ist mentale Leichtigkeit biologisch unmöglich."
+                    },
                     msg: "Diese Schwere ist keine lebenslange Diagnose. Sie ist das Resultat eines völlig überreizten Systems. In diesem 4-Tage-Flow nutzen wir pragmatische Werkzeuge aus Psychologie und Neurobiologie, um diesen Lärm abzustellen und tiefe, mühelose Leichtigkeit zum neuen Standard zu machen.",
-                    lvls: { 
-                        ext: { t: "ZIEL: DAS SYSTEM BERUHIGEN", d: "Dein System ist im chronischen Alarmzustand. Der erste Schritt ist, das Nervensystem über Atem und Körper tiefgreifend auf Sicherheit zu schalten." }, 
-                        dan: { t: "ZIEL: BALLAST ABWERFEN", d: "Du trägst das Gewicht von Dingen, die nicht deins sind. Wir etablieren klare mentale und physische Grenzen, um sofort Raum zu schaffen." }, 
-                        ala: { t: "ZIEL: DEN FOKUS SHIFTEN", d: "Du bist erschöpft vom permanenten Grübeln. Wir trainieren die Fähigkeit, den Abstand zwischen Reiz und Reaktion wieder selbst zu bestimmen." }, 
-                        cri: { t: "ZIEL: FLOW ETABLIEREN", d: "Die Basis ist da. Wir fokussieren uns nun darauf, Leichtigkeit nicht als Ausnahme, sondern als tägliche, mühelose Identität zu leben." } 
-                    } 
+                    lvls: {
+                        ext: { t: "ZIEL: DAS SYSTEM BERUHIGEN", d: "Dein System ist im chronischen Alarmzustand. Der erste Schritt ist, das Nervensystem über Atem und Körper tiefgreifend auf Sicherheit zu schalten." },
+                        dan: { t: "ZIEL: BALLAST ABWERFEN", d: "Du trägst das Gewicht von Dingen, die nicht deins sind. Wir etablieren klare mentale und physische Grenzen, um sofort Raum zu schaffen." },
+                        ala: { t: "ZIEL: DEN FOKUS SHIFTEN", d: "Du bist erschöpft vom permanenten Grübeln. Wir trainieren die Fähigkeit, den Abstand zwischen Reiz und Reaktion wieder selbst zu bestimmen." },
+                        cri: { t: "ZIEL: FLOW ETABLIEREN", d: "Die Basis ist da. Wir fokussieren uns nun darauf, Leichtigkeit nicht als Ausnahme, sondern als tägliche, mühelose Identität zu leben." }
+                    }
                 },
-                s7: { 
-                    lbl: "DER NÄCHSTE SCHRITT", 
-                    title: "Dein 4-Tage-Flow", 
+                s7: {
+                    lbl: "DER NÄCHSTE SCHRITT",
+                    title: "Dein 4-Tage-Flow",
                     sub: "Sichere dir deinen Zugang und erlaube dir Leichtigkeit.",
                     lblFname: "VORNAME", lblEmail: "EMAIL", lblChannel: "AUSLIEFERUNG ÜBER",
-                    em: "deine@email.com", 
+                    em: "deine@email.com",
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
                     errServer: "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal.",
                     placeholders: { fname: "Dein Vorname" },
+                    channelNote: "ℹ️ Deine kostenlosen ersten 4 Tage erhältst du über den hier gewählten Kanal. Der anschließende 90-Tage-Zugang wird standardmäßig per <strong>Telegram</strong> ausgeliefert (kostenlos inklusive). Möchtest du stattdessen dauerhaft per <strong>WhatsApp</strong> begleitet werden, kannst du das WhatsApp-Upgrade separat dazubuchen.",
                     disclaimer: "<strong>Wichtig:</strong> Deine Daten werden zu 100% ausschließlich für die automatisierte Bereitstellung dieses Kurses genutzt. Wir geben niemals Daten an Dritte weiter. Dein Vertrauen ist unser höchstes Gut."
                 },
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
@@ -287,69 +291,70 @@
             en: {
                 pageTitle: "The Path to Lightness - Onboarding",
                 btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
-                s1: { 
-                    lbl: "PHASE 1: THE BAGGAGE", 
-                    title: "What is currently creating the most heaviness in your daily life?", 
-                    opts: { 
-                        overload: "My mind never stops. I overthink everything and am mentally exhausted. (Overthinking)", 
-                        boundaries: "I say 'yes' to others too often and lose myself in obligations. (Boundlessness)", 
-                        tension: "I feel a constant, underlying physical tension and restlessness. (Stress)" 
-                    } 
+                s1: {
+                    lbl: "PHASE 1: THE BAGGAGE",
+                    title: "What is currently creating the most heaviness in your daily life?",
+                    opts: {
+                        overload: "My mind never stops. I overthink everything and am mentally exhausted. (Overthinking)",
+                        boundaries: "I say 'yes' to others too often and lose myself in obligations. (Boundlessness)",
+                        tension: "I feel a constant, underlying physical tension and restlessness. (Stress)"
+                    }
                 },
-                s2: { 
-                    lbl: "PHASE 2: THE CONSEQUENCES", 
-                    title: "What does this state cost you the most? (Multiple choice)", 
-                    opts: { 
-                        overload: ["I lose focus on what is truly important.", "I am too tired in the evening for the beautiful things in life.", "I live almost exclusively in the future or the past."], 
-                        boundaries: ["Deep dissatisfaction because my own needs are left behind.", "Pent-up anger that discharges in the wrong places.", "I feel like a passenger in my own life."], 
-                        tension: ["I can no longer enjoy real breaks without feeling guilty.", "Chronic tension or sleep problems.", "The feeling of constantly being on the run."] 
-                    } 
+                s2: {
+                    lbl: "PHASE 2: THE CONSEQUENCES",
+                    title: "What does this state cost you the most? (Multiple choice)",
+                    opts: {
+                        overload: ["I lose focus on what is truly important.", "I am too tired in the evening for the beautiful things in life.", "I live almost exclusively in the future or the past."],
+                        boundaries: ["Deep dissatisfaction because my own needs are left behind.", "Pent-up anger that discharges in the wrong places.", "I feel like a passenger in my own life."],
+                        tension: ["I can no longer enjoy real breaks without feeling guilty.", "Chronic tension or sleep problems.", "The feeling of constantly being on the run."]
+                    }
                 },
-                s3: { 
-                    lbl: "PHASE 3: THE NERVOUS SYSTEM", 
-                    title: "When unexpected stress occurs, how does your system react?", 
-                    opts: { 
-                        high: "I immediately get panicked, hectic, or extremely irritable (Fight/Flight).", 
-                        med: "I freeze internally, procrastinate, or numb myself (Freeze).", 
-                        low: "I can usually take a short breath and then act clearly." 
-                    } 
+                s3: {
+                    lbl: "PHASE 3: THE NERVOUS SYSTEM",
+                    title: "When unexpected stress occurs, how does your system react?",
+                    opts: {
+                        high: "I immediately get panicked, hectic, or extremely irritable (Fight/Flight).",
+                        med: "I freeze internally, procrastinate, or numb myself (Freeze).",
+                        low: "I can usually take a short breath and then act clearly."
+                    }
                 },
-                s4: { 
-                    lbl: "PHASE 4: THE EVENING", 
-                    title: "How easy is it for you to truly disconnect at the end of the day?", 
-                    opts: { 
-                        high: "Not at all. Without constant distraction (phone, TV), I can't stand the inner volume.", 
-                        med: "It takes a very long time. My brain needs hours to shut down.", 
-                        low: "Fairly easy. I find my way into calmness well and need no permanent stimulation." 
-                    } 
+                s4: {
+                    lbl: "PHASE 4: THE EVENING",
+                    title: "How easy is it for you to truly disconnect at the end of the day?",
+                    opts: {
+                        high: "Not at all. Without constant distraction (phone, TV), I can't stand the inner volume.",
+                        med: "It takes a very long time. My brain needs hours to shut down.",
+                        low: "Fairly easy. I find my way into calmness well and need no permanent stimulation."
+                    }
                 },
                 s5: { title: "ANALYZING DYNAMICS...", sub: "Evaluating cognitive patterns and neuroception." },
-                s6: { 
-                    lbl: "YOUR ACTION PLAN", 
-                    costLbl: "YOUR STARTING POINT:", 
+                s6: {
+                    lbl: "YOUR ACTION PLAN",
+                    costLbl: "YOUR STARTING POINT:",
                     actionLbl: "RECOMMENDATION:",
-                    costVal: { 
-                        overload: "You are running on the unconscious 'fast' system (Kahneman). Your brain produces heaviness because it no longer filters out what is truly essential.", 
-                        boundaries: "You use your energy to meet the expectations of others. But true lightness does not come from more capacity, but from the courage to drop non-essential baggage.", 
-                        tension: "Your nervous system constantly signals danger (Neuroception). As long as the body does not physiologically switch to safety, mental lightness is biologically impossible." 
-                    }, 
+                    costVal: {
+                        overload: "You are running on the unconscious 'fast' system (Kahneman). Your brain produces heaviness because it no longer filters out what is truly essential.",
+                        boundaries: "You use your energy to meet the expectations of others. But true lightness does not come from more capacity, but from the courage to drop non-essential baggage.",
+                        tension: "Your nervous system constantly signals danger (Neuroception). As long as the body does not physiologically switch to safety, mental lightness is biologically impossible."
+                    },
                     msg: "This heaviness is not a lifelong diagnosis. It is the result of a completely overstimulated system. In this 4-Day Flow, we use pragmatic tools from psychology and neurobiology to turn off this noise and make deep, effortless lightness your new default.",
-                    lvls: { 
-                        ext: { t: "GOAL: CALMING THE SYSTEM", d: "Your system is in a chronic state of alarm. The first step is to profoundly switch the nervous system to safety via breath and body." }, 
-                        dan: { t: "GOAL: DROPPING BAGGAGE", d: "You carry the weight of things that are not yours. We establish clear mental and physical boundaries to create immediate space." }, 
-                        ala: { t: "GOAL: SHIFTING FOCUS", d: "You are exhausted from constant rumination. We train the ability to determine the space between stimulus and response yourself again." }, 
-                        cri: { t: "GOAL: ESTABLISHING FLOW", d: "The foundation is there. We now focus on living lightness not as an exception, but as a daily, effortless identity." } 
-                    } 
+                    lvls: {
+                        ext: { t: "GOAL: CALMING THE SYSTEM", d: "Your system is in a chronic state of alarm. The first step is to profoundly switch the nervous system to safety via breath and body." },
+                        dan: { t: "GOAL: DROPPING BAGGAGE", d: "You carry the weight of things that are not yours. We establish clear mental and physical boundaries to create immediate space." },
+                        ala: { t: "GOAL: SHIFTING FOCUS", d: "You are exhausted from constant rumination. We train the ability to determine the space between stimulus and response yourself again." },
+                        cri: { t: "GOAL: ESTABLISHING FLOW", d: "The foundation is there. We now focus on living lightness not as an exception, but as a daily, effortless identity." }
+                    }
                 },
-                s7: { 
-                    lbl: "THE NEXT STEP", 
-                    title: "Your 4-Day Flow", 
+                s7: {
+                    lbl: "THE NEXT STEP",
+                    title: "Your 4-Day Flow",
                     sub: "Secure your access and allow yourself lightness.",
                     lblFname: "FIRST NAME", lblEmail: "EMAIL", lblChannel: "DELIVERY VIA",
-                    em: "your@email.com", 
+                    em: "your@email.com",
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
                     errServer: "An error occurred. Please try again.",
                     placeholders: { fname: "Your First Name" },
+                    channelNote: "ℹ️ You'll receive your free first 4 days via the channel you select here. The following 90-day access is delivered via <strong>Telegram</strong> by default (included at no extra cost). If you'd prefer ongoing delivery via <strong>WhatsApp</strong>, you can add the separate WhatsApp Upgrade.",
                     disclaimer: "<strong>Important:</strong> Your data will 100% only be used for the automated delivery of this course. We will never share your data with third parties. Your trust is sacred to us."
                 },
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
@@ -357,69 +362,70 @@
             es: {
                 pageTitle: "El Camino a la Ligereza - Incorporación",
                 btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
-                s1: { 
-                    lbl: "FASE 1: EL EQUIPAJE", 
-                    title: "¿Qué es lo que actualmente crea más pesadez en tu vida diaria?", 
-                    opts: { 
-                        overload: "Mi mente nunca se detiene. Pienso todo en exceso y estoy mentalmente agotado. (Sobrecarga)", 
-                        boundaries: "Digo 'sí' a los demás con demasiada frecuencia y me pierdo en obligaciones. (Falta de límites)", 
-                        tension: "Siento una tensión física constante y subyacente y cierta inquietud. (Estrés)" 
-                    } 
+                s1: {
+                    lbl: "FASE 1: EL EQUIPAJE",
+                    title: "¿Qué es lo que actualmente crea más pesadez en tu vida diaria?",
+                    opts: {
+                        overload: "Mi mente nunca se detiene. Pienso todo en exceso y estoy mentalmente agotado. (Sobrecarga)",
+                        boundaries: "Digo 'sí' a los demás con demasiada frecuencia y me pierdo en obligaciones. (Falta de límites)",
+                        tension: "Siento una tensión física constante y subyacente y cierta inquietud. (Estrés)"
+                    }
                 },
-                s2: { 
-                    lbl: "FASE 2: LAS CONSECUENCIAS", 
-                    title: "¿Qué te cuesta más este estado? (Opción múltiple)", 
-                    opts: { 
-                        overload: ["Pierdo el enfoque en lo que es verdaderamente importante.", "Estoy demasiado cansado por la noche para las cosas hermosas de la vida.", "Vivo casi exclusivamente en el futuro o en el pasado."], 
-                        boundaries: ["Profunda insatisfacción porque mis propias necesidades quedan rezagadas.", "Ira reprimida que se descarga en los lugares equivocados.", "Me siento como un pasajero en mi propia vida."], 
-                        tension: ["Ya no puedo disfrutar de verdaderos descansos sin sentirme culpable.", "Tensión crónica o problemas para dormir.", "La sensación de estar constantemente huyendo."] 
-                    } 
+                s2: {
+                    lbl: "FASE 2: LAS CONSECUENCIAS",
+                    title: "¿Qué te cuesta más este estado? (Opción múltiple)",
+                    opts: {
+                        overload: ["Pierdo el enfoque en lo que es verdaderamente importante.", "Estoy demasiado cansado por la noche para las cosas hermosas de la vida.", "Vivo casi exclusivamente en el futuro o en el pasado."],
+                        boundaries: ["Profunda insatisfacción porque mis propias necesidades quedan rezagadas.", "Ira reprimida que se descarga en los lugares equivocados.", "Me siento como un pasajero en mi propia vida."],
+                        tension: ["Ya no puedo disfrutar de verdaderos descansos sin sentirme culpable.", "Tensión crónica o problemas para dormir.", "La sensación de estar constantemente huyendo."]
+                    }
                 },
-                s3: { 
-                    lbl: "FASE 3: EL SISTEMA NERVIOSO", 
-                    title: "Cuando ocurre un estrés inesperado, ¿cómo reacciona tu sistema?", 
-                    opts: { 
-                        high: "Inmediatamente entro en pánico, me pongo agitado o extremadamente irritable (Lucha/Huida).", 
-                        med: "Me congelo internamente, procrastino o me adormezco (Parálisis).", 
-                        low: "Generalmente puedo tomar un breve respiro y luego actuar con claridad." 
-                    } 
+                s3: {
+                    lbl: "FASE 3: EL SISTEMA NERVIOSO",
+                    title: "Cuando ocurre un estrés inesperado, ¿cómo reacciona tu sistema?",
+                    opts: {
+                        high: "Inmediatamente entro en pánico, me pongo agitado o extremadamente irritable (Lucha/Huida).",
+                        med: "Me congelo internamente, procrastino o me adormezco (Parálisis).",
+                        low: "Generalmente puedo tomar un breve respiro y luego actuar con claridad."
+                    }
                 },
-                s4: { 
-                    lbl: "FASE 4: LA NOCHE", 
-                    title: "¿Qué tan fácil te resulta desconectarte de verdad al final del día?", 
-                    opts: { 
-                        high: "Para nada. Sin distracción constante (teléfono, TV), no soporto el volumen interior.", 
-                        med: "Toma mucho tiempo. Mi cerebro necesita horas para apagarse.", 
-                        low: "Bastante fácil. Encuentro bien el camino hacia la calma y no necesito estimulación permanente." 
-                    } 
+                s4: {
+                    lbl: "FASE 4: LA NOCHE",
+                    title: "¿Qué tan fácil te resulta desconectarte de verdad al final del día?",
+                    opts: {
+                        high: "Para nada. Sin distracción constante (teléfono, TV), no soporto el volumen interior.",
+                        med: "Toma mucho tiempo. Mi cerebro necesita horas para apagarse.",
+                        low: "Bastante fácil. Encuentro bien el camino hacia la calma y no necesito estimulación permanente."
+                    }
                 },
                 s5: { title: "ANALIZANDO DINÁMICAS...", sub: "Evaluando patrones cognitivos y neurocepción." },
-                s6: { 
-                    lbl: "TU PLAN DE ACCIÓN", 
-                    costLbl: "TU PUNTO DE PARTIDA:", 
+                s6: {
+                    lbl: "TU PLAN DE ACCIÓN",
+                    costLbl: "TU PUNTO DE PARTIDA:",
                     actionLbl: "RECOMENDACIÓN:",
-                    costVal: { 
-                        overload: "Estás funcionando en el sistema 'rápido' inconsciente (Kahneman). Tu cerebro produce pesadez porque ya no filtra lo que es verdaderamente esencial.", 
-                        boundaries: "Usas tu energía para cumplir las expectativas de los demás. Pero la verdadera ligereza no proviene de tener más capacidad, sino del coraje de soltar el equipaje no esencial.", 
-                        tension: "Tu sistema nervioso señala peligro constantemente (Neurocepción). Mientras el cuerpo no cambie fisiológicamente a la seguridad, la ligereza mental es biológicamente imposible." 
-                    }, 
+                    costVal: {
+                        overload: "Estás funcionando en el sistema 'rápido' inconsciente (Kahneman). Tu cerebro produce pesadez porque ya no filtra lo que es verdaderamente esencial.",
+                        boundaries: "Usas tu energía para cumplir las expectativas de los demás. Pero la verdadera ligereza no proviene de tener más capacidad, sino del coraje de soltar el equipaje no esencial.",
+                        tension: "Tu sistema nervioso señala peligro constantemente (Neurocepción). Mientras el cuerpo no cambie fisiológicamente a la seguridad, la ligereza mental es biológicamente imposible."
+                    },
                     msg: "Esta pesadez no es un diagnóstico de por vida. Es el resultado de un sistema completamente sobreestimulado. En este Flujo de 4 Días, usamos herramientas pragmáticas de la psicología y la neurobiología para apagar este ruido y hacer de la ligereza profunda y sin esfuerzo tu nuevo estado predeterminado.",
-                    lvls: { 
-                        ext: { t: "META: CALMAR EL SISTEMA", d: "Tu sistema está en un estado de alarma crónico. El primer paso es cambiar profundamente el sistema nervioso hacia la seguridad a través de la respiración y el cuerpo." }, 
-                        dan: { t: "META: SOLTAR EL EQUIPAJE", d: "Cargas con el peso de cosas que no son tuyas. Establecemos límites mentales y físicos claros para crear espacio de inmediato." }, 
-                        ala: { t: "META: CAMBIAR EL ENFOQUE", d: "Estás exhausto por la rumiación constante. Entrenamos la capacidad de determinar por ti mismo el espacio entre el estímulo y la respuesta." }, 
-                        cri: { t: "META: ESTABLECER FLUJO", d: "La base está ahí. Ahora nos enfocamos en vivir la ligereza no como una excepción, sino como una identidad diaria y sin esfuerzo." } 
-                    } 
+                    lvls: {
+                        ext: { t: "META: CALMAR EL SISTEMA", d: "Tu sistema está en un estado de alarma crónico. El primer paso es cambiar profundamente el sistema nervioso hacia la seguridad a través de la respiración y el cuerpo." },
+                        dan: { t: "META: SOLTAR EL EQUIPAJE", d: "Cargas con el peso de cosas que no son tuyas. Establecemos límites mentales y físicos claros para crear espacio de inmediato." },
+                        ala: { t: "META: CAMBIAR EL ENFOQUE", d: "Estás exhausto por la rumiación constante. Entrenamos la capacidad de determinar por ti mismo el espacio entre el estímulo y la respuesta." },
+                        cri: { t: "META: ESTABLECER FLUJO", d: "La base está ahí. Ahora nos enfocamos en vivir la ligereza no como una excepción, sino como una identidad diaria y sin esfuerzo." }
+                    }
                 },
-                s7: { 
-                    lbl: "EL PRÓXIMO PASO", 
-                    title: "Tu Flujo de 4 Días", 
+                s7: {
+                    lbl: "EL PRÓXIMO PASO",
+                    title: "Tu Flujo de 4 Días",
                     sub: "Asegura tu acceso y permítete la ligereza.",
                     lblFname: "NOMBRE", lblEmail: "EMAIL", lblChannel: "ENTREGA VÍA",
-                    em: "tu@email.com", 
+                    em: "tu@email.com",
                     errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
                     errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
                     placeholders: { fname: "Tu Nombre" },
+                    channelNote: "ℹ️ Recibirás tus primeros 4 días gratuitos a través del canal que elijas aquí. El acceso posterior de 90 días se entrega por defecto vía <strong>Telegram</strong> (incluido sin coste adicional). Si prefieres continuar por <strong>WhatsApp</strong>, puedes añadir el Upgrade de WhatsApp por separado.",
                     disclaimer: "<strong>Importante:</strong> Tus datos se utilizarán 100% exclusivamente para la entrega automatizada de este curso. Nunca compartiremos tus datos con terceros. Tu confianza es sagrada para nosotros."
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
@@ -430,40 +436,41 @@
         if (!currentLang || !t[currentLang]) {
             currentLang = 'de';
         }
-        
+
         let step = 1;
-        let answers = { root_problem: '', pain_point: [], nervous_system: '', evening: '' }; 
-        let chosenPath = ''; 
-        
+        let answers = { root_problem: '', pain_point: [], nervous_system: '', evening: '' };
+        let chosenPath = '';
+
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
         function updateTexts() {
             const l = t[currentLang];
             document.documentElement.lang = currentLang;
             document.title = l.pageTitle;
-            
+
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
-            
+
             document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
             document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
             document.getElementById('s3-lbl').innerText = l.s3.lbl; document.getElementById('s3-title').innerText = l.s3.title;
             document.getElementById('s4-lbl').innerText = l.s4.lbl; document.getElementById('s4-title').innerText = l.s4.title;
             document.getElementById('s5-title').innerText = l.s5.title; document.getElementById('s5-sub').innerText = l.s5.sub;
-            
-            document.getElementById('s6-lbl').innerText = l.s6.lbl; 
-            
-            document.getElementById('s7-lbl').innerText = l.s7.lbl; 
-            document.getElementById('s7-title').innerText = l.s7.title; 
+
+            document.getElementById('s6-lbl').innerText = l.s6.lbl;
+
+            document.getElementById('s7-lbl').innerText = l.s7.lbl;
+            document.getElementById('s7-title').innerText = l.s7.title;
             document.getElementById('s7-sub').innerText = l.s7.sub;
-            
+
             document.getElementById('lbl-fname').innerText = l.s7.lblFname;
             document.getElementById('lbl-email').innerText = l.s7.lblEmail;
             document.getElementById('lbl-channel').innerText = l.s7.lblChannel;
-            
+
             document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
-            document.getElementById('reg-email').placeholder = l.s7.em; 
-            
+            document.getElementById('reg-email').placeholder = l.s7.em;
+
             document.getElementById('btn-register').innerText = l.btn.pay;
+            document.getElementById('channel-note').innerHTML = l.s7.channelNote;
             if(l.s7.disclaimer) {
                 document.getElementById('s7-disclaimer').innerHTML = l.s7.disclaimer;
             }
@@ -474,14 +481,14 @@
             document.getElementById('link-cook').innerText = l.legal.cook;
         }
 
-        window.onload = () => { 
+        window.onload = () => {
             document.getElementById('langSelect').value = currentLang;
-            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`; 
+            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`;
         };
 
-        function selectLang(lang) { 
+        function selectLang(lang) {
             currentLang = lang; localStorage.setItem('smh_language', lang);
-            updateTexts(); buildOptions(); if (step === 6) renderResult(); 
+            updateTexts(); buildOptions(); if (step === 6) renderResult();
         }
 
         function createOptionBtn(text, isSelected, isMulti, onClick) {
@@ -505,13 +512,13 @@
                             buildOptions(); checkNextState();
                         } else {
                             answers[key] = k; buildOptions(); checkNextState();
-                            setTimeout(() => handleNext(), 350); 
+                            setTimeout(() => handleNext(), 350);
                         }
                     }));
                 });
             };
             build('s1-opts', l.s1.opts, 'root_problem', false);
-            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true); 
+            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true);
             build('s3-opts', l.s3.opts, 'nervous_system', false);
             build('s4-opts', l.s4.opts, 'evening', false);
         }
@@ -524,35 +531,35 @@
             let score = 75;
             if(answers.nervous_system === 'high') score += 12; else if(answers.nervous_system === 'med') score += 6;
             if(answers.evening === 'high') score += 12; else if(answers.evening === 'med') score += 6;
-            
+
             const res = t[currentLang].s6;
             let lvl;
-            
-            if (score >= 90) { 
-                lvl = res.lvls.ext; 
+
+            if (score >= 90) {
+                lvl = res.lvls.ext;
                 chosenPath = 'ext';
             }
-            else if (score >= 85) { 
-                lvl = res.lvls.dan; 
+            else if (score >= 85) {
+                lvl = res.lvls.dan;
                 chosenPath = 'dan';
             }
-            else if (score >= 80) { 
-                lvl = res.lvls.ala; 
+            else if (score >= 80) {
+                lvl = res.lvls.ala;
                 chosenPath = 'ala';
             }
-            else { 
-                lvl = res.lvls.cri; 
+            else {
+                lvl = res.lvls.cri;
                 chosenPath = 'cri';
             }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
-            document.getElementById('res-score').innerText = lvl.t; 
-            document.getElementById('res-level').innerText = lvl.d; 
-            
-            document.getElementById('res-cost-lbl').innerText = res.costLbl; 
+            document.getElementById('res-score').innerText = lvl.t;
+            document.getElementById('res-level').innerText = lvl.d;
+
+            document.getElementById('res-cost-lbl').innerText = res.costLbl;
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
-            
-            document.getElementById('res-action-lbl').innerText = res.actionLbl; 
+
+            document.getElementById('res-action-lbl').innerText = res.actionLbl;
             document.getElementById('s6-msg').innerText = res.msg;
         }
 
@@ -561,15 +568,15 @@
             if(step === 2 && answers.pain_point.length === 0) return;
             if(step === 3 && !answers.nervous_system) return;
             if(step === 4 && !answers.evening) return;
-            
+
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
             document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
-            
+
             bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
             if(step === 6) bNext.innerText = t[currentLang].btn.next;
             checkNextState();
-            
+
             document.getElementById(`step-${step}`).classList.add('active'); window.scrollTo(0,0);
             if(step === 5) setTimeout(() => { handleNext(); renderResult(); }, 2000);
         }
@@ -584,7 +591,7 @@
             checkNextState(); window.scrollTo(0,0);
         }
 
-        function generateAccessCode() { 
+        function generateAccessCode() {
             const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
             const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
             return p1 + '-' + p2;
@@ -595,8 +602,8 @@
             const email = document.getElementById('reg-email').value.trim();
             const channel = document.getElementById('reg-channel').value;
             const errEl = document.getElementById('reg-error');
-            const btn = document.getElementById('btn-register'); 
-            
+            const btn = document.getElementById('btn-register');
+
             if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
@@ -608,57 +615,24 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                let { data: existingLead, error: searchError } = await supabaseClient
-                    .from('leads')
-                    .select('id, email')
-                    .eq('email', email)
-                    .single();
+                const { error: rpcError } = await supabaseClient.rpc('register_lead', {
+                    p_email: email,
+                    p_first_name: fname,
+                    p_delivery_channel: channel,
+                    p_source: 'path_to_lightness_flow',
+                    p_language: currentLang,
+                    p_onboarding_data: answers,
+                    p_access_code: accessCode,
+                    p_chosen_path: chosenPath,
+                    p_flow_name: 'Path to Lightness'
+                });
 
-                if (!existingLead) {
-                    const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
-                        { 
-                            email: email, 
-                            first_name: fname, 
-                            delivery_channel: channel,
-                            source: 'path_to_lightness_flow',
-                            language: currentLang,
-                            marketing_consent: true,
-                            onboarding_data: answers,
-                            access_code: accessCode,
-                            chosen_path: chosenPath
-                        }
-                    ]).select().single();
-
-                    if (insertError) throw insertError;
-                } else {
-                    const { error: updateError } = await supabaseClient.from('leads').update({
-                        first_name: fname,
-                        delivery_channel: channel,
-                        language: currentLang,
-                        onboarding_data: answers,
-                        access_code: accessCode,
-                        chosen_path: chosenPath
-                    }).eq('id', existingLead.id);
-
-                    if (updateError) throw updateError;
-                }
-
-                const { data: newFlow, error: flowError } = await supabaseClient.from('active_flows').insert([
-                    { 
-                        lead_email: email, 
-                        flow_name: 'Path to Lightness',
-                        current_mentoring_day: 1,
-                        has_paid: false,
-                        status: 'active'
-                    }
-                ]);
-
-                if (flowError) throw flowError;
+                if (rpcError) throw rpcError;
 
                 const baseMessage = botMessages[currentLang] || botMessages['de'];
                 const accessLabel = accessLabels[currentLang] || accessLabels['de'];
                 const finalMessage = `${baseMessage}\n\n${accessLabel} ${accessCode}`;
-                
+
                 const encodedMessage = encodeURIComponent(finalMessage);
 
                 if(channel === 'telegram') {
@@ -668,7 +642,7 @@
                 }
             } catch(e) {
                 console.error("Error:", e);
-                errEl.innerText = t[currentLang].s7.errServer; 
+                errEl.innerText = t[currentLang].s7.errServer;
                 errEl.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
