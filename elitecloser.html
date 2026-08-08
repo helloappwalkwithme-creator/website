@@ -16,24 +16,24 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --dark: #101512; 
+            --dark: #101512;
             --gray: #1b241e;
             --gray-active: #243028;
             --border: #2e4033;
             --gold: #4e9b62; /* Elite Green/Gold */
-            --text: #f2efe9; 
+            --text: #f2efe9;
             --error: #cf6666;
             --success: #7a9e7c;
             --action: #4e9b62; /* Action plan color */
         }
 
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        
-        body { 
-            margin: 0; padding: 0; background-color: var(--dark); color: var(--text); 
-            display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; 
+
+        body {
+            margin: 0; padding: 0; background-color: var(--dark); color: var(--text);
+            display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden;
         }
-        
+
         .progress-container { width: 100%; height: 3px; background-color: #222; position: fixed; top: 0; left: 0; z-index: 100; display: block; }
         .progress-bar { height: 100%; background-color: var(--gold); width: 0%; transition: width 0.4s ease; }
 
@@ -42,7 +42,7 @@
         .lang-switcher:focus { border-color: var(--gold); }
 
         main { flex: 1; padding: 20px 20px 100px 20px; max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
-        
+
         .step { display: none; animation: fadeIn 0.4s ease forwards; }
         .step.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -55,7 +55,7 @@
         .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
         .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.5; font-weight: 500; }
         .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 700; }
-        
+
         .radio-icon { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #555; display: flex; align-items: center; justify-content: center; }
         .quiz-btn.selected .radio-icon { border-color: var(--gold); }
         .radio-icon::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); display: none; }
@@ -67,11 +67,11 @@
         .result-card { background-color: #161c18; border: 2px solid var(--action); border-radius: 12px; padding: 25px 20px; text-align: center; margin-bottom: 16px; }
         .result-score { color: var(--action); font-size: 22px; font-weight: 800; line-height: 1.3; margin-bottom: 10px; text-transform: uppercase; }
         .result-level { color: #a5e8b4; font-size: 15px; font-weight: 500; line-height: 1.5; }
-        
+
         .insight-card { background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
         .insight-title { color: #ccc; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
         .insight-text { color: #b5b5b5; font-size: 14px; line-height: 1.6; }
-        
+
         .info-card { background: #19211c; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 3px solid var(--gold); }
 
         .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(16, 21, 18, 0.95); backdrop-filter: blur(8px); border-top: 1px solid var(--border); padding: 15px 20px 25px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
@@ -81,7 +81,7 @@
 
         .input-field { background-color: #202b24; border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-family: -apple-system, sans-serif; font-weight: 500;}
         .input-field:focus { border-color: var(--gold); outline: none; }
-        
+
         .channel-note { font-size: 12px; color: #aaaaaa; margin: -8px 0 16px 0; line-height: 1.5; }
 
         .legal-disclaimer { font-size: 12px; color: #aaaaaa; margin-top: 20px; line-height: 1.6; text-align: center; border-top: 1px solid var(--border); padding-top: 15px; font-family: -apple-system, sans-serif; }
@@ -140,12 +140,12 @@
 
         <div class="step" id="step-6">
             <div class="flow-title" id="s6-lbl"></div>
-            
+
             <div class="result-card" id="res-card">
                 <div class="result-score" id="res-score"></div>
                 <div class="result-level" id="res-level"></div>
             </div>
-            
+
             <div class="insight-card">
                 <div class="insight-title" id="res-cost-lbl"></div>
                 <div class="insight-text" id="res-cost-val"></div>
@@ -162,10 +162,10 @@
                 <h1 class="h1-title" id="s7-title"></h1>
                 <p class="subtitle" id="s7-sub"></p>
             </div>
-            
+
             <div class="flow-title" id="lbl-fname"></div>
             <input type="text" id="reg-fname" class="input-field" placeholder="">
-            
+
             <div class="flow-title" id="lbl-email"></div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email" placeholder="">
 
@@ -175,7 +175,7 @@
                 <option value="telegram">Telegram</option>
             </select>
             <p class="channel-note" id="channel-note"></p>
-            
+
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
 
@@ -184,9 +184,9 @@
     </main>
 
     <footer class="legal-footer">
-        <a href="impressum.html" id="link-imp">Impressum</a> | 
-        <a href="datenschutz.html" id="link-dat">Datenschutz</a> | 
-        <a href="agb.html" id="link-agb">AGB</a> | 
+        <a href="impressum.html" id="link-imp">Impressum</a> |
+        <a href="datenschutz.html" id="link-dat">Datenschutz</a> |
+        <a href="agb.html" id="link-agb">AGB</a> |
         <a href="cookie.html" id="link-cook">Cookie-Richtlinie</a>
     </footer>
 
@@ -199,10 +199,10 @@
         const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
-        
+
         // HIER deine WhatsApp Nummer und den Telegram Bot Namen eintragen
-        const waNumber = "491632225456"; 
-        const tgBotName = "DEIN_BOT_NAME"; 
+        const waNumber = "491632225456";
+        const tgBotName = "DEIN_BOT_NAME";
 
         const botMessages = {
             de: "Hallo, ich möchte meinen kostenlosen The Elite Closer Flow starten. Bitte aktiviere meinen Zugang.",
@@ -220,66 +220,66 @@
             de: {
                 pageTitle: "The Elite Closer - Onboarding",
                 btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM 4-TAGE-FLOW" },
-                s1: { 
-                    lbl: "PHASE 1: DER ENGPASS", 
-                    title: "Wo verlierst du aktuell das meiste Geld im Vertrieb?", 
-                    opts: { 
-                        conversion: "Ich habe Leads und Gespräche, aber kriege sie am Ende nicht geclosed. (Conversion)", 
-                        reluctance: "Ich drücke mich vor der Akquise und spüre Widerstand bei Zurückweisung. (Blockade)", 
-                        discounting: "Ich knicke bei Preisverhandlungen zu früh ein und gebe Rabatte. (Marge)" 
-                    } 
+                s1: {
+                    lbl: "PHASE 1: DER ENGPASS",
+                    title: "Wo verlierst du aktuell das meiste Geld im Vertrieb?",
+                    opts: {
+                        conversion: "Ich habe Leads und Gespräche, aber kriege sie am Ende nicht geclosed. (Conversion)",
+                        reluctance: "Ich drücke mich vor der Akquise und spüre Widerstand bei Zurückweisung. (Blockade)",
+                        discounting: "Ich knicke bei Preisverhandlungen zu früh ein und gebe Rabatte. (Marge)"
+                    }
                 },
-                s2: { 
-                    lbl: "PHASE 2: DER PREIS", 
-                    title: "Was ist deine größte Sorge, wenn das so weitergeht? (Mehrfachauswahl)", 
-                    opts: { 
-                        conversion: ["Ich verbrenne teures Marketingbudget.", "Ich wirke inkompetent auf Interessenten.", "Ich verfehle meine Umsatzziele massiv."], 
-                        reluctance: ["Finanzieller Druck, weil die Pipeline leer bleibt.", "Dass ich die Branche am Ende wechseln muss.", "Ständige innere Unruhe und Existenzangst."], 
-                        discounting: ["Ich arbeite hart, aber lasse zu viel Geld liegen.", "Ich ziehe Kunden an, die den Preis statt den Wert suchen.", "Ich verliere das absolute Vertrauen in mein Produkt."] 
-                    } 
+                s2: {
+                    lbl: "PHASE 2: DER PREIS",
+                    title: "Was ist deine größte Sorge, wenn das so weitergeht? (Mehrfachauswahl)",
+                    opts: {
+                        conversion: ["Ich verbrenne teures Marketingbudget.", "Ich wirke inkompetent auf Interessenten.", "Ich verfehle meine Umsatzziele massiv."],
+                        reluctance: ["Finanzieller Druck, weil die Pipeline leer bleibt.", "Dass ich die Branche am Ende wechseln muss.", "Ständige innere Unruhe und Existenzangst."],
+                        discounting: ["Ich arbeite hart, aber lasse zu viel Geld liegen.", "Ich ziehe Kunden an, die den Preis statt den Wert suchen.", "Ich verliere das absolute Vertrauen in mein Produkt."]
+                    }
                 },
-                s3: { 
-                    lbl: "PHASE 3: EINWANDBEHANDLUNG", 
-                    title: "Wenn der Kunde im Call sagt: 'Das ist mir zu teuer', was tust du?", 
-                    opts: { 
-                        high: "Ich rechtfertige mich sofort oder biete von mir aus Ratenzahlung/Rabatt an.", 
-                        med: "Ich diskutiere logisch dagegen, verliere dabei aber die emotionale Verbindung.", 
-                        low: "Ich isoliere den Einwand souverän und zeige messerscharf den ROI auf." 
-                    } 
+                s3: {
+                    lbl: "PHASE 3: EINWANDBEHANDLUNG",
+                    title: "Wenn der Kunde im Call sagt: 'Das ist mir zu teuer', was tust du?",
+                    opts: {
+                        high: "Ich rechtfertige mich sofort oder biete von mir aus Ratenzahlung/Rabatt an.",
+                        med: "Ich diskutiere logisch dagegen, verliere dabei aber die emotionale Verbindung.",
+                        low: "Ich isoliere den Einwand souverän und zeige messerscharf den ROI auf."
+                    }
                 },
-                s4: { 
-                    lbl: "PHASE 4: PIPELINE", 
-                    title: "Wenn du dir deine Sales-Pipeline für den nächsten Monat ansiehst, wie fühlst du dich?", 
-                    opts: { 
-                        high: "Pure Panik. Da ist nichts drin und ich weiß nicht, woher der Umsatz kommen soll.", 
-                        med: "Gestresst. Da sind zwar Leads, aber viele wirken kalt oder unqualifiziert.", 
-                        low: "Zuversichtlich. Ich kenne meine Quoten und habe ein verlässliches System." 
-                    } 
+                s4: {
+                    lbl: "PHASE 4: PIPELINE",
+                    title: "Wenn du dir deine Sales-Pipeline für den nächsten Monat ansiehst, wie fühlst du dich?",
+                    opts: {
+                        high: "Pure Panik. Da ist nichts drin und ich weiß nicht, woher der Umsatz kommen soll.",
+                        med: "Gestresst. Da sind zwar Leads, aber viele wirken kalt oder unqualifiziert.",
+                        low: "Zuversichtlich. Ich kenne meine Quoten und habe ein verlässliches System."
+                    }
                 },
                 s5: { title: "DYNAMIK WIRD ANALYSIERT...", sub: "Verkaufspsychologie und Muster werden ausgewertet." },
-                s6: { 
-                    lbl: "DEIN AKTIONSPLAN", 
-                    costLbl: "DEINE AUSGANGSLAGE:", 
+                s6: {
+                    lbl: "DEIN AKTIONSPLAN",
+                    costLbl: "DEINE AUSGANGSLAGE:",
                     actionLbl: "HANDLUNGSEMPFEHLUNG:",
-                    costVal: { 
-                        conversion: "Du argumentierst extrem logisch und fachlich stark. Im Vertrieb kaufen Menschen jedoch emotionale Transformationen. Aktuell verlierst du hier deinen stärksten Hebel.", 
-                        reluctance: "Dein System wertet ein vertriebliches 'Nein' unbewusst als persönliche Ablehnung. Das erzeugt inneren Widerstand und kostet dich wertvolle Schlagzahl.", 
-                        discounting: "Du knickst ein, um den Deal zu retten. Dem Kunden signalisiert das unbewusst, dass dein Angebot den Vollpreis eventuell nicht wert ist." 
-                    }, 
+                    costVal: {
+                        conversion: "Du argumentierst extrem logisch und fachlich stark. Im Vertrieb kaufen Menschen jedoch emotionale Transformationen. Aktuell verlierst du hier deinen stärksten Hebel.",
+                        reluctance: "Dein System wertet ein vertriebliches 'Nein' unbewusst als persönliche Ablehnung. Das erzeugt inneren Widerstand und kostet dich wertvolle Schlagzahl.",
+                        discounting: "Du knickst ein, um den Deal zu retten. Dem Kunden signalisiert das unbewusst, dass dein Angebot den Vollpreis eventuell nicht wert ist."
+                    },
                     msg: "Verkaufen ist keine Magie, sondern erlernbare Verkaufspsychologie. Ein 'Nein' ist keine persönliche Ablehnung, sondern eine Bitte um mehr Sicherheit. In diesem Flow wirst du lernen, Autorität aufzubauen und High-Ticket Deals zu closen, ohne pushy zu sein.",
-                    lvls: { 
-                        ext: { t: "ZIEL: SYSTEMATISCHES CLOSING", d: "Dein Verkaufsprozess ist oft ein Glücksspiel. Der erste Schritt ist, ein klares psychologisches Framework zu etablieren, das dir Sicherheit gibt." }, 
-                        dan: { t: "ZIEL: SOUVERÄNE FÜHRUNG", d: "Du hoffst auf den Abschluss, statt den Kunden dorthin zu führen. Wir werden eine klare Alpha-Präsenz für deine Calls etablieren." }, 
-                        ala: { t: "ZIEL: PREISSTABILITÄT", d: "Du fastest den Deal, lässt aber Marge liegen. Wir trainieren deine Einwandbehandlung, damit du deinen Wert zu 100% verteidigst." }, 
-                        cri: { t: "ZIEL: CLOSING MASTERY", d: "Deine Basis ist solide. Jetzt geht es um die psychologischen Nuancen, um deine Conversion-Rate zu maximieren." } 
-                    } 
+                    lvls: {
+                        ext: { t: "ZIEL: SYSTEMATISCHES CLOSING", d: "Dein Verkaufsprozess ist oft ein Glücksspiel. Der erste Schritt ist, ein klares psychologisches Framework zu etablieren, das dir Sicherheit gibt." },
+                        dan: { t: "ZIEL: SOUVERÄNE FÜHRUNG", d: "Du hoffst auf den Abschluss, statt den Kunden dorthin zu führen. Wir werden eine klare Alpha-Präsenz für deine Calls etablieren." },
+                        ala: { t: "ZIEL: PREISSTABILITÄT", d: "Du fastest den Deal, lässt aber Marge liegen. Wir trainieren deine Einwandbehandlung, damit du deinen Wert zu 100% verteidigst." },
+                        cri: { t: "ZIEL: CLOSING MASTERY", d: "Deine Basis ist solide. Jetzt geht es um die psychologischen Nuancen, um deine Conversion-Rate zu maximieren." }
+                    }
                 },
-                s7: { 
-                    lbl: "DER NÄCHSTE SCHRITT", 
-                    title: "Dein 4-Tage-Flow", 
+                s7: {
+                    lbl: "DER NÄCHSTE SCHRITT",
+                    title: "Dein 4-Tage-Flow",
                     sub: "Sichere dir deinen Zugang und werde zum Closer.",
                     lblFname: "VORNAME", lblEmail: "EMAIL", lblChannel: "AUSLIEFERUNG ÜBER",
-                    em: "deine@email.com", 
+                    em: "deine@email.com",
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
                     errServer: "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal.",
                     placeholders: { fname: "Dein Vorname" },
@@ -291,66 +291,66 @@
             en: {
                 pageTitle: "The Elite Closer - Onboarding",
                 btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
-                s1: { 
-                    lbl: "PHASE 1: THE BOTTLENECK", 
-                    title: "Where are you currently losing the most money in sales?", 
-                    opts: { 
-                        conversion: "I have leads and calls, but I can't close them in the end. (Conversion)", 
-                        reluctance: "I feel resistance towards prospecting and fear rejection. (Reluctance)", 
-                        discounting: "I cave in too early on price negotiations and give discounts. (Margin)" 
-                    } 
+                s1: {
+                    lbl: "PHASE 1: THE BOTTLENECK",
+                    title: "Where are you currently losing the most money in sales?",
+                    opts: {
+                        conversion: "I have leads and calls, but I can't close them in the end. (Conversion)",
+                        reluctance: "I feel resistance towards prospecting and fear rejection. (Reluctance)",
+                        discounting: "I cave in too early on price negotiations and give discounts. (Margin)"
+                    }
                 },
-                s2: { 
-                    lbl: "PHASE 2: THE PRICE", 
-                    title: "What is your biggest fear if this continues? (Multiple choice)", 
-                    opts: { 
-                        conversion: ["Burning through expensive marketing budgets.", "Looking incompetent to prospects.", "Massively missing my revenue targets."], 
-                        reluctance: ["Financial pressure because the pipeline stays empty.", "Having to quit the industry entirely.", "Constant anxiety and fear for my livelihood."], 
-                        discounting: ["Working hard but leaving too much money on the table.", "Attracting clients who look for price instead of value.", "Losing absolute trust in my product."] 
-                    } 
+                s2: {
+                    lbl: "PHASE 2: THE PRICE",
+                    title: "What is your biggest fear if this continues? (Multiple choice)",
+                    opts: {
+                        conversion: ["Burning through expensive marketing budgets.", "Looking incompetent to prospects.", "Massively missing my revenue targets."],
+                        reluctance: ["Financial pressure because the pipeline stays empty.", "Having to quit the industry entirely.", "Constant anxiety and fear for my livelihood."],
+                        discounting: ["Working hard but leaving too much money on the table.", "Attracting clients who look for price instead of value.", "Losing absolute trust in my product."]
+                    }
                 },
-                s3: { 
-                    lbl: "PHASE 3: OBJECTION HANDLING", 
-                    title: "When the prospect says: 'It's too expensive', what do you do?", 
-                    opts: { 
-                        high: "I immediately justify the price or offer a discount/payment plan.", 
-                        med: "I argue logically against it, but lose the emotional connection.", 
-                        low: "I confidently isolate the objection and demonstrate clear ROI." 
-                    } 
+                s3: {
+                    lbl: "PHASE 3: OBJECTION HANDLING",
+                    title: "When the prospect says: 'It's too expensive', what do you do?",
+                    opts: {
+                        high: "I immediately justify the price or offer a discount/payment plan.",
+                        med: "I argue logically against it, but lose the emotional connection.",
+                        low: "I confidently isolate the objection and demonstrate clear ROI."
+                    }
                 },
-                s4: { 
-                    lbl: "PHASE 4: PIPELINE", 
-                    title: "When you look at your sales pipeline for next month, how do you feel?", 
-                    opts: { 
-                        high: "Pure panic. It's empty and I have no idea where the revenue will come from.", 
-                        med: "Stressed. There are leads, but many seem cold or unqualified.", 
-                        low: "Confident. I know my conversion rates and have a reliable system." 
-                    } 
+                s4: {
+                    lbl: "PHASE 4: PIPELINE",
+                    title: "When you look at your sales pipeline for next month, how do you feel?",
+                    opts: {
+                        high: "Pure panic. It's empty and I have no idea where the revenue will come from.",
+                        med: "Stressed. There are leads, but many seem cold or unqualified.",
+                        low: "Confident. I know my conversion rates and have a reliable system."
+                    }
                 },
                 s5: { title: "ANALYZING DYNAMICS...", sub: "Evaluating sales psychology and patterns." },
-                s6: { 
-                    lbl: "YOUR ACTION PLAN", 
-                    costLbl: "YOUR STARTING POINT:", 
+                s6: {
+                    lbl: "YOUR ACTION PLAN",
+                    costLbl: "YOUR STARTING POINT:",
                     actionLbl: "RECOMMENDATION:",
-                    costVal: { 
-                        conversion: "You argue logically and with strong expertise. However, in sales, people buy emotional transformations. Currently, you are losing your strongest leverage here.", 
-                        reluctance: "Your system unconsciously interprets a sales 'no' as a personal rejection. This creates inner resistance and costs you valuable momentum.", 
-                        discounting: "You cave in to save the deal. Subconsciously, this signals to the prospect that your offer might not actually be worth full price." 
-                    }, 
+                    costVal: {
+                        conversion: "You argue logically and with strong expertise. However, in sales, people buy emotional transformations. Currently, you are losing your strongest leverage here.",
+                        reluctance: "Your system unconsciously interprets a sales 'no' as a personal rejection. This creates inner resistance and costs you valuable momentum.",
+                        discounting: "You cave in to save the deal. Subconsciously, this signals to the prospect that your offer might not actually be worth full price."
+                    },
                     msg: "Selling is not magic, it's learnable sales psychology. A 'no' is not a personal rejection, but a request for more certainty. In this flow, you will learn how to confidently build authority and close high-ticket deals without being pushy.",
-                    lvls: { 
-                        ext: { t: "GOAL: SYSTEMATIC CLOSING", d: "Your sales process often resembles a gamble. The first step is to establish a crystal-clear, psychological framework that gives you absolute certainty." }, 
-                        dan: { t: "GOAL: CONFIDENT LEADERSHIP", d: "You hope for the close instead of leading the prospect there. We will establish a clear alpha presence for your calls." }, 
-                        ala: { t: "GOAL: PRICE STABILITY", d: "You close, but leave margin on the table. We will train your objection handling so you defend your value 100%." }, 
-                        cri: { t: "GOAL: CLOSING MASTERY", d: "Your foundation is solid. Now it's about the psychological nuances to maximize your conversion rate." } 
-                    } 
+                    lvls: {
+                        ext: { t: "GOAL: SYSTEMATIC CLOSING", d: "Your sales process often resembles a gamble. The first step is to establish a crystal-clear, psychological framework that gives you absolute certainty." },
+                        dan: { t: "GOAL: CONFIDENT LEADERSHIP", d: "You hope for the close instead of leading the prospect there. We will establish a clear alpha presence for your calls." },
+                        ala: { t: "GOAL: PRICE STABILITY", d: "You close, but leave margin on the table. We will train your objection handling so you defend your value 100%." },
+                        cri: { t: "GOAL: CLOSING MASTERY", d: "Your foundation is solid. Now it's about the psychological nuances to maximize your conversion rate." }
+                    }
                 },
-                s7: { 
-                    lbl: "THE NEXT STEP", 
-                    title: "Your 4-Day Flow", 
+                s7: {
+                    lbl: "THE NEXT STEP",
+                    title: "Your 4-Day Flow",
                     sub: "Secure your access and become a closer.",
                     lblFname: "FIRST NAME", lblEmail: "EMAIL", lblChannel: "DELIVERY VIA",
-                    em: "your@email.com", 
+                    em: "your@email.com",
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
                     errServer: "An error occurred. Please try again.",
                     placeholders: { fname: "Your First Name" },
@@ -362,66 +362,66 @@
             es: {
                 pageTitle: "The Elite Closer - Incorporación",
                 btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
-                s1: { 
-                    lbl: "FASE 1: EL CUELLO DE BOTELLA", 
-                    title: "¿Qué es lo que más te preocupa si esto continúa? (Opción múltiple)", 
-                    opts: { 
-                        conversion: "Tengo leads y llamadas, pero no logro cerrarlos al final. (Conversión)", 
-                        reluctance: "Evito la prospección y siento resistencia ante el rechazo. (Bloqueo)", 
-                        discounting: "Cedo demasiado pronto en las negociaciones y doy descuentos. (Margen)" 
-                    } 
+                s1: {
+                    lbl: "FASE 1: EL CUELLO DE BOTELLA",
+                    title: "¿Qué es lo que más te preocupa si esto continúa? (Opción múltiple)",
+                    opts: {
+                        conversion: "Tengo leads y llamadas, pero no logro cerrarlos al final. (Conversión)",
+                        reluctance: "Evito la prospección y siento resistencia ante el rechazo. (Bloqueo)",
+                        discounting: "Cedo demasiado pronto en las negociaciones y doy descuentos. (Margen)"
+                    }
                 },
-                s2: { 
-                    lbl: "FASE 2: EL PRECIO", 
-                    title: "¿Cuál es tu mayor preocupación si esto continúa? (Opción múltiple)", 
-                    opts: { 
-                        conversion: ["Quemar presupuesto de marketing costoso.", "Parecer incompetente ante los prospectos.", "No alcanzar mis objetivos de ingresos de forma masiva."], 
-                        reluctance: ["Presión financiera porque el embudo sigue vacío.", "Tener que cambiar de industria al final.", "Intranquilidad interna constante y miedo existencial."], 
-                        discounting: ["Trabajar duro pero dejar demasiado dinero sobre la mesa.", "Atraer clientes que buscan precio en lugar de valor.", "Perder la confianza absoluta en mi producto."] 
-                    } 
+                s2: {
+                    lbl: "FASE 2: EL PRECIO",
+                    title: "¿Cuál es tu mayor preocupación si esto continúa? (Opción múltiple)",
+                    opts: {
+                        conversion: ["Quemar presupuesto de marketing costoso.", "Parecer incompetente ante los prospectos.", "No alcanzar mis objetivos de ingresos de forma masiva."],
+                        reluctance: ["Presión financiera porque el embudo sigue vacío.", "Tener que cambiar de industria al final.", "Intranquilidad interna constante y miedo existencial."],
+                        discounting: ["Trabajar duro pero dejar demasiado dinero sobre la mesa.", "Atraer clientes que buscan precio en lugar de valor.", "Perder la confianza absoluta en mi producto."]
+                    }
                 },
-                s3: { 
-                    lbl: "FASE 3: MANEJO DE OBJECIONES", 
-                    title: "Cuando el cliente dice: 'Es muy caro', ¿qué haces?", 
-                    opts: { 
-                        high: "Me justifico inmediatamente u ofrezco un plan de pago/descuento.", 
-                        med: "Discuto lógicamente en contra, pero pierdo la conexión emocional.", 
-                        low: "Aíslo la objeción con confianza y demuestro claramente el ROI." 
-                    } 
+                s3: {
+                    lbl: "FASE 3: MANEJO DE OBJECIONES",
+                    title: "Cuando el cliente dice: 'Es muy caro', ¿qué haces?",
+                    opts: {
+                        high: "Me justifico inmediatamente u ofrezco un plan de pago/descuento.",
+                        med: "Discuto lógicamente en contra, pero pierdo la conexión emocional.",
+                        low: "Aíslo la objeción con confianza y demuestro claramente el ROI."
+                    }
                 },
-                s4: { 
-                    lbl: "FASE 4: EMBUDO DE VENTAS", 
-                    title: "Cuando miras tu embudo de ventas para el próximo mes, ¿cómo te sientes?", 
-                    opts: { 
-                        high: "Pánico puro. Está vacío y no sé de dónde vendrán los ingresos.", 
-                        med: "Estresado/a. Hay leads, pero muchos parecen fríos o no calificados.", 
-                        low: "Confiado/a. Conozco mis tasas de conversión y tengo un sistema confiable." 
-                    } 
+                s4: {
+                    lbl: "FASE 4: EMBUDO DE VENTAS",
+                    title: "Cuando miras tu embudo de ventas para el próximo mes, ¿cómo te sientes?",
+                    opts: {
+                        high: "Pánico puro. Está vacío y no sé de dónde vendrán los ingresos.",
+                        med: "Estresado/a. Hay leads, pero muchos parecen fríos o no calificados.",
+                        low: "Confiado/a. Conozco mis tasas de conversión y tengo un sistema confiable."
+                    }
                 },
                 s5: { title: "ANALIZANDO DINÁMICAS...", sub: "Evaluando psicología de ventas y patrones." },
-                s6: { 
-                    lbl: "TU PLAN DE ACCIÓN", 
-                    costLbl: "TU PUNTO DE PARTIDA:", 
+                s6: {
+                    lbl: "TU PLAN DE ACCIÓN",
+                    costLbl: "TU PUNTO DE PARTIDA:",
                     actionLbl: "RECOMENDACIÓN:",
-                    costVal: { 
-                        conversion: "Argumentas de manera extremadamente lógica y técnica. Sin embargo, en ventas, la gente compra transformaciones emocionales. Actualmente estás perdiendo tu mayor palanca aquí.", 
-                        reluctance: "Tu sistema interpreta inconscientemente un 'no' en ventas como un rechazo personal. Esto genera resistencia interna y te cuesta un impulso valioso.", 
-                        discounting: "Cedes para salvar el trato. Inconscientemente, esto le señala al cliente que tu oferta podría no valer el precio completo." 
-                    }, 
+                    costVal: {
+                        conversion: "Argumentas de manera extremadamente lógica y técnica. Sin embargo, en ventas, la gente compra transformaciones emocionales. Actualmente estás perdiendo tu mayor palanca aquí.",
+                        reluctance: "Tu sistema interpreta inconscientemente un 'no' en ventas como un rechazo personal. Esto genera resistencia interna y te cuesta un impulso valioso.",
+                        discounting: "Cedes para salvar el trato. Inconscientemente, esto le señala al cliente que tu oferta podría no valer el precio completo."
+                    },
                     msg: "Vender no es magia, es psicología de ventas que se puede aprender. Un 'no' no es un rechazo personal, sino una petición de más seguridad. En este flujo, aprenderás cómo construir autoridad con confianza y cerrar ventas de alto valor sin ser insistente.",
-                    lvls: { 
-                        ext: { t: "META: CIERRE SISTEMÁTICO", d: "Tus ventas a menudo parecen un juego de azar. El primer paso es establecer un marco psicológico y claro que te brinde absoluta seguridad." }, 
-                        dan: { t: "META: LIDERAZGO CONFIABLE", d: "Esperas el cierre en lugar de guiar al cliente hacia él. Estableceremos una presencia alfa clara para tus llamadas." }, 
-                        ala: { t: "META: ESTABILIDAD DE PRECIOS", d: "Cierras, pero dejas margen sobre la mesa. Entrenaremos tu manejo de objeciones para que defiendas tu valor al 100%." }, 
-                        cri: { t: "META: MAESTRÍA EN CIERRES", d: "La base ya es sólida. Ahora se trata de los matices psicológicos para maximizar tu tasa de conversión." } 
-                    } 
+                    lvls: {
+                        ext: { t: "META: CIERRE SISTEMÁTICO", d: "Tus ventas a menudo parecen un juego de azar. El primer paso es establecer un marco psicológico y claro que te brinde absoluta seguridad." },
+                        dan: { t: "META: LIDERAZGO CONFIABLE", d: "Esperas el cierre en lugar de guiar al cliente hacia él. Estableceremos una presencia alfa clara para tus llamadas." },
+                        ala: { t: "META: ESTABILIDAD DE PRECIOS", d: "Cierras, pero dejas margen sobre la mesa. Entrenaremos tu manejo de objeciones para que defiendas tu valor al 100%." },
+                        cri: { t: "META: MAESTRÍA EN CIERRES", d: "La base ya es sólida. Ahora se trata de los matices psicológicos para maximizar tu tasa de conversión." }
+                    }
                 },
-                s7: { 
-                    lbl: "EL PRÓXIMO PASO", 
-                    title: "Tu Flujo de 4 Días", 
+                s7: {
+                    lbl: "EL PRÓXIMO PASO",
+                    title: "Tu Flujo de 4 Días",
                     sub: "Asegura tu acceso y conviértete en un closer.",
                     lblFname: "NOMBRE", lblEmail: "EMAIL", lblChannel: "ENTREGA VÍA",
-                    em: "tu@email.com", 
+                    em: "tu@email.com",
                     errFill: "Por favor, completa todos los campos.", errExists: "Este correo ya existe.",
                     errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
                     placeholders: { fname: "Tu Nombre" },
@@ -436,39 +436,39 @@
         if (!currentLang || !t[currentLang]) {
             currentLang = 'de';
         }
-        
+
         let step = 1;
-        let answers = { root_problem: '', pain_point: [], tolerance: '', capacity: '' }; 
-        let chosenPath = ''; 
-        
+        let answers = { root_problem: '', pain_point: [], tolerance: '', capacity: '' };
+        let chosenPath = '';
+
         const bBar = document.getElementById('bottomBar'), bNext = document.getElementById('btnNext'), pBar = document.getElementById('progressBar'), pCont = document.getElementById('progressContainer');
 
         function updateTexts() {
             const l = t[currentLang];
             document.documentElement.lang = currentLang;
             document.title = l.pageTitle;
-            
+
             bNext.innerText = l.btn.next; document.getElementById('btnBack').innerText = l.btn.back;
-            
+
             document.getElementById('s1-lbl').innerText = l.s1.lbl; document.getElementById('s1-title').innerText = l.s1.title;
             document.getElementById('s2-lbl').innerText = l.s2.lbl; document.getElementById('s2-title').innerText = l.s2.title;
             document.getElementById('s3-lbl').innerText = l.s3.lbl; document.getElementById('s3-title').innerText = l.s3.title;
             document.getElementById('s4-lbl').innerText = l.s4.lbl; document.getElementById('s4-title').innerText = l.s4.title;
             document.getElementById('s5-title').innerText = l.s5.title; document.getElementById('s5-sub').innerText = l.s5.sub;
-            
-            document.getElementById('s6-lbl').innerText = l.s6.lbl; 
-            
-            document.getElementById('s7-lbl').innerText = l.s7.lbl; 
-            document.getElementById('s7-title').innerText = l.s7.title; 
+
+            document.getElementById('s6-lbl').innerText = l.s6.lbl;
+
+            document.getElementById('s7-lbl').innerText = l.s7.lbl;
+            document.getElementById('s7-title').innerText = l.s7.title;
             document.getElementById('s7-sub').innerText = l.s7.sub;
-            
+
             document.getElementById('lbl-fname').innerText = l.s7.lblFname;
             document.getElementById('lbl-email').innerText = l.s7.lblEmail;
             document.getElementById('lbl-channel').innerText = l.s7.lblChannel;
-            
+
             document.getElementById('reg-fname').placeholder = l.s7.placeholders.fname;
-            document.getElementById('reg-email').placeholder = l.s7.em; 
-            
+            document.getElementById('reg-email').placeholder = l.s7.em;
+
             document.getElementById('btn-register').innerText = l.btn.pay;
             document.getElementById('channel-note').innerHTML = l.s7.channelNote;
             if(l.s7.disclaimer) {
@@ -481,14 +481,14 @@
             document.getElementById('link-cook').innerText = l.legal.cook;
         }
 
-        window.onload = () => { 
+        window.onload = () => {
             document.getElementById('langSelect').value = currentLang;
-            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`; 
+            updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`;
         };
 
-        function selectLang(lang) { 
+        function selectLang(lang) {
             currentLang = lang; localStorage.setItem('smh_language', lang);
-            updateTexts(); buildOptions(); if (step === 6) renderResult(); 
+            updateTexts(); buildOptions(); if (step === 6) renderResult();
         }
 
         function createOptionBtn(text, isSelected, isMulti, onClick) {
@@ -512,13 +512,13 @@
                             buildOptions(); checkNextState();
                         } else {
                             answers[key] = k; buildOptions(); checkNextState();
-                            setTimeout(() => handleNext(), 350); 
+                            setTimeout(() => handleNext(), 350);
                         }
                     }));
                 });
             };
             build('s1-opts', l.s1.opts, 'root_problem', false);
-            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true); 
+            build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true);
             build('s3-opts', l.s3.opts, 'tolerance', false);
             build('s4-opts', l.s4.opts, 'capacity', false);
         }
@@ -531,35 +531,35 @@
             let score = 75;
             if(answers.tolerance === 'high') score += 12; else if(answers.tolerance === 'med') score += 6;
             if(answers.capacity === 'high') score += 12; else if(answers.capacity === 'med') score += 6;
-            
+
             const res = t[currentLang].s6;
             let lvl;
-            
-            if (score >= 90) { 
-                lvl = res.lvls.ext; 
+
+            if (score >= 90) {
+                lvl = res.lvls.ext;
                 chosenPath = 'ext';
             }
-            else if (score >= 85) { 
-                lvl = res.lvls.dan; 
+            else if (score >= 85) {
+                lvl = res.lvls.dan;
                 chosenPath = 'dan';
             }
-            else if (score >= 80) { 
-                lvl = res.lvls.ala; 
+            else if (score >= 80) {
+                lvl = res.lvls.ala;
                 chosenPath = 'ala';
             }
-            else { 
-                lvl = res.lvls.cri; 
+            else {
+                lvl = res.lvls.cri;
                 chosenPath = 'cri';
             }
 
             document.getElementById('s6-lbl').innerText = res.lbl;
-            document.getElementById('res-score').innerText = lvl.t; 
-            document.getElementById('res-level').innerText = lvl.d; 
-            
-            document.getElementById('res-cost-lbl').innerText = res.costLbl; 
+            document.getElementById('res-score').innerText = lvl.t;
+            document.getElementById('res-level').innerText = lvl.d;
+
+            document.getElementById('res-cost-lbl').innerText = res.costLbl;
             document.getElementById('res-cost-val').innerText = res.costVal[answers.root_problem];
-            
-            document.getElementById('res-action-lbl').innerText = res.actionLbl; 
+
+            document.getElementById('res-action-lbl').innerText = res.actionLbl;
             document.getElementById('s6-msg').innerText = res.msg;
         }
 
@@ -568,15 +568,15 @@
             if(step === 2 && answers.pain_point.length === 0) return;
             if(step === 3 && !answers.tolerance) return;
             if(step === 4 && !answers.capacity) return;
-            
+
             document.getElementById(`step-${step}`).classList.remove('active'); step++;
             document.querySelector('.progress-container').style.display = (step < 7 && step !== 5 && step !== 6) ? 'block' : 'none';
             pBar.style.width = `${((step - 1) / 6) * 100}%`;
-            
+
             bBar.style.display = (step === 2 || step === 6) ? 'flex' : 'none';
             if(step === 6) bNext.innerText = t[currentLang].btn.next;
             checkNextState();
-            
+
             document.getElementById(`step-${step}`).classList.add('active'); window.scrollTo(0,0);
             if(step === 5) setTimeout(() => { handleNext(); renderResult(); }, 2000);
         }
@@ -591,7 +591,7 @@
             checkNextState(); window.scrollTo(0,0);
         }
 
-        function generateAccessCode() { 
+        function generateAccessCode() {
             const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
             const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
             return p1 + '-' + p2;
@@ -602,8 +602,8 @@
             const email = document.getElementById('reg-email').value.trim();
             const channel = document.getElementById('reg-channel').value;
             const errEl = document.getElementById('reg-error');
-            const btn = document.getElementById('btn-register'); 
-            
+            const btn = document.getElementById('btn-register');
+
             if(!email || !fname) { errEl.innerText = t[currentLang].s7.errFill; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
@@ -615,40 +615,24 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                const { error: upsertError } = await supabaseClient.from('leads').upsert(
-                    { 
-                        email: email, 
-                        first_name: fname, 
-                        delivery_channel: channel,
-                        source: 'elite_closer_flow',
-                        language: currentLang,
-                        marketing_consent: true,
-                        onboarding_data: answers,
-                        access_code: accessCode,
-                        chosen_path: chosenPath
-                    },
-                    { onConflict: 'email' }
-                );
+                const { error: rpcError } = await supabaseClient.rpc('register_lead', {
+                    p_email: email,
+                    p_first_name: fname,
+                    p_delivery_channel: channel,
+                    p_source: 'elite_closer_flow',
+                    p_language: currentLang,
+                    p_onboarding_data: answers,
+                    p_access_code: accessCode,
+                    p_chosen_path: chosenPath,
+                    p_flow_name: 'The Elite Closer'
+                });
 
-                if (upsertError) throw upsertError;
-
-                const { error: flowError } = await supabaseClient.from('active_flows').upsert(
-                    { 
-                        lead_email: email, 
-                        flow_name: 'The Elite Closer',
-                        current_mentoring_day: 1,
-                        has_paid: false,
-                        status: 'active'
-                    },
-                    { onConflict: 'lead_email,flow_name' }
-                );
-
-                if (flowError) throw flowError;
+                if (rpcError) throw rpcError;
 
                 const baseMessage = botMessages[currentLang] || botMessages['de'];
                 const accessLabel = accessLabels[currentLang] || accessLabels['de'];
                 const finalMessage = `${baseMessage}\n\n${accessLabel} ${accessCode}`;
-                
+
                 const encodedMessage = encodeURIComponent(finalMessage);
 
                 if(channel === 'telegram') {
@@ -658,7 +642,7 @@
                 }
             } catch(e) {
                 console.error("Fehler beim Speichern:", e);
-                errEl.innerText = t[currentLang].s7.errServer; 
+                errEl.innerText = t[currentLang].s7.errServer;
                 errEl.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
