@@ -608,35 +608,19 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                const { error: upsertError } = await supabaseClient.from('leads').upsert(
-                    {
-                        email: email,
-                        first_name: fname,
-                        delivery_channel: channel,
-                        source: 'connected_couples_flow',
-                        language: currentLang,
-                        marketing_consent: true,
-                        onboarding_data: answers,
-                        access_code: accessCode,
-                        chosen_path: chosenPath
-                    },
-                    { onConflict: 'email' }
-                );
+                const { error: rpcError } = await supabaseClient.rpc('register_lead', {
+                    p_email: email,
+                    p_first_name: fname,
+                    p_delivery_channel: channel,
+                    p_source: 'connected_couples_flow',
+                    p_language: currentLang,
+                    p_onboarding_data: answers,
+                    p_access_code: accessCode,
+                    p_chosen_path: chosenPath,
+                    p_flow_name: 'Connected Couples'
+                });
 
-                if (upsertError) throw upsertError;
-
-                const { error: flowError } = await supabaseClient.from('active_flows').upsert(
-                    {
-                        lead_email: email,
-                        flow_name: 'Connected Couples',
-                        current_mentoring_day: 1,
-                        has_paid: false,
-                        status: 'active'
-                    },
-                    { onConflict: 'lead_email,flow_name' }
-                );
-
-                if (flowError) throw flowError;
+                if (rpcError) throw rpcError;
 
                 const baseMessage = botMessages[currentLang] || botMessages['de'];
                 const accessLabel = accessLabels[currentLang] || accessLabels['de'];
