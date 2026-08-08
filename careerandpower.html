@@ -657,50 +657,34 @@
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                let { data: existingLead, error: searchError } = await supabaseClient
-                    .from('leads')
-                    .select('id, email')
-                    .eq('email', email)
-                    .single();
+                // Upsert instead of select-then-insert/update: anon has no SELECT access on
+                // leads (PII protection), so a pre-check read always comes back empty and a
+                // chained .select() after insert fails RLS's RETURNING-visibility check.
+                // Upsert resolves the email conflict server-side without ever reading the row back.
+                const { error: upsertError } = await supabaseClient.from('leads').upsert({
+                    email: email,
+                    first_name: fname,
+                    delivery_channel: channel,
+                    source: 'career_power_flow',
+                    language: currentLang,
+                    marketing_consent: true,
+                    onboarding_data: answers,
+                    access_code: accessCode,
+                    chosen_path: chosenPath
+                }, { onConflict: 'email' });
 
-                if (!existingLead) {
-                    const { data: newLead, error: insertError } = await supabaseClient.from('leads').insert([
-                        {
-                            email: email,
-                            first_name: fname,
-                            delivery_channel: channel,
-                            source: 'career_power_flow',
-                            language: currentLang,
-                            marketing_consent: true,
-                            onboarding_data: answers,
-                            access_code: accessCode,
-                            chosen_path: chosenPath
-                        }
-                    ]).select().single();
+                if (upsertError) throw upsertError;
 
-                    if (insertError) throw insertError;
-                } else {
-                    const { error: updateError } = await supabaseClient.from('leads').update({
-                        first_name: fname,
-                        delivery_channel: channel,
-                        language: currentLang,
-                        onboarding_data: answers,
-                        access_code: accessCode,
-                        chosen_path: chosenPath
-                    }).eq('id', existingLead.id);
-
-                    if (updateError) throw updateError;
-                }
-
-                const { data: newFlow, error: flowError } = await supabaseClient.from('active_flows').insert([
-                    {
-                        lead_email: email,
-                        flow_name: 'Career & Power',
-                        current_mentoring_day: 1,
-                        has_paid: false,
-                        status: 'active'
-                    }
-                ]);
+                // Same reasoning: upsert on (lead_email, flow_name) so registering for a
+                // second, different flow adds a new row, while re-registering for the SAME
+                // flow updates it instead of erroring or silently duplicating.
+                const { error: flowError } = await supabaseClient.from('active_flows').upsert({
+                    lead_email: email,
+                    flow_name: 'Career & Power',
+                    current_mentoring_day: 1,
+                    has_paid: false,
+                    status: 'active'
+                }, { onConflict: 'lead_email,flow_name' });
 
                 if (flowError) throw flowError;
 
