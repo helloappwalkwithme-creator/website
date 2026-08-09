@@ -84,7 +84,6 @@
         .input-field { background-color: #23282d; border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-family: -apple-system, sans-serif; font-weight: 500;}
         .input-field:focus { border-color: var(--gold); outline: none; }
 
-        .channel-note { font-size: 12px; color: #aaaaaa; margin: -8px 0 16px 0; line-height: 1.5; }
 
         .legal-disclaimer { font-size: 12px; color: #aaaaaa; margin-top: 20px; line-height: 1.6; text-align: center; border-top: 1px solid var(--border); padding-top: 15px; font-family: -apple-system, sans-serif; }
         .legal-disclaimer strong { color: var(--gold); font-weight: 600; }
@@ -176,7 +175,6 @@
                 <option value="whatsapp">WhatsApp</option>
                 <option value="telegram">Telegram</option>
             </select>
-            <p class="channel-note" id="channel-note"></p>
 
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
@@ -286,7 +284,6 @@
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
                     errServer: "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal.",
                     placeholders: { fname: "Dein Vorname" },
-                    channelNote: "ℹ️ Deine kostenlosen ersten 4 Tage erhältst du über den hier gewählten Kanal. Der anschließende 90-Tage-Zugang wird standardmäßig per <strong>Telegram</strong> ausgeliefert (kostenlos inklusive). Möchtest du stattdessen dauerhaft per <strong>WhatsApp</strong> begleitet werden, kannst du das WhatsApp-Upgrade separat dazubuchen.",
                     disclaimer: "<strong>Wichtig:</strong> Deine Daten werden zu 100% ausschließlich für die automatisierte Bereitstellung dieses Kurses genutzt. Wir geben niemals Daten an Dritte weiter. Dein Vertrauen ist unser höchstes Gut."
                 },
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" }
@@ -357,7 +354,6 @@
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
                     errServer: "An error occurred. Please try again.",
                     placeholders: { fname: "Your First Name" },
-                    channelNote: "ℹ️ You'll receive your free first 4 days via the channel selected here. The following 90-day access is delivered via <strong>Telegram</strong> by default (included at no extra cost). If you'd prefer ongoing delivery via <strong>WhatsApp</strong>, you can add the separate WhatsApp Upgrade.",
                     disclaimer: "<strong>Important:</strong> Your data will 100% only be used for the automated delivery of this course. We will never share your data with third parties. Your trust is sacred to us."
                 },
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms & Conditions", cook: "Cookie Policy" }
@@ -428,7 +424,6 @@
                     errFill: "Por favor, rellena todos los campos.", errExists: "Este correo ya existe.",
                     errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
                     placeholders: { fname: "Tu Nombre" },
-                    channelNote: "ℹ️ Recibirás tus primeros 4 días gratuitos a través del canal que elijas aquí. El acceso posterior de 90 días se entrega por defecto vía <strong>Telegram</strong> (incluido sin coste adicional). Si prefieres continuar por <strong>WhatsApp</strong>, puedes añadir el Upgrade de WhatsApp por separado.",
                     disclaimer: "<strong>Importante:</strong> Tus datos se utilizarán 100% exclusivamente para la entrega automatizada de este curso. Nunca compartiremos tus datos con terceros. Tu confianza es sagrada para nosotros."
                 },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" }
@@ -473,7 +468,6 @@
             document.getElementById('reg-email').placeholder = l.s7.em;
 
             document.getElementById('btn-register').innerText = l.btn.pay;
-            document.getElementById('channel-note').innerHTML = l.s7.channelNote;
             if(l.s7.disclaimer) {
                 document.getElementById('s7-disclaimer').innerHTML = l.s7.disclaimer;
             }
