@@ -30,6 +30,7 @@
             --color-career: #c2a370;   /* Muted Gold / Bronze */
             --color-closer: #4e9b62;   /* Money/Growth Green */
             --color-lightness: #8eb6d9; /* Calming Airy Blue */
+            --color-faith: #a98cc9;    /* Soft Spiritual Violet */
         }
 
         body {
@@ -145,6 +146,7 @@
         .card-career:hover { border-color: var(--color-career); }
         .card-closer:hover { border-color: var(--color-closer); }
         .card-lightness:hover { border-color: var(--color-lightness); }
+        .card-faith:hover { border-color: var(--color-faith); }
 
         .app-icon {
             width: 55px;
@@ -224,6 +226,9 @@
 
         .btn-lightness { background-color: transparent; border: 1px solid var(--color-lightness); color: var(--color-lightness); }
         .btn-lightness:hover { background-color: var(--color-lightness); color: #000; }
+
+        .btn-faith { background-color: transparent; border: 1px solid var(--color-faith); color: var(--color-faith); }
+        .btn-faith:hover { background-color: var(--color-faith); color: #000; }
         
         footer { background-color: rgba(10, 10, 10, 0.95); padding: 60px 20px; border-top: 1px solid var(--card-border); text-align: center; }
         .legal-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 60px; max-width: 1000px; margin: 0 auto; }
@@ -313,6 +318,13 @@
                     <a href="TheIntegratedSoul.html" class="btn btn-soul" data-i18n="app_btn_active">To the Flow</a>
                 </div>
 
+                <div class="card card-faith">
+                    <div class="app-icon" style="background-color: var(--color-faith);">✦</div>
+                    <h3 data-i18n="faith_title">Faith & Spirituality</h3>
+                    <p data-i18n="faith_p">Choose your path — the Bible, the Quran, Buddhism or a spiritual path without religion — and get mentored in it free for 4 days.</p>
+                    <a href="religion.html" class="btn btn-faith" data-i18n="app_btn_active">To the Flow</a>
+                </div>
+
                 <div class="card card-career">
                     <div class="app-icon" style="background-color: var(--color-career);">CP</div>
                     <h3 data-i18n="app6_title">Career & Power</h3>
@@ -382,6 +394,8 @@
                 app7_p: "Sales psychology at the highest level. Handle objections confidently and close high-ticket deals.",
                 app8_title: "The Path to Lightness",
                 app8_p: "Clear the mental fog. Overcome cognitive overload, set boundaries, and regulate your nervous system for effortless living.",
+                faith_title: "Faith & Spirituality",
+                faith_p: "Choose your path — the Bible, the Quran, Buddhism or a spiritual path without religion — and get mentored in it free for 4 days.",
                 app_btn_active: "Start the Flow"
             },
             de: {
@@ -407,6 +421,8 @@
                 app7_p: "Verkaufspsychologie auf höchstem Niveau. Baue Einwände souverän ab und schließe hochpreisig ab.",
                 app8_title: "Der Weg zur Leichtigkeit",
                 app8_p: "Lichte den mentalen Nebel. Überwinde kognitive Überlastung, setze Grenzen und reguliere dein Nervensystem für ein müheloses Leben.",
+                faith_title: "Glaube & Spiritualität",
+                faith_p: "Wähle deinen Weg — Bibel, Koran, Buddhismus oder ein spiritueller Weg ohne Religion — und lass dich 4 Tage kostenlos darin begleiten.",
                 app_btn_active: "Zum Flow"
             },
             es: {
@@ -432,6 +448,8 @@
                 app7_p: "Psicología de ventas al más alto nivel. Maneja objeciones con confianza y cierra tratos de alto valor.",
                 app8_title: "El Camino a la Ligereza",
                 app8_p: "Despeja la niebla mental. Supera la sobrecarga cognitiva, establece límites y regula tu sistema nervioso para una vida sin esfuerzo.",
+                faith_title: "Fe y Espiritualidad",
+                faith_p: "Elige tu camino — la Biblia, el Corán, el budismo o un camino espiritual sin religión — y recibe mentoría gratis durante 4 días.",
                 app_btn_active: "Iniciar el Flujo"
             }
         };
