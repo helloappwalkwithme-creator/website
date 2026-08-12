@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift My Horizon – 90-Tage-Mentoring</title>
+    <style>
+        :root { --dark:#0a0c10; --gray:#13161f; --border:#2b3245; --gold:#cba677; --text:#e2e4e9; }
+        * { box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
+        body { margin:0; background:var(--dark); color:var(--text); line-height:1.65; }
+        main { max-width:640px; margin:0 auto; padding:40px 20px 80px; }
+        h1 { font-size:30px; font-weight:800; color:var(--text); line-height:1.2; margin:0 0 8px; }
+        .sub { color:var(--gold); font-weight:700; text-transform:uppercase; letter-spacing:1.2px; font-size:13px; margin-bottom:24px; }
+        .card { background:var(--gray); border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px; padding:20px 22px; margin-bottom:16px; }
+        .card h2 { font-size:17px; margin:0 0 8px; color:#fff; }
+        .card p { margin:0; color:#cfd2d9; font-size:15px; }
+        .price { font-size:22px; font-weight:800; color:var(--gold); }
+        .btn { display:block; background:var(--gold); color:var(--dark); text-align:center; padding:18px; border-radius:10px; font-weight:800; font-size:16px; text-transform:uppercase; text-decoration:none; letter-spacing:.5px; margin:28px 0 12px; }
+        .guarantee-badge { text-align:center; font-size:15px; color:#fff; background:var(--gray); border:1px solid var(--gold); border-radius:8px; padding:14px; margin-bottom:16px; font-weight:600; }
+        footer { text-align:center; padding:24px; border-top:1px solid var(--border); font-size:12px; }
+        footer a { color:#888; text-decoration:none; margin:0 8px; }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="sub">Shift My Horizon</div>
+        <h1>90 Tage Mentoring – dein täglicher Begleiter</h1>
+
+        <div class="guarantee-badge">✅ 60 Tage Geld-zurück-Garantie</div>
+
+        <div class="card">
+            <h2>Das bekommst du</h2>
+            <p>90 Tage lang erhältst du täglich eine geführte Lektion: einen klaren Impuls, eine konkrete Tagesaufgabe und das passende Hintergrundwissen. Insgesamt 90 aufeinander aufbauende Tageseinheiten, die dich Schritt für Schritt weiterbringen.</p>
+        </div>
+
+        <div class="card">
+            <h2>Wie du es erhältst (100% digital)</h2>
+            <p>Dies ist ein rein <strong>digitales Produkt</strong>. Die Inhalte werden <strong>automatisch täglich per WhatsApp oder Telegram</strong> an dich ausgeliefert – ganz ohne App-Installation. <strong>Kein physischer Versand.</strong> Dein Zugang startet sofort nach dem Kauf über deinen persönlichen Zugangscode.</p>
+        </div>
+
+        <div class="card">
+            <h2>Preis</h2>
+            <p class="price">Einmalig 29 €</p>
+            <p>Keine Abofalle, keine versteckten Folgekosten.</p>
+        </div>
+
+        <div class="card">
+            <h2>Deine Garantie</h2>
+            <p>Du hast <strong>60 Tage Geld-zurück-Garantie</strong>. Wenn du in dieser Zeit nicht zufrieden bist, erhältst du den vollen Kaufpreis zurück – unkompliziert und ohne Diskussion.</p>
+        </div>
+
+        <a id="buy" class="btn" href="https://www.digistore24.com/">Jetzt starten</a>
+
+    </main>
+    <footer>
+        <a href="impressum.html">Impressum</a> |
+        <a href="datenschutz.html">Datenschutz</a> |
+        <a href="agb.html">AGB</a>
+    </footer>
+    <script>
+        // Kaufbutton auf das konkrete Digistore-Produkt zeigen (pid aus URL). Der Beschreibungstext oben ist statisch und ohne JS sichtbar.
+        var pid = new URLSearchParams(location.search).get('pid');
+        if (pid && /^[0-9]+$/.test(pid)) {
+            document.getElementById('buy').href = 'https://www.checkout-ds24.com/product/' + pid;
+        }
+    </script>
+</body>
+</html>
