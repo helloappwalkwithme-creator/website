@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Der Trigger-Test – Shift My Horizon</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --dark:#0d1117; --gray:#161b22; --gray-active:#21262d; --border:#30363d;
+            --gold:#cba677; --text:#f0f6fc; --error:#f85149; --success:#3fb950;
+        }
+        * { box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+        body { margin:0; padding:0; background:var(--dark); color:var(--text); display:flex; flex-direction:column; min-height:100vh; overflow-x:hidden; }
+        main { flex:1; padding:24px 20px 60px; max-width:520px; margin:0 auto; width:100%; display:flex; flex-direction:column; }
+        .step { display:none; animation:fadeIn .35s ease forwards; }
+        .step.active { display:block; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+        .flow-title { color:var(--gold); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:12px; }
+        .h1-title { font-size:26px; font-weight:800; margin:0 0 16px; color:var(--text); line-height:1.35; }
+        .subtitle { color:#8b949e; margin-bottom:24px; font-size:15px; line-height:1.6; }
+        .btn-gold { background:var(--gold); color:var(--dark); padding:16px; border-radius:8px; font-weight:800; font-size:14px; text-transform:uppercase; border:none; width:100%; cursor:pointer; text-align:center; letter-spacing:1.5px; transition:opacity .2s; }
+        .btn-gold:disabled { opacity:.45; cursor:not-allowed; }
+        .rule-card { background:#0d1117; border:1px solid var(--border); border-left:3px solid var(--gold); border-radius:10px; padding:16px 18px; margin-bottom:14px; font-size:14px; color:#c9d1d9; line-height:1.6; }
+
+        /* Test */
+        .timer-wrap { height:6px; background:#222; border-radius:6px; overflow:hidden; margin-bottom:6px; }
+        .timer-bar { height:100%; width:100%; background:var(--gold); }
+        .timer-num { text-align:right; font-size:12px; color:#8b949e; margin-bottom:18px; font-weight:700; letter-spacing:1px; }
+        .q-counter { color:#8b949e; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; }
+        .q-text { font-size:22px; font-weight:800; line-height:1.35; margin-bottom:22px; color:#fff; }
+        .ans-btn { background:var(--gray); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin-bottom:12px; cursor:pointer; display:block; width:100%; text-align:left; color:var(--text); font-size:15px; line-height:1.5; font-weight:500; transition:all .12s ease; }
+        .ans-btn:active { border-color:var(--gold); background:var(--gray-active); transform:scale(.99); }
+
+        .spinner { border:3px solid var(--border); border-top-color:var(--gold); border-radius:50%; width:45px; height:45px; animation:spin 1.1s linear infinite; margin:60px auto; }
+        @keyframes spin { 100%{transform:rotate(360deg);} }
+
+        .result-card { background:#0d1117; border:2px solid var(--gold); border-radius:12px; padding:26px 20px; text-align:center; margin-bottom:16px; }
+        .result-score { color:var(--gold); font-size:24px; font-weight:800; line-height:1.3; margin-bottom:10px; text-transform:uppercase; }
+        .result-level { color:#c9d1d9; font-size:15px; line-height:1.55; }
+        .insight-card { background:var(--gray); border:1px solid var(--border); border-radius:10px; padding:18px; margin-bottom:12px; }
+        .insight-title { color:#8b949e; font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:8px; letter-spacing:1px; }
+        .insight-text { color:#f0f6fc; font-size:15px; line-height:1.6; }
+        .locked { filter:blur(6px); user-select:none; }
+        .input-field { background:var(--gray); border:1px solid var(--border); color:#fff; padding:16px; border-radius:8px; font-size:15px; margin-bottom:14px; width:100%; font-weight:500; }
+        .input-field:focus { border-color:var(--gold); outline:none; }
+        .legal-disclaimer { font-size:12px; color:#8b949e; margin-top:18px; line-height:1.6; text-align:center; }
+        .legal-disclaimer a { color:#8b949e; }
+        .legal-footer { text-align:center; padding:20px; margin-top:auto; border-top:1px solid var(--border); font-size:11px; }
+        .legal-footer a { color:#8b949e; text-decoration:none; margin:0 8px; }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <main id="app">
+        <!-- INTRO -->
+        <div class="step active" id="step-intro">
+            <div class="flow-title">Shift My Horizon</div>
+            <h1 class="h1-title">Der Trigger-Test: Was sabotiert dich wirklich?</h1>
+            <p class="subtitle">10 Alltagssituationen. Pro Frage nur <strong>3 Sekunden</strong>. Das schaltet deinen rationalen Verstand aus und legt dein echtes unterbewusstes Muster offen.</p>
+            <div class="rule-card">⏱️ <strong>Nicht nachdenken.</strong> Klicke instinktiv die Antwort, die dir zuerst kommt.</div>
+            <div class="rule-card">🔒 Läuft <strong>zu 100% anonym</strong>. Dein Ergebnis siehst du direkt am Ende.</div>
+            <button class="btn-gold" style="margin-top:12px;" onclick="startTest()">Test starten</button>
+            <p class="legal-disclaimer">Dieser Test ersetzt keine Diagnose oder Therapie.</p>
+        </div>
+
+        <!-- TEST -->
+        <div class="step" id="step-test">
+            <div class="q-counter" id="q-counter"></div>
+            <div class="timer-wrap"><div class="timer-bar" id="timer-bar"></div></div>
+            <div class="timer-num" id="timer-num"></div>
+            <div class="q-text" id="q-text"></div>
+            <div id="q-answers"></div>
+        </div>
+
+        <!-- LOADING -->
+        <div class="step" id="step-loading" style="text-align:center; padding-top:50px;">
+            <div class="spinner"></div>
+            <h1 class="h1-title" style="color:var(--gold);">Wir analysieren dein Muster…</h1>
+            <p class="subtitle">Deine Reaktionszeiten verraten mehr als deine Worte.</p>
+        </div>
+
+        <!-- EMAIL GATE -->
+        <div class="step" id="step-gate">
+            <div class="flow-title">Dein Ergebnis ist bereit</div>
+            <h1 class="h1-title" id="gate-title"></h1>
+            <div class="result-card">
+                <div class="result-score" id="gate-teaser"></div>
+                <div class="result-level">Gib deine E-Mail ein, um deinen <strong>toxischen Kern-Glaubenssatz</strong> und den passenden <strong>neuen Satz</strong> freizuschalten.</div>
+            </div>
+            <div class="insight-card">
+                <div class="insight-title">Dein blinder Fleck</div>
+                <div class="insight-text locked">Ich darf nicht auffallen, denn jeder Versuch offenbart am Ende meine Inkompetenz und alle werden es sehen.</div>
+            </div>
+            <input type="email" id="gate-email" class="input-field" autocomplete="email" placeholder="deine@email.de" style="margin-top:8px;">
+            <button class="btn-gold" id="gate-btn" onclick="unlockResult()">Ergebnis freischalten</button>
+            <p id="gate-error" style="color:var(--error); text-align:center; display:none; font-weight:bold; margin-top:14px;"></p>
+            <p class="legal-disclaimer">Mit dem Freischalten stimmst du zu, dass wir dein Ergebnis speichern. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+        </div>
+
+        <!-- RESULT -->
+        <div class="step" id="step-result">
+            <div class="flow-title">Dein Trigger-Profil</div>
+            <div class="result-card">
+                <div class="result-score" id="res-title"></div>
+                <div class="result-level" id="res-sub">Das ist das Muster, das dich unter Druck steuert.</div>
+            </div>
+            <div class="insight-card">
+                <div class="insight-title">🩸 Dein toxischer Glaubenssatz (der blinde Fleck)</div>
+                <div class="insight-text" id="res-toxic"></div>
+            </div>
+            <div class="insight-card" style="border-left:3px solid var(--gold);">
+                <div class="insight-title" style="color:var(--gold);">✨ Dein neuer Glaubenssatz</div>
+                <div class="insight-text" id="res-new"></div>
+            </div>
+            <div class="rule-card" style="margin-top:8px;">
+                Ein neuer Satz allein verändert nichts. Im <strong>30-Tage-Reprogrammierungs-Protokoll</strong> verankern wir ihn neurologisch – täglich per WhatsApp oder Telegram, exakt auf dein Profil zugeschnitten.
+            </div>
+            <a class="btn-gold" id="res-cta" href="sales-trigger-de.html" style="display:block; text-decoration:none; margin-top:14px;">Mein 30-Tage-Protokoll freischalten</a>
+            <p class="legal-disclaimer">100% digital · 60 Tage Geld-zurück-Garantie</p>
+        </div>
+    </main>
+
+    <footer class="legal-footer">
+        <a href="impressum.html">Impressum</a> |
+        <a href="datenschutz.html">Datenschutz</a> |
+        <a href="agb.html">AGB</a>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+        let supabaseClient = null;
+
+        const TIME_LIMIT = 3000; // ms pro Frage
+
+        // 10 Fragen, je 2 pro Kernwunde. Mechanismen: angriff | anpassung | vermeidung
+        const QUESTIONS = [
+            { wound:'selbstwert', text:'Dein Partner kritisiert unerwartet eine deiner Entscheidungen.', answers:[
+                { t:'Ich schieße sofort verbal zurück und verteidige mich.', m:'angriff' },
+                { t:'Ich gebe nach und stimme zu, um den Konflikt zu beenden.', m:'anpassung' },
+                { t:'Ich ziehe mich komplett zurück und blocke ab.', m:'vermeidung' } ] },
+            { wound:'selbstwert', text:'Du bekommst ein großes, ehrliches Kompliment für deine Leistung.', answers:[
+                { t:'Ich nutze es sofort, um mich über andere zu stellen.', m:'angriff' },
+                { t:'Ich denke: Wenn die wüssten, wie inkompetent ich wirklich bin.', m:'anpassung' },
+                { t:'Ich spiele es sofort herunter (War nicht so schwer).', m:'vermeidung' } ] },
+            { wound:'verlustangst', text:'Jemand, der dir wichtig ist, sagt ein Treffen kurzfristig per Nachricht ab.', answers:[
+                { t:'Ich antworte passiv-aggressiv oder zeige deutlich meinen Ärger.', m:'angriff' },
+                { t:'Ich antworte sofort "Kein Problem!", auch wenn es schmerzt.', m:'anpassung' },
+                { t:'Ich ignoriere die Nachricht stundenlang.', m:'vermeidung' } ] },
+            { wound:'verlustangst', text:'Jemand bittet dich um einen großen Gefallen, für den du eigentlich keine Zeit hast.', answers:[
+                { t:'Ich sage schroff Nein und mache der Person Vorwürfe.', m:'angriff' },
+                { t:'Ich sage Ja, weil ich Angst habe, die Person zu enttäuschen.', m:'anpassung' },
+                { t:'Ich erfinde eine komplizierte Notlüge, um auszuweichen.', m:'vermeidung' } ] },
+            { wound:'ohnmacht', text:'Du brichst ein wichtiges persönliches Ziel (z. B. Sport) am dritten Tag ab.', answers:[
+                { t:'Ich rede mir ein, dass das Ziel ohnehin dumm oder falsch war.', m:'angriff' },
+                { t:'Ich bestrafe mich mental für meine Schwäche.', m:'anpassung' },
+                { t:'Ich lenke mich sofort mit Social Media oder Serien ab.', m:'vermeidung' } ] },
+            { wound:'ohnmacht', text:'Dein Alltag wird extrem stressig und die Aufgaben wachsen dir über den Kopf.', answers:[
+                { t:'Ich werde extrem laut, gereizt und ungerecht zu anderen.', m:'angriff' },
+                { t:'Ich opfere meinen gesamten Schlaf und brenne mich aus.', m:'anpassung' },
+                { t:'Ich verfalle in Paralyse und mache gar nichts mehr.', m:'vermeidung' } ] },
+            { wound:'scham', text:'Ein wichtiges Projekt scheitert, und du hast einen offensichtlichen Fehler gemacht.', answers:[
+                { t:'Ich werde wütend, wenn andere mich darauf ansprechen.', m:'angriff' },
+                { t:'Ich mache mich innerlich extrem fertig und übernehme alle Schuld.', m:'anpassung' },
+                { t:'Ich suche sofort nach Ausreden oder äußeren Umständen.', m:'vermeidung' } ] },
+            { wound:'scham', text:'Jemand spricht eine tiefe emotionale Verletzung von dir an.', answers:[
+                { t:'Ich blocke aggressiv ab und sage, dass das niemanden etwas angeht.', m:'angriff' },
+                { t:'Ich fange an zu weinen und rutsche völlig in die Opferrolle.', m:'anpassung' },
+                { t:'Ich wechsle sofort das Thema oder mache einen Witz.', m:'vermeidung' } ] },
+            { wound:'misstrauen', text:'Du kommst in einen Raum voller Fremder, und zwei Personen tuscheln und lachen.', answers:[
+                { t:'Ich werte die Personen in meinem Kopf sofort als arrogant ab.', m:'angriff' },
+                { t:'Ich versuche krampfhaft, Blickkontakt zu suchen und zu lächeln.', m:'anpassung' },
+                { t:'Ich schaue schnell aufs Handy, um beschäftigt zu wirken.', m:'vermeidung' } ] },
+            { wound:'misstrauen', text:'Jemand bietet dir ungefragt Hilfe bei einem Problem an.', answers:[
+                { t:'Ich hinterfrage sofort die wahre Absicht der Person.', m:'angriff' },
+                { t:'Ich nehme an, fühle mich aber sofort minderwertig.', m:'anpassung' },
+                { t:'Ich lehne strikt ab, weil ich niemandem etwas schulden will.', m:'vermeidung' } ] }
+        ];
+
+        let current = 0;
+        let answers = [];
+        let shownAt = 0;
+        let ticker = null;
+        let advanced = false;
+
+        function show(id) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function startTest() { current = 0; answers = []; show('step-test'); renderQuestion(); }
+
+        function shuffle(arr) {
+            const a = arr.slice();
+            for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+            return a;
+        }
+
+        function renderQuestion() {
+            const q = QUESTIONS[current];
+            advanced = false;
+            document.getElementById('q-counter').textContent = 'Situation ' + (current + 1) + ' von ' + QUESTIONS.length;
+            document.getElementById('q-text').textContent = q.text;
+            const box = document.getElementById('q-answers');
+            box.innerHTML = '';
+            shuffle(q.answers).forEach(ans => {
+                const b = document.createElement('button');
+                b.className = 'ans-btn';
+                b.textContent = ans.t;
+                b.onclick = () => recordAnswer(ans.m, false);
+                box.appendChild(b);
+            });
+            // Timer
+            const bar = document.getElementById('timer-bar');
+            bar.style.transition = 'none';
+            bar.style.width = '100%';
+            void bar.offsetWidth; // reflow
+            bar.style.transition = 'width ' + TIME_LIMIT + 'ms linear';
+            bar.style.width = '0%';
+            shownAt = Date.now();
+            let remaining = TIME_LIMIT;
+            document.getElementById('timer-num').textContent = '3';
+            clearInterval(ticker);
+            ticker = setInterval(() => {
+                remaining -= 100;
+                const secs = Math.max(0, Math.ceil(remaining / 1000));
+                document.getElementById('timer-num').textContent = String(secs);
+                if (remaining <= 0) { clearInterval(ticker); recordAnswer('vermeidung', true); }
+            }, 100);
+        }
+
+        function recordAnswer(mechanism, timeout) {
+            if (advanced) return; // verhindert Doppel-Erfassung (Klick + Timeout-Race)
+            advanced = true;
+            clearInterval(ticker);
+            const q = QUESTIONS[current];
+            answers.push({
+                q: current + 1,
+                wound: q.wound,
+                mechanism: timeout ? 'vermeidung' : mechanism,
+                reaction_ms: timeout ? TIME_LIMIT : (Date.now() - shownAt),
+                timeout: !!timeout
+            });
+            current++;
+            if (current < QUESTIONS.length) { renderQuestion(); }
+            else { finishTest(); }
+        }
+
+        function finishTest() {
+            show('step-loading');
+            setTimeout(() => { show('step-gate'); }, 1600);
+        }
+
+        let resultData = null;
+
+        async function unlockResult() {
+            const email = (document.getElementById('gate-email').value || '').trim();
+            const err = document.getElementById('gate-error');
+            err.style.display = 'none';
+            if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+                err.textContent = 'Bitte gib eine gültige E-Mail-Adresse ein.';
+                err.style.display = 'block';
+                return;
+            }
+            const btn = document.getElementById('gate-btn');
+            btn.disabled = true; btn.textContent = 'Wird freigeschaltet…';
+            try {
+                if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                const { data, error } = await supabaseClient.rpc('register_trigger_test', {
+                    p_answers: answers, p_email: email, p_language: 'de'
+                });
+                if (error) throw error;
+                resultData = data;
+                renderResult(email);
+            } catch (e) {
+                console.error(e);
+                err.textContent = 'Etwas ist schiefgelaufen. Bitte versuche es erneut.';
+                err.style.display = 'block';
+                btn.disabled = false; btn.textContent = 'Ergebnis freischalten';
+            }
+        }
+
+        function renderResult(email) {
+            const d = resultData || {};
+            document.getElementById('res-title').textContent = d.profile_title_de || 'Dein Muster';
+            document.getElementById('res-toxic').textContent = d.toxic_belief_de || '';
+            document.getElementById('res-new').textContent = d.new_belief_de || '';
+            // CTA: E-Mail an die Verkaufsseite weiterreichen (vorbefüllter Checkout)
+            const cta = document.getElementById('res-cta');
+            cta.href = 'sales-trigger-de.html?email=' + encodeURIComponent(email);
+            show('step-result');
+        }
+
+        // Teaser-Titel vor dem Gate (grobe, lokale Vorschau: häufigster Mechanismus)
+        function localTeaser() {
+            const cnt = { angriff:0, anpassung:0, vermeidung:0 };
+            answers.forEach(a => cnt[a.mechanism]++);
+            const top = Object.keys(cnt).sort((x,y) => cnt[y]-cnt[x])[0];
+            const map = { angriff:'Angriff (Fight)', anpassung:'Anpassung (Fawn)', vermeidung:'Vermeidung (Flight/Freeze)' };
+            return map[top] || '';
+        }
+        // Beim Betreten des Gates den Teaser setzen
+        const gateObserver = new MutationObserver(() => {
+            if (document.getElementById('step-gate').classList.contains('active')) {
+                document.getElementById('gate-title').textContent = 'Dein dominanter Schutzmechanismus steht fest.';
+                document.getElementById('gate-teaser').textContent = localTeaser();
+            }
+        });
+        gateObserver.observe(document.getElementById('step-gate'), { attributes:true, attributeFilter:['class'] });
+    </script>
+</body>
+</html>
