@@ -67,8 +67,8 @@
         <div class="step active" id="step-intro">
             <div class="flow-title">Shift My Horizon</div>
             <h1 class="h1-title">Der Trigger-Test: Was sabotiert dich wirklich?</h1>
-            <p class="subtitle">10 Alltagssituationen. Pro Frage nur <strong>3 Sekunden</strong>. Das schaltet deinen rationalen Verstand aus und legt dein echtes unterbewusstes Muster offen.</p>
-            <div class="rule-card">⏱️ <strong>Nicht nachdenken.</strong> Klicke instinktiv die Antwort, die dir zuerst kommt.</div>
+            <p class="subtitle">10 Alltagssituationen. Die Situation liest du <strong>in Ruhe</strong> – doch sobald du die Antworten aufdeckst, zählt nur deine <strong>erste, instinktive</strong> Reaktion. Genau die legt dein echtes unterbewusstes Muster offen.</p>
+            <div class="rule-card">⏱️ <strong>Erst lesen, dann aufdecken.</strong> Sobald die 3 Antworten erscheinen, klicke sofort instinktiv – nicht nachdenken.</div>
             <div class="rule-card">🔒 Läuft <strong>zu 100% anonym</strong>. Dein Ergebnis siehst du direkt am Ende.</div>
             <button class="btn-gold" style="margin-top:12px;" onclick="startTest()">Test starten</button>
             <p class="legal-disclaimer">Dieser Test ersetzt keine Diagnose oder Therapie.</p>
@@ -77,10 +77,11 @@
         <!-- TEST -->
         <div class="step" id="step-test">
             <div class="q-counter" id="q-counter"></div>
-            <div class="timer-wrap"><div class="timer-bar" id="timer-bar"></div></div>
+            <div class="timer-wrap" id="timer-wrap"><div class="timer-bar" id="timer-bar"></div></div>
             <div class="timer-num" id="timer-num"></div>
             <div class="q-text" id="q-text"></div>
             <div id="q-answers"></div>
+            <button class="btn-gold" id="ready-btn" onclick="startDecision()">Bereit – Antworten aufdecken</button>
         </div>
 
         <!-- LOADING -->
@@ -142,7 +143,7 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
 
-        const TIME_LIMIT = 3000; // ms pro Frage
+        const TIME_LIMIT = 4000; // ms Instinkt-Timer (erst NACH dem Aufdecken der Antworten; Lesen ist selbstbestimmt)
 
         // 10 Fragen, je 2 pro Kernwunde. Mechanismen: angriff | anpassung | vermeidung
         const QUESTIONS = [
@@ -208,12 +209,27 @@
             return a;
         }
 
+        // PHASE 1 — Situation in Ruhe lesen (kein Timer). Antworten + Timer verborgen.
         function renderQuestion() {
             const q = QUESTIONS[current];
             advanced = false;
+            clearInterval(ticker);
             document.getElementById('q-counter').textContent = 'Situation ' + (current + 1) + ' von ' + QUESTIONS.length;
             document.getElementById('q-text').textContent = q.text;
             const box = document.getElementById('q-answers');
+            box.innerHTML = '';
+            box.style.display = 'none';
+            document.getElementById('timer-wrap').style.visibility = 'hidden';
+            document.getElementById('timer-num').textContent = '';
+            document.getElementById('ready-btn').style.display = 'block';
+        }
+
+        // PHASE 2 — Antworten aufdecken + Instinkt-Timer starten. Reaktionszeit ab HIER gemessen.
+        function startDecision() {
+            const q = QUESTIONS[current];
+            document.getElementById('ready-btn').style.display = 'none';
+            const box = document.getElementById('q-answers');
+            box.style.display = 'block';
             box.innerHTML = '';
             shuffle(q.answers).forEach(ans => {
                 const b = document.createElement('button');
@@ -222,8 +238,8 @@
                 b.onclick = () => recordAnswer(ans.m, false);
                 box.appendChild(b);
             });
-            // Timer
             const bar = document.getElementById('timer-bar');
+            document.getElementById('timer-wrap').style.visibility = 'visible';
             bar.style.transition = 'none';
             bar.style.width = '100%';
             void bar.offsetWidth; // reflow
@@ -231,7 +247,7 @@
             bar.style.width = '0%';
             shownAt = Date.now();
             let remaining = TIME_LIMIT;
-            document.getElementById('timer-num').textContent = '3';
+            document.getElementById('timer-num').textContent = String(Math.ceil(TIME_LIMIT / 1000));
             clearInterval(ticker);
             ticker = setInterval(() => {
                 remaining -= 100;
