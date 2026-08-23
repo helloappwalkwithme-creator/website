@@ -362,6 +362,7 @@
             const tq = (window.smhTrackQS ? window.smhTrackQS() : '');
             cta.href = 'sales-trigger-de.html?email=' + encodeURIComponent(email) + (tq ? '&' + tq : '');
             show('step-result');
+            try{ window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'test_completed', flow:'trigger_test', profile:(d.profile_key||'')}); }catch(e){}
         }
 
         // Teaser-Titel vor dem Gate (grobe, lokale Vorschau: häufigster Mechanismus)
