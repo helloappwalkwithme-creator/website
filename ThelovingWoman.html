@@ -220,7 +220,7 @@
         const t = {
             de: {
                 pageTitle: "The Loving Woman - Onboarding",
-                btn: { next: "WEITER", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "4-TAGE FLOW STARTEN" },
+                btn: { next: "WEITER", lastStep: "LETZTER SCHRITT", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "4-TAGE FLOW STARTEN" },
                 s1: {
                     lbl: "PHASE 1: INNERE KARTOGRAFIE",
                     title: "Was raubt dir aktuell am meisten Energie im Alltag?",
@@ -290,7 +290,7 @@
             },
             en: {
                 pageTitle: "The Loving Woman - Onboarding",
-                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
+                btn: { next: "NEXT", lastStep: "LAST STEP", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
                 s1: {
                     lbl: "PHASE 1: INNER CARTOGRAPHY",
                     title: "What is currently draining your daily energy the most?",
@@ -360,7 +360,7 @@
             },
             es: {
                 pageTitle: "The Loving Woman - Incorporación",
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTIENDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
+                btn: { next: "SIGUIENTE", lastStep: "ÚLTIMO PASO", back: "ATRÁS", start: "ENTIENDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
                 s1: {
                     lbl: "FASE 1: CARTOGRAFÍA INTERNA",
                     title: "¿Qué es lo que más agota tu energía diaria actualmente?",
@@ -525,6 +525,8 @@
         }
 
         function renderResult() {
+            try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'reached_last_step'});}catch(e){}
+            try{var _bn=document.getElementById('btnNext');if(_bn){_bn.innerText=(t[currentLang].btn.lastStep||t[currentLang].btn.next);}}catch(e){}
             let score = 75;
             if(answers.connection === 'high') score += 12; else if(answers.connection === 'med') score += 6;
             if(answers.boundaries === 'high') score += 12; else if(answers.boundaries === 'med') score += 6;

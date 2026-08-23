@@ -220,7 +220,7 @@
         const t = {
             de: {
                 pageTitle: "Career & Power - Onboarding",
-                btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM 4-TAGE-FLOW" },
+                btn: { next: "WEITER", lastStep: "LETZTER SCHRITT", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM 4-TAGE-FLOW" },
                 s1: {
                     lbl: "PHASE 1: DER STATUS QUO",
                     title: "Was blockiert deinen beruflichen Aufstieg aktuell am meisten?",
@@ -290,7 +290,7 @@
             },
             en: {
                 pageTitle: "Career & Power - Onboarding",
-                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
+                btn: { next: "NEXT", lastStep: "LAST STEP", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
                 s1: {
                     lbl: "PHASE 1: THE STATUS QUO",
                     title: "What is currently blocking your career advancement the most?",
@@ -360,7 +360,7 @@
             },
             es: {
                 pageTitle: "Carrera y Poder - Incorporación",
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
+                btn: { next: "SIGUIENTE", lastStep: "ÚLTIMO PASO", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
                 s1: {
                     lbl: "FASE 1: EL STATUS QUO",
                     title: "¿Qué es lo que más bloquea tu ascenso profesional actualmente?",
@@ -525,6 +525,8 @@
         }
 
         function renderResult() {
+            try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'reached_last_step'});}catch(e){}
+            try{var _bn=document.getElementById('btnNext');if(_bn){_bn.innerText=(t[currentLang].btn.lastStep||t[currentLang].btn.next);}}catch(e){}
             let score = 75;
             if(answers.tolerance === 'high') score += 12; else if(answers.tolerance === 'med') score += 6;
             if(answers.capacity === 'high') score += 12; else if(answers.capacity === 'med') score += 6;

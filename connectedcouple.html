@@ -218,7 +218,7 @@
         const t = {
             de: {
                 pageTitle: "Connected Couples - Onboarding",
-                btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "4-TAGE FLOW STARTEN" },
+                btn: { next: "WEITER", lastStep: "LETZTER SCHRITT", back: "ZURÜCK", start: "VERSTANDEN", pay: "4-TAGE FLOW STARTEN" },
                 s1: {
                     lbl: "PHASE 1: DIE DYNAMIK",
                     title: "Welche Dynamik belastet eure Beziehung aktuell am meisten?",
@@ -288,7 +288,7 @@
             },
             en: {
                 pageTitle: "Connected Couples - Onboarding",
-                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
+                btn: { next: "NEXT", lastStep: "LAST STEP", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
                 s1: {
                     lbl: "PHASE 1: THE DYNAMIC",
                     title: "What is currently draining your relationship the most?",
@@ -358,7 +358,7 @@
             },
             es: {
                 pageTitle: "Connected Couples - Incorporación",
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
+                btn: { next: "SIGUIENTE", lastStep: "ÚLTIMO PASO", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
                 s1: {
                     lbl: "FASE 1: LA DINÁMICA",
                     title: "¿Qué es lo que más agota su relación actualmente?",
@@ -523,6 +523,8 @@
         }
 
         function renderResult() {
+            try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'reached_last_step'});}catch(e){}
+            try{var _bn=document.getElementById('btnNext');if(_bn){_bn.innerText=(t[currentLang].btn.lastStep||t[currentLang].btn.next);}}catch(e){}
             const res = t[currentLang].s6;
             let lvl;
 

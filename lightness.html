@@ -219,7 +219,7 @@
         const t = {
             de: {
                 pageTitle: "The Path to Lightness - Onboarding",
-                btn: { next: "WEITER", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM 4-TAGE-FLOW" },
+                btn: { next: "WEITER", lastStep: "LETZTER SCHRITT", back: "ZURÜCK", start: "VERSTANDEN", pay: "ZUM 4-TAGE-FLOW" },
                 s1: {
                     lbl: "PHASE 1: DER BALLAST",
                     title: "Was erzeugt in deinem Alltag aktuell die größte Schwere?",
@@ -289,7 +289,7 @@
             },
             en: {
                 pageTitle: "The Path to Lightness - Onboarding",
-                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
+                btn: { next: "NEXT", lastStep: "LAST STEP", back: "BACK", start: "UNDERSTOOD", pay: "START 4-DAY FLOW" },
                 s1: {
                     lbl: "PHASE 1: THE BAGGAGE",
                     title: "What is currently creating the most heaviness in your daily life?",
@@ -359,7 +359,7 @@
             },
             es: {
                 pageTitle: "El Camino a la Ligereza - Incorporación",
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
+                btn: { next: "SIGUIENTE", lastStep: "ÚLTIMO PASO", back: "ATRÁS", start: "ENTENDIDO", pay: "INICIAR FLUJO DE 4 DÍAS" },
                 s1: {
                     lbl: "FASE 1: EL EQUIPAJE",
                     title: "¿Qué es lo que actualmente crea más pesadez en tu vida diaria?",
@@ -524,6 +524,8 @@
         }
 
         function renderResult() {
+            try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'reached_last_step'});}catch(e){}
+            try{var _bn=document.getElementById('btnNext');if(_bn){_bn.innerText=(t[currentLang].btn.lastStep||t[currentLang].btn.next);}}catch(e){}
             let score = 75;
             if(answers.nervous_system === 'high') score += 12; else if(answers.nervous_system === 'med') score += 6;
             if(answers.evening === 'high') score += 12; else if(answers.evening === 'med') score += 6;

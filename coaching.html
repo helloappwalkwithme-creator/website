@@ -200,7 +200,7 @@
         const t = {
             de: {
                 pageTitle: "1-on-1 Coaching - Bewerbung",
-                btn: { next: "WEITER", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "ZUR COACHING-ANMELDUNG" },
+                btn: { next: "WEITER", lastStep: "LETZTER SCHRITT", back: "ZURÜCK", start: "ICH VERSTEHE", pay: "ZUR COACHING-ANMELDUNG" },
                 s1: {
                     lbl: "PHASE 1: DER SCHATTEN",
                     title: "Welches Gefühl begleitet dich unterschwellig am häufigsten?",
@@ -268,7 +268,7 @@
             },
             en: {
                 pageTitle: "1-on-1 Coaching - Application",
-                btn: { next: "NEXT", back: "BACK", start: "UNDERSTOOD", pay: "ENTER COACHING APPLICATION" },
+                btn: { next: "NEXT", lastStep: "LAST STEP", back: "BACK", start: "UNDERSTOOD", pay: "ENTER COACHING APPLICATION" },
                 s1: {
                     lbl: "PHASE 1: THE SHADOW",
                     title: "Which underlying feeling accompanies you the most?",
@@ -336,7 +336,7 @@
             },
             es: {
                 pageTitle: "1-on-1 Coaching - Aplicación",
-                btn: { next: "SIGUIENTE", back: "ATRÁS", start: "ENTIENDO", pay: "ENTRAR AL COACHING" },
+                btn: { next: "SIGUIENTE", lastStep: "ÚLTIMO PASO", back: "ATRÁS", start: "ENTIENDO", pay: "ENTRAR AL COACHING" },
                 s1: {
                     lbl: "FASE 1: LA SOMBRA",
                     title: "¿Qué sentimiento subyacente te acompaña más a menudo?",
@@ -494,6 +494,8 @@
         }
 
         function renderResult() {
+            try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'reached_last_step'});}catch(e){}
+            try{var _bn=document.getElementById('btnNext');if(_bn){_bn.innerText=(t[currentLang].btn.lastStep||t[currentLang].btn.next);}}catch(e){}
             let score = 75;
             if(answers.grounding === 'high') score += 12; else if(answers.grounding === 'med') score += 6;
             if(answers.silence === 'high') score += 12; else if(answers.silence === 'med') score += 6;
