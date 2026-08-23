@@ -227,6 +227,11 @@
         .btn-lightness { background-color: transparent; border: 1px solid var(--color-lightness); color: var(--color-lightness); }
         .btn-lightness:hover { background-color: var(--color-lightness); color: #000; }
 
+        /* Problem-Deeplinks je Persona */
+        .problem-links { margin-top: auto; display: flex; flex-direction: column; gap: 8px; width: 100%; }
+        .problem-links .plink { display: block; padding: 11px 40px 11px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; text-align: left; font-size: 0.85rem; letter-spacing: 0.2px; transition: all 0.2s; box-sizing: border-box; position: relative; }
+        .problem-links .plink::after { content: "→"; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); opacity: 0.55; font-weight: 700; }
+
         .btn-faith { background-color: transparent; border: 1px solid var(--color-faith); color: var(--color-faith); }
         .btn-faith:hover { background-color: var(--color-faith); color: #000; }
         
@@ -298,35 +303,44 @@
                     <div class="app-icon" style="background-color: var(--color-man);">IM</div>
                     <h3 data-i18n="app1_title">Integrated Man</h3>
                     <p data-i18n="app1_p">The path to the best version of yourself. Recognize destructive patterns and strengthen your mental focus.</p>
-                    <a href="integrated-man.html" class="btn btn-man" data-i18n="app_btn_active">To the Flow</a>
+                    <div class="problem-links">
+                        <a href="integrated-man.html?p=relationship" class="plink btn-man" data-i18n="p_man_relationship">Beziehung, Führung & Nähe</a>
+                        <a href="integrated-man.html?p=gettinggirls" class="plink btn-man" data-i18n="p_man_gettinggirls">Frauen ansprechen & Dating</a>
+                        <a href="integrated-man.html?p=porn" class="plink btn-man" data-i18n="p_man_porn">Pornografie & digitaler Drang</a>
+                    </div>
                 </div>
                 
                 <div class="card card-woman">
                     <div class="app-icon" style="background-color: var(--color-woman);">LW</div>
                     <h3 data-i18n="app2_title">The Loving Woman</h3>
                     <p data-i18n="app2_p">Leave the mental loop behind. Connect better with yourself, set strong boundaries and reduce people-pleasing.</p>
-                    <a href="ThelovingWoman.html" class="btn btn-woman" data-i18n="app_btn_active">To the Flow</a>
+                    <div class="problem-links">
+                        <a href="ThelovingWoman.html?p=peoplepleasing" class="plink btn-woman" data-i18n="p_woman_peoplepleasing">People-Pleasing & Grenzen</a>
+                        <a href="ThelovingWoman.html?p=dating" class="plink btn-woman" data-i18n="p_woman_dating">Dating & Selbstwert</a>
+                        <a href="ThelovingWoman.html?p=somatic" class="plink btn-woman" data-i18n="p_woman_somatic">Innere Leere & Distanz</a>
+                    </div>
                 </div>
                 
                 <div class="card card-couple">
                     <div class="app-icon" style="background-color: var(--color-couple);">CC</div>
                     <h3 data-i18n="app5_title">Connected Couples</h3>
                     <p data-i18n="app5_p">Break the cycle of conflict and distance. Find more emotional balance and strengthen your connection as a couple.</p>
-                    <a href="connectedcouple.html" class="btn btn-couple" data-i18n="app_btn_active">To the Flow</a>
+                    <div class="problem-links">
+                        <a href="connectedcouple.html?p=communication" class="plink btn-couple" data-i18n="p_couple_communication">Aneinander vorbeireden</a>
+                        <a href="connectedcouple.html?p=conflict" class="plink btn-couple" data-i18n="p_couple_conflict">Ständige Konflikte</a>
+                        <a href="connectedcouple.html?p=intimacy" class="plink btn-couple" data-i18n="p_couple_intimacy">Fehlende Intimität</a>
+                    </div>
                 </div>
                 
                 <div class="card card-parent">
                     <div class="app-icon" style="background-color: var(--color-parent);">PP</div>
                     <h3 data-i18n="app3_title">Parent in Peace</h3>
                     <p data-i18n="app3_p">Become the safe harbor for your child. Find more inner peace and learn to respond more calmly in family life.</p>
-                    <a href="Parentinpeace.html" class="btn btn-parent" data-i18n="app_btn_active">To the Flow</a>
-                </div>
-
-                <div class="card card-soul">
-                    <div class="app-icon" style="background-color: var(--color-soul);">IS</div>
-                    <h3 data-i18n="app4_title">The Integrated Soul</h3>
-                    <p data-i18n="app4_p">Connect your spirit to the material world. Learn deeper somatic awareness and integrate unconscious parts into your life.</p>
-                    <a href="TheIntegratedSoul.html" class="btn btn-soul" data-i18n="app_btn_active">To the Flow</a>
+                    <div class="problem-links">
+                        <a href="Parentinpeace.html?p=anger" class="plink btn-parent" data-i18n="p_parent_anger">Wutausbrüche & Schuldgefühle</a>
+                        <a href="Parentinpeace.html?p=disconnect" class="plink btn-parent" data-i18n="p_parent_disconnect">Autopilot & Distanz</a>
+                        <a href="Parentinpeace.html?p=overwhelm" class="plink btn-parent" data-i18n="p_parent_overwhelm">Reizüberflutung & Überlastung</a>
+                    </div>
                 </div>
 
                 <div class="card card-faith">
@@ -406,8 +420,23 @@
                 app8_title: "The Path to Lightness",
                 app8_p: "Clear the mental fog. Overcome cognitive overload, set boundaries, and regulate your nervous system for effortless living.",
                 faith_title: "Faith & Spirituality",
-                faith_p: "Choose your path — the Bible, the Quran, Buddhism or a spiritual path without religion — and get mentored in it free for 4 days.",
-                app_btn_active: "Start the Flow"
+                faith_p: "Whether you feel an inner emptiness, search for meaning, or want guidance from your faith — choose your path: the Bible, the Quran, Buddhism or a spiritual path without religion. Free for 4 days.",
+                app_btn_active: "Start the Flow",
+                p_man_relationship: "Relationship, leadership & closeness",
+                p_man_gettinggirls: "Approaching women & dating",
+                p_man_porn: "Porn & digital urges",
+                p_woman_peoplepleasing: "People-pleasing & boundaries",
+                p_woman_dating: "Dating & self-worth",
+                p_woman_somatic: "Inner emptiness & distance",
+                p_couple_communication: "Talking past each other",
+                p_couple_conflict: "Constant conflict",
+                p_couple_intimacy: "Lost intimacy",
+                p_parent_anger: "Anger outbursts & guilt",
+                p_parent_disconnect: "Autopilot & disconnect",
+                p_parent_overwhelm: "Overstimulation & overwhelm",
+                p_soul_emptiness: "Emptiness & loss of meaning",
+                p_soul_bypassing: "Escaping into positivity",
+                p_soul_isolation: "Disconnection & isolation"
             },
             de: {
                 hero_sub: "Persönliches Wachstum & Mentoring",
@@ -433,8 +462,23 @@
                 app8_title: "Der Weg zur Leichtigkeit",
                 app8_p: "Lichte den mentalen Nebel. Überwinde kognitive Überlastung, setze Grenzen und reguliere dein Nervensystem für ein müheloses Leben.",
                 faith_title: "Glaube & Spiritualität",
-                faith_p: "Wähle deinen Weg — Bibel, Koran, Buddhismus oder ein spiritueller Weg ohne Religion — und lass dich 4 Tage kostenlos darin begleiten.",
-                app_btn_active: "Zum Flow"
+                faith_p: "Ob innere Leere, Sinnsuche oder Führung aus deinem Glauben — wähle deinen Weg: Bibel, Koran, Buddhismus oder ein spiritueller Weg ohne Religion. 4 Tage kostenlos.",
+                app_btn_active: "Zum Flow",
+                p_man_relationship: "Beziehung, Führung & Nähe",
+                p_man_gettinggirls: "Frauen ansprechen & Dating",
+                p_man_porn: "Pornografie & digitaler Drang",
+                p_woman_peoplepleasing: "People-Pleasing & Grenzen",
+                p_woman_dating: "Dating & Selbstwert",
+                p_woman_somatic: "Innere Leere & Distanz",
+                p_couple_communication: "Aneinander vorbeireden",
+                p_couple_conflict: "Ständige Konflikte",
+                p_couple_intimacy: "Fehlende Intimität",
+                p_parent_anger: "Wutausbrüche & Schuldgefühle",
+                p_parent_disconnect: "Autopilot & Distanz",
+                p_parent_overwhelm: "Reizüberflutung & Überlastung",
+                p_soul_emptiness: "Innere Leere & Sinnkrise",
+                p_soul_bypassing: "Flucht in Positivität",
+                p_soul_isolation: "Getrenntheit & Isolation"
             },
             es: {
                 hero_sub: "Crecimiento Personal y Mentoría",
@@ -460,8 +504,23 @@
                 app8_title: "El Camino a la Ligereza",
                 app8_p: "Despeja la niebla mental. Supera la sobrecarga cognitiva, establece límites y regula tu sistema nervioso para una vida sin esfuerzo.",
                 faith_title: "Fe y Espiritualidad",
-                faith_p: "Elige tu camino — la Biblia, el Corán, el budismo o un camino espiritual sin religión — y recibe mentoría gratis durante 4 días.",
-                app_btn_active: "Iniciar el Flujo"
+                faith_p: "Ya sea vacío interior, búsqueda de sentido o guía desde tu fe — elige tu camino: la Biblia, el Corán, el budismo o un camino espiritual sin religión. Gratis durante 4 días.",
+                app_btn_active: "Iniciar el Flujo",
+                p_man_relationship: "Relación, liderazgo y cercanía",
+                p_man_gettinggirls: "Acercarte a las mujeres y citas",
+                p_man_porn: "Pornografía e impulso digital",
+                p_woman_peoplepleasing: "Complacencia y límites",
+                p_woman_dating: "Citas y autoestima",
+                p_woman_somatic: "Vacío interior y distancia",
+                p_couple_communication: "Hablar sin entenderse",
+                p_couple_conflict: "Conflictos constantes",
+                p_couple_intimacy: "Falta de intimidad",
+                p_parent_anger: "Estallidos de ira y culpa",
+                p_parent_disconnect: "Piloto automático y distancia",
+                p_parent_overwhelm: "Sobrestimulación y sobrecarga",
+                p_soul_emptiness: "Vacío y crisis de sentido",
+                p_soul_bypassing: "Huir en la positividad",
+                p_soul_isolation: "Desconexión y aislamiento"
             }
         };
 

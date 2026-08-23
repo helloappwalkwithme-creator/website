@@ -479,6 +479,13 @@
         window.onload = () => {
             document.getElementById('langSelect').value = currentLang;
             updateTexts(); buildOptions(); pBar.style.width = `${(1 / 6) * 100}%`;
+            // Deep-Link ?p=<problem>: Auswahl (Schritt 1) direkt ueberspringen
+            try {
+                var _pp = new URLSearchParams(location.search).get('p');
+                if (_pp && t[currentLang] && t[currentLang].s1 && t[currentLang].s1.opts && Object.prototype.hasOwnProperty.call(t[currentLang].s1.opts, _pp)) {
+                    answers.root_problem = _pp; buildOptions(); handleNext();
+                }
+            } catch(e){}
         };
 
         function selectLang(lang) {
