@@ -143,6 +143,17 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
 
+        // Ad-Tracking (Meta/Google/UTM) beim Eintritt sichern + für die Weitergabe bereitstellen
+        window.smhTrackQS = function(){
+            var KEYS=['fbclid','gclid','wbraid','gbraid','msclkid','ttclid','utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+            var p=new URLSearchParams(location.search), s={};
+            try{ s=JSON.parse(sessionStorage.getItem('smh_track')||'{}'); }catch(e){}
+            KEYS.forEach(function(k){ if(p.get(k)) s[k]=p.get(k); });
+            try{ sessionStorage.setItem('smh_track', JSON.stringify(s)); }catch(e){}
+            return Object.keys(s).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(s[k]);}).join('&');
+        };
+        window.smhTrackQS(); // Eintritts-Parameter sofort sichern
+
         const TIME_LIMIT = 5000; // ms Instinkt-Timer (erst NACH dem Aufdecken der Antworten; Lesen ist selbstbestimmt)
 
         // 10 Fragen, je 2 pro Kernwunde. Mechanismen: angriff | anpassung | vermeidung
@@ -348,7 +359,8 @@
             document.getElementById('res-new').textContent = d.new_belief_de || '';
             // CTA: E-Mail an die Verkaufsseite weiterreichen (vorbefüllter Checkout)
             const cta = document.getElementById('res-cta');
-            cta.href = 'sales-trigger-de.html?email=' + encodeURIComponent(email);
+            const tq = (window.smhTrackQS ? window.smhTrackQS() : '');
+            cta.href = 'sales-trigger-de.html?email=' + encodeURIComponent(email) + (tq ? '&' + tq : '');
             show('step-result');
         }
 

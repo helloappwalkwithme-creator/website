@@ -60,7 +60,12 @@
             <p>Du hast <strong>14 Tage Geld-zurück-Garantie</strong>. Wenn du in dieser Zeit nicht zufrieden bist, erhältst du den vollen Kaufpreis zurück – unkompliziert und ohne Diskussion.</p>
         </div>
 
-        <a id="buy" class="btn" href="https://www.digistore24.com/">Deep Dive starten</a>
+        <div class="card" style="border:1px solid var(--gold);">
+            <h2>Warum du dem Prozess vertrauen kannst</h2>
+            <p>Der Deep Dive ist <strong>brandneu</strong> – kein gekauftes Feedback, sondern die Methode dahinter: fundierte Prinzipien der Verhaltenspsychologie (<strong>kognitive Dissonanz</strong>, <strong>RAS-Priming</strong>, <strong>identitätsbasierte Gewohnheiten</strong>), die deinen Kern-Glaubenssatz Schritt für Schritt umschreiben. Das Risiko trägst nicht du: <strong>14 Tage Geld-zurück-Garantie</strong> – du gibst dem Prozess einen Vertrauensvorschuss, kein Blindkauf.</p>
+        </div>
+
+        <a id="buy" class="btn" href="https://www.digistore24.com/">Letzter Schritt: Deep Dive starten →</a>
 
     </main>
     <footer>
@@ -69,13 +74,25 @@
         <a href="agb.html">AGB</a>
     </footer>
     <script>
-        var DEFAULT_PID = '723683'; // Phase D: 149-Euro-Produkt (Reprogrammierung Deep Dive)
+        // Ad-Tracking (Meta/Google/UTM) sichern + an den Checkout weitergeben
+        window.smhTrackQS = function(){
+            var KEYS=['fbclid','gclid','wbraid','gbraid','msclkid','ttclid','utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+            var pp=new URLSearchParams(location.search), s={};
+            try{ s=JSON.parse(sessionStorage.getItem('smh_track')||'{}'); }catch(e){}
+            KEYS.forEach(function(k){ if(pp.get(k)) s[k]=pp.get(k); });
+            try{ sessionStorage.setItem('smh_track', JSON.stringify(s)); }catch(e){}
+            return Object.keys(s).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(s[k]);}).join('&');
+        };
+        var DEFAULT_PID = '723683'; // 149-Euro-Produkt (Reprogrammierung Deep Dive)
         var params = new URLSearchParams(location.search);
         var pid = params.get('pid') || DEFAULT_PID;
         var email = params.get('email');
         if (pid && /^[0-9]+$/.test(pid)) {
             var url = 'https://www.checkout-ds24.com/product/' + pid;
-            if (email) url += '?email=' + encodeURIComponent(email);
+            var q = [];
+            if (email) q.push('email=' + encodeURIComponent(email));
+            var tq = window.smhTrackQS(); if (tq) q.push(tq);
+            if (q.length) url += '?' + q.join('&');
             document.getElementById('buy').href = url;
         }
     </script>
