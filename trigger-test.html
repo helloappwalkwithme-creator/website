@@ -154,7 +154,7 @@
         };
         window.smhTrackQS(); // Eintritts-Parameter sofort sichern
 
-        const TIME_LIMIT = 5000; // ms Instinkt-Timer (erst NACH dem Aufdecken der Antworten; Lesen ist selbstbestimmt)
+        const TIME_LIMIT = 9000; // ms Instinkt-Nudge (erst NACH dem Aufdecken). Läuft er ab, wird NICHTS automatisch gewertet – die Buttons bleiben aktiv, deine echte Wahl zählt immer. reaction_ms misst die Instinkt-Geschwindigkeit.
 
         // 10 Fragen, je 2 pro Kernwunde. Mechanismen: angriff | anpassung | vermeidung
         const QUESTIONS = [
@@ -277,8 +277,9 @@
             ticker = setInterval(() => {
                 remaining -= 100;
                 const secs = Math.max(0, Math.ceil(remaining / 1000));
-                document.getElementById('timer-num').textContent = String(secs);
-                if (remaining <= 0) { clearInterval(ticker); recordAnswer('vermeidung', true); }
+                // Nudge abgelaufen: NICHT automatisch werten. Buttons bleiben aktiv – die echte Klick-Wahl zählt.
+                if (remaining <= 0) { clearInterval(ticker); document.getElementById('timer-num').textContent = 'Wähle instinktiv'; }
+                else { document.getElementById('timer-num').textContent = String(secs); }
             }, 100);
         }
 
@@ -365,12 +366,13 @@
             try{ window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'test_completed', flow:'trigger_test', profile:(d.profile_key||'')}); }catch(e){}
         }
 
-        // Teaser-Titel vor dem Gate (grobe, lokale Vorschau: häufigster Mechanismus)
+        // Teaser-Titel vor dem Gate (grobe, lokale Vorschau: häufigster Mechanismus – gleiche Sprache wie das echte 15-Profil-System)
         function localTeaser() {
             const cnt = { angriff:0, anpassung:0, vermeidung:0 };
-            answers.forEach(a => cnt[a.mechanism]++);
-            const top = Object.keys(cnt).sort((x,y) => cnt[y]-cnt[x])[0];
-            const map = { angriff:'Angriff (Fight)', anpassung:'Anpassung (Fawn)', vermeidung:'Vermeidung (Flight/Freeze)' };
+            answers.forEach(a => { if (cnt[a.mechanism] !== undefined) cnt[a.mechanism]++; });
+            const order = ['angriff','anpassung','vermeidung'];
+            const top = order.slice().sort((x,y) => cnt[y]-cnt[x])[0];
+            const map = { angriff:'Angriff', anpassung:'Anpassung', vermeidung:'Vermeidung' };
             return map[top] || '';
         }
         // Beim Betreten des Gates den Teaser setzen
