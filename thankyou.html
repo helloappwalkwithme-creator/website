@@ -229,6 +229,29 @@
         const lang = t[detectedLang] ? detectedLang : 'de';
         const content = t[lang];
 
+        // Produkt-Variante: 30-Tage-Protokoll (Trigger-Upsell) statt 90-Tage-Flow.
+        // Wird über ?product=protocol im thankyou_url der Trigger-Produkte aktiviert.
+        const protoText = {
+            de: {
+                headline: "Dein 30-Tage-Protokoll ist freigeschaltet!",
+                step1Text: "Gehe zurück zu WhatsApp oder Telegram – dort läuft dein Zugang.",
+                step2Text: "Du musst nichts weiter tun. Ab morgen früh bekommst du täglich deine persönliche Reprogrammierungs-Übung – exakt auf dein Trigger-Profil zugeschnitten, 30 Tage lang. Läuft parallel zu einem eventuell bestehenden Flow. Mit STOP pausierst du jederzeit, mit GO geht es weiter."
+            },
+            en: {
+                headline: "Your 30-Day Protocol is unlocked!",
+                step1Text: "Go back to WhatsApp or Telegram – that's where your access runs.",
+                step2Text: "There's nothing else to do. From tomorrow morning you'll receive your personal reprogramming exercise every day – tailored exactly to your trigger profile, for 30 days. It runs in parallel to any existing flow. Type STOP to pause anytime, GO to continue."
+            },
+            es: {
+                headline: "¡Tu Protocolo de 30 Días está activado!",
+                step1Text: "Vuelve a WhatsApp o Telegram – ahí funciona tu acceso.",
+                step2Text: "No tienes que hacer nada más. A partir de mañana por la mañana recibirás cada día tu ejercicio de reprogramación personal, adaptado exactamente a tu perfil de disparadores, durante 30 días. Funciona en paralelo a cualquier flujo existente. Escribe STOP para pausar y GO para continuar."
+            }
+        };
+        if (urlParams.get('product') === 'protocol' && protoText[lang]) {
+            Object.assign(content, protoText[lang]);
+        }
+
         // 2. HTML Tag Language setzen
         document.getElementById('html-tag').lang = lang;
         document.getElementById('page-title').innerText = content.pageTitle;

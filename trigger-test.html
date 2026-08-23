@@ -143,7 +143,7 @@
         const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
         let supabaseClient = null;
 
-        const TIME_LIMIT = 4000; // ms Instinkt-Timer (erst NACH dem Aufdecken der Antworten; Lesen ist selbstbestimmt)
+        const TIME_LIMIT = 5000; // ms Instinkt-Timer (erst NACH dem Aufdecken der Antworten; Lesen ist selbstbestimmt)
 
         // 10 Fragen, je 2 pro Kernwunde. Mechanismen: angriff | anpassung | vermeidung
         const QUESTIONS = [
@@ -194,6 +194,15 @@
         let shownAt = 0;
         let ticker = null;
         let advanced = false;
+        let inPractice = false;
+
+        // Übungsrunde (zählt NICHT) – damit der Nutzer die Mechanik/Geschwindigkeit einmal gefahrlos erlebt.
+        const PRACTICE_Q = { wound:'practice', text:'Übungsrunde: An der Kasse drängelt sich jemand einfach vor dir vor.', answers:[
+            { t:'Ich sage klar und direkt, dass ich zuerst dran war.', m:'angriff' },
+            { t:'Ich lasse ihn vor und sage lieber nichts.', m:'anpassung' },
+            { t:'Ich schaue weg und tue, als hätte ich nichts gemerkt.', m:'vermeidung' } ] };
+
+        function currentQ() { return inPractice ? PRACTICE_Q : QUESTIONS[current]; }
 
         function show(id) {
             document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
@@ -201,7 +210,7 @@
             window.scrollTo(0, 0);
         }
 
-        function startTest() { current = 0; answers = []; show('step-test'); renderQuestion(); }
+        function startTest() { current = 0; answers = []; inPractice = true; show('step-test'); renderQuestion(); }
 
         function shuffle(arr) {
             const a = arr.slice();
@@ -211,22 +220,27 @@
 
         // PHASE 1 — Situation in Ruhe lesen (kein Timer). Antworten + Timer verborgen.
         function renderQuestion() {
-            const q = QUESTIONS[current];
+            const q = currentQ();
             advanced = false;
             clearInterval(ticker);
-            document.getElementById('q-counter').textContent = 'Situation ' + (current + 1) + ' von ' + QUESTIONS.length;
+            document.getElementById('q-counter').textContent = inPractice
+                ? '⚡ Übungsrunde — zählt NICHT'
+                : 'Situation ' + (current + 1) + ' von ' + QUESTIONS.length;
             document.getElementById('q-text').textContent = q.text;
             const box = document.getElementById('q-answers');
             box.innerHTML = '';
             box.style.display = 'none';
             document.getElementById('timer-wrap').style.visibility = 'hidden';
             document.getElementById('timer-num').textContent = '';
-            document.getElementById('ready-btn').style.display = 'block';
+            const rb = document.getElementById('ready-btn');
+            rb.style.display = 'block';
+            rb.textContent = inPractice ? 'Bereit – Übung starten' : 'Bereit – Antworten aufdecken';
+            rb.onclick = startDecision;
         }
 
         // PHASE 2 — Antworten aufdecken + Instinkt-Timer starten. Reaktionszeit ab HIER gemessen.
         function startDecision() {
-            const q = QUESTIONS[current];
+            const q = currentQ();
             document.getElementById('ready-btn').style.display = 'none';
             const box = document.getElementById('q-answers');
             box.style.display = 'block';
@@ -261,6 +275,7 @@
             if (advanced) return; // verhindert Doppel-Erfassung (Klick + Timeout-Race)
             advanced = true;
             clearInterval(ticker);
+            if (inPractice) { renderTransition(); return; } // Übung zählt nicht
             const q = QUESTIONS[current];
             answers.push({
                 q: current + 1,
@@ -272,6 +287,24 @@
             current++;
             if (current < QUESTIONS.length) { renderQuestion(); }
             else { finishTest(); }
+        }
+
+        // Nach der Übungsrunde: klare Überleitung, dann startet der echte Test bei Situation 1.
+        function renderTransition() {
+            inPractice = false;
+            current = 0;
+            clearInterval(ticker);
+            document.getElementById('q-counter').textContent = '';
+            document.getElementById('q-text').textContent = 'Übung geschafft ✅  Jetzt zählt es: 10 Situationen, exakt dieselbe Mechanik. In Ruhe lesen, aufdecken, instinktiv klicken.';
+            const box = document.getElementById('q-answers');
+            box.innerHTML = '';
+            box.style.display = 'none';
+            document.getElementById('timer-wrap').style.visibility = 'hidden';
+            document.getElementById('timer-num').textContent = '';
+            const rb = document.getElementById('ready-btn');
+            rb.style.display = 'block';
+            rb.textContent = "Los geht's – Situation 1";
+            rb.onclick = renderQuestion;
         }
 
         function finishTest() {
