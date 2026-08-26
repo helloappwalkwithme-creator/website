@@ -8,6 +8,7 @@
     })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1430151545959801"
      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title id="page-title">Shift My Horizon - Vielen Dank</title>
@@ -162,6 +163,24 @@
             </div>
         </div>
 
+        <div class="optin-box" id="optin-box" style="display:none; text-align:left; background:var(--gray); border:1px solid var(--border); border-radius:12px; padding:24px; margin-bottom:32px; width:100%;">
+            <p id="optin-intro" style="margin:0 0 20px 0; font-size:15px; color:#ccc;"></p>
+            <label style="display:flex; gap:12px; align-items:flex-start; cursor:pointer; margin-bottom:20px;">
+                <input type="checkbox" id="optin-coaching" style="margin-top:5px; width:20px; height:20px; flex-shrink:0; accent-color:var(--accent);">
+                <span><strong id="optin-coaching-title" style="display:block; color:#fff; margin-bottom:4px;"></strong>
+                <span id="optin-coaching-desc" style="font-size:14px; color:#bbb;"></span>
+                <span id="optin-coaching-label" style="display:block; font-size:14px; color:var(--accent); margin-top:6px; font-weight:700;"></span></span>
+            </label>
+            <label style="display:flex; gap:12px; align-items:flex-start; cursor:pointer; margin-bottom:24px;">
+                <input type="checkbox" id="optin-seminar" style="margin-top:5px; width:20px; height:20px; flex-shrink:0; accent-color:var(--accent);">
+                <span><strong id="optin-seminar-title" style="display:block; color:#fff; margin-bottom:4px;"></strong>
+                <span id="optin-seminar-desc" style="font-size:14px; color:#bbb;"></span>
+                <span id="optin-seminar-label" style="display:block; font-size:14px; color:var(--accent); margin-top:6px; font-weight:700;"></span></span>
+            </label>
+            <button id="optin-submit" class="btn-home" style="border-color:var(--success); color:var(--success); width:100%;"></button>
+            <p id="optin-feedback" style="margin:16px 0 0 0; font-size:15px; display:none;"></p>
+        </div>
+
         <a href="https://shiftmyhorizon.com" class="btn-home" id="ui-btn-home"></a>
     </main>
 
@@ -185,6 +204,18 @@
                 step2Text: "Du musst nichts weiter tun. Sobald deine Zahlung verarbeitet ist, wird dein Zugang automatisch freigeschaltet – und ab morgen früh geht deine tägliche Begleitung genau dort weiter, wo du aufgehört hast. Mit STOP pausierst du jederzeit, mit GO geht es weiter.",
                 btnHome: "Zurück zur Startseite",
                 digistoreNotice: "Die Abbuchung erfolgt durch Digistore24.",
+                optin: {
+                    intro: "Bevor du startest: Sichere dir noch zwei kostenlose Extras. Ganz unverbindlich.",
+                    coachingTitle: "🎁 Kostenloses 30-Minuten-Coaching für deine Situation",
+                    coachingDesc: "In einem persönlichen 30-Min-Gespräch schauen wir gemeinsam auf deine individuelle Lage, erkennen deine Trigger und finden deinen nächsten konkreten Schritt. 100 % kostenlos, keine Verpflichtung. Wenn du das Häkchen setzt, melde ich mich persönlich bei dir zur Terminfindung.",
+                    coachingLabel: "Ja, ich möchte mein kostenloses 30-Min-Coaching",
+                    seminarTitle: "🎁 Kostenloses Live-Seminar zu deinem Thema — immer am 1. des Monats",
+                    seminarDesc: "Einmal im Monat, immer am 1., ein kostenloses Live-Seminar zu genau deinem Thema — für einen klaren Start in den Monat: dich selbst besser verstehen und dein Leben durch radikale Einfachheit steuern. Kreuze an, und sobald das nächste Seminar steht, bekommst du die Anmeldung per E-Mail.",
+                    seminarLabel: "Ja, ich möchte kostenlos am Seminar teilnehmen",
+                    submit: "Kostenlos sichern",
+                    success: "Super! Deine Auswahl ist gespeichert. Ich melde mich. 🙌",
+                    error: "Da ging leider etwas schief. Bitte lade die Seite neu und versuche es erneut."
+                },
                 legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB" }
             },
             en: {
@@ -197,6 +228,18 @@
                 step2Text: "There's nothing else to do. As soon as your payment is processed, your access unlocks automatically – and from tomorrow morning your daily guidance continues right where you left off. Type STOP to pause anytime, GO to continue.",
                 btnHome: "Back to Homepage",
                 digistoreNotice: "The charge will be processed by Digistore24.",
+                optin: {
+                    intro: "Before you start: grab two free extras. No strings attached.",
+                    coachingTitle: "🎁 Free 30-minute coaching for your situation",
+                    coachingDesc: "In a personal 30-min conversation we look at your individual situation together, spot your triggers and find your next concrete step. 100% free, no obligation. If you tick the box, I'll personally reach out to schedule.",
+                    coachingLabel: "Yes, I want my free 30-min coaching",
+                    seminarTitle: "🎁 Free live seminar on your topic — always on the 1st of the month",
+                    seminarDesc: "Once a month, always on the 1st, a free live seminar on exactly your topic — for a clear start into the month: understand yourself better and take control of your life through radical simplicity. Tick the box and you'll get the sign-up by email as soon as the next seminar is scheduled.",
+                    seminarLabel: "Yes, I want to join the free seminar",
+                    submit: "Get it free",
+                    success: "Awesome! Your choice is saved. I'll be in touch. 🙌",
+                    error: "Something went wrong. Please reload the page and try again."
+                },
                 legal: { imp: "Imprint", dat: "Privacy Policy", agb: "Terms" }
             },
             es: {
@@ -209,6 +252,18 @@
                 step2Text: "No tienes que hacer nada más. En cuanto se procese tu pago, tu acceso se activa automáticamente – y a partir de mañana por la mañana tu acompañamiento diario continúa justo donde lo dejaste. Escribe STOP para pausar en cualquier momento y GO para continuar.",
                 btnHome: "Volver al inicio",
                 digistoreNotice: "El cargo será procesado por Digistore24.",
+                optin: {
+                    intro: "Antes de empezar: asegúrate dos extras gratuitos. Sin compromiso.",
+                    coachingTitle: "🎁 Coaching gratuito de 30 minutos para tu situación",
+                    coachingDesc: "En una conversación personal de 30 min miramos juntos tu situación individual, reconocemos tus disparadores y encontramos tu próximo paso concreto. 100% gratis, sin compromiso. Si marcas la casilla, me pondré en contacto personalmente para agendar.",
+                    coachingLabel: "Sí, quiero mi coaching gratuito de 30 min",
+                    seminarTitle: "🎁 Seminario en vivo gratuito sobre tu tema — siempre el día 1 del mes",
+                    seminarDesc: "Una vez al mes, siempre el día 1, un seminario en vivo gratuito sobre exactamente tu tema — para empezar el mes con claridad: entenderte mejor y controlar tu vida mediante la simplicidad radical. Marca la casilla y recibirás la inscripción por correo en cuanto se programe el próximo seminario.",
+                    seminarLabel: "Sí, quiero participar en el seminario gratuito",
+                    submit: "Conseguir gratis",
+                    success: "¡Genial! Tu elección se ha guardado. Me pondré en contacto. 🙌",
+                    error: "Algo salió mal. Recarga la página e inténtalo de nuevo."
+                },
                 legal: { imp: "Aviso Legal", dat: "Privacidad", agb: "Términos" }
             }
         };
@@ -273,6 +328,64 @@
         document.getElementById('link-imp').innerText = content.legal.imp;
         document.getElementById('link-dat').innerText = content.legal.dat;
         document.getElementById('link-agb').innerText = content.legal.agb;
+
+        // --- Gratis-Opt-ins (Phase 1: Interesse erfassen) ---
+        (function () {
+            var email = urlParams.get('email') || urlParams.get('buyer_email');
+            var productId = urlParams.get('product_id') || urlParams.get('pid');
+            var box = document.getElementById('optin-box');
+            if (!email || !box || !content.optin) return; // ohne E-Mail keine Attribution -> Block bleibt versteckt
+
+            var o = content.optin;
+            document.getElementById('optin-intro').innerText = o.intro;
+            document.getElementById('optin-coaching-title').innerText = o.coachingTitle;
+            document.getElementById('optin-coaching-desc').innerText = o.coachingDesc;
+            document.getElementById('optin-coaching-label').innerText = o.coachingLabel;
+            document.getElementById('optin-seminar-title').innerText = o.seminarTitle;
+            document.getElementById('optin-seminar-desc').innerText = o.seminarDesc;
+            document.getElementById('optin-seminar-label').innerText = o.seminarLabel;
+            var btn = document.getElementById('optin-submit');
+            btn.innerText = o.submit;
+            box.style.display = 'block';
+
+            // Supabase-Zugang exakt wie in trigger-test.html
+            var SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
+            var SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+            var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            btn.addEventListener('click', function () {
+                var wantCoaching = document.getElementById('optin-coaching').checked;
+                var wantSeminar = document.getElementById('optin-seminar').checked;
+                var fb = document.getElementById('optin-feedback');
+                if (!wantCoaching && !wantSeminar) { return; }
+                btn.disabled = true;
+                sb.rpc('register_free_offer_interest', {
+                    p_email: email,
+                    p_coaching: wantCoaching,
+                    p_seminar: wantSeminar,
+                    p_product_id: productId || null,
+                    p_language: lang
+                }).then(function (res) {
+                    fb.style.display = 'block';
+                    if (res && !res.error && res.data && res.data.success) {
+                        fb.style.color = 'var(--success)';
+                        fb.innerText = o.success;
+                        document.getElementById('optin-coaching').disabled = true;
+                        document.getElementById('optin-seminar').disabled = true;
+                        btn.style.display = 'none';
+                    } else {
+                        fb.style.color = '#e57373';
+                        fb.innerText = o.error;
+                        btn.disabled = false;
+                    }
+                }).catch(function () {
+                    fb.style.display = 'block';
+                    fb.style.color = '#e57373';
+                    fb.innerText = o.error;
+                    btn.disabled = false;
+                });
+            });
+        })();
     </script>
 </body>
 </html>
