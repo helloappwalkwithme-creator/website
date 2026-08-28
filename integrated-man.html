@@ -733,7 +733,9 @@
                     p_onboarding_data: answers,
                     p_access_code: accessCode,
                     p_chosen_path: chosenPath,
-                    p_flow_name: 'Integrated Man'
+                    // Fallback only — server-side map_flow_name() resolves the real sub-flow
+                    // from (source + root_problem). "Integrated Man" is a category, not a flow.
+                    p_flow_name: 'mens_relationship_flow'
                 });
 
                 if (rpcError) throw rpcError;

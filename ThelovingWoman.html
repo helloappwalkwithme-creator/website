@@ -649,7 +649,9 @@
                     p_onboarding_data: answers,
                     p_access_code: accessCode,
                     p_chosen_path: chosenPath,
-                    p_flow_name: 'The Loving Woman'
+                    // Fallback only — server-side map_flow_name() resolves the real sub-flow
+                    // from (source + root_problem). "The Loving Woman" is a category, not a flow.
+                    p_flow_name: 'main_character_flow'
                 });
 
                 if (rpcError) throw rpcError;
