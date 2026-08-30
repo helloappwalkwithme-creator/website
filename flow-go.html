@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weiterleitung – Shift My Horizon</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body{ margin:0; background:#0d1117; color:#f0f6fc; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; }
+        .spinner{ border:3px solid #30363d; border-top-color:#cba677; border-radius:50%; width:44px; height:44px; animation:spin 1s linear infinite; margin:0 auto 22px; }
+        @keyframes spin{ 100%{ transform:rotate(360deg); } }
+        p{ color:#8b949e; font-size:15px; } a{ color:#cba677; }
+    </style>
+</head>
+<body>
+<div>
+    <div class="spinner"></div>
+    <p id="msg">Einen Moment, wir bereiten deinen Zugang vor …</p>
+</div>
+<script>
+    var SUPABASE_URL='https://jztwnumtwihomgxwlwor.supabase.co';
+    var SUPABASE_ANON='sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+    // Persona-Quelle -> 90-Tage-Digistore-Produkt (DE)
+    var PID={
+        integrated_man_flow:'688460',
+        loving_woman_flow:'688575',
+        connected_couples_flow:'688576',
+        parent_in_peace_flow:'688578',
+        path_to_lightness_flow:'719920',
+        career_power_flow:'688580',
+        elite_closer_flow:'688583',
+        integrated_soul_flow:'688579'
+    };
+    (function(){
+        var p=new URLSearchParams(location.search);
+        var src=p.get('src')||'', problem=p.get('problem')||'', email=(p.get('email')||'').trim();
+        var pid=PID[src];
+        if(!pid){ document.getElementById('msg').innerHTML='Link ungültig. <a href="index.html">Zur Startseite</a>'; return; }
+        function forward(){
+            var tq='';
+            try{ var K=['fbclid','gclid','wbraid','gbraid','msclkid','ttclid','utm_source','utm_medium','utm_campaign','utm_content','utm_term'],st={}; try{st=JSON.parse(sessionStorage.getItem('smh_track')||'{}')}catch(e){} tq=Object.keys(st).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(st[k])}).join('&'); }catch(e){}
+            var url='https://www.checkout-ds24.com/product/'+pid+(email?('?email='+encodeURIComponent(email)):'')+((tq)?((email?'&':'?')+tq):'');
+            window.location.replace(url);
+        }
+        try{
+            var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+            var done=false; var go=function(){ if(done)return; done=true; forward(); };
+            setTimeout(go, 2500); // Fallback: nie hängen bleiben
+            if(email){
+                sb.rpc('set_flow_intent',{ p_email:email, p_source:src, p_root_problem:problem }).then(go).catch(go);
+            } else { go(); }
+        }catch(e){ forward(); }
+    })();
+</script>
+</body>
+</html>
