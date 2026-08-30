@@ -330,6 +330,11 @@
                 s3: {
                     lbl: "SCHRITT 3: DEIN ZIEL",
                     title: "Wo willst du in 90 Tagen stehen?",
+                    titles: {
+                        porn: "Wer willst du in 90 Tagen sein – ohne den Drang?",
+                        gettinggirls: "Wo willst du in 90 Tagen mit Frauen stehen?",
+                        relationship: "Wo soll deine Beziehung in 90 Tagen stehen?"
+                    },
                     opts: {
                         porn: {
                             a: "Klarer Kopf und Energie für das, was mir wichtig ist",
@@ -420,6 +425,11 @@
                 s3: {
                     lbl: "STEP 3: YOUR GOAL",
                     title: "Where do you want to be in 90 days?",
+                    titles: {
+                        porn: "Who do you want to be in 90 days – without the urge?",
+                        gettinggirls: "Where do you want to be with women in 90 days?",
+                        relationship: "Where should your relationship be in 90 days?"
+                    },
                     opts: {
                         porn: {
                             a: "A clear head and energy for what matters to me",
@@ -510,6 +520,11 @@
                 s3: {
                     lbl: "PASO 3: TU META",
                     title: "¿Dónde quieres estar en 90 días?",
+                    titles: {
+                        porn: "¿Quién quieres ser en 90 días, sin el impulso?",
+                        gettinggirls: "¿Dónde quieres estar con las mujeres en 90 días?",
+                        relationship: "¿Dónde quieres que esté tu relación en 90 días?"
+                    },
                     opts: {
                         porn: {
                             a: "Mente clara y energía para lo que me importa",
@@ -687,6 +702,7 @@
             build('s1-opts', l.s1.opts, 'root_problem', false);
             build('s2-opts', l.s2.opts[root] || {}, 'pain_point', true);
             build('s3-opts', l.s3.opts[root] || {}, 'energy', false);
+            if (l.s3.titles && l.s3.titles[root]) document.getElementById('s3-title').innerText = l.s3.titles[root];
             build('s4-opts', l.s4.opts, 'satisfaction', false);
         }
 
