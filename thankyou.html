@@ -329,6 +329,65 @@
         document.getElementById('link-dat').innerText = content.legal.dat;
         document.getElementById('link-agb').innerText = content.legal.agb;
 
+        // --- Protokoll-Käufer ohne Test-Profil zum Trigger-Test leiten ---
+        // Kauf-vor-Test (29€-Upsell / 149€-Pitch): es existiert noch kein Profil -> ohne Test startet das Protokoll NIE.
+        (function () {
+            if (urlParams.get('product') !== 'protocol') return;
+            var email = urlParams.get('email') || urlParams.get('buyer_email');
+            if (!email) return;
+
+            var needsTest = {
+                de: {
+                    headline: "Fast geschafft – 1 letzter Schritt",
+                    step1Title: "Mach jetzt deinen Trigger-Test",
+                    step1Text: "Damit wir dein 30-Tage-Protokoll exakt auf dein Muster personalisieren können, brauchst du einmal deinen 60-Sekunden-Trigger-Test. Ohne ihn kann dein Protokoll nicht starten.",
+                    step2Title: "Danach läuft alles automatisch",
+                    step2Text: "Direkt nach dem Test bekommst du deinen ersten Schritt – und ab morgen früh täglich deine persönliche Reprogrammierungs-Übung per WhatsApp oder Telegram.",
+                    cta: "Jetzt Trigger-Test starten"
+                },
+                en: {
+                    headline: "Almost done – 1 last step",
+                    step1Title: "Take your Trigger Test now",
+                    step1Text: "So we can tailor your 30-day protocol exactly to your pattern, you need to take your 60-second Trigger Test once. Without it your protocol can't start.",
+                    step2Title: "Then everything runs automatically",
+                    step2Text: "Right after the test you get your first step – and from tomorrow morning your personal reprogramming exercise every day via WhatsApp or Telegram.",
+                    cta: "Start the Trigger Test now"
+                },
+                es: {
+                    headline: "Casi listo – 1 último paso",
+                    step1Title: "Haz ahora tu Test de Disparadores",
+                    step1Text: "Para personalizar tu protocolo de 30 días exactamente a tu patrón, necesitas hacer una vez tu Test de Disparadores de 60 segundos. Sin él, tu protocolo no puede empezar.",
+                    step2Title: "Después todo funciona automáticamente",
+                    step2Text: "Justo después del test recibes tu primer paso – y desde mañana por la mañana tu ejercicio de reprogramación personal cada día por WhatsApp o Telegram.",
+                    cta: "Empezar el Test de Disparadores"
+                }
+            };
+            var U = needsTest[lang] || needsTest.de;
+
+            function applyNeedsTest() {
+                document.getElementById('ui-headline').innerText = U.headline;
+                document.getElementById('ui-step1-title').innerText = U.step1Title;
+                document.getElementById('ui-step1-text').innerText = U.step1Text;
+                document.getElementById('ui-step2-title').innerText = U.step2Title;
+                document.getElementById('ui-step2-text').innerText = U.step2Text;
+                var btn = document.getElementById('ui-btn-home');
+                btn.innerText = U.cta;
+                btn.setAttribute('href', 'trigger-test.html?ctx=protocol&email=' + encodeURIComponent(email) + '&lang=' + encodeURIComponent(lang));
+                btn.style.borderColor = 'var(--success)';
+                btn.style.color = 'var(--success)';
+            }
+
+            try {
+                var sb = window.supabase.createClient('https://jztwnumtwihomgxwlwor.supabase.co', 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe');
+                sb.rpc('trigger_profile_status', { p_email: email }).then(function (res) {
+                    if (res && !res.error && res.data === 'ready') return; // Profil vorhanden -> Protokoll läuft, "freigeschaltet"-Text bleibt
+                    applyNeedsTest(); // needs_test -> zum Test leiten
+                }).catch(applyNeedsTest); // Fail-safe: lieber zum Test
+            } catch (e) {
+                applyNeedsTest();
+            }
+        })();
+
         // --- Gratis-Opt-ins (Phase 1: Interesse erfassen) ---
         (function () {
             var email = urlParams.get('email') || urlParams.get('buyer_email');
