@@ -307,6 +307,34 @@
             Object.assign(content, protoText[lang]);
         }
 
+        // Produkt-Variante: 5-Tage-Tripwire (sleep/morning/stress). Über ?product=short im thankyou_url.
+        const shortText = {
+            de: {
+                headline: "Deine 5 Tage sind fast startklar!",
+                step1Title: "Öffne deinen Messenger",
+                step1Text: "Tippe unten auf den Button – wir haben deine Startnachricht schon vorbereitet. Einmal in WhatsApp oder Telegram senden, fertig.",
+                step2Title: "Ab morgen früh geht es los",
+                step2Text: "Ab morgen früh bekommst du 5 Tage lang täglich deine Übung direkt in den Chat. Mit STOP pausierst du jederzeit, mit GO geht es weiter."
+            },
+            en: {
+                headline: "Your 5 days are almost ready!",
+                step1Title: "Open your messenger",
+                step1Text: "Tap the button below – we've already prepared your start message. Send it once in WhatsApp or Telegram, done.",
+                step2Title: "It starts tomorrow morning",
+                step2Text: "From tomorrow morning you'll get your daily exercise right in the chat for 5 days. Type STOP to pause anytime, GO to continue."
+            },
+            es: {
+                headline: "¡Tus 5 días casi están listos!",
+                step1Title: "Abre tu messenger",
+                step1Text: "Toca el botón de abajo – ya preparamos tu mensaje de inicio. Envíalo una vez en WhatsApp o Telegram, listo.",
+                step2Title: "Empieza mañana por la mañana",
+                step2Text: "A partir de mañana por la mañana recibirás tu ejercicio diario en el chat durante 5 días. Escribe STOP para pausar y GO para continuar."
+            }
+        };
+        if (urlParams.get('product') === 'short' && shortText[lang]) {
+            Object.assign(content, shortText[lang]);
+        }
+
         // 2. HTML Tag Language setzen
         document.getElementById('html-tag').lang = lang;
         document.getElementById('page-title').innerText = content.pageTitle;
@@ -330,7 +358,6 @@
         document.getElementById('link-agb').innerText = content.legal.agb;
 
         // --- Protokoll-Käufer ohne Test-Profil zum Trigger-Test leiten ---
-        // Kauf-vor-Test (29€-Upsell / 149€-Pitch): es existiert noch kein Profil -> ohne Test startet das Protokoll NIE.
         (function () {
             if (urlParams.get('product') !== 'protocol') return;
             var email = urlParams.get('email') || urlParams.get('buyer_email');
@@ -380,12 +407,41 @@
             try {
                 var sb = window.supabase.createClient('https://jztwnumtwihomgxwlwor.supabase.co', 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe');
                 sb.rpc('trigger_profile_status', { p_email: email }).then(function (res) {
-                    if (res && !res.error && res.data === 'ready') return; // Profil vorhanden -> Protokoll läuft, "freigeschaltet"-Text bleibt
-                    applyNeedsTest(); // needs_test -> zum Test leiten
-                }).catch(applyNeedsTest); // Fail-safe: lieber zum Test
+                    if (res && !res.error && res.data === 'ready') return;
+                    applyNeedsTest();
+                }).catch(applyNeedsTest);
             } catch (e) {
                 applyNeedsTest();
             }
+        })();
+
+        // --- 5-Tage-Tripwire: Zugangscode holen + Messenger-Bot mit vorbefüllter Startnachricht öffnen ---
+        (function () {
+            if (urlParams.get('product') !== 'short') return;
+            var email = urlParams.get('email') || urlParams.get('buyer_email');
+            if (!email) return;
+            var WA = '491632225456', TG = 'shift_my_horizon_bot';
+            var startMsg = {
+                de: 'Hallo, ich möchte meinen 5-Tage-Flow starten. Mein Zugangscode: ',
+                en: 'Hi, I would like to start my 5-day flow. My access code: ',
+                es: 'Hola, quiero iniciar mi flujo de 5 días. Mi código de acceso: '
+            };
+            var btnLabel = { de: 'Messenger öffnen & Code senden', en: 'Open messenger & send code', es: 'Abrir messenger y enviar código' };
+            try {
+                var sb = window.supabase.createClient('https://jztwnumtwihomgxwlwor.supabase.co', 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe');
+                sb.rpc('get_tripwire_access', { p_email: email }).then(function (res) {
+                    if (!res || res.error || !res.data || !res.data.access_code) return;
+                    var code = res.data.access_code;
+                    var ch = res.data.delivery_channel || 'whatsapp';
+                    var text = encodeURIComponent((startMsg[lang] || startMsg.de) + code);
+                    var url = (ch === 'telegram') ? ('https://t.me/' + TG + '?text=' + text) : ('https://wa.me/' + WA + '?text=' + text);
+                    var btn = document.getElementById('ui-btn-home');
+                    btn.innerText = (btnLabel[lang] || btnLabel.de);
+                    btn.setAttribute('href', url);
+                    btn.style.borderColor = 'var(--success)';
+                    btn.style.color = 'var(--success)';
+                });
+            } catch (e) {}
         })();
 
         // --- Gratis-Opt-ins (Phase 1: Interesse erfassen) ---
