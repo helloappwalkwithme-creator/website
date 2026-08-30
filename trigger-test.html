@@ -124,11 +124,21 @@
                 <div class="insight-title" style="color:var(--gold);">✨ Dein neuer Glaubenssatz</div>
                 <div class="insight-text" id="res-new"></div>
             </div>
-            <div class="rule-card" style="margin-top:8px;">
-                Ein neuer Satz allein verändert nichts. Im <strong>30-Tage-Reprogrammierungs-Protokoll</strong> verankern wir ihn neurologisch – täglich per WhatsApp oder Telegram, exakt auf dein Profil zugeschnitten.
+            <div id="proto-firsttask" style="display:none;">
+                <div class="rule-card" style="border-left-color:var(--success); margin-top:8px;">
+                    <strong>Dein Protokoll ist aktiv – und hier ist dein erster Schritt, jetzt.</strong><br><br>
+                    Er wird dir lächerlich klein vorkommen. Genau das ist Absicht: winzige Handlungen rutschen an deinem Widerstand vorbei und verändern dich wirklich.<br><br>
+                    <strong>Sag deinen toxischen Satz oben einmal laut</strong> – und häng ein Wort dran: „…glaubte ich." 20 Sekunden. Das ist dein erster Riss.<br><br>
+                    Ab morgen früh kommt täglich der nächste Mikro-Schritt per WhatsApp oder Telegram. 💪
+                </div>
             </div>
-            <a class="btn-gold" id="res-cta" href="sales-trigger-de.html" style="display:block; text-decoration:none; margin-top:14px;">Mein 30-Tage-Protokoll freischalten</a>
-            <p class="legal-disclaimer">100% digital · 14 Tage Geld-zurück-Garantie</p>
+            <div id="sales-block">
+                <div class="rule-card" style="margin-top:8px;">
+                    Ein neuer Satz allein verändert nichts. Im <strong>30-Tage-Reprogrammierungs-Protokoll</strong> verankern wir ihn neurologisch – täglich per WhatsApp oder Telegram, exakt auf dein Profil zugeschnitten.
+                </div>
+                <a class="btn-gold" id="res-cta" href="sales-trigger-de.html" style="display:block; text-decoration:none; margin-top:14px;">Mein 30-Tage-Protokoll freischalten</a>
+                <p class="legal-disclaimer">100% digital · 14 Tage Geld-zurück-Garantie</p>
+            </div>
         </div>
     </main>
 
@@ -153,6 +163,15 @@
             return Object.keys(s).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(s[k]);}).join('&');
         };
         window.smhTrackQS(); // Eintritts-Parameter sofort sichern
+
+        // Kontext aus URL: ?email= (Feld vorbefüllen + sperren), ?ctx=protocol (Käufer hat schon bezahlt → Sofort-Aufgabe statt Verkauf)
+        const SMH_PARAMS = new URLSearchParams(location.search);
+        const SMH_PREFILL_EMAIL = (SMH_PARAMS.get('email') || '').trim();
+        const SMH_CTX = SMH_PARAMS.get('ctx') || '';
+        if (SMH_PREFILL_EMAIL) {
+            var _ge = document.getElementById('gate-email');
+            if (_ge) { _ge.value = SMH_PREFILL_EMAIL; _ge.setAttribute('readonly','readonly'); }
+        }
 
         const TIME_LIMIT = 9000; // ms Instinkt-Nudge (erst NACH dem Aufdecken). Läuft er ab, wird NICHTS automatisch gewertet – die Buttons bleiben aktiv, deine echte Wahl zählt immer. reaction_ms misst die Instinkt-Geschwindigkeit.
 
@@ -358,10 +377,16 @@
             document.getElementById('res-title').textContent = d.profile_title_de || 'Dein Muster';
             document.getElementById('res-toxic').textContent = d.toxic_belief_de || '';
             document.getElementById('res-new').textContent = d.new_belief_de || '';
-            // CTA: E-Mail an die Verkaufsseite weiterreichen (vorbefüllter Checkout)
-            const cta = document.getElementById('res-cta');
-            const tq = (window.smhTrackQS ? window.smhTrackQS() : '');
-            cta.href = 'sales-trigger-de.html?email=' + encodeURIComponent(email) + (tq ? '&' + tq : '');
+            if (SMH_CTX === 'protocol') {
+                // Käufer hat schon bezahlt (kam von der Dankeseite) → keine Verkaufs-CTA, sondern Sofort-Aufgabe
+                var sb = document.getElementById('sales-block'); if (sb) sb.style.display = 'none';
+                var pf = document.getElementById('proto-firsttask'); if (pf) pf.style.display = 'block';
+            } else {
+                // CTA: E-Mail an die Verkaufsseite weiterreichen (vorbefüllter Checkout)
+                const cta = document.getElementById('res-cta');
+                const tq = (window.smhTrackQS ? window.smhTrackQS() : '');
+                cta.href = 'sales-trigger-de.html?email=' + encodeURIComponent(email) + (tq ? '&' + tq : '');
+            }
             show('step-result');
             try{ window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'test_completed', flow:'trigger_test', profile:(d.profile_key||'')}); }catch(e){}
         }
