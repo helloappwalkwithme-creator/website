@@ -266,6 +266,7 @@
             </select>
 
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
+            <p id="s7-trust" style="text-align:center; color:#9a9a9a; font-size:12.5px; margin-top:12px; letter-spacing:.3px;"></p>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
 
             <p class="legal-disclaimer" id="s7-disclaimer"></p>
@@ -392,6 +393,7 @@
                     lbl: "DER NÄCHSTE SCHRITT",
                     title: "Dein 4-Tage-Flow",
                     sub: "Erhalte 4 Tage lang tiefe Impulse und konkrete Aufgaben direkt in deinen Messenger – völlig kostenlos. Kein Spam, keine Umwege.",
+                    trust: "Kostenlos · kein Spam · jederzeit mit STOP beendbar",
                     lblFname: "VORNAME", lblEmail: "EMAIL", lblChannel: "AUSLIEFERUNG ÜBER",
                     em: "deine@email.com",
                     errFill: "Bitte fülle alle Felder aus.", errExists: "Diese Email existiert bereits.",
@@ -487,6 +489,7 @@
                     lbl: "THE NEXT STEP",
                     title: "Your 4-Day Flow",
                     sub: "Receive deep insights and actionable tasks directly in your messenger for 4 days – completely free. No spam, no detours.",
+                    trust: "Free · no spam · stop anytime with STOP",
                     lblFname: "FIRST NAME", lblEmail: "EMAIL", lblChannel: "DELIVERY VIA",
                     em: "your@email.com",
                     errFill: "Please fill in all fields.", errExists: "This email already exists.",
@@ -582,6 +585,7 @@
                     lbl: "EL PRÓXIMO PASO",
                     title: "Tu Flujo de 4 Días",
                     sub: "Recibe impulsos profundos y tareas concretas directamente en tu messenger durante 4 días, totalmente gratis. Sin spam, sin desvíos.",
+                    trust: "Gratis · sin spam · cancela cuando quieras con STOP",
                     lblFname: "NOMBRE", lblEmail: "EMAIL", lblChannel: "ENTREGA VÍA",
                     em: "tu@email.com",
                     errFill: "Por favor, rellena todos los campos.", errExists: "Este correo ya existe.",
@@ -627,6 +631,7 @@
             document.getElementById('reg-email').placeholder = l.s7.em;
 
             document.getElementById('btn-register').innerText = l.btn.pay;
+            if(l.s7.trust) { document.getElementById('s7-trust').innerText = l.s7.trust; }
             if(l.s7.disclaimer) {
                 document.getElementById('s7-disclaimer').innerHTML = l.s7.disclaimer;
             }
