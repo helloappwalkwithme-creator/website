@@ -13,153 +13,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title id="page-title">Shift My Horizon - Vielen Dank</title>
     <style>
-        :root {
-            --dark: #121212;
-            --gray: #1e1e1e;
-            --border: #333333;
-            --accent: #d4af37; 
-            --success: #4caf50;
-            --text: #ffffff;
-        }
-
+        :root { --dark:#121212; --gray:#1e1e1e; --border:#333333; --accent:#d4af37; --success:#4caf50; --text:#ffffff; }
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
-        
-        body { 
-            margin: 0; 
-            padding: 0; 
-            background-color: var(--dark); 
-            color: var(--text); 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh;
-            line-height: 1.6;
-            align-items: center;
-            justify-content: center;
-        }
-
-        main { 
-            padding: 40px 20px; 
-            max-width: 600px; 
-            width: 100%; 
-            text-align: center;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .success-icon {
-            width: 80px; 
-            height: 80px; 
-            border-radius: 50%; 
-            background: rgba(76, 175, 80, 0.1); 
-            border: 3px solid var(--success);
-            color: var(--success); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 40px; 
-            font-weight: bold; 
-            margin: 0 auto 32px auto;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .h1-title { font-size: 32px; font-weight: 800; margin-top: 0; margin-bottom: 16px; color: var(--text); }
-        .subtitle { font-size: 16px; color: #aaaaaa; margin-bottom: 40px; }
-
-        .steps-container {
-            text-align: left;
-            background: var(--gray);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 40px;
-            width: 100%;
-        }
-
-        .step-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 24px;
-        }
-        .step-item:last-child { margin-bottom: 0; }
-
-        .step-number {
-            background: var(--accent);
-            color: #000;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 16px;
-            margin-right: 16px;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .step-text h3 { margin: 0 0 6px 0; font-size: 18px; color: #fff; }
-        .step-text p { margin: 0; font-size: 15px; color: #ccc; }
-
-        .btn-home { 
-            background-color: transparent; 
-            color: var(--accent); 
-            padding: 16px 32px; 
-            border-radius: 8px; 
-            font-weight: 700; 
-            font-size: 14px; 
-            text-transform: uppercase; 
-            border: 2px solid var(--accent); 
-            cursor: pointer; 
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.2s ease;
-        }
-        .btn-home:hover { background-color: var(--accent); color: #000; }
-
-        .digistore-notice {
-            font-size: 12px;
-            color: #888;
-            margin-top: 40px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .legal-footer { text-align: center; padding: 20px; width: 100%; border-top: 1px solid var(--border); font-size: 11px; }
-        .legal-footer a { color: #888; text-decoration: none; margin: 0 8px; }
+        body { margin:0; padding:0; background-color: var(--dark); color: var(--text); display:flex; flex-direction:column; min-height:100vh; line-height:1.6; align-items:center; justify-content:center; }
+        main { padding:40px 20px; max-width:600px; width:100%; text-align:center; flex-grow:1; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+        .success-icon { width:80px; height:80px; border-radius:50%; background:rgba(76,175,80,0.1); border:3px solid var(--success); color:var(--success); display:flex; align-items:center; justify-content:center; font-size:40px; font-weight:bold; margin:0 auto 32px auto; animation:popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275) forwards; }
+        @keyframes popIn { 0% { transform:scale(0); opacity:0; } 100% { transform:scale(1); opacity:1; } }
+        .h1-title { font-size:32px; font-weight:800; margin-top:0; margin-bottom:16px; color:var(--text); }
+        .subtitle { font-size:16px; color:#aaaaaa; margin-bottom:40px; }
+        .steps-container { text-align:left; background:var(--gray); border:1px solid var(--border); border-radius:12px; padding:24px; margin-bottom:40px; width:100%; }
+        .step-item { display:flex; align-items:flex-start; margin-bottom:24px; }
+        .step-item:last-child { margin-bottom:0; }
+        .step-number { background:var(--accent); color:#000; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px; margin-right:16px; flex-shrink:0; margin-top:2px; }
+        .step-text h3 { margin:0 0 6px 0; font-size:18px; color:#fff; }
+        .step-text p { margin:0; font-size:15px; color:#ccc; }
+        .btn-home { background-color:transparent; color:var(--accent); padding:16px 32px; border-radius:8px; font-weight:700; font-size:14px; text-transform:uppercase; border:2px solid var(--accent); cursor:pointer; text-decoration:none; display:inline-block; transition:all 0.2s ease; }
+        .btn-home:hover { background-color:var(--accent); color:#000; }
+        .digistore-notice { font-size:12px; color:#888; margin-top:40px; margin-bottom:10px; text-align:center; }
+        .legal-footer { text-align:center; padding:20px; width:100%; border-top:1px solid var(--border); font-size:11px; }
+        .legal-footer a { color:#888; text-decoration:none; margin:0 8px; }
     </style>
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <main>
         <div class="success-icon">✓</div>
         <h1 class="h1-title" id="ui-headline"></h1>
         <p class="subtitle" id="ui-subtitle"></p>
-
         <div class="steps-container">
             <div class="step-item">
                 <div class="step-number">1</div>
-                <div class="step-text">
-                    <h3 id="ui-step1-title"></h3>
-                    <p id="ui-step1-text"></p>
-                </div>
+                <div class="step-text"><h3 id="ui-step1-title"></h3><p id="ui-step1-text"></p></div>
             </div>
             <div class="step-item">
                 <div class="step-number">2</div>
-                <div class="step-text">
-                    <h3 id="ui-step2-title"></h3>
-                    <p id="ui-step2-text"></p>
-                </div>
+                <div class="step-text"><h3 id="ui-step2-title"></h3><p id="ui-step2-text"></p></div>
             </div>
         </div>
 
@@ -183,13 +71,9 @@
 
         <a href="https://shiftmyhorizon.com" class="btn-home" id="ui-btn-home"></a>
     </main>
-
     <div class="digistore-notice" id="ui-digistore-notice"></div>
-
     <footer class="legal-footer">
-        <a href="impressum.html" id="link-imp"></a> | 
-        <a href="datenschutz.html" id="link-dat"></a> | 
-        <a href="agb.html" id="link-agb"></a>
+        <a href="impressum.html" id="link-imp"></a> | <a href="datenschutz.html" id="link-dat"></a> | <a href="agb.html" id="link-agb"></a>
     </footer>
 
     <script>
@@ -209,9 +93,9 @@
                     coachingTitle: "🎁 Kostenloses 30-Minuten-Coaching für deine Situation",
                     coachingDesc: "In einem persönlichen 30-Min-Gespräch schauen wir gemeinsam auf deine individuelle Lage, erkennen deine Trigger und finden deinen nächsten konkreten Schritt. 100 % kostenlos, keine Verpflichtung. Wenn du das Häkchen setzt, melde ich mich persönlich bei dir zur Terminfindung.",
                     coachingLabel: "Ja, ich möchte mein kostenloses 30-Min-Coaching",
-                    seminarTitle: "🎁 Kostenloses Live-Seminar zu deinem Thema — immer am 1. des Monats",
-                    seminarDesc: "Einmal im Monat, immer am 1., ein kostenloses Live-Seminar zu genau deinem Thema — für einen klaren Start in den Monat: dich selbst besser verstehen und dein Leben durch radikale Einfachheit steuern. Kreuze an, und sobald das nächste Seminar steht, bekommst du die Anmeldung per E-Mail.",
-                    seminarLabel: "Ja, ich möchte kostenlos am Seminar teilnehmen",
+                    seminarTitle: "🎁 Kostenloses Live-Online-Seminar zu deinem Thema",
+                    seminarDesc: "Ein kostenloses Live-Online-Seminar zu genau deinem Thema – für einen klaren Blick und konkrete Werkzeuge. Kreuze es an, und sobald der nächste Termin feststeht, bekommst du die Anmeldung per E-Mail.",
+                    seminarLabel: "Ja, ich möchte kostenlos am Live-Seminar teilnehmen",
                     submit: "Kostenlos sichern",
                     success: "Super! Deine Auswahl ist gespeichert. Ich melde mich. 🙌",
                     error: "Da ging leider etwas schief. Bitte lade die Seite neu und versuche es erneut."
@@ -233,9 +117,9 @@
                     coachingTitle: "🎁 Free 30-minute coaching for your situation",
                     coachingDesc: "In a personal 30-min conversation we look at your individual situation together, spot your triggers and find your next concrete step. 100% free, no obligation. If you tick the box, I'll personally reach out to schedule.",
                     coachingLabel: "Yes, I want my free 30-min coaching",
-                    seminarTitle: "🎁 Free live seminar on your topic — always on the 1st of the month",
-                    seminarDesc: "Once a month, always on the 1st, a free live seminar on exactly your topic — for a clear start into the month: understand yourself better and take control of your life through radical simplicity. Tick the box and you'll get the sign-up by email as soon as the next seminar is scheduled.",
-                    seminarLabel: "Yes, I want to join the free seminar",
+                    seminarTitle: "🎁 Free live online seminar on your topic",
+                    seminarDesc: "A free live online seminar on exactly your topic – for clarity and concrete tools. Tick the box and you'll get the sign-up by email as soon as the next date is set.",
+                    seminarLabel: "Yes, I want to join the free live seminar",
                     submit: "Get it free",
                     success: "Awesome! Your choice is saved. I'll be in touch. 🙌",
                     error: "Something went wrong. Please reload the page and try again."
@@ -257,9 +141,9 @@
                     coachingTitle: "🎁 Coaching gratuito de 30 minutos para tu situación",
                     coachingDesc: "En una conversación personal de 30 min miramos juntos tu situación individual, reconocemos tus disparadores y encontramos tu próximo paso concreto. 100% gratis, sin compromiso. Si marcas la casilla, me pondré en contacto personalmente para agendar.",
                     coachingLabel: "Sí, quiero mi coaching gratuito de 30 min",
-                    seminarTitle: "🎁 Seminario en vivo gratuito sobre tu tema — siempre el día 1 del mes",
-                    seminarDesc: "Una vez al mes, siempre el día 1, un seminario en vivo gratuito sobre exactamente tu tema — para empezar el mes con claridad: entenderte mejor y controlar tu vida mediante la simplicidad radical. Marca la casilla y recibirás la inscripción por correo en cuanto se programe el próximo seminario.",
-                    seminarLabel: "Sí, quiero participar en el seminario gratuito",
+                    seminarTitle: "🎁 Seminario en vivo online gratuito sobre tu tema",
+                    seminarDesc: "Un seminario en vivo online gratuito sobre exactamente tu tema – para tener claridad y herramientas concretas. Marca la casilla y recibirás la inscripción por correo en cuanto se fije la próxima fecha.",
+                    seminarLabel: "Sí, quiero participar en el seminario en vivo gratuito",
                     submit: "Conseguir gratis",
                     success: "¡Genial! Tu elección se ha guardado. Me pondré en contacto. 🙌",
                     error: "Algo salió mal. Recarga la página e inténtalo de nuevo."
@@ -268,129 +152,54 @@
             }
         };
 
-        // 1. Sprache ermitteln (Priorität: 1. URL Parameter, 2. LocalStorage, 3. Browser Sprache, 4. Fallback 'de')
         const urlParams = new URLSearchParams(window.location.search);
         let detectedLang = urlParams.get('lang') || urlParams.get('language');
-        
-        if (!detectedLang) {
-            detectedLang = localStorage.getItem('smh_language');
-        }
-        
-        if (!detectedLang) {
-            detectedLang = navigator.language.slice(0, 2);
-        }
-
-        // Gültigkeit prüfen
+        if (!detectedLang) detectedLang = localStorage.getItem('smh_language');
+        if (!detectedLang) detectedLang = navigator.language.slice(0, 2);
         const lang = t[detectedLang] ? detectedLang : 'de';
         const content = t[lang];
 
-        // Produkt-Variante: 30-Tage-Protokoll (Trigger-Upsell) statt 90-Tage-Flow.
-        // Wird über ?product=protocol im thankyou_url der Trigger-Produkte aktiviert.
+        // 30-Tage-Protokoll (Trigger-Upsell) über ?product=protocol
         const protoText = {
-            de: {
-                headline: "Dein 30-Tage-Protokoll ist freigeschaltet!",
-                step1Text: "Gehe zurück zu WhatsApp oder Telegram – dort läuft dein Zugang.",
-                step2Text: "Du musst nichts weiter tun. Ab morgen früh bekommst du täglich deine persönliche Reprogrammierungs-Übung – exakt auf dein Trigger-Profil zugeschnitten, 30 Tage lang. Läuft parallel zu einem eventuell bestehenden Flow. Mit STOP pausierst du jederzeit, mit GO geht es weiter."
-            },
-            en: {
-                headline: "Your 30-Day Protocol is unlocked!",
-                step1Text: "Go back to WhatsApp or Telegram – that's where your access runs.",
-                step2Text: "There's nothing else to do. From tomorrow morning you'll receive your personal reprogramming exercise every day – tailored exactly to your trigger profile, for 30 days. It runs in parallel to any existing flow. Type STOP to pause anytime, GO to continue."
-            },
-            es: {
-                headline: "¡Tu Protocolo de 30 Días está activado!",
-                step1Text: "Vuelve a WhatsApp o Telegram – ahí funciona tu acceso.",
-                step2Text: "No tienes que hacer nada más. A partir de mañana por la mañana recibirás cada día tu ejercicio de reprogramación personal, adaptado exactamente a tu perfil de disparadores, durante 30 días. Funciona en paralelo a cualquier flujo existente. Escribe STOP para pausar y GO para continuar."
-            }
+            de: { headline: "Dein 30-Tage-Protokoll ist freigeschaltet!", step1Text: "Gehe zurück zu WhatsApp oder Telegram – dort läuft dein Zugang.", step2Text: "Du musst nichts weiter tun. Ab morgen früh bekommst du täglich deine persönliche Reprogrammierungs-Übung – exakt auf dein Trigger-Profil zugeschnitten, 30 Tage lang. Läuft parallel zu einem eventuell bestehenden Flow. Mit STOP pausierst du jederzeit, mit GO geht es weiter." },
+            en: { headline: "Your 30-Day Protocol is unlocked!", step1Text: "Go back to WhatsApp or Telegram – that's where your access runs.", step2Text: "There's nothing else to do. From tomorrow morning you'll receive your personal reprogramming exercise every day – tailored exactly to your trigger profile, for 30 days. It runs in parallel to any existing flow. Type STOP to pause anytime, GO to continue." },
+            es: { headline: "¡Tu Protocolo de 30 Días está activado!", step1Text: "Vuelve a WhatsApp o Telegram – ahí funciona tu acceso.", step2Text: "No tienes que hacer nada más. A partir de mañana por la mañana recibirás cada día tu ejercicio de reprogramación personal, adaptado exactamente a tu perfil de disparadores, durante 30 días. Funciona en paralelo a cualquier flujo existente. Escribe STOP para pausar y GO para continuar." }
         };
-        if (urlParams.get('product') === 'protocol' && protoText[lang]) {
-            Object.assign(content, protoText[lang]);
-        }
+        if (urlParams.get('product') === 'protocol' && protoText[lang]) Object.assign(content, protoText[lang]);
 
-        // Produkt-Variante: 5-Tage-Tripwire (sleep/morning/stress). Über ?product=short im thankyou_url.
+        // 5-Tage-Tripwire über ?product=short
         const shortText = {
-            de: {
-                headline: "Deine 5 Tage sind fast startklar!",
-                step1Title: "Öffne deinen Messenger",
-                step1Text: "Tippe unten auf den Button – wir haben deine Startnachricht schon vorbereitet. Einmal in WhatsApp oder Telegram senden, fertig.",
-                step2Title: "Ab morgen früh geht es los",
-                step2Text: "Ab morgen früh bekommst du 5 Tage lang täglich deine Übung direkt in den Chat. Mit STOP pausierst du jederzeit, mit GO geht es weiter."
-            },
-            en: {
-                headline: "Your 5 days are almost ready!",
-                step1Title: "Open your messenger",
-                step1Text: "Tap the button below – we've already prepared your start message. Send it once in WhatsApp or Telegram, done.",
-                step2Title: "It starts tomorrow morning",
-                step2Text: "From tomorrow morning you'll get your daily exercise right in the chat for 5 days. Type STOP to pause anytime, GO to continue."
-            },
-            es: {
-                headline: "¡Tus 5 días casi están listos!",
-                step1Title: "Abre tu messenger",
-                step1Text: "Toca el botón de abajo – ya preparamos tu mensaje de inicio. Envíalo una vez en WhatsApp o Telegram, listo.",
-                step2Title: "Empieza mañana por la mañana",
-                step2Text: "A partir de mañana por la mañana recibirás tu ejercicio diario en el chat durante 5 días. Escribe STOP para pausar y GO para continuar."
-            }
+            de: { headline: "Deine 5 Tage sind fast startklar!", step1Title: "Öffne deinen Messenger", step1Text: "Tippe unten auf den Button – wir haben deine Startnachricht schon vorbereitet. Einmal in WhatsApp oder Telegram senden, fertig.", step2Title: "So geht es weiter", step2Text: "Ab morgen bekommst du 5 Tage lang täglich deine Übung direkt in den Chat. Mit STOP pausierst du jederzeit, mit GO geht es weiter." },
+            en: { headline: "Your 5 days are almost ready!", step1Title: "Open your messenger", step1Text: "Tap the button below – we've already prepared your start message. Send it once in WhatsApp or Telegram, done.", step2Title: "How it continues", step2Text: "From tomorrow you'll get your daily exercise right in the chat for 5 days. Type STOP to pause anytime, GO to continue." },
+            es: { headline: "¡Tus 5 días casi están listos!", step1Title: "Abre tu messenger", step1Text: "Toca el botón de abajo – ya preparamos tu mensaje de inicio. Envíalo una vez en WhatsApp o Telegram, listo.", step2Title: "Cómo continúa", step2Text: "A partir de mañana recibirás tu ejercicio diario en el chat durante 5 días. Escribe STOP para pausar y GO para continuar." }
         };
-        if (urlParams.get('product') === 'short' && shortText[lang]) {
-            Object.assign(content, shortText[lang]);
-        }
+        if (urlParams.get('product') === 'short' && shortText[lang]) Object.assign(content, shortText[lang]);
 
-        // 2. HTML Tag Language setzen
         document.getElementById('html-tag').lang = lang;
         document.getElementById('page-title').innerText = content.pageTitle;
-
-        // 3. UI Elemente übersetzen
         document.getElementById('ui-headline').innerText = content.headline;
         document.getElementById('ui-subtitle').innerText = content.subtitle;
-        
         document.getElementById('ui-step1-title').innerText = content.step1Title;
         document.getElementById('ui-step1-text').innerText = content.step1Text;
-        
         document.getElementById('ui-step2-title').innerText = content.step2Title;
         document.getElementById('ui-step2-text').innerText = content.step2Text;
-
         document.getElementById('ui-btn-home').innerText = content.btnHome;
         document.getElementById('ui-digistore-notice').innerText = content.digistoreNotice;
-
-        // Footer
         document.getElementById('link-imp').innerText = content.legal.imp;
         document.getElementById('link-dat').innerText = content.legal.dat;
         document.getElementById('link-agb').innerText = content.legal.agb;
 
-        // --- Protokoll-Käufer ohne Test-Profil zum Trigger-Test leiten ---
+        // Protokoll-Käufer ohne Test-Profil zum Trigger-Test leiten
         (function () {
             if (urlParams.get('product') !== 'protocol') return;
             var email = urlParams.get('email') || urlParams.get('buyer_email');
             if (!email) return;
-
             var needsTest = {
-                de: {
-                    headline: "Fast geschafft – 1 letzter Schritt",
-                    step1Title: "Mach jetzt deinen Trigger-Test",
-                    step1Text: "Damit wir dein 30-Tage-Protokoll exakt auf dein Muster personalisieren können, brauchst du einmal deinen 60-Sekunden-Trigger-Test. Ohne ihn kann dein Protokoll nicht starten.",
-                    step2Title: "Danach läuft alles automatisch",
-                    step2Text: "Direkt nach dem Test bekommst du deinen ersten Schritt – und ab morgen früh täglich deine persönliche Reprogrammierungs-Übung per WhatsApp oder Telegram.",
-                    cta: "Jetzt Trigger-Test starten"
-                },
-                en: {
-                    headline: "Almost done – 1 last step",
-                    step1Title: "Take your Trigger Test now",
-                    step1Text: "So we can tailor your 30-day protocol exactly to your pattern, you need to take your 60-second Trigger Test once. Without it your protocol can't start.",
-                    step2Title: "Then everything runs automatically",
-                    step2Text: "Right after the test you get your first step – and from tomorrow morning your personal reprogramming exercise every day via WhatsApp or Telegram.",
-                    cta: "Start the Trigger Test now"
-                },
-                es: {
-                    headline: "Casi listo – 1 último paso",
-                    step1Title: "Haz ahora tu Test de Disparadores",
-                    step1Text: "Para personalizar tu protocolo de 30 días exactamente a tu patrón, necesitas hacer una vez tu Test de Disparadores de 60 segundos. Sin él, tu protocolo no puede empezar.",
-                    step2Title: "Después todo funciona automáticamente",
-                    step2Text: "Justo después del test recibes tu primer paso – y desde mañana por la mañana tu ejercicio de reprogramación personal cada día por WhatsApp o Telegram.",
-                    cta: "Empezar el Test de Disparadores"
-                }
+                de: { headline: "Fast geschafft – 1 letzter Schritt", step1Title: "Mach jetzt deinen Trigger-Test", step1Text: "Damit wir dein 30-Tage-Protokoll exakt auf dein Muster personalisieren können, brauchst du einmal deinen 60-Sekunden-Trigger-Test. Ohne ihn kann dein Protokoll nicht starten.", step2Title: "Danach läuft alles automatisch", step2Text: "Direkt nach dem Test bekommst du deinen ersten Schritt – und ab morgen früh täglich deine persönliche Reprogrammierungs-Übung per WhatsApp oder Telegram.", cta: "Jetzt Trigger-Test starten" },
+                en: { headline: "Almost done – 1 last step", step1Title: "Take your Trigger Test now", step1Text: "So we can tailor your 30-day protocol exactly to your pattern, you need to take your 60-second Trigger Test once. Without it your protocol can't start.", step2Title: "Then everything runs automatically", step2Text: "Right after the test you get your first step – and from tomorrow morning your personal reprogramming exercise every day via WhatsApp or Telegram.", cta: "Start the Trigger Test now" },
+                es: { headline: "Casi listo – 1 último paso", step1Title: "Haz ahora tu Test de Disparadores", step1Text: "Para personalizar tu protocolo de 30 días exactamente a tu patrón, necesitas hacer una vez tu Test de Disparadores de 60 segundos. Sin él, tu protocolo no puede empezar.", step2Title: "Después todo funciona automáticamente", step2Text: "Justo después del test recibes tu primer paso – y desde mañana por la mañana tu ejercicio de reprogramación personal cada día por WhatsApp o Telegram.", cta: "Empezar el Test de Disparadores" }
             };
             var U = needsTest[lang] || needsTest.de;
-
             function applyNeedsTest() {
                 document.getElementById('ui-headline').innerText = U.headline;
                 document.getElementById('ui-step1-title').innerText = U.step1Title;
@@ -400,57 +209,54 @@
                 var btn = document.getElementById('ui-btn-home');
                 btn.innerText = U.cta;
                 btn.setAttribute('href', 'trigger-test.html?ctx=protocol&email=' + encodeURIComponent(email) + '&lang=' + encodeURIComponent(lang));
-                btn.style.borderColor = 'var(--success)';
-                btn.style.color = 'var(--success)';
+                btn.style.borderColor = 'var(--success)'; btn.style.color = 'var(--success)';
             }
-
             try {
                 var sb = window.supabase.createClient('https://jztwnumtwihomgxwlwor.supabase.co', 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe');
-                sb.rpc('trigger_profile_status', { p_email: email }).then(function (res) {
-                    if (res && !res.error && res.data === 'ready') return;
-                    applyNeedsTest();
-                }).catch(applyNeedsTest);
-            } catch (e) {
-                applyNeedsTest();
-            }
+                sb.rpc('trigger_profile_status', { p_email: email }).then(function (res) { if (res && !res.error && res.data === 'ready') return; applyNeedsTest(); }).catch(applyNeedsTest);
+            } catch (e) { applyNeedsTest(); }
         })();
 
-        // --- 5-Tage-Tripwire: Zugangscode holen + Messenger-Bot mit vorbefüllter Startnachricht öffnen ---
+        // 5-Tage-Tripwire: Code holen + Bot öffnen + flow-abhängige Startzeit
         (function () {
             if (urlParams.get('product') !== 'short') return;
             var email = urlParams.get('email') || urlParams.get('buyer_email');
             if (!email) return;
             var WA = '491632225456', TG = 'shift_my_horizon_bot';
-            var startMsg = {
-                de: 'Hallo, ich möchte meinen 5-Tage-Flow starten. Mein Zugangscode: ',
-                en: 'Hi, I would like to start my 5-day flow. My access code: ',
-                es: 'Hola, quiero iniciar mi flujo de 5 días. Mi código de acceso: '
-            };
+            var startMsg = { de: 'Hallo, ich möchte meinen 5-Tage-Flow starten. Mein Zugangscode: ', en: 'Hi, I would like to start my 5-day flow. My access code: ', es: 'Hola, quiero iniciar mi flujo de 5 días. Mi código de acceso: ' };
             var btnLabel = { de: 'Messenger öffnen & Code senden', en: 'Open messenger & send code', es: 'Abrir messenger y enviar código' };
+            // Startzeit je Flow (Schlaf abends, Morgen früh, Stress mittags)
+            var timing = {
+                sleep_flow:   { de: 'Ab morgen Abend kommt 5 Tage lang täglich deine Einschlaf-Übung direkt in den Chat. Mit STOP pausierst du, mit GO geht es weiter.', en: 'From tomorrow evening you get your sleep exercise in the chat each day for 5 days. STOP to pause, GO to continue.', es: 'A partir de mañana por la noche recibes tu ejercicio para dormir en el chat cada día, 5 días. STOP para pausar, GO para continuar.' },
+                morning_flow: { de: 'Ab morgen früh kommt 5 Tage lang täglich deine Morgen-Übung direkt in den Chat. Mit STOP pausierst du, mit GO geht es weiter.', en: 'From tomorrow morning you get your morning exercise in the chat each day for 5 days. STOP to pause, GO to continue.', es: 'A partir de mañana por la mañana recibes tu ejercicio matutino en el chat cada día, 5 días. STOP para pausar, GO para continuar.' },
+                stress_flow:  { de: 'Ab morgen um die Mittagszeit kommt 5 Tage lang täglich deine Übung direkt in den Chat. Mit STOP pausierst du, mit GO geht es weiter.', en: 'From tomorrow around midday you get your exercise in the chat each day for 5 days. STOP to pause, GO to continue.', es: 'A partir de mañana al mediodía recibes tu ejercicio en el chat cada día, 5 días. STOP para pausar, GO para continuar.' }
+            };
             try {
                 var sb = window.supabase.createClient('https://jztwnumtwihomgxwlwor.supabase.co', 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe');
                 sb.rpc('get_tripwire_access', { p_email: email }).then(function (res) {
-                    if (!res || res.error || !res.data || !res.data.access_code) return;
-                    var code = res.data.access_code;
-                    var ch = res.data.delivery_channel || 'whatsapp';
-                    var text = encodeURIComponent((startMsg[lang] || startMsg.de) + code);
+                    if (!res || res.error || !res.data) return;
+                    var d = res.data;
+                    if (d.source && timing[d.source]) {
+                        document.getElementById('ui-step2-text').innerText = (timing[d.source][lang] || timing[d.source].de);
+                    }
+                    if (!d.access_code) return;
+                    var ch = d.delivery_channel || 'whatsapp';
+                    var text = encodeURIComponent((startMsg[lang] || startMsg.de) + d.access_code);
                     var url = (ch === 'telegram') ? ('https://t.me/' + TG + '?text=' + text) : ('https://wa.me/' + WA + '?text=' + text);
                     var btn = document.getElementById('ui-btn-home');
                     btn.innerText = (btnLabel[lang] || btnLabel.de);
                     btn.setAttribute('href', url);
-                    btn.style.borderColor = 'var(--success)';
-                    btn.style.color = 'var(--success)';
+                    btn.style.borderColor = 'var(--success)'; btn.style.color = 'var(--success)';
                 });
             } catch (e) {}
         })();
 
-        // --- Gratis-Opt-ins (Phase 1: Interesse erfassen) ---
+        // Gratis-Opt-ins (Interesse erfassen)
         (function () {
             var email = urlParams.get('email') || urlParams.get('buyer_email');
             var productId = urlParams.get('product_id') || urlParams.get('pid');
             var box = document.getElementById('optin-box');
-            if (!email || !box || !content.optin) return; // ohne E-Mail keine Attribution -> Block bleibt versteckt
-
+            if (!email || !box || !content.optin) return;
             var o = content.optin;
             document.getElementById('optin-intro').innerText = o.intro;
             document.getElementById('optin-coaching-title').innerText = o.coachingTitle;
@@ -462,43 +268,22 @@
             var btn = document.getElementById('optin-submit');
             btn.innerText = o.submit;
             box.style.display = 'block';
-
-            // Supabase-Zugang exakt wie in trigger-test.html
-            var SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
-            var SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
-            var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+            var sb = window.supabase.createClient('https://jztwnumtwihomgxwlwor.supabase.co', 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe');
             btn.addEventListener('click', function () {
                 var wantCoaching = document.getElementById('optin-coaching').checked;
                 var wantSeminar = document.getElementById('optin-seminar').checked;
                 var fb = document.getElementById('optin-feedback');
                 if (!wantCoaching && !wantSeminar) { return; }
                 btn.disabled = true;
-                sb.rpc('register_free_offer_interest', {
-                    p_email: email,
-                    p_coaching: wantCoaching,
-                    p_seminar: wantSeminar,
-                    p_product_id: productId || null,
-                    p_language: lang
-                }).then(function (res) {
+                sb.rpc('register_free_offer_interest', { p_email: email, p_coaching: wantCoaching, p_seminar: wantSeminar, p_product_id: productId || null, p_language: lang }).then(function (res) {
                     fb.style.display = 'block';
                     if (res && !res.error && res.data && res.data.success) {
-                        fb.style.color = 'var(--success)';
-                        fb.innerText = o.success;
+                        fb.style.color = 'var(--success)'; fb.innerText = o.success;
                         document.getElementById('optin-coaching').disabled = true;
                         document.getElementById('optin-seminar').disabled = true;
                         btn.style.display = 'none';
-                    } else {
-                        fb.style.color = '#e57373';
-                        fb.innerText = o.error;
-                        btn.disabled = false;
-                    }
-                }).catch(function () {
-                    fb.style.display = 'block';
-                    fb.style.color = '#e57373';
-                    fb.innerText = o.error;
-                    btn.disabled = false;
-                });
+                    } else { fb.style.color = '#e57373'; fb.innerText = o.error; btn.disabled = false; }
+                }).catch(function () { fb.style.display = 'block'; fb.style.color = '#e57373'; fb.innerText = o.error; btn.disabled = false; });
             });
         })();
     </script>
