@@ -1055,12 +1055,9 @@
             var sum = rows.reduce(function(a, r){ return a + Number(r.rating || 0); }, 0);
             var avg = sum / rows.length;
             var avgStr = (currentLang === 'en') ? avg.toFixed(1) : avg.toFixed(1).replace('.', ',');
-            var lbl = (currentLang === 'en') ? (rows.length === 1 ? 'review' : 'reviews')
-                    : (currentLang === 'es') ? (rows.length === 1 ? 'reseña' : 'reseñas')
-                    : (rows.length === 1 ? 'Bewertung' : 'Bewertungen');
+            // Nur der Schnitt — keine (irrefuehrende) Anzahl
             el.innerHTML = '<span class="lp-rating-stars">' + lpStars(avg) + '</span>' +
-                           '<span class="lp-rating-num">' + avgStr + ' / 5</span>' +
-                           '<span class="lp-rating-count">· ' + rows.length + ' ' + lbl + '</span>';
+                           '<span class="lp-rating-num">' + avgStr + ' / 5</span>';
             el.hidden = false;
         }
 
