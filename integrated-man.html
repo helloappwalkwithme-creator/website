@@ -206,6 +206,12 @@
         #landing .lp-cta { background: var(--gold); color: #000; border: none; border-radius: 12px; padding: 17px 24px; font-size: 16px; font-weight: 800; letter-spacing: .4px; cursor: pointer; width: 100%; max-width: 420px; transition: transform .1s ease, background .15s ease; }
         #landing .lp-cta:hover { background: #c6a233; transform: translateY(-1px); }
         #landing .lp-microtrust { color: #8f8f8f; font-size: 12.5px; margin-top: 12px; letter-spacing: .2px; }
+        #landing .lp-rating { display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; padding: 9px 14px; background: #121212; border: 1px solid #2a2a2a; border-radius: 999px; cursor: pointer; transition: border-color .15s ease; }
+        #landing .lp-rating:hover { border-color: var(--gold); }
+        #landing .lp-rating .lp-rating-stars { color: var(--gold); font-size: 16px; letter-spacing: 1.5px; }
+        #landing .lp-rating .lp-rating-stars .off { color: #3a3a3a; }
+        #landing .lp-rating .lp-rating-num { color: #fff; font-weight: 800; font-size: 14px; }
+        #landing .lp-rating .lp-rating-count { color: #9a9a9a; font-size: 13px; }
         #landing .lp-hero { padding-top: 26px; border-top: none; text-align: left; }
         #landing .lp-h3 { font-size: 21px; font-weight: 800; margin: 0 0 18px; }
         #landing .lp-video { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid #2a2a2a; background: linear-gradient(135deg, #161616, #0c0c0c); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
@@ -262,6 +268,7 @@
           <p class="lp-sub" id="lp-sub"></p>
           <button class="lp-cta" id="lp-cta-top" onclick="startQuiz()"></button>
           <div class="lp-microtrust" id="lp-microtrust"></div>
+          <div class="lp-rating" id="lp-rating" hidden onclick="document.getElementById('lp-reviews-title').scrollIntoView({behavior:'smooth', block:'start'})"></div>
         </section>
 
         <!-- Video -->
@@ -1041,6 +1048,22 @@
             return html;
         }
 
+        function lpRenderRating(rows) {
+            var el = document.getElementById('lp-rating');
+            if (!el) return;
+            if (!rows || !rows.length) { el.hidden = true; return; }
+            var sum = rows.reduce(function(a, r){ return a + Number(r.rating || 0); }, 0);
+            var avg = sum / rows.length;
+            var avgStr = (currentLang === 'en') ? avg.toFixed(1) : avg.toFixed(1).replace('.', ',');
+            var lbl = (currentLang === 'en') ? (rows.length === 1 ? 'review' : 'reviews')
+                    : (currentLang === 'es') ? (rows.length === 1 ? 'reseña' : 'reseñas')
+                    : (rows.length === 1 ? 'Bewertung' : 'Bewertungen');
+            el.innerHTML = '<span class="lp-rating-stars">' + lpStars(avg) + '</span>' +
+                           '<span class="lp-rating-num">' + avgStr + ' / 5</span>' +
+                           '<span class="lp-rating-count">· ' + rows.length + ' ' + lbl + '</span>';
+            el.hidden = false;
+        }
+
         function lpRenderReviews(rows) {
             var box = document.getElementById('lp-reviews');
             var L = LANDING[currentLang] || LANDING.de;
@@ -1062,13 +1085,15 @@
                 // gettinggirls-Reviews bevorzugt auf der Frauen-Spur; sonst alle freigegebenen
                 var q = supabaseClient.from('v_reviews_public').select('first_name,comment,rating,verified_purchase,topic,created_at');
                 var res = await q;
-                var rows = (res && res.data) ? res.data : [];
+                var allRows = (res && res.data) ? res.data : [];
+                lpRenderRating(allRows);
+                var rows = allRows.slice();
                 if (flowKey === 'gettinggirls') {
                     var pref = rows.filter(function(r){ return r.topic === 'gettinggirls'; });
                     rows = pref.length ? pref : rows;
                 }
                 lpRenderReviews(rows.slice(0, 6));
-            } catch (e) { console.warn('reviews load failed', e); lpRenderReviews([]); }
+            } catch (e) { console.warn('reviews load failed', e); lpRenderRating([]); lpRenderReviews([]); }
         }
 
         function lpRender() {
