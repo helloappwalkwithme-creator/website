@@ -993,7 +993,7 @@
                     relationship: {
                         eyebrow: "FÜR MÄNNER, DIE IHRE BEZIEHUNG RETTEN WOLLEN",
                         headline: "Führung & Nähe zurück — ohne Machtkämpfe.",
-                        sub: "Nicht mehr Liebe fehlt, sondern klare, ruhige Führung. Jeden Tag ein Schritt, der Anziehung und Respekt neu aufbaut. Direkt in deinen Messenger. Die ersten 4 Tage kostenlos.",
+                        sub: "Es fehlt nicht an Liebe, sondern an klarer, ruhiger Führung. Jeden Tag ein Schritt, der Anziehung und Respekt neu aufbaut. Direkt in deinen Messenger. Die ersten 4 Tage kostenlos.",
                         pain: ["Ihr lebt nebeneinander her statt miteinander.", "Kritik und Nörgeln statt Nähe.", "In dieser Dynamik verlierst du den Respekt vor dir selbst."]
                     }
                 },
@@ -1003,16 +1003,16 @@
                 videoNote: "Video kommt in Kürze.",
                 howTitle: "So funktioniert's",
                 steps: [
-                    { t: "1. Kurzer Check (2 Minuten)", d: "Ein paar Fragen zu deiner Situation — damit dein Weg zu dir passt." },
-                    { t: "2. Täglicher Impuls", d: "Jeden Morgen ein konkreter Schritt per WhatsApp oder Telegram. Unter 5 Minuten." },
-                    { t: "3. 4 Tage gratis, dann du entscheidest", d: "Spür den Unterschied. Danach optional weiter — bis Tag 90." }
+                    { t: "Kurzer Check (2 Minuten)", d: "Ein paar Fragen zu deiner Situation — damit dein Weg zu dir passt." },
+                    { t: "Täglicher Impuls", d: "Jeden Morgen ein konkreter Schritt per WhatsApp oder Telegram. Unter 5 Minuten." },
+                    { t: "4 Tage gratis, dann entscheidest du", d: "Spür den Unterschied. Danach optional weiter — bis Tag 90." }
                 ],
                 founderTitle: "Wer dahintersteht",
                 founderText: "Ich bin Janosch. Ich kenne den Fluchtreflex, der einen im entscheidenden Moment ausbremst — und ich hab keinen Bock auf 08/15-Coaching-Sprüche. Deshalb gibt's hier keine Motivations-Show, sondern kleine, machbare Schritte, die dich wirklich weiterbringen. Kurz, ehrlich, jeden Tag.",
                 reviewsTitle: "Das sagen andere",
                 reviewsEmpty: "Bald findest du hier echte Stimmen von Teilnehmern.",
                 guaranteeTitle: "Dein Risiko: null",
-                guaranteeText: "Die ersten 4 Tage sind komplett kostenlos — kein Zahlungsdaten, kein Haken. Entscheidest du dich danach für den vollen Weg, gilt 60 Tage Geld-zurück-Garantie. Passt es nicht, bekommst du dein Geld zurück.",
+                guaranteeText: "Die ersten 4 Tage sind komplett kostenlos — keine Zahlungsdaten, kein Haken. Entscheidest du dich danach für den vollen Weg, gilt 60 Tage Geld-zurück-Garantie. Passt es nicht, bekommst du dein Geld zurück.",
                 faqTitle: "Häufige Fragen",
                 faq: [
                     { q: "Kostet mich das was?", a: "Die ersten 4 Tage sind gratis — ohne Zahlungsdaten. Erst wenn du danach weitermachen willst, gibt's ein bezahltes Angebot." },
@@ -1113,8 +1113,8 @@
             document.getElementById('lp-pain-title').innerText = (currentLang==='en'?"Sound familiar?":(currentLang==='es'?"¿Te suena?":"Kommt dir das bekannt vor?"));
             document.getElementById('lp-pain-list').innerHTML = f.pain.map(function(p){ return '<li>' + p + '</li>'; }).join('');
             document.getElementById('lp-how-title').innerText = L.howTitle;
-            document.getElementById('lp-steps').innerHTML = L.steps.map(function(s){
-                return '<div class="lp-step"><div class="lp-num">'+ s.t.trim().charAt(0) +'</div><div><div class="lp-step-t">'+ s.t +'</div><div class="lp-step-d">'+ s.d +'</div></div></div>';
+            document.getElementById('lp-steps').innerHTML = L.steps.map(function(s, i){
+                return '<div class="lp-step"><div class="lp-num">'+ (i + 1) +'</div><div><div class="lp-step-t">'+ s.t +'</div><div class="lp-step-d">'+ s.d +'</div></div></div>';
             }).join('');
             document.getElementById('lp-founder-title').innerText = L.founderTitle;
             document.getElementById('lp-founder-text').innerText = L.founderText;
