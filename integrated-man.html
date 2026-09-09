@@ -1082,16 +1082,13 @@
             try {
                 if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 var flowKey = lpGetFlowKey();
-                // gettinggirls-Reviews bevorzugt auf der Frauen-Spur; sonst alle freigegebenen
                 var q = supabaseClient.from('v_reviews_public').select('first_name,comment,rating,verified_purchase,topic,created_at');
                 var res = await q;
                 var allRows = (res && res.data) ? res.data : [];
-                lpRenderRating(allRows);
-                var rows = allRows.slice();
-                if (flowKey === 'gettinggirls') {
-                    var pref = rows.filter(function(r){ return r.topic === 'gettinggirls'; });
-                    rows = pref.length ? pref : rows;
-                }
+                lpRenderRating(allRows); // Aggregat-Badge bleibt ueber ALLE Reviews
+                // Einzel-Stimmen NUR zum passenden Flow-Topic; Uebersichtsseite (default) zeigt alle
+                var rows = (flowKey === 'default') ? allRows.slice()
+                         : allRows.filter(function(r){ return r.topic === flowKey; });
                 lpRenderReviews(rows.slice(0, 6));
             } catch (e) { console.warn('reviews load failed', e); lpRenderRating([]); lpRenderReviews([]); }
         }
