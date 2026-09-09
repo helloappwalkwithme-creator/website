@@ -186,12 +186,141 @@
         .legal-footer { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border); font-size: 11px; padding-bottom: 120px; }
         .legal-footer a { color: #888; text-decoration: none; margin: 0 8px; transition: color 0.2s; }
         .legal-footer a:hover { color: var(--gold); }
+
+        /* ===================== TRUST LANDING (vor dem Quiz) ===================== */
+        #landing { display: none; }
+        body.landing-active > .app-header,
+        body.landing-active > main,
+        body.landing-active > .legal-footer,
+        body.landing-active > .bottom-bar,
+        body.landing-active > .progress-container { display: none !important; }
+        body.landing-active #landing { display: block; }
+
+        #landing .lp-wrap { max-width: 640px; margin: 0 auto; padding: 0 20px 80px; }
+        #landing .lp-top { display: flex; justify-content: flex-end; padding: 16px 0 0; }
+        #landing .lp-lang { background: var(--gray); color: var(--text); border: 1px solid var(--border); padding: 7px 11px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; appearance: none; }
+        #landing .lp-section { padding: 40px 0; border-top: 1px solid #1c1c1c; }
+        #landing .lp-eyebrow { color: var(--gold); font-size: 12px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 14px; }
+        #landing h2.lp-h1 { font-size: 30px; line-height: 1.18; font-weight: 800; margin: 0 0 16px; }
+        #landing .lp-sub { color: #b3b3b3; font-size: 16px; line-height: 1.55; margin: 0 0 26px; }
+        #landing .lp-cta { background: var(--gold); color: #000; border: none; border-radius: 12px; padding: 17px 24px; font-size: 16px; font-weight: 800; letter-spacing: .4px; cursor: pointer; width: 100%; max-width: 420px; transition: transform .1s ease, background .15s ease; }
+        #landing .lp-cta:hover { background: #c6a233; transform: translateY(-1px); }
+        #landing .lp-microtrust { color: #8f8f8f; font-size: 12.5px; margin-top: 12px; letter-spacing: .2px; }
+        #landing .lp-hero { padding-top: 26px; border-top: none; text-align: left; }
+        #landing .lp-h3 { font-size: 21px; font-weight: 800; margin: 0 0 18px; }
+        #landing .lp-video { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid #2a2a2a; background: linear-gradient(135deg, #161616, #0c0c0c); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+        #landing .lp-video .lp-play { width: 66px; height: 66px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; }
+        #landing .lp-video .lp-play::after { content: ''; border-style: solid; border-width: 12px 0 12px 20px; border-color: transparent transparent transparent #000; margin-left: 4px; }
+        #landing .lp-video-note { color: #7c7c7c; font-size: 12px; text-align: center; margin-top: 10px; }
+        #landing .lp-pain { list-style: none; padding: 0; margin: 0; }
+        #landing .lp-pain li { position: relative; padding: 14px 16px 14px 44px; background: #121212; border: 1px solid #262626; border-radius: 10px; margin-bottom: 10px; color: #d6d6d6; font-size: 15px; line-height: 1.45; }
+        #landing .lp-pain li::before { content: '✓'; position: absolute; left: 16px; top: 14px; color: var(--gold); font-weight: 800; }
+        #landing .lp-steps { display: grid; gap: 14px; }
+        #landing .lp-step { display: flex; gap: 14px; align-items: flex-start; background: #111; border: 1px solid #262626; border-radius: 12px; padding: 16px 18px; }
+        #landing .lp-step .lp-num { flex: 0 0 34px; width: 34px; height: 34px; border-radius: 50%; background: var(--gray-active); border: 1px solid var(--gold); color: var(--gold); font-weight: 800; display: flex; align-items: center; justify-content: center; }
+        #landing .lp-step-t { font-weight: 700; font-size: 15px; margin: 2px 0 4px; }
+        #landing .lp-step-d { color: #a5a5a5; font-size: 14px; line-height: 1.5; }
+        #landing .lp-founder { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+        #landing .lp-avatar { flex: 0 0 92px; width: 92px; height: 92px; border-radius: 50%; background: linear-gradient(135deg, #2a2a2a, #141414); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); font-weight: 800; font-size: 30px; }
+        #landing .lp-founder-body { flex: 1; min-width: 220px; }
+        #landing .lp-reviews { display: grid; gap: 14px; }
+        #landing .lp-review { background: #111; border: 1px solid #262626; border-radius: 12px; padding: 18px; }
+        #landing .lp-stars { color: var(--gold); font-size: 17px; letter-spacing: 2px; margin-bottom: 8px; }
+        #landing .lp-stars .off { color: #3a3a3a; }
+        #landing .lp-review-txt { color: #dcdcdc; font-size: 14.5px; line-height: 1.55; margin: 0 0 10px; }
+        #landing .lp-review-name { color: #9c9c9c; font-size: 13px; font-weight: 600; }
+        #landing .lp-review-badge { color: var(--success); font-size: 11px; font-weight: 700; margin-left: 8px; }
+        #landing .lp-guarantee { background: #101510; border: 1px solid #24401f; border-left: 4px solid var(--success); border-radius: 12px; padding: 20px; }
+        #landing .lp-faq-item { border-bottom: 1px solid #222; padding: 16px 0; }
+        #landing .lp-faq-q { font-weight: 700; font-size: 15.5px; margin: 0 0 8px; color: #f0f0f0; }
+        #landing .lp-faq-a { color: #a8a8a8; font-size: 14px; line-height: 1.55; margin: 0; }
+        #landing .lp-final { text-align: center; }
+        #landing .lp-final .lp-sub { max-width: 480px; margin: 0 auto 22px; }
+        @media (min-width: 600px) { #landing h2.lp-h1 { font-size: 36px; } #landing .lp-hero { padding-top: 40px; } }
     </style>
 </head>
-<body>
+<body class="landing-active">
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
+
+    <!-- ===================== TRUST LANDING ===================== -->
+    <div id="landing">
+      <div class="lp-wrap">
+        <div class="lp-top">
+          <select id="lpLang" class="lp-lang" onchange="lpSetLang(this.value)">
+            <option value="de">🇩🇪 DE</option>
+            <option value="en">🇺🇸 EN</option>
+            <option value="es">🇪🇸 ES</option>
+          </select>
+        </div>
+
+        <!-- Hero -->
+        <section class="lp-section lp-hero">
+          <div class="lp-eyebrow" id="lp-eyebrow"></div>
+          <h2 class="lp-h1" id="lp-headline"></h2>
+          <p class="lp-sub" id="lp-sub"></p>
+          <button class="lp-cta" id="lp-cta-top" onclick="startQuiz()"></button>
+          <div class="lp-microtrust" id="lp-microtrust"></div>
+        </section>
+
+        <!-- Video -->
+        <section class="lp-section">
+          <h3 class="lp-h3" id="lp-video-title"></h3>
+          <div class="lp-video"><div class="lp-play"></div></div>
+          <div class="lp-video-note" id="lp-video-note"></div>
+        </section>
+
+        <!-- Pain -->
+        <section class="lp-section">
+          <h3 class="lp-h3" id="lp-pain-title"></h3>
+          <ul class="lp-pain" id="lp-pain-list"></ul>
+        </section>
+
+        <!-- How it works -->
+        <section class="lp-section">
+          <h3 class="lp-h3" id="lp-how-title"></h3>
+          <div class="lp-steps" id="lp-steps"></div>
+        </section>
+
+        <!-- Founder -->
+        <section class="lp-section">
+          <h3 class="lp-h3" id="lp-founder-title"></h3>
+          <div class="lp-founder">
+            <div class="lp-avatar">JB</div>
+            <div class="lp-founder-body">
+              <p class="lp-sub" id="lp-founder-text" style="margin:0;"></p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Reviews -->
+        <section class="lp-section">
+          <h3 class="lp-h3" id="lp-reviews-title"></h3>
+          <div class="lp-reviews" id="lp-reviews"></div>
+        </section>
+
+        <!-- Guarantee -->
+        <section class="lp-section">
+          <h3 class="lp-h3" id="lp-guarantee-title"></h3>
+          <div class="lp-guarantee"><p class="lp-sub" id="lp-guarantee-text" style="margin:0;"></p></div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="lp-section">
+          <h3 class="lp-h3" id="lp-faq-title"></h3>
+          <div id="lp-faq"></div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="lp-section lp-final">
+          <h2 class="lp-h1" id="lp-final-headline"></h2>
+          <p class="lp-sub" id="lp-final-sub"></p>
+          <button class="lp-cta" id="lp-cta-bottom" onclick="startQuiz()"></button>
+          <div class="lp-microtrust" id="lp-microtrust-2"></div>
+        </section>
+      </div>
+    </div>
 
     <header class="app-header">
         <select id="langSelect" class="lang-switcher" onchange="selectLang(this.value)">
@@ -671,6 +800,9 @@
                     _renderWelcome();
                 }
             } catch(e){}
+
+            // Trust-Landing initialisieren (liegt VOR dem Quiz)
+            try { initLanding(); } catch(e){ /* Fallback: Landing überspringen, Quiz zeigen */ document.body.classList.remove('landing-active'); }
         };
 
         function selectLang(lang) {
@@ -827,6 +959,168 @@
                 btn.disabled = false;
                 btn.innerText = t[currentLang].btn.pay;
             }
+        }
+
+        /* ===================== TRUST LANDING LOGIC ===================== */
+        const LANDING = {
+            de: {
+                flows: {
+                    default: {
+                        eyebrow: "FÜR MÄNNER, DIE WIEDER FÜHREN WOLLEN",
+                        headline: "Werde der Mann, der du sein willst — 5 Minuten am Tag.",
+                        sub: "Kein Motivations-Bla. Ein klarer, täglicher Weg direkt in deinen Messenger. Die ersten 4 Tage kostenlos.",
+                        pain: ["Du nimmst dir Dinge vor — und ziehst sie doch nicht durch.", "Nähe, Respekt, Antrieb: irgendwas ist abhandengekommen.", "Du weißt, du könntest mehr — nur der erste Schritt fehlt."]
+                    },
+                    porn: {
+                        eyebrow: "FÜR MÄNNER, DIE IHRE KONTROLLE ZURÜCKWOLLEN",
+                        headline: "Raus aus dem Drang — Schritt für Schritt.",
+                        sub: "Kein Kampf gegen dich selbst, sondern ein trainierbarer Reset für dein Belohnungssystem. Jeden Tag ein Schritt, direkt in deinen Messenger. Die ersten 4 Tage kostenlos.",
+                        pain: ["Du verlierst Stunden, die du nie zurückbekommst.", "Danach: Leere, Schuld, kein Antrieb.", "Du hast schon oft aufgehört — und wieder angefangen."]
+                    },
+                    gettinggirls: {
+                        eyebrow: "FÜR MÄNNER, DIE NICHT MEHR ZÖGERN WOLLEN",
+                        headline: "Sprich sie an — ohne dass dein Kopf blockiert.",
+                        sub: "Ein trainierbarer Weg raus aus der Blockade. Jeden Tag ein konkreter Schritt, direkt in deinen Messenger. Die ersten 4 Tage kostenlos.",
+                        pain: ["Du siehst die Frau, die dir gefällt — und tust dann doch nichts.", "Du gehst allein heim, obwohl du jemanden treffen wolltest.", "Andere scheinen's einfach zu können — nur du nicht."]
+                    },
+                    relationship: {
+                        eyebrow: "FÜR MÄNNER, DIE IHRE BEZIEHUNG RETTEN WOLLEN",
+                        headline: "Führung & Nähe zurück — ohne Machtkämpfe.",
+                        sub: "Nicht mehr Liebe fehlt, sondern klare, ruhige Führung. Jeden Tag ein Schritt, der Anziehung und Respekt neu aufbaut. Direkt in deinen Messenger. Die ersten 4 Tage kostenlos.",
+                        pain: ["Ihr lebt nebeneinander her statt miteinander.", "Kritik und Nörgeln statt Nähe.", "In dieser Dynamik verlierst du den Respekt vor dir selbst."]
+                    }
+                },
+                cta: "Kostenlosen Test starten",
+                microtrust: "4 Tage gratis · unter 5 Min/Tag · jederzeit mit STOP beendbar",
+                videoTitle: "Warum ich das mache",
+                videoNote: "Video kommt in Kürze.",
+                howTitle: "So funktioniert's",
+                steps: [
+                    { t: "1. Kurzer Check (2 Minuten)", d: "Ein paar Fragen zu deiner Situation — damit dein Weg zu dir passt." },
+                    { t: "2. Täglicher Impuls", d: "Jeden Morgen ein konkreter Schritt per WhatsApp oder Telegram. Unter 5 Minuten." },
+                    { t: "3. 4 Tage gratis, dann du entscheidest", d: "Spür den Unterschied. Danach optional weiter — bis Tag 90." }
+                ],
+                founderTitle: "Wer dahintersteht",
+                founderText: "Ich bin Janosch. Ich kenne den Fluchtreflex, der einen im entscheidenden Moment ausbremst — und ich hab keinen Bock auf 08/15-Coaching-Sprüche. Deshalb gibt's hier keine Motivations-Show, sondern kleine, machbare Schritte, die dich wirklich weiterbringen. Kurz, ehrlich, jeden Tag.",
+                reviewsTitle: "Das sagen andere",
+                reviewsEmpty: "Bald findest du hier echte Stimmen von Teilnehmern.",
+                guaranteeTitle: "Dein Risiko: null",
+                guaranteeText: "Die ersten 4 Tage sind komplett kostenlos — kein Zahlungsdaten, kein Haken. Entscheidest du dich danach für den vollen Weg, gilt 60 Tage Geld-zurück-Garantie. Passt es nicht, bekommst du dein Geld zurück.",
+                faqTitle: "Häufige Fragen",
+                faq: [
+                    { q: "Kostet mich das was?", a: "Die ersten 4 Tage sind gratis — ohne Zahlungsdaten. Erst wenn du danach weitermachen willst, gibt's ein bezahltes Angebot." },
+                    { q: "Wie kommt das zu mir?", a: "Direkt in deinen Messenger — WhatsApp oder Telegram, du wählst. Kein zusätzliches Tool, keine App." },
+                    { q: "Wie viel Zeit brauche ich?", a: "Unter 5 Minuten am Tag. Es ist bewusst so gebaut, dass es in jeden Alltag passt." },
+                    { q: "Was, wenn's nichts für mich ist?", a: "Dann steigst du jederzeit mit einer Nachricht (STOP) aus. Kein Abo-Zwang, keine Diskussion." },
+                    { q: "Was passiert mit meinen Daten?", a: "Sie werden ausschließlich für die Auslieferung genutzt und niemals an Dritte weitergegeben." }
+                ],
+                finalHeadline: "Bereit für den ersten Schritt?",
+                finalSub: "Starte jetzt deinen kostenlosen Check — in 2 Minuten weißt du, wie dein Weg aussieht."
+            }
+        };
+        // EN/ES fallback auf DE, bis Übersetzungen final sind
+        LANDING.en = LANDING.en || LANDING.de;
+        LANDING.es = LANDING.es || LANDING.de;
+
+        function lpGetFlowKey() {
+            var pp = new URLSearchParams(location.search).get('p');
+            var L = LANDING[currentLang] || LANDING.de;
+            if (pp && L.flows[pp]) return pp;
+            return 'default';
+        }
+
+        function lpStars(rating) {
+            var full = Math.floor(rating);
+            var half = (rating - full) >= 0.5;
+            var html = '';
+            for (var i = 1; i <= 5; i++) {
+                if (i <= full) html += '★';
+                else if (i === full + 1 && half) html += '⯪';
+                else html += '<span class="off">★</span>';
+            }
+            return html;
+        }
+
+        function lpRenderReviews(rows) {
+            var box = document.getElementById('lp-reviews');
+            var L = LANDING[currentLang] || LANDING.de;
+            if (!rows || !rows.length) { box.innerHTML = '<p class="lp-sub" style="margin:0;">' + L.reviewsEmpty + '</p>'; return; }
+            box.innerHTML = rows.map(function(r){
+                var badge = r.verified_purchase ? '<span class="lp-review-badge">✓ Verifiziert</span>' : '';
+                var safe = (r.comment || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                var name = (r.first_name || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                return '<div class="lp-review"><div class="lp-stars">' + lpStars(Number(r.rating)) + '</div>' +
+                       '<p class="lp-review-txt">„' + safe + '"</p>' +
+                       '<div class="lp-review-name">' + name + badge + '</div></div>';
+            }).join('');
+        }
+
+        async function lpLoadReviews() {
+            try {
+                if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                var flowKey = lpGetFlowKey();
+                // gettinggirls-Reviews bevorzugt auf der Frauen-Spur; sonst alle freigegebenen
+                var q = supabaseClient.from('v_reviews_public').select('first_name,comment,rating,verified_purchase,topic,created_at');
+                var res = await q;
+                var rows = (res && res.data) ? res.data : [];
+                if (flowKey === 'gettinggirls') {
+                    var pref = rows.filter(function(r){ return r.topic === 'gettinggirls'; });
+                    rows = pref.length ? pref : rows;
+                }
+                lpRenderReviews(rows.slice(0, 6));
+            } catch (e) { console.warn('reviews load failed', e); lpRenderReviews([]); }
+        }
+
+        function lpRender() {
+            var L = LANDING[currentLang] || LANDING.de;
+            var key = lpGetFlowKey();
+            var f = L.flows[key] || L.flows.default;
+            document.getElementById('lpLang').value = currentLang;
+            document.getElementById('lp-eyebrow').innerText = f.eyebrow;
+            document.getElementById('lp-headline').innerText = f.headline;
+            document.getElementById('lp-sub').innerText = f.sub;
+            document.getElementById('lp-cta-top').innerText = L.cta;
+            document.getElementById('lp-cta-bottom').innerText = L.cta;
+            document.getElementById('lp-microtrust').innerText = L.microtrust;
+            document.getElementById('lp-microtrust-2').innerText = L.microtrust;
+            document.getElementById('lp-video-title').innerText = L.videoTitle;
+            document.getElementById('lp-video-note').innerText = L.videoNote;
+            document.getElementById('lp-pain-title').innerText = (currentLang==='en'?"Sound familiar?":(currentLang==='es'?"¿Te suena?":"Kommt dir das bekannt vor?"));
+            document.getElementById('lp-pain-list').innerHTML = f.pain.map(function(p){ return '<li>' + p + '</li>'; }).join('');
+            document.getElementById('lp-how-title').innerText = L.howTitle;
+            document.getElementById('lp-steps').innerHTML = L.steps.map(function(s){
+                return '<div class="lp-step"><div class="lp-num">'+ s.t.trim().charAt(0) +'</div><div><div class="lp-step-t">'+ s.t +'</div><div class="lp-step-d">'+ s.d +'</div></div></div>';
+            }).join('');
+            document.getElementById('lp-founder-title').innerText = L.founderTitle;
+            document.getElementById('lp-founder-text').innerText = L.founderText;
+            document.getElementById('lp-reviews-title').innerText = L.reviewsTitle;
+            document.getElementById('lp-guarantee-title').innerText = L.guaranteeTitle;
+            document.getElementById('lp-guarantee-text').innerText = L.guaranteeText;
+            document.getElementById('lp-faq-title').innerText = L.faqTitle;
+            document.getElementById('lp-faq').innerHTML = L.faq.map(function(x){
+                return '<div class="lp-faq-item"><p class="lp-faq-q">'+ x.q +'</p><p class="lp-faq-a">'+ x.a +'</p></div>';
+            }).join('');
+            document.getElementById('lp-final-headline').innerText = L.finalHeadline;
+            document.getElementById('lp-final-sub').innerText = L.finalSub;
+        }
+
+        function initLanding() {
+            lpRender();
+            lpLoadReviews();
+        }
+
+        function lpSetLang(lang) {
+            currentLang = lang; localStorage.setItem('smh_language', lang);
+            document.getElementById('langSelect').value = lang;
+            updateTexts(); buildOptions();
+            lpRender(); lpLoadReviews();
+        }
+
+        function startQuiz() {
+            document.body.classList.remove('landing-active');
+            var wg = document.getElementById('welcome-go');
+            if (wg) { wg.click(); }
+            window.scrollTo(0, 0);
         }
     </script>
 </body>
