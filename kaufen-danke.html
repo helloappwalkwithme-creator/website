@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Willkommen – Shift My Horizon</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{--dark:#000;--gray:#111;--gray-active:#1f1a0f;--border:#333;--gold:#d4af37;--gold-dim:#c6a233;--text:#fff;--muted:#9a9a9a;--error:#ff5555;--success:#4caf50;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:var(--dark);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;}
+  .bar{height:4px;background:var(--gold);width:100%;}
+  .wrap{max-width:520px;margin:0 auto;padding:28px 20px 70px;}
+  .lang{display:flex;justify-content:flex-end;margin-bottom:12px;}
+  .lang select{background:var(--gray);color:var(--text);border:1px solid var(--border);padding:6px 10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;}
+  .check{width:58px;height:58px;border-radius:50%;background:rgba(76,175,80,.12);border:1px solid rgba(76,175,80,.4);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:16px;}
+  .eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+  h1{font-size:26px;font-weight:800;line-height:1.2;margin-bottom:10px;}
+  .sub{color:#b3b3b3;font-size:15.5px;margin-bottom:26px;}
+  label{display:block;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gold);margin:0 0 8px;}
+  .field{margin-bottom:20px;}
+  input,select.chan{width:100%;background:#111;color:#fff;border:1px solid var(--border);border-radius:8px;padding:15px 16px;font-size:16px;font-weight:500;}
+  input:focus,select.chan:focus{outline:none;border-color:var(--gold);}
+  .opt{background:var(--gray);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .15s ease;}
+  .opt.sel{border-color:var(--gold);background:var(--gray-active);}
+  .opt .t{font-size:15px;font-weight:500;} .opt.sel .t{color:var(--gold);font-weight:700;}
+  .radio{width:22px;height:22px;border-radius:50%;border:2px solid #666;flex:0 0 22px;position:relative;}
+  .opt.sel .radio{border-color:var(--gold);} .opt.sel .radio::after{content:'';position:absolute;inset:4px;border-radius:50%;background:var(--gold);}
+  .cta{width:100%;background:var(--gold);color:#000;border:none;border-radius:10px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;margin-top:6px;transition:background .15s ease;}
+  .cta:hover{background:var(--gold-dim);} .cta:disabled{opacity:.5;cursor:not-allowed;}
+  .msg{font-size:14px;margin-top:14px;min-height:20px;} .msg.error{color:var(--error);}
+  .hint{color:var(--muted);font-size:12.5px;margin-top:6px;}
+  #done{display:none;text-align:center;} #done.show{display:block;}
+  .code{font-size:26px;font-weight:900;letter-spacing:2px;color:var(--gold);background:#111;border:1px dashed var(--gold);border-radius:10px;padding:14px;margin:16px 0;}
+  .pending{background:#2a1f0a;border:1px solid var(--gold);color:#f0d488;font-size:13px;border-radius:10px;padding:12px 14px;margin-top:14px;}
+  footer{text-align:center;margin-top:40px;font-size:11px;} footer a{color:#888;text-decoration:none;margin:0 8px;} footer a:hover{color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<div class="wrap">
+  <div class="lang"><select id="lang" onchange="setLang(this.value)"><option value="de">🇩🇪 DE</option><option value="en">🇺🇸 EN</option></select></div>
+
+  <div id="form-view">
+    <div class="check">✓</div>
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="title"></h1>
+    <p class="sub" id="sub"></p>
+
+    <form id="f" novalidate>
+      <div class="field">
+        <label id="l_name"></label>
+        <input type="text" id="fname" maxlength="50" autocomplete="given-name">
+      </div>
+
+      <div class="field" id="emailField" hidden>
+        <label id="l_email"></label>
+        <input type="email" id="email" autocomplete="email">
+        <div class="hint" id="emailHint"></div>
+      </div>
+
+      <div class="field" id="topicField">
+        <label id="l_topic"></label>
+        <div id="topics"></div>
+      </div>
+
+      <div class="field">
+        <label id="l_channel"></label>
+        <select id="channel" class="chan">
+          <option value="whatsapp">WhatsApp</option>
+          <option value="telegram">Telegram</option>
+        </select>
+      </div>
+
+      <button type="submit" class="cta" id="submit"></button>
+      <div class="msg" id="err"></div>
+    </form>
+  </div>
+
+  <div id="done">
+    <div class="check" style="margin:0 auto 16px;">✓</div>
+    <h1 id="d_title"></h1>
+    <p class="sub" id="d_sub"></p>
+    <div class="code" id="d_code"></div>
+    <a class="cta" id="d_link" style="display:block;text-decoration:none;" href="#"></a>
+    <div class="pending" id="d_pending" hidden></div>
+  </div>
+
+  <footer>
+    <a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="agb.html">AGB</a>
+  </footer>
+</div>
+
+<script>
+  const SUPABASE_URL='https://jztwnumtwihomgxwlwor.supabase.co';
+  const SUPABASE_ANON_KEY='sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+  let sb=null;
+  const waNumber="491632225456", tgBotName="shift_my_horizon_bot";
+
+  const params=new URLSearchParams(location.search);
+  let email=(params.get('email')||'').trim();
+  let preFlow=(params.get('p')||'').trim();
+  let preName=(params.get('name')||params.get('first_name')||'').trim();
+  let lang=(params.get('lang')||'de').toLowerCase(); if(!['de','en'].includes(lang)) lang='de';
+  let topic=preFlow && ['porn','gettinggirls','relationship'].includes(preFlow) ? preFlow : '';
+
+  const T={
+    de:{
+      eyebrow:"Kauf erfolgreich", title:"Willkommen an Bord!",
+      sub:"Nur noch 2 kurze Schritte, dann startet dein Weg morgen früh.",
+      l_name:"Dein Vorname", l_email:"Deine Kauf-E-Mail", emailHint:"Die E-Mail, mit der du gekauft hast.",
+      l_topic:"Dein Thema", l_channel:"Auslieferung über",
+      topics:{gettinggirls:"Frauen ansprechen – raus aus der Blockade", porn:"Raus aus dem Drang (Dopamin-Reset)", relationship:"Beziehung führen – Nähe & Respekt zurück"},
+      submit:"Zugang aktivieren",
+      errName:"Bitte gib deinen Vornamen ein.", errEmail:"Bitte gib deine Kauf-E-Mail ein.", errTopic:"Bitte wähl dein Thema.",
+      errServer:"Etwas ist schiefgelaufen. Bitte versuch es nochmal.", sending:"Wird aktiviert …",
+      d_title:"Fast geschafft!", d_sub:"Öffne jetzt deinen Messenger und schick uns die vorbereitete Nachricht mit deinem Zugangscode:",
+      d_link_wa:"Über WhatsApp verbinden", d_link_tg:"Über Telegram verbinden",
+      msg:(c)=>`Hallo, ich habe Shift My Horizon gekauft und möchte starten. Mein Zugangscode: ${c}`,
+      pending:"Hinweis: Dein Vollzugang wird gerade bestätigt – die ersten Tage starten trotzdem sofort, der Rest schaltet automatisch frei."
+    },
+    en:{
+      eyebrow:"Purchase complete", title:"Welcome aboard!",
+      sub:"Just 2 quick steps and your journey starts tomorrow morning.",
+      l_name:"Your first name", l_email:"Your purchase email", emailHint:"The email you bought with.",
+      l_topic:"Your focus", l_channel:"Delivery via",
+      topics:{gettinggirls:"Approaching women – break the freeze", porn:"Break free from the urge (dopamine reset)", relationship:"Lead your relationship – closeness & respect"},
+      submit:"Activate access",
+      errName:"Please enter your first name.", errEmail:"Please enter your purchase email.", errTopic:"Please pick your focus.",
+      errServer:"Something went wrong. Please try again.", sending:"Activating …",
+      d_title:"Almost done!", d_sub:"Open your messenger now and send us the prepared message with your access code:",
+      d_link_wa:"Connect via WhatsApp", d_link_tg:"Connect via Telegram",
+      msg:(c)=>`Hi, I purchased Shift My Horizon and want to start. My access code: ${c}`,
+      pending:"Note: your full access is being confirmed — your first days start right away, the rest unlocks automatically."
+    }
+  };
+
+  function genCode(){var a=Math.random().toString(36).substring(2,6).toUpperCase();var b=Math.random().toString(36).substring(2,6).toUpperCase();return a+'-'+b;}
+
+  function render(){
+    var t=T[lang];
+    document.getElementById('lang').value=lang;
+    document.getElementById('eyebrow').innerText=t.eyebrow;
+    document.getElementById('title').innerText=t.title;
+    document.getElementById('sub').innerText=t.sub;
+    document.getElementById('l_name').innerText=t.l_name;
+    document.getElementById('l_email').innerText=t.l_email;
+    document.getElementById('emailHint').innerText=t.emailHint;
+    document.getElementById('l_topic').innerText=t.l_topic;
+    document.getElementById('l_channel').innerText=t.l_channel;
+    document.getElementById('submit').innerText=t.submit;
+    if(preName && !document.getElementById('fname').value) document.getElementById('fname').value=preName;
+    // email field only if not provided in URL
+    document.getElementById('emailField').hidden = !!email;
+    // topics
+    if(topic){ document.getElementById('topicField').hidden=true; }
+    else {
+      document.getElementById('topicField').hidden=false;
+      document.getElementById('topics').innerHTML=Object.keys(t.topics).map(function(k){
+        return '<div class="opt" data-k="'+k+'"><div class="t">'+t.topics[k]+'</div><div class="radio"></div></div>';
+      }).join('');
+      document.querySelectorAll('#topics .opt').forEach(function(o){
+        o.onclick=function(){topic=o.getAttribute('data-k');document.querySelectorAll('#topics .opt').forEach(function(x){x.classList.toggle('sel',x===o);});};
+      });
+    }
+  }
+
+  document.getElementById('f').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var t=T[lang], err=document.getElementById('err'), btn=document.getElementById('submit');
+    err.className='msg';
+    var fname=document.getElementById('fname').value.trim();
+    if(!email) email=document.getElementById('email').value.trim();
+    if(!fname){err.textContent=t.errName;err.className='msg error';return;}
+    if(!email||email.indexOf('@')<0){err.textContent=t.errEmail;err.className='msg error';document.getElementById('emailField').hidden=false;return;}
+    if(!topic){err.textContent=t.errTopic;err.className='msg error';return;}
+    var channel=document.getElementById('channel').value;
+    var code=genCode();
+    btn.disabled=true; err.textContent=t.sending;
+    try{
+      if(!sb) sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+      var res=await sb.rpc('register_direct_buyer',{p_email:email,p_first_name:fname,p_delivery_channel:channel,p_language:lang,p_root_problem:topic,p_access_code:code});
+      if(res.error) throw res.error;
+      var hasPaid = res.data && res.data.has_paid;
+      showDone(code, channel, hasPaid);
+    }catch(e2){console.error(e2);err.textContent=t.errServer;err.className='msg error';btn.disabled=false;}
+  });
+
+  function showDone(code, channel, hasPaid){
+    var t=T[lang];
+    document.getElementById('form-view').style.display='none';
+    var d=document.getElementById('done'); d.classList.add('show');
+    document.getElementById('d_title').innerText=t.d_title;
+    document.getElementById('d_sub').innerText=t.d_sub;
+    document.getElementById('d_code').innerText=code;
+    var text=encodeURIComponent(t.msg(code));
+    var link=document.getElementById('d_link');
+    if(channel==='telegram'){ link.href='https://t.me/'+tgBotName+'?text='+text; link.innerText=t.d_link_tg; }
+    else { link.href='https://wa.me/'+waNumber+'?text='+text; link.innerText=t.d_link_wa; }
+    if(!hasPaid){ var p=document.getElementById('d_pending'); p.hidden=false; p.innerText=t.pending; }
+    window.scrollTo(0,0);
+  }
+
+  function setLang(l){lang=l;render();}
+  render();
+</script>
+</body>
+</html>
