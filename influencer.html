@@ -5,83 +5,170 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Shift My Horizon – Partner werden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
 <style>
-  :root{--dark:#000;--gray:#111;--gray-active:#1f1a0f;--border:#333;--gold:#d4af37;--gold-dim:#c6a233;--text:#fff;--muted:#9a9a9a;--success:#4caf50;}
+  :root{
+    --ink:#0c0b0a; --panel:#16130f; --panel-2:#1c1811; --raised:#221d14;
+    --line:#2a251c; --line-soft:#201c15;
+    --brass:#c8a86a; --brass-bright:#e6cd94; --brass-dim:#8f7c53;
+    --text:#ece7df; --muted:#a79f90; --muted-2:#7c7568;
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
+    --sans:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  }
   *{box-sizing:border-box;margin:0;padding:0;}
-  html,body{background:var(--dark);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;}
-  img{max-width:100%;}
-  .bar{height:4px;background:var(--gold);width:100%;}
-  .wrap{max-width:680px;margin:0 auto;padding:0 20px 90px;}
-  section{padding:40px 0;border-top:1px solid #1b1b1b;}
-  .hero{border-top:none;padding-top:34px;}
-  .eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:14px;}
-  h1{font-size:32px;line-height:1.14;font-weight:800;margin-bottom:16px;}
-  h2{font-size:22px;font-weight:800;margin-bottom:16px;}
-  .sub{color:#b7b7b7;font-size:16.5px;margin-bottom:26px;}
-  .cta{display:inline-block;background:var(--gold);color:#000;border:none;border-radius:12px;padding:16px 26px;font-size:16px;font-weight:800;cursor:pointer;text-decoration:none;transition:background .15s ease,transform .1s ease;}
-  .cta:hover{background:var(--gold-dim);transform:translateY(-1px);}
-  .cta2{display:inline-block;color:var(--gold);border:1px solid #3a3a3a;border-radius:12px;padding:15px 24px;font-size:15px;font-weight:700;text-decoration:none;margin-left:10px;}
-  .cta2:hover{border-color:var(--gold);}
+  html{-webkit-text-size-adjust:100%;}
+  body{background:var(--ink);color:var(--text);font-family:var(--sans);
+    line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--brass);color:#0c0b0a;}
+
+  .glow{position:absolute;top:0;left:0;right:0;height:520px;pointer-events:none;z-index:0;
+    background:radial-gradient(120% 100% at 50% -10%,rgba(200,168,106,.16),rgba(200,168,106,0) 60%);}
+  .bar{position:relative;z-index:2;height:3px;
+    background:linear-gradient(90deg,var(--brass-dim),var(--brass),var(--brass-bright),var(--brass));}
+  .wrap{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:0 22px 96px;}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 0 0;}
+  .brandmark{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.3px;color:var(--text);}
+  .brandmark span{color:var(--brass);}
+  .tag{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted-2);font-weight:700;}
+
+  section{position:relative;padding:42px 0;}
+  section+section{border-top:1px solid var(--line-soft);}
+  .eyebrow{display:inline-block;color:var(--brass);font-size:11.5px;font-weight:700;
+    letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(31px,7.2vw,46px);line-height:1.07;
+    letter-spacing:-.5px;text-wrap:balance;margin-bottom:18px;}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(22px,5vw,28px);line-height:1.14;
+    letter-spacing:-.3px;text-wrap:balance;margin-bottom:14px;}
+  .lead{color:var(--muted);font-size:17px;line-height:1.62;margin-bottom:26px;max-width:62ch;}
+  .lead b{color:var(--text);font-weight:700;}
+
   .ctarow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
-  .founder{display:flex;gap:18px;align-items:center;flex-wrap:wrap;}
-  .avatar{flex:0 0 92px;width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,#2a2a2a,#141414);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:800;font-size:30px;}
-  .founder p{flex:1;min-width:220px;color:#c3c3c3;font-size:15.5px;}
-  .steps{display:grid;gap:14px;}
-  .step{display:flex;gap:14px;align-items:flex-start;background:#111;border:1px solid #262626;border-radius:12px;padding:18px;}
-  .step .n{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:var(--gray-active);border:1px solid var(--gold);color:var(--gold);font-weight:800;display:flex;align-items:center;justify-content:center;}
-  .step b{display:block;margin:2px 0 5px;font-size:15.5px;} .step p{color:#a5a5a5;font-size:14px;}
-  .cards{display:grid;gap:12px;grid-template-columns:1fr;}
+  .cta{display:inline-block;background:linear-gradient(180deg,var(--brass-bright),var(--brass));
+    color:#160f02;border:none;border-radius:13px;padding:16px 28px;font-family:var(--sans);
+    font-size:16px;font-weight:800;letter-spacing:.2px;cursor:pointer;text-decoration:none;
+    box-shadow:0 10px 30px -12px rgba(200,168,106,.55);
+    transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;}
+  .cta:hover{transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 16px 38px -12px rgba(200,168,106,.6);}
+  .cta:focus-visible,.cta2:focus-visible{outline:2px solid var(--brass-bright);outline-offset:3px;}
+  .cta2{display:inline-block;color:var(--brass);border:1px solid var(--line);border-radius:13px;
+    padding:15px 24px;font-size:15px;font-weight:700;text-decoration:none;background:var(--panel);
+    transition:border-color .15s ease,color .15s ease;}
+  .cta2:hover{border-color:var(--brass);color:var(--brass-bright);}
+
+  /* founder */
+  .founder{display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:linear-gradient(180deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);border-radius:16px;padding:22px 24px;}
+  .founder .av{flex:0 0 84px;width:84px;height:84px;border-radius:50%;
+    background:radial-gradient(circle at 30% 25%,#2c2519,#141009);border:1.5px solid var(--brass);
+    display:flex;align-items:center;justify-content:center;color:var(--brass-bright);
+    font-family:var(--serif);font-weight:600;font-size:28px;}
+  .founder p{flex:1;min-width:230px;color:var(--muted);font-size:15.5px;line-height:1.6;}
+  .founder p b{color:var(--text);}
+
+  /* cards */
+  .cards{display:grid;gap:13px;grid-template-columns:1fr;}
   @media(min-width:560px){.cards{grid-template-columns:1fr 1fr;}}
-  .card{background:#111;border:1px solid #262626;border-radius:12px;padding:16px 18px;}
-  .card b{display:block;margin-bottom:5px;} .card p{color:#a5a5a5;font-size:14px;}
-  .highlight{background:#141007;border:1px solid var(--gold);border-radius:14px;padding:22px;text-align:center;}
-  .highlight .big{font-size:26px;font-weight:900;color:var(--gold);margin-bottom:6px;}
-  .placeholder{color:var(--gold);font-weight:700;}
-  .faq div{border-bottom:1px solid #222;padding:16px 0;}
-  .faq .q{font-weight:700;font-size:15.5px;margin-bottom:8px;} .faq .a{color:#a8a8a8;font-size:14px;}
-  ul.clean{list-style:none;padding:0;} ul.clean li{position:relative;padding:8px 0 8px 26px;color:#cfcfcf;font-size:15px;}
-  ul.clean li::before{content:'✓';position:absolute;left:0;top:8px;color:var(--gold);font-weight:800;}
-  footer{text-align:center;padding:26px 0 0;border-top:1px solid var(--border);margin-top:30px;font-size:11px;}
-  footer a{color:#888;text-decoration:none;margin:0 8px;} footer a:hover{color:var(--gold);}
-  .note{background:#1a1405;border:1px dashed var(--gold);color:#e9cf82;font-size:12.5px;border-radius:10px;padding:10px 14px;margin-top:16px;}
+  .card{background:var(--panel);border:1px solid var(--line-soft);border-radius:14px;padding:18px 20px;}
+  .card b{display:block;margin-bottom:5px;font-size:15.5px;font-weight:700;color:var(--text);}
+  .card p{color:var(--muted);font-size:14px;}
+
+  /* checklist */
+  .clean{list-style:none;display:grid;gap:11px;margin-top:16px;}
+  .clean li{position:relative;padding-left:30px;color:var(--text);font-size:15px;}
+  .clean li::before{content:"";position:absolute;left:0;top:7px;width:17px;height:11px;
+    border-left:2px solid var(--brass);border-bottom:2px solid var(--brass);transform:rotate(-45deg);border-radius:1px;}
+
+  /* steps */
+  .steps{display:grid;gap:13px;}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--panel);border:1px solid var(--line-soft);
+    border-radius:14px;padding:18px 20px;}
+  .step .n{flex:0 0 36px;width:36px;height:36px;border-radius:50%;background:var(--raised);
+    border:1px solid var(--brass-dim);color:var(--brass-bright);font-family:var(--serif);font-weight:600;
+    font-size:16px;display:flex;align-items:center;justify-content:center;}
+  .step b{display:block;margin:4px 0 5px;font-size:15.5px;font-weight:700;color:var(--text);}
+  .step p{color:var(--muted);font-size:14px;} .step p b{color:var(--text);font-weight:700;}
+
+  /* commission highlight */
+  .highlight{position:relative;overflow:hidden;background:
+      radial-gradient(120% 140% at 50% 0%,rgba(200,168,106,.12),rgba(200,168,106,0) 60%),
+      linear-gradient(180deg,var(--panel-2),var(--panel));
+    border:1px solid var(--brass-dim);border-radius:20px;padding:34px 26px;text-align:center;}
+  .highlight .big{font-family:var(--serif);font-weight:600;font-size:clamp(44px,12vw,64px);line-height:1;
+    color:var(--brass-bright);letter-spacing:-1px;margin-bottom:8px;}
+  .highlight .per{font-size:18px;color:var(--text);font-weight:700;margin-bottom:16px;}
+  .highlight .per b{color:var(--brass-bright);}
+  .highlight .fine{color:var(--muted);font-size:14.5px;line-height:1.6;max-width:52ch;margin:0 auto;}
+  .highlight .plus{display:inline-block;margin-top:16px;padding:9px 16px;border-radius:999px;
+    background:var(--raised);border:1px solid var(--line);color:var(--brass-bright);font-size:13.5px;font-weight:600;}
+
+  /* faq */
+  .faq details{border-bottom:1px solid var(--line-soft);}
+  .faq summary{list-style:none;cursor:pointer;padding:17px 34px 17px 0;font-weight:600;
+    font-size:15.5px;color:var(--text);position:relative;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{content:"+";position:absolute;right:4px;top:15px;color:var(--brass);
+    font-size:20px;font-weight:400;transition:transform .2s ease;}
+  .faq details[open] summary::after{transform:rotate(45deg);}
+  .faq .a{color:var(--muted);font-size:14.5px;padding:0 0 18px;max-width:64ch;}
+
+  .closing{text-align:center;}
+  footer{text-align:center;padding:30px 0 0;margin-top:26px;border-top:1px solid var(--line-soft);font-size:11.5px;}
+  footer a{color:var(--muted-2);text-decoration:none;margin:0 9px;} footer a:hover{color:var(--brass);}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
 </style>
 </head>
 <body>
+<div class="glow"></div>
 <div class="bar"></div>
 <div class="wrap">
 
-  <section class="hero">
-    <div class="eyebrow">Shift My Horizon · Partner-Programm</div>
+  <div class="topbar">
+    <div class="brandmark">Shift My <span>Horizon</span></div>
+    <div class="tag">Partner-Programm</div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero" style="border-top:none;">
+    <div class="eyebrow">Für Creator, die Männer erreichen</div>
     <h1>Hilf Männern weiter — und verdiene an jeder Empfehlung mit.</h1>
-    <p class="sub">Du erreichst Männer, die an sich arbeiten wollen? Empfiehl ihnen ein Produkt, das wirklich liefert — und bekomm für jeden Verkauf eine Provision. Kein Aufwand, keine eigene Produktentwicklung, sauber über Digistore24 abgerechnet.</p>
+    <p class="lead">Du erreichst Männer, die an sich arbeiten wollen? Empfiehl ihnen ein Produkt, das wirklich liefert — und bekomm für jeden Verkauf <b>50 % Provision</b>. Keine eigene Produktentwicklung, kein Support, sauber automatisch über Digistore24 abgerechnet.</p>
     <div class="ctarow">
       <a class="cta" href="mailto:hello@shiftmyhorizon.com?subject=Partner%20werden%20%E2%80%93%20Shift%20My%20Horizon&body=Hi%20Janosch%2C%0A%0Aich%20habe%20Interesse%20am%20Partner-Programm.%0A%0AMeine%20Plattform%2FReichweite%3A%20%0AMein%20Thema%3A%20%0A%0AViele%20Gr%C3%BC%C3%9Fe">Partner werden</a>
       <a class="cta2" href="integrated-man.html?p=gettinggirls" target="_blank" rel="noopener">Flow selbst testen →</a>
     </div>
   </section>
 
+  <!-- Founder -->
   <section>
     <h2>Wer dahintersteht</h2>
     <div class="founder">
-      <div class="avatar">JB</div>
-      <p>Ich bin Janosch, Gründer von Shift My Horizon. Ich kenne den Fluchtreflex, der Männer im entscheidenden Moment ausbremst — und ich baue kein weiteres 08/15-Coaching, sondern einen konkreten, täglichen Weg, der Männer wirklich weiterbringt. Genau das gebe ich mit dir an deine Community weiter.</p>
+      <div class="av">JB</div>
+      <p>Ich bin <b>Janosch</b>, Gründer von Shift My Horizon. Ich kenne den Fluchtreflex, der Männer im entscheidenden Moment ausbremst — und ich baue kein weiteres 08/15-Coaching, sondern einen konkreten, täglichen Weg, der Männer wirklich weiterbringt. Genau das gibst du mit an deine Community weiter.</p>
     </div>
   </section>
 
+  <!-- 20 seconds -->
   <section>
     <h2>Worum es geht — in 20 Sekunden</h2>
-    <p class="sub" style="margin-bottom:18px;">Shift My Horizon ist ein <b style="color:#fff;">90-Tage-Mentoring per Messenger</b>. Der Mann macht einen kurzen Check, wählt sein Thema — und bekommt ab dem nächsten Morgen jeden Tag einen konkreten Impuls mit einer kleinen Aufgabe. Direkt in WhatsApp oder Telegram, in unter 5 Minuten am Tag.</p>
+    <p class="lead">Shift My Horizon ist ein <b>90-Tage-Mentoring per Messenger</b>. Der Mann macht einen kurzen Check, wählt sein Thema — und bekommt ab dem nächsten Morgen jeden Tag einen konkreten Impuls mit einer kleinen Aufgabe. Direkt in WhatsApp oder Telegram, in unter 5 Minuten am Tag.</p>
     <div class="cards">
       <div class="card"><b>Themen für Männer</b><p>Frauen ansprechen · raus aus dem Drang (Dopamin-Reset) · Beziehung führen.</p></div>
       <div class="card"><b>Täglich statt Regal</b><p>Kein Kurs, den man wegklickt — echte Umsetzung, jeden Tag ein Schritt.</p></div>
       <div class="card"><b>Niedrige Hürde</b><p>Läuft im Messenger, den deine Leute eh nutzen. Keine App, kein Login.</p></div>
-      <div class="card"><b>Direktkauf</b><p>Einmalig 49 €, 60 Tage Geld-zurück-Garantie. Kein Abo.</p></div>
+      <div class="card"><b>Direktkauf</b><p>Einmalig 49 €, 14 Tage Geld-zurück-Garantie. Kein Abo.</p></div>
     </div>
   </section>
 
+  <!-- What the flow is made of -->
   <section>
+    <div class="eyebrow">Fundiert, nicht zusammengegoogelt</div>
     <h2>Woraus der Flow besteht</h2>
-    <p class="sub" style="margin-bottom:16px;">Damit du genau weißt, was du empfiehlst: Der Inhalt ist nicht zusammengegoogelt. Jeder Tag basiert auf den Erkenntnissen aus <b style="color:#fff;">über 10 Fachbüchern</b> zu Psychologie, Verhalten, Nervensystem und Beziehungen — heruntergebrochen in <b style="color:#fff;">tägliche Mini-Aufgaben</b>, die der Kunde wirklich umsetzt.</p>
+    <p class="lead">Damit du genau weißt, was du empfiehlst: Jeder Tag basiert auf den Erkenntnissen aus <b>über 10 Fachbüchern</b> zu Psychologie, Verhalten, Nervensystem und Beziehungen — heruntergebrochen in <b>tägliche Mini-Aufgaben</b>, die der Kunde wirklich umsetzt.</p>
     <ul class="clean">
       <li>Fundiertes Wissen statt Motivations-Sprüche</li>
       <li>Kein 300-Seiten-Wälzer — das Wesentliche in 5 Minuten pro Tag</li>
@@ -90,50 +177,55 @@
     </ul>
   </section>
 
+  <!-- How it works -->
   <section>
     <h2>So läuft die Zusammenarbeit</h2>
     <div class="steps">
-      <div class="step"><div class="n">1</div><div><b>Du bekommst deine eigene Seite</b><p>Eine fertige Verkaufsseite mit <b>deinem Video</b> und deinem Namen („Empfohlen von dir"). Du schickst mir dein Video, ich baue es ein.</p></div></div>
+      <div class="step"><div class="n">1</div><div><b>Du bekommst deine eigene Seite</b><p>Eine fertige Verkaufsseite mit <b>deinem Video oder deinem Zitat</b> und deinem Namen („Empfohlen von dir"). Du schickst mir dein Material, ich baue es ein.</p></div></div>
       <div class="step"><div class="n">2</div><div><b>Du teilst deinen Partner-Link</b><p>In Story, Video, Bio oder Newsletter. Deine Leute landen auf deiner Seite und verstehen sofort, worum es geht.</p></div></div>
       <div class="step"><div class="n">3</div><div><b>Deine Leute kaufen direkt</b><p>Ohne Umweg über einen Gratis-Flow — direkt zum Produkt, damit das Momentum hält.</p></div></div>
-      <div class="step"><div class="n">4</div><div><b>Du bekommst deine Provision</b><p>Jeder Verkauf über deinen Link wird automatisch über Digistore24 getrackt und an dich ausgezahlt. Du musst nichts abrechnen.</p></div></div>
+      <div class="step"><div class="n">4</div><div><b>Du bekommst deine Provision</b><p>Jeder Verkauf über deinen Link wird automatisch über Digistore24 getrackt und ausgezahlt. Du musst nichts abrechnen.</p></div></div>
     </div>
   </section>
 
+  <!-- Commission -->
   <section>
     <div class="highlight">
-      <div class="big">50 % Provision</div>
-      <p style="color:#e9cf82;margin-bottom:14px;font-size:17px;">= <b>24,50 € pro Verkauf</b> (vor Steuern) · Produktpreis 49 €</p>
-      <p style="color:#b7b7b7;font-size:14.5px;">Automatisch getrackt & ausgezahlt über Digistore24. Transparente Abrechnung, keine Handarbeit. Ein Post an eine engagierte Nische bringt schnell zweistellige Verkaufszahlen.</p>
-      <p style="color:#e9cf82;font-size:13.5px;margin-top:10px;">Plus: Du verdienst auch an <b>Zusatzangeboten (Upsells)</b> mit, die der Kunde nach dem Kauf dazunimmt.</p>
+      <div class="big">50 %</div>
+      <div class="per">= <b>24,50 € pro Verkauf</b> (vor Steuern) · Produktpreis 49 €</div>
+      <p class="fine">Automatisch getrackt &amp; ausgezahlt über Digistore24. Transparente Abrechnung, keine Handarbeit. Ein Post an eine engagierte Nische bringt schnell zweistellige Verkaufszahlen.</p>
+      <div class="plus">Plus: Du verdienst auch an Upsells mit, die der Kunde nach dem Kauf dazunimmt.</div>
     </div>
   </section>
 
+  <!-- Try it -->
   <section>
     <h2>Probier's selbst aus</h2>
-    <p class="sub">Am besten verstehst du es, wenn du es selbst erlebst. Starte den kostenlosen 4-Tage-Flow und schau, was deine Leute bekommen:</p>
+    <p class="lead">Am besten verstehst du es, wenn du es selbst erlebst. Starte den kostenlosen 4-Tage-Flow und schau, was deine Leute bekommen:</p>
     <ul class="clean">
       <li>Kostenlos, ohne Zahlungsdaten</li>
       <li>Läuft direkt in deinem Messenger</li>
       <li>Zeigt dir genau das Erlebnis, das du empfiehlst</li>
     </ul>
-    <div style="margin-top:18px;"><a class="cta2" href="integrated-man.html?p=gettinggirls" target="_blank" rel="noopener" style="margin-left:0;">Gratis-Flow starten →</a></div>
+    <div style="margin-top:20px;"><a class="cta2" href="integrated-man.html?p=gettinggirls" target="_blank" rel="noopener">Gratis-Flow starten →</a></div>
   </section>
 
+  <!-- FAQ -->
   <section>
     <h2>Häufige Fragen</h2>
     <div class="faq">
-      <div><div class="q">Muss ich selbst etwas verkaufen oder abrechnen?</div><div class="a">Nein. Du teilst nur deinen Link. Verkauf, Zahlung und deine Provision laufen automatisch über Digistore24.</div></div>
-      <div><div class="q">Was muss ich liefern?</div><div class="a">Ein kurzes, ehrliches Video (Handy reicht), warum du das empfiehlst. Den Rest der Seite baue ich für dich.</div></div>
-      <div><div class="q">Wie werde ich bezahlt?</div><div class="a">Über dein Digistore24-Konto — Auszahlung nach deren Standard-Rhythmus. Das Konto ist in wenigen Minuten eingerichtet.</div></div>
-      <div><div class="q">Kann ich mehrere Themen bewerben?</div><div class="a">Ja. Für jedes Männer-Thema (Frauen ansprechen, Reset, Beziehung) gibt es eine eigene Variante deiner Seite.</div></div>
-      <div><div class="q">Passt das zu meiner Community?</div><div class="a">Wenn du Männer erreichst, die an sich arbeiten wollen — ja. Test es einfach selbst über den Gratis-Flow.</div></div>
+      <details><summary>Muss ich selbst etwas verkaufen oder abrechnen?</summary><div class="a">Nein. Du teilst nur deinen Link. Verkauf, Zahlung und deine Provision laufen automatisch über Digistore24.</div></details>
+      <details><summary>Was muss ich liefern?</summary><div class="a">Ein kurzes, ehrliches Video (Handy reicht) oder ein Zitat, warum du das empfiehlst. Den Rest der Seite baue ich für dich.</div></details>
+      <details><summary>Wie werde ich bezahlt?</summary><div class="a">Über dein Digistore24-Konto — Auszahlung nach deren Standard-Rhythmus. Das Konto ist in wenigen Minuten eingerichtet.</div></details>
+      <details><summary>Kann ich mehrere Themen bewerben?</summary><div class="a">Ja. Für jedes Männer-Thema (Frauen ansprechen, Reset, Beziehung) gibt es eine eigene Variante deiner Seite.</div></details>
+      <details><summary>Passt das zu meiner Community?</summary><div class="a">Wenn du Männer erreichst, die an sich arbeiten wollen — ja. Test es einfach selbst über den Gratis-Flow.</div></details>
     </div>
   </section>
 
-  <section style="text-align:center;">
+  <!-- Closing -->
+  <section class="closing">
     <h2 style="margin-bottom:10px;">Klingt gut?</h2>
-    <p class="sub">Schreib mir kurz, ich richte dir deine Partner-Seite ein.</p>
+    <p class="lead" style="margin:0 auto 22px;">Schreib mir kurz, ich richte dir deine Partner-Seite ein.</p>
     <a class="cta" href="mailto:hello@shiftmyhorizon.com?subject=Partner%20werden%20%E2%80%93%20Shift%20My%20Horizon&body=Hi%20Janosch%2C%0A%0Aich%20habe%20Interesse%20am%20Partner-Programm.%0A%0AMeine%20Plattform%2FReichweite%3A%20%0AMein%20Thema%3A%20%0A%0AViele%20Gr%C3%BC%C3%9Fe">Jetzt Partner werden</a>
   </section>
 
