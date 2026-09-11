@@ -5,194 +5,290 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Shift My Horizon – Empfehlung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root {
-    --dark:#000; --gray:#111; --gray-active:#1f1a0f; --border:#333;
-    --gold:#d4af37; --gold-dim:#c6a233; --text:#fff; --muted:#9a9a9a;
-    --success:#4caf50; --wa:#e7ded1;
+  :root{
+    --ink:#0c0b0a; --panel:#16130f; --panel-2:#1c1811; --raised:#221d14;
+    --line:#2a251c; --line-soft:#201c15;
+    --brass:#c8a86a; --brass-bright:#e6cd94; --brass-dim:#8f7c53;
+    --text:#ece7df; --muted:#a79f90; --muted-2:#7c7568;
+    --success:#7cb87f; --success-bg:#11170f; --success-line:#2c3f25;
+    --paper:#e4ddcf;
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
+    --sans:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  html,body { background:var(--dark); color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased; line-height:1.55; }
-  img{max-width:100%;}
-  .bar{height:4px;background:var(--gold);width:100%;}
-  .wrap{max-width:660px;margin:0 auto;padding:0 20px 90px;}
-  .lang{display:flex;justify-content:flex-end;padding:14px 0 0;}
-  .lang select{background:var(--gray);color:var(--text);border:1px solid var(--border);
-    padding:7px 11px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;}
-  /* Partner-Bar */
-  .partner{display:flex;align-items:center;gap:12px;background:#101010;border:1px solid #242424;
-    border-radius:12px;padding:12px 16px;margin:16px 0 0;}
-  .partner .pa{flex:0 0 44px;width:44px;height:44px;border-radius:50%;object-fit:cover;
-    background:linear-gradient(135deg,#2a2a2a,#141414);border:2px solid var(--gold);
-    display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:800;}
-  .partner .pt{font-size:13.5px;color:#cfcfcf;} .partner .pt b{color:#fff;}
-  .partner .pt span{color:var(--gold);font-weight:700;}
-  section{padding:38px 0;border-top:1px solid #1b1b1b;}
-  .hero{border-top:none;padding-top:26px;}
-  .eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:1.6px;
-    text-transform:uppercase;margin-bottom:14px;}
-  h1{font-size:31px;line-height:1.15;font-weight:800;margin-bottom:16px;}
-  h2{font-size:22px;font-weight:800;margin-bottom:18px;}
-  .sub{color:#b7b7b7;font-size:16.5px;margin-bottom:24px;}
-  .cta{display:block;width:100%;background:var(--gold);color:#000;border:none;border-radius:12px;
-    padding:18px 22px;font-size:17px;font-weight:800;letter-spacing:.3px;cursor:pointer;
-    text-align:center;text-decoration:none;transition:background .15s ease,transform .1s ease;}
-  .cta:hover{background:var(--gold-dim);transform:translateY(-1px);}
-  .cta .small{display:block;font-size:12.5px;font-weight:600;opacity:.75;margin-top:3px;}
-  .microtrust{color:#8f8f8f;font-size:12.5px;margin-top:12px;text-align:center;}
-  .price{display:inline-flex;align-items:baseline;gap:8px;margin-bottom:18px;}
-  .price .amt{font-size:34px;font-weight:900;color:#fff;} .price .cur{font-size:20px;font-weight:800;color:#fff;}
-  .price .once{color:var(--muted);font-size:14px;}
-  .rating{display:inline-flex;align-items:center;gap:9px;margin-top:16px;padding:8px 13px;
-    background:#121212;border:1px solid #2a2a2a;border-radius:999px;}
-  .rating .st{color:var(--gold);font-size:15px;letter-spacing:1.5px;} .rating .st .off{color:#3a3a3a;}
-  .rating .nm{font-weight:800;font-size:13.5px;}
-  /* Video */
-  .video{position:relative;border-radius:14px;overflow:hidden;border:1px solid #2a2a2a;
-    background:linear-gradient(135deg,#161616,#0c0c0c);aspect-ratio:16/9;display:flex;
-    align-items:center;justify-content:center;}
-  .video iframe{width:100%;height:100%;border:0;}
-  .play{width:66px;height:66px;border-radius:50%;background:var(--gold);display:flex;
-    align-items:center;justify-content:center;}
-  .play::after{content:'';border-style:solid;border-width:12px 0 12px 20px;
-    border-color:transparent transparent transparent #000;margin-left:4px;}
-  .vnote{color:#7c7c7c;font-size:12px;text-align:center;margin-top:10px;}
-  /* Benefits */
-  .benes{display:grid;gap:12px;grid-template-columns:1fr;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    background:var(--ink);color:var(--text);font-family:var(--sans);
+    line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--brass);color:#0c0b0a;}
+
+  /* atmospheric top glow */
+  .glow{position:absolute;top:0;left:0;right:0;height:520px;pointer-events:none;z-index:0;
+    background:radial-gradient(120% 100% at 50% -10%,rgba(200,168,106,.16),rgba(200,168,106,0) 60%);}
+  .bar{position:relative;z-index:2;height:3px;
+    background:linear-gradient(90deg,var(--brass-dim),var(--brass),var(--brass-bright),var(--brass));}
+  .wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 22px 96px;}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 0 0;}
+  .brandmark{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.3px;color:var(--text);}
+  .brandmark span{color:var(--brass);}
+  .lang select{background:var(--panel);color:var(--text);border:1px solid var(--line);
+    padding:7px 11px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:var(--sans);}
+
+  .preview-note{background:#1c1608;border:1px solid var(--brass-dim);color:var(--brass-bright);
+    font-size:12.5px;border-radius:10px;padding:10px 14px;margin-top:14px;text-align:center;}
+
+  /* section rhythm */
+  section{position:relative;padding:40px 0;}
+  section+section{border-top:1px solid var(--line-soft);}
+  .eyebrow{display:inline-block;color:var(--brass);font-size:11.5px;font-weight:700;
+    letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,7.4vw,44px);line-height:1.08;
+    letter-spacing:-.5px;text-wrap:balance;margin-bottom:18px;}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(22px,5vw,27px);line-height:1.15;
+    letter-spacing:-.3px;text-wrap:balance;margin-bottom:8px;}
+  .lead{color:var(--muted);font-size:17px;line-height:1.62;margin-bottom:26px;max-width:60ch;}
+
+  /* partner strip */
+  .partner{display:flex;align-items:center;gap:13px;background:linear-gradient(180deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);border-radius:14px;padding:13px 16px;margin-top:22px;}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;object-fit:cover;
+    background:radial-gradient(circle at 30% 25%,#2c2519,#141009);border:1.5px solid var(--brass);
+    display:flex;align-items:center;justify-content:center;color:var(--brass-bright);
+    font-family:var(--serif);font-weight:600;font-size:19px;}
+  .partner .pt{font-size:14px;color:var(--muted);line-height:1.4;}
+  .partner .pt .r{display:block;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--brass);font-weight:700;margin-bottom:2px;}
+  .partner .pt b{color:var(--text);font-weight:700;font-size:15px;}
+  .partner .pt em{font-style:normal;color:var(--muted-2);}
+
+  /* price + cta */
+  .price{display:flex;align-items:baseline;gap:9px;margin:26px 0 20px;font-variant-numeric:tabular-nums;}
+  .price .amt{font-family:var(--serif);font-weight:600;font-size:46px;line-height:1;color:var(--text);}
+  .price .cur{font-family:var(--serif);font-size:24px;font-weight:500;color:var(--text);}
+  .price .once{color:var(--muted-2);font-size:14px;align-self:center;}
+  .cta{display:block;width:100%;background:linear-gradient(180deg,var(--brass-bright),var(--brass));
+    color:#160f02;border:none;border-radius:13px;padding:17px 22px;font-family:var(--sans);
+    font-size:16.5px;font-weight:800;letter-spacing:.2px;cursor:pointer;text-align:center;
+    text-decoration:none;box-shadow:0 10px 30px -12px rgba(200,168,106,.55);
+    transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;}
+  .cta:hover{transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 16px 38px -12px rgba(200,168,106,.6);}
+  .cta:focus-visible{outline:2px solid var(--brass-bright);outline-offset:3px;}
+  .cta .small{display:block;font-size:12px;font-weight:600;opacity:.72;margin-top:4px;letter-spacing:.2px;}
+  .microtrust{color:var(--muted-2);font-size:12.5px;margin-top:13px;text-align:center;}
+  .rating{display:inline-flex;align-items:center;gap:9px;margin-top:18px;padding:8px 14px;
+    background:var(--panel);border:1px solid var(--line);border-radius:999px;cursor:pointer;}
+  .stars{color:var(--brass);font-size:14px;letter-spacing:2px;} .stars .off{color:#3a342a;}
+  .rating .nm{font-weight:700;font-size:13px;color:var(--text);}
+
+  /* recommendation block (video OR quote) */
+  .videoframe{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);
+    background:#000;aspect-ratio:16/9;}
+  .videoframe iframe{width:100%;height:100%;border:0;display:block;}
+  .quotecard{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);
+    border-radius:16px;padding:26px 26px 22px;position:relative;overflow:hidden;}
+  .quotecard::before{content:"\201C";position:absolute;top:-18px;left:16px;font-family:var(--serif);
+    font-size:120px;line-height:1;color:rgba(200,168,106,.14);}
+  .quotecard .qt{font-family:var(--serif);font-weight:500;font-size:20px;line-height:1.45;
+    color:var(--text);position:relative;letter-spacing:-.2px;}
+  .quotecard .who{display:flex;align-items:center;gap:12px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);}
+  .quotecard .who b{color:var(--text);font-weight:700;font-size:14.5px;}
+  .quotecard .who em{font-style:normal;color:var(--muted-2);font-size:13px;display:block;}
+
+  /* benefits */
+  .benes{display:grid;gap:13px;grid-template-columns:1fr;}
   @media(min-width:560px){.benes{grid-template-columns:1fr 1fr;}}
-  .bene{background:#111;border:1px solid #262626;border-radius:12px;padding:16px 18px;}
-  .bene .ic{color:var(--gold);font-weight:900;font-size:18px;margin-bottom:8px;}
-  .bene b{display:block;margin-bottom:4px;font-size:15px;} .bene p{color:#a5a5a5;font-size:14px;}
-  /* Steps */
-  .steps{display:grid;gap:14px;}
-  .step{display:flex;gap:14px;align-items:flex-start;background:#111;border:1px solid #262626;
-    border-radius:12px;padding:16px 18px;}
-  .step .n{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:var(--gray-active);
-    border:1px solid var(--gold);color:var(--gold);font-weight:800;display:flex;
-    align-items:center;justify-content:center;}
-  .step b{display:block;margin:2px 0 4px;font-size:15px;} .step p{color:#a5a5a5;font-size:14px;}
-  /* Sample WhatsApp message */
-  .demo-label{color:var(--muted);font-size:13px;text-align:center;margin-bottom:14px;}
-  .msg{background:var(--wa);color:#111;border-radius:14px;border-top-left-radius:4px;
-    padding:16px 18px;max-width:460px;box-shadow:0 2px 10px rgba(0,0,0,.4);}
-  .msg .pin{font-weight:800;margin-bottom:10px;} .msg p{font-size:14.5px;margin-bottom:10px;color:#1c1c1c;}
-  .msg .h{font-weight:800;color:#111;} .msg .time{color:#5a5a5a;font-size:11px;text-align:right;}
-  /* Reviews */
-  .reviews{display:grid;gap:14px;}
-  .rev{background:#111;border:1px solid #262626;border-radius:12px;padding:18px;}
-  .rev .st{color:var(--gold);font-size:17px;letter-spacing:2px;margin-bottom:8px;} .rev .st .off{color:#3a3a3a;}
-  .rev .tx{color:#dcdcdc;font-size:14.5px;margin-bottom:10px;} .rev .nm{color:#9c9c9c;font-size:13px;font-weight:600;}
+  .bene{background:var(--panel);border:1px solid var(--line-soft);border-radius:14px;padding:20px;}
+  .bene .ic{width:26px;height:26px;color:var(--brass);margin-bottom:12px;}
+  .bene .ic svg{width:26px;height:26px;display:block;}
+  .bene b{display:block;margin-bottom:5px;font-size:15.5px;font-weight:700;color:var(--text);}
+  .bene p{color:var(--muted);font-size:14px;}
+
+  /* origin */
+  .clean{list-style:none;display:grid;gap:11px;margin-top:18px;}
+  .clean li{position:relative;padding-left:30px;color:var(--text);font-size:15px;}
+  .clean li::before{content:"";position:absolute;left:0;top:7px;width:17px;height:11px;
+    border-left:2px solid var(--brass);border-bottom:2px solid var(--brass);transform:rotate(-45deg);border-radius:1px;}
+
+  /* whatsapp phone mockup */
+  .phone{max-width:340px;margin:0 auto;background:#0f0d0a;border:1px solid var(--line);
+    border-radius:30px;padding:12px 12px 18px;box-shadow:0 30px 60px -30px rgba(0,0,0,.9);}
+  .phone .notch{width:110px;height:5px;border-radius:99px;background:#2a251c;margin:2px auto 12px;}
+  .chatwin{background:
+    linear-gradient(rgba(10,8,6,.86),rgba(10,8,6,.86));
+    background-color:#0b0906;border-radius:20px;padding:16px 12px;}
+  .chathdr{display:flex;align-items:center;gap:10px;padding:0 4px 14px;border-bottom:1px solid #17130d;margin-bottom:14px;}
+  .chathdr .a{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#2c2519,#141009);
+    border:1px solid var(--brass-dim);display:flex;align-items:center;justify-content:center;color:var(--brass);font-family:var(--serif);font-size:15px;font-weight:600;}
+  .chathdr .nm{font-size:13.5px;font-weight:700;color:var(--text);} .chathdr .st{font-size:11px;color:var(--success);}
+  .bubble{background:var(--paper);color:#181510;border-radius:14px;border-top-left-radius:5px;
+    padding:14px 15px;box-shadow:0 2px 8px rgba(0,0,0,.35);}
+  .bubble .pin{font-weight:800;margin-bottom:10px;font-size:14.5px;color:#181510;}
+  .bubble p{font-size:14px;margin-bottom:11px;color:#2a251d;line-height:1.5;}
+  .bubble p:last-of-type{margin-bottom:6px;}
+  .bubble .h{font-weight:800;color:#181510;}
+  .bubble .time{color:#8a8071;font-size:10.5px;text-align:right;}
+  .demo-cap{color:var(--muted-2);font-size:12.5px;text-align:center;margin-top:14px;}
+
+  /* steps */
+  .steps{display:grid;gap:13px;margin-top:6px;}
+  .step{display:flex;gap:15px;align-items:flex-start;background:var(--panel);border:1px solid var(--line-soft);
+    border-radius:14px;padding:18px 20px;}
+  .step .n{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:var(--raised);
+    border:1px solid var(--brass-dim);color:var(--brass-bright);font-family:var(--serif);font-weight:600;
+    font-size:16px;display:flex;align-items:center;justify-content:center;}
+  .step b{display:block;margin:3px 0 4px;font-size:15.5px;font-weight:700;color:var(--text);}
+  .step p{color:var(--muted);font-size:14px;}
+
+  /* reviews */
+  .reviews{display:grid;gap:14px;margin-top:6px;}
+  .rev{background:var(--panel);border:1px solid var(--line-soft);border-radius:14px;padding:20px;}
+  .rev .stars{font-size:15px;margin-bottom:10px;display:block;}
+  .rev .tx{color:var(--text);font-size:15px;line-height:1.55;margin-bottom:12px;}
+  .rev .nm{color:var(--muted-2);font-size:13px;font-weight:600;}
   .rev .vb{color:var(--success);font-size:11px;font-weight:700;margin-left:8px;}
-  /* Guarantee */
-  .guar{background:#101510;border:1px solid #24401f;border-left:4px solid var(--success);
-    border-radius:12px;padding:20px;color:#cfe6cf;font-size:15px;}
-  .guar b{color:#fff;}
-  /* FAQ */
-  .faq div{border-bottom:1px solid #222;padding:16px 0;}
-  .faq .q{font-weight:700;font-size:15.5px;margin-bottom:8px;} .faq .a{color:#a8a8a8;font-size:14px;}
-  /* price box */
-  .pricebox{background:#0f0f0f;border:1px solid #2a2a2a;border-radius:16px;padding:26px 22px;text-align:center;}
-  footer{text-align:center;padding:26px 0 0;border-top:1px solid var(--border);margin-top:30px;font-size:11px;}
-  footer a{color:#888;text-decoration:none;margin:0 8px;} footer a:hover{color:var(--gold);}
-  .demo-banner{background:#2a1f0a;border:1px solid var(--gold);color:#f0d488;font-size:12.5px;
-    border-radius:10px;padding:10px 14px;margin-top:14px;text-align:center;}
-  ul.clean{list-style:none;padding:0;margin:0;} ul.clean li{position:relative;padding:8px 0 8px 26px;color:#cfcfcf;font-size:15px;}
-  ul.clean li::before{content:'✓';position:absolute;left:0;top:8px;color:var(--gold);font-weight:800;}
+
+  /* guarantee */
+  .guar{display:flex;gap:16px;align-items:flex-start;background:var(--success-bg);
+    border:1px solid var(--success-line);border-radius:14px;padding:22px;}
+  .guar .shield{flex:0 0 34px;width:34px;height:34px;color:var(--success);}
+  .guar .gt{color:#cfe6cf;font-size:15px;line-height:1.55;} .guar .gt b{color:#fff;}
+
+  /* final price box */
+  .pricebox{background:linear-gradient(180deg,var(--panel-2),var(--ink));border:1px solid var(--line);
+    border-radius:20px;padding:32px 24px;text-align:center;}
+  .pricebox .price{justify-content:center;margin:6px 0 18px;}
+  .pricebox .cta{max-width:430px;margin:0 auto;}
+
+  /* faq */
+  .faq details{border-bottom:1px solid var(--line-soft);}
+  .faq summary{list-style:none;cursor:pointer;padding:17px 34px 17px 0;font-weight:600;
+    font-size:15.5px;color:var(--text);position:relative;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{content:"+";position:absolute;right:4px;top:15px;color:var(--brass);
+    font-size:20px;font-weight:400;transition:transform .2s ease;}
+  .faq details[open] summary::after{transform:rotate(45deg);}
+  .faq .a{color:var(--muted);font-size:14.5px;padding:0 0 18px;max-width:62ch;}
+
+  footer{text-align:center;padding:30px 0 0;margin-top:26px;border-top:1px solid var(--line-soft);font-size:11.5px;}
+  footer a{color:var(--muted-2);text-decoration:none;margin:0 9px;} footer a:hover{color:var(--brass);}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
 </style>
 </head>
 <body>
+<div class="glow"></div>
 <div class="bar"></div>
 <div class="wrap">
-  <div class="lang"><select id="lang" onchange="setLang(this.value)"><option value="de">🇩🇪 DE</option><option value="en">🇺🇸 EN</option></select></div>
 
-  <div class="demo-banner" id="demoBanner" hidden></div>
+  <div class="topbar">
+    <div class="brandmark">Shift My <span>Horizon</span></div>
+    <div class="lang"><select id="lang" onchange="setLang(this.value)"><option value="de">DE</option><option value="en">EN</option></select></div>
+  </div>
 
-  <!-- Partner bar -->
+  <div class="preview-note" id="previewNote" hidden></div>
+
+  <!-- Partner strip -->
   <div class="partner">
-    <div class="pa" id="pAvatar">★</div>
+    <div class="avatar" id="pAvatar">★</div>
     <div class="pt" id="pText"></div>
   </div>
 
   <!-- Hero -->
-  <section class="hero">
+  <section class="hero" style="border-top:none;">
     <div class="eyebrow" id="eyebrow"></div>
     <h1 id="headline"></h1>
-    <p class="sub" id="sub"></p>
-    <div class="price"><span class="amt" id="priceAmt">49</span><span class="cur">€</span><span class="once" id="priceOnce"></span></div>
+    <p class="lead" id="sub"></p>
+    <div class="price"><span class="amt">49</span><span class="cur">€</span><span class="once" id="priceOnce"></span></div>
     <a class="cta" id="ctaTop" href="#" target="_blank" rel="noopener"></a>
     <div class="microtrust" id="microtrust"></div>
-    <div class="rating" id="rating" hidden onclick="document.getElementById('reviewsTitle').scrollIntoView({behavior:'smooth'})"></div>
+    <div style="text-align:center;"><span class="rating" id="rating" hidden></span></div>
   </section>
 
-  <!-- Influencer video -->
+  <!-- Why the partner recommends it (video OR quote) -->
   <section>
-    <h2 id="videoTitle"></h2>
-    <div class="video" id="videoBox"><div class="play"></div></div>
-    <div class="vnote" id="videoNote"></div>
+    <div class="eyebrow" id="recEyebrow"></div>
+    <h2 id="recTitle" style="margin-bottom:20px;"></h2>
+    <div id="recBody"></div>
   </section>
 
   <!-- What you get -->
   <section>
-    <h2 id="whatTitle"></h2>
+    <h2 id="whatTitle" style="margin-bottom:20px;"></h2>
     <div class="benes" id="benes"></div>
   </section>
 
   <!-- Content origin -->
   <section>
+    <div class="eyebrow" id="originEyebrow"></div>
     <h2 id="originTitle"></h2>
-    <p class="sub" id="originText" style="margin-bottom:14px;"></p>
+    <p class="lead" id="originText" style="margin:10px 0 0;"></p>
     <ul class="clean" id="originBullets"></ul>
   </section>
 
   <!-- Sample message -->
   <section>
-    <h2 id="demoTitle"></h2>
-    <div class="demo-label" id="demoLabel"></div>
-    <div style="display:flex;justify-content:center;">
-      <div class="msg">
-        <div class="pin">📌 <span id="demoHead"></span></div>
-        <p id="demoIntro"></p>
-        <p><span class="h">🎯 <span id="demoTaskLbl"></span></span><br><span id="demoTask"></span></p>
-        <p><span class="h">💡 <span id="demoWhyLbl"></span></span><br><span id="demoWhy"></span></p>
-        <div class="time">06:02 ✓✓</div>
+    <h2 id="demoTitle" style="text-align:center;margin-bottom:22px;"></h2>
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="chatwin">
+        <div class="chathdr">
+          <div class="a">S</div>
+          <div><div class="nm">Shift My Horizon</div><div class="st" id="chatStatus"></div></div>
+        </div>
+        <div class="bubble">
+          <div class="pin">📌 <span id="demoHead"></span></div>
+          <p id="demoIntro"></p>
+          <p><span class="h">🎯 <span id="demoTaskLbl"></span></span><br><span id="demoTask"></span></p>
+          <p><span class="h">💡 <span id="demoWhyLbl"></span></span><br><span id="demoWhy"></span></p>
+          <div class="time">06:02 ✓✓</div>
+        </div>
       </div>
     </div>
+    <div class="demo-cap" id="demoCap"></div>
   </section>
 
   <!-- How it works -->
   <section>
-    <h2 id="howTitle"></h2>
+    <h2 id="howTitle" style="margin-bottom:20px;"></h2>
     <div class="steps" id="steps"></div>
   </section>
 
   <!-- Reviews -->
   <section>
-    <h2 id="reviewsTitle"></h2>
+    <h2 id="reviewsTitle" style="margin-bottom:6px;"></h2>
     <div class="reviews" id="reviews"></div>
   </section>
 
   <!-- Guarantee -->
   <section>
-    <h2 id="guarTitle"></h2>
-    <div class="guar" id="guarText"></div>
+    <h2 id="guarTitle" style="margin-bottom:18px;"></h2>
+    <div class="guar">
+      <svg class="shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+      <div class="gt" id="guarText"></div>
+    </div>
   </section>
 
-  <!-- Price box + CTA -->
+  <!-- Final CTA -->
   <section>
     <div class="pricebox">
-      <div class="eyebrow" style="margin-bottom:10px;" id="finalKicker"></div>
-      <div class="price" style="justify-content:center;"><span class="amt">49</span><span class="cur">€</span><span class="once" id="priceOnce2"></span></div>
-      <a class="cta" id="ctaBottom" href="#" target="_blank" rel="noopener" style="max-width:420px;margin:8px auto 0;"></a>
+      <div class="eyebrow" id="finalKicker" style="margin-bottom:6px;"></div>
+      <div class="price"><span class="amt">49</span><span class="cur">€</span><span class="once" id="priceOnce2"></span></div>
+      <a class="cta" id="ctaBottom" href="#" target="_blank" rel="noopener"></a>
       <div class="microtrust" id="microtrust2"></div>
     </div>
   </section>
 
   <!-- FAQ -->
   <section>
-    <h2 id="faqTitle"></h2>
+    <h2 id="faqTitle" style="margin-bottom:8px;"></h2>
     <div class="faq" id="faq"></div>
   </section>
 
@@ -208,14 +304,24 @@
 
   // ===== Influencer-Registry (spaeter Supabase-Tabelle 'influencers') =====
   // buyUrl = persoenlicher Digistore-Affiliate-Link des Influencers (Provision automatisch getrackt)
-  // video  = YouTube/Vimeo Embed-URL ODER null (dann Platzhalter)
+  // video  = YouTube/Vimeo Embed-URL ODER null   |  quote = persoenliche Empfehlung (Fallback wenn kein Video)
+  // avatar = Bild-URL ODER null (dann Monogramm)
   const INFLUENCERS = {
     demo: {
       name: "Max Beispiel",
       handle: "@max.beispiel",
+      avatar: null,
       video: null,
-      buyUrl: "https://www.digistore24.com/product/688460" // Platzhalter: Integrated Man DE
+      quote: "Ich hab die ersten zwei Wochen selbst mitgemacht, bevor ich es euch zeige. Es ist kein Motivations-Bla — es ist jeden Tag ein kleiner, konkreter Schritt, der wirklich was verändert. Genau das, was ich mir früher gewünscht hätte.",
+      buyUrl: "https://www.digistore24.com/product/732212" // Influencer-Produkt: Integrated Man (Influencer), thankyou -> kaufen-danke.html
     }
+  };
+
+  const ICONS = {
+    cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>',
+    clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>',
+    target:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+    chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3v3l4-3h9a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>'
   };
 
   const params = new URLSearchParams(location.search);
@@ -225,77 +331,92 @@
   let lang = (params.get('lang') || 'de').toLowerCase(); if(!['de','en'].includes(lang)) lang='de';
 
   const FLOWS = {
-    de: {
-      gettinggirls: { eyebrow:"FÜR MÄNNER, DIE NICHT MEHR ZÖGERN WOLLEN",
+    de:{
+      gettinggirls:{ eyebrow:"Für Männer, die nicht mehr zögern wollen",
         headline:"Sprich sie an — ohne dass dein Kopf blockiert.",
         sub:"Der 90-Tage-Weg, der deine Blockade Schritt für Schritt abbaut. Jeden Tag ein konkreter Impuls direkt in deinen Messenger — in unter 5 Minuten." },
-      porn: { eyebrow:"FÜR MÄNNER, DIE IHRE KONTROLLE ZURÜCKWOLLEN",
+      porn:{ eyebrow:"Für Männer, die ihre Kontrolle zurückwollen",
         headline:"Raus aus dem Drang — in 90 Tagen.",
         sub:"Ein trainierbarer Reset für dein Belohnungssystem. Jeden Tag ein machbarer Schritt direkt in deinen Messenger — in unter 5 Minuten." },
-      relationship: { eyebrow:"FÜR MÄNNER, DIE IHRE BEZIEHUNG RETTEN WOLLEN",
+      relationship:{ eyebrow:"Für Männer, die ihre Beziehung retten wollen",
         headline:"Führung & Nähe zurück — in 90 Tagen.",
         sub:"Der tägliche Weg, der Anziehung und Respekt neu aufbaut. Ein konkreter Schritt pro Tag direkt in deinen Messenger — in unter 5 Minuten." },
-      default: { eyebrow:"FÜR MÄNNER, DIE WIEDER FÜHREN WOLLEN",
+      default:{ eyebrow:"Für Männer, die wieder führen wollen",
         headline:"Werde der Mann, der du sein willst — in 90 Tagen.",
         sub:"Ein klarer, täglicher Weg direkt in deinen Messenger. Ein konkreter Schritt pro Tag, in unter 5 Minuten." }
     }
   };
   FLOWS.en = FLOWS.de; // EN-Fallback bis Uebersetzung
 
+  const GUARANTEE_DAYS = { de:14, en:60 }; // DE 14 Tage · EN/ES 60 Tage
+
   const T = {
-    de: {
-      recommendedBy: (n,h)=> `<b>Empfohlen von</b> <span>${n}</span>${h?` · ${h}`:''}`,
-      priceOnce:"einmalig · kein Abo", cta:"Jetzt starten", ctaSmall:"Sicherer Checkout über Digistore24",
-      microtrust:"Einmalig 49 € · 60 Tage Geld-zurück-Garantie · sofortiger Start",
-      videoTitle: (n)=> `Warum ${n} das empfiehlt`, videoNote:"Video wird in Kürze eingefügt.",
+    de:{
+      recommendedRow:"Empfohlen von",
+      priceOnce:"einmalig · kein Abo",
+      cta:"Jetzt starten – 49 €", ctaSmall:"Sicherer Checkout über Digistore24",
+      microtrust:(g)=>`Einmalig 49 € · ${g} Tage Geld-zurück-Garantie · sofortiger Start`,
+      recEyebrow:"Persönliche Empfehlung",
+      recTitleVideo:(n)=>`Warum ${n} das empfiehlt`,
+      recTitleQuote:(n)=>`Warum ${n} das empfiehlt`,
+      recDefaultQuote:"Ich empfehle das, weil es genau da ansetzt, wo die meisten scheitern: nicht beim Wissen, sondern beim täglichen Dranbleiben.",
       whatTitle:"Was du bekommst",
       benes:[
-        {i:"90",b:"90 Tage Begleitung",p:"Jeden Tag ein Impuls — kein Kurs zum Wegklicken, sondern echte Umsetzung."},
-        {i:"5",b:"Unter 5 Min pro Tag",p:"Kompakt und alltagstauglich. Kein Zeitfresser."},
-        {i:"✓",b:"Konkrete Aufgaben",p:"Kein Theorie-Bla — jeden Tag ein klarer nächster Schritt."},
-        {i:"↺",b:"Per WhatsApp oder Telegram",p:"Direkt dort, wo du eh bist. Keine App, kein Login."}
+        {ic:"cal",b:"90 Tage Begleitung",p:"Jeden Tag ein Impuls — kein Kurs zum Wegklicken, sondern echte Umsetzung."},
+        {ic:"clock",b:"Unter 5 Min pro Tag",p:"Kompakt und alltagstauglich. Kein Zeitfresser."},
+        {ic:"target",b:"Konkrete Aufgaben",p:"Kein Theorie-Bla — jeden Tag ein klarer nächster Schritt."},
+        {ic:"chat",b:"Per WhatsApp oder Telegram",p:"Direkt dort, wo du eh bist. Keine App, kein Login."}
       ],
+      originEyebrow:"Fundiert, nicht zusammengegoogelt",
       originTitle:"Woher der Inhalt kommt",
-      originText:"Nicht zusammengegoogelt: Jeder Tag basiert auf den Erkenntnissen aus über 10 Fachbüchern zu Psychologie, Verhalten und Beziehungen — heruntergebrochen in tägliche Mini-Aufgaben, die du wirklich umsetzt.",
+      originText:"Jeder Tag basiert auf den Erkenntnissen aus über 10 Fachbüchern zu Psychologie, Verhalten und Beziehungen — heruntergebrochen in tägliche Mini-Aufgaben, die du wirklich umsetzt.",
       originBullets:["Fundiertes Wissen statt Motivations-Sprüche","Kein 300-Seiten-Wälzer — das Wesentliche in 5 Min pro Tag","Umsetzung vor Theorie: jeden Tag ein konkreter Schritt","Über 90 Tage sinnvoll aufeinander aufgebaut"],
-      demoTitle:"So sieht dein Tag aus", demoLabel:"Beispiel-Nachricht aus dem Programm",
+      demoTitle:"So sieht dein Tag aus", chatStatus:"online",
       demoHead:"Verletzlichkeit als Stärke",
       demoIntro:"Wahre Stärke bedeutet, das Risiko einzugehen, abgelehnt zu werden.",
       demoTaskLbl:"Deine Aufgabe für heute:",
       demoTask:"Teile heute einem Freund oder Bekannten eine persönliche Unsicherheit mit, die du normalerweise versteckst.",
       demoWhyLbl:"Warum das wirkt:",
       demoWhy:"Ehrliche Verletzlichkeit schafft paradoxerweise Vertrauen und tiefe Anziehung.",
+      demoCap:"Eine echte Beispiel-Nachricht aus dem Programm.",
       howTitle:"So funktioniert's",
       steps:[
-        {b:"1. Kaufen",p:"Einmalig 49 € über den sicheren Digistore-Checkout."},
-        {b:"2. Messenger verbinden",p:"Du bekommst einen Zugangscode und startest ihn per WhatsApp oder Telegram."},
-        {b:"3. Täglich dein Schritt",p:"Ab morgen früh bekommst du 90 Tage lang jeden Tag deinen Impuls."}
+        {b:"Kaufen",p:"Einmalig 49 € über den sicheren Digistore-Checkout."},
+        {b:"Messenger verbinden",p:"Du bekommst einen Zugangscode und startest ihn per WhatsApp oder Telegram."},
+        {b:"Täglich dein Schritt",p:"Ab morgen früh bekommst du 90 Tage lang jeden Tag deinen Impuls."}
       ],
       reviewsTitle:"Das sagen andere", reviewsEmpty:"Bald findest du hier echte Stimmen von Teilnehmern.",
       guarTitle:"Dein Risiko: null",
-      guarText:"<b>60 Tage Geld-zurück-Garantie.</b> Wenn es dir in den ersten 60 Tagen nichts bringt, schreib uns eine Mail — du bekommst dein Geld zurück. Ohne Diskussion.",
+      guarText:(g)=>`<b>${g} Tage Geld-zurück-Garantie.</b> Wenn es dir in den ersten ${g} Tagen nichts bringt, schreib uns eine kurze Mail — du bekommst dein Geld zurück. Ohne Diskussion.`,
       finalKicker:"Bereit anzufangen?",
       faqTitle:"Häufige Fragen",
       faq:[
         {q:"Was genau bekomme ich?",a:"90 Tage lang jeden Tag einen konkreten Impuls mit einer kleinen Aufgabe — direkt per WhatsApp oder Telegram."},
         {q:"Wie viel Zeit brauche ich?",a:"Unter 5 Minuten am Tag. Bewusst so gebaut, dass es in jeden Alltag passt."},
         {q:"Gibt es ein Abo?",a:"Nein. Einmalig 49 €, danach kommt nichts mehr automatisch."},
-        {q:"Was, wenn's mir nicht hilft?",a:"60 Tage Geld-zurück-Garantie — du gehst kein Risiko ein."},
+        {q:"Was, wenn's mir nicht hilft?",a:(g)=>`${g} Tage Geld-zurück-Garantie — du gehst kein Risiko ein.`},
         {q:"Wie schnell geht's los?",a:"Direkt nach dem Kauf verbindest du deinen Messenger, am nächsten Morgen startet Tag 1."}
       ]
     }
   };
   T.en = T.de;
 
+  function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   function stars(r){var f=Math.floor(r),h=(r-f)>=0.5,o='';for(var i=1;i<=5;i++){o+= i<=f?'★':(i===f+1&&h?'⯪':'<span class="off">★</span>');}return o;}
 
   function render(){
-    var t=T[lang], fl=(FLOWS[lang][flow]||FLOWS[lang].default);
+    var t=T[lang], fl=(FLOWS[lang][flow]||FLOWS[lang].default), g=GUARANTEE_DAYS[lang]||14;
     document.getElementById('lang').value=lang;
-    // partner
-    var name = inf ? inf.name : "unserem Partner";
-    document.getElementById('pAvatar').innerText = inf ? inf.name.charAt(0) : "★";
-    document.getElementById('pText').innerHTML = t.recommendedBy(name, inf?inf.handle:"");
+    document.documentElement.lang=lang;
+
+    // partner strip
+    var name = inf ? inf.name : (lang==='en'?"a trusted partner":"einem Partner");
+    var av=document.getElementById('pAvatar');
+    if(inf && inf.avatar){ av.innerHTML='<img src="'+esc(inf.avatar)+'" alt="'+esc(inf.name)+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">'; }
+    else { av.innerText = inf ? inf.name.charAt(0) : "★"; }
+    document.getElementById('pText').innerHTML =
+      '<span class="r">'+t.recommendedRow+'</span><b>'+esc(name)+'</b>'+(inf&&inf.handle?' <em>· '+esc(inf.handle)+'</em>':'');
+
     // hero
     document.getElementById('eyebrow').innerText=fl.eyebrow;
     document.getElementById('headline').innerText=fl.headline;
@@ -303,58 +424,80 @@
     document.getElementById('priceOnce').innerText=t.priceOnce;
     document.getElementById('priceOnce2').innerText=t.priceOnce;
     var buy = inf ? inf.buyUrl : "#";
-    document.getElementById('ctaTop').innerHTML = t.cta+' – 49 €<span class="small">'+t.ctaSmall+'</span>';
-    document.getElementById('ctaTop').href = buy;
-    document.getElementById('ctaBottom').innerHTML = t.cta+' – 49 €<span class="small">'+t.ctaSmall+'</span>';
-    document.getElementById('ctaBottom').href = buy;
-    document.getElementById('microtrust').innerText=t.microtrust;
-    document.getElementById('microtrust2').innerText=t.microtrust;
+    var ctaHtml = t.cta+'<span class="small">'+t.ctaSmall+'</span>';
+    ['ctaTop','ctaBottom'].forEach(function(id){var e=document.getElementById(id);e.innerHTML=ctaHtml;e.href=buy;});
+    document.getElementById('microtrust').innerText=t.microtrust(g);
+    document.getElementById('microtrust2').innerText=t.microtrust(g);
     document.getElementById('finalKicker').innerText=t.finalKicker;
-    // video
-    document.getElementById('videoTitle').innerText=t.videoTitle(name);
-    var vb=document.getElementById('videoBox');
-    if(inf && inf.video){ vb.innerHTML='<iframe src="'+inf.video+'" allowfullscreen></iframe>'; document.getElementById('videoNote').innerText=''; }
-    else { vb.innerHTML='<div class="play"></div>'; document.getElementById('videoNote').innerText=t.videoNote; }
+
+    // recommendation block (video OR quote)
+    document.getElementById('recEyebrow').innerText=t.recEyebrow;
+    var recBody=document.getElementById('recBody');
+    if(inf && inf.video){
+      document.getElementById('recTitle').innerText=t.recTitleVideo(name);
+      recBody.innerHTML='<div class="videoframe"><iframe src="'+esc(inf.video)+'" allowfullscreen loading="lazy"></iframe></div>';
+    } else {
+      document.getElementById('recTitle').innerText=t.recTitleQuote(name);
+      var q = (inf && inf.quote) ? inf.quote : t.recDefaultQuote;
+      recBody.innerHTML='<div class="quotecard"><div class="qt">'+esc(q)+'</div>'+
+        '<div class="who"><span class="avatar" style="flex:0 0 40px;width:40px;height:40px;font-size:16px;">'+
+          (inf&&inf.avatar?'<img src="'+esc(inf.avatar)+'" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">':esc(name.charAt(0)))+
+        '</span><div><b>'+esc(name)+'</b>'+(inf&&inf.handle?'<em>'+esc(inf.handle)+'</em>':'')+'</div></div></div>';
+    }
+
     // what
     document.getElementById('whatTitle').innerText=t.whatTitle;
-    document.getElementById('benes').innerHTML=t.benes.map(function(b){return '<div class="bene"><div class="ic">'+b.i+'</div><b>'+b.b+'</b><p>'+b.p+'</p></div>';}).join('');
-    // content origin
+    document.getElementById('benes').innerHTML=t.benes.map(function(b){
+      return '<div class="bene"><div class="ic">'+(ICONS[b.ic]||'')+'</div><b>'+b.b+'</b><p>'+b.p+'</p></div>';}).join('');
+
+    // origin
+    document.getElementById('originEyebrow').innerText=t.originEyebrow;
     document.getElementById('originTitle').innerText=t.originTitle;
     document.getElementById('originText').innerText=t.originText;
     document.getElementById('originBullets').innerHTML=t.originBullets.map(function(b){return '<li>'+b+'</li>';}).join('');
+
     // demo
     document.getElementById('demoTitle').innerText=t.demoTitle;
-    document.getElementById('demoLabel').innerText=t.demoLabel;
+    document.getElementById('chatStatus').innerText=t.chatStatus;
     document.getElementById('demoHead').innerText=t.demoHead;
     document.getElementById('demoIntro').innerText=t.demoIntro;
     document.getElementById('demoTaskLbl').innerText=t.demoTaskLbl;
     document.getElementById('demoTask').innerText=t.demoTask;
     document.getElementById('demoWhyLbl').innerText=t.demoWhyLbl;
     document.getElementById('demoWhy').innerText=t.demoWhy;
+    document.getElementById('demoCap').innerText=t.demoCap;
+
     // how
     document.getElementById('howTitle').innerText=t.howTitle;
-    document.getElementById('steps').innerHTML=t.steps.map(function(s){return '<div class="step"><div class="n">'+s.b.charAt(0)+'</div><div><b>'+s.b+'</b><p>'+s.p+'</p></div></div>';}).join('');
-    // reviews title / guarantee / faq
+    document.getElementById('steps').innerHTML=t.steps.map(function(s,i){
+      return '<div class="step"><div class="n">'+(i+1)+'</div><div><b>'+s.b+'</b><p>'+s.p+'</p></div></div>';}).join('');
+
+    // reviews / guarantee / faq
     document.getElementById('reviewsTitle').innerText=t.reviewsTitle;
     document.getElementById('guarTitle').innerText=t.guarTitle;
-    document.getElementById('guarText').innerHTML=t.guarText;
+    document.getElementById('guarText').innerHTML=t.guarText(g);
     document.getElementById('faqTitle').innerText=t.faqTitle;
-    document.getElementById('faq').innerHTML=t.faq.map(function(x){return '<div><div class="q">'+x.q+'</div><div class="a">'+x.a+'</div></div>';}).join('');
-    // demo banner if no influencer
-    var db=document.getElementById('demoBanner');
-    if(!inf){ db.hidden=false; db.innerText = lang==='en' ? "Preview mode — add ?inf=<slug> to load a real partner (name, video, buy link)." : "Vorschau-Modus — mit ?inf=<slug> wird ein echter Partner geladen (Name, Video, Kauf-Link)."; }
-    else db.hidden=true;
+    document.getElementById('faq').innerHTML=t.faq.map(function(x){
+      var ans = (typeof x.a==='function')?x.a(g):x.a;
+      return '<details><summary>'+x.q+'</summary><div class="a">'+ans+'</div></details>';}).join('');
+
+    // preview note
+    var pn=document.getElementById('previewNote');
+    if(!inf){ pn.hidden=false; pn.innerText = lang==='en'
+      ? "Preview mode — add ?inf=<slug> to load a real partner (name, video/quote, buy link)."
+      : "Vorschau-Modus — mit ?inf=<slug> wird ein echter Partner geladen (Name, Video/Zitat, Kauf-Link)."; }
+    else pn.hidden=true;
+
     loadReviews();
   }
 
   function renderReviews(rows){
     var box=document.getElementById('reviews'), t=T[lang];
-    if(!rows||!rows.length){ box.innerHTML='<p class="sub" style="margin:0;">'+t.reviewsEmpty+'</p>'; return; }
+    if(!rows||!rows.length){ box.innerHTML='<p class="lead" style="margin:0;">'+t.reviewsEmpty+'</p>'; return; }
     box.innerHTML=rows.map(function(r){
-      var vb=r.verified_purchase?'<span class="vb">✓ Verifiziert</span>':'';
-      var c=(r.comment||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      var n=(r.first_name||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      return '<div class="rev"><div class="st">'+stars(Number(r.rating))+'</div><div class="tx">„'+c+'"</div><div class="nm">'+n+vb+'</div></div>';
+      var vb=r.verified_purchase?'<span class="vb">✓ '+(lang==='en'?'Verified':'Verifiziert')+'</span>':'';
+      return '<div class="rev"><span class="stars">'+stars(Number(r.rating))+'</span>'+
+        '<div class="tx">„'+esc(r.comment)+'"</div><div class="nm">'+esc(r.first_name)+vb+'</div></div>';
     }).join('');
   }
   function renderRating(rows){
@@ -362,8 +505,9 @@
     if(!rows||!rows.length){el.hidden=true;return;}
     var avg=rows.reduce(function(a,r){return a+Number(r.rating||0);},0)/rows.length;
     var s=(lang==='en')?avg.toFixed(1):avg.toFixed(1).replace('.',',');
-    el.innerHTML='<span class="st">'+stars(avg)+'</span><span class="nm">'+s+' / 5</span>';
+    el.innerHTML='<span class="stars">'+stars(avg)+'</span><span class="nm">'+s+' / 5</span>';
     el.hidden=false;
+    el.onclick=function(){document.getElementById('reviewsTitle').scrollIntoView({behavior:'smooth'});};
   }
   async function loadReviews(){
     try{
