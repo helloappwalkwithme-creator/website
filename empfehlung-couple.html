@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Connected Couples – Empfehlung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --ink:#1a1715; --panel:#292421; --panel-2:#241f1c; --raised:#3a322d;
+    --line:#4a403a; --line-soft:#3a322d;
+    --brass:#d48a60; --brass-bright:#e2a37c; --brass-dim:#b06f48;
+    --text:#f0ebeb; --muted:#c9bfba; --muted-2:#a89a92;
+    --success:#88b08b; --success-bg:#1c2420; --success-line:#3a4a3a;
+    --paper:#e8ded4;
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
+    --sans:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    background:var(--ink);color:var(--text);font-family:var(--sans);
+    line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--brass);color:#1a1715;}
+
+  /* atmospheric top glow */
+  .glow{position:absolute;top:0;left:0;right:0;height:520px;pointer-events:none;z-index:0;
+    background:radial-gradient(120% 100% at 50% -10%,rgba(212,138,96,.16),rgba(212,138,96,0) 60%);}
+  .bar{position:relative;z-index:2;height:3px;
+    background:linear-gradient(90deg,var(--brass-dim),var(--brass),var(--brass-bright),var(--brass));}
+  .wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 22px 96px;}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 0 0;}
+  .brandmark{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.3px;color:var(--text);}
+  .brandmark span{color:var(--brass);}
+  .lang select{background:var(--panel);color:var(--text);border:1px solid var(--line);
+    padding:7px 11px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:var(--sans);}
+
+  .preview-note{background:#241f1c;border:1px solid var(--brass-dim);color:var(--brass-bright);
+    font-size:12.5px;border-radius:10px;padding:10px 14px;margin-top:14px;text-align:center;}
+
+  /* section rhythm */
+  section{position:relative;padding:40px 0;}
+  section+section{border-top:1px solid var(--line-soft);}
+  .eyebrow{display:inline-block;color:var(--brass);font-size:11.5px;font-weight:700;
+    letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,7.4vw,44px);line-height:1.08;
+    letter-spacing:-.5px;text-wrap:balance;margin-bottom:18px;}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(22px,5vw,27px);line-height:1.15;
+    letter-spacing:-.3px;text-wrap:balance;margin-bottom:8px;}
+  .lead{color:var(--muted);font-size:17px;line-height:1.62;margin-bottom:26px;max-width:60ch;}
+
+  /* partner strip */
+  .partner{display:flex;align-items:center;gap:13px;background:linear-gradient(180deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);border-radius:14px;padding:13px 16px;margin-top:22px;}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;object-fit:cover;
+    background:radial-gradient(circle at 30% 25%,#3a322d,#241f1c);border:1.5px solid var(--brass);
+    display:flex;align-items:center;justify-content:center;color:var(--brass-bright);
+    font-family:var(--serif);font-weight:600;font-size:19px;}
+  .partner .pt{font-size:14px;color:var(--muted);line-height:1.4;}
+  .partner .pt .r{display:block;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--brass);font-weight:700;margin-bottom:2px;}
+  .partner .pt b{color:var(--text);font-weight:700;font-size:15px;}
+  .partner .pt em{font-style:normal;color:var(--muted-2);}
+
+  /* price + cta */
+  .price{display:flex;align-items:baseline;gap:9px;margin:26px 0 20px;font-variant-numeric:tabular-nums;}
+  .price .amt{font-family:var(--serif);font-weight:600;font-size:46px;line-height:1;color:var(--text);}
+  .price .cur{font-family:var(--serif);font-size:24px;font-weight:500;color:var(--text);}
+  .price .once{color:var(--muted-2);font-size:14px;align-self:center;}
+  .cta{display:block;width:100%;background:linear-gradient(180deg,var(--brass-bright),var(--brass));
+    color:#1a1715;border:none;border-radius:13px;padding:17px 22px;font-family:var(--sans);
+    font-size:16.5px;font-weight:800;letter-spacing:.2px;cursor:pointer;text-align:center;
+    text-decoration:none;box-shadow:0 10px 30px -12px rgba(212,138,96,.55);
+    transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;}
+  .cta:hover{transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 16px 38px -12px rgba(212,138,96,.6);}
+  .cta:focus-visible{outline:2px solid var(--brass-bright);outline-offset:3px;}
+  .cta .small{display:block;font-size:12px;font-weight:600;opacity:.72;margin-top:4px;letter-spacing:.2px;}
+  .microtrust{color:var(--muted-2);font-size:12.5px;margin-top:13px;text-align:center;}
+  .rating{display:inline-flex;align-items:center;gap:9px;margin-top:18px;padding:8px 14px;
+    background:var(--panel);border:1px solid var(--line);border-radius:999px;cursor:pointer;}
+  .stars{color:var(--brass);font-size:14px;letter-spacing:2px;} .stars .off{color:#4a403a;}
+  .rating .nm{font-weight:700;font-size:13px;color:var(--text);}
+
+  /* recommendation block (video OR quote) */
+  .videoframe{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);
+    background:#000;aspect-ratio:16/9;}
+  .videoframe iframe{width:100%;height:100%;border:0;display:block;}
+  .quotecard{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);
+    border-radius:16px;padding:26px 26px 22px;position:relative;overflow:hidden;}
+  .quotecard::before{content:"\201C";position:absolute;top:-18px;left:16px;font-family:var(--serif);
+    font-size:120px;line-height:1;color:rgba(212,138,96,.14);}
+  .quotecard .qt{font-family:var(--serif);font-weight:500;font-size:20px;line-height:1.45;
+    color:var(--text);position:relative;letter-spacing:-.2px;}
+  .quotecard .who{display:flex;align-items:center;gap:12px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);}
+  .quotecard .who b{color:var(--text);font-weight:700;font-size:14.5px;}
+  .quotecard .who em{font-style:normal;color:var(--muted-2);font-size:13px;display:block;}
+
+  /* benefits */
+  .benes{display:grid;gap:13px;grid-template-columns:1fr;}
+  @media(min-width:560px){.benes{grid-template-columns:1fr 1fr;}}
+  .bene{background:var(--panel);border:1px solid var(--line-soft);border-radius:14px;padding:20px;}
+  .bene .ic{width:26px;height:26px;color:var(--brass);margin-bottom:12px;}
+  .bene .ic svg{width:26px;height:26px;display:block;}
+  .bene b{display:block;margin-bottom:5px;font-size:15.5px;font-weight:700;color:var(--text);}
+  .bene p{color:var(--muted);font-size:14px;}
+
+  /* origin */
+  .clean{list-style:none;display:grid;gap:11px;margin-top:18px;}
+  .clean li{position:relative;padding-left:30px;color:var(--text);font-size:15px;}
+  .clean li::before{content:"";position:absolute;left:0;top:7px;width:17px;height:11px;
+    border-left:2px solid var(--brass);border-bottom:2px solid var(--brass);transform:rotate(-45deg);border-radius:1px;}
+
+  /* whatsapp phone mockup */
+  .phone{max-width:340px;margin:0 auto;background:#241f1c;border:1px solid var(--line);
+    border-radius:30px;padding:12px 12px 18px;box-shadow:0 30px 60px -30px rgba(0,0,0,.9);}
+  .phone .notch{width:110px;height:5px;border-radius:99px;background:#3a322d;margin:2px auto 12px;}
+  .chatwin{background:
+    linear-gradient(rgba(20,17,15,.86),rgba(20,17,15,.86));
+    background-color:#1e1a17;border-radius:20px;padding:16px 12px;}
+  .chathdr{display:flex;align-items:center;gap:10px;padding:0 4px 14px;border-bottom:1px solid #2c2622;margin-bottom:14px;}
+  .chathdr .a{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#3a322d,#241f1c);
+    border:1px solid var(--brass-dim);display:flex;align-items:center;justify-content:center;color:var(--brass);font-family:var(--serif);font-size:15px;font-weight:600;}
+  .chathdr .nm{font-size:13.5px;font-weight:700;color:var(--text);} .chathdr .st{font-size:11px;color:var(--success);}
+  .bubble{background:var(--paper);color:#241f1c;border-radius:14px;border-top-left-radius:5px;
+    padding:14px 15px;box-shadow:0 2px 8px rgba(0,0,0,.35);}
+  .bubble .pin{font-weight:800;margin-bottom:10px;font-size:14.5px;color:#241f1c;}
+  .bubble p{font-size:14px;margin-bottom:11px;color:#3a322d;line-height:1.5;}
+  .bubble p:last-of-type{margin-bottom:6px;}
+  .bubble .h{font-weight:800;color:#241f1c;}
+  .bubble .time{color:#8a7f76;font-size:10.5px;text-align:right;}
+  .demo-cap{color:var(--muted-2);font-size:12.5px;text-align:center;margin-top:14px;}
+
+  /* steps */
+  .steps{display:grid;gap:13px;margin-top:6px;}
+  .step{display:flex;gap:15px;align-items:flex-start;background:var(--panel);border:1px solid var(--line-soft);
+    border-radius:14px;padding:18px 20px;}
+  .step .n{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:var(--raised);
+    border:1px solid var(--brass-dim);color:var(--brass-bright);font-family:var(--serif);font-weight:600;
+    font-size:16px;display:flex;align-items:center;justify-content:center;}
+  .step b{display:block;margin:3px 0 4px;font-size:15.5px;font-weight:700;color:var(--text);}
+  .step p{color:var(--muted);font-size:14px;}
+
+  /* reviews */
+  .reviews{display:grid;gap:14px;margin-top:6px;}
+  .rev{background:var(--panel);border:1px solid var(--line-soft);border-radius:14px;padding:20px;}
+  .rev .stars{font-size:15px;margin-bottom:10px;display:block;}
+  .rev .tx{color:var(--text);font-size:15px;line-height:1.55;margin-bottom:12px;}
+  .rev .nm{color:var(--muted-2);font-size:13px;font-weight:600;}
+  .rev .vb{color:var(--success);font-size:11px;font-weight:700;margin-left:8px;}
+
+  /* guarantee */
+  .guar{display:flex;gap:16px;align-items:flex-start;background:var(--success-bg);
+    border:1px solid var(--success-line);border-radius:14px;padding:22px;}
+  .guar .shield{flex:0 0 34px;width:34px;height:34px;color:var(--success);}
+  .guar .gt{color:#d9e8da;font-size:15px;line-height:1.55;} .guar .gt b{color:#fff;}
+
+  /* final price box */
+  .pricebox{background:linear-gradient(180deg,var(--panel-2),var(--ink));border:1px solid var(--line);
+    border-radius:20px;padding:32px 24px;text-align:center;}
+  .pricebox .price{justify-content:center;margin:6px 0 18px;}
+  .pricebox .cta{max-width:430px;margin:0 auto;}
+
+  /* faq */
+  .faq details{border-bottom:1px solid var(--line-soft);}
+  .faq summary{list-style:none;cursor:pointer;padding:17px 34px 17px 0;font-weight:600;
+    font-size:15.5px;color:var(--text);position:relative;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{content:"+";position:absolute;right:4px;top:15px;color:var(--brass);
+    font-size:20px;font-weight:400;transition:transform .2s ease;}
+  .faq details[open] summary::after{transform:rotate(45deg);}
+  .faq .a{color:var(--muted);font-size:14.5px;padding:0 0 18px;max-width:62ch;}
+
+  footer{text-align:center;padding:30px 0 0;margin-top:26px;border-top:1px solid var(--line-soft);font-size:11.5px;}
+  footer a{color:var(--muted-2);text-decoration:none;margin:0 9px;} footer a:hover{color:var(--brass);}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="bar"></div>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brandmark">Shift My <span>Horizon</span></div>
+    <div class="lang"><select id="lang" onchange="setLang(this.value)"><option value="de">DE</option><option value="en">EN</option></select></div>
+  </div>
+
+  <div class="preview-note" id="previewNote" hidden></div>
+
+  <!-- Partner strip -->
+  <div class="partner">
+    <div class="avatar" id="pAvatar">★</div>
+    <div class="pt" id="pText"></div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero" style="border-top:none;">
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="headline"></h1>
+    <p class="lead" id="sub"></p>
+    <div class="price"><span class="amt">49</span><span class="cur">€</span><span class="once" id="priceOnce"></span></div>
+    <a class="cta" id="ctaTop" href="#" target="_blank" rel="noopener"></a>
+    <div class="microtrust" id="microtrust"></div>
+    <div style="text-align:center;margin-top:14px;"><span class="rating" id="rating" hidden></span></div>
+  </section>
+
+  <!-- Why the partner recommends it (video OR quote) -->
+  <section>
+    <div class="eyebrow" id="recEyebrow"></div>
+    <h2 id="recTitle" style="margin-bottom:20px;"></h2>
+    <div id="recBody"></div>
+  </section>
+
+  <!-- What you get -->
+  <section>
+    <h2 id="whatTitle" style="margin-bottom:20px;"></h2>
+    <div class="benes" id="benes"></div>
+  </section>
+
+  <!-- Content origin -->
+  <section>
+    <div class="eyebrow" id="originEyebrow"></div>
+    <h2 id="originTitle"></h2>
+    <p class="lead" id="originText" style="margin:10px 0 0;"></p>
+    <ul class="clean" id="originBullets"></ul>
+  </section>
+
+  <!-- Goals / adaptivity (statisch, sprachunabhängig DE) -->
+  <section>
+    <h2>Der Weg passt sich eurer Dynamik an</h2>
+    <p class="lead">Nach einem kurzen Check arbeitest du an genau dem Muster, das euch als Paar ausbremst — nicht an Allgemeinplätzen. Je nach Dynamik liegt der Fokus anders:</p>
+    <div class="benes">
+      <div class="bene"><b style="color:var(--success);">Sichere Basis stärken</b><p>Bei Stress in Verbindung bleiben, statt in alte Reaktionsmuster zu kippen.</p></div>
+      <div class="bene"><b style="color:var(--success);">Innere Beruhigung</b><p>Wenn Distanz Panik auslöst: sich selbst regulieren, statt Nähe zu erzwingen.</p></div>
+      <div class="bene"><b style="color:var(--success);">Mauern abbauen</b><p>Wenn einer sich zurückzieht: Raum nehmen, ohne den anderen emotional auszusperren.</p></div>
+      <div class="bene"><b style="color:var(--success);">Vertrauen aufbauen</b><p>Raus aus der Push-and-Pull-Dynamik: Misstrauen auflösen, Verlässlichkeit trainieren.</p></div>
+    </div>
+  </section>
+
+  <!-- Sample message -->
+  <section>
+    <h2 id="demoTitle" style="text-align:center;margin-bottom:22px;"></h2>
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="chatwin">
+        <div class="chathdr">
+          <div class="a">S</div>
+          <div><div class="nm">Shift My Horizon</div><div class="st" id="chatStatus"></div></div>
+        </div>
+        <div class="bubble">
+          <div class="pin">📌 <span id="demoHead"></span></div>
+          <p id="demoIntro"></p>
+          <p><span class="h">🎯 <span id="demoTaskLbl"></span></span><br><span id="demoTask"></span></p>
+          <p><span class="h">💡 <span id="demoWhyLbl"></span></span><br><span id="demoWhy"></span></p>
+          <div class="time">06:02 ✓✓</div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-cap" id="demoCap"></div>
+  </section>
+
+  <!-- How it works -->
+  <section>
+    <h2 id="howTitle" style="margin-bottom:20px;"></h2>
+    <div class="steps" id="steps"></div>
+  </section>
+
+
+  <!-- Guarantee -->
+  <section>
+    <h2 id="guarTitle" style="margin-bottom:18px;"></h2>
+    <div class="guar">
+      <svg class="shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+      <div class="gt" id="guarText"></div>
+    </div>
+  </section>
+
+  <!-- Share with partner -->
+  <section>
+    <div style="background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--success-line);border-radius:16px;padding:26px 22px;text-align:center;">
+      <div class="eyebrow" style="color:var(--success);">Zu zweit am stärksten</div>
+      <h2 style="margin:0 0 8px;">Holt euch beide rein</h2>
+      <p class="lead" style="margin:0 auto 18px;max-width:48ch;">Dein Impuls kommt auf dein Handy. Am stärksten wird's, wenn dein Partner seinen eigenen hat — dann arbeitet ihr beide an eurer Seite der Beziehung. Schick ihm den Link:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+        <a id="shareWa" href="#" target="_blank" rel="noopener" style="display:inline-block;background:#25D366;color:#08130b;font-weight:800;text-decoration:none;padding:15px 24px;border-radius:13px;font-size:15px;">Per WhatsApp schicken</a>
+        <button id="shareCopy" type="button" style="display:inline-block;background:var(--panel);color:var(--brass);border:1px solid var(--line);font-weight:700;padding:14px 22px;border-radius:13px;font-size:15px;cursor:pointer;font-family:var(--sans);">Link kopieren</button>
+      </div>
+      <div id="shareHint" style="margin-top:12px;font-size:13px;color:var(--muted-2);min-height:16px;"></div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section>
+    <div class="pricebox">
+      <div class="eyebrow" id="finalKicker" style="margin-bottom:6px;"></div>
+      <div class="price"><span class="amt">49</span><span class="cur">€</span><span class="once" id="priceOnce2"></span></div>
+      <a class="cta" id="ctaBottom" href="#" target="_blank" rel="noopener"></a>
+      <div class="microtrust" id="microtrust2"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <h2 id="faqTitle" style="margin-bottom:8px;"></h2>
+    <div class="faq" id="faq"></div>
+  </section>
+
+  <footer>
+    <a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="agb.html">AGB</a>
+  </footer>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+  let sb = null;
+
+  // ===== Influencer-Registry (spaeter Supabase-Tabelle 'influencers') =====
+  // buyUrl = persoenlicher Digistore-Promolink von Bella & Nils fuer Produkt 688576. Format i.d.R. https://www.digistore24.com/redir/688576/<affiliate-account>/ — von ihnen im Digistore-Konto generiert (Affiliate wird automatisch angenommen). Vor Live gegen echten Link tauschen.
+  const INFLUENCERS = {
+    demo: {
+      name: "Bella & Nils",
+      handle: "@bellaundnils",
+      avatar: null,
+      video: null,
+      quote: null,
+      buyUrl: "https://www.digistore24.com/product/688576"
+    },
+    bellaundnils: {
+      name: "Bella & Nils",
+      handle: "@bellaundnils",
+      avatar: null,
+      video: null,
+      quote: null,
+      buyUrl: "PLATZHALTER_AFFILIATE_LINK_688576"
+    }
+  };
+
+  const ICONS = {
+    cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>',
+    clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>',
+    target:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+    chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3v3l4-3h9a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>'
+  };
+
+  const params = new URLSearchParams(location.search);
+  const infSlug = (params.get('inf') || '').trim();
+  const inf = INFLUENCERS[infSlug] || null;
+  let flow = (params.get('p') || 'connectedcouples').trim();
+  let lang = (params.get('lang') || 'de').toLowerCase(); if(!['de','en'].includes(lang)) lang='de';
+
+  const FLOWS = {
+    de:{
+      connectedcouples:{ eyebrow:"Für Paare, die an ihrer Beziehung wachsen wollen",
+        headline:"Stärker als Paar — in 90 Tagen.",
+        sub:"Ob weniger Streit, mehr Nähe oder einfach dranbleiben: jeden Tag ein konkreter Impuls für dich, direkt in deinem Messenger — in unter 5 Minuten." },
+      default:{ eyebrow:"Für Paare, die an ihrer Beziehung wachsen wollen",
+        headline:"Stärker als Paar — in 90 Tagen.",
+        sub:"Ob weniger Streit, mehr Nähe oder einfach dranbleiben: jeden Tag ein konkreter Impuls für dich, direkt in deinem Messenger — in unter 5 Minuten." }
+    }
+  };
+  FLOWS.en = FLOWS.de; // EN-Fallback bis Uebersetzung
+
+  const GUARANTEE_DAYS = { de:14, en:14 };
+
+  const T = {
+    de:{
+      recommendedRow:"Empfohlen von",
+      priceOnce:"einmalig · kein Abo",
+      cta:"Euren 90-Tage-Weg starten – 49 €", ctaSmall:"Sicherer Checkout über Digistore24",
+      microtrust:(g)=>`Einmalig 49 € · ${g} Tage Geld-zurück-Garantie · sofortiger Start`,
+      recEyebrow:"Persönliche Empfehlung",
+      recTitleVideo:(n)=>`Warum ${n} das empfehlen`,
+      recTitleQuote:(n)=>`Warum ${n} das empfehlen`,
+      recDefaultQuote:"Wir empfehlen das, weil es genau da ansetzt, wo die meisten Paare scheitern: nicht am Wissen, sondern am täglichen Dranbleiben füreinander.",
+      whatTitle:"Was du bekommst",
+      benes:[
+        {ic:"cal",b:"90 Tage Begleitung",p:"Jeden Tag ein Impuls für dich — kein Kurs zum Wegklicken."},
+        {ic:"clock",b:"Unter 5 Min am Tag",p:"Alltagstauglich, auch mit Kindern und Job."},
+        {ic:"target",b:"Konkrete Aufgaben",p:"Kein Küchenpsychologie-Bla — ein klarer Schritt pro Tag."},
+        {ic:"chat",b:"Per WhatsApp oder Telegram",p:"Direkt dort, wo du eh bist. Keine App, kein Login."}
+      ],
+      originEyebrow:"Fundiert, nicht zusammengegoogelt",
+      originTitle:"Woher der Inhalt kommt",
+      originText:"Jeder Tag basiert auf Erkenntnissen aus Paar- und Beziehungsforschung — heruntergebrochen in tägliche Mini-Aufgaben, die du wirklich umsetzt.",
+      originBullets:["Fundiertes Wissen statt Motivations-Sprüche","Kein 300-Seiten-Wälzer — das Wesentliche in 5 Min pro Tag","Umsetzung vor Theorie: jeden Tag ein konkreter Schritt an deiner Seite der Beziehung","Über 90 Tage sinnvoll aufeinander aufgebaut"],
+      demoTitle:"So sieht dein Tag aus", chatStatus:"online",
+      demoHead:"Vom Ich zum Wir",
+      demoIntro:"In einer sicheren Beziehung ist das Problem der gemeinsame Gegner — nicht der Partner.",
+      demoTaskLbl:"Deine Aufgabe für heute:",
+      demoTask:"Nutze heute bei einer Meinungsverschiedenheit bewusst das Wort „Wir“: „Wie lösen WIR das besser?“ statt „Du hilfst mir nie.“",
+      demoWhyLbl:"Warum das wirkt:",
+      demoWhy:"Das „Wir“ signalisiert dem Nervensystem deines Partners: Wir sitzen im selben Boot, du bist sicher.",
+      demoCap:"Eine echte Beispiel-Nachricht aus dem Programm.",
+      howTitle:"So funktioniert's",
+      steps:[
+        {b:"Kaufen",p:"Einmalig 49 € über den sicheren Digistore-Checkout."},
+        {b:"Messenger verbinden",p:"Du bekommst einen Zugangscode und startest ihn per WhatsApp oder Telegram."},
+        {b:"Täglich dein Schritt",p:"Ab morgen früh bekommst du 90 Tage lang jeden Tag deinen Impuls."}
+      ],
+      reviewsTitle:"Das sagen andere", reviewsEmpty:"Bald findest du hier echte Stimmen von Paaren.",
+      guarTitle:"Dein Risiko: null",
+      guarText:(g)=>`<b>${g} Tage Geld-zurück-Garantie.</b> Wenn es dir in den ersten ${g} Tagen nichts bringt, schreib uns eine kurze Mail — du bekommst dein Geld zurück. Ohne Diskussion.`,
+      finalKicker:"Bereit, als Paar zu wachsen?",
+      faqTitle:"Häufige Fragen",
+      faq:[
+        {q:"Was genau bekomme ich?",a:"90 Tage lang jeden Tag einen konkreten Impuls mit einer kleinen Aufgabe, um an eurer Beziehung zu arbeiten — direkt per WhatsApp oder Telegram."},
+        {q:"Wie viel Zeit brauche ich?",a:"Unter 5 Minuten am Tag. Bewusst so gebaut, dass es auch mit Kindern und Job in den Alltag passt."},
+        {q:"Gibt es ein Abo?",a:"Nein. Einmalig 49 €, danach kommt nichts mehr automatisch."},
+        {q:"Was, wenn's mir nichts bringt?",a:(g)=>`${g} Tage Geld-zurück-Garantie — du gehst kein Risiko ein.`},
+        {q:"Wie schnell geht's los?",a:"Direkt nach dem Kauf verbindest du deinen Messenger, am nächsten Morgen startet Tag 1."}
+      ]
+    }
+  };
+  T.en = T.de;
+
+  function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function stars(r){var f=Math.floor(r),h=(r-f)>=0.5,o='';for(var i=1;i<=5;i++){o+= i<=f?'★':(i===f+1&&h?'⯪':'<span class="off">★</span>');}return o;}
+
+  function render(){
+    var t=T[lang], fl=(FLOWS[lang][flow]||FLOWS[lang].default), g=GUARANTEE_DAYS[lang]||14;
+    document.getElementById('lang').value=lang;
+    document.documentElement.lang=lang;
+
+    // partner strip
+    var name = inf ? inf.name : (lang==='en'?"a trusted partner":"einem Partner");
+    var av=document.getElementById('pAvatar');
+    if(inf && inf.avatar){ av.innerHTML='<img src="'+esc(inf.avatar)+'" alt="'+esc(inf.name)+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">'; }
+    else { av.innerText = inf ? inf.name.charAt(0) : "★"; }
+    document.getElementById('pText').innerHTML =
+      '<span class="r">'+t.recommendedRow+'</span><b>'+esc(name)+'</b>'+(inf&&inf.handle?' <em>· '+esc(inf.handle)+'</em>':'');
+
+    // hero
+    document.getElementById('eyebrow').innerText=fl.eyebrow;
+    document.getElementById('headline').innerText=fl.headline;
+    document.getElementById('sub').innerText=fl.sub;
+    document.getElementById('priceOnce').innerText=t.priceOnce;
+    document.getElementById('priceOnce2').innerText=t.priceOnce;
+    var buy = inf ? inf.buyUrl : "https://www.digistore24.com/product/688576";
+    // Primärer Weg = direkter Kauf (kein Quiz auf dieser Seite)
+    var ct=document.getElementById('ctaTop'); ct.innerHTML=t.cta+'<span class="small">'+t.ctaSmall+'</span>'; ct.href=buy;
+    var cb=document.getElementById('ctaBottom'); cb.innerHTML=t.cta+'<span class="small">'+t.ctaSmall+'</span>'; cb.href=buy;
+    document.getElementById('microtrust').innerText=t.microtrust(g);
+    document.getElementById('microtrust2').innerText=t.microtrust(g);
+    document.getElementById('finalKicker').innerText=t.finalKicker;
+
+    // recommendation block (video OR quote)
+    document.getElementById('recEyebrow').innerText=t.recEyebrow;
+    var recBody=document.getElementById('recBody');
+    if(inf && inf.video){
+      document.getElementById('recTitle').innerText=t.recTitleVideo(name);
+      recBody.innerHTML='<div class="videoframe"><iframe src="'+esc(inf.video)+'" allowfullscreen loading="lazy"></iframe></div>';
+    } else {
+      document.getElementById('recTitle').innerText=t.recTitleQuote(name);
+      var q = (inf && inf.quote) ? inf.quote : t.recDefaultQuote;
+      recBody.innerHTML='<div class="quotecard"><div class="qt">'+esc(q)+'</div>'+
+        '<div class="who"><span class="avatar" style="flex:0 0 40px;width:40px;height:40px;font-size:16px;">'+
+          (inf&&inf.avatar?'<img src="'+esc(inf.avatar)+'" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">':esc(name.charAt(0)))+
+        '</span><div><b>'+esc(name)+'</b>'+(inf&&inf.handle?'<em>'+esc(inf.handle)+'</em>':'')+'</div></div></div>';
+    }
+
+    // what
+    document.getElementById('whatTitle').innerText=t.whatTitle;
+    document.getElementById('benes').innerHTML=t.benes.map(function(b){
+      return '<div class="bene"><div class="ic">'+(ICONS[b.ic]||'')+'</div><b>'+b.b+'</b><p>'+b.p+'</p></div>';}).join('');
+
+    // origin
+    document.getElementById('originEyebrow').innerText=t.originEyebrow;
+    document.getElementById('originTitle').innerText=t.originTitle;
+    document.getElementById('originText').innerText=t.originText;
+    document.getElementById('originBullets').innerHTML=t.originBullets.map(function(b){return '<li>'+b+'</li>';}).join('');
+
+    // demo
+    document.getElementById('demoTitle').innerText=t.demoTitle;
+    document.getElementById('chatStatus').innerText=t.chatStatus;
+    document.getElementById('demoHead').innerText=t.demoHead;
+    document.getElementById('demoIntro').innerText=t.demoIntro;
+    document.getElementById('demoTaskLbl').innerText=t.demoTaskLbl;
+    document.getElementById('demoTask').innerText=t.demoTask;
+    document.getElementById('demoWhyLbl').innerText=t.demoWhyLbl;
+    document.getElementById('demoWhy').innerText=t.demoWhy;
+    document.getElementById('demoCap').innerText=t.demoCap;
+
+    // how
+    document.getElementById('howTitle').innerText=t.howTitle;
+    document.getElementById('steps').innerHTML=t.steps.map(function(s,i){
+      return '<div class="step"><div class="n">'+(i+1)+'</div><div><b>'+s.b+'</b><p>'+s.p+'</p></div></div>';}).join('');
+
+    // guarantee / faq
+    document.getElementById('guarTitle').innerText=t.guarTitle;
+    document.getElementById('guarText').innerHTML=t.guarText(g);
+    document.getElementById('faqTitle').innerText=t.faqTitle;
+    document.getElementById('faq').innerHTML=t.faq.map(function(x){
+      var ans = (typeof x.a==='function')?x.a(g):x.a;
+      return '<details><summary>'+x.q+'</summary><div class="a">'+ans+'</div></details>';}).join('');
+
+    // preview note
+    var pn=document.getElementById('previewNote');
+    if(!inf){ pn.hidden=false; pn.innerText = lang==='en'
+      ? "Preview mode — add ?inf=<slug> to load a real partner (name, video/quote, buy link)."
+      : "Vorschau-Modus — mit ?inf=<slug> wird ein echter Partner geladen (Name, Video/Zitat, Kauf-Link)."; }
+    else pn.hidden=true;
+
+    loadReviews();
+  }
+
+  function renderReviews(rows){
+    var box=document.getElementById('reviews'), t=T[lang];
+    if(!rows||!rows.length){ box.innerHTML='<p class="lead" style="margin:0;">'+t.reviewsEmpty+'</p>'; return; }
+    box.innerHTML=rows.map(function(r){
+      var vb=r.verified_purchase?'<span class="vb">✓ '+(lang==='en'?'Verified':'Verifiziert')+'</span>':'';
+      return '<div class="rev"><span class="stars">'+stars(Number(r.rating))+'</span>'+
+        '<div class="tx">„'+esc(r.comment)+'"</div><div class="nm">'+esc(r.first_name)+vb+'</div></div>';
+    }).join('');
+  }
+  function renderRating(rows){
+    var el=document.getElementById('rating');
+    if(!rows||!rows.length){el.hidden=true;return;}
+    var avg=rows.reduce(function(a,r){return a+Number(r.rating||0);},0)/rows.length;
+    var s=(lang==='en')?avg.toFixed(1):avg.toFixed(1).replace('.',',');
+    el.innerHTML='<span class="stars">'+stars(avg)+'</span><span class="nm">'+s+' / 5</span>';
+    el.hidden=false;
+  }
+  async function loadReviews(){
+    try{
+      if(!sb) sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+      var res=await sb.from('v_reviews_public').select('rating');
+      var all=(res&&res.data)?res.data:[];
+      renderRating(all);
+    }catch(e){console.warn(e);renderRating([]);}
+  }
+
+  function setLang(l){ lang=l; render(); }
+  render();
+</script>
+<script>
+  /* ===== Share mit dem Partner (Link behaelt ?inf= fuer Provision/Co-Branding) ===== */
+  (function(){
+    var shareUrl = location.href;
+    var msg = "Hey 👀 Ich hab was für uns gefunden: ein 90-Tage-Programm für Paare — jeden Tag ein kleiner Impuls per WhatsApp, unter 5 Min, um an der Beziehung zu arbeiten. Ich mach mit. Damit wir beide dranbleiben, hol dir auch deinen eigenen Zugang (einmal 49 €, kein Abo) — dann ziehen wir das zusammen durch. 👉 " + shareUrl;
+    var wa = document.getElementById('shareWa');
+    if(wa){ wa.href = "https://wa.me/?text=" + encodeURIComponent(msg); }
+    var cp = document.getElementById('shareCopy'), hint = document.getElementById('shareHint');
+    if(cp){
+      cp.addEventListener('click', function(){
+        function ok(){ if(hint) hint.textContent = "Link kopiert ✓ – füg ihn deinem Partner mit einer kurzen Nachricht ein."; }
+        try{
+          if(navigator.clipboard && navigator.clipboard.writeText){
+            navigator.clipboard.writeText(shareUrl).then(ok, function(){ window.prompt("Kopiere den Link:", shareUrl); });
+          } else { window.prompt("Kopiere den Link:", shareUrl); }
+        }catch(e){ window.prompt("Kopiere den Link:", shareUrl); }
+      });
+    }
+  })();
+</script>
+</body>
+</html>
