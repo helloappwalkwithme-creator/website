@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Partnerschaft – für Paula</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --ink:#1f1a1c; --panel:#28211f; --panel-2:#231d1b; --raised:#332a27;
+    --line:#4a3f3b; --line-soft:#3a322e;
+    --rose:#d4a3b3; --rose-bright:#e6bccb; --rose-dim:#a97e8d;
+    --terra:#d48a60; --sage:#88b08b;
+    --text:#f0ebeb; --muted:#cdbfba; --muted-2:#9a8c86;
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
+    --sans:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{background:var(--ink);color:var(--text);font-family:var(--sans);
+    line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--rose);color:#1f1a1c;}
+
+  .glow{position:absolute;top:0;left:0;right:0;height:520px;pointer-events:none;z-index:0;
+    background:radial-gradient(120% 100% at 50% -10%,rgba(212,163,179,.16),rgba(212,163,179,0) 60%);}
+  .bar{position:relative;z-index:2;height:3px;
+    background:linear-gradient(90deg,var(--rose-dim),var(--rose),var(--rose-bright),var(--terra));}
+  .wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 22px 96px;}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 0 0;}
+  .brandmark{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.3px;color:var(--text);}
+  .brandmark span{color:var(--rose);}
+  .tag{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted-2);font-weight:700;}
+
+  section{position:relative;padding:40px 0;}
+  section+section{border-top:1px solid var(--line-soft);}
+  .eyebrow{display:inline-block;color:var(--rose);font-size:11.5px;font-weight:700;
+    letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,7vw,44px);line-height:1.08;
+    letter-spacing:-.5px;text-wrap:balance;margin-bottom:18px;}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(22px,5vw,28px);line-height:1.14;
+    letter-spacing:-.3px;text-wrap:balance;margin-bottom:14px;}
+  .lead{color:var(--muted);font-size:17px;line-height:1.62;margin-bottom:24px;max-width:62ch;}
+  .lead b{color:var(--text);font-weight:700;}
+
+  .cta{display:inline-block;background:linear-gradient(180deg,var(--rose-bright),var(--rose));
+    color:#1f1a1c;border:none;border-radius:13px;padding:16px 28px;font-family:var(--sans);
+    font-size:16px;font-weight:800;letter-spacing:.2px;cursor:pointer;text-decoration:none;
+    box-shadow:0 10px 30px -12px rgba(212,163,179,.5);}
+  .cta:hover{filter:brightness(1.04);}
+  .cta2{display:inline-block;color:var(--rose);border:1px solid var(--line);border-radius:12px;
+    padding:12px 18px;font-size:14.5px;font-weight:700;text-decoration:none;background:var(--panel);}
+  .cta2:hover{border-color:var(--rose);color:var(--rose-bright);}
+
+  .founder{display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:linear-gradient(180deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);border-radius:16px;padding:22px 24px;}
+  .founder .av{flex:0 0 84px;width:84px;height:84px;border-radius:50%;overflow:hidden;border:1.5px solid var(--rose);}
+  .founder .av img{width:100%;height:100%;object-fit:cover;}
+  .founder p{flex:1;min-width:230px;color:var(--muted);font-size:15.5px;line-height:1.6;}
+  .founder p b{color:var(--text);}
+
+  .steps{display:grid;gap:13px;}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--panel);border:1px solid var(--line-soft);
+    border-radius:14px;padding:18px 20px;}
+  .step .n{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:var(--raised);
+    border:1px solid var(--rose-dim);color:var(--rose-bright);font-family:var(--serif);font-weight:600;
+    font-size:16px;display:flex;align-items:center;justify-content:center;}
+  .step b{display:block;margin:2px 0 4px;font-size:15.5px;font-weight:700;color:var(--text);}
+  .step p{color:var(--muted);font-size:14px;}
+
+  /* product choice cards */
+  .choose{display:grid;gap:16px;grid-template-columns:1fr;}
+  @media(min-width:640px){.choose{grid-template-columns:1fr 1fr;}}
+  .pcard{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);
+    border-radius:18px;padding:24px 22px;display:flex;flex-direction:column;}
+  .pcard.lw{border-top:3px solid var(--rose);}
+  .pcard.cp{border-top:3px solid var(--terra);}
+  .pcard .kick{font-size:11px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:8px;}
+  .pcard.lw .kick{color:var(--rose);} .pcard.cp .kick{color:var(--terra);}
+  .pcard h3{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--text);margin-bottom:6px;}
+  .pcard .who{color:var(--muted-2);font-size:13.5px;margin-bottom:14px;}
+  .pcard ul{list-style:none;display:grid;gap:8px;margin-bottom:16px;}
+  .pcard li{position:relative;padding-left:22px;color:var(--text);font-size:14px;}
+  .pcard li::before{content:"";position:absolute;left:0;top:6px;width:13px;height:9px;
+    border-left:2px solid var(--sage);border-bottom:2px solid var(--sage);transform:rotate(-45deg);border-radius:1px;}
+  .pcard .price{font-family:var(--serif);font-size:15px;color:var(--muted);margin-bottom:16px;}
+  .pcard .price b{color:var(--text);font-size:18px;}
+  .pcard .links{margin-top:auto;display:flex;flex-wrap:wrap;gap:10px;}
+
+  .highlight{position:relative;overflow:hidden;background:
+      radial-gradient(120% 140% at 50% 0%,rgba(212,163,179,.12),rgba(212,163,179,0) 60%),
+      linear-gradient(180deg,var(--panel-2),var(--panel));
+    border:1px solid var(--rose-dim);border-radius:20px;padding:32px 26px;text-align:center;}
+  .highlight .big{font-family:var(--serif);font-weight:600;font-size:clamp(42px,12vw,60px);line-height:1;
+    color:var(--rose-bright);letter-spacing:-1px;margin-bottom:8px;}
+  .highlight .per{font-size:18px;color:var(--text);font-weight:700;margin-bottom:14px;}
+  .highlight .per b{color:var(--rose-bright);}
+  .highlight .fine{color:var(--muted);font-size:14.5px;line-height:1.6;max-width:52ch;margin:0 auto;}
+
+  .card{background:var(--panel);border:1px solid var(--line-soft);border-radius:14px;padding:18px 20px;}
+  .card b{color:var(--text);}
+  .card p{color:var(--muted);font-size:14px;margin-top:6px;}
+
+  footer{text-align:center;padding:30px 0 0;margin-top:26px;border-top:1px solid var(--line-soft);font-size:11.5px;}
+  footer a{color:var(--muted-2);text-decoration:none;margin:0 9px;} footer a:hover{color:var(--rose);}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="bar"></div>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brandmark">Shift My <span>Horizon</span></div>
+    <div class="tag">Partnerschaft</div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero" style="border-top:none;">
+    <div class="eyebrow">Hi Paula 👋</div>
+    <h1>Zwei Produkte für deine Community — du wählst eins.</h1>
+    <p class="lead">Du erreichst Frauen, die an sich und ihren Beziehungen arbeiten wollen. Empfiehl ein Produkt, das wirklich <b>täglich liefert</b> — und bekomm für jeden Verkauf <b>50 % Provision (= 24,50 €)</b>. Keine eigene Produktentwicklung, kein Support, sauber automatisch über Digistore24. Du testest vorab alles gratis selbst — und empfiehlst nur, wenn du zu 100 % dahinterstehst.</p>
+  </section>
+
+  <!-- Founder -->
+  <section>
+    <h2>Wer dahintersteht</h2>
+    <div class="founder">
+      <div class="av"><img src="images/janosch-mission.jpg" alt="Janosch, Gründer von Shift My Horizon"></div>
+      <p>Ich bin <b>Janosch</b>, Gründer von Shift My Horizon. Ich baue kein weiteres 08/15-Coaching, sondern einen konkreten, täglichen Weg per Messenger — fundiert auf echter Psychologie- und Beziehungsforschung, heruntergebrochen in Mini-Schritte, die man wirklich umsetzt. Genau das gibst du an deine Community weiter.</p>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section>
+    <h2>So läuft die Zusammenarbeit</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div><b>Du bekommst deine eigene Seite</b><p>Eine fertige Verkaufsseite mit <b>deinem Namen und deinem Zitat/Video</b> („Empfohlen von Paula"). Du schickst mir dein Material, ich baue es ein.</p></div></div>
+      <div class="step"><div class="n">2</div><div><b>Du teilst deinen Link</b><p>In Reel, Story oder Bio. Deine Leute landen auf deiner Seite und verstehen sofort, worum es geht.</p></div></div>
+      <div class="step"><div class="n">3</div><div><b>Deine Leute kaufen direkt</b><p>Einmalig 49 €, kein Abo, 14 Tage Geld-zurück-Garantie. Täglicher Impuls per WhatsApp/Telegram.</p></div></div>
+      <div class="step"><div class="n">4</div><div><b>Du bekommst deine Provision</b><p>Jeder Verkauf über deinen Link wird automatisch über Digistore24 getrackt & ausgezahlt. Null Aufwand mit Verkauf oder Support.</p></div></div>
+    </div>
+  </section>
+
+  <!-- Choose product -->
+  <section>
+    <div class="eyebrow">Nimm das, hinter dem du zu 100 % stehst</div>
+    <h2>Zwei Produkte — für dein Publikum</h2>
+    <p class="lead">Beide sind ein 90-Tage-Mentoring per Messenger, einmalig 49 €. Du musst nur <b>eins</b> wählen — das, das am besten zu deiner Community passt. Test beide gratis, dann entscheide.</p>
+    <div class="choose">
+      <div class="pcard lw">
+        <div class="kick">Für Frauen</div>
+        <h3>The Loving Woman</h3>
+        <div class="who">Selbstwert · zur Hauptfigur werden · selbstbewusst daten · über Herzschmerz hinweg</div>
+        <ul>
+          <li>Für Frauen, die aufhören sich klein zu machen</li>
+          <li>Jeden Tag ein Impuls für deinen Selbstwert</li>
+          <li>Passt sich an (Selbstwert / Dating / Herzschmerz)</li>
+        </ul>
+        <div class="price"><b>49 €</b> einmalig · 50 % = 24,50 € pro Verkauf</div>
+        <div class="links">
+          <a class="cta2" href="ThelovingWoman.html" target="_blank" rel="noopener">Gratis testen →</a>
+          <a class="cta2" href="empfehlung-woman.html?inf=paula" target="_blank" rel="noopener">So sähe deine Seite aus →</a>
+        </div>
+      </div>
+      <div class="pcard cp">
+        <div class="kick">Für Paare</div>
+        <h3>Connected Couples</h3>
+        <div class="who">weniger Streit · wieder Nähe · Vertrauen · als Paar wachsen</div>
+        <ul>
+          <li>Für Paare, die an ihrer Beziehung arbeiten</li>
+          <li>Jeden Tag ein Impuls für die Beziehung</li>
+          <li>Passt sich an eure Dynamik an</li>
+        </ul>
+        <div class="price"><b>49 €</b> einmalig · 50 % = 24,50 € pro Verkauf</div>
+        <div class="links">
+          <a class="cta2" href="connectedcouple.html" target="_blank" rel="noopener">Gratis testen →</a>
+          <a class="cta2" href="empfehlung-couple.html?inf=paula" target="_blank" rel="noopener">So sähe deine Seite aus →</a>
+        </div>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:20px;color:var(--muted-2);font-size:14.5px;">Mein Tipp: geh mit dem Produkt, bei dem du beim Testen denkst „das würde ich meiner besten Freundin schicken". Das spürt deine Community.</p>
+  </section>
+
+  <!-- Commission -->
+  <section>
+    <div class="highlight">
+      <div class="big">50 %</div>
+      <div class="per">= <b>24,50 € pro Verkauf</b> (vor Steuern) · Produktpreis 49 €</div>
+      <p class="fine">Automatisch getrackt &amp; ausgezahlt über Digistore24. Als Affiliate wirst du automatisch angenommen — dein Konto ist in wenigen Minuten eingerichtet. Ein Reel an eine engagierte Community bringt schnell zweistellige Verkaufszahlen.</p>
+    </div>
+  </section>
+
+  <!-- Become partner -->
+  <section class="closing" style="text-align:center;">
+    <h2 style="margin-bottom:10px;">Klingt gut?</h2>
+    <p class="lead" style="margin:0 auto 22px;">Sag mir, welches Produkt sich für dich richtig anfühlt — ich baue dir deine Seite und richte alles ein.</p>
+    <a class="cta" href="mailto:hello@shiftmyhorizon.com?subject=Partnerschaft%20%E2%80%93%20Shift%20My%20Horizon%20(Paula)&body=Hi%20Janosch%2C%0A%0Aich%20habe%20Interesse.%0A%0AMein%20Produkt%3A%20(The%20Loving%20Woman%20%2F%20Connected%20Couples)%0AMein%20Handle%3A%20%40paula.arivera%0A%0AViele%20Gr%C3%BC%C3%9Fe%2C%20Paula">Los geht's</a>
+    <div class="card" style="text-align:left;margin-top:24px;">
+      <b>So wirst du Partner</b>
+      <p>1. Du testest beide Flows gratis und wählst dein Produkt.</p>
+      <p>2. Du schickst mir dein kurzes Reel/Zitat — ich baue deine Seite mit deinem Namen.</p>
+      <p>3. Du legst in ~2 Min dein Digistore-Konto an (Affiliate wird automatisch angenommen), bekommst deinen Link und teilst ihn. Ab dann läuft alles automatisch.</p>
+    </div>
+  </section>
+
+  <footer>
+    <a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="agb.html">AGB</a>
+  </footer>
+</div>
+</body>
+</html>
