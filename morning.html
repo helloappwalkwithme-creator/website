@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>5-Tage Guter Morgen – Shift My Horizon</title>
+    <title>5 Tage besser in den Morgen – Shift My Horizon</title>
+    <meta name="description" content="5 Tage, jeden Morgen ein konkreter physiologischer Hebel für saubere Wachheit – kostenlos, direkt in deinen Messenger.">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        :root{ --dark:#0f0d08; --gray:#1c1810; --gray2:#26200f; --border:#3a3016; --accent:#e6b84c; --text:#f7f1e6; --dim:#b7a888; --error:#f77; --success:#5fd08a; }
+        :root{ --dark:#0b1020; --gray:#141a2e; --gray2:#1c2338; --border:#2a3350; --accent:#8eb6d9; --text:#eef2fb; --dim:#94a0bd; --error:#f77; --success:#5fd08a; }
         *{ box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
         body{ margin:0; background:var(--dark); color:var(--text); min-height:100vh; display:flex; flex-direction:column; }
         main{ flex:1; width:100%; max-width:540px; margin:0 auto; padding:28px 20px 60px; }
@@ -20,9 +16,9 @@
         .kicker{ color:var(--accent); font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:12px; }
         h1{ font-size:27px; line-height:1.3; font-weight:800; margin:0 0 14px; }
         .sub{ color:var(--dim); font-size:15px; line-height:1.6; margin-bottom:22px; }
-        .card{ background:var(--gray); border:1px solid var(--border); border-radius:12px; padding:16px 18px; margin-bottom:12px; font-size:14px; color:#e2d8c4; line-height:1.6; }
+        .card{ background:var(--gray); border:1px solid var(--border); border-radius:12px; padding:16px 18px; margin-bottom:12px; font-size:14px; color:#c7d0e6; line-height:1.6; }
         .card b{ color:#fff; }
-        .btn{ background:var(--accent); color:#0f0d08; border:none; border-radius:9px; padding:16px; width:100%; font-weight:800; font-size:15px; letter-spacing:.5px; cursor:pointer; text-align:center; text-decoration:none; display:block; }
+        .btn{ background:var(--accent); color:#0b1020; border:none; border-radius:9px; padding:16px; width:100%; font-weight:800; font-size:15px; letter-spacing:.5px; cursor:pointer; text-align:center; text-decoration:none; display:block; }
         .btn:disabled{ opacity:.45; cursor:not-allowed; }
         .opt{ background:var(--gray); border:1px solid var(--border); border-radius:11px; padding:17px 18px; margin-bottom:11px; width:100%; text-align:left; color:var(--text); font-size:15.5px; font-weight:600; cursor:pointer; transition:all .12s; }
         .opt:hover{ border-color:var(--accent); background:var(--gray2); }
@@ -34,23 +30,28 @@
         .chan{ display:flex; gap:10px; margin-bottom:16px; }
         .chan button{ flex:1; background:var(--gray); border:1px solid var(--border); color:var(--text); border-radius:9px; padding:14px; font-weight:700; cursor:pointer; }
         .chan button.sel{ border-color:var(--accent); background:var(--gray2); color:#fff; }
-        .price{ font-size:38px; font-weight:800; color:#fff; } .price small{ font-size:15px; color:var(--dim); font-weight:600; }
+        .consent{ display:flex; gap:9px; align-items:flex-start; margin:2px 2px 14px; }
+        .consent input{ width:19px; height:19px; margin-top:1px; accent-color:var(--accent); flex:none; }
+        .consent label{ font-size:12.5px; color:var(--dim); line-height:1.5; }
+        .consent a{ color:var(--accent); }
         .err{ color:var(--error); font-weight:700; font-size:14px; margin-top:10px; display:none; }
         .foot{ text-align:center; padding:22px; border-top:1px solid var(--border); font-size:11px; }
         .foot a{ color:var(--dim); text-decoration:none; margin:0 7px; }
     </style>
 </head>
 <body>
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C" height="0" width="0" style="display:none"></iframe></noscript>
 <main>
+    <!-- INTRO -->
     <div class="step active" id="s-intro">
-        <div class="kicker">Shift My Horizon · 5-Tage-Programm</div>
+        <div class="kicker">Shift My Horizon · 5-Tage-Programm · kostenlos</div>
         <h1>Wach & energiegeladen aufstehen – in 5 Tagen.</h1>
-        <p class="sub">Kaffee, noch ein Kaffee – und trotzdem gerädert. 5 Tage lang jeden Morgen ein echter physiologischer Hebel, der deinen Körper in Minuten auf „wach" schaltet – stärker und länger als Koffein. Direkt per WhatsApp oder Telegram.</p>
+        <p class="sub">Kaffee, noch ein Kaffee – und trotzdem gerädert. 5 Tage lang jeden Morgen ein echter physiologischer Hebel, der deinen Körper in Minuten auf „wach" schaltet – ohne den Crash von zu viel Koffein. Direkt per WhatsApp oder Telegram.</p>
         <div class="card">☀️ <b>Tag 1–5:</b> Kältereiz (Dopamin-Boost) · Morgenlicht in die Augen · Aktivierungs-Atmung · Temperatur-Kick · Dopamin-Schutzstunde. Physiologische Hebel für saubere Wachheit ohne Crash (Huberman, Lembke, Kox et al.).</div>
         <button class="btn" onclick="go('s-q1')">Ja, ich will wach aufwachen →</button>
         <p class="sub" style="text-align:center;margin-top:14px;font-size:12.5px;">3 kurze Fragen, damit wir dein Programm auf dich zuschneiden.</p>
     </div>
+
+    <!-- QUIZ -->
     <div class="step" id="s-q1">
         <div class="qnum">Frage 1 von 3</div>
         <div class="qtext">Damit wir dir am Ende die passenden Vertiefungen empfehlen können: Bist du …</div>
@@ -69,10 +70,12 @@
         <button class="opt" onclick="ans('kids',true,'s-contact')">Ja</button>
         <button class="opt" onclick="ans('kids',false,'s-contact')">Nein</button>
     </div>
+
+    <!-- CONTACT + OPT-IN -->
     <div class="step" id="s-contact">
         <div class="kicker">Fast geschafft</div>
         <h1>Wohin sollen wir deine 5 Tage schicken?</h1>
-        <p class="sub">Die Auslieferung läuft direkt in deinen Messenger.</p>
+        <p class="sub">Die Auslieferung läuft direkt in deinen Messenger. Kostenlos, jederzeit mit „STOP" beendbar.</p>
         <div class="label">Dein Vorname</div>
         <input class="field" id="f-name" placeholder="Vorname" autocomplete="given-name">
         <div class="label">Deine E-Mail</div>
@@ -82,46 +85,60 @@
             <button id="c-wa" class="sel" onclick="setChan('whatsapp')">WhatsApp</button>
             <button id="c-tg" onclick="setChan('telegram')">Telegram</button>
         </div>
-        <div class="card" style="text-align:center;"><span class="price">8,90 €</span><br><small>Einmalig · 14 Tage Geld-zurück-Garantie</small></div>
-        <button class="btn" id="pay-btn" onclick="checkout()">Jetzt für 8,90 € freischalten →</button>
+        <div class="consent">
+            <input type="checkbox" id="f-consent">
+            <label for="f-consent">Ich möchte die kostenlosen 5 Tage per Messenger und E-Mail erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen. Abmeldung jederzeit.</label>
+        </div>
+        <button class="btn" id="go-btn" onclick="start()">Meine 5 Tage kostenlos starten →</button>
         <p class="err" id="err"></p>
-        <p class="sub" style="text-align:center;margin-top:14px;font-size:12px;">Mit dem Kauf stimmst du der Speicherung deiner Angaben zu (<a href="datenschutz.html" style="color:var(--dim)">Datenschutz</a>).</p>
     </div>
 </main>
 <footer class="foot">
     <a href="impressum.html">Impressum</a> | <a href="datenschutz.html">Datenschutz</a> | <a href="agb.html">AGB</a>
 </footer>
 <script>
-    const CONFIG = { flow:'morning_flow', pid:'727723', lang:'de' };
+    // ==== Konfiguration je Magnet ====
+    const CONFIG = { flow:'morning_flow', lang:'de' };
     const SUPABASE_URL='https://jztwnumtwihomgxwlwor.supabase.co';
     const SUPABASE_ANON='sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+    const waNumber='491632225456';
+    const tgBotName='shift_my_horizon_bot';
+    const botMessage='Hallo, ich möchte meine kostenlosen 5 Tage starten. Bitte aktiviere meinen Zugang.';
     let sb=null, chan='whatsapp';
     const answers={};
-    window.smhTrackQS=function(){ var K=['fbclid','gclid','wbraid','gbraid','msclkid','ttclid','utm_source','utm_medium','utm_campaign','utm_content','utm_term'],p=new URLSearchParams(location.search),s={}; try{s=JSON.parse(sessionStorage.getItem('smh_track')||'{}')}catch(e){} K.forEach(function(k){if(p.get(k))s[k]=p.get(k)}); try{sessionStorage.setItem('smh_track',JSON.stringify(s))}catch(e){} return Object.keys(s).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(s[k])}).join('&'); };
+
+    window.smhTrackQS=function(){ var K=['fbclid','gclid','wbraid','gbraid','msclkid','ttclid','utm_source','utm_medium','utm_campaign','utm_content','utm_term'],p=new URLSearchParams(location.search),s={}; try{s=JSON.parse(sessionStorage.getItem('smh_track')||'{}')}catch(e){} K.forEach(function(k){if(p.get(k))s[k]=p.get(k)}); try{sessionStorage.setItem('smh_track',JSON.stringify(s))}catch(e){} return s; };
     window.smhTrackQS();
+
     function go(id){ document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active')}); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
     function ans(k,v,next){ answers[k]=v; go(next); }
     function setChan(c){ chan=c; document.getElementById('c-wa').classList.toggle('sel',c==='whatsapp'); document.getElementById('c-tg').classList.toggle('sel',c==='telegram'); }
     function genCode(){ var a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s=''; for(var i=0;i<8;i++){ if(i===4)s+='-'; s+=a[Math.floor(Math.random()*a.length)]; } return s; }
-    async function checkout(){
+
+    async function start(){
         var name=(document.getElementById('f-name').value||'').trim();
-        var email=(document.getElementById('f-email').value||'').trim();
+        var email=(document.getElementById('f-email').value||'').trim().toLowerCase();
+        var consent=document.getElementById('f-consent').checked;
         var err=document.getElementById('err'); err.style.display='none';
         if(name.length<2){ err.textContent='Bitte gib deinen Vornamen ein.'; err.style.display='block'; return; }
         if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Bitte gib eine gültige E-Mail ein.'; err.style.display='block'; return; }
-        var btn=document.getElementById('pay-btn'); btn.disabled=true; btn.textContent='Einen Moment …';
+        if(!consent){ err.textContent='Bitte stimme der Datenverarbeitung zu, damit wir dir die 5 Tage schicken dürfen.'; err.style.display='block'; return; }
+        var btn=document.getElementById('go-btn'); btn.disabled=true; btn.textContent='Einen Moment …';
         try{
             if(!sb) sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
             var code=genCode();
-            var onboarding={ gender:answers.gender||null, relationship:!!answers.relationship, kids:!!answers.kids, source_page:CONFIG.flow };
-            var res=await sb.rpc('register_tripwire_lead',{ p_email:email, p_first_name:name, p_delivery_channel:chan, p_source:CONFIG.flow, p_language:CONFIG.lang, p_onboarding_data:onboarding, p_access_code:code });
-            if(res && res.error) throw res.error;
+            var onboarding={ gender:answers.gender||null, relationship:!!answers.relationship, kids:!!answers.kids, source_page:CONFIG.flow, tracking:window.smhTrackQS(), access_code:code };
+            // Zwei RPCs (bewusst, nicht zusammenfassen): (1) setzt leads.current_mentoring_day=1,
+            // (2) legt die active_flows-Zeile an. v_tripwire_deliverable verlangt BEIDES.
+            var r1=await sb.rpc('register_tripwire_lead',{ p_email:email, p_first_name:name, p_delivery_channel:chan, p_source:CONFIG.flow, p_language:CONFIG.lang, p_onboarding_data:onboarding, p_access_code:code });
+            if(r1 && r1.error) throw r1.error;
+            var r2=await sb.rpc('register_lead',{ p_email:email, p_first_name:name, p_delivery_channel:chan, p_source:CONFIG.flow, p_language:CONFIG.lang, p_onboarding_data:onboarding, p_access_code:code, p_chosen_path:CONFIG.flow, p_flow_name:CONFIG.flow });
+            if(r2 && r2.error) throw r2.error;
             try{ localStorage.setItem('smh_language',CONFIG.lang); }catch(e){}
-            var tq=window.smhTrackQS();
-            var url='https://www.checkout-ds24.com/product/'+CONFIG.pid+'?email='+encodeURIComponent(email)+(tq?'&'+tq:'');
-            try{ window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'tripwire_checkout',flow:CONFIG.flow}); }catch(e){}
-            window.location.href=url;
-        }catch(e){ console.error(e); err.textContent='Etwas ist schiefgelaufen. Bitte versuche es erneut.'; err.style.display='block'; btn.disabled=false; btn.textContent='Jetzt für 8,90 € freischalten →'; }
+            var msg=encodeURIComponent(botMessage+"\n\nMein Zugangscode: "+code);
+            if(chan==='telegram') window.location.href='https://t.me/'+tgBotName+'?text='+msg;
+            else window.location.href='https://wa.me/'+waNumber+'?text='+msg;
+        }catch(e){ console.error(e); err.textContent='Etwas ist schiefgelaufen. Bitte versuche es erneut.'; err.style.display='block'; btn.disabled=false; btn.textContent='Meine 5 Tage kostenlos starten →'; }
     }
 </script>
 </body>
