@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Feierabend im Kopf &ndash; Hol dir deinen Feierabend zur&uuml;ck</title>
-    <meta name="description" content="Du bist zuhause, aber der Kopf arbeitet weiter. In 60 Sekunden siehst du, wo dein Abend kippt &ndash; und bekommst den ersten Schritt f&uuml;r heute Abend.">
+    <meta name="description" content="Du bist zuhause, aber der Kopf arbeitet weiter. 5 kurze Fragen: wo es gerade hakt &ndash; und ein kostenloser 5-Tage-Starter f&uuml;r deinen Abend.">
     <meta name="robots" content="index,follow">
     <meta property="og:title" content="Hol dir deinen Feierabend zur&uuml;ck">
-    <meta property="og:description" content="In 60 Sekunden: wo dein Abend kippt &ndash; und der erste Schritt f&uuml;r heute Abend.">
+    <meta property="og:description" content="5 Fragen, dann ein kostenloser 5-Tage-Starter f&uuml;r deinen Abend.">
     <meta property="og:type" content="website">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -71,6 +71,10 @@
         .quiz-btn.selected .radio-icon { border-color: var(--gold); }
         .radio-icon::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); display: none; }
         .quiz-btn.selected .radio-icon::after { display: block; }
+        .check-icon { width: 24px; height: 24px; border-radius: 6px; border: 2px solid #666; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 14px; flex: none; }
+        .quiz-btn.selected .check-icon { border-color: var(--gold); background: var(--gold); color: #000; }
+
+        .minihint { color: var(--muted); font-size: 12.5px; margin: 2px 2px 0; display: none; }
 
         .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 18px 18px; margin-bottom: 14px; border-left: 3px solid var(--gold); color: #d7d7d7; font-size: 14.5px; line-height: 1.55; }
 
@@ -136,113 +140,112 @@
                 <li>Du sitzt auf der Couch, aber der Kopf rechnet den Tag durch.</li>
                 <li>Drei Bier und &bdquo;geht schon&ldquo; &ndash; und am n&auml;chsten Abend wieder von vorn.</li>
             </ul>
-            <div class="info-card">Das Ziel: <b>2 Stunden echten Feierabend am Tag.</b> Nicht mehr Disziplin, nicht mehr Willenskraft &ndash; eine Grenze, die h&auml;lt.</div>
-            <p class="subtitle" style="margin-bottom:8px;">In 60 Sekunden siehst du, <b>wo genau dein Abend kippt</b> &ndash; und bekommst den ersten Schritt f&uuml;r heute Abend.</p>
-            <button class="btn-gold" onclick="goStep(2)">Zeig mir, wo mein Abend kippt &rarr;</button>
+            <div class="info-card">Das Ziel: <b>deine Abende geh&ouml;ren wieder dir.</b> Nicht mehr Stunden &ndash; die Stunden, die du hast, werden wieder deine. Und ein ruhiger Kopf sieht M&ouml;glichkeiten, die ein Dauer-Alarm ausblendet.</div>
+            <p class="subtitle" style="margin-bottom:8px;">5 kurze Fragen: Ich zeig dir, <b>wo&apos;s gerade hakt</b> &ndash; und du bekommst sofort einen <b>kostenlosen 5-Tage-Starter</b> f&uuml;r deinen Abend.</p>
+            <button class="btn-gold" onclick="goStep(2)">Los geht&apos;s &rarr;</button>
         </div>
 
-        <!-- STEP 2: Q1 -->
+        <!-- STEP 2: Painpoints (multi) -->
         <div class="step" id="step-2">
-            <div class="flow-title">Frage 1 von 6</div>
-            <h1 class="h1-title">Wann machst du abends das letzte Mal etwas Berufliches?</h1>
-            <p class="subtitle">Mail, Nachricht, kurz was checken.</p>
-            <div class="opts" data-q="q1">
-                <div class="quiz-btn" onclick="pick(this,'q1','frueh')"><span class="quiz-btn-text">Vor 18 Uhr &ndash; danach ist Schluss</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q1','abends')"><span class="quiz-btn-text">Zwischen 18 und 20 Uhr</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q1','spaet')"><span class="quiz-btn-text">Zwischen 20 und 22 Uhr</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q1','nach22')"><span class="quiz-btn-text">Nach 22 Uhr</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q1','einschlafen')"><span class="quiz-btn-text">Bis ich einschlafe</span><span class="radio-icon"></span></div>
+            <div class="flow-title">Frage 1 von 5</div>
+            <h1 class="h1-title">Woran h&auml;ngt es gerade bei dir?</h1>
+            <p class="subtitle">Kreuz alles an, was zutrifft. Ehrlich &ndash; das sieht nur ich.</p>
+            <div class="opts" data-q="painpoints">
+                <div class="quiz-btn" data-val="abschalten" onclick="toggle(this)"><span class="quiz-btn-text">Abends nicht abschalten, Kopf geht nicht aus</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="schlaf" onclick="toggle(this)"><span class="quiz-btn-text">Schlecht ein- oder durchschlafen</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="stress" onclick="toggle(this)"><span class="quiz-btn-text">Dauerstress, innerlich auf 180</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="morgen" onclick="toggle(this)"><span class="quiz-btn-text">Morgens schwer in Gang</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="kind" onclick="toggle(this)"><span class="quiz-btn-text">Nicht wirklich da beim Kind / bei der Familie</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="partnerin" onclick="toggle(this)"><span class="quiz-btn-text">Gereizt oder Distanz zur Partnerin</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="fokus" onclick="toggle(this)"><span class="quiz-btn-text">Kein Fokus, zerfahren bei der Arbeit</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="betaeubung" onclick="toggle(this)"><span class="quiz-btn-text">Abends zu viel Bier oder Handy</span><span class="check-icon">&#10003;</span></div>
             </div>
+            <p class="minihint" id="hint-2">Bitte w&auml;hle mindestens eins aus.</p>
+            <button class="btn-gold" onclick="submitMulti('painpoints','hint-2',3)">Weiter &rarr;</button>
         </div>
 
-        <!-- STEP 3: Q2 -->
+        <!-- STEP 3: Abend-Ist (multi) -->
         <div class="step" id="step-3">
-            <div class="flow-title">Frage 2 von 6</div>
-            <h1 class="h1-title">Wenn du abends auf der Couch sitzt &ndash; wo ist dein Kopf?</h1>
-            <div class="opts" data-q="q2">
-                <div class="quiz-btn" onclick="pick(this,'q2','da')"><span class="quiz-btn-text">Ganz da, beim Abend</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q2','halb')"><span class="quiz-btn-text">Halb beim Tag, halb hier</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q2','rechnet')"><span class="quiz-btn-text">Rechnet und plant den n&auml;chsten Tag durch</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q2','springt')"><span class="quiz-btn-text">Springt von Thema zu Thema</span><span class="radio-icon"></span></div>
+            <div class="flow-title">Frage 2 von 5</div>
+            <h1 class="h1-title">Wie sieht dein Abend gerade wirklich aus?</h1>
+            <p class="subtitle">Was machst du, wenn der Kopf nicht ausgeht? Mehrfach m&ouml;glich.</p>
+            <div class="opts" data-q="abend">
+                <div class="quiz-btn" data-val="bier" onclick="toggle(this)"><span class="quiz-btn-text">Drei Bier / ein paar Gl&auml;ser, dann geht&apos;s</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="scrollen" onclick="toggle(this)"><span class="quiz-btn-text">Handy, Scrollen, bis ich m&uuml;de bin</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="laptop" onclick="toggle(this)"><span class="quiz-btn-text">Laptop oder Mails nochmal auf</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="funktionieren" onclick="toggle(this)"><span class="quiz-btn-text">Ich funktioniere nur noch, bis ich umfalle</span><span class="check-icon">&#10003;</span></div>
             </div>
+            <p class="minihint" id="hint-3">Bitte w&auml;hle mindestens eins aus.</p>
+            <button class="btn-gold" onclick="submitMulti('abend','hint-3',4)">Weiter &rarr;</button>
         </div>
 
-        <!-- STEP 4: Q3 -->
+        <!-- STEP 4: Wofuer (multi) -->
         <div class="step" id="step-4">
-            <div class="flow-title">Frage 3 von 6</div>
-            <h1 class="h1-title">Was passiert meistens in den 10 Minuten, bevor der Abend kippt?</h1>
-            <div class="opts" data-q="q3">
-                <div class="quiz-btn" onclick="pick(this,'q3','laptop')"><span class="quiz-btn-text">Ich klappe den Laptop nochmal auf</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q3','handy')"><span class="quiz-btn-text">Handy, News, Scrollen</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q3','mail')"><span class="quiz-btn-text">Eine letzte Mail, &bdquo;nur schnell&ldquo;</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q3','gereiztheit')"><span class="quiz-btn-text">Gereiztheit zuhause &ndash; und dann ist die Stimmung weg</span><span class="radio-icon"></span></div>
+            <div class="flow-title">Frage 3 von 5</div>
+            <h1 class="h1-title">Was w&auml;re anders, wenn deine Abende wieder dir geh&ouml;ren?</h1>
+            <p class="subtitle">Mehrfach m&ouml;glich.</p>
+            <div class="opts" data-q="wofuer">
+                <div class="quiz-btn" data-val="familie" onclick="toggle(this)"><span class="quiz-btn-text">Mehr echte Zeit mit Familie / Partnerin</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="klar" onclick="toggle(this)"><span class="quiz-btn-text">Klarer Kopf f&uuml;r Arbeit und Entscheidungen</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="ruhe" onclick="toggle(this)"><span class="quiz-btn-text">Einfach mal Ruhe im Kopf</span><span class="check-icon">&#10003;</span></div>
+                <div class="quiz-btn" data-val="ich" onclick="toggle(this)"><span class="quiz-btn-text">Wieder Sport, Hobby, Zeit f&uuml;r mich</span><span class="check-icon">&#10003;</span></div>
             </div>
+            <p class="minihint" id="hint-4">Bitte w&auml;hle mindestens eins aus.</p>
+            <button class="btn-gold" onclick="submitMulti('wofuer','hint-4',5)">Weiter &rarr;</button>
         </div>
 
-        <!-- STEP 5: Q4 -->
+        <!-- STEP 5: Starter (single) -->
         <div class="step" id="step-5">
-            <div class="flow-title">Frage 4 von 6</div>
-            <h1 class="h1-title">Wo liegt dein Handy nachts?</h1>
-            <div class="opts" data-q="q4">
-                <div class="quiz-btn" onclick="pick(this,'q4','raum')"><span class="quiz-btn-text">In einem anderen Raum</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q4','lautlos')"><span class="quiz-btn-text">Auf dem Nachttisch, lautlos</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q4','an')"><span class="quiz-btn-text">Auf dem Nachttisch, an</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q4','nachts')"><span class="quiz-btn-text">Ich schau nachts rein, wenn ich wach werde</span><span class="radio-icon"></span></div>
+            <div class="flow-title">Frage 4 von 5</div>
+            <h1 class="h1-title">Womit willst du starten?</h1>
+            <p class="subtitle">Ein kostenloser 5-Tage-Starter, direkt in deinen Messenger. Den Rest kl&auml;ren wir sp&auml;ter.</p>
+            <div class="opts" data-q="starter">
+                <div class="quiz-btn" onclick="pick(this,'starter','sleep')"><span class="quiz-btn-text">Abends runterkommen &amp; einschlafen</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" onclick="pick(this,'starter','stress')"><span class="quiz-btn-text">Stress-Soforthilfe f&uuml;r zwischendurch</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" onclick="pick(this,'starter','morning')"><span class="quiz-btn-text">Besser &amp; wacher in den Morgen</span><span class="radio-icon"></span></div>
             </div>
         </div>
 
-        <!-- STEP 6: Q5 -->
+        <!-- STEP 6: Herkunft (single) -->
         <div class="step" id="step-6">
-            <div class="flow-title">Frage 5 von 6</div>
-            <h1 class="h1-title">Wie oft h&auml;ltst du eine feste Feierabend-Grenze?</h1>
-            <p class="subtitle">Eine Uhrzeit, ab der Schluss ist.</p>
-            <div class="opts" data-q="q5">
-                <div class="quiz-btn" onclick="pick(this,'q5','nie')"><span class="quiz-btn-text">Nie</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q5','selten')"><span class="quiz-btn-text">Selten</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q5','manchmal')"><span class="quiz-btn-text">Unregelm&auml;&szlig;ig</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q5','fast')"><span class="quiz-btn-text">Fast t&auml;glich</span><span class="radio-icon"></span></div>
-            </div>
-        </div>
-
-        <!-- STEP 7: Q6 Herkunft -->
-        <div class="step" id="step-7">
-            <div class="flow-title">Frage 6 von 6</div>
+            <div class="flow-title">Frage 5 von 5</div>
             <h1 class="h1-title">Kurz noch: Woher kennst du mich?</h1>
-            <div class="opts" data-q="q6">
-                <div class="quiz-btn" onclick="pick(this,'q6','instagram')"><span class="quiz-btn-text">Instagram</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q6','youtube')"><span class="quiz-btn-text">YouTube</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q6','empfehlung')"><span class="quiz-btn-text">Empfehlung</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q6','suche')"><span class="quiz-btn-text">Google-Suche</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q6','anzeige')"><span class="quiz-btn-text">Eine Anzeige</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'q6','sonst')"><span class="quiz-btn-text">Woanders</span><span class="radio-icon"></span></div>
+            <div class="opts" data-q="woher">
+                <div class="quiz-btn" onclick="pick(this,'woher','instagram')"><span class="quiz-btn-text">Instagram</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" onclick="pick(this,'woher','youtube')"><span class="quiz-btn-text">YouTube</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" onclick="pick(this,'woher','empfehlung')"><span class="quiz-btn-text">Empfehlung</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" onclick="pick(this,'woher','suche')"><span class="quiz-btn-text">Google-Suche</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" onclick="pick(this,'woher','anzeige')"><span class="quiz-btn-text">Eine Anzeige</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" onclick="pick(this,'woher','sonst')"><span class="quiz-btn-text">Woanders</span><span class="radio-icon"></span></div>
             </div>
         </div>
 
-        <!-- STEP 8: Analyzing -->
-        <div class="step" id="step-8">
+        <!-- STEP 7: Analyzing -->
+        <div class="step" id="step-7">
             <div class="analyze-wrap">
                 <div class="spinner"></div>
                 <p class="subtitle" style="margin:0;">Ich schaue mir deine Antworten an &hellip;</p>
             </div>
         </div>
 
-        <!-- STEP 9: Result -->
-        <div class="step" id="step-9">
+        <!-- STEP 8: Result -->
+        <div class="step" id="step-8">
             <div class="flow-title">Dein Ergebnis</div>
             <div class="result-card"><div class="result-score" id="res-pattern"></div></div>
             <div class="insight-card">
-                <div class="insight-title">Wo dein Abend kippt</div>
+                <div class="insight-title">Was bei dir gerade passiert</div>
                 <div class="insight-text" id="res-insight"></div>
             </div>
             <div class="info-card"><b>Deine eine Sache f&uuml;r heute Abend:</b><br><span id="res-action"></span></div>
-            <p class="subtitle" style="margin:18px 0 0;">Willst du die n&auml;chsten 5 Tage je einen kleinen Schritt dazu &ndash; direkt in deinen Messenger? Kostenlos.</p>
-            <button class="btn-gold" onclick="goStep(10)">Ja &ndash; schick mir den 5-Tage-Impuls</button>
+            <p class="subtitle" id="res-pains" style="margin:14px 0 0; font-size:13.5px;"></p>
+            <p class="subtitle" style="margin:14px 0 0;">Die n&auml;chsten 5 Tage bekommst du je einen kleinen Schritt dazu &ndash; direkt in deinen Messenger. Kostenlos.</p>
+            <button class="btn-gold" onclick="goStep(9)">Ja &ndash; schick mir den 5-Tage-Starter</button>
         </div>
 
-        <!-- STEP 10: Opt-in -->
-        <div class="step" id="step-10">
+        <!-- STEP 9: Opt-in -->
+        <div class="step" id="step-9">
             <div class="flow-title">Kostenlos</div>
-            <h1 class="h1-title">Dein 5-Tage-Impuls</h1>
+            <h1 class="h1-title">Dein 5-Tage-Starter</h1>
             <p class="subtitle">5 kurze Nachrichten, ein Schritt pro Tag, direkt in deinen Messenger. Jederzeit mit &bdquo;STOP&ldquo; beenden.</p>
 
             <div class="input-label">Vorname</div>
@@ -250,9 +253,9 @@
 
             <div class="input-label">E-Mail</div>
             <input type="email" id="reg-email" class="input-field" autocomplete="email">
-            <p class="hint">An die E-Mail kn&uuml;pfen wir deinen Zugang. Du bekommst den Impuls im gew&auml;hlten Messenger.</p>
+            <p class="hint">An die E-Mail kn&uuml;pfen wir deinen Zugang. Du bekommst den Starter im gew&auml;hlten Messenger.</p>
 
-            <div class="input-label">Wohin soll der Impuls?</div>
+            <div class="input-label">Wohin soll der Starter?</div>
             <select id="reg-channel" class="input-field">
                 <option value="whatsapp">WhatsApp</option>
                 <option value="telegram">Telegram</option>
@@ -260,10 +263,10 @@
 
             <div class="consent-row">
                 <input type="checkbox" id="reg-consent">
-                <label for="reg-consent">Ich m&ouml;chte den kostenlosen 5-Tage-Impuls per Messenger und E-Mail erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerkl&auml;rung</a> gelesen. Abmeldung jederzeit.</label>
+                <label for="reg-consent">Ich m&ouml;chte den kostenlosen 5-Tage-Starter per Messenger und E-Mail erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerkl&auml;rung</a> gelesen. Abmeldung jederzeit.</label>
             </div>
 
-            <button class="btn-gold" id="btn-register" onclick="handleRegistration()">5-Tage-Impuls starten</button>
+            <button class="btn-gold" id="btn-register" onclick="handleRegistration()">5-Tage-Starter starten</button>
             <p class="trust-line">Keine Kosten. Keine Weitergabe deiner Daten. Jederzeit abbestellbar.</p>
             <p class="err" id="reg-error"></p>
             <p class="legal-disclaimer">Dies ist kein Ersatz f&uuml;r medizinische oder psychotherapeutische Behandlung. Es geht um dein Verhalten am Abend, nicht um die Behandlung einer Erkrankung.</p>
@@ -287,55 +290,79 @@
 
         const waNumber = "491632225456";
         const tgBotName = "shift_my_horizon_bot";
-        const botMessage = "Hallo, ich möchte meinen kostenlosen 5-Tage-Impuls „Feierabend im Kopf“ starten. Bitte aktiviere meinen Zugang.";
+        const botMessage = "Hallo, ich möchte meinen kostenlosen 5-Tage-Starter „Feierabend im Kopf“ starten. Bitte aktiviere meinen Zugang.";
         const accessLabel = "Mein Zugangscode:";
 
         const answers = {};
         let step = 1;
-        const TOTAL_Q = 6;
-        let result = null;
+        const TOTAL_Q = 5;
 
-        const PATTERNS = {
-            sleep_flow: {
-                name: "Dein Muster: Der Dauer-Checker",
-                insight: "Dein Abend kippt, weil die Arbeit nie richtig endet. Noch ein Blick aufs Handy, noch eine Mail – dein Kopf bekommt nie das klare Signal „jetzt ist Schluss“. Das ist kein Schlafproblem und kein Charakterding. An einer Stelle fehlt eine Grenze: beim Übergang in den Abend.",
+        // Labels für die Rückspiegelung der Painpoints im Ergebnis
+        const PAIN_LABELS = {
+            abschalten: "abends nicht abschalten", schlaf: "Schlaf", stress: "Dauerstress",
+            morgen: "morgens in Gang kommen", kind: "da sein für dein Kind", partnerin: "Nähe zur Partnerin",
+            fokus: "Fokus bei der Arbeit", betaeubung: "Bier/Handy am Abend"
+        };
+
+        const STARTERS = {
+            sleep: {
+                flow: "sleep_flow",
+                name: "Dein Starter: Abends runterkommen",
+                insight: "Dein Abend kippt, weil die Arbeit nie richtig endet. Der wahre Gegner ist nicht der volle Tag – es ist die schnellste Lösung danach: Bier und Scrollen. Die betäuben, sie beruhigen nicht. Die nächsten 5 Tage üben das echte Runterfahren.",
                 action: "Leg das Handy heute ab 21:30 Uhr in einen anderen Raum. Nur heute. Mehr nicht."
             },
-            stress_flow: {
-                name: "Dein Muster: Der Mitnehmer",
-                insight: "Du nimmst den Tag mit auf die Couch. Der Körper ist zuhause, der Kopf rechnet weiter. Dir fehlt nicht Ruhe – dir fehlt der Schnitt: der klare Moment, an dem der Arbeitstag endet und der Abend beginnt.",
-                action: "Nimm dir heute 10 Minuten zwischen Arbeit und Zuhause – ein kurzer Schnitt (Spaziergang, Dusche, einmal um den Block), bevor du reinkommst."
+            stress: {
+                flow: "stress_flow",
+                name: "Dein Starter: Stress-Soforthilfe",
+                insight: "Innerlich auf 180, der Kopf rechnet weiter. Ruhe ist keine Belohnung fürs Fertigsein – sie ist trainierbar, mitten im Unfertigen. Die nächsten 5 Tage bekommst du je einen körperlichen Runterschalter für zwischendurch.",
+                action: "Mach heute vor dem Reinkommen 10 Minuten Schnitt – einmal um den Block, bevor der Abend beginnt."
             },
-            morning_flow: {
-                name: "Dein Muster: Der Grenzenlose",
-                insight: "Dein Tag hat keinen festen Rahmen – und ohne Rahmen gibt es keinen klaren Übergang in den Feierabend. Die Grenze beginnt nicht erst abends. Sie beginnt morgens, mit der Art, wie dein Tag startet.",
-                action: "Setz dir für heute eine Uhrzeit, ab der Schluss ist. Sag sie einmal laut. Nur für heute Abend."
+            morning: {
+                flow: "morning_flow",
+                name: "Dein Starter: Besser in den Morgen",
+                insight: "Wie dein Abend läuft, entscheidet sich oft schon am Morgen. Je klarer du startest, desto weniger Tag schwappt in den Abend. Die nächsten 5 Tage bauen dir einen klaren Morgen.",
+                action: "Heute Abend: Wecker stellen und das Handy aus dem Schlafzimmer. Der klare Morgen beginnt heute Abend."
             }
         };
 
+        function currentStarter() {
+            return STARTERS[answers.starter] || STARTERS.sleep;
+        }
+
+        // --- Mehrfachauswahl ---
+        function toggle(btn) {
+            btn.classList.toggle('selected');
+        }
+        function submitMulti(qkey, hintId, next) {
+            const stepEl = document.getElementById('step-' + step);
+            const vals = Array.from(stepEl.querySelectorAll('.quiz-btn.selected')).map(b => b.getAttribute('data-val'));
+            if (vals.length === 0) { document.getElementById(hintId).style.display = 'block'; return; }
+            document.getElementById(hintId).style.display = 'none';
+            answers[qkey] = vals;
+            goStep(next);
+        }
+
+        // --- Einfachauswahl (auto-advance) ---
         function pick(btn, qkey, val) {
             answers[qkey] = val;
             const siblings = btn.parentElement.querySelectorAll('.quiz-btn');
             siblings.forEach(s => s.classList.remove('selected'));
             btn.classList.add('selected');
             setTimeout(() => {
-                if (step < 7) { goStep(step + 1); }
-                else { goStep(8); runAnalysis(); }
+                if (step === 6) { goStep(7); runAnalysis(); }
+                else { goStep(step + 1); }
             }, 260);
         }
 
         function goStep(n) {
             document.getElementById('step-' + step).classList.remove('active');
             step = n;
-            const el = document.getElementById('step-' + step);
-            el.classList.add('active');
+            document.getElementById('step-' + step).classList.add('active');
             window.scrollTo(0, 0);
 
-            const inQuiz = (step >= 2 && step <= 7);
+            const inQuiz = (step >= 2 && step <= 6);
             document.getElementById('progressContainer').style.display = inQuiz ? 'block' : 'none';
             if (inQuiz) document.getElementById('progressBar').style.width = (((step - 2) / TOTAL_Q) * 100) + '%';
-
-            // Back button only during quiz questions (not intro, analysis, result, form)
             document.getElementById('bottomBar').style.display = inQuiz ? 'block' : 'none';
         }
 
@@ -344,31 +371,17 @@
             else goStep(1);
         }
 
-        function computeFlow() {
-            let sleep = 0, stress = 0, morning = 0;
-            if (answers.q1 === 'nach22' || answers.q1 === 'einschlafen') sleep += 1;
-            if (answers.q4 === 'an' || answers.q4 === 'nachts') sleep += 1;
-            if (answers.q2 === 'rechnet' || answers.q2 === 'springt') stress += 1;
-            if (answers.q3 === 'mail' || answers.q3 === 'gereiztheit' || answers.q3 === 'laptop') stress += 1;
-            if (answers.q5 === 'nie') morning += 2;
-            else if (answers.q5 === 'selten') morning += 1;
-
-            // highest wins; tie-break order: sleep > stress > morning; default sleep
-            let best = 'sleep_flow', bestScore = sleep;
-            if (stress > bestScore) { best = 'stress_flow'; bestScore = stress; }
-            if (morning > bestScore) { best = 'morning_flow'; bestScore = morning; }
-            return best;
-        }
-
         function runAnalysis() {
             setTimeout(() => {
-                const flow = computeFlow();
-                const p = PATTERNS[flow];
-                result = { flow: flow, pattern: p.name };
-                document.getElementById('res-pattern').innerText = p.name;
-                document.getElementById('res-insight').innerText = p.insight;
-                document.getElementById('res-action').innerText = p.action;
-                goStep(9);
+                const s = currentStarter();
+                document.getElementById('res-pattern').innerText = s.name;
+                document.getElementById('res-insight').innerText = s.insight;
+                document.getElementById('res-action').innerText = s.action;
+                const pains = (answers.painpoints || []).map(k => PAIN_LABELS[k]).filter(Boolean);
+                document.getElementById('res-pains').innerText = pains.length
+                    ? "Du kommst gerade mit: " + pains.slice(0, 3).join(", ") + "."
+                    : "";
+                goStep(8);
             }, 1800);
         }
 
@@ -388,22 +401,21 @@
 
             if (!fname || !email) { errEl.innerText = "Bitte Vorname und E-Mail ausfüllen."; errEl.style.display = 'block'; return; }
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.innerText = "Bitte eine gültige E-Mail eingeben."; errEl.style.display = 'block'; return; }
-            if (!consent) { errEl.innerText = "Bitte stimme der Datenverarbeitung zu, damit ich dir den Impuls schicken darf."; errEl.style.display = 'block'; return; }
+            if (!consent) { errEl.innerText = "Bitte stimme der Datenverarbeitung zu, damit ich dir den Starter schicken darf."; errEl.style.display = 'block'; return; }
 
             errEl.style.display = 'none';
             btn.disabled = true; btn.innerText = "…";
 
             const accessCode = generateAccessCode();
-            const flow = (result && result.flow) ? result.flow : computeFlow();
+            const flow = currentStarter().flow;
 
             const onboarding = {
-                q1_letzte_arbeit: answers.q1 || null,
-                q2_kopf_abends: answers.q2 || null,
-                q3_vor_dem_kippen: answers.q3 || null,
-                q4_handy_nachts: answers.q4 || null,
-                q5_feierabend_grenze: answers.q5 || null,
-                woher: answers.q6 || null,
-                muster: (result && result.pattern) ? result.pattern : null,
+                painpoints: answers.painpoints || [],
+                abend_situation: answers.abend || [],
+                wofuer: answers.wofuer || [],
+                starter: answers.starter || null,
+                flow: flow,
+                woher: answers.woher || null,
                 access_code: accessCode
             };
 
@@ -446,7 +458,7 @@
                 console.error("Fehler beim Speichern:", e);
                 errEl.innerText = "Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.";
                 errEl.style.display = 'block';
-                btn.disabled = false; btn.innerText = "5-Tage-Impuls starten";
+                btn.disabled = false; btn.innerText = "5-Tage-Starter starten";
             }
         }
     </script>
