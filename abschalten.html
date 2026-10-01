@@ -380,7 +380,7 @@
 
         async function handleRegistration() {
             const fname = document.getElementById('reg-fname').value.trim();
-            const email = document.getElementById('reg-email').value.trim();
+            const email = document.getElementById('reg-email').value.trim().toLowerCase();
             const channel = document.getElementById('reg-channel').value;
             const consent = document.getElementById('reg-consent').checked;
             const errEl = document.getElementById('reg-error');
@@ -409,6 +409,19 @@
 
             try {
                 if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+                // Zwei RPCs (bewusst, nicht zusammenfassen): (1) setzt leads.current_mentoring_day=1,
+                // (2) legt die active_flows-Zeile an. v_tripwire_deliverable verlangt BEIDES.
+                const { error: twError } = await supabaseClient.rpc('register_tripwire_lead', {
+                    p_email: email,
+                    p_first_name: fname,
+                    p_delivery_channel: channel,
+                    p_source: 'abschalten_flow',
+                    p_language: 'de',
+                    p_onboarding_data: onboarding,
+                    p_access_code: accessCode
+                });
+                if (twError) throw twError;
 
                 const { error: rpcError } = await supabaseClient.rpc('register_lead', {
                     p_email: email,
