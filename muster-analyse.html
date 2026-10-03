@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Muster-Analyse &ndash; Warum dein Kopf nicht ausgeht</title>
+    <meta name="description" content="3 Minuten: Welches Muster h&auml;lt dich im Dauerlauf? Eine n&uuml;chterne Analyse f&uuml;r getriebene M&auml;nner &ndash; plus dein n&auml;chster Schritt.">
+    <meta name="robots" content="index,follow">
+    <meta property="og:title" content="Welches Muster h&auml;lt dich im Dauerlauf?">
+    <meta property="og:description" content="Eine n&uuml;chterne 3-Minuten-Analyse f&uuml;r getriebene M&auml;nner.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg: #F4F3EF;
+            --surface: #FFFFFF;
+            --ink: #16130E;
+            --muted: #6E685F;
+            --line: #E6E2D9;
+            --accent: #13796A;
+            --accent-dark: #0C564B;
+            --accent-tint: #E9F3F0;
+            --error: #c0392b;
+            --radius: 18px;
+            --shadow-sm: 0 1px 2px rgba(20,16,10,.05);
+            --shadow-md: 0 8px 24px -12px rgba(20,16,10,.18);
+            --shadow-lg: 0 24px 60px -30px rgba(20,16,10,.35);
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg:#0E0D0B; --surface:#17150F; --ink:#F3F1EC; --muted:#9a938a; --line:#2a271f;
+                --accent:#38c8ad; --accent-dark:#2aa892; --accent-tint:#152a26;
+            }
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg); color: var(--ink);
+            -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+            min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+            overflow-x: hidden;
+        }
+        .progress-track { position: fixed; top: 0; left: 0; width: 100%; height: 5px; background: transparent; z-index: 100; display: none; }
+        .progress-bar { height: 100%; width: 0%; background: var(--accent); border-radius: 0 4px 4px 0; transition: width .45s cubic-bezier(.4,0,.2,1); }
+        .topbar { width: 100%; max-width: 560px; margin: 0 auto; display: flex; align-items: center; justify-content: center; padding: 20px 20px 0; }
+        .wordmark { font-size: 12px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+        .stage { flex: 1; width: 100%; max-width: 560px; margin: 0 auto; padding: 24px 20px 140px; display: flex; flex-direction: column; }
+        .step { display: none; }
+        .step.active { display: block; animation: slideIn .4s cubic-bezier(.16,1,.3,1) both; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(16px) scale(.99); } to { opacity: 1; transform: none; } }
+        .eyebrow { display:inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); background: var(--accent-tint); padding: 6px 12px; border-radius: 999px; margin-bottom: 18px; }
+        h1 { font-size: 30px; line-height: 1.18; font-weight: 800; letter-spacing: -.02em; margin: 0 0 16px; }
+        .lead { font-size: 17px; line-height: 1.55; color: var(--muted); margin: 0 0 26px; }
+        .bullets { list-style: none; padding: 0; margin: 0 0 26px; display: grid; gap: 10px; }
+        .bullets li { position: relative; padding: 14px 16px 14px 44px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; font-size: 15px; line-height: 1.45; box-shadow: var(--shadow-sm); }
+        .bullets li::before { content: ''; position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+        .note { background: var(--accent-tint); border-radius: 16px; padding: 18px 20px; font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 26px; }
+        .opts { display: grid; gap: 12px; }
+        .opt {
+            display: flex; align-items: center; justify-content: space-between; gap: 14px;
+            background: var(--surface); border: 1.5px solid var(--line); border-radius: 16px;
+            padding: 19px 20px; cursor: pointer; box-shadow: var(--shadow-sm);
+            transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+        }
+        .opt:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: #cfc9bd; }
+        .opt:active { transform: translateY(0); }
+        .opt-text { font-size: 16px; font-weight: 500; line-height: 1.4; }
+        .opt.selected { border-color: var(--accent); background: var(--accent-tint); }
+        .opt.selected .opt-text { color: var(--accent-dark); font-weight: 600; }
+        .tick { flex: none; width: 26px; height: 26px; border-radius: 50%; border: 2px solid #cfc9bd; display: flex; align-items: center; justify-content: center; transition: all .15s ease; }
+        .opt.selected .tick { border-color: var(--accent); background: var(--accent); }
+        .tick svg { width: 14px; height: 14px; opacity: 0; transform: scale(.5); transition: all .15s ease; }
+        .opt.selected .tick svg { opacity: 1; transform: scale(1); }
+        .btn { display: block; width: 100%; border: none; cursor: pointer; text-align: center; font-family: inherit;
+            background: var(--accent); color: #fff; padding: 18px; border-radius: 14px; font-size: 16px; font-weight: 700;
+            letter-spacing: .01em; box-shadow: var(--shadow-md); transition: transform .15s ease, background .15s ease, opacity .15s; margin-top: 8px; }
+        .btn:hover { background: var(--accent-dark); transform: translateY(-2px); }
+        .btn:active { transform: translateY(0); }
+        .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+        .btn-ghost { background: transparent; color: var(--accent-dark); box-shadow: none; border: 1.5px solid var(--line); }
+        .btn-ghost:hover { background: var(--surface); color: var(--accent-dark); }
+        .spinner-wrap { text-align: center; padding: 80px 0; }
+        .spinner { width: 52px; height: 52px; border: 4px solid var(--line); border-top-color: var(--accent); border-radius: 50%; margin: 0 auto 24px; animation: spin .9s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .result-badge { text-align: center; padding: 30px 24px; background: var(--ink); color: #fff; border-radius: 20px; margin-bottom: 18px; box-shadow: var(--shadow-lg); }
+        .result-badge .rb-label { font-size: 11.5px; letter-spacing: 2px; text-transform: uppercase; opacity: .6; margin-bottom: 8px; }
+        .result-badge .rb-name { font-size: 26px; font-weight: 800; letter-spacing: -.01em; }
+        .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-bottom: 14px; box-shadow: var(--shadow-sm); }
+        .card h3 { margin: 0 0 8px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); }
+        .card p { margin: 0; font-size: 15.5px; line-height: 1.6; color: var(--ink); }
+        .action-card { background: var(--accent-tint); border: none; }
+        .action-card h3 { color: var(--accent-dark); }
+        .choice { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 24px 22px; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+        .choice h2 { margin: 0 0 6px; font-size: 19px; font-weight: 800; letter-spacing: -.01em; }
+        .choice p { margin: 0 0 16px; font-size: 15px; line-height: 1.55; color: var(--muted); }
+        label.field-label { display: block; font-size: 13px; font-weight: 600; margin: 18px 0 8px; }
+        .field { width: 100%; background: var(--surface); border: 1.5px solid var(--line); border-radius: 13px; padding: 16px; font-size: 16px; font-family: inherit; color: var(--ink); outline: none; transition: border-color .15s; }
+        .field:focus { border-color: var(--accent); }
+        .microcopy { font-size: 12.5px; color: var(--muted); line-height: 1.45; margin: 7px 2px 0; }
+        .consent { display: flex; align-items: flex-start; gap: 11px; margin: 20px 0 6px; }
+        .consent input { width: 22px; height: 22px; margin-top: 1px; accent-color: var(--accent); flex: none; }
+        .consent label { font-size: 13px; line-height: 1.5; color: var(--muted); }
+        .consent a { color: var(--accent-dark); }
+        .trust { text-align: center; font-size: 12.5px; color: var(--muted); margin-top: 14px; }
+        .error { display: none; color: var(--error); text-align: center; font-weight: 600; margin-top: 14px; font-size: 14px; }
+        .disclaimer { font-size: 11.5px; color: var(--muted); line-height: 1.5; text-align: center; margin-top: 20px; }
+        .backbar { position: fixed; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, var(--bg) 70%, transparent); padding: 14px 20px 26px; z-index: 10; display: none; }
+        .backbar .inner { max-width: 560px; margin: 0 auto; }
+        .foot { text-align: center; padding: 24px 20px 30px; font-size: 12px; color: var(--muted); }
+        .foot a { color: var(--muted); text-decoration: none; margin: 0 6px; }
+        .foot a:hover { color: var(--accent-dark); }
+        .trust-strip { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
+        .tchip { font-size: 12.5px; font-weight: 600; color: var(--accent-dark); background: var(--accent-tint); border-radius: 999px; padding: 8px 13px; }
+        .reviews { margin: 0 0 26px; display: none; }
+        .reviews h2 { font-size: 12.5px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+        .review-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin-bottom: 10px; box-shadow: var(--shadow-sm); }
+        .review-card .stars { color: var(--accent); font-size: 13px; letter-spacing: 2px; margin-bottom: 7px; }
+        .review-card .rc-text { font-size: 14.5px; line-height: 1.55; }
+        .review-card .rc-name { font-size: 13px; color: var(--muted); margin-top: 9px; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="progress-track" id="progressContainer"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="topbar"><span class="wordmark">Shift My Horizon</span></div>
+
+    <div class="stage">
+        <!-- STEP 1 -->
+        <div class="step active" id="step-1">
+            <span class="eyebrow">Muster-Analyse &middot; 3 Minuten</span>
+            <h1>Welches Muster h&auml;lt dich im Dauerlauf?</h1>
+            <p class="lead">Erfolgreiche M&auml;nner stecken selten fest, weil sie zu wenig k&ouml;nnen. Sondern weil genau das, was sie stark gemacht hat, irgendwann gegen sie l&auml;uft.</p>
+            <ul class="bullets">
+                <li>Der Kopf geht abends nicht aus &ndash; obwohl du m&uuml;de bist.</li>
+                <li>Du funktionierst, aber freust dich &uuml;ber nichts mehr richtig.</li>
+                <li>Du wartest auf den Moment, in dem alles erledigt ist. Er kommt nie.</li>
+            </ul>
+            <div class="note">4 kurze Fragen, ehrlich aus dem Bauch. Danach wei&szlig;t du, <b>welches Muster</b> bei dir l&auml;uft, <b>warum</b> &ndash; und was der erste Zug ist.</div>
+            <div class="trust-strip">
+                <span class="tchip">Keine Motivationsspr&uuml;che</span>
+                <span class="tchip">Mechanismus statt Willenskraft</span>
+                <span class="tchip">Kostenlos &amp; unverbindlich</span>
+            </div>
+            <div class="reviews" id="reviews"><h2>Echte R&uuml;ckmeldungen</h2><div id="reviews-list"></div></div>
+            <button class="btn" onclick="goStep(2)">Analyse starten</button>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step" id="step-2">
+            <span class="eyebrow">Frage 1 von 4</span>
+            <h1>Der Arbeitstag ist &bdquo;fertig&ldquo;. Was passiert in deinem Kopf?</h1>
+            <div class="opts">
+                <div class="opt" onclick="pick(this,'sprinter')"><span class="opt-text">Sofort das n&auml;chste Ziel &ndash; nie wirklich angekommen.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'kontroll')"><span class="opt-text">Ich geh durch, was noch bei mir liegt und wer was braucht.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'verfuegbar')"><span class="opt-text">Ich bin eigentlich noch erreichbar, falls was kommt.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'dauerlauf')"><span class="opt-text">Der Kopf rechnet einfach weiter, l&auml;sst sich nicht stoppen.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'betaeuber')"><span class="opt-text">Ich mach zu mit Bier oder Handy, damit Ruhe ist.</span><span class="tick">&#10003;</span></div>
+            </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step" id="step-3">
+            <span class="eyebrow">Frage 2 von 4</span>
+            <h1>Was f&auml;llt dir am schwersten?</h1>
+            <div class="opts">
+                <div class="opt" onclick="pick(this,'sprinter')"><span class="opt-text">Anhalten, ohne das Gef&uuml;hl, Zeit zu verlieren.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'kontroll')"><span class="opt-text">Etwas abgeben und nicht selbst kontrollieren.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'verfuegbar')"><span class="opt-text">Nein sagen oder mal nicht erreichbar sein.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'dauerlauf')"><span class="opt-text">Gedanken stoppen, wenn ich sie stoppen will.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'betaeuber')"><span class="opt-text">Einen Abend ohne Bier oder Scrollen runterkommen.</span><span class="tick">&#10003;</span></div>
+            </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step" id="step-4">
+            <span class="eyebrow">Frage 3 von 4</span>
+            <h1>Woran merkst du, dass zu viel l&auml;uft?</h1>
+            <div class="opts">
+                <div class="opt" onclick="pick(this,'sprinter')"><span class="opt-text">Ich jage, aber freu mich &uuml;ber nichts mehr.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'kontroll')"><span class="opt-text">Alles h&auml;ngt an mir &ndash; ich bin der Flaschenhals.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'verfuegbar')"><span class="opt-text">Mein Kalender geh&ouml;rt allen au&szlig;er mir.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'dauerlauf')"><span class="opt-text">Ich lieg wach, und der Tag l&auml;uft nochmal durch.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'betaeuber')"><span class="opt-text">Ohne was zum Bet&auml;uben wird&apos;s unruhig in mir.</span><span class="tick">&#10003;</span></div>
+            </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="step" id="step-5">
+            <span class="eyebrow">Frage 4 von 4</span>
+            <h1>Was w&uuml;rde dein Umfeld &uuml;ber dich sagen?</h1>
+            <div class="opts">
+                <div class="opt" onclick="pick(this,'sprinter')"><span class="opt-text">&bdquo;Er steht nie still.&ldquo;</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'kontroll')"><span class="opt-text">&bdquo;Ohne ihn l&auml;uft nichts.&ldquo;</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'verfuegbar')"><span class="opt-text">&bdquo;Er ist immer f&uuml;r alle da.&ldquo;</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'dauerlauf')"><span class="opt-text">&bdquo;Er ist oft in Gedanken woanders.&ldquo;</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pick(this,'betaeuber')"><span class="opt-text">&bdquo;Er braucht abends sein Ventil.&ldquo;</span><span class="tick">&#10003;</span></div>
+            </div>
+        </div>
+
+        <!-- STEP 6: Analyzing -->
+        <div class="step" id="step-6">
+            <div class="spinner-wrap"><div class="spinner"></div><p class="lead" style="margin:0;">Ich schaue mir deine Antworten an &hellip;</p></div>
+        </div>
+
+        <!-- STEP 7: Result -->
+        <div class="step" id="step-7">
+            <div class="result-badge"><div class="rb-label">Dein Muster</div><div class="rb-name" id="res-name"></div></div>
+            <div class="card"><h3>Der Mechanismus dahinter</h3><p id="res-mech"></p></div>
+            <div class="card"><h3>Was es dich kostet</h3><p id="res-cost"></p></div>
+            <div class="card action-card"><h3>Dein erster Zug f&uuml;r heute</h3><p id="res-action"></p></div>
+            <button class="btn" onclick="goStep(8)">Weiter</button>
+        </div>
+
+        <!-- STEP 8: Blocker -->
+        <div class="step" id="step-8">
+            <span class="eyebrow">Ehrlich</span>
+            <h1>Was h&auml;lt dich am meisten davon ab, wirklich was zu &auml;ndern?</h1>
+            <p class="lead">Kein falsches Wort hier &ndash; das hilft mir nur zu verstehen, wo du stehst.</p>
+            <div class="opts">
+                <div class="opt" onclick="pickBlocker(this,'energie')"><span class="opt-text">Keine Energie &ndash; abends ist nichts mehr &uuml;brig.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pickBlocker(this,'zeit')"><span class="opt-text">Keine Zeit &ndash; nicht mal 1 Stunde am Tag f&uuml;r mich.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pickBlocker(this,'kopf')"><span class="opt-text">Kein Kopf daf&uuml;r &ndash; zu viel anderes im Leben.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pickBlocker(this,'geld')"><span class="opt-text">Kein Geld gerade &ndash; und was wirklich hilft, kostet.</span><span class="tick">&#10003;</span></div>
+                <div class="opt" onclick="pickBlocker(this,'probiert')"><span class="opt-text">Schon oft probiert &ndash; h&auml;lt bei mir nie.</span><span class="tick">&#10003;</span></div>
+            </div>
+        </div>
+
+        <!-- STEP 9: Zwei Wege -->
+        <div class="step" id="step-9">
+            <span class="eyebrow">Dein n&auml;chster Schritt</span>
+            <h1>Wie willst du weiter?</h1>
+            <div class="choice">
+                <h2>Der Gratis-Start</h2>
+                <p>Ein kostenloser 5-Tage-Weg direkt in deinen Messenger &ndash; ein kleiner Schritt pro Tag. Zum selber anfangen.</p>
+                <a href="abschalten.html" class="btn btn-ghost" style="text-decoration:none;">5-Tage-Weg holen</a>
+            </div>
+            <div class="choice">
+                <h2>Das pers&ouml;nliche Gespr&auml;ch</h2>
+                <p>Eine kostenlose, unverbindliche <b>Potenzialanalyse</b> &ndash; 30 Minuten, in denen wir dein Muster und deinen konkreten Weg anschauen. Ich ruf dich an.</p>
+                <button class="btn" onclick="goStep(10)">Potenzialanalyse anfragen</button>
+            </div>
+        </div>
+
+        <!-- STEP 10: Formular -->
+        <div class="step" id="step-10">
+            <span class="eyebrow">Potenzialanalyse</span>
+            <h1>Ich ruf dich an.</h1>
+            <p class="lead">30 Minuten, kostenlos und unverbindlich. Wir schauen dein Muster an und was konkret dein n&auml;chster Schritt ist. Kein Verkaufsdruck.</p>
+            <label class="field-label" for="pa-name">Vorname</label>
+            <input type="text" id="pa-name" class="field" autocomplete="given-name">
+            <label class="field-label" for="pa-phone">Telefonnummer</label>
+            <input type="tel" id="pa-phone" class="field" autocomplete="tel" placeholder="+49 …">
+            <p class="microcopy">Nur f&uuml;r den R&uuml;ckruf. Keine Weitergabe, kein Newsletter.</p>
+            <div class="consent">
+                <input type="checkbox" id="pa-consent">
+                <label for="pa-consent">Ich m&ouml;chte zur Potenzialanalyse zur&uuml;ckgerufen werden und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerkl&auml;rung</a> gelesen.</label>
+            </div>
+            <button class="btn" id="pa-submit" onclick="submitPotenzial()">R&uuml;ckruf anfragen</button>
+            <p class="trust">Kostenlos &amp; unverbindlich. Deine Daten bleiben bei mir.</p>
+            <p class="error" id="pa-error"></p>
+            <p class="disclaimer">Dies ist kein Ersatz f&uuml;r medizinische oder psychotherapeutische Behandlung. Es geht um dein Verhalten und deine Steuerung im Alltag, nicht um die Behandlung einer Erkrankung.</p>
+        </div>
+
+        <!-- STEP 11: Danke -->
+        <div class="step" id="step-11">
+            <div class="result-badge"><div class="rb-name">Passt &ndash; ich melde mich.</div></div>
+            <p class="lead">Danke. Ich rufe dich in den n&auml;chsten 1&ndash;2 Tagen an. Hol dir bis dahin gern schon den kostenlosen 5-Tage-Weg.</p>
+            <a href="abschalten.html" class="btn btn-ghost" style="text-decoration:none;">5-Tage-Weg holen</a>
+        </div>
+    </div>
+
+    <div class="backbar" id="bottomBar"><div class="inner"><button class="btn btn-ghost" onclick="goBack()">&larr; Zur&uuml;ck</button></div></div>
+
+    <footer class="foot">
+        <a href="impressum.html">Impressum</a>&middot;<a href="datenschutz.html">Datenschutz</a>&middot;<a href="agb.html">AGB</a>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+        let supabaseClient = null;
+
+        const answers = [];
+        let blocker = null;
+        let step = 1;
+        const TOTAL_Q = 4;
+
+        const PATTERNS = {
+            sprinter: {
+                name: "Der Dauer-Sprinter",
+                mech: "Dein Antrieb hat dich weit gebracht – aber dein System kennt nur ein Tempo: weiter. Jedes erreichte Ziel setzt sofort das nächste. Dein Belohnungssystem gewöhnt sich in Wochen an jeden Erfolg, das „geschafft“ verdampft, bevor du es spürst.",
+                cost: "Du jagst und freust dich über nichts mehr richtig. Abends kommst du nicht runter, weil „fertig“ nie eintritt. Entscheidungen triffst du aus dem Lauf heraus, nicht aus Klarheit.",
+                action: "Setz dir heute einen harten Schlusspunkt – eine Uhrzeit, ab der Feierabend ist, egal ob fertig oder nicht. Einmal. Und schau, was dein Kopf macht."
+            },
+            kontroll: {
+                name: "Der Kontroll-Architekt",
+                mech: "Du hältst alles selbst zusammen, weil du es wirklich am besten kannst – eine echte Stärke. Nur: dein Überlebenssystem wertet Kontrolle als Sicherheit und Abgeben als Gefahr. Also behältst du alles, und dein Kopf bleibt im Dauer-Scan.",
+                cost: "Du bist der Flaschenhals. Entscheidungen stauen sich bei dir, dein Kopf geht nie aus, und je mehr du hältst, desto weniger wächst ohne dich.",
+                action: "Gib heute eine einzige Sache ab, die nicht perfekt laufen muss – und kontrollier bewusst nicht nach. Beobachte: Ist die Katastrophe eingetreten?"
+            },
+            verfuegbar: {
+                name: "Der Dauer-Verfügbare",
+                mech: "Du bist für alle da – verlässlich, ansprechbar, nie im Weg. Das hat dir Respekt und Bindungen gebracht. Aber dein System hat gelernt: Grenze ziehen = Risiko. Also bleibst du offen, und dein Kalender gehört allen außer dir.",
+                cost: "Du hast für jeden Zeit, nur nicht für dich. Abends bist du leer und gereizt – und die Nähe, die du eigentlich willst, leidet, weil nichts mehr übrig ist.",
+                action: "Blockier dir heute 30 Minuten, die niemand anfassen darf. Sag einmal „nicht jetzt“, wo du sonst sofort springst."
+            },
+            dauerlauf: {
+                name: "Der Kopf im Dauerlauf",
+                mech: "Dein Kopf ist dein Werkzeug – du denkst Dinge zu Ende, siehst Risiken früher als andere. Dieselbe Maschine schaltet aber nicht ab, wenn du es willst: dein Wachsamkeitssystem hält jede offene Frage für eine Bedrohung und lässt den Film weiterlaufen.",
+                cost: "Du liegst wach, während der Tag nochmal durchläuft. Wirklich präsent bist du selten – der Körper ist da, der Kopf woanders. Schlaf und Fokus leiden.",
+                action: "Wenn der Film losläuft: benenn ihn einmal – „das ist mein Wachsamkeitssystem, nicht die Realität“. Dann zweimal einatmen, lang ausatmen. Das holt den Kopf zurück."
+            },
+            betaeuber: {
+                name: "Der Betäuber",
+                mech: "Nach einem vollen Tag willst du Ruhe – und greifst zur schnellsten Lösung: Bier, Handy, Serie. Das ist kein Charakterfehler, es ist die einfachste verfügbare Stille. Nur: sie betäubt, sie beruhigt nicht. Das System fährt nicht runter, es wird nur überdeckt.",
+                cost: "Der Abend ist weg, der Kopf am nächsten Morgen gleich voll. Die Betäubung frisst Zeit, Schlaf und langsam die Schärfe, die dich ausmacht.",
+                action: "Heute vor dem ersten Bier oder dem Handy: zweimal einatmen, lang ausatmen, drei Runden. Gib dem System echte Stille, bevor du zur Betäubung greifst."
+            }
+        };
+
+        function dominantPattern() {
+            const counts = {};
+            let best = answers[0] || 'dauerlauf', max = 0;
+            answers.forEach(a => { counts[a] = (counts[a] || 0) + 1; if (counts[a] > max) { max = counts[a]; best = a; } });
+            return best;
+        }
+
+        function pick(btn, pattern) {
+            btn.parentElement.querySelectorAll('.opt').forEach(s => s.classList.remove('selected'));
+            btn.classList.add('selected');
+            answers[step - 2] = pattern;
+            setTimeout(() => { if (step === 5) { goStep(6); runAnalysis(); } else goStep(step + 1); }, 260);
+        }
+
+        function pickBlocker(btn, val) {
+            btn.parentElement.querySelectorAll('.opt').forEach(s => s.classList.remove('selected'));
+            btn.classList.add('selected');
+            blocker = val;
+            setTimeout(() => goStep(9), 260);
+        }
+
+        function runAnalysis() {
+            setTimeout(() => {
+                const p = PATTERNS[dominantPattern()] || PATTERNS.dauerlauf;
+                document.getElementById('res-name').innerText = p.name;
+                document.getElementById('res-mech').innerText = p.mech;
+                document.getElementById('res-cost').innerText = p.cost;
+                document.getElementById('res-action').innerText = p.action;
+                goStep(7);
+            }, 1700);
+        }
+
+        function goStep(n) {
+            document.getElementById('step-' + step).classList.remove('active');
+            step = n;
+            document.getElementById('step-' + step).classList.add('active');
+            window.scrollTo(0, 0);
+            const inQuiz = (step >= 2 && step <= 5);
+            document.getElementById('progressContainer').style.display = inQuiz ? 'block' : 'none';
+            if (inQuiz) document.getElementById('progressBar').style.width = (((step - 1) / TOTAL_Q) * 100) + '%';
+            document.getElementById('bottomBar').style.display = inQuiz ? 'block' : 'none';
+        }
+
+        function goBack() { if (step > 2) goStep(step - 1); else goStep(1); }
+
+        // Echte, verifizierte Reviews der passenden Themen laden. Keine da -> Block bleibt aus.
+        async function loadReviews() {
+            try {
+                if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                const { data, error } = await supabaseClient
+                    .from('v_reviews_public')
+                    .select('first_name,comment,rating,topic,verified_purchase,created_at')
+                    .in('topic', ['abschalten', 'feierabend', 'stress', 'sleep', 'morning'])
+                    .eq('verified_purchase', true)
+                    .order('created_at', { ascending: false })
+                    .limit(3);
+                if (error || !data || !data.length) return;
+                const esc = s => (s || '').replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
+                document.getElementById('reviews-list').innerHTML = data.map(r => {
+                    const full = Math.max(0, Math.min(5, Math.round(parseFloat(r.rating) || 5)));
+                    const stars = '★'.repeat(full) + '☆'.repeat(5 - full);
+                    return '<div class="review-card"><div class="stars">' + stars + '</div><div class="rc-text">' + esc(r.comment) + '</div><div class="rc-name">' + esc(r.first_name) + '</div></div>';
+                }).join('');
+                document.getElementById('reviews').style.display = 'block';
+            } catch (e) { /* Seite funktioniert auch ohne Reviews */ }
+        }
+        document.addEventListener('DOMContentLoaded', loadReviews);
+
+        async function submitPotenzial() {
+            const name = document.getElementById('pa-name').value.trim();
+            const phone = document.getElementById('pa-phone').value.trim();
+            const consent = document.getElementById('pa-consent').checked;
+            const errEl = document.getElementById('pa-error');
+            const btn = document.getElementById('pa-submit');
+            if (!name) { errEl.innerText = "Bitte deinen Vornamen eingeben."; errEl.style.display = 'block'; return; }
+            if (phone.replace(/[^0-9]/g, '').length < 6) { errEl.innerText = "Bitte eine gültige Telefonnummer eingeben."; errEl.style.display = 'block'; return; }
+            if (!consent) { errEl.innerText = "Bitte stimme dem Rückruf zu."; errEl.style.display = 'block'; return; }
+            errEl.style.display = 'none';
+            btn.disabled = true; btn.innerText = "…";
+            try {
+                if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                const { error } = await supabaseClient.rpc('register_potenzialanalyse', {
+                    p_name: name, p_phone: phone, p_pattern: dominantPattern(),
+                    p_blocker: blocker, p_answers: answers, p_source: 'muster_analyse', p_language: 'de'
+                });
+                if (error) throw error;
+                goStep(11);
+            } catch (e) {
+                console.error(e);
+                errEl.innerText = "Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.";
+                errEl.style.display = 'block';
+                btn.disabled = false; btn.innerText = "Rückruf anfragen";
+            }
+        }
+    </script>
+</body>
+</html>
