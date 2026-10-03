@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beratung (intern) &ndash; Feierabend im Kopf</title>
+    <meta name="robots" content="noindex,nofollow">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --dark: #000000;
+            --gray: #111111;
+            --gray-active: #1f1a0f;
+            --border: #333333;
+            --gold: #d4af37;
+            --text: #ffffff;
+            --muted: #aaaaaa;
+            --error: #ff5555;
+        }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        html, body { margin: 0; padding: 0; }
+        body { background-color: var(--dark); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+
+        .app-header { width: 100%; max-width: 720px; margin: 0 auto; display: flex; justify-content: center; align-items: center; padding: 22px 20px 0 20px; }
+        .wordmark { color: var(--gold); font-size: 13px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; }
+
+        main { flex: 1; padding: 20px 20px 60px 20px; max-width: 720px; margin: 0 auto; width: 100%; }
+        #app { display: none; }
+
+        .tabs { display: flex; gap: 8px; margin: 14px 0 22px; }
+        .tab { flex: 1; text-align: center; padding: 12px 8px; border: 1px solid var(--border); border-radius: 10px; background: var(--gray); color: var(--muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
+        .tab.active { border-color: var(--gold); color: var(--gold); background: var(--gray-active); }
+        .panel { display: none; animation: fadeIn 0.3s ease forwards; }
+        .panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .flow-title { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .h1-title { font-size: 27px; font-weight: 800; margin: 0 0 20px 0; color: var(--text); line-height: 1.3; }
+        .h2-title { font-size: 20px; font-weight: 800; margin: 0 0 14px 0; color: var(--text); line-height: 1.3; }
+        .subtitle { color: var(--muted); margin-bottom: 22px; font-size: 15.5px; line-height: 1.55; }
+
+        .slide { background: #0d0d0d; border: 1px solid #222; border-radius: 14px; padding: 26px 22px; margin-bottom: 18px; }
+        .slide p { color: #cfcfcf; font-size: 15.5px; line-height: 1.6; margin: 0 0 12px; }
+        .slide ul { margin: 0 0 8px; padding-left: 20px; color: #cfcfcf; font-size: 15px; line-height: 1.65; }
+        .big-quote { font-size: 22px; font-weight: 800; line-height: 1.4; color: var(--text); border-left: 3px solid var(--gold); padding-left: 16px; margin: 0; }
+        .big-quote b { color: var(--gold); }
+
+        .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 18px 18px; margin-bottom: 14px; border-left: 3px solid var(--gold); color: #d7d7d7; font-size: 14.5px; line-height: 1.55; }
+
+        .tbl-wrap { overflow-x: auto; margin-bottom: 8px; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.5; }
+        th { text-align: left; color: var(--gold); font-size: 11.5px; text-transform: uppercase; letter-spacing: 1px; padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+        td { color: #cfcfcf; padding: 10px; border-bottom: 1px solid #1a1a1a; vertical-align: top; }
+        td:first-child { color: var(--text); font-weight: 600; }
+
+        .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 560px) { .price-grid { grid-template-columns: 1fr; } }
+        .price-card { background: #111; border: 1px solid var(--border); border-radius: 12px; padding: 22px 18px; text-align: center; }
+        .price-card.main { border: 2px solid var(--gold); }
+        .price-label { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px; }
+        .price-val { font-size: 30px; font-weight: 900; color: var(--text); line-height: 1.1; }
+        .price-sub { color: var(--muted); font-size: 13.5px; line-height: 1.5; margin-top: 10px; }
+
+        .quiz-btn { background-color: var(--gray); border: 1px solid var(--border); border-radius: 12px; padding: 17px 18px; margin-bottom: 11px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.18s ease; }
+        .quiz-btn:hover { border-color: #555; }
+        .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
+        .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.4; font-weight: 500; }
+        .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 700; }
+        .radio-icon { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; flex: none; }
+        .quiz-btn.selected .radio-icon { border-color: var(--gold); }
+        .radio-icon::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); display: none; }
+        .quiz-btn.selected .radio-icon::after { display: block; }
+
+        .cand-meta { color: var(--muted); font-size: 12.5px; line-height: 1.5; margin-top: 4px; word-break: break-word; }
+        .cand-name { color: var(--text); font-weight: 700; font-size: 15px; }
+
+        .input-label { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 7px; }
+        .input-field { width: 100%; background-color: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 15px 16px; color: var(--text); font-size: 16px; outline: none; }
+        .input-field:focus { border-color: var(--gold); }
+        select.input-field { appearance: none; cursor: pointer; }
+        textarea.input-field { resize: vertical; min-height: 70px; }
+        input[type="time"].input-field { color-scheme: dark; }
+        .hint { color: #8a8a8a; font-size: 12px; line-height: 1.45; margin: 6px 2px 2px; }
+        .time-row { display: flex; gap: 10px; }
+        .time-row > div { flex: 1; min-width: 0; }
+        .section-sep { border: 0; border-top: 1px solid #222; margin: 26px 0 6px; }
+
+        .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 10px; font-weight: 800; font-size: 15px; text-transform: uppercase; border: none; width: 100%; cursor: pointer; text-align: center; letter-spacing: 0.5px; transition: opacity 0.2s; margin-top: 8px; }
+        .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
+        .btn-gold:active { opacity: 0.85; }
+        .err { color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 14px; font-size: 14px; }
+        .ok { color: var(--gold); text-align: center; display: none; font-weight: bold; margin-top: 14px; font-size: 14px; }
+
+        /* Passwort-Gate */
+        #gate { position: fixed; inset: 0; background: var(--dark); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .gate-box { width: 100%; max-width: 360px; text-align: center; }
+
+        .legal-footer { text-align: center; padding: 26px 20px 30px; color: #666; font-size: 12px; }
+        .legal-footer a { color: #888; text-decoration: none; }
+        .legal-footer a:hover { color: var(--gold); }
+
+        /* Gefuehrte Praesentation (Teil A) */
+        .pres-slide { display: none; animation: fadeIn 0.3s ease forwards; min-height: 46vh; }
+        .pres-slide.active { display: block; }
+        .pres-kicker { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+        .pres-h { font-size: 25px; font-weight: 800; margin: 0 0 16px; line-height: 1.25; color: var(--text); }
+        .pres-lead { color: #dcdcdc; font-size: 17px; line-height: 1.6; margin: 0 0 16px; }
+        .pres-lead b { color: var(--text); }
+        .pres-slide ul { margin: 0 0 14px; padding-left: 20px; color: #cfcfcf; font-size: 15.5px; line-height: 1.65; }
+        .pres-ask { background: #141414; border: 1px solid #303030; border-left: 3px solid var(--gold); border-radius: 10px; padding: 16px 18px; margin: 0 0 14px; color: #e4e4e4; font-size: 15px; line-height: 1.55; }
+        .pres-ask .lbl { color: var(--gold); font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+        .pres-nav { display: flex; align-items: center; gap: 12px; margin-top: 22px; }
+        .pres-nav .count { color: var(--muted); font-size: 13px; font-weight: 700; min-width: 48px; text-align: center; }
+        .pres-nav .nav-btn { flex: 1; padding: 14px; border-radius: 10px; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border: 1px solid var(--border); }
+        .pres-nav .nav-back { background: #1a1a1a; color: var(--gold); }
+        .pres-nav .nav-back:disabled { opacity: 0.35; cursor: not-allowed; }
+        .pres-nav .nav-next { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+        .pres-details { margin-top: 16px; border: 1px solid #262626; border-radius: 10px; background: #0d0d0d; }
+        .pres-details summary { cursor: pointer; padding: 14px 16px; color: var(--gold); font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; list-style: none; }
+        .pres-details summary::-webkit-details-marker { display: none; }
+        .pres-details[open] summary { border-bottom: 1px solid #262626; }
+        .pres-details .inner { padding: 8px 16px 16px; }
+        .pres-founder-note { color: #7a7a7a; font-size: 11.5px; font-style: italic; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <!-- Passwort-Gate: Pruefung ausschliesslich in der DB-Funktion -->
+    <div id="gate">
+        <div class="gate-box">
+            <div class="wordmark" style="margin-bottom:22px;">Shift My Horizon</div>
+            <div class="flow-title">Intern</div>
+            <div class="input-label" style="text-align:left;">Passwort</div>
+            <input type="password" id="gate-pass" class="input-field" autocomplete="current-password" onkeydown="if(event.key==='Enter'){unlock();}">
+            <button class="btn-gold" id="gate-btn" onclick="unlock()">Weiter</button>
+            <p class="err" id="gate-error"></p>
+        </div>
+    </div>
+
+    <div class="app-header"><span class="wordmark">Shift My Horizon</span></div>
+
+    <main id="app">
+        <div class="tabs">
+            <div class="tab active" id="tab-a" onclick="showTab('a')">A &middot; Pr&auml;sentation</div>
+            <div class="tab" id="tab-b" onclick="showTab('b')">B &middot; Kunde &amp; Ziel</div>
+        </div>
+
+        <!-- ============ TEIL A: PRAESENTATION ============ -->
+        <div class="panel active" id="panel-a">
+            <!-- SLIDE 1: Shift My Horizon + Gruender -->
+            <div class="pres-slide active" id="pres-1">
+                <div class="pres-kicker">Shift My Horizon</div>
+                <h2 class="pres-h">Kurz zu uns &ndash; und zu mir.</h2>
+                <p class="pres-lead"><b>Shift My Horizon</b> hilft selbstst&auml;ndigen M&auml;nnern, abends im Kopf wirklich Feierabend zu machen &ndash; damit die Stunden, die du hast, wieder dir geh&ouml;ren.</p>
+                <p class="pres-lead">Ich bin <b>Janosch</b> und habe Shift My Horizon gegr&uuml;ndet. Ich kenne den Abend, an dem der K&ouml;rper auf der Couch sitzt und der Kopf noch im B&uuml;ro ist. Lange dachte ich, das geh&ouml;rt zur Selbstst&auml;ndigkeit dazu. Tut es nicht &ndash; daf&uuml;r gibt es das hier.</p>
+                <p class="pres-lead">Kein Ratgeber, keine Theorie. Ein Verhalten, das wir gemeinsam zur Gewohnheit machen.</p>
+                <p class="pres-founder-note">(Gr&uuml;nder-Absatz in deinen eigenen Worten anpassen.)</p>
+            </div>
+
+            <!-- SLIDE 2: Sein Thema / Pain -->
+            <div class="pres-slide" id="pres-2">
+                <div class="pres-kicker">Worum es geht</div>
+                <h2 class="pres-h">Dein Abend gerade.</h2>
+                <p class="pres-lead">Du bist zuhause, aber der Kopf arbeitet weiter. Noch eine Mail, noch ein Gedanke &ndash; und der Abend ist weg.</p>
+                <p class="pres-lead">Der K&ouml;rper l&auml;uft auf Reserve, der Schlaf ist leicht. Und die schnellste L&ouml;sung hei&szlig;t drei Bier und &bdquo;geht schon&ldquo;.</p>
+                <div class="pres-ask"><span class="lbl">Frag ihn</span>Wann kippt dein Abend gerade? Und was leidet zuerst &ndash; die Ruhe, die Familie, der Fokus?</div>
+                <div class="pres-ask" id="pres-pain-custom" style="display:none;"><span class="lbl">Aus seinem Fragebogen</span><span id="pres-pain-text"></span></div>
+            </div>
+
+            <!-- SLIDE 3: Was, wenn sich nichts aendert -->
+            <div class="pres-slide" id="pres-3">
+                <div class="pres-kicker">Wenn alles bleibt</div>
+                <h2 class="pres-h">Und wenn sich nichts &auml;ndert?</h2>
+                <p class="pres-lead">Der Status quo kostet nichts und wirkt sofort &ndash; deshalb &auml;ndert sich von allein nichts.</p>
+                <p class="pres-lead">In einem Jahr sieht der Abend aus wie heute: Der Laptop geht nochmal auf, die Familie bekommt den Rest, und morgens beginnt der Dauerbetrieb von vorn.</p>
+                <p class="pres-lead">Nicht der eine Abend ist das Problem. Es ist der, der sich <b>300-mal wiederholt</b>.</p>
+            </div>
+
+            <!-- SLIDE 4: Future Pacing -->
+            <div class="pres-slide" id="pres-4">
+                <div class="pres-kicker">Wie es sein k&ouml;nnte</div>
+                <h2 class="pres-h">Dein Abend, wenn er wieder dir geh&ouml;rt.</h2>
+                <p class="pres-lead">Stell dir den Abend vor, an dem die Arbeit wirklich endet &ndash; zu einer Uhrzeit, die du festlegst.</p>
+                <p class="pres-lead">Der Kopf ist runtergefahren, bevor du zur T&uuml;r reinkommst. Du bist da &ndash; nicht nur k&ouml;rperlich.</p>
+                <p class="pres-lead"><b>Deine Abende geh&ouml;ren wieder dir.</b> Und ein ruhiger Kopf sieht M&ouml;glichkeiten, die ein Dauer-Alarm ausblendet.</p>
+            </div>
+
+            <!-- SLIDE 5: Die Loesung + Preise -->
+            <div class="pres-slide" id="pres-5">
+                <div class="pres-kicker">Von A nach B</div>
+                <h2 class="pres-h">So kommst du da hin.</h2>
+                <p class="pres-lead">Nicht mehr Wissen. Eine feste <b>Abendgrenze, die zur Gewohnheit wird</b> &ndash; begleitet, bis sie steht. Zwei Wege:</p>
+                <div class="price-grid">
+                    <div class="price-card main">
+                        <div class="price-label">Gruppe</div>
+                        <div class="price-val">990 &euro;</div>
+                        <div class="price-sub">12 Wochen in einer festen M&auml;nnergruppe. 8 Live-Calls, 2 Einzelgespr&auml;che, t&auml;gliche Begleitung zu deinen Zeiten, dein fester Partner.</div>
+                    </div>
+                    <div class="price-card">
+                        <div class="price-label">Individuell &middot; 1:1</div>
+                        <div class="price-val">3.990 &euro;</div>
+                        <div class="price-sub">Alles nur mit mir, in deinem Tempo, auf deine Woche zugeschnitten.</div>
+                    </div>
+                </div>
+                <p class="pres-lead" style="font-size:15px; margin-top:16px;">Beides live, Start sofort nach dem Kauf. Kein Kurs, keine Garantie &ndash; eine Begleitung, die dranbleibt, bis die Grenze steht.</p>
+
+                <details class="pres-details">
+                    <summary>Kompletter Ablauf &amp; Leistungsumfang anzeigen</summary>
+                    <div class="inner">
+                        <h3 class="h2-title" style="font-size:17px;">Die 12 Wochen</h3>
+                        <div class="tbl-wrap">
+                            <table>
+                                <thead><tr><th>Woche</th><th>Baustein der Abendgrenze</th><th>Werkzeug</th></tr></thead>
+                                <tbody>
+                                    <tr><td>0</td><td>Einzelgespr&auml;ch: Ziel festlegen (Uhrzeit Feierabend, Handy-Regel), Messung erkl&auml;ren</td><td>&ndash;</td></tr>
+                                    <tr><td>1</td><td>Nur messen, nichts &auml;ndern: wann kippt dein Abend?</td><td>Physiologischer Seufzer</td></tr>
+                                    <tr><td>2</td><td>Die 10 Minuten davor; Umfeld-Inventur</td><td>Panoramablick</td></tr>
+                                    <tr><td>3</td><td><b>Der Schnitt:</b> 10 Minuten &Uuml;bergang, jeden Arbeitstag; drei Wenn-Dann-S&auml;tze</td><td>Muskel-Reset</td></tr>
+                                    <tr><td>4</td><td>Kopf im Bett: Handy raus aus dem Schlafzimmer</td><td>Gedanken-Shuffle</td></tr>
+                                    <tr><td>5</td><td>Der erste Fehltag: R&uuml;ckfallregel statt Neustart</td><td>Langsames Ausatmen</td></tr>
+                                    <tr><td>6</td><td>Zwischenstand: Zahlen gegen Woche 0, Blatt anpassen</td><td>10-Minuten-Mittagsreset</td></tr>
+                                    <tr><td>7</td><td>Zwischenr&auml;ume am Tag: Mikropausen</td><td>Summ-Atmung</td></tr>
+                                    <tr><td>8</td><td>Der Morgen entscheidet &uuml;ber den Abend</td><td>Morgenlicht und Bewegung</td></tr>
+                                    <tr><td>9</td><td>Steigerung: Grenze fr&uuml;her oder Wochenende einbeziehen</td><td>Dein st&auml;rkstes Werkzeug, vertieft</td></tr>
+                                    <tr><td>10</td><td>Belastungstest 1: Deadline- oder Kundenwoche, Plan B</td><td>Temperatur-Trick am Abend</td></tr>
+                                    <tr><td>11</td><td>Belastungstest 2: Familie, Wochenende, Alkohol, Reise</td><td>Eigene Kombination aus zwei Werkzeugen</td></tr>
+                                    <tr><td>12</td><td>Abschluss und Einzelgespr&auml;ch: Zahl gegen Woche 0, Plan f&uuml;r danach</td><td>&ndash;</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h3 class="h2-title" style="font-size:17px; margin-top:18px;">Was du bekommst</h3>
+                        <div class="tbl-wrap">
+                            <table>
+                                <thead><tr><th>Bestandteil</th><th>Umfang</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Einzelgespr&auml;che, live 1:1</td><td>2: Woche 0 (30 Min) und Woche 12 (30 Min)</td></tr>
+                                    <tr><td>Gruppencalls, live</td><td>8 &times; 75 Minuten im abnehmenden Rhythmus, kleine Gruppe, keine Aufzeichnung</td></tr>
+                                    <tr><td>Werkzeuge</td><td>12, jedes live erkl&auml;rt und gemeinsam ge&uuml;bt</td></tr>
+                                    <tr><td>T&auml;gliche Begleitung aufs Handy</td><td>84 Tage, langsam ansteigend, zu deinen gew&auml;hlten Uhrzeiten &ndash; zu dem, was in den Calls ge&uuml;bt wird</td></tr>
+                                    <tr><td>R&uuml;ckmeldung nach Regel</td><td>Sobald du aussteigst: zwei Nullen hintereinander oder drei Tage still</td></tr>
+                                    <tr><td>Fester Partner aus der Gruppe</td><td>Zweimal pro Woche eine Sprachnachricht, kein Termin</td></tr>
+                                    <tr><td>Das Blatt</td><td>Abendgrenze, Schnitt, drei Wenn-Dann-S&auml;tze, R&uuml;ckfallregel &ndash; in Woche 0, 6 und 12 aktualisiert</td></tr>
+                                    <tr><td>Deine Zahlen</td><td>Woche 0, 6 und 12: Abende mit gehaltener Grenze, Bildschirmzeit in Arbeits-Apps nach 19 Uhr</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="info-card" style="margin:14px 0 0;"><b>Dein Zeitaufwand:</b> 8 Calls &agrave; 75 Minuten in 12 Wochen, dazu 10 Minuten am Ende deines Arbeitstags (der Schnitt selbst) und Nachrichten, die je weniger als eine Minute brauchen.</div>
+                        <h3 class="h2-title" style="font-size:17px; margin-top:18px;">Der Gruppentermin (75 Min)</h3>
+                        <div class="tbl-wrap">
+                            <table>
+                                <thead><tr><th>Minuten</th><th>Teil</th></tr></thead>
+                                <tbody>
+                                    <tr><td>10</td><td>Zahlen der Woche: jeder sagt seine Abende X von 7</td></tr>
+                                    <tr><td>25</td><td>Werkzeug der Woche: erkl&auml;ren, dann gemeinsam machen</td></tr>
+                                    <tr><td>30</td><td>Hei&szlig;er Stuhl: zwei bis drei M&auml;nner, ihr Bruch der Woche, daraus ein neuer Wenn-Dann-Satz</td></tr>
+                                    <tr><td>10</td><td>Auftrag bis n&auml;chste Woche: genau eine Sache</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h3 class="h2-title" style="font-size:17px; margin-top:18px;">T&auml;gliche Begleitung: Rhythmus</h3>
+                        <div class="tbl-wrap">
+                            <table>
+                                <thead><tr><th>Wochen</th><th>Nachrichten pro Tag</th><th>Gruppencall</th></tr></thead>
+                                <tbody>
+                                    <tr><td>1</td><td>1 &ndash; morgens: Beobachtungsauftrag</td><td>w&ouml;chentlich</td></tr>
+                                    <tr><td>2&ndash;4</td><td>2 &ndash; morgens Vorsatz, abends Check-in</td><td>w&ouml;chentlich</td></tr>
+                                    <tr><td>5&ndash;9</td><td>3 &ndash; morgens Vorsatz, mittags Erinnerung, abends Check-in</td><td>alle 2 Wochen</td></tr>
+                                    <tr><td>10&ndash;11</td><td>2 &ndash; morgens, abends (ausschleichen)</td><td>Woche 10</td></tr>
+                                    <tr><td>12</td><td>1 &ndash; morgens + Abschlussgespr&auml;ch</td><td>Woche 12</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top:12px; color:#cfcfcf; font-size:14px;">Die t&auml;gliche Abfrage fragt nur nach Verhalten: &bdquo;Schnitt gemacht? 1/0&ldquo; und &bdquo;Grenze gehalten? 1/0&ldquo;.</p>
+                    </div>
+                </details>
+
+                <p class="hint" style="margin-top:14px;">Intern: keine k&uuml;nstliche Knappheit, keine &bdquo;Preis steigt bald&ldquo;-Aussagen, keine Ergebnisgarantie. Widerruf/Leistungsbeginn und Stornoregel laut Anwalt.</p>
+            </div>
+
+            <!-- Navigation -->
+            <div class="pres-nav">
+                <button class="nav-btn nav-back" id="pres-back" onclick="presPrev()">&larr; Zur&uuml;ck</button>
+                <span class="count" id="pres-count">1 / 5</span>
+                <button class="nav-btn nav-next" id="pres-next" onclick="presNext()">Weiter &rarr;</button>
+            </div>
+        </div>
+
+        <!-- ============ TEIL B: KUNDE & ZIEL ============ -->
+        <div class="panel" id="panel-b">
+            <div class="flow-title">Kunde ausw&auml;hlen &amp; Ziel hinterlegen</div>
+            <h1 class="h1-title">Wer ist der Kunde?</h1>
+
+            <div class="input-label" style="margin-top:0;">Suche</div>
+            <input type="text" id="cand-filter" class="input-field" placeholder="Name oder E-Mail" oninput="renderCandidates()">
+            <div style="height:14px;"></div>
+            <div id="cand-list"></div>
+            <p class="err" id="cand-error"></p>
+
+            <div id="goal-form" style="display:none;">
+                <hr class="section-sep">
+                <div class="info-card" id="sel-info"></div>
+
+                <div class="input-label">Programm</div>
+                <select id="g-tier" class="input-field">
+                    <option value="gruppe">Gruppe</option>
+                    <option value="exklusiv">Exklusiv (1:1)</option>
+                </select>
+
+                <div class="input-label">Pain-T&uuml;r</div>
+                <div id="g-pain">
+                    <div class="quiz-btn" data-val="abschalten" onclick="pickPain(this)"><span class="quiz-btn-text">Mein Kopf kommt abends nicht runter.</span><span class="radio-icon"></span></div>
+                    <div class="quiz-btn" data-val="gereizt" onclick="pickPain(this)"><span class="quiz-btn-text">Ich bin abends gereizt, und die Familie bekommt es ab.</span><span class="radio-icon"></span></div>
+                    <div class="quiz-btn" data-val="mehr_arbeit" onclick="pickPain(this)"><span class="quiz-btn-text">Ich arbeite mehr und schaffe weniger.</span><span class="radio-icon"></span></div>
+                </div>
+
+                <div class="input-label">Feierabend um</div>
+                <input type="time" id="g-feierabend" class="input-field" value="18:00">
+
+                <div class="input-label">Schnitt (Ritual)</div>
+                <input type="text" id="g-ritual" class="input-field" maxlength="200" placeholder="z. B. einmal um den Block">
+
+                <div class="input-label">Handy-Regel</div>
+                <input type="text" id="g-handy" class="input-field" maxlength="200" placeholder="z. B. ab 21:30 Handy in einem anderen Raum">
+
+                <div class="input-label">Versandzeiten</div>
+                <div class="time-row">
+                    <div><div class="hint" style="margin:0 0 4px;">Morgens</div><input type="time" id="g-morgens" class="input-field" value="07:00"></div>
+                    <div><div class="hint" style="margin:0 0 4px;">Mittags</div><input type="time" id="g-mittags" class="input-field" value="12:30"></div>
+                    <div><div class="hint" style="margin:0 0 4px;">Abends</div><input type="time" id="g-abends" class="input-field" value="20:00"></div>
+                </div>
+
+                <div class="input-label">Notiz (nur intern)</div>
+                <textarea id="g-notiz" class="input-field" maxlength="500"></textarea>
+
+                <button class="btn-gold" id="btn-save" onclick="saveGoal()">Ziel speichern</button>
+                <p class="err" id="f-error"></p>
+                <p class="ok" id="f-ok"></p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="legal-footer">
+        <a href="impressum.html">Impressum</a> &nbsp;|&nbsp;
+        <a href="datenschutz.html">Datenschutz</a> &nbsp;|&nbsp;
+        <a href="agb.html">AGB</a>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+        let supabaseClient = null;
+
+        const PASS_KEY = 'vg_pass';
+        let candidates = [];
+        let selected = null;
+        let painTuer = null;
+
+        const PAIN_LABELS = {
+            abschalten: "abends nicht abschalten", schlaf: "Schlaf", stress: "Dauerstress",
+            morgen: "morgens in Gang kommen", kind: "da sein für das Kind", partnerin: "Nähe zur Partnerin",
+            fokus: "Fokus bei der Arbeit", betaeubung: "Bier/Handy am Abend"
+        };
+
+        function esc(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+
+        function getClient() {
+            if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            return supabaseClient;
+        }
+
+        // --- Passwort-Gate ---
+        async function loadCandidates(pass) {
+            const { data, error } = await getClient().rpc('list_program_candidates', { p_passphrase: pass });
+            if (error) throw error;
+            return Array.isArray(data) ? data : [];
+        }
+
+        async function unlock() {
+            const pass = document.getElementById('gate-pass').value;
+            const errEl = document.getElementById('gate-error');
+            const btn = document.getElementById('gate-btn');
+            if (!pass) { errEl.innerText = "Bitte Passwort eingeben."; errEl.style.display = 'block'; return; }
+            errEl.style.display = 'none';
+            btn.disabled = true; btn.innerText = "…";
+            try {
+                const rows = await loadCandidates(pass);
+                if (rows.length === 0) {
+                    errEl.innerText = "Passwort falsch (oder keine Kandidaten vorhanden).";
+                    errEl.style.display = 'block';
+                    sessionStorage.removeItem(PASS_KEY);
+                    btn.disabled = false; btn.innerText = "Weiter";
+                    return;
+                }
+                sessionStorage.setItem(PASS_KEY, pass);
+                candidates = rows;
+                openApp();
+            } catch (e) {
+                console.error("Fehler beim Laden:", e);
+                errEl.innerText = "Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.";
+                errEl.style.display = 'block';
+                btn.disabled = false; btn.innerText = "Weiter";
+            }
+        }
+
+        function openApp() {
+            document.getElementById('gate').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            renderCandidates();
+            presShow(1);
+        }
+
+        // Session-Wiederaufnahme
+        (async function resume() {
+            const pass = sessionStorage.getItem(PASS_KEY);
+            if (!pass) return;
+            try {
+                const rows = await loadCandidates(pass);
+                if (rows.length > 0) { candidates = rows; openApp(); }
+                else sessionStorage.removeItem(PASS_KEY);
+            } catch (e) {
+                console.error("Session-Wiederaufnahme fehlgeschlagen:", e);
+            }
+        })();
+
+        function showTab(t) {
+            ['a', 'b'].forEach(x => {
+                document.getElementById('tab-' + x).classList.toggle('active', x === t);
+                document.getElementById('panel-' + x).classList.toggle('active', x === t);
+            });
+            window.scrollTo(0, 0);
+        }
+
+        // --- Gefuehrte Praesentation (Teil A) ---
+        let presStep = 1;
+        const PRES_TOTAL = 5;
+        function presShow(n) {
+            presStep = Math.max(1, Math.min(PRES_TOTAL, n));
+            for (let i = 1; i <= PRES_TOTAL; i++) {
+                document.getElementById('pres-' + i).classList.toggle('active', i === presStep);
+            }
+            document.getElementById('pres-count').innerText = presStep + ' / ' + PRES_TOTAL;
+            document.getElementById('pres-back').disabled = (presStep === 1);
+            document.getElementById('pres-next').innerHTML = (presStep === PRES_TOTAL) ? 'Zu Kunde &amp; Ziel &rarr;' : 'Weiter &rarr;';
+            if (presStep === 2) fillPresPain();
+            window.scrollTo(0, 0);
+        }
+        function presNext() { if (presStep >= PRES_TOTAL) showTab('b'); else presShow(presStep + 1); }
+        function presPrev() { if (presStep > 1) presShow(presStep - 1); }
+        function fillPresPain() {
+            const box = document.getElementById('pres-pain-custom');
+            if (selected && selected.onboarding_data) {
+                const txt = painSummary(selected.onboarding_data);
+                if (txt && txt !== '–') {
+                    document.getElementById('pres-pain-text').innerText =
+                        (selected.first_name ? selected.first_name + ': ' : '') + txt + '.';
+                    box.style.display = 'block';
+                    return;
+                }
+            }
+            box.style.display = 'none';
+        }
+
+        // --- Kandidaten ---
+        function painSummary(od) {
+            const arr = (od && Array.isArray(od.painpoints)) ? od.painpoints : [];
+            const labels = arr.map(k => PAIN_LABELS[k] || k).filter(Boolean);
+            return labels.length ? labels.join(', ') : '–';
+        }
+
+        function renderCandidates() {
+            const q = (document.getElementById('cand-filter').value || '').trim().toLowerCase();
+            const list = document.getElementById('cand-list');
+            const rows = candidates.filter(c =>
+                !q || (String(c.first_name || '').toLowerCase().includes(q) || String(c.email || '').toLowerCase().includes(q)));
+            if (rows.length === 0) { list.innerHTML = '<p class="subtitle">Keine Treffer.</p>'; return; }
+            list.innerHTML = rows.map(c => {
+                const idx = candidates.indexOf(c);
+                const isSel = selected && selected.email === c.email && selected.access_code === c.access_code;
+                return '<div class="quiz-btn' + (isSel ? ' selected' : '') + '" onclick="selectCandidate(' + idx + ')">' +
+                    '<span class="quiz-btn-text"><span class="cand-name">' + esc(c.first_name || '(ohne Vorname)') + '</span>' +
+                    '<div class="cand-meta">' + esc(c.email) + '<br>Pain: ' + esc(painSummary(c.onboarding_data)) +
+                    '<br>Code: ' + esc(c.access_code || '–') + '</div></span><span class="radio-icon"></span></div>';
+            }).join('');
+        }
+
+        function pickPain(btn) { setPain(btn.getAttribute('data-val')); }
+        function setPain(val) {
+            painTuer = val || null;
+            document.querySelectorAll('#g-pain .quiz-btn').forEach(b =>
+                b.classList.toggle('selected', b.getAttribute('data-val') === painTuer));
+        }
+
+        // Pain-Tuer aus vorhandenen Daten ableiten
+        function guessPain(od) {
+            if (!od) return null;
+            const pg = od.program_goal || {};
+            if (pg.pain_tuer) return pg.pain_tuer;
+            if (od.pain_tuer) return od.pain_tuer;
+            const pp = Array.isArray(od.painpoints) ? od.painpoints : [];
+            if (pp.includes('partnerin') || pp.includes('kind')) return 'gereizt';
+            if (pp.includes('fokus')) return 'mehr_arbeit';
+            if (pp.includes('abschalten') || pp.length) return 'abschalten';
+            return null;
+        }
+
+        function setVal(id, v, fallback) {
+            const el = document.getElementById(id);
+            el.value = (v !== undefined && v !== null && v !== '') ? v : (fallback || '');
+        }
+
+        function selectCandidate(idx) {
+            selected = candidates[idx];
+            const od = selected.onboarding_data || {};
+            const pg = od.program_goal || {};
+            document.getElementById('goal-form').style.display = 'block';
+            document.getElementById('sel-info').innerHTML =
+                '<b>' + esc(selected.first_name || '(ohne Vorname)') + '</b><br>' + esc(selected.email) +
+                '<br>Code: ' + esc(selected.access_code || '–') +
+                '<br>Kanal: ' + esc(selected.delivery_channel || '–') + ' &middot; Quelle: ' + esc(selected.source || '–') +
+                '<br>Pain (Quiz): ' + esc(painSummary(od));
+            setVal('g-tier', pg.tier, 'gruppe');
+            setVal('g-feierabend', pg.feierabend_zeit, '18:00');
+            setVal('g-ritual', pg.ritual, '');
+            setVal('g-handy', pg.handy_regel, '');
+            setVal('g-morgens', pg.send_morgens, '07:00');
+            setVal('g-mittags', pg.send_mittags, '12:30');
+            setVal('g-abends', pg.send_abends, '20:00');
+            setVal('g-notiz', pg.notiz, '');
+            setPain(guessPain(od));
+            document.getElementById('f-error').style.display = 'none';
+            document.getElementById('f-ok').style.display = 'none';
+            renderCandidates();
+            document.getElementById('goal-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showErr(msg) {
+            document.getElementById('f-ok').style.display = 'none';
+            const el = document.getElementById('f-error');
+            el.innerText = msg;
+            el.style.display = 'block';
+        }
+
+        async function saveGoal() {
+            const btn = document.getElementById('btn-save');
+            if (!selected) { showErr("Bitte zuerst einen Kunden auswählen."); return; }
+            if (!painTuer) { showErr("Bitte eine Pain-Tür wählen."); return; }
+
+            const feierabend = document.getElementById('g-feierabend').value;
+            const morgens = document.getElementById('g-morgens').value;
+            const mittags = document.getElementById('g-mittags').value;
+            const abends = document.getElementById('g-abends').value;
+            if (!feierabend || !morgens || !mittags || !abends) { showErr("Bitte alle Uhrzeiten ausfüllen."); return; }
+
+            const goal = {
+                tier: document.getElementById('g-tier').value,
+                feierabend_zeit: feierabend,
+                ritual: document.getElementById('g-ritual').value.trim(),
+                handy_regel: document.getElementById('g-handy').value.trim(),
+                pain_tuer: painTuer,
+                send_morgens: morgens,
+                send_mittags: mittags,
+                send_abends: abends,
+                notiz: document.getElementById('g-notiz').value.trim(),
+                set_by: 'intern',
+                set_at: new Date().toISOString()
+            };
+
+            document.getElementById('f-error').style.display = 'none';
+            document.getElementById('f-ok').style.display = 'none';
+            btn.disabled = true; btn.innerText = "…";
+
+            try {
+                const { data, error } = await getClient().rpc('set_program_goal', {
+                    p_email: selected.email,
+                    p_access_code: selected.access_code,
+                    p_goal: goal
+                });
+                if (error) throw error;
+                if (data !== true) {
+                    showErr("Nicht gespeichert: E-Mail/Zugangscode ohne Treffer (fehlt der Zugangscode beim Lead?).");
+                } else {
+                    // lokalen Stand nachziehen, damit erneutes Auswaehlen die Werte zeigt
+                    selected.onboarding_data = Object.assign({}, selected.onboarding_data || {}, {
+                        program_goal: Object.assign({}, (selected.onboarding_data || {}).program_goal || {}, goal)
+                    });
+                    const ok = document.getElementById('f-ok');
+                    ok.innerText = "Ziel gespeichert.";
+                    ok.style.display = 'block';
+                }
+            } catch (e) {
+                console.error("Fehler beim Speichern:", e);
+                showErr("Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.");
+            }
+            btn.disabled = false; btn.innerText = "Ziel speichern";
+        }
+    </script>
+</body>
+</html>

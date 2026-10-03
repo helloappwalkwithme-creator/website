@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mein Ziel &ndash; Feierabend im Kopf</title>
+    <meta name="robots" content="noindex,nofollow">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --dark: #000000;
+            --gray: #111111;
+            --gray-active: #1f1a0f;
+            --border: #333333;
+            --gold: #d4af37;
+            --text: #ffffff;
+            --muted: #aaaaaa;
+            --error: #ff5555;
+        }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        html, body { margin: 0; padding: 0; }
+        body { background-color: var(--dark); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+
+        .app-header { width: 100%; max-width: 520px; margin: 0 auto; display: flex; justify-content: center; align-items: center; padding: 22px 20px 0 20px; }
+        .wordmark { color: var(--gold); font-size: 13px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; }
+
+        main { flex: 1; padding: 20px 20px 40px 20px; max-width: 520px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
+        .step { display: none; animation: fadeIn 0.3s ease forwards; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .flow-title { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .h1-title { font-size: 27px; font-weight: 800; margin: 0 0 20px 0; color: var(--text); line-height: 1.3; }
+        .subtitle { color: var(--muted); margin-bottom: 22px; font-size: 15.5px; line-height: 1.55; }
+
+        .quiz-btn { background-color: var(--gray); border: 1px solid var(--border); border-radius: 12px; padding: 17px 18px; margin-bottom: 11px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.18s ease; }
+        .quiz-btn:hover { border-color: #555; }
+        .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
+        .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.4; font-weight: 500; }
+        .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 700; }
+        .radio-icon { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; flex: none; }
+        .quiz-btn.selected .radio-icon { border-color: var(--gold); }
+        .radio-icon::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); display: none; }
+        .quiz-btn.selected .radio-icon::after { display: block; }
+
+        .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 18px 18px; margin-bottom: 14px; border-left: 3px solid var(--gold); color: #d7d7d7; font-size: 14.5px; line-height: 1.55; }
+        .result-card { background-color: #111; border: 2px solid var(--gold); border-radius: 12px; padding: 28px 20px; text-align: center; margin-bottom: 16px; }
+        .result-score { color: var(--gold); font-size: 21px; font-weight: 900; line-height: 1.3; text-transform: uppercase; }
+
+        .input-label { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 7px; }
+        .input-field { width: 100%; background-color: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 15px 16px; color: var(--text); font-size: 16px; outline: none; }
+        .input-field:focus { border-color: var(--gold); }
+        select.input-field { appearance: none; cursor: pointer; }
+        textarea.input-field { resize: vertical; min-height: 70px; }
+        input[type="time"].input-field { color-scheme: dark; }
+        .hint { color: #8a8a8a; font-size: 12px; line-height: 1.45; margin: 6px 2px 2px; }
+        .time-row { display: flex; gap: 10px; }
+        .time-row > div { flex: 1; min-width: 0; }
+        .section-sep { border: 0; border-top: 1px solid #222; margin: 26px 0 6px; }
+
+        .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 10px; font-weight: 800; font-size: 15px; text-transform: uppercase; border: none; width: 100%; cursor: pointer; text-align: center; letter-spacing: 0.5px; transition: opacity 0.2s; margin-top: 8px; }
+        .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
+        .btn-gold:active { opacity: 0.85; }
+        .err { color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 14px; font-size: 14px; }
+
+        .legal-footer { text-align: center; padding: 26px 20px 30px; color: #666; font-size: 12px; }
+        .legal-footer a { color: #888; text-decoration: none; }
+        .legal-footer a:hover { color: var(--gold); }
+    </style>
+</head>
+<body>
+    <div class="app-header"><span class="wordmark">Shift My Horizon</span></div>
+
+    <main>
+        <!-- STEP 1: Formular -->
+        <div class="step active" id="step-form">
+            <div class="flow-title">Feierabend im Kopf</div>
+            <h1 class="h1-title">Dein Ziel f&uuml;r die 12 Wochen.</h1>
+            <p class="subtitle">Zwei Minuten. Du legst fest, wann dein Feierabend beginnt und wann dich die t&auml;gliche Begleitung erreicht. Du kannst das sp&auml;ter jederzeit &auml;ndern.</p>
+
+            <div class="input-label">Deine E-Mail</div>
+            <input type="email" id="f-email" class="input-field" autocomplete="email">
+
+            <div class="input-label">Dein Zugangscode</div>
+            <input type="text" id="f-code" class="input-field" autocomplete="off" autocapitalize="characters" placeholder="XXXX-XXXX">
+            <p class="hint">Den Code hast du beim Start des Starters bekommen.</p>
+
+            <hr class="section-sep">
+
+            <div class="input-label">Programm</div>
+            <select id="g-tier" class="input-field">
+                <option value="gruppe">Gruppe</option>
+                <option value="exklusiv">Exklusiv (1:1)</option>
+            </select>
+
+            <div class="input-label">Wor&uuml;ber stolperst du am meisten?</div>
+            <div id="g-pain">
+                <div class="quiz-btn" data-val="abschalten" onclick="pickPain(this)"><span class="quiz-btn-text">Mein Kopf kommt abends nicht runter.</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" data-val="gereizt" onclick="pickPain(this)"><span class="quiz-btn-text">Ich bin abends gereizt, und die Familie bekommt es ab.</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" data-val="mehr_arbeit" onclick="pickPain(this)"><span class="quiz-btn-text">Ich arbeite mehr und schaffe weniger.</span><span class="radio-icon"></span></div>
+            </div>
+
+            <div class="input-label">Wann ist bei dir Feierabend?</div>
+            <input type="time" id="g-feierabend" class="input-field" value="18:00">
+            <p class="hint">Die Uhrzeit, ab der die Arbeit f&uuml;r dich vorbei sein soll.</p>
+
+            <div class="input-label">Dein Schnitt (Ritual)</div>
+            <input type="text" id="g-ritual" class="input-field" maxlength="200" placeholder="z. B. einmal um den Block">
+            <p class="hint">Die ca. 10 Minuten &Uuml;bergang zwischen Arbeit und Abend.</p>
+
+            <div class="input-label">Deine Handy-Regel</div>
+            <input type="text" id="g-handy" class="input-field" maxlength="200" placeholder="z. B. ab 21:30 Handy in einem anderen Raum">
+
+            <div class="input-label">Wann m&ouml;chtest du deine Nachrichten?</div>
+            <div class="time-row">
+                <div><div class="hint" style="margin:0 0 4px;">Morgens</div><input type="time" id="g-morgens" class="input-field" value="07:00"></div>
+                <div><div class="hint" style="margin:0 0 4px;">Mittags</div><input type="time" id="g-mittags" class="input-field" value="12:30"></div>
+                <div><div class="hint" style="margin:0 0 4px;">Abends</div><input type="time" id="g-abends" class="input-field" value="20:00"></div>
+            </div>
+            <p class="hint">Am Anfang kommt nur eine Nachricht am Tag, sp&auml;ter mehr. Die Zeiten gelten f&uuml;r alle Phasen.</p>
+
+            <div class="input-label">Notiz (optional)</div>
+            <textarea id="g-notiz" class="input-field" maxlength="500" placeholder="Was soll ich wissen?"></textarea>
+
+            <button class="btn-gold" id="btn-save" onclick="saveGoal()">Ziel speichern</button>
+            <p class="err" id="f-error"></p>
+        </div>
+
+        <!-- STEP 2: Abschluss -->
+        <div class="step" id="step-done">
+            <div class="flow-title">Fertig</div>
+            <div class="result-card"><div class="result-score">Dein Ziel ist hinterlegt.</div></div>
+            <div class="info-card">Deine Nachrichten kommen ab morgen zu deinen Zeiten.</div>
+            <p class="subtitle">Wenn sich etwas &auml;ndert, trag dein Ziel einfach noch einmal ein.</p>
+        </div>
+    </main>
+
+    <footer class="legal-footer">
+        <a href="impressum.html">Impressum</a> &nbsp;|&nbsp;
+        <a href="datenschutz.html">Datenschutz</a> &nbsp;|&nbsp;
+        <a href="agb.html">AGB</a>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+        let supabaseClient = null;
+
+        let painTuer = null;
+
+        function pickPain(btn) {
+            painTuer = btn.getAttribute('data-val');
+            btn.parentElement.querySelectorAll('.quiz-btn').forEach(s => s.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        // URL-Parameter ?code= und ?email= vorbefuellen
+        (function prefill() {
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get('code');
+            const email = params.get('email');
+            if (code) document.getElementById('f-code').value = code.trim().toUpperCase();
+            if (email) document.getElementById('f-email').value = email.trim();
+        })();
+
+        function showErr(msg) {
+            const el = document.getElementById('f-error');
+            el.innerText = msg;
+            el.style.display = 'block';
+        }
+
+        async function saveGoal() {
+            const email = document.getElementById('f-email').value.trim().toLowerCase();
+            const code = document.getElementById('f-code').value.trim().toUpperCase();
+            const btn = document.getElementById('btn-save');
+            const errEl = document.getElementById('f-error');
+
+            if (!email || !code) { showErr("Bitte E-Mail und Zugangscode ausfüllen."); return; }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr("Bitte eine gültige E-Mail eingeben."); return; }
+            if (!painTuer) { showErr("Bitte wähle aus, worüber du am meisten stolperst."); return; }
+
+            const feierabend = document.getElementById('g-feierabend').value;
+            const morgens = document.getElementById('g-morgens').value;
+            const mittags = document.getElementById('g-mittags').value;
+            const abends = document.getElementById('g-abends').value;
+            if (!feierabend || !morgens || !mittags || !abends) { showErr("Bitte alle Uhrzeiten ausfüllen."); return; }
+
+            const goal = {
+                tier: document.getElementById('g-tier').value,
+                feierabend_zeit: feierabend,
+                ritual: document.getElementById('g-ritual').value.trim(),
+                handy_regel: document.getElementById('g-handy').value.trim(),
+                pain_tuer: painTuer,
+                send_morgens: morgens,
+                send_mittags: mittags,
+                send_abends: abends,
+                notiz: document.getElementById('g-notiz').value.trim(),
+                set_by: 'kunde',
+                set_at: new Date().toISOString()
+            };
+
+            errEl.style.display = 'none';
+            btn.disabled = true; btn.innerText = "…";
+
+            try {
+                if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                const { data, error } = await supabaseClient.rpc('set_program_goal', {
+                    p_email: email,
+                    p_access_code: code,
+                    p_goal: goal
+                });
+                if (error) throw error;
+                if (data !== true) {
+                    showErr("E-Mail und Zugangscode passen nicht zusammen. Bitte prüf beides noch einmal.");
+                    btn.disabled = false; btn.innerText = "Ziel speichern";
+                    return;
+                }
+                document.getElementById('step-form').classList.remove('active');
+                document.getElementById('step-done').classList.add('active');
+                window.scrollTo(0, 0);
+            } catch (e) {
+                console.error("Fehler beim Speichern:", e);
+                showErr("Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.");
+                btn.disabled = false; btn.innerText = "Ziel speichern";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neues Passwort &ndash; Feierabend im Kopf</title>
+    <meta name="robots" content="noindex,nofollow">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --dark: #000000;
+            --gray: #111111;
+            --gray-active: #1f1a0f;
+            --border: #333333;
+            --gold: #d4af37;
+            --text: #ffffff;
+            --muted: #aaaaaa;
+            --error: #ff5555;
+        }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        html, body { margin: 0; padding: 0; }
+        body { background-color: var(--dark); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+
+        .app-header { width: 100%; max-width: 520px; margin: 0 auto; display: flex; justify-content: center; align-items: center; padding: 22px 20px 0 20px; }
+        .wordmark { color: var(--gold); font-size: 13px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; }
+
+        main { flex: 1; padding: 20px 20px 40px 20px; max-width: 520px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
+        .view { display: none; animation: fadeIn 0.3s ease forwards; }
+        .view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .flow-title { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .h1-title { font-size: 27px; font-weight: 800; margin: 0 0 20px 0; color: var(--text); line-height: 1.3; }
+        .subtitle { color: var(--muted); margin-bottom: 22px; font-size: 15.5px; line-height: 1.55; }
+        .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 18px 18px; margin-bottom: 14px; border-left: 3px solid var(--gold); color: #d7d7d7; font-size: 14.5px; line-height: 1.55; }
+
+        .input-label { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 7px; }
+        .input-field { width: 100%; background-color: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 15px 16px; color: var(--text); font-size: 16px; outline: none; }
+        .input-field:focus { border-color: var(--gold); }
+        .hint { color: #8a8a8a; font-size: 12px; line-height: 1.45; margin: 6px 2px 2px; }
+
+        .btn-gold { display: block; background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 10px; font-weight: 800; font-size: 15px; text-transform: uppercase; border: none; width: 100%; cursor: pointer; text-align: center; letter-spacing: 0.5px; transition: opacity 0.2s; margin-top: 8px; text-decoration: none; }
+        .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
+        .btn-gold:active { opacity: 0.85; }
+        .err { color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 14px; font-size: 14px; }
+
+        .analyze-wrap { text-align: center; padding: 60px 0; }
+        .spinner { width: 46px; height: 46px; border: 4px solid #2a2a2a; border-top-color: var(--gold); border-radius: 50%; margin: 0 auto 22px; animation: spin 0.9s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .legal-footer { text-align: center; padding: 26px 20px 30px; color: #666; font-size: 12px; }
+        .legal-footer a { color: #888; text-decoration: none; }
+        .legal-footer a:hover { color: var(--gold); }
+    </style>
+</head>
+<body>
+    <div class="app-header"><span class="wordmark">Shift My Horizon</span></div>
+
+    <main>
+        <!-- Pruefen -->
+        <div class="view active" id="view-wait">
+            <div class="analyze-wrap"><div class="spinner"></div><p class="subtitle" style="margin:0;">Link wird gepr&uuml;ft &hellip;</p></div>
+        </div>
+
+        <!-- Formular -->
+        <div class="view" id="view-form">
+            <div class="flow-title">Mitgliederbereich</div>
+            <h1 class="h1-title">Neues Passwort festlegen.</h1>
+            <div class="input-label">Neues Passwort</div>
+            <input type="password" id="pw1" class="input-field" autocomplete="new-password">
+            <p class="hint">Mindestens 10 Zeichen.</p>
+            <div class="input-label">Passwort wiederholen</div>
+            <input type="password" id="pw2" class="input-field" autocomplete="new-password">
+            <button class="btn-gold" id="btn-set" onclick="handleSetPassword()">Passwort speichern</button>
+            <p class="err" id="form-error"></p>
+        </div>
+
+        <!-- Erfolg -->
+        <div class="view" id="view-done">
+            <div class="flow-title">Fertig</div>
+            <h1 class="h1-title">Dein Passwort ist ge&auml;ndert.</h1>
+            <div class="info-card">Du kannst dich jetzt mit dem neuen Passwort einloggen.</div>
+            <a class="btn-gold" href="mitglied.html">Zum Mitgliederbereich</a>
+        </div>
+
+        <!-- Ungueltig -->
+        <div class="view" id="view-invalid">
+            <div class="flow-title">Mitgliederbereich</div>
+            <h1 class="h1-title">Link ung&uuml;ltig.</h1>
+            <div class="info-card">Der Link ist ung&uuml;ltig oder abgelaufen. Fordere bitte einen neuen an.</div>
+            <a class="btn-gold" href="mitglied.html">Neuen Link anfordern</a>
+        </div>
+    </main>
+
+    <footer class="legal-footer">
+        <a href="impressum.html">Impressum</a> &nbsp;|&nbsp;
+        <a href="datenschutz.html">Datenschutz</a> &nbsp;|&nbsp;
+        <a href="agb.html">AGB</a>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+        const MIN_PW = 10;
+
+        let supabaseClient = null;
+        let recoveryReady = false;
+
+        function $(id) { return document.getElementById(id); }
+        function showView(id) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            $(id).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+        function showErr(msg) { const el = $('form-error'); el.innerText = msg; el.style.display = 'block'; }
+
+        // Reset-Link: Token im URL-Hash (#...type=recovery) bzw. Fehler (#error=...)
+        // Hash vor dem Supabase-Client sichern (der Client raeumt ihn nach dem Verarbeiten aus der URL)
+        const INITIAL_HASH = window.location.hash || '';
+        function hashIsRecovery() { return /type=recovery/.test(INITIAL_HASH); }
+        function hashHasError() { return /error=|error_code=/.test(INITIAL_HASH); }
+
+        function enableForm() {
+            recoveryReady = true;
+            if (!$('view-done').classList.contains('active')) showView('view-form');
+        }
+
+        async function handleSetPassword() {
+            const pw = $('pw1').value;
+            const pw2 = $('pw2').value;
+            const btn = $('btn-set');
+            $('form-error').style.display = 'none';
+            if (pw.length < MIN_PW) { showErr('Das Passwort braucht mindestens ' + MIN_PW + ' Zeichen.'); return; }
+            if (pw !== pw2) { showErr('Die beiden Passwörter sind nicht gleich.'); return; }
+            btn.disabled = true; btn.innerText = '…';
+            try {
+                const { error } = await supabaseClient.auth.updateUser({ password: pw });
+                if (error) {
+                    const msg = (error.message || '').toLowerCase();
+                    if (msg.indexOf('same') !== -1) showErr('Bitte wähle ein Passwort, das du noch nicht benutzt hast.');
+                    else if (msg.indexOf('password') !== -1) showErr('Das Passwort ist zu schwach. Nimm mindestens ' + MIN_PW + ' Zeichen, gern mit Zahlen oder Sonderzeichen.');
+                    else showErr('Das Passwort konnte nicht geändert werden. Der Link ist eventuell abgelaufen – fordere bitte einen neuen an.');
+                    btn.disabled = false; btn.innerText = 'Passwort speichern';
+                    return;
+                }
+                $('pw1').value = ''; $('pw2').value = '';
+                showView('view-done');
+            } catch (e) {
+                console.error('Fehler beim Setzen des Passworts:', e);
+                showErr('Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.');
+                btn.disabled = false; btn.innerText = 'Passwort speichern';
+            }
+        }
+
+        (async function init() {
+            try {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+                });
+
+                supabaseClient.auth.onAuthStateChange((event, session) => {
+                    if (event === 'PASSWORD_RECOVERY') {
+                        setTimeout(enableForm, 0);
+                    }
+                });
+
+                // Fehler-Link (abgelaufen/verbraucht): sofort ungueltig
+                if (hashHasError()) { showView('view-invalid'); return; }
+
+                // Der Client verarbeitet den Hash asynchron; kurz auf PASSWORD_RECOVERY / Session warten
+                const started = Date.now();
+                const wait = setInterval(async () => {
+                    if (recoveryReady) { clearInterval(wait); return; }
+                    try {
+                        const { data } = await supabaseClient.auth.getSession();
+                        // Nur mit Recovery-Link im Hash eine vorhandene Session akzeptieren
+                        if (data && data.session && hashIsRecovery()) { clearInterval(wait); enableForm(); return; }
+                    } catch (e) { console.error(e); }
+                    if (Date.now() - started > 4000) {
+                        clearInterval(wait);
+                        if (!recoveryReady) showView('view-invalid');
+                    }
+                }, 400);
+            } catch (e) {
+                console.error('Init-Fehler:', e);
+                showView('view-invalid');
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mitgliederbereich &ndash; Feierabend im Kopf</title>
+    <meta name="robots" content="noindex,nofollow">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --dark: #000000;
+            --gray: #111111;
+            --gray-active: #1f1a0f;
+            --border: #333333;
+            --gold: #d4af37;
+            --text: #ffffff;
+            --muted: #aaaaaa;
+            --error: #ff5555;
+            --ok: #6fcf97;
+        }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        html, body { margin: 0; padding: 0; }
+        body { background-color: var(--dark); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+
+        .app-header { width: 100%; max-width: 520px; margin: 0 auto; display: flex; justify-content: center; align-items: center; padding: 22px 20px 0 20px; }
+        .wordmark { color: var(--gold); font-size: 13px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; }
+
+        main { flex: 1; padding: 20px 20px 40px 20px; max-width: 520px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
+        .view { display: none; animation: fadeIn 0.3s ease forwards; }
+        .view.active { display: block; }
+        .pane { display: none; }
+        .pane.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .flow-title { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .h1-title { font-size: 27px; font-weight: 800; margin: 0 0 20px 0; color: var(--text); line-height: 1.3; }
+        .subtitle { color: var(--muted); margin-bottom: 22px; font-size: 15.5px; line-height: 1.55; }
+
+        .tabs { display: flex; gap: 8px; margin-bottom: 22px; }
+        .tab { flex: 1; background: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 12px 6px; color: var(--muted); font-size: 12.5px; font-weight: 700; text-align: center; cursor: pointer; line-height: 1.3; }
+        .tab.active { border-color: var(--gold); color: var(--gold); background: var(--gray-active); }
+
+        .quiz-btn { background-color: var(--gray); border: 1px solid var(--border); border-radius: 12px; padding: 17px 18px; margin-bottom: 11px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.18s ease; }
+        .quiz-btn:hover { border-color: #555; }
+        .quiz-btn.selected { border-color: var(--gold); background-color: var(--gray-active); }
+        .quiz-btn-text { color: var(--text); font-size: 15px; flex: 1; padding-right: 15px; line-height: 1.4; font-weight: 500; }
+        .quiz-btn.selected .quiz-btn-text { color: var(--gold); font-weight: 700; }
+        .radio-icon { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; flex: none; }
+        .quiz-btn.selected .radio-icon { border-color: var(--gold); }
+        .radio-icon::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); display: none; }
+        .quiz-btn.selected .radio-icon::after { display: block; }
+
+        .info-card { background: #141414; border: 1px solid #303030; border-radius: 10px; padding: 18px 18px; margin-bottom: 14px; border-left: 3px solid var(--gold); color: #d7d7d7; font-size: 14.5px; line-height: 1.55; }
+        .result-card { background-color: #111; border: 2px solid var(--gold); border-radius: 12px; padding: 28px 20px; text-align: center; margin-bottom: 16px; }
+        .result-score { color: var(--gold); font-size: 21px; font-weight: 900; line-height: 1.3; text-transform: uppercase; }
+        .steps-list { list-style: none; padding: 0; margin: 0 0 22px 0; counter-reset: s; }
+        .steps-list li { position: relative; padding: 10px 0 10px 34px; color: #cfcfcf; font-size: 14.5px; line-height: 1.5; border-bottom: 1px solid #1a1a1a; counter-increment: s; }
+        .steps-list li::before { content: counter(s); position: absolute; left: 4px; top: 10px; color: var(--gold); font-weight: 800; }
+
+        .input-label { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 7px; }
+        .input-field { width: 100%; background-color: var(--gray); border: 1px solid var(--border); border-radius: 10px; padding: 15px 16px; color: var(--text); font-size: 16px; outline: none; }
+        .input-field:focus { border-color: var(--gold); }
+        select.input-field { appearance: none; cursor: pointer; }
+        textarea.input-field { resize: vertical; min-height: 70px; }
+        input[type="time"].input-field { color-scheme: dark; }
+        .hint { color: #8a8a8a; font-size: 12px; line-height: 1.45; margin: 6px 2px 2px; }
+        .time-row { display: flex; gap: 10px; }
+        .time-row > div { flex: 1; min-width: 0; }
+        .section-sep { border: 0; border-top: 1px solid #222; margin: 26px 0 6px; }
+
+        .btn-gold { background-color: var(--gold); color: var(--dark); padding: 16px; border-radius: 10px; font-weight: 800; font-size: 15px; text-transform: uppercase; border: none; width: 100%; cursor: pointer; text-align: center; letter-spacing: 0.5px; transition: opacity 0.2s; margin-top: 8px; }
+        .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
+        .btn-gold:active { opacity: 0.85; }
+        .btn-ghost { background-color: #1a1a1a; color: var(--gold); border: 1px solid var(--border); margin-top: 18px; }
+        .err { color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 14px; font-size: 14px; }
+        .ok { color: var(--ok); text-align: center; display: none; font-weight: bold; margin-top: 14px; font-size: 14px; line-height: 1.5; }
+
+        .analyze-wrap { text-align: center; padding: 60px 0; }
+        .spinner { width: 46px; height: 46px; border: 4px solid #2a2a2a; border-top-color: var(--gold); border-radius: 50%; margin: 0 auto 22px; animation: spin 0.9s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .legal-footer { text-align: center; padding: 26px 20px 30px; color: #666; font-size: 12px; }
+        .legal-footer a { color: #888; text-decoration: none; }
+        .legal-footer a:hover { color: var(--gold); }
+    </style>
+</head>
+<body>
+    <div class="app-header"><span class="wordmark">Shift My Horizon</span></div>
+
+    <main>
+        <!-- LADEN -->
+        <div class="view active" id="view-loading">
+            <div class="analyze-wrap"><div class="spinner"></div><p class="subtitle" style="margin:0;">Einen Moment &hellip;</p></div>
+        </div>
+
+        <!-- ANSICHT A: ausgeloggt -->
+        <div class="view" id="view-auth">
+            <div class="flow-title">Mitgliederbereich</div>
+            <h1 class="h1-title">Dein Bereich zu Feierabend im Kopf.</h1>
+
+            <div class="tabs">
+                <div class="tab active" data-pane="pane-login" onclick="showPane('pane-login')">Einloggen</div>
+                <div class="tab" data-pane="pane-reset" onclick="showPane('pane-reset')">Passwort vergessen</div>
+                <div class="tab" data-pane="pane-signup" onclick="showPane('pane-signup')">Konto erstellen</div>
+            </div>
+
+            <!-- (a) Einloggen -->
+            <div class="pane active" id="pane-login">
+                <div class="input-label">E-Mail</div>
+                <input type="email" id="login-email" class="input-field" autocomplete="email">
+                <div class="input-label">Passwort</div>
+                <input type="password" id="login-pw" class="input-field" autocomplete="current-password">
+                <button class="btn-gold" id="btn-login" onclick="handleLogin()">Einloggen</button>
+                <p class="err" id="login-error"></p>
+            </div>
+
+            <!-- (b) Passwort vergessen -->
+            <div class="pane" id="pane-reset">
+                <p class="subtitle">Gib deine E-Mail ein. Wenn dazu ein Konto besteht, schicken wir dir einen Link zum Zur&uuml;cksetzen.</p>
+                <div class="input-label">E-Mail</div>
+                <input type="email" id="reset-email" class="input-field" autocomplete="email">
+                <button class="btn-gold" id="btn-reset" onclick="handleReset()">Link anfordern</button>
+                <p class="err" id="reset-error"></p>
+                <p class="ok" id="reset-ok"></p>
+            </div>
+
+            <!-- (c) Konto erstellen -->
+            <div class="pane" id="pane-signup">
+                <div class="info-card">Konto nur m&ouml;glich, wenn du mit dieser E-Mail gekauft hast.</div>
+                <div class="input-label">E-Mail</div>
+                <input type="email" id="signup-email" class="input-field" autocomplete="email">
+                <div class="input-label">Passwort</div>
+                <input type="password" id="signup-pw" class="input-field" autocomplete="new-password">
+                <p class="hint">Mindestens 10 Zeichen.</p>
+                <div class="input-label">Passwort wiederholen</div>
+                <input type="password" id="signup-pw2" class="input-field" autocomplete="new-password">
+                <button class="btn-gold" id="btn-signup" onclick="handleSignup()">Konto erstellen</button>
+                <p class="err" id="signup-error"></p>
+                <p class="ok" id="signup-ok"></p>
+            </div>
+        </div>
+
+        <!-- ANSICHT B1: eingeloggt, aktiv -->
+        <div class="view" id="view-member">
+            <div class="flow-title">Dein Bereich</div>
+            <h1 class="h1-title" id="m-greeting">Willkommen.</h1>
+
+            <div class="info-card"><b>Was dich erwartet:</b>
+                <ol class="steps-list" style="margin:10px 0 0;">
+                    <li>Du legst fest, wann dein Feierabend beginnt &ndash; und wann dich deine Nachrichten erreichen.</li>
+                    <li>Jeden Tag ein kleiner, konkreter Schritt f&uuml;r deinen Abend, direkt in deinen Messenger.</li>
+                    <li>Dein Ritual und deine Handy-Regel machen aus dem Vorsatz eine feste Gewohnheit.</li>
+                    <li>Du kannst dein Ziel hier jederzeit anpassen.</li>
+                </ol>
+            </div>
+
+            <hr class="section-sep">
+            <div class="flow-title" style="margin-top:20px;">Dein Ziel</div>
+
+            <div class="input-label">Programm</div>
+            <select id="g-tier" class="input-field">
+                <option value="gruppe">Gruppe</option>
+                <option value="exklusiv">Exklusiv (1:1)</option>
+            </select>
+
+            <div class="input-label">Wor&uuml;ber stolperst du am meisten?</div>
+            <div id="g-pain">
+                <div class="quiz-btn" data-val="abschalten" onclick="pickPain(this)"><span class="quiz-btn-text">Mein Kopf kommt abends nicht runter.</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" data-val="gereizt" onclick="pickPain(this)"><span class="quiz-btn-text">Ich bin abends gereizt, und die Familie bekommt es ab.</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" data-val="mehr_arbeit" onclick="pickPain(this)"><span class="quiz-btn-text">Ich arbeite mehr und schaffe weniger.</span><span class="radio-icon"></span></div>
+            </div>
+
+            <div class="input-label">Wann ist bei dir Feierabend?</div>
+            <input type="time" id="g-feierabend" class="input-field" value="18:00">
+            <p class="hint">Die Uhrzeit, ab der die Arbeit f&uuml;r dich vorbei sein soll.</p>
+
+            <div class="input-label">Dein Schnitt (Ritual)</div>
+            <input type="text" id="g-ritual" class="input-field" maxlength="200" placeholder="z. B. einmal um den Block">
+            <p class="hint">Die ca. 10 Minuten &Uuml;bergang zwischen Arbeit und Abend.</p>
+
+            <div class="input-label">Deine Handy-Regel</div>
+            <input type="text" id="g-handy" class="input-field" maxlength="200" placeholder="z. B. ab 21:30 Handy in einem anderen Raum">
+
+            <div class="input-label">Wann m&ouml;chtest du deine Nachrichten?</div>
+            <div class="time-row">
+                <div><div class="hint" style="margin:0 0 4px;">Morgens</div><input type="time" id="g-morgens" class="input-field" value="07:00"></div>
+                <div><div class="hint" style="margin:0 0 4px;">Mittags</div><input type="time" id="g-mittags" class="input-field" value="12:30"></div>
+                <div><div class="hint" style="margin:0 0 4px;">Abends</div><input type="time" id="g-abends" class="input-field" value="20:00"></div>
+            </div>
+
+            <div class="input-label">Notiz (optional)</div>
+            <textarea id="g-notiz" class="input-field" maxlength="500" placeholder="Was soll ich wissen?"></textarea>
+
+            <button class="btn-gold" id="btn-save" onclick="saveGoal()">Ziel speichern</button>
+            <p class="err" id="goal-error"></p>
+            <p class="ok" id="goal-ok"></p>
+
+            <button class="btn-gold btn-ghost" onclick="handleLogout()">Abmelden</button>
+        </div>
+
+        <!-- ANSICHT B2: eingeloggt, kein aktives Programm -->
+        <div class="view" id="view-nolead">
+            <div class="flow-title">Mitgliederbereich</div>
+            <h1 class="h1-title">Noch nichts hinterlegt.</h1>
+            <div class="info-card">F&uuml;r diese E-Mail ist noch kein aktives Programm hinterlegt. Hast du mit genau dieser Adresse gekauft?</div>
+            <p class="subtitle" id="nolead-mail" style="font-size:13.5px;"></p>
+            <button class="btn-gold btn-ghost" onclick="handleLogout()">Abmelden</button>
+        </div>
+
+        <!-- Fehler beim Laden -->
+        <div class="view" id="view-error">
+            <div class="flow-title">Mitgliederbereich</div>
+            <h1 class="h1-title">Das hat nicht geklappt.</h1>
+            <div class="info-card">Dein Bereich konnte gerade nicht geladen werden. Bitte versuch es gleich noch einmal.</div>
+            <button class="btn-gold" onclick="window.location.reload()">Neu laden</button>
+            <button class="btn-gold btn-ghost" onclick="handleLogout()">Abmelden</button>
+        </div>
+    </main>
+
+    <footer class="legal-footer">
+        <a href="impressum.html">Impressum</a> &nbsp;|&nbsp;
+        <a href="datenschutz.html">Datenschutz</a> &nbsp;|&nbsp;
+        <a href="agb.html">AGB</a>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
+        const RESET_REDIRECT = 'https://www.shiftmyhorizon.com/passwort-neu.html';
+        const MEMBER_URL = 'https://www.shiftmyhorizon.com/mitglied.html';
+        const MIN_PW = 10;
+
+        let supabaseClient = null;
+        let painTuer = null;
+        let currentUserId = null;   // User, dessen Ansicht gerade gerendert ist
+        let renderToken = 0;
+
+        function $(id) { return document.getElementById(id); }
+        function isEmail(s) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
+
+        function showView(id) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            $(id).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+        function showPane(id) {
+            document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.getAttribute('data-pane') === id));
+            $(id).classList.add('active');
+        }
+        function showMsg(id, msg) { const el = $(id); el.innerText = msg; el.style.display = 'block'; }
+        function hideMsg(id) { $(id).style.display = 'none'; }
+
+        function pickPain(btn) {
+            painTuer = btn.getAttribute('data-val');
+            btn.parentElement.querySelectorAll('.quiz-btn').forEach(s => s.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        // --- Ansicht je nach Session ---
+        async function renderForSession(session) {
+            const token = ++renderToken;
+            if (!session || !session.user) {
+                currentUserId = null;
+                showView('view-auth');
+                return;
+            }
+            currentUserId = session.user.id;
+            showView('view-loading');
+            try {
+                const { data, error } = await supabaseClient.rpc('get_my_membership');
+                if (token !== renderToken) return; // veraltet
+                if (error) throw error;
+                if (data && data.status === 'active') {
+                    fillMember(data);
+                    showView('view-member');
+                } else if (data && (data.status === 'not_paid' || data.status === 'no_lead')) {
+                    $('nolead-mail').innerText = 'Angemeldet als: ' + (session.user.email || '');
+                    showView('view-nolead');
+                } else {
+                    showView('view-error');
+                }
+            } catch (e) {
+                console.error('Fehler beim Laden:', e);
+                if (token === renderToken) showView('view-error');
+            }
+        }
+
+        function fillMember(m) {
+            const name = (m.first_name || '').trim();
+            $('m-greeting').innerText = name ? ('Willkommen, ' + name + '.') : 'Willkommen.';
+            const g = m.program_goal || {};
+            if (g.tier) $('g-tier').value = g.tier;
+            if (g.feierabend_zeit) $('g-feierabend').value = g.feierabend_zeit;
+            if (g.ritual) $('g-ritual').value = g.ritual;
+            if (g.handy_regel) $('g-handy').value = g.handy_regel;
+            if (g.send_morgens) $('g-morgens').value = g.send_morgens;
+            if (g.send_mittags) $('g-mittags').value = g.send_mittags;
+            if (g.send_abends) $('g-abends').value = g.send_abends;
+            if (g.notiz) $('g-notiz').value = g.notiz;
+            if (g.pain_tuer) {
+                const btn = document.querySelector('#g-pain .quiz-btn[data-val="' + String(g.pain_tuer).replace(/[^a-z_]/g, '') + '"]');
+                if (btn) pickPain(btn);
+            }
+        }
+
+        // --- (a) Einloggen ---
+        async function handleLogin() {
+            const email = $('login-email').value.trim().toLowerCase();
+            const pw = $('login-pw').value;
+            const btn = $('btn-login');
+            hideMsg('login-error');
+            if (!email || !pw) { showMsg('login-error', 'Bitte E-Mail und Passwort ausfüllen.'); return; }
+            if (!isEmail(email)) { showMsg('login-error', 'Bitte eine gültige E-Mail eingeben.'); return; }
+            btn.disabled = true; btn.innerText = '…';
+            try {
+                const { error } = await supabaseClient.auth.signInWithPassword({ email: email, password: pw });
+                if (error) {
+                    const msg = (error.message || '').toLowerCase();
+                    if (msg.indexOf('confirm') !== -1) showMsg('login-error', 'Bitte bestätige zuerst deine E-Mail über den Link in der Bestätigungsmail.');
+                    else showMsg('login-error', 'E-Mail oder Passwort stimmen nicht. Bitte prüf beides noch einmal.');
+                } else {
+                    $('login-pw').value = '';
+                }
+            } catch (e) {
+                console.error('Login-Fehler:', e);
+                showMsg('login-error', 'Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.');
+            }
+            btn.disabled = false; btn.innerText = 'Einloggen';
+        }
+
+        // --- (b) Passwort vergessen: immer dieselbe neutrale Antwort ---
+        async function handleReset() {
+            const email = $('reset-email').value.trim().toLowerCase();
+            const btn = $('btn-reset');
+            hideMsg('reset-error'); hideMsg('reset-ok');
+            if (!isEmail(email)) { showMsg('reset-error', 'Bitte eine gültige E-Mail eingeben.'); return; }
+            btn.disabled = true; btn.innerText = '…';
+            try {
+                await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: RESET_REDIRECT });
+            } catch (e) {
+                console.error('Reset-Fehler:', e);
+            }
+            // Bewusst unabhaengig vom Ergebnis: kein Hinweis, ob die E-Mail existiert
+            showMsg('reset-ok', 'Wenn zu dieser E-Mail ein Konto besteht, haben wir dir gerade einen Link zum Zurücksetzen geschickt. Schau auch im Spam-Ordner nach.');
+            btn.disabled = false; btn.innerText = 'Link anfordern';
+        }
+
+        // --- (c) Konto erstellen ---
+        async function handleSignup() {
+            const email = $('signup-email').value.trim().toLowerCase();
+            const pw = $('signup-pw').value;
+            const pw2 = $('signup-pw2').value;
+            const btn = $('btn-signup');
+            hideMsg('signup-error'); hideMsg('signup-ok');
+            if (!isEmail(email)) { showMsg('signup-error', 'Bitte eine gültige E-Mail eingeben.'); return; }
+            if (pw.length < MIN_PW) { showMsg('signup-error', 'Das Passwort braucht mindestens ' + MIN_PW + ' Zeichen.'); return; }
+            if (pw !== pw2) { showMsg('signup-error', 'Die beiden Passwörter sind nicht gleich.'); return; }
+            btn.disabled = true; btn.innerText = '…';
+            try {
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email: email,
+                    password: pw,
+                    options: { emailRedirectTo: MEMBER_URL }
+                });
+                if (error) {
+                    const msg = (error.message || '').toLowerCase();
+                    if (msg.indexOf('password') !== -1) showMsg('signup-error', 'Das Passwort ist zu schwach. Nimm mindestens ' + MIN_PW + ' Zeichen, gern mit Zahlen oder Sonderzeichen.');
+                    else showMsg('signup-error', 'Das Konto konnte nicht erstellt werden. Bitte versuch es gleich noch einmal.');
+                } else if (data && data.session) {
+                    $('signup-pw').value = ''; $('signup-pw2').value = '';
+                    // onAuthStateChange wechselt die Ansicht
+                } else {
+                    $('signup-pw').value = ''; $('signup-pw2').value = '';
+                    showMsg('signup-ok', 'Fast geschafft: Wir haben dir eine Bestätigungsmail geschickt. Klick den Link darin, danach kannst du dich einloggen. Schau auch im Spam-Ordner nach.');
+                }
+            } catch (e) {
+                console.error('Signup-Fehler:', e);
+                showMsg('signup-error', 'Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.');
+            }
+            btn.disabled = false; btn.innerText = 'Konto erstellen';
+        }
+
+        // --- Ziel speichern ---
+        async function saveGoal() {
+            const btn = $('btn-save');
+            hideMsg('goal-error'); hideMsg('goal-ok');
+            if (!painTuer) { showMsg('goal-error', 'Bitte wähle aus, worüber du am meisten stolperst.'); return; }
+            const feierabend = $('g-feierabend').value;
+            const morgens = $('g-morgens').value;
+            const mittags = $('g-mittags').value;
+            const abends = $('g-abends').value;
+            if (!feierabend || !morgens || !mittags || !abends) { showMsg('goal-error', 'Bitte alle Uhrzeiten ausfüllen.'); return; }
+
+            const goal = {
+                tier: $('g-tier').value,
+                feierabend_zeit: feierabend,
+                ritual: $('g-ritual').value.trim(),
+                handy_regel: $('g-handy').value.trim(),
+                pain_tuer: painTuer,
+                send_morgens: morgens,
+                send_mittags: mittags,
+                send_abends: abends,
+                notiz: $('g-notiz').value.trim(),
+                set_by: 'kunde',
+                set_at: new Date().toISOString()
+            };
+
+            btn.disabled = true; btn.innerText = '…';
+            try {
+                const { data, error } = await supabaseClient.rpc('save_my_goal', { p_goal: goal });
+                if (error) throw error;
+                if (data !== true) {
+                    showMsg('goal-error', 'Für diese E-Mail konnte das Ziel nicht gespeichert werden. Bitte melde dich neu an.');
+                } else {
+                    showMsg('goal-ok', 'Gespeichert. Deine Nachrichten kommen ab morgen zu deinen Zeiten.');
+                }
+            } catch (e) {
+                console.error('Fehler beim Speichern:', e);
+                showMsg('goal-error', 'Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.');
+            }
+            btn.disabled = false; btn.innerText = 'Ziel speichern';
+        }
+
+        // --- Abmelden ---
+        async function handleLogout() {
+            try {
+                await supabaseClient.auth.signOut();
+            } catch (e) {
+                console.error('Logout-Fehler:', e);
+            }
+            // onAuthStateChange(SIGNED_OUT) wechselt normalerweise die Ansicht; zur Sicherheit auch hier
+            currentUserId = null;
+            showView('view-auth');
+        }
+
+        // --- Start ---
+        (async function init() {
+            try {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+                });
+
+                supabaseClient.auth.onAuthStateChange((event, session) => {
+                    // Kein await im Callback (Supabase-Empfehlung) -> asynchron entkoppeln
+                    setTimeout(() => {
+                        if (event === 'SIGNED_OUT') { renderForSession(null); return; }
+                        if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
+                            // Tab-Refokus feuert SIGNED_IN erneut: dann nicht neu rendern (Formular bleibt erhalten)
+                            if (session && session.user && session.user.id === currentUserId) return;
+                            renderForSession(session);
+                        }
+                    }, 0);
+                });
+
+                const { data, error } = await supabaseClient.auth.getSession();
+                if (error) throw error;
+                await renderForSession(data ? data.session : null);
+            } catch (e) {
+                console.error('Init-Fehler:', e);
+                showView('view-auth');
+            }
+        })();
+    </script>
+</body>
+</html>
