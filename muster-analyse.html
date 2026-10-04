@@ -210,7 +210,7 @@
             <div class="result-badge"><div class="rb-label">Dein Muster</div><div class="rb-name" id="res-name"></div></div>
             <div class="card"><h3>Der Mechanismus dahinter</h3><p id="res-mech"></p></div>
             <div class="card"><h3>Was es dich kostet</h3><p id="res-cost"></p></div>
-            <div class="card action-card"><h3>Dein erster Zug f&uuml;r heute</h3><p id="res-action"></p></div>
+            <div class="card"><h3>Warum ein schneller Tipp hier nichts bringt</h3><p>Das sitzt tiefer als ein einzelner Abend. Der Schalter geht nicht aus, weil &bdquo;aus&ldquo; sich anf&uuml;hlt, als w&uuml;rdest du etwas loslassen, das sonst zusammenbricht &ndash; Arbeit, Haus, am Ende die Leute, die an dir h&auml;ngen. Dagegen hilft kein Trick von einer Quiz-Seite, sondern ein Weg, der zu dir und deiner Lage passt. Genau den schauen wir uns zu zweit an.</p></div>
             <button class="btn" onclick="goStep(8)">Weiter</button>
         </div>
 
@@ -231,17 +231,9 @@
         <!-- STEP 9: Zwei Wege -->
         <div class="step" id="step-9">
             <span class="eyebrow">Dein n&auml;chster Schritt</span>
-            <h1>Wie willst du weiter?</h1>
-            <div class="choice">
-                <h2>Der Gratis-Start</h2>
-                <p>Ein kostenloser 5-Tage-Weg direkt in deinen Messenger &ndash; ein kleiner Schritt pro Tag. Zum selber anfangen.</p>
-                <a href="abschalten.html" class="btn btn-ghost" style="text-decoration:none;">5-Tage-Weg holen</a>
-            </div>
-            <div class="choice">
-                <h2>Das pers&ouml;nliche Gespr&auml;ch</h2>
-                <p>Eine kostenlose, unverbindliche <b>Potenzialanalyse</b> &ndash; 30 Minuten, in denen wir dein Muster und deinen konkreten Weg anschauen. Ich ruf dich an.</p>
-                <button class="btn" onclick="goStep(10)">Potenzialanalyse anfragen</button>
-            </div>
+            <h1>Lass uns deinen Weg anschauen.</h1>
+            <p class="lead">Eine kostenlose, unverbindliche <b>Potenzialanalyse</b>: 30 Minuten am Telefon. Wir schauen dein Muster an und was konkret dein n&auml;chster Schritt ist &ndash; zugeschnitten auf deine Lage. Kein Verkaufsdruck, ich ruf dich an.</p>
+            <button class="btn" onclick="goStep(10)">Potenzialanalyse anfragen</button>
         </div>
 
         <!-- STEP 10: Formular -->
@@ -267,8 +259,7 @@
         <!-- STEP 11: Danke -->
         <div class="step" id="step-11">
             <div class="result-badge"><div class="rb-name">Passt &ndash; ich melde mich.</div></div>
-            <p class="lead">Danke. Ich rufe dich in den n&auml;chsten 1&ndash;2 Tagen an. Hol dir bis dahin gern schon den kostenlosen 5-Tage-Weg.</p>
-            <a href="abschalten.html" class="btn btn-ghost" style="text-decoration:none;">5-Tage-Weg holen</a>
+            <p class="lead">Danke. Ich rufe dich in den n&auml;chsten 1&ndash;2 Tagen an, in Ruhe und ohne Verkaufsdruck. Du musst bis dahin nichts tun.</p>
         </div>
     </div>
 
@@ -348,7 +339,6 @@
                 document.getElementById('res-name').innerText = p.name;
                 document.getElementById('res-mech').innerText = p.mech;
                 document.getElementById('res-cost').innerText = p.cost;
-                document.getElementById('res-action').innerText = p.action;
                 goStep(7);
             }, 1700);
         }
