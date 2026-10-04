@@ -121,6 +121,8 @@
         .pres-details[open] summary { border-bottom: 1px solid #262626; }
         .pres-details .inner { padding: 8px 16px 16px; }
         .pres-founder-note { color: #7a7a7a; font-size: 11.5px; font-style: italic; margin-top: 10px; }
+        #pres-cost-box p { color: #cfcfcf; transition: color 0.2s; }
+        #pres-cost-box p.cost-hl, #pres-cost-box p.cost-hl b { color: var(--gold); }
     </style>
 </head>
 <body>
@@ -156,39 +158,46 @@
                 <p class="pres-founder-note">(Gr&uuml;nder-Absatz in deinen eigenen Worten anpassen.)</p>
             </div>
 
-            <!-- SLIDE 2: Sein Thema / Pain -->
+            <!-- SLIDE 2: Sein Thema / Pain (Konsequenz + Identitaet) -->
             <div class="pres-slide" id="pres-2">
                 <div class="pres-kicker">Worum es geht</div>
                 <h2 class="pres-h">Dein Abend gerade.</h2>
-                <p class="pres-lead">Du bist zuhause, aber der Kopf arbeitet weiter. Noch eine Mail, noch ein Gedanke &ndash; und der Abend ist weg.</p>
-                <p class="pres-lead">Der K&ouml;rper l&auml;uft auf Reserve, der Schlaf ist leicht. Und die schnellste L&ouml;sung hei&szlig;t drei Bier und &bdquo;geht schon&ldquo;.</p>
-                <div class="pres-ask"><span class="lbl">Frag ihn</span>Wann kippt dein Abend gerade? Und was leidet zuerst &ndash; die Ruhe, die Familie, der Fokus?</div>
+                <p class="pres-lead">Du funktionierst. Du lieferst. Und abends sitzt du da &ndash; der K&ouml;rper auf der Couch, der Kopf noch im B&uuml;ro. Anwesend, aber nicht da.</p>
+                <p class="pres-lead">Die Mails am K&uuml;chentisch. Die kurze Z&uuml;ndschnur bei den Kindern. Die Entscheidung im Gesch&auml;ft, die du seit Wochen vor dir herschiebst, weil im Dauer-Alarm kein klarer Gedanke durchkommt.</p>
+                <p class="pres-lead"><b>Nach au&szlig;en l&auml;uft alles. Innen l&auml;ufst du auf Reserve.</b> Und die schnellste L&ouml;sung hei&szlig;t drei Bier und &bdquo;geht schon&ldquo;.</p>
+                <div class="pres-ask"><span class="lbl">Frag ihn</span>Wann kippt dein Abend gerade? Und was kostet es dich zuerst &ndash; die Ruhe, die N&auml;he, oder die klaren Entscheidungen?</div>
                 <div class="pres-ask" id="pres-pain-custom" style="display:none;"><span class="lbl">Aus seinem Fragebogen</span><span id="pres-pain-text"></span></div>
             </div>
 
-            <!-- SLIDE 3: Was, wenn sich nichts aendert -->
+            <!-- SLIDE 3: Was, wenn sich nichts aendert (Kosten, Pain-Tuer-gesteuert) -->
             <div class="pres-slide" id="pres-3">
                 <div class="pres-kicker">Wenn alles bleibt</div>
                 <h2 class="pres-h">Und wenn sich nichts &auml;ndert?</h2>
-                <p class="pres-lead">Der Status quo kostet nichts und wirkt sofort &ndash; deshalb &auml;ndert sich von allein nichts.</p>
-                <p class="pres-lead">In einem Jahr sieht der Abend aus wie heute: Der Laptop geht nochmal auf, die Familie bekommt den Rest, und morgens beginnt der Dauerbetrieb von vorn.</p>
-                <p class="pres-lead">Nicht der eine Abend ist das Problem. Es ist der, der sich <b>300-mal wiederholt</b>.</p>
+                <p class="pres-lead">Der Status quo kostet nichts und wirkt sofort &ndash; deshalb &auml;ndert sich von allein nichts. In einem Jahr bist du der Mann, der nie den Kopf frei hatte.</p>
+                <div class="info-card" id="pres-cost-box">
+                    <p id="pres-cost-rel" style="margin:0 0 10px;"><b>Die N&auml;he:</b> Deine Partnerin hat aufgeh&ouml;rt, dich abends zu fragen. Dein Kind erz&auml;hlt die Dinge jemand anderem.</p>
+                    <p id="pres-cost-biz" style="margin:0 0 10px;"><b>Das Gesch&auml;ft:</b> Es steht, wo es vor zwei Jahren stand &ndash; die gro&szlig;en Entscheidungen brauchen einen klaren Kopf, den du nie hattest.</p>
+                    <p id="pres-cost-self" style="margin:0;"><b>Du selbst:</b> Immer erreichbar, nie wirklich da. Der Mann, der nur noch funktioniert.</p>
+                </div>
+                <p class="pres-lead" style="margin-top:14px;">Drei Bier machen den Abend ertr&auml;glich. Sie machen keinen davon r&uuml;ckg&auml;ngig.</p>
             </div>
 
-            <!-- SLIDE 4: Future Pacing -->
+            <!-- SLIDE 4: Future Pacing (Identitaets-Ergebnis) -->
             <div class="pres-slide" id="pres-4">
                 <div class="pres-kicker">Wie es sein k&ouml;nnte</div>
-                <h2 class="pres-h">Dein Abend, wenn er wieder dir geh&ouml;rt.</h2>
-                <p class="pres-lead">Stell dir den Abend vor, an dem die Arbeit wirklich endet &ndash; zu einer Uhrzeit, die du festlegst.</p>
-                <p class="pres-lead">Der Kopf ist runtergefahren, bevor du zur T&uuml;r reinkommst. Du bist da &ndash; nicht nur k&ouml;rperlich.</p>
-                <p class="pres-lead"><b>Deine Abende geh&ouml;ren wieder dir.</b> Und ein ruhiger Kopf sieht M&ouml;glichkeiten, die ein Dauer-Alarm ausblendet.</p>
+                <h2 class="pres-h">Der Mann, bei dem der Abend wieder ihm geh&ouml;rt.</h2>
+                <p class="pres-lead">Stell dir den Abend vor, an dem die Arbeit um deine Uhrzeit wirklich endet. Der Kopf ist runtergefahren, bevor du zur T&uuml;r reinkommst. Du bist da &ndash; nicht nur k&ouml;rperlich.</p>
+                <p class="pres-lead">Morgens triffst du mit klarem Kopf die Entscheidung, die andere vor sich herschieben.</p>
+                <p class="pres-lead"><b>Nicht entspannter. Klarer.</b> Wieder der, der f&uuml;hrt, statt nur zu funktionieren.</p>
             </div>
 
             <!-- SLIDE 5: Die Loesung + Preise -->
             <div class="pres-slide" id="pres-5">
                 <div class="pres-kicker">Von A nach B</div>
                 <h2 class="pres-h">So kommst du da hin.</h2>
-                <p class="pres-lead">Nicht mehr Wissen. Eine feste <b>Abendgrenze, die zur Gewohnheit wird</b> &ndash; begleitet, bis sie steht. Zwei Wege:</p>
+                <p class="pres-lead">Du hast schon einiges probiert, und es hat nicht gehalten. Das liegt nicht an dir. Abschalten ist kein Wissens-Problem und keine Frage von mehr Disziplin.</p>
+                <p class="pres-lead">Es ist eine Gewohnheit, die man baut wie jede andere: eine feste <b>Abendgrenze</b>, und jemand, der merkt, wenn du sie nicht h&auml;ltst. Zehn Minuten am Ende deines Arbeitstags, kein neuer Termin. Gemessen in Abenden, nicht in Gef&uuml;hlen &ndash; damit du siehst, dass es geht.</p>
+                <p class="pres-lead">Zwei Wege, das aufzubauen:</p>
                 <div class="price-grid">
                     <div class="price-card main">
                         <div class="price-label">Gruppe</div>
@@ -443,6 +452,7 @@
             document.getElementById('pres-back').disabled = (presStep === 1);
             document.getElementById('pres-next').innerHTML = (presStep === PRES_TOTAL) ? 'Zu Kunde &amp; Ziel &rarr;' : 'Weiter &rarr;';
             if (presStep === 2) fillPresPain();
+            if (presStep === 3) fillPresCost();
             window.scrollTo(0, 0);
         }
         function presNext() { if (presStep >= PRES_TOTAL) showTab('b'); else presShow(presStep + 1); }
@@ -459,6 +469,16 @@
                 }
             }
             box.style.display = 'none';
+        }
+        function fillPresCost() {
+            ['pres-cost-rel', 'pres-cost-biz', 'pres-cost-self'].forEach(function (id) {
+                var el = document.getElementById(id); if (el) el.classList.remove('cost-hl');
+            });
+            if (!selected) return;
+            var door = guessPain(selected.onboarding_data || {});
+            var map = { gereizt: 'pres-cost-rel', mehr_arbeit: 'pres-cost-biz', abschalten: 'pres-cost-self' };
+            var tid = map[door];
+            if (tid) { var t = document.getElementById(tid); if (t) t.classList.add('cost-hl'); }
         }
 
         // --- Kandidaten ---
