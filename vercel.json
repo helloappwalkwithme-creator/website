@@ -1,0 +1,19 @@
+{
+  "redirects": [
+    {
+      "source": "/ig",
+      "destination": "/abschalten.html?via=ig&utm_source=instagram&utm_medium=bio&utm_campaign=abschalten",
+      "permanent": false
+    },
+    {
+      "source": "/yt",
+      "destination": "/abschalten.html?via=ig&utm_source=youtube&utm_medium=description&utm_campaign=abschalten",
+      "permanent": false
+    },
+    {
+      "source": "/start",
+      "destination": "/abschalten.html?utm_source=direkt&utm_medium=kurzlink&utm_campaign=abschalten",
+      "permanent": false
+    }
+  ]
+}
