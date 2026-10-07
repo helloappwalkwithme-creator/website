@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kopf abschalten: 5 Tage, 5 kleine Sachen dagegen</title>
-    <meta name="description" content="Dein Kopf geht nicht aus &ndash; abends, nachts oder mitten im Arbeitstag. 5 Fragen, dann 5 Tage lang jeden Tag eine kleine Sache dagegen. Kostenlos.">
+    <title>Kopf abschalten: 5 Tage, 5 Griffe dagegen</title>
+    <meta name="description" content="Dein Kopf geht nicht aus &ndash; abends, nachts oder mitten im Arbeitstag. 5 Fragen, dann 5 Tage lang jeden Tag einen Griff dagegen. Kostenlos.">
     <meta name="robots" content="index,follow">
-    <meta property="og:title" content="Dein Kopf geht nicht aus. F&uuml;nf Tage, f&uuml;nf kleine Sachen dagegen.">
+    <meta property="og:title" content="Dein Kopf geht nicht aus. F&uuml;nf Tage, f&uuml;nf Griffe dagegen.">
     <meta property="og:description" content="Egal ob es dich abends erwischt, nachts um drei oder am Schreibtisch. Eine kurze Nachricht pro Tag, unter f&uuml;nf Minuten. Kostenlos.">
     <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,7 +98,7 @@
         <!-- STEP 1: Intro / Hook -->
         <div class="step active" id="step-1">
             <div class="flow-title">F&uuml;r M&auml;nner, die den ganzen Tag liefern</div>
-            <h1 class="h1-title">Dein Kopf geht nicht aus. F&uuml;nf Tage, f&uuml;nf kleine Sachen dagegen.</h1>
+            <h1 class="h1-title">Dein Kopf geht nicht aus. F&uuml;nf Tage, f&uuml;nf Griffe dagegen.</h1>
             <p class="subtitle">Egal ob es dich abends erwischt, nachts um drei oder mitten im Arbeitstag. Eine kurze Nachricht pro Tag, unter f&uuml;nf Minuten. Kostenlos.</p>
             <button class="btn-gold" onclick="goStep(2)">2 Minuten: Wo hakt es bei dir? &rarr;</button>
             <p class="trust-line">Keine Kosten. Keine Werbung. Jederzeit mit &bdquo;STOP&ldquo; beenden.</p>
@@ -113,12 +113,12 @@
             <p class="input-label">Was du bekommst</p>
             <ul class="pain-list">
                 <li>5 Tage, eine kurze Nachricht pro Tag.</li>
-                <li>Jede Nachricht: eine Sache, die unter f&uuml;nf Minuten dauert.</li>
+                <li>Jede Nachricht: ein Griff, der unter f&uuml;nf Minuten dauert.</li>
                 <li>Du w&auml;hlst, wann es bei dir am meisten bei&szlig;t: abends, morgens oder mittags.</li>
                 <li>Kein Portal, kein Login, keine Hausaufgaben.</li>
             </ul>
 
-            <div class="info-card"><b>Warum das kein weiterer Tipp ist.</b><br>Du wei&szlig;t l&auml;ngst, was du tun m&uuml;sstest. Das Problem ist nicht Wissen. Wenn der Tag voll war, entscheidet nicht mehr der Teil von dir, der es besser wei&szlig; &ndash; sondern der, der auf Autopilot l&auml;uft. Deshalb geht es hier nicht um Vors&auml;tze, sondern um kleine Sachen, die auch dann noch funktionieren.</div>
+            <div class="info-card"><b>Warum das kein weiterer Tipp ist.</b><br>Du wei&szlig;t l&auml;ngst, was du tun m&uuml;sstest. Das Problem ist nicht Wissen. Wenn der Tag voll war, entscheidet nicht mehr der Teil von dir, der es besser wei&szlig; &ndash; sondern der, der auf Autopilot l&auml;uft. Deshalb geht es hier nicht um Vors&auml;tze, sondern um Griffe, die auch dann noch funktionieren, wenn der Tag dich schon gehabt hat.</div>
 
             <button class="btn-gold" onclick="goStep(2)">2 Minuten: Wo hakt es bei dir? &rarr;</button>
         </div>
@@ -216,7 +216,7 @@
             </div>
             <div class="info-card"><b>Warum das nicht an deiner Disziplin liegt:</b><br><span id="res-action"></span></div>
             <p class="subtitle" id="res-pains" style="margin:14px 0 0; font-size:13.5px;"></p>
-            <p class="subtitle" style="margin:14px 0 0;">F&uuml;nf Tage, f&uuml;nf kleine Sachen, die du wirklich machst. Keine Vors&auml;tze, kein Programm. Kostenlos.</p>
+            <p class="subtitle" style="margin:14px 0 0;">F&uuml;nf Tage, f&uuml;nf Griffe, die du wirklich benutzt. Keine Vors&auml;tze, kein Programm. Kostenlos.</p>
             <button class="btn-gold" onclick="goStep(9)">Ja &ndash; schick mir den 5-Tage-Starter</button>
         </div>
 
@@ -243,6 +243,11 @@
             <div class="consent-row">
                 <input type="checkbox" id="reg-consent">
                 <label for="reg-consent">Ich m&ouml;chte den kostenlosen 5-Tage-Starter erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerkl&auml;rung</a> gelesen. Abmeldung jederzeit.</label>
+            </div>
+
+            <div class="consent-row">
+                <input type="checkbox" id="reg-own">
+                <label for="reg-own">Ich handle eigenverantwortlich. Die &Uuml;bungen sind Anregungen, keine Behandlung. Wenn es mir k&ouml;rperlich oder psychisch nicht gut geht, kl&auml;re ich vorher &auml;rztlich ab.</label>
             </div>
 
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()">5-Tage-Starter starten</button>
@@ -384,12 +389,14 @@
             const email = document.getElementById('reg-email').value.trim().toLowerCase();
             const channel = document.getElementById('reg-channel').value;
             const consent = document.getElementById('reg-consent').checked;
+            const ownRisk = document.getElementById('reg-own').checked;
             const errEl = document.getElementById('reg-error');
             const btn = document.getElementById('btn-register');
 
             if (!fname || !email) { errEl.innerText = "Bitte Vorname und E-Mail ausfüllen."; errEl.style.display = 'block'; return; }
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.innerText = "Bitte eine gültige E-Mail eingeben."; errEl.style.display = 'block'; return; }
             if (!consent) { errEl.innerText = "Bitte stimme der Datenverarbeitung zu, damit ich dir den Starter schicken darf."; errEl.style.display = 'block'; return; }
+            if (!ownRisk) { errEl.innerText = "Bitte bestätige noch den Hinweis zur Eigenverantwortung."; errEl.style.display = 'block'; return; }
 
             errEl.style.display = 'none';
             btn.disabled = true; btn.innerText = "…";
@@ -410,7 +417,8 @@
                 utm_campaign: urlParams.get("utm_campaign") || null,
                 via: urlParams.get("via") || null,
                 referrer: document.referrer || null,
-                landed_at: new Date().toISOString()
+                landed_at: new Date().toISOString(),
+                eigenverantwortung_bestaetigt: true
             };
 
             try {
@@ -471,7 +479,7 @@
             const main = document.querySelector("main");
             main.innerHTML = '<div style="padding:16px 0">' +
                 '<div class="flow-title">Der 5-Tage-Starter</div>' +
-                '<h1 class="h1-title">Dein Kopf geht nicht aus. F&uuml;nf Tage, f&uuml;nf kleine Sachen dagegen.</h1>' +
+                '<h1 class="h1-title">Dein Kopf geht nicht aus. F&uuml;nf Tage, f&uuml;nf Griffe dagegen.</h1>' +
                 '<p class="subtitle">Egal ob es dich abends erwischt, nachts um drei oder mitten im Arbeitstag. F&uuml;nf Tage, eine kurze Nachricht pro Tag, per WhatsApp, Telegram oder E-Mail.</p>' +
                 '<p class="subtitle">Keine Vors&auml;tze, kein Programm. ' + PAID_PRICE_LABEL + ' einmalig.</p>' +
                 '<a href="' + PAID_CHECKOUT_URL + '" class="btn-gold" style="display:block;text-decoration:none">Starter holen</a>' +
