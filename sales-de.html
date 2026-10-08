@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shift My Horizon – 90-Tage-Mentoring</title>
+    <title>Shift My Horizon – 90 Tage</title>
     <style>
         :root { --dark:#0a0c10; --gray:#13161f; --border:#2b3245; --gold:#cba677; --text:#e2e4e9; }
         * { box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
@@ -24,13 +24,16 @@
 <body>
     <main>
         <div class="sub">Shift My Horizon</div>
-        <h1>90 Tage Mentoring – dein täglicher Begleiter</h1>
+        <!-- Original: <h1>90 Tage Mentoring – dein täglicher Begleiter</h1> -->
+        <h1>90 Tage, täglich ein kurzer Impuls</h1>
 
-        <div class="guarantee-badge">✅ 14 Tage Geld-zurück-Garantie</div>
+        <!-- Original: <div class="guarantee-badge">✅ 14 Tage Geld-zurück-Garantie</div> -->
+        <div class="guarantee-badge" id="guarantee-badge" hidden>✅ 14 Tage Geld-zurück-Garantie</div>
 
         <div class="card">
             <h2>Das bekommst du</h2>
-            <p>90 Tage lang erhältst du täglich eine geführte Lektion: einen klaren Impuls, eine konkrete Tagesaufgabe und das passende Hintergrundwissen. Insgesamt 90 aufeinander aufbauende Tageseinheiten, die dich Schritt für Schritt weiterbringen.</p>
+            <!-- Original: 90 Tage lang erhältst du täglich eine geführte Lektion: einen klaren Impuls, eine konkrete Tagesaufgabe und das passende Hintergrundwissen. Insgesamt 90 aufeinander aufbauende Tageseinheiten, die dich Schritt für Schritt weiterbringen. -->
+            <p>90 Tage lang kommt täglich ein kurzer Impuls: ein Gedanke, eine kleine Aufgabe für den Tag und etwas Hintergrund dazu. 90 Einheiten, eine nach der anderen.</p>
         </div>
 
         <div class="card">
@@ -40,16 +43,21 @@
 
         <div class="card">
             <h2>Preis</h2>
-            <p class="price">Einmalig 49 €</p>
+            <!-- Original: <p class="price">Einmalig 49 €</p> -->
+            <p class="price" id="price-live" hidden>Einmalig 49 €</p>
+            <p class="price" id="price-paused">Derzeit nicht verfügbar</p>
             <p>Keine Abofalle, keine versteckten Folgekosten.</p>
         </div>
 
-        <div class="card">
+        <!-- Original-Garantie, nur sichtbar wenn PAID_MODE true -->
+        <div class="card" id="guarantee-card" hidden>
             <h2>Deine Garantie</h2>
             <p>Du hast <strong>14 Tage Geld-zurück-Garantie</strong>. Wenn du in dieser Zeit nicht zufrieden bist, erhältst du den vollen Kaufpreis zurück – unkompliziert und ohne Diskussion.</p>
         </div>
 
-        <a id="buy" class="btn" href="https://www.digistore24.com/">Jetzt starten</a>
+        <!-- Original: <a id="buy" class="btn" href="https://www.digistore24.com/">Jetzt starten</a> -->
+        <a id="buy" class="btn" href="https://www.digistore24.com/" hidden>Jetzt starten</a>
+        <p id="buy-paused" class="btn" style="opacity:.72;cursor:default;">Derzeit nicht verfügbar</p>
 
     </main>
     <footer>
@@ -58,10 +66,21 @@
         <a href="agb.html">AGB</a>
     </footer>
     <script>
-        // Kaufbutton auf das konkrete Digistore-Produkt zeigen (pid aus URL). Der Beschreibungstext oben ist statisch und ohne JS sichtbar.
-        var pid = new URLSearchParams(location.search).get('pid');
-        if (pid && /^[0-9]+$/.test(pid)) {
-            document.getElementById('buy').href = 'https://www.checkout-ds24.com/product/' + pid;
+        // Verkauf pausiert (FernUSG). true = Preis, Garantie und Kaufbutton wieder an.
+        // Vorher: kein Mentoring, kein „Fragen? Melde dich.“, Sicherheitshinweis steht,
+        // Anwalt hat FernUSG für bezahltes Selbstlernen geprüft.
+        var PAID_MODE = false;
+        if (PAID_MODE) {
+            document.getElementById('price-live').hidden = false;
+            document.getElementById('price-paused').hidden = true;
+            document.getElementById('guarantee-badge').hidden = false;
+            document.getElementById('guarantee-card').hidden = false;
+            document.getElementById('buy').hidden = false;
+            document.getElementById('buy-paused').hidden = true;
+            var pid = new URLSearchParams(location.search).get('pid');
+            if (pid && /^[0-9]+$/.test(pid)) {
+                document.getElementById('buy').href = 'https://www.checkout-ds24.com/product/' + pid;
+            }
         }
     </script>
 </body>

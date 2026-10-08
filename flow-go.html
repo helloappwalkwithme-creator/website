@@ -36,10 +36,14 @@
         elite_closer_flow:'688583',
         integrated_soul_flow:'688579'
     };
+    // Verkauf der 90-Tage-Produkte pausiert (FernUSG). true = Weiterleitung zum Digistore-Checkout.
+    // Vorher: kein Mentoring, kein „Fragen? Melde dich.“, Anwalt zu FernUSG beim Selbstlernen.
+    var PAID_MODE = false;
     (function(){
         var p=new URLSearchParams(location.search);
         var src=p.get('src')||'', problem=p.get('problem')||'', email=(p.get('email')||'').trim();
         var pid=PID[src];
+        if(!PAID_MODE){ document.getElementById('msg').textContent='Derzeit nicht verfügbar.'; document.querySelector('.spinner').style.display='none'; return; }
         if(!pid){ document.getElementById('msg').innerHTML='Link ungültig. <a href="index.html">Zur Startseite</a>'; return; }
         function forward(){
             var tq='';

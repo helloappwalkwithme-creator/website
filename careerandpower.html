@@ -266,7 +266,8 @@
         </section>
 
         <!-- Kontakt / Telefon -->
-        <section class="lp-section lp-contact">
+        <!-- Fragerecht pausiert. Zum Reaktivieren: hidden wegnehmen und die Kontakt-Texte unten zurückholen. Erst nach Anwalt. -->
+        <section class="lp-section lp-contact" hidden>
           <h3 class="lp-h3" id="lp-contact-title"></h3>
           <p class="lp-sub" id="lp-contact-text" style="margin:0 0 8px;"></p>
           <a class="lp-phone" id="lp-phone" href=""></a>
@@ -940,8 +941,10 @@
                     { old: "Abhängig vom Guru", new: "Du führst dich selbst – kein Abhängigkeitsverhältnis" }
                 ],
                 brainTitle: "Was in 90 Tagen in deinem Kopf passiert",
-                contactTitle: "Fragen? Melde dich.",
-                contactText: "Erreichbar per Telefon oder WhatsApp:",
+                // contactTitle: "Fragen? Melde dich.", // pausiert (FernUSG)
+                contactTitle: "",
+                // contactText: "Erreichbar per Telefon oder WhatsApp:",
+                contactText: "",
                 contactPhoneDisplay: "+49 163 2208540",
                 contactPhoneHref: "tel:+491632208540",
                 howTitle: "So funktioniert's",
@@ -954,8 +957,10 @@
                 founderText: "Ich bin Janosch. Ich kenne das selbst: fachlich stark sein und trotzdem übersehen werden, weil die eigene Wirkung nicht ankommt — und das Gefühl, unter dem eigenen Wert zu bleiben. Verändert hat das kein Auftritts-Coaching und keine aufgesetzte Selbstsicherheit, sondern kleine, machbare Schritte, die mein Standing wirklich verschoben haben — genau die findest du hier. Kurz, ehrlich, jeden Tag.",
                 reviewsTitle: "Das sagen andere",
                 reviewsEmpty: "Bald findest du hier echte Stimmen von Teilnehmern.",
-                guaranteeTitle: "Dein Risiko: null",
-                guaranteeText: "Die ersten 4 Tage sind komplett kostenlos — keine Zahlungsdaten, kein Haken. Entscheidest du dich danach für den vollen Weg, gilt 60 Tage Geld-zurück-Garantie. Passt es nicht, bekommst du dein Geld zurück.",
+                // guaranteeTitle: "Dein Risiko: null",
+                guaranteeTitle: "Die ersten 4 Tage",
+                // guaranteeText (60 Tage, pausiert): "Die ersten 4 Tage sind komplett kostenlos — keine Zahlungsdaten, kein Haken. Entscheidest du dich danach für den vollen Weg, gilt 60 Tage Geld-zurück-Garantie. Passt es nicht, bekommst du dein Geld zurück.",
+                guaranteeText: "Die ersten 4 Tage sind komplett kostenlos — keine Zahlungsdaten, kein Haken.",
                 faqTitle: "Häufige Fragen",
                 faq: [
                     { q: "Kostet mich das was?", a: "Die ersten 4 Tage sind gratis — ohne Zahlungsdaten. Erst wenn du danach weitermachen willst, gibt's ein bezahltes Angebot." },
