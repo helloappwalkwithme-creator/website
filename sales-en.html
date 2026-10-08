@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shift My Horizon – 90-Day Mentoring</title>
+    <title>Shift My Horizon – 90 Days</title>
     <style>
         :root { --dark:#0a0c10; --gray:#13161f; --border:#2b3245; --gold:#cba677; --text:#e2e4e9; }
         * { box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
@@ -24,13 +24,16 @@
 <body>
     <main>
         <div class="sub">Shift My Horizon</div>
-        <h1>90-Day Mentoring – your daily companion</h1>
+        <!-- Original: <h1>90-Day Mentoring – your daily companion</h1> -->
+        <h1>90 days, one short prompt a day</h1>
 
-        <div class="guarantee-badge">✅ 60-day money-back guarantee</div>
+        <!-- Original: <div class="guarantee-badge">✅ 60-day money-back guarantee</div> -->
+        <div class="guarantee-badge" id="guarantee-badge" hidden>✅ 60-day money-back guarantee</div>
 
         <div class="card">
             <h2>What you get</h2>
-            <p>For 90 days you receive one guided lesson every day: a clear insight, a concrete daily task and the background behind it. A total of 90 progressive daily units that move you forward step by step.</p>
+            <!-- Original: For 90 days you receive one guided lesson every day: a clear insight, a concrete daily task and the background behind it. A total of 90 progressive daily units that move you forward step by step. -->
+            <p>For 90 days you get one short prompt a day: a thought, a small task and a bit of background. 90 units, one after the other.</p>
         </div>
 
         <div class="card">
@@ -40,16 +43,19 @@
 
         <div class="card">
             <h2>Price</h2>
-            <p class="price">One-time $49</p>
+            <!-- Original: <p class="price">One-time $49</p> -->
+            <p class="price" id="price-live" hidden>One-time $49</p>
+            <p class="price" id="price-paused">Derzeit nicht verfügbar</p>
             <p>No subscription trap, no hidden follow-up costs.</p>
         </div>
 
-        <div class="card">
+        <div class="card" id="guarantee-card" hidden>
             <h2>Your guarantee</h2>
             <p>You get a <strong>60-day money-back guarantee</strong>. If you are not satisfied within that time, you get the full purchase price back – simple and no questions asked.</p>
         </div>
 
-        <a id="buy" class="btn" href="https://www.digistore24.com/">Get started now</a>
+        <a id="buy" class="btn" href="https://www.digistore24.com/" hidden>Get started now</a>
+        <p id="buy-paused" class="btn" style="opacity:.72;cursor:default;">Derzeit nicht verfügbar</p>
 
     </main>
     <footer>
@@ -58,9 +64,19 @@
         <a href="agb.html">Terms</a>
     </footer>
     <script>
-        var pid = new URLSearchParams(location.search).get('pid');
-        if (pid && /^[0-9]+$/.test(pid)) {
-            document.getElementById('buy').href = 'https://www.checkout-ds24.com/product/' + pid;
+        // Verkauf pausiert (FernUSG). true = Preis, Garantie und Kaufbutton wieder an.
+        var PAID_MODE = false;
+        if (PAID_MODE) {
+            document.getElementById('price-live').hidden = false;
+            document.getElementById('price-paused').hidden = true;
+            document.getElementById('guarantee-badge').hidden = false;
+            document.getElementById('guarantee-card').hidden = false;
+            document.getElementById('buy').hidden = false;
+            document.getElementById('buy-paused').hidden = true;
+            var pid = new URLSearchParams(location.search).get('pid');
+            if (pid && /^[0-9]+$/.test(pid)) {
+                document.getElementById('buy').href = 'https://www.checkout-ds24.com/product/' + pid;
+            }
         }
     </script>
 </body>

@@ -2,13 +2,25 @@
 <html lang="de">
 <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1430151545959801"
-     crossorigin="anonymous"></script>
+    <script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  functionality_storage: 'denied',
+  personalization_storage: 'denied',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+gtag('set', 'ads_data_redaction', true);
+gtag('set', 'url_passthrough', true);
+</script>
+<script type="text/plain" class="_iub_cs_activate" data-iub-purposes="4,5">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+<script type="text/javascript" src="https://embeds.iubenda.com/widgets/ba1bdae0-e28c-45b5-8134-d89a53fafd44.js"></script>
+    <script type="text/plain" class="_iub_cs_activate" data-iub-purposes="5" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1430151545959801" crossorigin="anonymous"></script>
     <!-- End Google Tag Manager -->
 
     <meta charset="UTF-8">
@@ -175,8 +187,8 @@
 </head>
 <body class="landing-active">
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
     <!-- End Google Tag Manager (noscript) -->
 
     <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
@@ -266,7 +278,8 @@
         </section>
 
         <!-- Kontakt / Telefon -->
-        <section class="lp-section lp-contact">
+        <!-- Fragerecht pausiert. Zum Reaktivieren: hidden wegnehmen und die Kontakt-Texte unten zurückholen. Erst nach Anwalt. -->
+        <section class="lp-section lp-contact" hidden>
           <h3 class="lp-h3" id="lp-contact-title"></h3>
           <p class="lp-sub" id="lp-contact-text" style="margin:0 0 8px;"></p>
           <a class="lp-phone" id="lp-phone" href=""></a>
@@ -909,8 +922,10 @@
                     { old: "Abhängig vom Therapeuten", new: "Ihr führt euch selbst – kein Abhängigkeitsverhältnis" }
                 ],
                 brainTitle: "Was in 90 Tagen zwischen euch passiert",
-                contactTitle: "Fragen? Melde dich.",
-                contactText: "Erreichbar per Telefon oder WhatsApp:",
+                // contactTitle: "Fragen? Melde dich.", // pausiert (FernUSG)
+                contactTitle: "",
+                // contactText: "Erreichbar per Telefon oder WhatsApp:",
+                contactText: "",
                 contactPhoneDisplay: "+49 163 2208540",
                 contactPhoneHref: "tel:+491632208540",
                 howTitle: "So funktioniert's",
@@ -923,8 +938,10 @@
                 founderText: "Ich bin Janosch. Sich lieben und trotzdem in denselben Mustern feststecken — reden, streiten, sich langsam entfernen: das Muster dahinter kenne ich von innen, gerade den Reflex, bei Nähe dichtzumachen. Was hilft, ist keine teure Therapie-Schleife, sondern kleine, machbare Schritte, die im Alltag wirklich etwas verändern — genau die findest du hier. Kurz, ehrlich, jeden Tag.",
                 reviewsTitle: "Das sagen andere",
                 reviewsEmpty: "Bald findest du hier echte Stimmen von Paaren.",
-                guaranteeTitle: "Euer Risiko: null",
-                guaranteeText: "Die ersten 4 Tage sind komplett kostenlos — keine Zahlungsdaten, kein Haken. Entscheidet ihr euch danach für den vollen Weg, gilt 60 Tage Geld-zurück-Garantie. Passt es nicht, bekommt ihr euer Geld zurück.",
+                // guaranteeTitle: "Euer Risiko: null",
+                guaranteeTitle: "Die ersten 4 Tage",
+                // guaranteeText (60 Tage, pausiert): "Die ersten 4 Tage sind komplett kostenlos — keine Zahlungsdaten, kein Haken. Entscheidet ihr euch danach für den vollen Weg, gilt 60 Tage Geld-zurück-Garantie. Passt es nicht, bekommt ihr euer Geld zurück.",
+                guaranteeText: "Die ersten 4 Tage sind komplett kostenlos — keine Zahlungsdaten, kein Haken.",
                 faqTitle: "Häufige Fragen",
                 faq: [
                     { q: "Kostet mich das was?", a: "Die ersten 4 Tage sind gratis — ohne Zahlungsdaten. Erst wenn du danach weitermachen willst, gibt's ein bezahltes Angebot." },

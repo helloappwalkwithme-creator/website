@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1430151545959801"
-     crossorigin="anonymous"></script>
+    <script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  functionality_storage: 'denied',
+  personalization_storage: 'denied',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+gtag('set', 'ads_data_redaction', true);
+gtag('set', 'url_passthrough', true);
+</script>
+<script type="text/plain" class="_iub_cs_activate" data-iub-purposes="4,5">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+    <script type="text/plain" class="_iub_cs_activate" data-iub-purposes="5" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1430151545959801" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://embeds.iubenda.com/widgets/ba1bdae0-e28c-45b5-8134-d89a53fafd44.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -251,8 +262,8 @@
     </style>
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
     <nav>
         <a href="index.html" class="logo">Shift My Horizon</a>
         <select class="lang-selector" id="languageSelect" onchange="changeLanguage(this.value)">
@@ -279,34 +290,42 @@
             </div>
         </section>
 
-        <!-- 5-TAGE-SOFORTHILFE (Tripwire, 8,90€, DE) -->
+        <!-- 5-TAGE-SOFORTHILFE. Preis 8,90 € bleibt im Markup, PAID_MODE im Script stellt ihn wieder her. -->
         <section class="section">
             <h2>5-Tage-Soforthilfe</h2>
-            <p style="color:#aaa;max-width:660px;margin:-22px auto 40px;font-size:1.08rem;line-height:1.6;">Ein akutes Problem, 5 Tage, echte Hebel fürs Nervensystem – keine Kalendersprüche. Täglich 60 Sekunden direkt per WhatsApp oder Telegram. Je <strong style="color:#fff;">8,90 €</strong>.</p>
+            <!-- Original: echte Hebel fürs Nervensystem -->
+            <p style="color:#aaa;max-width:660px;margin:-22px auto 40px;font-size:1.08rem;line-height:1.6;">Ein akutes Thema, 5 Tage, kurze Übungen – keine Kalendersprüche. Täglich etwa eine Minute direkt per WhatsApp oder Telegram. <span data-tripwire-paused>Kostenlos.</span><span data-tripwire-live hidden>Je <strong style="color:#fff;">8,90 €</strong>.</span></p>
+            <div role="note" style="max-width:760px;margin:-8px auto 28px;padding:14px 16px;border:1px solid #e0b15a;border-radius:12px;background:rgba(224,177,90,.08);color:#f6ead2;font-size:14px;line-height:1.55;text-align:left;">
+                <strong style="color:#fff;">Sicherheitshinweis.</strong> Atemübungen, Kältereiz und Tauchreflex sind nicht für Menschen mit Epilepsie, Herz-Kreislauf-Erkrankungen, Bluthochdruck, Schwangerschaft, Panikstörung oder anderen Erkrankungen, ohne vorher eine Ärztin oder einen Arzt zu fragen. Nie im Wasser, beim Fahren oder im Stehen. Bei Schwindel, Kribbeln oder Unwohlsein sofort aufhören. Kein Ersatz für medizinische oder psychotherapeutische Behandlung.
+            </div>
             <div class="grid">
                 <div class="card card-lightness">
                     <div class="app-icon" style="background-color: var(--color-lightness); font-size:1.6rem;">😴</div>
                     <h3>Endlich einschlafen</h3>
-                    <p>Schluss mit dem Gedankenkarussell. 5 potente Runterfahr-Hebel: Gedanken-Shuffle, Vagus-Atmung, Paradoxe Intention, 4-7-8, Temperatur-Trick.</p>
-                    <a href="sleep.html" class="btn btn-lightness">5 Tage · 8,90 €</a>
+                    <!-- Original: Schluss mit dem Gedankenkarussell. 5 potente Runterfahr-Hebel: Gedanken-Shuffle, Vagus-Atmung, Paradoxe Intention, 4-7-8, Temperatur-Trick. -->
+                    <p>Gedanken-Shuffle, Summ-Atmung, Paradoxe Intention, 4-7-8 und ein Temperatur-Trick. Kleine Übungen für den Abend.</p>
+                    <a href="sleep.html" class="btn btn-lightness"><span data-tripwire-paused>5 Tage · kostenlos</span><span data-tripwire-live hidden>5 Tage · 8,90 €</span></a>
                 </div>
                 <div class="card card-man">
                     <div class="app-icon" style="background-color: var(--color-man); font-size:1.6rem;">☀️</div>
                     <h3>Guter Start in den Morgen</h3>
-                    <p>Wach ohne Koffein-Crash. 5 physiologische Wach-Hebel: Kältereiz, Morgenlicht, Aktivierungs-Atmung, Temperatur-Kick, Dopamin-Schutz.</p>
-                    <a href="morning.html" class="btn btn-man">5 Tage · 8,90 €</a>
+                    <!-- Original: Wach ohne Koffein-Crash. 5 physiologische Wach-Hebel: Kältereiz, Morgenlicht, Aktivierungs-Atmung, Temperatur-Kick, Dopamin-Schutz. -->
+                    <p>Kältereiz, Morgenlicht, Aktivierungs-Atmung, Temperatur-Kick und eine ruhige erste Stunde. Kleine Übungen für den Start in den Tag.</p>
+                    <a href="morning.html" class="btn btn-man"><span data-tripwire-paused>5 Tage · kostenlos</span><span data-tripwire-live hidden>5 Tage · 8,90 €</span></a>
                 </div>
                 <div class="card card-closer">
                     <div class="app-icon" style="background-color: var(--color-closer); font-size:1.6rem;">🌿</div>
                     <h3>Stress-Entlastung</h3>
-                    <p>In unter 60 Sekunden runter. 5 Sofort-Bremsen gegen akuten Stress: Physiologischer Seufzer, Tauchreflex, Muskel-Reset, Panoramablick, NSDR.</p>
-                    <a href="stress.html" class="btn btn-closer">5 Tage · 8,90 €</a>
+                    <!-- Original: In unter 60 Sekunden runter. 5 Sofort-Bremsen gegen akuten Stress: Physiologischer Seufzer, Tauchreflex, Muskel-Reset, Panoramablick, NSDR. -->
+                    <p>Seufzer, Tauchreflex, Muskel-Reset, Panoramablick und NSDR. Kleine Übungen, wenn der Körper hochfährt.</p>
+                    <a href="stress.html" class="btn btn-closer"><span data-tripwire-paused>5 Tage · kostenlos</span><span data-tripwire-live hidden>5 Tage · 8,90 €</span></a>
                 </div>
             </div>
         </section>
 
         <section class="section">
-            <h2 data-i18n="coach_h2">Coaching & Mentoring</h2>
+            <!-- Original: Coaching & Mentoring -->
+            <h2 data-i18n="coach_h2">Coaching</h2>
             <div class="coaching-card">
                 <h3 data-i18n="coach_h3">1-on-1 Intensive Program</h3>
                 <p data-i18n="coach_p">You want to go deeper, gain clarity, and overcome personal hurdles? Together we develop new perspectives for your everyday life.</p>
@@ -315,7 +334,8 @@
         </section>
 
         <section class="section">
-            <h2 data-i18n="apps_h2">Our Mentoring Flows</h2>
+            <!-- Original: Our Mentoring Flows -->
+            <h2 data-i18n="apps_h2">Our Flows</h2>
             <div class="grid">
                 
                 <div class="card card-lightness">
@@ -372,8 +392,10 @@
                 <div class="card card-faith">
                     <div class="app-icon" style="background-color: var(--color-faith);">✦</div>
                     <h3 data-i18n="faith_title">Faith & Spirituality</h3>
-                    <p data-i18n="faith_p">Choose your path — the Bible, the Quran, Buddhism or a spiritual path without religion — and get mentored in it free for 4 days.</p>
-                    <a href="religion.html" class="btn btn-faith" data-i18n="app_btn_active">To the Flow</a>
+                    <!-- Original: ... and get mentored in it free for 4 days. -->
+                    <p data-i18n="faith_p">Choose your path — the Bible, the Quran, Buddhism or a spiritual path without religion. Free for 4 days.</p>
+                    <!-- Original: <a href="religion.html" class="btn btn-faith" data-i18n="app_btn_active">To the Flow</a> -->
+                    <span class="btn btn-faith" style="opacity:.72;cursor:default;">Derzeit nicht verfügbar</span>
                 </div>
 
                 <div class="card card-career">
@@ -434,11 +456,13 @@
         const translations = {
             en: {
                 hero_sub: "Personal Growth & Coaching",
-                coach_h2: "Coaching & Mentoring",
+                // Original coach_h2: "Coaching & Mentoring"
+                coach_h2: "Coaching",
                 coach_h3: "1-on-1 Intensive Program",
                 coach_p: "You want to go deeper, gain clarity, and overcome personal hurdles? Together we develop new perspectives for your everyday life.",
                 coach_btn: "Apply Now",
-                apps_h2: "Our Mentoring Flows",
+                // Original apps_h2: "Our Mentoring Flows"
+                apps_h2: "Our Flows",
                 app1_title: "Integrated Man",
                 app1_p: "The path to the best version of yourself. Recognize destructive patterns and strengthen your mental focus.",
                 app2_title: "The Loving Woman",
@@ -456,6 +480,7 @@
                 app8_title: "The Path to Lightness",
                 app8_p: "Clear the mental fog. Overcome cognitive overload, set boundaries, and regulate your nervous system for effortless living.",
                 faith_title: "Faith & Spirituality",
+                // Original faith_p endete mit "and get mentored in it free for 4 days."
                 faith_p: "Whether you feel an inner emptiness, search for meaning, or want guidance from your faith — choose your path: the Bible, the Quran, Buddhism or a spiritual path without religion. Free for 4 days.",
                 app_btn_active: "Start the Flow",
                 p_man_relationship: "Relationship, leadership & closeness",
@@ -475,12 +500,15 @@
                 p_soul_isolation: "Disconnection & isolation"
             },
             de: {
-                hero_sub: "Persönliches Wachstum & Mentoring",
-                coach_h2: "Coaching & Mentoring",
+                // Original hero_sub: "Persönliches Wachstum & Mentoring"
+                hero_sub: "Persönliches Wachstum",
+                // Original coach_h2: "Coaching & Mentoring"
+                coach_h2: "Coaching",
                 coach_h3: "1-on-1 Intensiv-Programm",
                 coach_p: "Du willst tiefer gehen, Klarheit gewinnen und persönliche Hindernisse überwinden? Wir erarbeiten gemeinsam neue Perspektiven für deinen Alltag.",
                 coach_btn: "Jetzt bewerben",
-                apps_h2: "Unsere Mentoring Flows",
+                // Original apps_h2: "Unsere Mentoring Flows"
+                apps_h2: "Unsere Flows",
                 app1_title: "Integrated Man",
                 app1_p: "Der Weg zur stärksten Version deiner selbst. Erkenne destruktive Muster und stärke deinen mentalen Fokus.",
                 app2_title: "The Loving Woman",
@@ -517,12 +545,15 @@
                 p_soul_isolation: "Getrenntheit & Isolation"
             },
             es: {
-                hero_sub: "Crecimiento Personal y Mentoría",
-                coach_h2: "Coaching y Mentoría",
+                // Original hero_sub: "Crecimiento Personal y Mentoría"
+                hero_sub: "Crecimiento Personal",
+                // Original coach_h2: "Coaching y Mentoría"
+                coach_h2: "Coaching",
                 coach_h3: "Programa Intensivo 1-a-1",
                 coach_p: "¿Quieres profundizar, obtener claridad y superar obstáculos personales? Juntos desarrollamos nuevas perspectivas para tu día a día.",
                 coach_btn: "Aplica Ahora",
-                apps_h2: "Nuestros Flujos de Mentoría",
+                // Original apps_h2: "Nuestros Flujos de Mentoría"
+                apps_h2: "Nuestros Flujos",
                 app1_title: "Integrated Man",
                 app1_p: "El camino hacia la mejor versión de ti mismo. Reconoce patrones destructivos y fortalece tu enfoque mental.",
                 app2_title: "The Loving Woman",
@@ -577,6 +608,14 @@
             const savedLang = localStorage.getItem('smh_language') || 'de'; // Setze Deutsch als Fallback-Standard
             changeLanguage(savedLang);
         };
+
+        // 8,90-€-Karten pausiert, die drei Flows sind kostenlos. true stellt den Preis wieder her.
+        // Vorher: Sicherheitshinweis bleibt, Anwalt zu FernUSG beim Selbstlernen.
+        var TRIPWIRE_PAID_MODE = false;
+        if (TRIPWIRE_PAID_MODE) {
+            document.querySelectorAll('[data-tripwire-live]').forEach(function (el) { el.hidden = false; });
+            document.querySelectorAll('[data-tripwire-paused]').forEach(function (el) { el.hidden = true; });
+        }
     </script>
     <script>
     // Ad-Tracking (Meta/Google/UTM) speichern + an interne Funnel-Links + Checkout durchreichen

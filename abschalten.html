@@ -27,6 +27,7 @@
                 --accent:#38c8ad; --accent-dark:#2aa892; --accent-tint:#152a26;
                 --dark:#0E0D0B; --gold:#38c8ad; --action:#38c8ad; --text:#F3F1EC;
             }
+            :root:not([data-theme="light"]) .safety { background: #241c10; color: #f6ead2; }
         }
         * { box-sizing: border-box; }
         html, body { margin: 0; padding: 0; }
@@ -87,6 +88,8 @@
         .legal-footer a { color: var(--muted); text-decoration: none; }
         .legal-footer a:hover { color: var(--accent-dark); }
         .legal-disclaimer { color: var(--muted); font-size: 11.5px; line-height: 1.5; margin-top: 18px; text-align: center; }
+        .safety { background: #fff8e8; border: 1px solid #e0b15a; border-radius: 14px; padding: 14px 16px; margin: 0 0 18px; color: #3d3424; font-size: 13.5px; line-height: 1.55; }
+        .safety b { display: block; margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -100,6 +103,7 @@
             <div class="flow-title">F&uuml;r M&auml;nner, die den ganzen Tag liefern</div>
             <h1 class="h1-title">Dein Kopf geht nicht aus. F&uuml;nf Tage, f&uuml;nf Griffe dagegen.</h1>
             <p class="subtitle">Egal ob es dich abends erwischt, nachts um drei oder mitten im Arbeitstag. Eine kurze Nachricht pro Tag, unter f&uuml;nf Minuten. Kostenlos.</p>
+            <div class="safety" role="note"><b>Sicherheitshinweis.</b> In den Tagen stecken Atem- und K&auml;lte&uuml;bungen, unter anderem K&auml;ltereiz und Tauchreflex. Nicht bei Epilepsie, Herz-Kreislauf-Erkrankungen, Bluthochdruck, Schwangerschaft, Panikst&ouml;rung oder anderen Erkrankungen, ohne vorher eine &Auml;rztin oder einen Arzt zu fragen. Nie im Wasser, beim Fahren oder im Stehen. Bei Schwindel, Kribbeln oder Unwohlsein sofort aufh&ouml;ren. Kein Ersatz f&uuml;r medizinische oder psychotherapeutische Behandlung.</div>
             <button class="btn-gold" onclick="goStep(2)">2 Minuten: Wo hakt es bei dir? &rarr;</button>
             <p class="trust-line">Keine Kosten. Keine Werbung. Jederzeit mit &bdquo;STOP&ldquo; beenden.</p>
 
@@ -250,6 +254,7 @@
                 <label for="reg-own">Ich handle eigenverantwortlich. Die &Uuml;bungen sind Anregungen, keine Behandlung. Wenn es mir k&ouml;rperlich oder psychisch nicht gut geht, kl&auml;re ich vorher &auml;rztlich ab.</label>
             </div>
 
+            <div class="safety" role="note"><b>Sicherheitshinweis.</b> Atem- und K&auml;lte&uuml;bungen sind nicht bei Epilepsie, Herz-Kreislauf-Erkrankungen, Bluthochdruck, Schwangerschaft, Panikst&ouml;rung oder anderen Erkrankungen, ohne vorher eine &Auml;rztin oder einen Arzt zu fragen. Nie im Wasser, beim Fahren oder im Stehen. Bei Schwindel, Kribbeln oder Unwohlsein sofort aufh&ouml;ren. Kein Ersatz f&uuml;r medizinische oder psychotherapeutische Behandlung.</div>
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()">5-Tage-Starter starten</button>
             <p class="trust-line">Keine Kosten. Keine Weitergabe deiner Daten. Jederzeit abbestellbar.</p>
             <p class="err" id="reg-error"></p>
@@ -482,6 +487,7 @@
                 '<h1 class="h1-title">Dein Kopf geht nicht aus. F&uuml;nf Tage, f&uuml;nf Griffe dagegen.</h1>' +
                 '<p class="subtitle">Egal ob es dich abends erwischt, nachts um drei oder mitten im Arbeitstag. F&uuml;nf Tage, eine kurze Nachricht pro Tag, per WhatsApp, Telegram oder E-Mail.</p>' +
                 '<p class="subtitle">Keine Vors&auml;tze, kein Programm. ' + PAID_PRICE_LABEL + ' einmalig.</p>' +
+                '<div class="safety" role="note"><b>Sicherheitshinweis.</b> Atem- und K&auml;lte&uuml;bungen sind nicht bei Epilepsie, Herz-Kreislauf-Erkrankungen, Bluthochdruck, Schwangerschaft, Panikst&ouml;rung oder anderen Erkrankungen, ohne vorher eine &Auml;rztin oder einen Arzt zu fragen. Nie im Wasser, beim Fahren oder im Stehen. Bei Schwindel, Kribbeln oder Unwohlsein sofort aufh&ouml;ren. Kein Ersatz f&uuml;r medizinische oder psychotherapeutische Behandlung.</div>' +
                 '<a href="' + PAID_CHECKOUT_URL + '" class="btn-gold" style="display:block;text-decoration:none">Starter holen</a>' +
                 '<p class="legal-disclaimer">Dies ist kein Ersatz f&uuml;r medizinische oder psychotherapeutische Behandlung. Es geht um dein Verhalten am Abend, nicht um die Behandlung einer Erkrankung.</p></div>';
         }
