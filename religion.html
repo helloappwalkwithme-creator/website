@@ -13,6 +13,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="noindex">
     <title>Dein Weg - Onboarding</title>
     <script type="text/javascript" src="https://embeds.iubenda.com/widgets/ba1bdae0-e28c-45b5-8134-d89a53fafd44.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -99,6 +100,7 @@
     </header>
 
     <main id="app-container">
+        <p id="religion-paused" style="text-align:center;color:#cba677;font-weight:700;margin:18px 20px 0;">Derzeit nicht verfügbar.</p>
         <!-- STEP 1: Religion / Weg auswählen -->
         <div class="step active" id="step-1">
             <div class="flow-title" id="s1-lbl"></div>
@@ -362,6 +364,10 @@
             updateTexts();
             buildOptions();
             pBar.style.width = '50%';
+            if (!RELIGION_OPEN) {
+                const btn = document.getElementById('btn-register');
+                if (btn) { btn.disabled = true; btn.style.opacity = '0.72'; btn.style.cursor = 'default'; }
+            }
         };
 
         function generateAccessCode() {
@@ -370,7 +376,15 @@
             return p1 + '-' + p2;
         }
 
+        // Pausiert: speichert keine Religionsangabe. true erst nach Anwaltsprüfung und Einwilligung.
+        const RELIGION_OPEN = false;
+
         async function handleRegistration() {
+            if (!RELIGION_OPEN) {
+                const errEl = document.getElementById('reg-error');
+                if (errEl) { errEl.innerText = 'Derzeit nicht verfügbar.'; errEl.style.display = 'block'; }
+                return;
+            }
             const l = t[currentLang];
             const fname = document.getElementById('reg-fname').value.trim();
             const email = document.getElementById('reg-email').value.trim();
