@@ -36,6 +36,7 @@
         .consent input{ width:19px; height:19px; margin-top:1px; accent-color:var(--accent); flex:none; }
         .consent label{ font-size:12.5px; color:var(--dim); line-height:1.5; }
         .consent a{ color:var(--accent); }
+        .price{ font-size:38px; font-weight:800; color:#fff; } .price small{ font-size:15px; color:var(--dim); font-weight:600; }
         .err{ color:var(--error); font-weight:700; font-size:14px; margin-top:10px; display:none; }
         .foot{ text-align:center; padding:22px; border-top:1px solid var(--border); font-size:11px; }
         .foot a{ color:var(--dim); text-decoration:none; margin:0 7px; }
@@ -91,11 +92,19 @@
             <button id="c-wa" class="sel" onclick="setChan('whatsapp')">WhatsApp</button>
             <button id="c-tg" onclick="setChan('telegram')">Telegram</button>
         </div>
-        <div class="consent">
-            <input type="checkbox" id="f-consent">
-            <label for="f-consent">Ich möchte die kostenlosen 5 Tage per Messenger und E-Mail erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen. Abmeldung jederzeit.</label>
+        <div id="free-offer">
+            <div class="consent">
+                <input type="checkbox" id="f-consent">
+                <label for="f-consent">Ich möchte die kostenlosen 5 Tage per Messenger und E-Mail erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen. Abmeldung jederzeit.</label>
+            </div>
+            <button class="btn" id="go-btn" onclick="start()">Meine 5 Tage kostenlos starten →</button>
         </div>
-        <button class="btn" id="go-btn" onclick="start()">Meine 5 Tage kostenlos starten →</button>
+        <!-- Original-Kauf 8,90 € (Digistore 727723), nur sichtbar wenn PAID_MODE true -->
+        <div id="paid-offer" hidden>
+            <div class="card" style="text-align:center;"><span class="price">8,90 €</span><br><small>Einmalig · 14 Tage Geld-zurück-Garantie</small></div>
+            <button class="btn" id="pay-btn" type="button" onclick="checkout()">Jetzt für 8,90 € freischalten →</button>
+            <p class="sub" style="text-align:center;margin-top:14px;font-size:12px;">Mit dem Kauf stimmst du der Speicherung deiner Angaben zu (<a href="datenschutz.html" style="color:var(--dim)">Datenschutz</a>).</p>
+        </div>
         <p class="err" id="err"></p>
     </div>
 </main>
@@ -105,6 +114,10 @@
 <script>
     // ==== Konfiguration je Magnet ====
     const CONFIG = { flow:'morning_flow', lang:'de' };
+    // Kostenlos, bis der 8,90-€-Kauf wieder frei ist. true zeigt Preis und Digistore-Checkout.
+    // Vorher: Sicherheitshinweis bleibt, kein „Fragen? Melde dich.“, Anwalt zu FernUSG beim Selbstlernen.
+    const PAID_MODE = false;
+    const PAID_PID = '727723';
     const SUPABASE_URL='https://jztwnumtwihomgxwlwor.supabase.co';
     const SUPABASE_ANON='sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
     const waNumber='491632225456';
@@ -120,6 +133,41 @@
     function ans(k,v,next){ answers[k]=v; go(next); }
     function setChan(c){ chan=c; document.getElementById('c-wa').classList.toggle('sel',c==='whatsapp'); document.getElementById('c-tg').classList.toggle('sel',c==='telegram'); }
     function genCode(){ var a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s=''; for(var i=0;i<8;i++){ if(i===4)s+='-'; s+=a[Math.floor(Math.random()*a.length)]; } return s; }
+
+    if (PAID_MODE) {
+        document.getElementById('free-offer').hidden = true;
+        document.getElementById('paid-offer').hidden = false;
+        var introSub = document.querySelector('#s-contact .sub');
+        if (introSub) introSub.textContent = 'Die Auslieferung läuft direkt in deinen Messenger.';
+        document.querySelectorAll('.kicker').forEach(function (el) {
+            el.textContent = el.textContent.replace(' · kostenlos', '');
+        });
+    }
+
+    function trackQuery(){
+        var s = window.smhTrackQS() || {};
+        return Object.keys(s).map(function(k){ return encodeURIComponent(k)+'='+encodeURIComponent(s[k]); }).join('&');
+    }
+
+    async function checkout(){
+        if (!PAID_MODE) return;
+        var name=(document.getElementById('f-name').value||'').trim();
+        var email=(document.getElementById('f-email').value||'').trim().toLowerCase();
+        var err=document.getElementById('err'); err.style.display='none';
+        if(name.length<2){ err.textContent='Bitte gib deinen Vornamen ein.'; err.style.display='block'; return; }
+        if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Bitte gib eine gültige E-Mail ein.'; err.style.display='block'; return; }
+        var btn=document.getElementById('pay-btn'); btn.disabled=true; btn.textContent='Einen Moment …';
+        try{
+            if(!sb) sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+            var code=genCode();
+            var onboarding={ gender:answers.gender||null, relationship:!!answers.relationship, kids:!!answers.kids, source_page:CONFIG.flow };
+            var res=await sb.rpc('register_tripwire_lead',{ p_email:email, p_first_name:name, p_delivery_channel:chan, p_source:CONFIG.flow, p_language:CONFIG.lang, p_onboarding_data:onboarding, p_access_code:code });
+            if(res && res.error) throw res.error;
+            try{ localStorage.setItem('smh_language',CONFIG.lang); }catch(e){}
+            var tq=trackQuery();
+            window.location.href='https://www.checkout-ds24.com/product/'+PAID_PID+'?email='+encodeURIComponent(email)+(tq?'&'+tq:'');
+        }catch(e){ console.error(e); err.textContent='Etwas ist schiefgelaufen. Bitte versuche es erneut.'; err.style.display='block'; btn.disabled=false; btn.textContent='Jetzt für 8,90 € freischalten →'; }
+    }
 
     async function start(){
         var name=(document.getElementById('f-name').value||'').trim();
