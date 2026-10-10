@@ -1,494 +1,342 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kopf abschalten: 5 Tage, 5 Griffe dagegen</title>
-    <meta name="description" content="Dein Kopf geht nicht aus &ndash; abends, nachts oder mitten im Arbeitstag. 5 Fragen, dann 5 Tage lang jeden Tag einen Griff dagegen. Kostenlos.">
-    <meta name="robots" content="index,follow">
-    <meta property="og:title" content="Warum der Kopf abends nicht runterf&auml;hrt &ndash; und was ihn runterbringt">
-    <meta property="og:description" content="F&uuml;nf Tage, f&uuml;nf Modelle: wie das Erregungsniveau steigt und wodurch es wieder sinkt. Eine kurze Nachricht pro Tag. Kostenlos.">
-    <meta property="og:type" content="website">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        :root {
-            --bg: #F4F3EF; --surface: #FFFFFF; --ink: #16130E; --muted: #6E685F; --line: #E6E2D9;
-            --accent: #13796A; --accent-dark: #0C564B; --accent-tint: #E9F3F0; --error: #c0392b;
-            --shadow-sm: 0 1px 2px rgba(20,16,10,.05); --shadow-md: 0 8px 24px -12px rgba(20,16,10,.18);
-            /* Legacy-Aliase, damit Inline-Styles/alte Regeln sauber mitlaufen */
-            --dark: #F4F3EF; --gold: #13796A; --action: #13796A; --text: #16130E;
-        }
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme="light"]) {
-                --bg:#0E0D0B; --surface:#17150F; --ink:#F3F1EC; --muted:#9a938a; --line:#2a271f;
-                --accent:#38c8ad; --accent-dark:#2aa892; --accent-tint:#152a26;
-                --dark:#0E0D0B; --gold:#38c8ad; --action:#38c8ad; --text:#F3F1EC;
-            }
-        }
-        * { box-sizing: border-box; }
-        html, body { margin: 0; padding: 0; }
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; overflow-x: hidden; }
-        .progress-container { width: 100%; height: 5px; background: transparent; position: fixed; top: 0; left: 0; z-index: 100; display: none; }
-        .progress-bar { height: 100%; width: 0%; background: var(--accent); border-radius: 0 4px 4px 0; transition: width .45s cubic-bezier(.4,0,.2,1); }
-        .app-header { width: 100%; max-width: 560px; margin: 0 auto; display: flex; justify-content: center; align-items: center; padding: 20px 20px 0; }
-        .wordmark { color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; }
-        main { flex: 1; padding: 24px 20px 140px; max-width: 560px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
-        .step { display: none; }
-        .step.active { display: block; animation: slideIn .4s cubic-bezier(.16,1,.3,1) both; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(16px) scale(.99); } to { opacity: 1; transform: none; } }
-        .flow-title { display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); background: var(--accent-tint); padding: 6px 12px; border-radius: 999px; margin-bottom: 18px; }
-        .h1-title { font-size: 29px; font-weight: 800; letter-spacing: -.02em; margin: 0 0 16px; color: var(--ink); line-height: 1.2; }
-        .subtitle { color: var(--muted); margin-bottom: 24px; font-size: 16.5px; line-height: 1.55; }
-        .pain-list { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 10px; }
-        .pain-list li { position: relative; padding: 14px 16px 14px 44px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; color: var(--ink); font-size: 15px; line-height: 1.45; box-shadow: var(--shadow-sm); }
-        .pain-list li::before { content: ''; position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-        .quiz-btn { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: var(--surface); border: 1.5px solid var(--line); border-radius: 16px; padding: 18px 20px; margin-bottom: 12px; cursor: pointer; box-shadow: var(--shadow-sm); transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease; }
-        .quiz-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: #cfc9bd; }
-        .quiz-btn.selected { border-color: var(--accent); background: var(--accent-tint); }
-        .quiz-btn-text { color: var(--ink); font-size: 16px; flex: 1; padding-right: 10px; line-height: 1.4; font-weight: 500; }
-        .quiz-btn.selected .quiz-btn-text { color: var(--accent-dark); font-weight: 600; }
-        .radio-icon { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #cfc9bd; display: flex; align-items: center; justify-content: center; flex: none; transition: all .15s; }
-        .quiz-btn.selected .radio-icon { border-color: var(--accent); }
-        .radio-icon::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); display: none; }
-        .quiz-btn.selected .radio-icon::after { display: block; }
-        .check-icon { width: 26px; height: 26px; border-radius: 8px; border: 2px solid #cfc9bd; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; font-size: 14px; flex: none; transition: all .15s; }
-        .quiz-btn.selected .check-icon { border-color: var(--accent); background: var(--accent); color: #fff; }
-        .minihint { color: var(--muted); font-size: 12.5px; margin: 2px 2px 0; display: none; }
-        .info-card { background: var(--accent-tint); border-radius: 16px; padding: 18px 20px; margin-bottom: 20px; color: var(--ink); font-size: 15px; line-height: 1.55; }
-        .result-card { text-align: center; padding: 30px 24px; background: var(--ink); color: #fff; border-radius: 20px; margin-bottom: 16px; box-shadow: var(--shadow-md); }
-        .result-score { color: #fff; font-size: 22px; font-weight: 800; line-height: 1.25; }
-        .insight-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
-        .insight-title { color: var(--accent); font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
-        .insight-text { color: var(--ink); font-size: 15px; line-height: 1.6; }
-        .analyze-wrap { text-align: center; padding: 80px 0; }
-        .spinner { width: 52px; height: 52px; border: 4px solid var(--line); border-top-color: var(--accent); border-radius: 50%; margin: 0 auto 24px; animation: spin .9s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .input-label { color: var(--ink); font-size: 13px; font-weight: 600; margin: 18px 0 8px; }
-        .input-field { width: 100%; background: var(--surface); border: 1.5px solid var(--line); border-radius: 13px; padding: 16px; color: var(--ink); font-size: 16px; font-family: inherit; outline: none; transition: border-color .15s; }
-        .input-field:focus { border-color: var(--accent); }
-        select.input-field { appearance: none; cursor: pointer; }
-        .hint { color: var(--muted); font-size: 12.5px; line-height: 1.45; margin: 7px 2px 0; }
-        .consent-row { display: flex; align-items: flex-start; gap: 11px; margin: 20px 0 4px; }
-        .consent-row input { width: 22px; height: 22px; margin-top: 1px; accent-color: var(--accent); flex: none; }
-        .consent-row label { color: var(--muted); font-size: 13px; line-height: 1.5; }
-        .consent-row a { color: var(--accent-dark); }
-        .btn-gold { display: block; background: var(--accent); color: #fff; padding: 18px; border-radius: 14px; font-weight: 700; font-size: 16px; border: none; width: 100%; cursor: pointer; text-align: center; letter-spacing: .01em; box-shadow: var(--shadow-md); transition: transform .15s ease, background .15s ease, opacity .15s; margin-top: 8px; font-family: inherit; }
-        .btn-gold:hover { background: var(--accent-dark); transform: translateY(-2px); }
-        .btn-gold:disabled { opacity: .5; cursor: not-allowed; transform: none; }
-        .btn-gold:active { transform: translateY(0); }
-        .trust-line { text-align: center; color: var(--muted); font-size: 12.5px; margin-top: 14px; }
-        .err { color: var(--error); text-align: center; display: none; font-weight: 600; margin-top: 14px; font-size: 14px; }
-        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, var(--bg) 70%, transparent); padding: 14px 20px 26px; z-index: 10; }
-        .bottom-bar .inner { max-width: 560px; margin: 0 auto; }
-        .legal-footer { text-align: center; padding: 24px 20px 30px; color: var(--muted); font-size: 12px; }
-        .legal-footer a { color: var(--muted); text-decoration: none; }
-        .legal-footer a:hover { color: var(--accent-dark); }
-        .legal-disclaimer { color: var(--muted); font-size: 11.5px; line-height: 1.5; margin-top: 18px; text-align: center; }
-    </style>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kostenloser 5-Tage-Starter: schneller umschalten</title>
+<meta name="description" content="Fünf Tage, jeden Tag eine kurze Übung für mehr Fokus und schnelleres Abschalten, an einem Moment, den du sowieso hast. Runter, wenn Feierabend ist. Hoch, wenn es zählt. Kostenlos per Messenger oder Mail.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://www.shiftmyhorizon.com/abschalten.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Fünf Tage. Fünf Übungen. Schneller umschalten.">
+<meta property="og:description" content="5 Übungen für mehr Fokus am Tag und schnelleres Abschalten am Abend. Kostenlos.">
+<meta name="theme-color" content="#0A141B">
+<!-- JANOSCH: Indexierung entschieden: noindex (steht oben im robots-Tag). Offen: og:image, Porträt ohne Problem-Text -->
+<link rel="preload" href="fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
 </head>
 <body>
-    <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar"></div></div>
+<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+  <symbol id="i-level" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 12h16"/></symbol>
+  <symbol id="i-talk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3v-5.5A8 8 0 0 1 11 4h2a8 8 0 0 1 8 8z"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M10 18.5h4"/></symbol>
+  <symbol id="i-group" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16.5 5.6a3.2 3.2 0 0 1 0 6.4M18 20c0-2.4-.9-4.2-2.4-5.3"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></symbol>
+</svg>
+<header class="hdr hdr--solo">
+  <a class="wordmark" href="#inhalt">Janosch Brase</a>
+</header>
 
-    <div class="app-header"><span class="wordmark">Shift My Horizon</span></div>
-
-    <main>
-        <!-- STEP 1: Intro / Hook -->
-        <div class="step active" id="step-1">
-            <div class="flow-title">F&uuml;r M&auml;nner, die den ganzen Tag liefern</div>
-            <h1 class="h1-title">Dein Kopf geht nicht aus. F&uuml;nf Tage, f&uuml;nf Griffe dagegen.</h1>
-            <p class="subtitle">Egal ob es dich abends erwischt, nachts um drei oder mitten im Arbeitstag. Eine kurze Nachricht pro Tag, unter f&uuml;nf Minuten. Kostenlos.</p>
-            <button class="btn-gold" onclick="goStep(2)">2 Minuten: Wo hakt es bei dir? &rarr;</button>
-            <p class="trust-line">Keine Kosten. Keine Werbung. Jederzeit mit &bdquo;STOP&ldquo; beenden.</p>
-
-            <p class="input-label" style="margin-top:34px;">Kennst du das?</p>
-            <ul class="pain-list">
-                <li>Auf der Couch l&auml;uft der Kopf den Tag nochmal durch.</li>
-                <li>Nachts um drei bist du wach und rechnest weiter.</li>
-                <li>Am Schreibtisch liest du denselben Absatz dreimal.</li>
-            </ul>
-
-            <p class="input-label">Was du bekommst</p>
-            <ul class="pain-list">
-                <li>5 Tage, eine kurze Nachricht pro Tag.</li>
-                <li>Jede Nachricht: ein Griff, der unter f&uuml;nf Minuten dauert.</li>
-                <li>Du w&auml;hlst, wann es bei dir am meisten bei&szlig;t: abends, morgens oder mittags.</li>
-                <li>Kein Portal, kein Login, keine Hausaufgaben.</li>
-            </ul>
-
-            <div class="info-card"><b>Warum das kein weiterer Tipp ist.</b><br>Du wei&szlig;t l&auml;ngst, was du tun m&uuml;sstest. Das Problem ist nicht Wissen. Wenn der Tag voll war, entscheidet nicht mehr der Teil von dir, der es besser wei&szlig; &ndash; sondern der, der auf Autopilot l&auml;uft. Deshalb geht es hier nicht um Vors&auml;tze, sondern um Griffe, die auch dann noch funktionieren, wenn der Tag dich schon gehabt hat.</div>
-
-            <button class="btn-gold" onclick="goStep(2)">2 Minuten: Wo hakt es bei dir? &rarr;</button>
+<main id="inhalt">
+  <section class="hero hero--lp hero--portrait">
+    <div class="hero__bg" data-loop="" data-poster=""><div class="scene"></div></div>
+    <div class="hero__shade"></div>
+    <p class="scene__label" aria-hidden="true"><b>Hero-Hintergrund</b>Ruhiges Standbild oder Loop: Motor aus, Hand an der Haustür, ohne Gesichter</p>
+    <div class="wrap">
+      <div class="hero__grid">
+        <div class="hero__text">
+          <div class="hero__top">
+            <span class="eyebrow rv-hero">Kostenloser 5-Tage-Starter</span>
+            <h1 class="rv-hero d1">Fünf Tage. Fünf Übungen. Schneller umschalten.</h1>
+            <p class="lead">5 Übungen, die dir mehr Fokus am Tag und schnelleres Abschalten am Abend bringen. Eine pro Tag, per Nachricht.</p>
+          </div>
+          <div class="hero__bottom rv-hero d2">
+            
+            <div class="hero__actions"><a class="btn btn--primary" href="#anmeldung">5-Tage-Starter holen <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="textlink" href="#warum">Was dich eine Unterbrechung kostet</a></div>
+            <ul class="anchors" aria-label="Auf einen Blick"><li><b>5 Tage</b></li><li><b>90 Sek.</b>pro Übung</li><li><b></b>WhatsApp, Telegram oder E-Mail</li><li><b>STOP</b>jederzeit</li></ul>
+          </div>
         </div>
-
-        <!-- STEP 2: Painpoints (multi) -->
-        <div class="step" id="step-2">
-            <div class="flow-title">Frage 1 von 5</div>
-            <h1 class="h1-title">Woran h&auml;ngt es gerade bei dir?</h1>
-            <p class="subtitle">Kreuz alles an, was zutrifft. Mehrfachauswahl.</p>
-            <div class="opts" data-q="painpoints">
-                <div class="quiz-btn" data-val="abschalten" onclick="toggle(this)"><span class="quiz-btn-text">Abends nicht abschalten, Kopf geht nicht aus</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="schlaf" onclick="toggle(this)"><span class="quiz-btn-text">Schlecht ein- oder durchschlafen</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="stress" onclick="toggle(this)"><span class="quiz-btn-text">Dauerstress, innerlich auf 180</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="morgen" onclick="toggle(this)"><span class="quiz-btn-text">Morgens schwer in Gang</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="kind" onclick="toggle(this)"><span class="quiz-btn-text">Nicht wirklich da beim Kind / bei der Familie</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="partnerin" onclick="toggle(this)"><span class="quiz-btn-text">Gereizt oder Distanz zur Partnerin</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="fokus" onclick="toggle(this)"><span class="quiz-btn-text">Kein Fokus, zerfahren bei der Arbeit</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="betaeubung" onclick="toggle(this)"><span class="quiz-btn-text">Abends zu viel Bier oder Handy</span><span class="check-icon">&#10003;</span></div>
-            </div>
-            <p class="minihint" id="hint-2">Bitte w&auml;hle mindestens eins aus.</p>
-            <button class="btn-gold" onclick="submitMulti('painpoints','hint-2',3)">Weiter &rarr;</button>
+        <div class="hero__media rv-hero d3">
+          <div class="vsl vsl--vertical" data-src="" data-poster="">
+            <div class="ph " role="img" aria-label="Platzhalter: V4 · Intro-Video 9:16. Rund 90 Sekunden, eingebrannte Untertitel. Startet stumm mit „Ton an“."><span class="ph__tag">V4 · Intro-Video 9:16</span><div class="ph__center">5 Tage. 5 Übungen.</div><span class="ph__cap">Rund 90 Sekunden, eingebrannte Untertitel. Startet stumm mit „Ton an“.</span></div>
+            <button class="vsl__play" type="button" hidden><span class="visually-hidden">Video abspielen</span><svg aria-hidden="true"><use href="#i-play"></use></svg></button>
+            <button class="vsl__sound" type="button" hidden>Ton an</button>
+          </div>
         </div>
-
-        <!-- STEP 3: Abend-Ist (multi) -->
-        <div class="step" id="step-3">
-            <div class="flow-title">Frage 2 von 5</div>
-            <h1 class="h1-title">Wie sieht dein Abend gerade wirklich aus?</h1>
-            <p class="subtitle">Was machst du, wenn der Kopf nicht ausgeht? Mehrfach m&ouml;glich.</p>
-            <div class="opts" data-q="abend">
-                <div class="quiz-btn" data-val="bier" onclick="toggle(this)"><span class="quiz-btn-text">Drei Bier / ein paar Gl&auml;ser, dann geht&apos;s</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="scrollen" onclick="toggle(this)"><span class="quiz-btn-text">Handy, Scrollen, bis ich m&uuml;de bin</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="laptop" onclick="toggle(this)"><span class="quiz-btn-text">Laptop oder Mails nochmal auf</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="funktionieren" onclick="toggle(this)"><span class="quiz-btn-text">Ich funktioniere nur noch, bis ich umfalle</span><span class="check-icon">&#10003;</span></div>
-            </div>
-            <p class="minihint" id="hint-3">Bitte w&auml;hle mindestens eins aus.</p>
-            <button class="btn-gold" onclick="submitMulti('abend','hint-3',4)">Weiter &rarr;</button>
-        </div>
-
-        <!-- STEP 4: Wofuer (multi) -->
-        <div class="step" id="step-4">
-            <div class="flow-title">Frage 3 von 5</div>
-            <h1 class="h1-title">Was w&auml;re anders, wenn deine Abende wieder dir geh&ouml;ren?</h1>
-            <p class="subtitle">Mehrfach m&ouml;glich.</p>
-            <div class="opts" data-q="wofuer">
-                <div class="quiz-btn" data-val="familie" onclick="toggle(this)"><span class="quiz-btn-text">Mehr echte Zeit mit Familie / Partnerin</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="klar" onclick="toggle(this)"><span class="quiz-btn-text">Klarer Kopf f&uuml;r Arbeit und Entscheidungen</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="ruhe" onclick="toggle(this)"><span class="quiz-btn-text">Einfach mal Ruhe im Kopf</span><span class="check-icon">&#10003;</span></div>
-                <div class="quiz-btn" data-val="ich" onclick="toggle(this)"><span class="quiz-btn-text">Wieder Sport, Hobby, Zeit f&uuml;r mich</span><span class="check-icon">&#10003;</span></div>
-            </div>
-            <p class="minihint" id="hint-4">Bitte w&auml;hle mindestens eins aus.</p>
-            <button class="btn-gold" onclick="submitMulti('wofuer','hint-4',5)">Weiter &rarr;</button>
-        </div>
-
-        <!-- STEP 5: Starter (single) -->
-        <div class="step" id="step-5">
-            <div class="flow-title">Frage 4 von 5</div>
-            <h1 class="h1-title">Wann bei&szlig;t es bei dir am meisten?</h1>
-            <p class="subtitle">Danach richtet sich, womit deine f&uuml;nf Tage anfangen.</p>
-            <div class="opts" data-q="starter">
-                <div class="quiz-btn" onclick="pick(this,'starter','sleep')"><span class="quiz-btn-text">Abends runterkommen &amp; einschlafen</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'starter','stress')"><span class="quiz-btn-text">Stress-Soforthilfe f&uuml;r zwischendurch</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'starter','morning')"><span class="quiz-btn-text">Besser &amp; wacher in den Morgen</span><span class="radio-icon"></span></div>
-            </div>
-        </div>
-
-        <!-- STEP 6: Herkunft (single) -->
-        <div class="step" id="step-6">
-            <div class="flow-title">Frage 5 von 5</div>
-            <h1 class="h1-title">Letzte Frage: Woher kommst du gerade?</h1>
-            <div class="opts" data-q="woher">
-                <div class="quiz-btn" onclick="pick(this,'woher','instagram')"><span class="quiz-btn-text">Instagram</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'woher','youtube')"><span class="quiz-btn-text">YouTube</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'woher','empfehlung')"><span class="quiz-btn-text">Empfehlung</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'woher','suche')"><span class="quiz-btn-text">Google-Suche</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'woher','anzeige')"><span class="quiz-btn-text">Eine Anzeige</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" onclick="pick(this,'woher','sonst')"><span class="quiz-btn-text">Woanders</span><span class="radio-icon"></span></div>
-            </div>
-        </div>
-
-        <!-- STEP 7: Analyzing -->
-        <div class="step" id="step-7">
-            <div class="analyze-wrap">
-                <div class="spinner"></div>
-                <p class="subtitle" style="margin:0;">Einen Moment &hellip;</p>
-            </div>
-        </div>
-
-        <!-- STEP 8: Result -->
-        <div class="step" id="step-8">
-            <div class="flow-title">Dein Ergebnis</div>
-            <div class="result-card"><div class="result-score" id="res-pattern"></div></div>
-            <div class="insight-card">
-                <div class="insight-title">Was bei dir gerade passiert</div>
-                <div class="insight-text" id="res-insight"></div>
-            </div>
-            <div class="info-card"><b>Warum das nicht an deiner Disziplin liegt:</b><br><span id="res-action"></span></div>
-            <p class="subtitle" id="res-pains" style="margin:14px 0 0; font-size:13.5px;"></p>
-            <p class="subtitle" style="margin:14px 0 0;">F&uuml;nf Tage, f&uuml;nf Griffe, die du wirklich benutzt. Keine Vors&auml;tze, kein Programm. Kostenlos.</p>
-            <button class="btn-gold" onclick="goStep(9)">Ja &ndash; schick mir den 5-Tage-Starter</button>
-        </div>
-
-        <!-- STEP 9: Opt-in -->
-        <div class="step" id="step-9">
-            <div class="flow-title">Kostenlos</div>
-            <h1 class="h1-title">Dein 5-Tage-Starter</h1>
-            <p class="subtitle">5 kurze Nachrichten, ein Schritt pro Tag. Per WhatsApp, Telegram oder E-Mail. Jederzeit mit &bdquo;STOP&ldquo; beenden.</p>
-
-            <div class="input-label">Vorname</div>
-            <input type="text" id="reg-fname" class="input-field" autocomplete="given-name">
-
-            <div class="input-label">E-Mail</div>
-            <input type="email" id="reg-email" class="input-field" autocomplete="email">
-            <p class="hint">An die E-Mail kn&uuml;pfen wir deinen Zugang. Den Starter bekommst du auf dem Weg, den du unten w&auml;hlst.</p>
-
-            <div class="input-label">Wohin soll der Starter?</div>
-            <select id="reg-channel" class="input-field">
-                <option value="whatsapp">WhatsApp</option>
-                <option value="telegram">Telegram</option>
-                <option value="email">E-Mail</option>
-            </select>
-
-            <div class="consent-row">
-                <input type="checkbox" id="reg-consent">
-                <label for="reg-consent">Ich m&ouml;chte den kostenlosen 5-Tage-Starter erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerkl&auml;rung</a> gelesen. Abmeldung jederzeit.</label>
-            </div>
-
-            <div class="consent-row">
-                <input type="checkbox" id="reg-own">
-                <label for="reg-own">Ich handle eigenverantwortlich. Die &Uuml;bungen sind Anregungen, keine Behandlung. Wenn es mir k&ouml;rperlich oder psychisch nicht gut geht, kl&auml;re ich vorher &auml;rztlich ab.</label>
-            </div>
-
-            <button class="btn-gold" id="btn-register" onclick="handleRegistration()">5-Tage-Starter starten</button>
-            <p class="trust-line">Keine Kosten. Keine Weitergabe deiner Daten. Jederzeit abbestellbar.</p>
-            <p class="err" id="reg-error"></p>
-            <p class="legal-disclaimer">Dies ist kein Ersatz f&uuml;r medizinische oder psychotherapeutische Behandlung. Es geht um dein Verhalten am Abend, nicht um die Behandlung einer Erkrankung.</p>
-        </div>
-    </main>
-
-    <div class="bottom-bar" id="bottomBar" style="display:none;">
-        <div class="inner"><button class="btn-gold" style="margin-top:0;background:transparent;color:var(--accent-dark);border:1.5px solid var(--line);box-shadow:none;" onclick="goBack()">&larr; Zur&uuml;ck</button></div>
+      </div>
     </div>
+  </section>
 
-    <footer class="legal-footer">
-        <a href="impressum.html">Impressum</a> &nbsp;|&nbsp;
-        <a href="datenschutz.html">Datenschutz</a> &nbsp;|&nbsp;
+
+  <section class="sec sec--white" id="warum">
+    <div class="wrap">
+      <div class="split split--top">
+        <div class="rv">
+          <span class="eyebrow">Warum kurze Übungen statt Tipps</span>
+          <h2 style="max-width:14ch">Dein Abend konkurriert mit dem Handy.</h2>
+        </div>
+        <div class="rv rv-d1">
+          <p class="statement" style="margin:0">Darum dauert hier keine Übung <em>länger als 90 Sekunden</em>.</p>
+          <p style="margin-top:14px">Wenn der Tag voll war, entscheiden Reflex und Gewohnheit, nicht mehr der planende Teil vorne. Deshalb bekommst du keine Liste mit Vorsätzen, sondern pro Tag genau eine Übung.</p>
+        </div>
+      </div>
+      <div class="stats stats--3 "><article class="stat rv">
+          <p class="stat__num">10–15 Min.</p>
+          <p class="stat__claim">So lange dauerte es nach knapp 10 Minuten Ablenkung durch E-Mail oder Chat noch, bis wieder konzentriert gearbeitet wurde.</p>
+          <p class="stat__src">Iqbal &amp; Horvitz 2007<sup class="fn"><a href="#q-iqbal" aria-label="Quelle 1">1</a></sup></p>
+        </article><article class="stat rv rv-d1">
+          <p class="stat__num stat__num--word">Wenn → dann</p>
+          <p class="stat__claim">Wer vorher festlegt „Wenn X kommt, mache ich Y“, erreicht seine Ziele besser.</p>
+          <p class="stat__src">Gollwitzer &amp; Sheeran 2006<sup class="fn"><a href="#q-gollwitzer" aria-label="Quelle 2">2</a></sup></p>
+        </article><article class="stat rv rv-d2">
+          <p class="stat__num">≤ 10 Min.</p>
+          <p class="stat__claim">Frischer und tatkräftiger – schon durch so kurze Pausen.</p>
+          <p class="stat__src">Albulescu u. a. 2022<sup class="fn"><a href="#q-albulescu" aria-label="Quelle 3">3</a></sup></p>
+        </article></div>
+      <p class="stats__note rv">Studienergebnisse anderer Forscher, nicht mit meinem Training gemessen, kein Versprechen. Details in den Quellen.</p>
+      <div class="founder founder--compact" style="margin-top:clamp(40px,5vw,64px);padding-top:32px;border-top:1px solid var(--line);max-width:760px">
+        <div class="ph " role="img" aria-label="Platzhalter: Porträt rund. "><span class="ph__tag">Porträt rund</span><!-- JANOSCH: rundes Porträt --></div>
+        <div>
+          <span class="eyebrow">Von wem das kommt</span>
+          <h3 style="font-size:1.625rem;margin:6px 0 10px">Von mir, Janosch.</h3>
+          <p>Ich zeige auf YouTube jede Woche, was in deinem Kopf passiert, wenn es eng wird, und wie du gegensteuerst. Mechanik, keine Esoterik. Ich prüfe an mir selbst, was ich weitergebe.</p>
+          <p>Ich war im Vertrieb, erst Teamleiter, dann Head of Sales, und lag nachts um drei wach mit der Frage, warum ich so angespannt und nie fertig bin, obwohl alles läuft. Seit zehn Jahren beschäftige ich mich eingehend damit, wie Umschalten funktioniert.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--dark" id="die-fuenf-tage">
+    <div class="wrap">
+      <div class="sec-head center rv">
+        <span class="eyebrow">Die fünf Tage</span>
+        <h2>Was du an den fünf Tagen bekommst.</h2>
+        <p style="margin-inline:auto">Unter 5 Minuten am Tag fürs Lesen und Machen. Die Übung selbst: höchstens 90 Sekunden.</p>
+      </div>
+      <div class="tabs tabs--stack-mobile rv">
+        <div class="tabs__list" role="tablist" aria-label="Die fünf Tage"><button class="tabs__tab" type="button" role="tab" id="dt-1" aria-controls="dp-1" aria-selected="true" tabindex="0">Tag 1</button><button class="tabs__tab" type="button" role="tab" id="dt-2" aria-controls="dp-2" aria-selected="false" tabindex="-1">Tag 2</button><button class="tabs__tab" type="button" role="tab" id="dt-3" aria-controls="dp-3" aria-selected="false" tabindex="-1">Tag 3</button><button class="tabs__tab" type="button" role="tab" id="dt-4" aria-controls="dp-4" aria-selected="false" tabindex="-1">Tag 4</button><button class="tabs__tab" type="button" role="tab" id="dt-5" aria-controls="dp-5" aria-selected="false" tabindex="-1">Tag 5</button></div>
+        <div class="tabs__panel" id="dp-1" role="tabpanel" aria-labelledby="dt-1" tabindex="0">
+          <div class="ph " style="--ar:4/3" role="img" aria-label="Platzhalter: Foto 4:3. Am Schreibtisch nach einer Unterbrechung, Blick weg vom Bildschirm"><span class="ph__tag">Foto 4:3</span><span class="ph__cap">Am Schreibtisch nach einer Unterbrechung, Blick weg vom Bildschirm</span></div>
+          <div>
+            <span class="tabs__badge">Tag 1</span>
+            <h3>Fokus-Reset in 60 Sekunden.</h3>
+            <p>Nach einer Unterbrechung: eine Minute, bevor du zur nächsten Aufgabe zurückgehst.</p>
+          </div>
+        </div>
+        <div class="tabs__panel" id="dp-2" role="tabpanel" aria-labelledby="dt-2" tabindex="0" hidden>
+          <div class="ph " style="--ar:4/3" role="img" aria-label="Platzhalter: Foto 4:3. Hand an der Tür, kurz vor dem Rausgehen"><span class="ph__tag">Foto 4:3</span><span class="ph__cap">Hand an der Tür, kurz vor dem Rausgehen</span></div>
+          <div>
+            <span class="tabs__badge">Tag 2</span>
+            <h3>Vier Wörter vor der Tür.</h3>
+            <p>Wenn dich jemand rausreißt, weißt du danach in Sekunden, wo du warst.</p>
+          </div>
+        </div>
+        <div class="tabs__panel" id="dp-3" role="tabpanel" aria-labelledby="dt-3" tabindex="0" hidden>
+          <div class="ph " style="--ar:4/3" role="img" aria-label="Platzhalter: Foto 4:3. Morgens, kurz vor dem Aufstehen"><span class="ph__tag">Foto 4:3</span><span class="ph__cap">Morgens, kurz vor dem Aufstehen</span></div>
+          <div>
+            <span class="tabs__badge">Tag 3</span>
+            <h3>Der Satz vor dem Aufstehen.</h3>
+            <p>Damit die Pause dir gehört und der Nachmittag scharf bleibt.</p>
+          </div>
+        </div>
+        <div class="tabs__panel" id="dp-4" role="tabpanel" aria-labelledby="dt-4" tabindex="0" hidden>
+          <div class="ph " style="--ar:4/3" role="img" aria-label="Platzhalter: Foto 4:3. Autoschlüssel, Weg zur Haustür"><span class="ph__tag">Foto 4:3</span><span class="ph__cap">Autoschlüssel, Weg zur Haustür</span></div>
+          <div>
+            <span class="tabs__badge">Tag 4</span>
+            <h3>Der Übergang.</h3>
+            <p>Eine Minute zwischen Motor aus und Haustür, damit der Kopf mit reinkommt.</p>
+          </div>
+        </div>
+        <div class="tabs__panel" id="dp-5" role="tabpanel" aria-labelledby="dt-5" tabindex="0" hidden>
+          <div class="ph " style="--ar:4/3" role="img" aria-label="Platzhalter: Foto 4:3. Notiz mit einem Satz, nicht lesbar"><span class="ph__tag">Foto 4:3</span><span class="ph__cap">Notiz mit einem Satz, nicht lesbar</span></div>
+          <div>
+            <span class="tabs__badge">Tag 5</span>
+            <h3>Dein Satz, der bleibt.</h3>
+            <p>Du suchst dir die Übung aus, die dir am meisten bringt, und machst sie an einem festen Moment fest.</p>
+          </div>
+        </div>
+      </div>
+      <!-- JANOSCH: die fünf Tagesinhalte bestätigen oder durch den Text aus flow_content ersetzen. Es gibt jetzt drei Starter (stress_flow, sleep_flow, morning_flow); Tabs und Liste neben dem Formular zeigen nur einen Ablauf. Entweder allgemein halten oder je Einstieg eigene Tagestitel liefern -->
+      <div class="note-box rv" style="max-width:760px;margin-inline:auto;margin-top:clamp(32px,4vw,48px)">
+        <p>Jede Übung hängt an einem Moment, den du ohnehin hast. Keine neue Routine obendrauf. Und zu jeder Übung gibt es eine einfache Probe, mit der du selbst prüfst, ob sie bei dir etwas ändert.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--paper sec--tight" id="jetzt">
+    <div class="wrap try-wrap">
+      <div class="rv">
+        <span class="eyebrow">Dein Werkzeug für den Kopf</span>
+        <h2>Fokus-Reset in 60 Sekunden.</h2>
+        <p class="try-lead">Für den Moment nach einer Unterbrechung: eine Minute, bevor du zur nächsten Aufgabe zurückgehst.</p>
+        <p class="small try-study">Warum diese Technik: In einer randomisierten Studie hob sie die Stimmung am stärksten von vier getesteten Kurzübungen.<sup class="fn"><a href="#q-balban" aria-label="Quelle 4">4</a></sup></p>
+        <ol class="try-steps">
+          <li><b>1</b>Durch die Nase einatmen.</li>
+          <li><b>2</b>Oben noch einmal kurz nachziehen.</li>
+          <li><b>3</b>Langsam durch den Mund ganz ausatmen.</li>
+        </ol>
+        <p class="small">Wenn dir schwindelig wird, hörst du auf und atmest normal weiter.</p>
+        <!-- JANOSCH: Tempo (4 s ein, 1,5 s nachziehen, 6,5 s aus) und Wortlaut mit Tag 1 in flow_content abgleichen; dort Tag 1 ebenfalls „Fokus-Reset“ nennen? -->
+      </div>
+      <div class="try rv rv-d1" data-try data-seconds="60">
+        <div class="try__stage">
+          <div class="try__orb" aria-hidden="true"></div>
+          <p class="try__phase" aria-live="polite">Bereit? 60 Sekunden.</p>
+          <p class="try__time" aria-hidden="true"><span data-try-time>60</span> s</p>
+        </div>
+        <button class="btn btn--primary try__btn" type="button" data-try-btn>60 Sekunden starten</button>
+        <div class="try__after" data-try-after hidden>
+          <p>Mehr Übungen wie diese bekommst du im 5-Tage-Starter: fünf Tage, eine pro Tag, passend zu deinem Einstieg.</p>
+          <a class="textlink" href="#anmeldung">5-Tage-Starter holen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="booking" id="anmeldung">
+    <div class="booking__bg"><div class="scene"></div></div>
+    <div class="booking__shade"></div>
+    <p class="scene__label" aria-hidden="true" style="left:var(--gutter);right:auto;text-align:left"><b>Foto vollflächig</b>Hand an der Haustür am Abend, ruhig, eher dunkel belichtet</p>
+    <div class="wrap booking__grid">
+      <div class="booking__intro rv">
+        <span class="eyebrow">Anmeldung</span>
+        <h2>Hol dir den <span class="nowrap">5-Tage-Starter.</span></h2>
+        <p class="lead">5 Nachrichten, eine pro Tag. Kostenlos. Jederzeit mit „STOP“ beenden.</p>
+        <ol class="mini-days"><li><span>01</span>Fokus-Reset in 60 Sekunden.</li><li><span>02</span>Vier Wörter vor der Tür.</li><li><span>03</span>Der Satz vor dem Aufstehen.</li><li><span>04</span>Der Übergang.</li><li><span>05</span>Dein Satz, der bleibt.</li></ol>
+      </div>
+      <div class="booking__card rv rv-d1" data-hide-sticky>
+            <div class="card-light">
+              <div id="form-live">
+                <form id="start-form" novalidate>
+                  <fieldset class="field choicecards choicecards--entry">
+                    <legend class="field__label">Womit willst du anfangen?</legend>
+                    <label class="choicecard"><input type="radio" name="start" value="stress"><span class="choicecard__mark"></span><span class="choicecard__text"><strong>Du wirst schneller laut, als du willst.</strong></span></label>
+                    <label class="choicecard"><input type="radio" name="start" value="sleep"><span class="choicecard__mark"></span><span class="choicecard__text"><strong>Der Körper liegt, der Kopf läuft.</strong></span></label>
+                    <label class="choicecard"><input type="radio" name="start" value="morning"><span class="choicecard__mark"></span><span class="choicecard__text"><strong>Gut in den Tag starten.</strong></span></label>
+                  </fieldset>
+                  <!-- JANOSCH: nutzt das vorhandene Feld „start“ → p_flow_name (Skript unverändert); im Backend Flow-IDs prüfen, Texte bestätigen. Details: ÄNDERUNGEN.md -->
+                  <div class="field">
+                    <label for="vorname">Vorname</label>
+                    <input class="input" type="text" id="vorname" autocomplete="given-name" required>
+                  </div>
+                  <div class="field">
+                    <label for="email">E-Mail</label>
+                    <input class="input" type="email" id="email" autocomplete="email" required>
+                    <p class="hint">Über deine E-Mail ordne ich deinen Zugang zu. Die Nachrichten kommen auf dem Weg, den du unten wählst.</p>
+                  </div>
+                  <fieldset class="field choicecards">
+                    <legend class="field__label">Wohin sollen die Nachrichten?</legend>
+                    <label class="choicecard"><input type="radio" name="kanal" value="whatsapp" checked><span class="choicecard__mark"></span><span class="choicecard__text">WhatsApp</span></label>
+                    <label class="choicecard"><input type="radio" name="kanal" value="telegram"><span class="choicecard__mark"></span><span class="choicecard__text">Telegram</span></label>
+                    <label class="choicecard"><input type="radio" name="kanal" value="email"><span class="choicecard__mark"></span><span class="choicecard__text">E-Mail</span></label>
+                  </fieldset>
+                  <div class="consent">
+                    <input type="checkbox" id="c-starter">
+                    <label for="c-starter">Ich möchte den kostenlosen 5-Tage-Starter erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen. Abmeldung jederzeit.</label>
+                  </div>
+                  <div class="consent">
+                    <input type="checkbox" id="c-eigen">
+                    <label for="c-eigen">Ich handle eigenverantwortlich. Die Übungen sind Anregungen, keine Behandlung. Wenn es mir körperlich oder psychisch nicht gut geht, kläre ich vorher ärztlich ab.</label>
+                  </div>
+                  <!-- [JANOSCH: nur einblenden, wenn du nach den 5 Tagen weiter schreiben willst] -->
+                  <div class="consent" id="optin-woechentlich" hidden>
+                    <input type="checkbox" id="c-woechentlich">
+                    <label for="c-woechentlich">Schick mir danach einmal pro Woche das neue Video. Abmeldung jederzeit.</label>
+                  </div>
+                  <button class="btn btn--primary btn--block" type="button" id="btn-start" style="margin-top:8px">5-Tage-Starter holen</button>
+                  <p class="err" id="form-error" role="alert"></p>
+                  <p class="hint">Kostenlos. Deine Daten nutze ich nur, um dir die fünf Nachrichten zu schicken, und gebe sie nicht weiter. WhatsApp und Telegram sind Dienste mit Sitz außerhalb der EU; Details stehen in der <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a>. Abmelden kannst du dich jederzeit mit „STOP“ oder über den Link in jeder E-Mail.</p>
+                  <!-- JANOSCH und Anwalt: Double-Opt-in für E-Mail einrichten; prüfen, ob „gebe sie nicht weiter“ mit Messenger-, E-Mail- und Datenbankdienst als Auftragsverarbeiter so stehen bleiben kann. -->
+                </form>
+              </div>
+              <div id="form-done" hidden>
+                <span class="eyebrow">Geschafft</span>
+                <h3 id="done-title">Danke. Dein 5-Tage-Starter ist bereit.</h3>
+                <div id="done-messenger" hidden>
+                  <p><strong>Dein nächster Schritt:</strong> Tipp auf den Button und schick die vorbereitete Nachricht ab. Dann kommt Tag 1 direkt zu dir.</p>
+                  <a class="btn btn--primary btn--block" id="done-link" href="#">Weiter</a>
+                </div>
+                <div id="done-email" hidden>
+                  <p><strong>Dein nächster Schritt:</strong> Schau in dein Postfach und bestätige deine Adresse. Danach kommt Tag 1. Wenn nichts da ist, schau im Spam-Ordner nach.</p>
+                </div>
+                <p>Morgen kommt Tag 2, dann jeden Tag einer, fünf Tage lang.</p>
+                <div data-needs-link><p><strong>Bis dahin:</strong> Auf YouTube zeige ich jede Woche einen Moment aus dem Alltag und die Übung dazu. Wenn du schon mal reinschauen willst:</p>
+                <a class="btn btn--ghost btn--block" href="#" data-todo="youtube" target="_blank" rel="noopener">Zum YouTube-Kanal</a></div>
+                <!-- JANOSCH: YouTube-Link -->
+                <!-- Ab 01.12.2026 nach Freigabe: „Lieber direkt mit mir sprechen? In der Potenzialsession schauen wir 30 Minuten zusammen, was zu dir passt. Kostenlos.“ mit Link auf session.html -->
+              </div>
+            </div>
+          </div>
+    </div>
+  </section>
+  <section class="sec sec--paper" id="fragen">
+    <div class="wrap">
+      <div class="sec-head center rv">
+        <span class="eyebrow">Häufige Fragen</span>
+        <h2>Häufige Fragen</h2>
+      </div>
+      <div class="faq rv">
+        <details>
+          <summary>Kostet das etwas?</summary>
+          <p>Nein. Der 5-Tage-Starter ist kostenlos.</p>
+        </details>
+        <details>
+          <summary>Wie viel Zeit brauche ich?</summary>
+          <p>Pro Tag unter fünf Minuten fürs Lesen und Machen. Die Übung selbst dauert höchstens 90 Sekunden und sitzt an einem Moment, den du sowieso hast.</p>
+        </details>
+        <details>
+          <summary>Über welchen Weg kommen die Nachrichten?</summary>
+          <p>Über WhatsApp, Telegram oder E-Mail, so wie du es im Formular wählst.</p>
+        </details>
+        <details>
+          <summary>Wie höre ich auf?</summary>
+          <p>Schreib „STOP“, dann kommt nichts mehr. Bei E-Mail reicht der Abmeldelink.</p>
+        </details>
+        <details>
+          <summary>Ist das eine Behandlung?</summary>
+          <p>Nein. Das sind Übungen für Leistung und Fokus im Alltag. Ich stelle keine Diagnosen und behandle nichts. Wenn es dir körperlich oder psychisch nicht gut geht, kläre das vorher mit deinem Arzt.</p>
+        </details>
+        <details>
+          <summary>Muss ich danach etwas kaufen?</summary>
+          <p>Nein. Nach den fünf Tagen bist du fertig. Wenn du willst, schaust du auf YouTube weiter.<!-- Ab 01.12.2026 nach Freigabe ergänzen: „Wenn du danach gezielt weitertrainieren willst, zeige ich dir am fünften Tag, wie das aussehen kann.“ --></p>
+        </details>
+      </div>
+    </div>
+  </section>
+  <section class="hero hero--compact" id="abschluss">
+    <div class="hero__bg"><div class="scene"></div></div>
+    <div class="hero__shade"></div>
+    <div class="wrap rv">
+      <span class="eyebrow">Dein nächster Schritt</span>
+      <h2>Fünf Tage. Jeden Tag eine Übung. Du behältst die, die dir am meisten bringt.</h2>
+      <p class="lead" style="color:rgba(244,243,239,.8);margin-top:20px">Kostenlos. Per WhatsApp, Telegram oder E-Mail.</p>
+      <div class="btn-row"><a class="btn btn--primary" href="#anmeldung">5-Tage-Starter holen <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    </div>
+  </section>
+  <section class="sec sec--sources" id="quellen" aria-labelledby="quellen-h">
+    <div class="wrap">
+      <h2 id="quellen-h" class="sources__h">Quellen</h2>
+      <ol class="sources"><li id="q-iqbal">Iqbal ST, Horvitz E (2007): Disruption and recovery of computing tasks: field study, analysis, and directions. Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI 2007). <a href="https://doi.org/10.1145/1240624.1240730" target="_blank" rel="noopener">doi.org/10.1145/1240624.1240730</a><br><span class="sources__how">Feldstudie mit 27 Computer-Nutzern über zwei Wochen; Benachrichtigungen per E-Mail und Instant Messaging. Durchschnittswerte mit großer Streuung.</span></li><li id="q-gollwitzer">Gollwitzer PM, Sheeran P (2006): Implementation intentions and goal achievement: A meta-analysis of effects and processes. Advances in Experimental Social Psychology 38:69–119. <a href="https://doi.org/10.1016/S0065-2601(06)38002-1" target="_blank" rel="noopener">doi.org/10.1016/S0065-2601(06)38002-1</a><br><span class="sources__how">Meta-Analyse aus 94 unabhängigen Tests; Effekt mittel bis groß (d = 0,65).</span></li><li id="q-albulescu">Albulescu P, Macsinga I, Rusu A u. a. (2022): „Give me a break!“ A systematic review and meta-analysis on the efficacy of micro-breaks for increasing well-being and performance. PLoS ONE 17(8):e0272460. PMID 36044424. <a href="https://doi.org/10.1371/journal.pone.0272460" target="_blank" rel="noopener">doi.org/10.1371/journal.pone.0272460</a><br><span class="sources__how">Meta-Analyse aus 22 Stichproben (N = 2.335); kleine Effekte auf Tatkraft/Vitalität („vigor“, d = 0,36) und Ermüdung („fatigue“, d = 0,35), kein signifikanter Effekt auf die Leistung insgesamt.</span></li><li id="q-balban">Balban MY, Neri E, Kogon MM u. a. (2023): Brief structured respiration practices enhance mood and reduce physiological arousal. Cell Reports Medicine 4(1):100895. PMID 36630953. <a href="https://doi.org/10.1016/j.xcrm.2022.100895" target="_blank" rel="noopener">doi.org/10.1016/j.xcrm.2022.100895</a><br><span class="sources__how">Randomisierte Online-Studie, 108 Teilnehmende, je 5 Minuten täglich über einen Monat; „zweimal ein, lang aus“ (zyklisches Seufzen) im Vergleich zu zwei weiteren Atemtechniken und einer Meditationsgruppe; zyklisches Seufzen verbesserte die positive Stimmung pro Tag am stärksten. Kein Effekt auf Herzfrequenzvariabilität und Ruhepuls.</span></li></ol>
+      
+      <p class="sources__note">Ergebnisse dieser Studien, nicht mit meinem Training gemessen und kein Versprechen für dich.</p>
+    </div>
+  </section>
+</main>
+
+<div class="stickybar"><a class="btn btn--primary" href="#anmeldung">5-Tage-Starter holen</a></div>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__row">
+      <span class="wordmark">Janosch Brase</span>
+      <nav aria-label="Rechtliches">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
         <a href="agb.html">AGB</a>
-    </footer>
-
-    <script>
-        const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
-        let supabaseClient = null;
-
-        const waNumber = "491632225456";
-        const tgBotName = "shift_my_horizon_bot";
-        const botMessage = "Hallo, ich möchte meinen kostenlosen 5-Tage-Starter „Feierabend im Kopf“ starten. Bitte aktiviere meinen Zugang.";
-        const accessLabel = "Mein Zugangscode:";
-
-        // ---- URL-Parameter + Gratis/Kauf-Weiche ----
-        // Instagram-Link (mit ?via=ig) => kostenlos. Direkter Besuch => Kaufangebot.
-        // PAID_MODE bleibt false, solange kein Kauflink eingetragen ist.
-        const urlParams = new URLSearchParams(window.location.search);
-        const isFreeEntry = (urlParams.get("via") || "").toLowerCase() === "ig";
-        const PAID_MODE = false;
-        const PAID_CHECKOUT_URL = "";
-        const PAID_PRICE_LABEL = "8,90 Euro";
-
-        const answers = {};
-        let step = 1;
-        const TOTAL_Q = 5;
-
-        // Labels für die Rückspiegelung der Painpoints im Ergebnis
-        const PAIN_LABELS = {
-            abschalten: "abends nicht abschalten", schlaf: "Schlaf", stress: "Dauerstress",
-            morgen: "morgens in Gang kommen", kind: "da sein für dein Kind", partnerin: "Nähe zur Partnerin",
-            fokus: "Fokus bei der Arbeit", betaeubung: "Bier/Handy am Abend"
-        };
-
-        const STARTERS = {
-            sleep: {
-                flow: "sleep_flow",
-                name: "Dein Kopf findet keinen Aus-Knopf",
-                insight: "Dein Kopf geht abends nicht aus, weil dein Überlebenssystem kein „fertig“ kennt – solange etwas offen ist, hält es dich wach. Das ist Biologie, nicht fehlende Disziplin. Genau deshalb scheitert „einfach abschalten“: du kämpfst mit Willenskraft gegen ein System, das schneller und stärker ist.",
-                action: "Du weißt längst, dass Handy-Weglegen besser wäre – und machst es trotzdem nicht. Kein Charakterfehler: Das Handy bedient dasselbe Belohnungssystem, das abends übernimmt, und Willenskraft ist um die Uhrzeit leer. Es braucht keinen neuen Vorsatz, sondern einen anderen Hebel."
-            },
-            stress: {
-                flow: "stress_flow",
-                name: "Dein System steht unter Dauerstrom",
-                insight: "Innerlich auf 180, der Kopf rechnet weiter – das ist dein Nervensystem im Alarm, nicht „zu viel im Kopf“. Im Alarm ist der denkende Teil gedrosselt. Deshalb bringt „entspann dich doch“ nichts: du redest mit dem falschen System.",
-                action: "Stress löst sich nicht über den Kopf, sondern über den Körper – nur der erreicht das Alarmsystem direkt. Deshalb versagen gute Ratschläge und To-do-Listen an der Stelle. Es braucht einen körperlichen Schalter, keinen Vorsatz."
-            },
-            morning: {
-                flow: "morning_flow",
-                name: "Dein Tag startet schon im Alarm",
-                insight: "Wie dein Abend läuft, entscheidet sich oft schon morgens: Startest du direkt im Reiz-Reaktions-Modus – Handy als Erstes –, bleibt dein System den ganzen Tag im Alarm. Abends kommt es dann nicht mehr runter.",
-                action: "Auch hier scheitert „steh halt früher auf“ nicht an deinem Willen, sondern daran, dass dein Morgen auf Autopilot läuft. Einen Autopiloten stellt man um – erzwingen kann man ihn nicht."
-            }
-        };
-
-        function currentStarter() {
-            return STARTERS[answers.starter] || STARTERS.sleep;
-        }
-
-        // --- Mehrfachauswahl ---
-        function toggle(btn) {
-            btn.classList.toggle('selected');
-        }
-        function submitMulti(qkey, hintId, next) {
-            const stepEl = document.getElementById('step-' + step);
-            const vals = Array.from(stepEl.querySelectorAll('.quiz-btn.selected')).map(b => b.getAttribute('data-val'));
-            if (vals.length === 0) { document.getElementById(hintId).style.display = 'block'; return; }
-            document.getElementById(hintId).style.display = 'none';
-            answers[qkey] = vals;
-            goStep(next);
-        }
-
-        // --- Einfachauswahl (auto-advance) ---
-        function pick(btn, qkey, val) {
-            answers[qkey] = val;
-            const siblings = btn.parentElement.querySelectorAll('.quiz-btn');
-            siblings.forEach(s => s.classList.remove('selected'));
-            btn.classList.add('selected');
-            setTimeout(() => {
-                if (step === 6) { goStep(7); runAnalysis(); }
-                else { goStep(step + 1); }
-            }, 260);
-        }
-
-        function goStep(n) {
-            document.getElementById('step-' + step).classList.remove('active');
-            step = n;
-            document.getElementById('step-' + step).classList.add('active');
-            window.scrollTo(0, 0);
-
-            const inQuiz = (step >= 2 && step <= 6);
-            document.getElementById('progressContainer').style.display = inQuiz ? 'block' : 'none';
-            if (inQuiz) document.getElementById('progressBar').style.width = (((step - 2) / TOTAL_Q) * 100) + '%';
-            document.getElementById('bottomBar').style.display = inQuiz ? 'block' : 'none';
-        }
-
-        function goBack() {
-            if (step > 2) goStep(step - 1);
-            else goStep(1);
-        }
-
-        function runAnalysis() {
-            setTimeout(() => {
-                const s = currentStarter();
-                document.getElementById('res-pattern').innerText = s.name;
-                document.getElementById('res-insight').innerText = s.insight;
-                document.getElementById('res-action').innerText = s.action;
-                const pains = (answers.painpoints || []).map(k => PAIN_LABELS[k]).filter(Boolean);
-                document.getElementById('res-pains').innerText = pains.length
-                    ? "Du kommst gerade mit: " + pains.slice(0, 3).join(", ") + "."
-                    : "";
-                goStep(8);
-            }, 1800);
-        }
-
-        function generateAccessCode() {
-            const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
-            const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
-            return p1 + '-' + p2;
-        }
-
-        async function handleRegistration() {
-            const fname = document.getElementById('reg-fname').value.trim();
-            const email = document.getElementById('reg-email').value.trim().toLowerCase();
-            const channel = document.getElementById('reg-channel').value;
-            const consent = document.getElementById('reg-consent').checked;
-            const ownRisk = document.getElementById('reg-own').checked;
-            const errEl = document.getElementById('reg-error');
-            const btn = document.getElementById('btn-register');
-
-            if (!fname || !email) { errEl.innerText = "Bitte Vorname und E-Mail ausfüllen."; errEl.style.display = 'block'; return; }
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.innerText = "Bitte eine gültige E-Mail eingeben."; errEl.style.display = 'block'; return; }
-            if (!consent) { errEl.innerText = "Bitte stimme der Datenverarbeitung zu, damit ich dir den Starter schicken darf."; errEl.style.display = 'block'; return; }
-            if (!ownRisk) { errEl.innerText = "Bitte bestätige noch den Hinweis zur Eigenverantwortung."; errEl.style.display = 'block'; return; }
-
-            errEl.style.display = 'none';
-            btn.disabled = true; btn.innerText = "…";
-
-            const accessCode = generateAccessCode();
-            const flow = currentStarter().flow;
-
-            const onboarding = {
-                painpoints: answers.painpoints || [],
-                abend_situation: answers.abend || [],
-                wofuer: answers.wofuer || [],
-                starter: answers.starter || null,
-                flow: flow,
-                woher: answers.woher || null,
-                access_code: accessCode,
-                utm_source: urlParams.get("utm_source") || null,
-                utm_medium: urlParams.get("utm_medium") || null,
-                utm_campaign: urlParams.get("utm_campaign") || null,
-                via: urlParams.get("via") || null,
-                referrer: document.referrer || null,
-                landed_at: new Date().toISOString(),
-                eigenverantwortung_bestaetigt: true
-            };
-
-            try {
-                if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-                // Zwei RPCs (bewusst, nicht zusammenfassen): (1) setzt leads.current_mentoring_day=1,
-                // (2) legt die active_flows-Zeile an. v_tripwire_deliverable verlangt BEIDES.
-                const { error: twError } = await supabaseClient.rpc('register_tripwire_lead', {
-                    p_email: email,
-                    p_first_name: fname,
-                    p_delivery_channel: channel,
-                    p_source: 'abschalten_flow',
-                    p_language: 'de',
-                    p_onboarding_data: onboarding,
-                    p_access_code: accessCode
-                });
-                if (twError) throw twError;
-
-                const { error: rpcError } = await supabaseClient.rpc('register_lead', {
-                    p_email: email,
-                    p_first_name: fname,
-                    p_delivery_channel: channel,
-                    p_source: 'abschalten_flow',
-                    p_language: 'de',
-                    p_onboarding_data: onboarding,
-                    p_access_code: accessCode,
-                    p_chosen_path: flow,
-                    // abschalten_flow is not mapped in map_flow_name() -> server falls back to this value
-                    p_flow_name: flow
-                });
-                if (rpcError) throw rpcError;
-
-                const finalMessage = botMessage + "\n\n" + accessLabel + " " + accessCode;
-                const encoded = encodeURIComponent(finalMessage);
-                if (channel === 'email') { showEmailDone(fname); return; }
-                if (channel === 'telegram') window.location.href = "https://t.me/" + tgBotName + "?text=" + encoded;
-                else window.location.href = "https://wa.me/" + waNumber + "?text=" + encoded;
-
-            } catch (e) {
-                console.error("Fehler beim Speichern:", e);
-                errEl.innerText = "Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.";
-                errEl.style.display = 'block';
-                btn.disabled = false; btn.innerText = "5-Tage-Starter starten";
-            }
-        }
-
-        function showEmailDone(fname) {
-            const main = document.querySelector("main");
-            main.innerHTML = '<div style="text-align:center;padding:40px 8px">' +
-                '<h1 class="h1-title">Passt, ' + (fname || "") + '.</h1>' +
-                '<p class="subtitle">Tag 1 liegt gleich in deinem Postfach. Danach kommt vier Tage lang jeden Tag eine kurze Nachricht.</p>' +
-                '<p class="hint">Nichts da? Schau einmal im Spam-Ordner und zieh die Mail nach oben.</p></div>';
-            document.getElementById("bottomBar").style.display = "none";
-            window.scrollTo(0, 0);
-        }
-
-        function showPaidOffer() {
-            const main = document.querySelector("main");
-            main.innerHTML = '<div style="padding:16px 0">' +
-                '<div class="flow-title">Der 5-Tage-Starter</div>' +
-                '<h1 class="h1-title">Dein Kopf geht nicht aus. F&uuml;nf Tage, f&uuml;nf Griffe dagegen.</h1>' +
-                '<p class="subtitle">Egal ob es dich abends erwischt, nachts um drei oder mitten im Arbeitstag. F&uuml;nf Tage, eine kurze Nachricht pro Tag, per WhatsApp, Telegram oder E-Mail.</p>' +
-                '<p class="subtitle">Keine Vors&auml;tze, kein Programm. ' + PAID_PRICE_LABEL + ' einmalig.</p>' +
-                '<a href="' + PAID_CHECKOUT_URL + '" class="btn-gold" style="display:block;text-decoration:none">Starter holen</a>' +
-                '<p class="legal-disclaimer">Dies ist kein Ersatz f&uuml;r medizinische oder psychotherapeutische Behandlung. Es geht um dein Verhalten am Abend, nicht um die Behandlung einer Erkrankung.</p></div>';
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            if (PAID_MODE && !isFreeEntry && PAID_CHECKOUT_URL) showPaidOffer();
-        });
-    </script>
+      </nav>
+    </div>
+    <p class="ftr__fine">Das hier ersetzt keine ärztliche Behandlung. Es geht um dein Verhalten im Alltag, nicht um die Behandlung einer Erkrankung.</p>
+    <!-- JANOSCH: Fußzeilen-Satz mit dem Compliance-PR abgleichen -->
+  </div>
+</footer>
+<script src="site.js"></script>
+<script src="starter.js"></script>
 </body>
 </html>
