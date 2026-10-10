@@ -2,17 +2,29 @@
 <html lang="de">
 <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1430151545959801"
-     crossorigin="anonymous"></script>
+    <script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  functionality_storage: 'denied',
+  personalization_storage: 'denied',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+gtag('set', 'ads_data_redaction', true);
+gtag('set', 'url_passthrough', true);
+</script>
+<script type="text/plain" class="_iub_cs_activate" data-iub-purposes="4,5">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+    <script type="text/plain" class="_iub_cs_activate" data-iub-purposes="5" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1430151545959801" crossorigin="anonymous"></script>
     <!-- End Google Tag Manager -->
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="noindex">
     <title>Dein Weg - Onboarding</title>
     <script type="text/javascript" src="https://embeds.iubenda.com/widgets/ba1bdae0-e28c-45b5-8134-d89a53fafd44.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -84,8 +96,8 @@
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
     <!-- End Google Tag Manager (noscript) -->
 
     <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar" style="width: 0%;"></div></div>
@@ -99,6 +111,7 @@
     </header>
 
     <main id="app-container">
+        <p id="religion-paused" style="text-align:center;color:#cba677;font-weight:700;margin:18px 20px 0;">Derzeit nicht verfügbar.</p>
         <!-- STEP 1: Religion / Weg auswählen -->
         <div class="step active" id="step-1">
             <div class="flow-title" id="s1-lbl"></div>
@@ -362,6 +375,10 @@
             updateTexts();
             buildOptions();
             pBar.style.width = '50%';
+            if (!RELIGION_OPEN) {
+                const btn = document.getElementById('btn-register');
+                if (btn) { btn.disabled = true; btn.style.opacity = '0.72'; btn.style.cursor = 'default'; }
+            }
         };
 
         function generateAccessCode() {
@@ -370,7 +387,15 @@
             return p1 + '-' + p2;
         }
 
+        // Pausiert: speichert keine Religionsangabe. true erst nach Anwaltsprüfung und Einwilligung.
+        const RELIGION_OPEN = false;
+
         async function handleRegistration() {
+            if (!RELIGION_OPEN) {
+                const errEl = document.getElementById('reg-error');
+                if (errEl) { errEl.innerText = 'Derzeit nicht verfügbar.'; errEl.style.display = 'block'; }
+                return;
+            }
             const l = t[currentLang];
             const fname = document.getElementById('reg-fname').value.trim();
             const email = document.getElementById('reg-email').value.trim();

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shift My Horizon – Mentoría de 90 días</title>
+    <title>Shift My Horizon – 90 días</title>
     <style>
         :root { --dark:#0a0c10; --gray:#13161f; --border:#2b3245; --gold:#cba677; --text:#e2e4e9; }
         * { box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
@@ -24,13 +24,16 @@
 <body>
     <main>
         <div class="sub">Shift My Horizon</div>
-        <h1>Mentoría de 90 días – tu acompañante diario</h1>
+        <!-- Original: <h1>Mentoría de 90 días – tu acompañante diario</h1> -->
+        <h1>90 días, un impulso corto al día</h1>
 
-        <div class="guarantee-badge">✅ Garantía de devolución de 60 días</div>
+        <!-- Original: <div class="guarantee-badge">✅ Garantía de devolución de 60 días</div> -->
+        <div class="guarantee-badge" id="guarantee-badge" hidden>✅ Garantía de devolución de 60 días</div>
 
         <div class="card">
             <h2>Qué recibes</h2>
-            <p>Durante 90 días recibes cada día una lección guiada: un impulso claro, una tarea diaria concreta y el contexto correspondiente. En total, 90 unidades diarias progresivas que te hacen avanzar paso a paso.</p>
+            <!-- Original: Durante 90 días recibes cada día una lección guiada: un impulso claro, una tarea diaria concreta y el contexto correspondiente. En total, 90 unidades diarias progresivas que te hacen avanzar paso a paso. -->
+            <p>Durante 90 días llega cada día un impulso corto: una idea, una tarea pequeña y un poco de contexto. 90 unidades, una tras otra.</p>
         </div>
 
         <div class="card">
@@ -40,16 +43,19 @@
 
         <div class="card">
             <h2>Precio</h2>
-            <p class="price">Pago único de 49 $</p>
+            <!-- Original: <p class="price">Pago único de 49 $</p> -->
+            <p class="price" id="price-live" hidden>Pago único de 49 $</p>
+            <p class="price" id="price-paused">Derzeit nicht verfügbar</p>
             <p>Sin trampas de suscripción, sin costes ocultos posteriores.</p>
         </div>
 
-        <div class="card">
+        <div class="card" id="guarantee-card" hidden>
             <h2>Tu garantía</h2>
             <p>Tienes una <strong>garantía de devolución de 60 días</strong>. Si no estás satisfecho en ese plazo, recuperas el importe íntegro de la compra – de forma sencilla y sin preguntas.</p>
         </div>
 
-        <a id="buy" class="btn" href="https://www.digistore24.com/">Empieza ahora</a>
+        <a id="buy" class="btn" href="https://www.digistore24.com/" hidden>Empieza ahora</a>
+        <p id="buy-paused" class="btn" style="opacity:.72;cursor:default;">Derzeit nicht verfügbar</p>
 
     </main>
     <footer>
@@ -58,9 +64,19 @@
         <a href="agb.html">Términos</a>
     </footer>
     <script>
-        var pid = new URLSearchParams(location.search).get('pid');
-        if (pid && /^[0-9]+$/.test(pid)) {
-            document.getElementById('buy').href = 'https://www.checkout-ds24.com/product/' + pid;
+        // Verkauf pausiert (FernUSG). true = Preis, Garantie und Kaufbutton wieder an.
+        var PAID_MODE = false;
+        if (PAID_MODE) {
+            document.getElementById('price-live').hidden = false;
+            document.getElementById('price-paused').hidden = true;
+            document.getElementById('guarantee-badge').hidden = false;
+            document.getElementById('guarantee-card').hidden = false;
+            document.getElementById('buy').hidden = false;
+            document.getElementById('buy-paused').hidden = true;
+            var pid = new URLSearchParams(location.search).get('pid');
+            if (pid && /^[0-9]+$/.test(pid)) {
+                document.getElementById('buy').href = 'https://www.checkout-ds24.com/product/' + pid;
+            }
         }
     </script>
 </body>

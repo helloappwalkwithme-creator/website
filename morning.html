@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>5 Tage besser in den Morgen – Shift My Horizon</title>
-    <meta name="description" content="5 Tage, jeden Morgen ein konkreter physiologischer Hebel für saubere Wachheit – kostenlos, direkt in deinen Messenger.">
+    <meta name="description" content="5 Tage, jeden Morgen eine kleine Übung für einen ruhigeren Start – kostenlos, direkt in deinen Messenger.">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root{ --dark:#0b1020; --gray:#141a2e; --gray2:#1c2338; --border:#2a3350; --accent:#8eb6d9; --text:#eef2fb; --dim:#94a0bd; --error:#f77; --success:#5fd08a; }
@@ -18,6 +18,8 @@
         .sub{ color:var(--dim); font-size:15px; line-height:1.6; margin-bottom:22px; }
         .card{ background:var(--gray); border:1px solid var(--border); border-radius:12px; padding:16px 18px; margin-bottom:12px; font-size:14px; color:#c7d0e6; line-height:1.6; }
         .card b{ color:#fff; }
+        .safety{ background:#241c10; border:1px solid #e0b15a; border-radius:12px; padding:14px 16px; margin:0 0 16px; font-size:13.5px; color:#f6ead2; line-height:1.55; }
+        .safety b{ color:#fff; display:block; margin-bottom:4px; }
         .btn{ background:var(--accent); color:#0b1020; border:none; border-radius:9px; padding:16px; width:100%; font-weight:800; font-size:15px; letter-spacing:.5px; cursor:pointer; text-align:center; text-decoration:none; display:block; }
         .btn:disabled{ opacity:.45; cursor:not-allowed; }
         .opt{ background:var(--gray); border:1px solid var(--border); border-radius:11px; padding:17px 18px; margin-bottom:11px; width:100%; text-align:left; color:var(--text); font-size:15.5px; font-weight:600; cursor:pointer; transition:all .12s; }
@@ -34,6 +36,7 @@
         .consent input{ width:19px; height:19px; margin-top:1px; accent-color:var(--accent); flex:none; }
         .consent label{ font-size:12.5px; color:var(--dim); line-height:1.5; }
         .consent a{ color:var(--accent); }
+        .price{ font-size:38px; font-weight:800; color:#fff; } .price small{ font-size:15px; color:var(--dim); font-weight:600; }
         .err{ color:var(--error); font-weight:700; font-size:14px; margin-top:10px; display:none; }
         .foot{ text-align:center; padding:22px; border-top:1px solid var(--border); font-size:11px; }
         .foot a{ color:var(--dim); text-decoration:none; margin:0 7px; }
@@ -44,9 +47,16 @@
     <!-- INTRO -->
     <div class="step active" id="s-intro">
         <div class="kicker">Shift My Horizon · 5-Tage-Programm · kostenlos</div>
-        <h1>Wach & energiegeladen aufstehen – in 5 Tagen.</h1>
-        <p class="sub">Kaffee, noch ein Kaffee – und trotzdem gerädert. 5 Tage lang jeden Morgen ein echter physiologischer Hebel, der deinen Körper in Minuten auf „wach" schaltet – ohne den Crash von zu viel Koffein. Direkt per WhatsApp oder Telegram.</p>
-        <div class="card">☀️ <b>Tag 1–5:</b> Kältereiz (Dopamin-Boost) · Morgenlicht in die Augen · Aktivierungs-Atmung · Temperatur-Kick · Dopamin-Schutzstunde. Physiologische Hebel für saubere Wachheit ohne Crash (Huberman, Lembke, Kox et al.).</div>
+        <!-- Original: Wach & energiegeladen aufstehen – in 5 Tagen. -->
+        <h1>Fünf Morgen für einen ruhigeren Start.</h1>
+        <!-- Original: echter physiologischer Hebel … ohne den Crash von zu viel Koffein -->
+        <p class="sub">Kaffee, noch ein Kaffee – und trotzdem gerädert. 5 Tage lang jeden Morgen eine kleine Übung für den Start, direkt per WhatsApp oder Telegram.</p>
+        <!-- Original: Kältereiz (Dopamin-Boost) · Morgenlicht in die Augen · Aktivierungs-Atmung · Temperatur-Kick · Dopamin-Schutzstunde. Physiologische Hebel für saubere Wachheit ohne Crash (Huberman, Lembke, Kox et al.). -->
+        <div class="card">☀️ <b>Tag 1–5:</b> Kältereiz · Morgenlicht · Aktivierungs-Atmung · Temperatur-Kick · erste Stunde ohne schnelle Reize. Kleine Morgenübungen, damit der Start ruhiger wird.</div>
+        <div class="safety" role="note">
+            <b>Sicherheitshinweis</b>
+            Kältereiz und Aktivierungs-Atmung sind nicht für Menschen mit Epilepsie, Herz-Kreislauf-Erkrankungen, Bluthochdruck, Schwangerschaft, Panikstörung oder anderen Erkrankungen, ohne vorher eine Ärztin oder einen Arzt zu fragen. Nie im Wasser, beim Fahren oder im Stehen. Bei Schwindel, Kribbeln oder Unwohlsein sofort aufhören. Kein Ersatz für medizinische oder psychotherapeutische Behandlung.
+        </div>
         <button class="btn" onclick="go('s-q1')">Ja, ich will wach aufwachen →</button>
         <p class="sub" style="text-align:center;margin-top:14px;font-size:12.5px;">3 kurze Fragen, damit wir dein Programm auf dich zuschneiden.</p>
     </div>
@@ -85,11 +95,19 @@
             <button id="c-wa" class="sel" onclick="setChan('whatsapp')">WhatsApp</button>
             <button id="c-tg" onclick="setChan('telegram')">Telegram</button>
         </div>
-        <div class="consent">
-            <input type="checkbox" id="f-consent">
-            <label for="f-consent">Ich möchte die kostenlosen 5 Tage per Messenger und E-Mail erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen. Abmeldung jederzeit.</label>
+        <div id="free-offer">
+            <div class="consent">
+                <input type="checkbox" id="f-consent">
+                <label for="f-consent">Ich möchte die kostenlosen 5 Tage per Messenger und E-Mail erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen. Abmeldung jederzeit.</label>
+            </div>
+            <button class="btn" id="go-btn" onclick="start()">Meine 5 Tage kostenlos starten →</button>
         </div>
-        <button class="btn" id="go-btn" onclick="start()">Meine 5 Tage kostenlos starten →</button>
+        <!-- Original-Kauf 8,90 € (Digistore 727723), nur sichtbar wenn PAID_MODE true -->
+        <div id="paid-offer" hidden>
+            <div class="card" style="text-align:center;"><span class="price">8,90 €</span><br><small>Einmalig · 14 Tage Geld-zurück-Garantie</small></div>
+            <button class="btn" id="pay-btn" type="button" onclick="checkout()">Jetzt für 8,90 € freischalten →</button>
+            <p class="sub" style="text-align:center;margin-top:14px;font-size:12px;">Mit dem Kauf stimmst du der Speicherung deiner Angaben zu (<a href="datenschutz.html" style="color:var(--dim)">Datenschutz</a>).</p>
+        </div>
         <p class="err" id="err"></p>
     </div>
 </main>
@@ -99,6 +117,10 @@
 <script>
     // ==== Konfiguration je Magnet ====
     const CONFIG = { flow:'morning_flow', lang:'de' };
+    // Kostenlos, bis der 8,90-€-Kauf wieder frei ist. true zeigt Preis und Digistore-Checkout.
+    // Vorher: Sicherheitshinweis bleibt, kein „Fragen? Melde dich.“, Anwalt zu FernUSG beim Selbstlernen.
+    const PAID_MODE = false;
+    const PAID_PID = '727723';
     const SUPABASE_URL='https://jztwnumtwihomgxwlwor.supabase.co';
     const SUPABASE_ANON='sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
     const waNumber='491632225456';
@@ -114,6 +136,41 @@
     function ans(k,v,next){ answers[k]=v; go(next); }
     function setChan(c){ chan=c; document.getElementById('c-wa').classList.toggle('sel',c==='whatsapp'); document.getElementById('c-tg').classList.toggle('sel',c==='telegram'); }
     function genCode(){ var a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s=''; for(var i=0;i<8;i++){ if(i===4)s+='-'; s+=a[Math.floor(Math.random()*a.length)]; } return s; }
+
+    if (PAID_MODE) {
+        document.getElementById('free-offer').hidden = true;
+        document.getElementById('paid-offer').hidden = false;
+        var introSub = document.querySelector('#s-contact .sub');
+        if (introSub) introSub.textContent = 'Die Auslieferung läuft direkt in deinen Messenger.';
+        document.querySelectorAll('.kicker').forEach(function (el) {
+            el.textContent = el.textContent.replace(' · kostenlos', '');
+        });
+    }
+
+    function trackQuery(){
+        var s = window.smhTrackQS() || {};
+        return Object.keys(s).map(function(k){ return encodeURIComponent(k)+'='+encodeURIComponent(s[k]); }).join('&');
+    }
+
+    async function checkout(){
+        if (!PAID_MODE) return;
+        var name=(document.getElementById('f-name').value||'').trim();
+        var email=(document.getElementById('f-email').value||'').trim().toLowerCase();
+        var err=document.getElementById('err'); err.style.display='none';
+        if(name.length<2){ err.textContent='Bitte gib deinen Vornamen ein.'; err.style.display='block'; return; }
+        if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Bitte gib eine gültige E-Mail ein.'; err.style.display='block'; return; }
+        var btn=document.getElementById('pay-btn'); btn.disabled=true; btn.textContent='Einen Moment …';
+        try{
+            if(!sb) sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+            var code=genCode();
+            var onboarding={ gender:answers.gender||null, relationship:!!answers.relationship, kids:!!answers.kids, source_page:CONFIG.flow };
+            var res=await sb.rpc('register_tripwire_lead',{ p_email:email, p_first_name:name, p_delivery_channel:chan, p_source:CONFIG.flow, p_language:CONFIG.lang, p_onboarding_data:onboarding, p_access_code:code });
+            if(res && res.error) throw res.error;
+            try{ localStorage.setItem('smh_language',CONFIG.lang); }catch(e){}
+            var tq=trackQuery();
+            window.location.href='https://www.checkout-ds24.com/product/'+PAID_PID+'?email='+encodeURIComponent(email)+(tq?'&'+tq:'');
+        }catch(e){ console.error(e); err.textContent='Etwas ist schiefgelaufen. Bitte versuche es erneut.'; err.style.display='block'; btn.disabled=false; btn.textContent='Jetzt für 8,90 € freischalten →'; }
+    }
 
     async function start(){
         var name=(document.getElementById('f-name').value||'').trim();

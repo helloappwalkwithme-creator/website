@@ -206,7 +206,8 @@
     <div class="eyebrow" id="eyebrow"></div>
     <h1 id="headline"></h1>
     <p class="lead" id="sub"></p>
-    <div class="price"><span class="amt">49</span><span class="cur">€</span><span class="once" id="priceOnce"></span></div>
+    <!-- Originalpreis: <span class="amt">49</span><span class="cur">€</span> — PAID_MODE setzt ihn zurück -->
+    <div class="price"><span class="amt" style="font-size:28px;">Derzeit nicht verfügbar</span><span class="cur"></span><span class="once" id="priceOnce"></span></div>
     <a class="cta" id="ctaTop" href="#" target="_blank" rel="noopener"></a>
     <div class="microtrust" id="microtrust"></div>
     <div style="text-align:center;margin-top:14px;"><span class="rating" id="rating" hidden></span></div>
@@ -301,7 +302,8 @@
   <section>
     <div class="pricebox">
       <div class="eyebrow" id="finalKicker" style="margin-bottom:6px;"></div>
-      <div class="price"><span class="amt">49</span><span class="cur">€</span><span class="once" id="priceOnce2"></span></div>
+      <!-- Originalpreis: <span class="amt">49</span><span class="cur">€</span> -->
+      <div class="price"><span class="amt" style="font-size:28px;">Derzeit nicht verfügbar</span><span class="cur"></span><span class="once" id="priceOnce2"></span></div>
       <a class="cta" id="ctaBottom" href="#" target="_blank" rel="noopener"></a>
       <div class="microtrust" id="microtrust2"></div>
     </div>
@@ -322,6 +324,9 @@
   const SUPABASE_URL = 'https://jztwnumtwihomgxwlwor.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
   let sb = null;
+
+  // Verkauf pausiert (FernUSG). true = Preise, Kaufbuttons und Garantie wieder an.
+  const PAID_MODE = false;
 
   // ===== Influencer-Registry (spaeter Supabase-Tabelle 'influencers') =====
   // buyUrl = persoenlicher Digistore-Promolink von Bella & Nils fuer Produkt 688576. Format i.d.R. https://www.digistore24.com/redir/688576/<affiliate-account>/ — von ihnen im Digistore-Konto generiert (Affiliate wird automatisch angenommen). Vor Live gegen echten Link tauschen.
@@ -383,15 +388,17 @@
     de:{
       recommendedRow:"Empfohlen von",
       priceOnce:"einmalig · kein Abo",
-      cta:"Euren 90-Tage-Weg starten – 49 €", ctaSmall:"Sicherer Checkout über Digistore24",
-      microtrust:(g)=>`Einmalig 49 € · ${g} Tage Geld-zurück-Garantie · sofortiger Start`,
+      cta: PAID_MODE ? "Euren 90-Tage-Weg starten – 49 €" : "Derzeit nicht verfügbar",
+      ctaSmall: PAID_MODE ? "Sicherer Checkout über Digistore24" : "Der Kauf ist pausiert",
+      microtrust:(g)=> PAID_MODE ? `Einmalig 49 € · ${g} Tage Geld-zurück-Garantie · sofortiger Start` : "",
       recEyebrow:"Persönliche Empfehlung",
       recTitleVideo:(n)=>`Warum ${n} das empfehlen`,
       recTitleQuote:(n)=>`Warum ${n} das empfehlen`,
       recDefaultQuote:"Wir empfehlen das, weil es genau da ansetzt, wo die meisten Paare scheitern: nicht am Wissen, sondern am täglichen Dranbleiben füreinander.",
       whatTitle:"Was du bekommst",
       benes:[
-        {ic:"cal",b:"90 Tage Begleitung",p:"Jeden Tag ein Impuls für dich — kein Kurs zum Wegklicken."},
+        // Original: {ic:"cal",b:"90 Tage Begleitung",p:"Jeden Tag ein Impuls für dich — kein Kurs zum Wegklicken."},
+        {ic:"cal",b:"90 Tage, täglich ein Impuls",p:"Jeden Tag ein kurzer Impuls. Ihr macht ihn für euch."},
         {ic:"clock",b:"Unter 5 Min am Tag",p:"Alltagstauglich, auch mit Kindern und Job."},
         {ic:"target",b:"Konkrete Aufgaben",p:"Kein Küchenpsychologie-Bla — ein klarer Schritt pro Tag."},
         {ic:"chat",b:"Per WhatsApp oder Telegram",p:"Direkt dort, wo du eh bist. Keine App, kein Login."}
@@ -410,20 +417,20 @@
       demoCap:"Eine echte Beispiel-Nachricht aus dem Programm.",
       howTitle:"So funktioniert's",
       steps:[
-        {b:"Kaufen",p:"Einmalig 49 € über den sicheren Digistore-Checkout."},
+        {b: PAID_MODE ? "Kaufen" : "Kauf", p: PAID_MODE ? "Einmalig 49 € über den sicheren Digistore-Checkout." : "Derzeit nicht verfügbar."},
         {b:"Messenger verbinden",p:"Du bekommst einen Zugangscode und startest ihn per WhatsApp oder Telegram."},
         {b:"Täglich dein Schritt",p:"Ab morgen früh bekommst du 90 Tage lang jeden Tag deinen Impuls."}
       ],
       reviewsTitle:"Das sagen andere", reviewsEmpty:"Bald findest du hier echte Stimmen von Paaren.",
-      guarTitle:"Dein Risiko: null",
-      guarText:(g)=>`<b>${g} Tage Geld-zurück-Garantie.</b> Wenn es dir in den ersten ${g} Tagen nichts bringt, schreib uns eine kurze Mail — du bekommst dein Geld zurück. Ohne Diskussion.`,
+      guarTitle: PAID_MODE ? "Dein Risiko: null" : "",
+      guarText:(g)=> PAID_MODE ? `<b>${g} Tage Geld-zurück-Garantie.</b> Wenn es dir in den ersten ${g} Tagen nichts bringt, schreib uns eine kurze Mail — du bekommst dein Geld zurück. Ohne Diskussion.` : "",
       finalKicker:"Bereit, als Paar zu wachsen?",
       faqTitle:"Häufige Fragen",
       faq:[
         {q:"Was genau bekomme ich?",a:"90 Tage lang jeden Tag einen konkreten Impuls mit einer kleinen Aufgabe, um an eurer Beziehung zu arbeiten — direkt per WhatsApp oder Telegram."},
         {q:"Wie viel Zeit brauche ich?",a:"Unter 5 Minuten am Tag. Bewusst so gebaut, dass es auch mit Kindern und Job in den Alltag passt."},
-        {q:"Gibt es ein Abo?",a:"Nein. Einmalig 49 €, danach kommt nichts mehr automatisch."},
-        {q:"Was, wenn's mir nichts bringt?",a:(g)=>`${g} Tage Geld-zurück-Garantie — du gehst kein Risiko ein.`},
+        {q:"Gibt es ein Abo?",a: PAID_MODE ? "Nein. Einmalig 49 €, danach kommt nichts mehr automatisch." : "Der Kauf ist derzeit nicht verfügbar."},
+        {q:"Was, wenn's mir nichts bringt?",a:(g)=> PAID_MODE ? `${g} Tage Geld-zurück-Garantie — du gehst kein Risiko ein.` : "Der Kauf ist derzeit nicht verfügbar."},
         {q:"Wie schnell geht's los?",a:"Direkt nach dem Kauf verbindest du deinen Messenger, am nächsten Morgen startet Tag 1."}
       ]
     }
@@ -450,12 +457,20 @@
     document.getElementById('eyebrow').innerText=fl.eyebrow;
     document.getElementById('headline').innerText=fl.headline;
     document.getElementById('sub').innerText=fl.sub;
-    document.getElementById('priceOnce').innerText=t.priceOnce;
-    document.getElementById('priceOnce2').innerText=t.priceOnce;
+    document.getElementById('priceOnce').innerText = PAID_MODE ? t.priceOnce : "";
+    document.getElementById('priceOnce2').innerText = PAID_MODE ? t.priceOnce : "";
+    if (PAID_MODE) {
+      document.querySelectorAll('.price').forEach(function(box){
+        var amt = box.querySelector('.amt'); var cur = box.querySelector('.cur');
+        if (amt) { amt.textContent = '49'; amt.style.fontSize = ''; }
+        if (cur) cur.textContent = '€';
+      });
+    }
     var buy = inf ? inf.buyUrl : "https://www.digistore24.com/product/688576";
-    // Primärer Weg = direkter Kauf (kein Quiz auf dieser Seite)
-    var ct=document.getElementById('ctaTop'); ct.innerHTML=t.cta+'<span class="small">'+t.ctaSmall+'</span>'; ct.href=buy;
-    var cb=document.getElementById('ctaBottom'); cb.innerHTML=t.cta+'<span class="small">'+t.ctaSmall+'</span>'; cb.href=buy;
+    var ct=document.getElementById('ctaTop'); ct.innerHTML=t.cta+'<span class="small">'+t.ctaSmall+'</span>';
+    var cb=document.getElementById('ctaBottom'); cb.innerHTML=t.cta+'<span class="small">'+t.ctaSmall+'</span>';
+    if (PAID_MODE) { ct.href=buy; cb.href=buy; }
+    else { ct.removeAttribute('href'); cb.removeAttribute('href'); ct.style.pointerEvents='none'; cb.style.pointerEvents='none'; ct.style.opacity='0.72'; cb.style.opacity='0.72'; }
     document.getElementById('microtrust').innerText=t.microtrust(g);
     document.getElementById('microtrust2').innerText=t.microtrust(g);
     document.getElementById('finalKicker').innerText=t.finalKicker;
@@ -553,7 +568,9 @@
   /* ===== Share mit dem Partner (Link behaelt ?inf= fuer Provision/Co-Branding) ===== */
   (function(){
     var shareUrl = location.href;
-    var msg = "Hey 👀 Ich hab was für uns gefunden: ein 90-Tage-Programm für Paare — jeden Tag ein kleiner Impuls per WhatsApp, unter 5 Min, um an der Beziehung zu arbeiten. Ich mach mit. Damit wir beide dranbleiben, hol dir auch deinen eigenen Zugang (einmal 49 €, kein Abo) — dann ziehen wir das zusammen durch. 👉 " + shareUrl;
+    var msg = PAID_MODE
+      ? "Hey 👀 Ich hab was für uns gefunden: ein 90-Tage-Programm für Paare — jeden Tag ein kleiner Impuls per WhatsApp, unter 5 Min, um an der Beziehung zu arbeiten. Ich mach mit. Damit wir beide dranbleiben, hol dir auch deinen eigenen Zugang (einmal 49 €, kein Abo) — dann ziehen wir das zusammen durch. 👉 " + shareUrl
+      : "Hey 👀 Ich hab was für uns gefunden: ein 90-Tage-Programm für Paare — jeden Tag ein kleiner Impuls per WhatsApp, unter 5 Min. Der Kauf ist gerade pausiert. 👉 " + shareUrl;
     var wa = document.getElementById('shareWa');
     if(wa){ wa.href = "https://wa.me/?text=" + encodeURIComponent(msg); }
     var cp = document.getElementById('shareCopy'), hint = document.getElementById('shareHint');

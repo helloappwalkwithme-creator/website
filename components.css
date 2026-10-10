@@ -664,3 +664,17 @@ a[data-todo][href="#"] { display: none !important; }
 @media (max-width: 959px) {
   .hero:has(.hero__media > .vsl[data-src=""]) + .after-hero-dark > .cardstrip { margin-top: 0; padding-top: 8px; }
 }
+
+/* Sicherheitshinweis neben der beschriebenen Atemübung (Fokus-Reset) */
+.safety {
+  margin: 16px 0 0;
+  max-width: 62ch;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--accent-tint);
+  border: 1px solid rgba(19, 121, 106, .28);
+  color: var(--ink);
+  font-size: var(--small);
+  line-height: 1.55;
+}
+.safety b { display: block; margin-bottom: 4px; color: var(--accent-dark); font-weight: 600; }
