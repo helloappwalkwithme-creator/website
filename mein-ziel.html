@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mein Ziel &ndash; Feierabend im Kopf</title>
+    <title>Mein Ziel &ndash; Leistung und Fokus</title>
     <meta name="robots" content="noindex,nofollow">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -74,9 +74,9 @@
     <main>
         <!-- STEP 1: Formular -->
         <div class="step active" id="step-form">
-            <div class="flow-title">Feierabend im Kopf</div>
+            <div class="flow-title">Leistung und Fokus</div>
             <h1 class="h1-title">Dein Ziel f&uuml;r die 12 Wochen.</h1>
-            <p class="subtitle">Zwei Minuten. Du legst fest, wann dein Feierabend beginnt und wann dich die t&auml;gliche Begleitung erreicht. Du kannst das sp&auml;ter jederzeit &auml;ndern.</p>
+            <p class="subtitle">Zwei Minuten. Du legst fest, wann die Nachrichten dich erreichen und an welchem Moment deine erste &Uuml;bung andockt. Du kannst das sp&auml;ter jederzeit &auml;ndern.</p>
 
             <div class="input-label">Deine E-Mail</div>
             <input type="email" id="f-email" class="input-field" autocomplete="email">
@@ -95,21 +95,21 @@
 
             <div class="input-label">Wor&uuml;ber stolperst du am meisten?</div>
             <div id="g-pain">
-                <div class="quiz-btn" data-val="abschalten" onclick="pickPain(this)"><span class="quiz-btn-text">Mein Kopf kommt abends nicht runter.</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" data-val="gereizt" onclick="pickPain(this)"><span class="quiz-btn-text">Ich bin abends gereizt, und die Familie bekommt es ab.</span><span class="radio-icon"></span></div>
-                <div class="quiz-btn" data-val="mehr_arbeit" onclick="pickPain(this)"><span class="quiz-btn-text">Ich arbeite mehr und schaffe weniger.</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" data-val="abschalten" onclick="pickPain(this)"><span class="quiz-btn-text">Abends liegt der K&ouml;rper, der Kopf l&auml;uft.</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" data-val="gereizt" onclick="pickPain(this)"><span class="quiz-btn-text">Ich werde schneller laut, als ich will.</span><span class="radio-icon"></span></div>
+                <div class="quiz-btn" data-val="mehr_arbeit" onclick="pickPain(this)"><span class="quiz-btn-text">Ich erreiche viel und kriege wenig davon mit.</span><span class="radio-icon"></span></div>
             </div>
 
             <div class="input-label">Wann ist bei dir Feierabend?</div>
             <input type="time" id="g-feierabend" class="input-field" value="18:00">
             <p class="hint">Die Uhrzeit, ab der die Arbeit f&uuml;r dich vorbei sein soll.</p>
 
-            <div class="input-label">Dein Schnitt (Ritual)</div>
-            <input type="text" id="g-ritual" class="input-field" maxlength="200" placeholder="z. B. einmal um den Block">
-            <p class="hint">Die ca. 10 Minuten &Uuml;bergang zwischen Arbeit und Abend.</p>
+            <div class="input-label">Dein Moment am Abend</div>
+            <input type="text" id="g-ritual" class="input-field" maxlength="200" placeholder="z. B. Jacke an den Haken, Schl&uuml;ssel in die Schale">
+            <p class="hint">Der Moment, den du jeden Abend sowieso hast. Dort dockt deine erste &Uuml;bung an.</p>
 
-            <div class="input-label">Deine Handy-Regel</div>
-            <input type="text" id="g-handy" class="input-field" maxlength="200" placeholder="z. B. ab 21:30 Handy in einem anderen Raum">
+            <div class="input-label">Dein Moment am Morgen</div>
+            <input type="text" id="g-handy" class="input-field" maxlength="200" placeholder="z. B. Hinsetzen am Schreibtisch, bevor etwas offen ist">
 
             <div class="input-label">Wann m&ouml;chtest du deine Nachrichten?</div>
             <div class="time-row">
@@ -130,7 +130,7 @@
         <div class="step" id="step-done">
             <div class="flow-title">Fertig</div>
             <div class="result-card"><div class="result-score">Dein Ziel ist hinterlegt.</div></div>
-            <div class="info-card">Deine Nachrichten kommen ab morgen zu deinen Zeiten.</div>
+            <div class="info-card">Deine Nachrichten kommen ab dem Start deiner Gruppe zu deinen Zeiten.</div>
             <p class="subtitle">Wenn sich etwas &auml;ndert, trag dein Ziel einfach noch einmal ein.</p>
         </div>
     </main>
