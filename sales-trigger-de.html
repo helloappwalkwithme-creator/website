@@ -2,11 +2,24 @@
 <html lang="de">
 <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+    <script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  functionality_storage: 'denied',
+  personalization_storage: 'denied',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+gtag('set', 'ads_data_redaction', true);
+gtag('set', 'url_passthrough', true);
+</script>
+<script type="text/plain" class="_iub_cs_activate" data-iub-purposes="4,5">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+<script type="text/javascript" src="https://embeds.iubenda.com/widgets/ba1bdae0-e28c-45b5-8134-d89a53fafd44.js"></script>
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,12 +44,13 @@
     </style>
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
     <main>
         <div class="sub">Shift My Horizon</div>
         <h1>Das 30-Tage-Reprogrammierungs-Protokoll</h1>
 
-        <div class="guarantee-badge">✅ 14 Tage Geld-zurück-Garantie</div>
+        <!-- Original: <div class="guarantee-badge">✅ 14 Tage Geld-zurück-Garantie</div> -->
+        <div class="guarantee-badge" id="guarantee-badge" hidden>✅ 14 Tage Geld-zurück-Garantie</div>
 
         <div class="card">
             <h2>Das bekommst du</h2>
@@ -55,21 +69,27 @@
 
         <div class="card">
             <h2>Preis</h2>
-            <p class="price">Einmalig 29 €</p>
+            <!-- Original: <p class="price">Einmalig 29 €</p> -->
+            <p class="price" id="price-live" hidden>Einmalig 29 €</p>
+            <p class="price" id="price-paused">Derzeit nicht verfügbar</p>
             <p>Keine Abofalle, keine versteckten Folgekosten.</p>
         </div>
 
-        <div class="card">
+        <!-- Original-Garantie, nur sichtbar wenn PAID_MODE true -->
+        <div class="card" id="guarantee-card" hidden>
             <h2>Deine Garantie</h2>
             <p>Du hast <strong>14 Tage Geld-zurück-Garantie</strong>. Wenn du in dieser Zeit nicht zufrieden bist, erhältst du den vollen Kaufpreis zurück – unkompliziert und ohne Diskussion.</p>
         </div>
 
         <div class="card" style="border:1px solid var(--gold);">
             <h2>Sei unter den Ersten – mit vollem Vertrauensvorschuss</h2>
-            <p>Dieses Protokoll ist <strong>brandneu</strong>. Statt gekaufter Bewertungen bekommst du unser Wort und die Methode dahinter: bewährte Prinzipien der Verhaltenspsychologie – <strong>kognitive Dissonanz</strong>, <strong>RAS-Priming</strong> und <strong>identitätsbasierte Gewohnheiten</strong>. Das Risiko trägst nicht du, sondern wir: <strong>14 Tage Geld-zurück-Garantie</strong>. Du gibst dem Prozess einen Vertrauensvorschuss – und wenn er dich nicht überzeugt, bekommst du alles zurück.</p>
+            <!-- Original-Schluss: Das Risiko trägst nicht du, sondern wir: 14 Tage Geld-zurück-Garantie. Du gibst dem Prozess einen Vertrauensvorschuss – und wenn er dich nicht überzeugt, bekommst du alles zurück. -->
+            <p>Dieses Protokoll ist <strong>brandneu</strong>. Statt gekaufter Bewertungen bekommst du unser Wort und die Methode dahinter: bewährte Prinzipien der Verhaltenspsychologie – <strong>kognitive Dissonanz</strong>, <strong>RAS-Priming</strong> und <strong>identitätsbasierte Gewohnheiten</strong>.</p>
         </div>
 
-        <a id="buy" class="btn" href="https://www.digistore24.com/">Letzter Schritt: Protokoll freischalten →</a>
+        <!-- Original: <a id="buy" class="btn" href="https://www.digistore24.com/">Letzter Schritt: Protokoll freischalten →</a> -->
+        <a id="buy" class="btn" href="https://www.digistore24.com/" hidden>Letzter Schritt: Protokoll freischalten →</a>
+        <p id="buy-paused" class="btn" style="opacity:.72;cursor:default;">Derzeit nicht verfügbar</p>
 
     </main>
     <footer>
@@ -87,20 +107,29 @@
             try{ sessionStorage.setItem('smh_track', JSON.stringify(s)); }catch(e){}
             return Object.keys(s).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(s[k]);}).join('&');
         };
-        // Kaufbutton auf das konkrete Digistore-Produkt zeigen. pid aus URL, sonst Standard-PID.
+        // Verkauf pausiert. true = Preis, Garantie und Kaufbutton (Digistore 723682, 29 €) wieder an.
+        var PAID_MODE = false;
         var DEFAULT_PID = '723682'; // 29-Euro-Produkt (30-Tage Reprogrammierungs-Protokoll)
-        var params = new URLSearchParams(location.search);
-        var pid = params.get('pid') || DEFAULT_PID;
-        var email = params.get('email');
-        if (pid && /^[0-9]+$/.test(pid)) {
-            var url = 'https://www.checkout-ds24.com/product/' + pid;
-            var q = [];
-            if (email) q.push('email=' + encodeURIComponent(email));
-            var tq = window.smhTrackQS(); if (tq) q.push(tq);
-            if (q.length) url += '?' + q.join('&');
-            document.getElementById('buy').href = url;
+        if (PAID_MODE) {
+            document.getElementById('price-live').hidden = false;
+            document.getElementById('price-paused').hidden = true;
+            document.getElementById('guarantee-badge').hidden = false;
+            document.getElementById('guarantee-card').hidden = false;
+            document.getElementById('buy').hidden = false;
+            document.getElementById('buy-paused').hidden = true;
+            var params = new URLSearchParams(location.search);
+            var pid = params.get('pid') || DEFAULT_PID;
+            var email = params.get('email');
+            if (pid && /^[0-9]+$/.test(pid)) {
+                var url = 'https://www.checkout-ds24.com/product/' + pid;
+                var q = [];
+                if (email) q.push('email=' + encodeURIComponent(email));
+                var tq = window.smhTrackQS(); if (tq) q.push(tq);
+                if (q.length) url += '?' + q.join('&');
+                document.getElementById('buy').href = url;
+            }
+            try{ document.getElementById('buy').addEventListener('click', function(){ window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'checkout_start', product:'trigger_protocol_29'}); }); }catch(e){}
         }
-        try{ document.getElementById('buy').addEventListener('click', function(){ window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'checkout_start', product:'trigger_protocol_29'}); }); }catch(e){}
     </script>
 </body>
 </html>

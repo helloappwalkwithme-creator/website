@@ -2,11 +2,24 @@
 <html lang="de">
 <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+    <script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  functionality_storage: 'denied',
+  personalization_storage: 'denied',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+gtag('set', 'ads_data_redaction', true);
+gtag('set', 'url_passthrough', true);
+</script>
+<script type="text/plain" class="_iub_cs_activate" data-iub-purposes="4,5">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+<script type="text/javascript" src="https://embeds.iubenda.com/widgets/ba1bdae0-e28c-45b5-8134-d89a53fafd44.js"></script>
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,12 +44,12 @@
     </style>
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
     <main>
         <div class="sub">Shift My Horizon</div>
         <h1>Reprogrammierung Deep Dive: Der endgültige Musterbruch</h1>
 
-        <div class="guarantee-badge">✅ 14 Tage Geld-zurück-Garantie</div>
+        <!-- Original: <div class="guarantee-badge">✅ 14 Tage Geld-zurück-Garantie</div> -->
 
         <div class="card">
             <h2>Warum du hier bist</h2>
@@ -59,21 +72,28 @@
 
         <div class="card">
             <h2>Preis</h2>
-            <p class="price">Einmalig 149 €</p>
+            <!-- Original: <p class="price">Einmalig 149 €</p> -->
+            <p class="price" id="price-live" hidden>Einmalig 149 €</p>
+            <p class="price" id="price-paused">Derzeit nicht verfügbar</p>
             <p>Der vollständige, auf dein Profil zugeschnittene Deep Dive. Einmalzahlung, keine Folgekosten.</p>
         </div>
 
+        <!-- Original-Garantie auskommentiert. Der 149-€-Kaufbutton ist pausiert (PAID_MODE). Digistore kann eigene Erstattungsregeln im Checkout zeigen.
         <div class="card">
             <h2>Deine Garantie</h2>
             <p>Du hast <strong>14 Tage Geld-zurück-Garantie</strong>. Wenn du in dieser Zeit nicht zufrieden bist, erhältst du den vollen Kaufpreis zurück – unkompliziert und ohne Diskussion.</p>
         </div>
+        -->
 
         <div class="card" style="border:1px solid var(--gold);">
             <h2>Warum du dem Prozess vertrauen kannst</h2>
-            <p>Der Deep Dive ist <strong>brandneu</strong> – kein gekauftes Feedback, sondern die Methode dahinter: fundierte Prinzipien der Verhaltenspsychologie (<strong>kognitive Dissonanz</strong>, <strong>RAS-Priming</strong>, <strong>identitätsbasierte Gewohnheiten</strong>), die deinen Kern-Glaubenssatz Schritt für Schritt umschreiben. Das Risiko trägst nicht du: <strong>14 Tage Geld-zurück-Garantie</strong> – du gibst dem Prozess einen Vertrauensvorschuss, kein Blindkauf.</p>
+            <!-- Original-Schluss: Das Risiko trägst nicht du: 14 Tage Geld-zurück-Garantie – du gibst dem Prozess einen Vertrauensvorschuss, kein Blindkauf. -->
+            <p>Der Deep Dive ist <strong>brandneu</strong> – kein gekauftes Feedback, sondern die Methode dahinter: fundierte Prinzipien der Verhaltenspsychologie (<strong>kognitive Dissonanz</strong>, <strong>RAS-Priming</strong>, <strong>identitätsbasierte Gewohnheiten</strong>), die deinen Kern-Glaubenssatz Schritt für Schritt umschreiben.</p>
         </div>
 
-        <a id="buy" class="btn" href="https://www.digistore24.com/">Letzter Schritt: Deep Dive starten →</a>
+        <!-- Original: <a id="buy" class="btn" href="https://www.digistore24.com/">Letzter Schritt: Deep Dive starten →</a> -->
+        <a id="buy" class="btn" href="https://www.digistore24.com/" hidden>Letzter Schritt: Deep Dive starten →</a>
+        <p id="buy-paused" class="btn" style="opacity:.72;cursor:default;">Derzeit nicht verfügbar</p>
 
     </main>
     <footer>
@@ -91,19 +111,27 @@
             try{ sessionStorage.setItem('smh_track', JSON.stringify(s)); }catch(e){}
             return Object.keys(s).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(s[k]);}).join('&');
         };
+        // Verkauf pausiert. true = Preis und Kaufbutton (Digistore 723683, 149 €) wieder an.
+        var PAID_MODE = false;
         var DEFAULT_PID = '723683'; // 149-Euro-Produkt (Reprogrammierung Deep Dive)
-        var params = new URLSearchParams(location.search);
-        var pid = params.get('pid') || DEFAULT_PID;
-        var email = params.get('email');
-        if (pid && /^[0-9]+$/.test(pid)) {
-            var url = 'https://www.checkout-ds24.com/product/' + pid;
-            var q = [];
-            if (email) q.push('email=' + encodeURIComponent(email));
-            var tq = window.smhTrackQS(); if (tq) q.push(tq);
-            if (q.length) url += '?' + q.join('&');
-            document.getElementById('buy').href = url;
+        if (PAID_MODE) {
+            document.getElementById('price-live').hidden = false;
+            document.getElementById('price-paused').hidden = true;
+            document.getElementById('buy').hidden = false;
+            document.getElementById('buy-paused').hidden = true;
+            var params = new URLSearchParams(location.search);
+            var pid = params.get('pid') || DEFAULT_PID;
+            var email = params.get('email');
+            if (pid && /^[0-9]+$/.test(pid)) {
+                var url = 'https://www.checkout-ds24.com/product/' + pid;
+                var q = [];
+                if (email) q.push('email=' + encodeURIComponent(email));
+                var tq = window.smhTrackQS(); if (tq) q.push(tq);
+                if (q.length) url += '?' + q.join('&');
+                document.getElementById('buy').href = url;
+            }
+            try{ document.getElementById('buy').addEventListener('click', function(){ window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'checkout_start', product:'trigger_deepdive_149'}); }); }catch(e){}
         }
-        try{ document.getElementById('buy').addEventListener('click', function(){ window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'checkout_start', product:'trigger_deepdive_149'}); }); }catch(e){}
     </script>
 </body>
 </html>

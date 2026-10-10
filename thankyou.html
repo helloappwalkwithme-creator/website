@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html lang="de" id="html-tag">
 <head>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1430151545959801"
-     crossorigin="anonymous"></script>
+    <script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  functionality_storage: 'denied',
+  personalization_storage: 'denied',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+gtag('set', 'ads_data_redaction', true);
+gtag('set', 'url_passthrough', true);
+</script>
+<script type="text/plain" class="_iub_cs_activate" data-iub-purposes="4,5">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+<script type="text/javascript" src="https://embeds.iubenda.com/widgets/ba1bdae0-e28c-45b5-8134-d89a53fafd44.js"></script>
+    <script type="text/plain" class="_iub_cs_activate" data-iub-purposes="5" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1430151545959801" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -35,7 +47,7 @@
     </style>
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
     <main>
         <div class="success-icon">✓</div>
         <h1 class="h1-title" id="ui-headline"></h1>
@@ -85,7 +97,8 @@
                 step1Title: "Öffne deinen Messenger",
                 step1Text: "Gehe einfach zurück zu WhatsApp oder Telegram, wo du bereits deinen 4-Tage-Flow absolviert hast.",
                 step2Title: "Dein Zugang läuft automatisch weiter",
-                step2Text: "Du musst nichts weiter tun. Sobald deine Zahlung verarbeitet ist, wird dein Zugang automatisch freigeschaltet – und ab morgen früh geht deine tägliche Begleitung genau dort weiter, wo du aufgehört hast. Mit STOP pausierst du jederzeit, mit GO geht es weiter.",
+                // Original: "... geht deine tägliche Begleitung genau dort weiter ..."
+                step2Text: "Du musst nichts weiter tun. Sobald deine Zahlung verarbeitet ist, wird dein Zugang automatisch freigeschaltet – und ab morgen früh gehen deine täglichen Nachrichten genau dort weiter, wo du aufgehört hast. Mit STOP pausierst du jederzeit, mit GO geht es weiter.",
                 btnHome: "Zurück zur Startseite",
                 digistoreNotice: "Die Abbuchung erfolgt durch Digistore24.",
                 optin: {
@@ -109,7 +122,8 @@
                 step1Title: "Open your Messenger",
                 step1Text: "Simply go back to WhatsApp or Telegram where you already completed your 4-Day Flow.",
                 step2Title: "Your access continues automatically",
-                step2Text: "There's nothing else to do. As soon as your payment is processed, your access unlocks automatically – and from tomorrow morning your daily guidance continues right where you left off. Type STOP to pause anytime, GO to continue.",
+                // Original: "... your daily guidance continues ..."
+                step2Text: "There's nothing else to do. As soon as your payment is processed, your access unlocks automatically – and from tomorrow morning your daily messages continue right where you left off. Type STOP to pause anytime, GO to continue.",
                 btnHome: "Back to Homepage",
                 digistoreNotice: "The charge will be processed by Digistore24.",
                 optin: {
@@ -133,7 +147,8 @@
                 step1Title: "Abre tu Messenger",
                 step1Text: "Simplemente vuelve a WhatsApp o Telegram donde ya completaste tu Flujo de 4 Días.",
                 step2Title: "Tu acceso continúa automáticamente",
-                step2Text: "No tienes que hacer nada más. En cuanto se procese tu pago, tu acceso se activa automáticamente – y a partir de mañana por la mañana tu acompañamiento diario continúa justo donde lo dejaste. Escribe STOP para pausar en cualquier momento y GO para continuar.",
+                // Original: "... tu acompañamiento diario continúa ..."
+                step2Text: "No tienes que hacer nada más. En cuanto se procese tu pago, tu acceso se activa automáticamente – y a partir de mañana por la mañana tus mensajes diarios continúan justo donde lo dejaste. Escribe STOP para pausar en cualquier momento y GO para continuar.",
                 btnHome: "Volver al inicio",
                 digistoreNotice: "El cargo será procesado por Digistore24.",
                 optin: {

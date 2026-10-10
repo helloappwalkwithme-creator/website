@@ -165,12 +165,17 @@
   <!-- 20 seconds -->
   <section>
     <h2>Worum es geht — in 20 Sekunden</h2>
-    <p class="lead"><b>Connected Couples</b> ist ein <b>90-Tage-Mentoring per Messenger für Paare</b>. Man macht einen kurzen Check — und bekommt ab dem nächsten Morgen jeden Tag einen konkreten Impuls mit einer kleinen Aufgabe für die Beziehung. Direkt in WhatsApp oder Telegram, in unter 5 Minuten am Tag.</p>
+    <!-- Original: Connected Couples ist ein 90-Tage-Mentoring per Messenger für Paare. -->
+    <p class="lead"><b>Connected Couples</b> ist ein <b>90-Tage-Programm per Messenger für Paare</b>. Man macht einen kurzen Check — und bekommt ab dem nächsten Morgen jeden Tag einen konkreten Impuls mit einer kleinen Aufgabe für die Beziehung. Direkt in WhatsApp oder Telegram, in unter 5 Minuten am Tag.</p>
     <div class="cards">
       <div class="card"><b>Für Paare</b><p>Bindung stärken · besser kommunizieren · Nähe und Vertrauen wieder aufbauen.</p></div>
       <div class="card"><b>Täglich statt Regal</b><p>Kein Kurs, den man wegklickt — echte Umsetzung, jeden Tag ein Schritt.</p></div>
       <div class="card"><b>Niedrige Hürde</b><p>Läuft im Messenger, den eure Leute eh nutzen. Keine App, kein Login.</p></div>
-      <div class="card"><b>Direktkauf</b><p>Einmalig 49 €, 14 Tage Geld-zurück-Garantie. Kein Abo.</p></div>
+      <div class="card"><b>Direktkauf</b>
+        <p data-paid-paused>Derzeit nicht verfügbar.</p>
+        <!-- Original, nur sichtbar wenn PAID_MODE true -->
+        <p data-paid-live hidden>Einmalig 49 €, 14 Tage Geld-zurück-Garantie. Kein Abo.</p>
+      </div>
     </div>
   </section>
 
@@ -179,11 +184,13 @@
     <div class="eyebrow">Damit du genau weißt, was du empfiehlst</div>
     <h2>Das kaufen deine Leute</h2>
     <div class="product">
-      <div class="ptitle">Connected Couples – 90-Tage-Mentoring</div>
+      <!-- Original: Connected Couples – 90-Tage-Mentoring -->
+      <div class="ptitle">Connected Couples – 90 Tage</div>
       <ul>
         <li>90 Tage täglicher Impulse für Paare, per WhatsApp oder Telegram</li>
-        <li>Einmalig <b>49 €</b> — kein Abo, keine versteckten Kosten</li>
-        <li><b>14 Tage Geld-zurück-Garantie</b></li>
+        <li data-paid-paused><b>Derzeit nicht verfügbar</b></li>
+        <!-- Original, nur sichtbar wenn PAID_MODE true -->
+        <li data-paid-live hidden>Einmalig 49 €, kein Abo, 14 Tage Geld-zurück-Garantie</li>
         <li>Auslieferung täglich direkt im Messenger, kein Login nötig</li>
       </ul>
     </div>
@@ -229,7 +236,9 @@
   <section>
     <div class="highlight">
       <div class="big">50 %</div>
-      <div class="per">= <b>24,50 € pro Verkauf</b> (vor Steuern) · Produktpreis 49 €</div>
+      <div class="per" data-paid-paused>Der Verkauf ist <b>derzeit nicht verfügbar</b>.</div>
+      <!-- Original, nur sichtbar wenn PAID_MODE true -->
+      <div class="per" data-paid-live hidden>= <b>24,50 € pro Verkauf</b> (vor Steuern) · Produktpreis 49 €</div>
       <p class="fine">Automatisch getrackt &amp; ausgezahlt über Digistore24. Transparente Abrechnung, keine Handarbeit. Als Affiliate wirst du automatisch angenommen. Ein Reel an eine engagierte Community bringt schnell zweistellige Verkaufszahlen.</p>
     </div>
   </section>
@@ -277,5 +286,15 @@
     <a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="agb.html">AGB</a>
   </footer>
 </div>
+<script>
+  // 49-€-Verkauf pausiert. true stellt Preis, Garantie und Provision wieder her.
+  // Mentoring-Formulierungen bleiben aus — die setzt man nicht per Schalter zurück.
+  // Vorher: kein „Fragen? Melde dich.“, Anwalt zu FernUSG beim Selbstlernen.
+  var PAID_MODE = false;
+  if (PAID_MODE) {
+    document.querySelectorAll('[data-paid-live]').forEach(function (el) { el.hidden = false; });
+    document.querySelectorAll('[data-paid-paused]').forEach(function (el) { el.hidden = true; });
+  }
+</script>
 </body>
 </html>

@@ -2,11 +2,24 @@
 <html lang="de">
 <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+    <script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  functionality_storage: 'denied',
+  personalization_storage: 'denied',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+gtag('set', 'ads_data_redaction', true);
+gtag('set', 'url_passthrough', true);
+</script>
+<script type="text/plain" class="_iub_cs_activate" data-iub-purposes="4,5">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-523HRG3C');</script>
+<script type="text/javascript" src="https://embeds.iubenda.com/widgets/ba1bdae0-e28c-45b5-8134-d89a53fafd44.js"></script>
     <!-- End Google Tag Manager -->
 
     <meta charset="UTF-8">
@@ -60,7 +73,7 @@
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-523HRG3C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
 
     <main id="app">
         <!-- INTRO -->
@@ -136,8 +149,9 @@
                 <div class="rule-card" style="margin-top:8px;">
                     Ein neuer Satz allein verändert nichts. Im <strong>30-Tage-Reprogrammierungs-Protokoll</strong> verankern wir ihn neurologisch – täglich per WhatsApp oder Telegram, exakt auf dein Profil zugeschnitten.
                 </div>
-                <a class="btn-gold" id="res-cta" href="sales-trigger-de.html" style="display:block; text-decoration:none; margin-top:14px;">Mein 30-Tage-Protokoll freischalten</a>
-                <p class="legal-disclaimer">100% digital · 14 Tage Geld-zurück-Garantie</p>
+                <!-- Original: <a class="btn-gold" id="res-cta" href="sales-trigger-de.html">Mein 30-Tage-Protokoll freischalten</a> -->
+                <p class="btn-gold" id="res-cta" style="display:block; text-decoration:none; margin-top:14px; opacity:.72; cursor:default;">Derzeit nicht verfügbar</p>
+                <!-- Original: <p class="legal-disclaimer">100% digital · 14 Tage Geld-zurück-Garantie</p> -->
             </div>
         </div>
     </main>
@@ -382,10 +396,8 @@
                 var sb = document.getElementById('sales-block'); if (sb) sb.style.display = 'none';
                 var pf = document.getElementById('proto-firsttask'); if (pf) pf.style.display = 'block';
             } else {
-                // CTA: E-Mail an die Verkaufsseite weiterreichen (vorbefüllter Checkout)
-                const cta = document.getElementById('res-cta');
-                const tq = (window.smhTrackQS ? window.smhTrackQS() : '');
-                cta.href = 'sales-trigger-de.html?email=' + encodeURIComponent(email) + (tq ? '&' + tq : '');
+                // Kauf pausiert: kein Link zur Verkaufsseite und kein Checkout.
+                // Original: cta.href = 'sales-trigger-de.html?email=' + encodeURIComponent(email) + (tq ? '&' + tq : '');
             }
             show('step-result');
             try{ window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'test_completed', flow:'trigger_test', profile:(d.profile_key||'')}); }catch(e){}

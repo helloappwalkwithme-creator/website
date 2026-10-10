@@ -155,12 +155,17 @@
   <!-- 20 seconds -->
   <section>
     <h2>Worum es geht — in 20 Sekunden</h2>
-    <p class="lead">Shift My Horizon ist ein <b>90-Tage-Mentoring per Messenger</b>. Der Mann macht einen kurzen Check, wählt sein Thema — und bekommt ab dem nächsten Morgen jeden Tag einen konkreten Impuls mit einer kleinen Aufgabe. Direkt in WhatsApp oder Telegram, in unter 5 Minuten am Tag.</p>
+    <!-- Original: Shift My Horizon ist ein 90-Tage-Mentoring per Messenger. -->
+    <p class="lead">Shift My Horizon ist ein <b>90-Tage-Programm per Messenger</b>. Der Mann macht einen kurzen Check, wählt sein Thema — und bekommt ab dem nächsten Morgen jeden Tag einen konkreten Impuls mit einer kleinen Aufgabe. Direkt in WhatsApp oder Telegram, in unter 5 Minuten am Tag.</p>
     <div class="cards">
       <div class="card"><b>Themen für Männer</b><p>Frauen ansprechen · raus aus dem Drang (Dopamin-Reset) · Beziehung führen.</p></div>
       <div class="card"><b>Täglich statt Regal</b><p>Kein Kurs, den man wegklickt — echte Umsetzung, jeden Tag ein Schritt.</p></div>
       <div class="card"><b>Niedrige Hürde</b><p>Läuft im Messenger, den deine Leute eh nutzen. Keine App, kein Login.</p></div>
-      <div class="card"><b>Direktkauf</b><p>Einmalig 49 €, 14 Tage Geld-zurück-Garantie. Kein Abo.</p></div>
+      <div class="card"><b>Direktkauf</b>
+        <p data-paid-paused>Derzeit nicht verfügbar.</p>
+        <!-- Original, nur sichtbar wenn PAID_MODE true -->
+        <p data-paid-live hidden>Einmalig 49 €, 14 Tage Geld-zurück-Garantie. Kein Abo.</p>
+      </div>
     </div>
   </section>
 
@@ -192,7 +197,9 @@
   <section>
     <div class="highlight">
       <div class="big">50 %</div>
-      <div class="per">= <b>24,50 € pro Verkauf</b> (vor Steuern) · Produktpreis 49 €</div>
+      <div class="per" data-paid-paused>Der Verkauf ist <b>derzeit nicht verfügbar</b>.</div>
+      <!-- Original, nur sichtbar wenn PAID_MODE true -->
+      <div class="per" data-paid-live hidden>= <b>24,50 € pro Verkauf</b> (vor Steuern) · Produktpreis 49 €</div>
       <p class="fine">Automatisch getrackt &amp; ausgezahlt über Digistore24. Transparente Abrechnung, keine Handarbeit. Ein Post an eine engagierte Nische bringt schnell zweistellige Verkaufszahlen.</p>
       <div class="plus">Plus: Du verdienst auch an Upsells mit, die der Kunde nach dem Kauf dazunimmt.</div>
     </div>
@@ -233,5 +240,15 @@
     <a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="agb.html">AGB</a>
   </footer>
 </div>
+<script>
+  // 49-€-Verkauf pausiert. true stellt Preis, Garantie und Provision wieder her.
+  // Mentoring-Formulierungen bleiben aus — die setzt man nicht per Schalter zurück.
+  // Vorher: kein „Fragen? Melde dich.“, Anwalt zu FernUSG beim Selbstlernen.
+  var PAID_MODE = false;
+  if (PAID_MODE) {
+    document.querySelectorAll('[data-paid-live]').forEach(function (el) { el.hidden = false; });
+    document.querySelectorAll('[data-paid-paused]').forEach(function (el) { el.hidden = true; });
+  }
+</script>
 </body>
 </html>
