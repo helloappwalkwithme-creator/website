@@ -14,6 +14,11 @@
       "source": "/start",
       "destination": "/abschalten.html?utm_source=direkt&utm_medium=kurzlink&utm_campaign=abschalten",
       "permanent": false
+    },
+    {
+      "source": "/nacht",
+      "destination": "/nacht.html?via=nacht&utm_source=direkt&utm_medium=kurzlink&utm_campaign=nacht",
+      "permanent": false
     }
   ]
 }

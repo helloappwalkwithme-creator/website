@@ -1,0 +1,102 @@
+/* Nacht-Reset. Nur nacht.html und nacht-reset.html.
+   Dunkel, große Schrift, keine helle Fläche. */
+
+.page-nacht { color-scheme: dark; }
+
+.page-nacht .hero {
+  min-height: 0;
+  padding: 128px 0 72px;
+}
+.page-nacht .hero h1 { max-width: 16ch; }
+.page-nacht .hero .lead {
+  max-width: 42ch;
+  font-size: clamp(1.2rem, 1.05rem + .45vw, 1.45rem);
+}
+
+.page-nacht .nacht-get { max-width: 42rem; }
+.page-nacht .nacht-get ol {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 20px;
+}
+.page-nacht .nacht-get li {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  gap: 12px;
+  color: var(--on-dark);
+  font-size: clamp(1.15rem, 1.05rem + .3vw, 1.3rem);
+  line-height: 1.5;
+}
+.page-nacht .nacht-get li b {
+  font-family: var(--font-head);
+  font-weight: 500;
+  color: var(--accent-light);
+}
+
+.page-nacht .card-light {
+  background: #122028;
+  color: var(--on-dark);
+}
+.page-nacht .card-light h2,
+.page-nacht .card-light h3,
+.page-nacht .card-light p { color: var(--on-dark); }
+.page-nacht .card-light .eyebrow { color: var(--accent-light); }
+.page-nacht .card-light .field > label:not(.choicecard),
+.page-nacht .card-light .field__label { color: var(--on-dark); }
+.page-nacht .card-light .hint { color: var(--on-dark-muted) !important; }
+.page-nacht .card-light .consent { color: rgba(244,243,239,.82); }
+.page-nacht .card-light .consent a,
+.page-nacht .card-light .textlink { color: var(--accent-light); }
+.page-nacht .card-light .input {
+  background: #0E1A22;
+  color: var(--on-dark);
+  border-color: rgba(255,255,255,.18);
+}
+.page-nacht .card-light .choicecard {
+  background: #0E1A22;
+  color: var(--on-dark);
+  border-color: rgba(255,255,255,.18);
+}
+.page-nacht .card-light .choicecard:has(input:checked) {
+  background: rgba(92,194,172,.12);
+  border-color: var(--accent-light);
+}
+.page-nacht .card-light .choicecards--entry .choicecard__text strong { color: var(--on-dark); }
+.page-nacht .card-light .btn--primary { background: var(--accent-light); color: var(--deep-950); }
+.page-nacht .card-light .btn--primary:hover { background: #74CFBB; color: var(--deep-950); }
+
+.page-nacht .safety {
+  background: rgba(92,194,172,.08);
+  border-color: rgba(92,194,172,.28);
+  color: var(--on-dark);
+  max-width: none;
+}
+.page-nacht .safety b { color: var(--accent-light); }
+
+.page-nacht .faq { border-top-color: var(--line-dark); }
+.page-nacht .faq details { border-bottom-color: var(--line-dark); }
+.page-nacht .faq summary { color: var(--on-dark); font-size: 1.15rem; }
+.page-nacht .faq details p { color: var(--on-dark-muted); }
+
+.page-nacht .nacht-read {
+  margin-top: 8px;
+  font-size: clamp(1.2rem, 1.05rem + .4vw, 1.4rem);
+  line-height: 1.65;
+}
+.page-nacht .nacht-read h3 {
+  margin: 1.35em 0 .45em;
+  font-size: clamp(1.4rem, 1.15rem + .55vw, 1.8rem);
+  color: var(--on-dark);
+}
+.page-nacht .nacht-read p { color: rgba(244,243,239,.9); max-width: 40rem; }
+.page-nacht .nacht-details { margin-top: 8px; border-top: 1px solid var(--line-dark); }
+.page-nacht .nacht-details > summary {
+  cursor: pointer;
+  padding: 16px 0;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--on-dark);
+}
+.page-nacht .nacht-details > summary::-webkit-details-marker { display: none; }
