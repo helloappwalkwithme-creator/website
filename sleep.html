@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>3 Tage besser einschlafen – Shift My Horizon</title>
-    <meta name="description" content="3 Tage, jeden Abend eine kleine Übung zum Runterfahren – kostenlos, direkt in deinen Messenger.">
+    <title>Drei Abende, damit du einschläfst</title>
+    <meta name="description" content="Drei Abende lang bekommst du eine kurze Übung, damit du einschläfst, statt wach zu liegen. Kostenlos, direkt in deinen Messenger.">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root{ --dark:#0b1020; --gray:#141a2e; --gray2:#1c2338; --border:#2a3350; --accent:#8eb6d9; --text:#eef2fb; --dim:#94a0bd; --error:#f77; --success:#5fd08a; }
@@ -48,23 +48,23 @@
     <div class="step active" id="s-intro">
         <div class="kicker">Shift My Horizon · 3-Tage-Programm · kostenlos</div>
         <!-- Original: Endlich einschlafen – in 3 Tagen. -->
-        <h1>Drei Abende zum Runterfahren.</h1>
+        <h1>Drei Abende, damit du einschläfst, statt wach zu liegen.</h1>
         <!-- Original: Jeden Abend ein echter Hebel, der Körper und Kopf in Minuten runterfährt -->
-        <p class="sub">Du liegst wach, das Gedankenkarussell dreht, und morgen bist du wieder gerädert. Jeden Abend eine kleine Übung, direkt per WhatsApp oder Telegram. Kein Kurs, keine Kalendersprüche: etwa eine Minute pro Tag.</p>
+        <p class="sub">Du liegst wach, der Kopf geht den Tag nochmal durch, und morgen bist du gerädert. Jeden Abend eine kurze Übung, direkt per WhatsApp oder Telegram. Das ist kein Kurs. Es dauert etwa eine Minute.</p>
         <!-- Original: Gedanken-Shuffle gegen Grübeln · Summ-Atmung (Vagus-Reset) · Paradoxe Intention · 4-7-8-Atmung · Temperatur-Trick. Praktische Werkzeuge aus der Schlafforschung (Walker, Huberman, CBT-I). -->
-        <div class="card">🌙 <b>Tag 1–3:</b> Gedanken-Shuffle bei Grübeln · Summ-Atmung · dein eigener Fünf-Minuten-Ablauf. Kleine Alltagsübungen zum Runterfahren am Abend.</div>
+        <div class="card"><b>Tag 1 bis 3:</b> Du bekommst drei kurze Übungen für den Abend. Am dritten Tag hast du deinen eigenen Fünf-Minuten-Ablauf. Wie die Übungen gehen, steht in den Nachrichten.</div>
         <div class="safety" role="note">
             <b>Sicherheitshinweis</b>
-            Summ-Atmung und 4-7-8 sind nicht für Menschen mit Epilepsie, Herz-Kreislauf-Erkrankungen, Bluthochdruck, Schwangerschaft, Panikstörung oder anderen Erkrankungen, ohne vorher eine Ärztin oder einen Arzt zu fragen. Nie im Wasser, beim Fahren oder im Stehen. Bei Schwindel, Kribbeln oder Unwohlsein sofort aufhören. Kein Ersatz für medizinische oder psychotherapeutische Behandlung.
+            Diese Übungen sind nicht für Menschen mit Epilepsie, Herz-Kreislauf-Erkrankungen, Bluthochdruck, Schwangerschaft, Panikstörung oder anderen Erkrankungen, ohne vorher eine Ärztin oder einen Arzt zu fragen. Nie im Wasser, beim Fahren oder im Stehen. Bei Schwindel, Kribbeln oder Unwohlsein sofort aufhören. Kein Ersatz für medizinische oder psychotherapeutische Behandlung.
         </div>
-        <button class="btn" onclick="go('s-q1')">Ja, ich will besser schlafen →</button>
-        <p class="sub" style="text-align:center;margin-top:14px;font-size:12.5px;">3 kurze Fragen, damit wir dein Programm auf dich zuschneiden.</p>
+        <button class="btn" onclick="go('s-q1')">Ja, ich will besser schlafen</button>
+        <p class="sub" style="text-align:center;margin-top:14px;font-size:12.5px;">Drei kurze Fragen, damit die Nachrichten zu dir passen.</p>
     </div>
 
     <!-- QUIZ -->
     <div class="step" id="s-q1">
         <div class="qnum">Frage 1 von 3</div>
-        <div class="qtext">Damit wir dir am Ende die passenden Vertiefungen empfehlen können: Bist du …</div>
+        <div class="qtext">Bist du männlich oder weiblich?</div>
         <button class="opt" onclick="ans('gender','m','s-q2')">Männlich</button>
         <button class="opt" onclick="ans('gender','w','s-q2')">Weiblich</button>
     </div>
@@ -83,9 +83,9 @@
 
     <!-- CONTACT + OPT-IN -->
     <div class="step" id="s-contact">
-        <div class="kicker">Fast geschafft</div>
-        <h1>Wohin sollen wir deine 3 Tage schicken?</h1>
-        <p class="sub">Die Auslieferung läuft direkt in deinen Messenger. Kostenlos, jederzeit mit „STOP" beendbar.</p>
+        <div class="kicker">Deine Nachrichten</div>
+        <h1>Wohin soll ich deine 3 Tage schicken?</h1>
+        <p class="sub">Die Nachrichten kommen direkt in deinen Messenger. Es ist kostenlos. Du kannst jederzeit mit „STOP“ aufhören.</p>
         <div class="label">Dein Vorname</div>
         <input class="field" id="f-name" placeholder="Vorname" autocomplete="given-name">
         <div class="label">Deine E-Mail</div>
@@ -104,7 +104,7 @@
         </div>
         <!-- Original-Kauf 8,90 € (Digistore 727722), nur sichtbar wenn PAID_MODE true -->
         <div id="paid-offer" hidden>
-            <div class="card" style="text-align:center;"><span class="price">8,90 €</span><br><small>Einmalig · 14 Tage Geld-zurück-Garantie</small></div>
+            <div class="card" style="text-align:center;"><span class="price">8,90 €</span><br><small>Einmalig</small></div>
             <button class="btn" id="pay-btn" type="button" onclick="checkout()">Jetzt für 8,90 € freischalten →</button>
             <p class="sub" style="text-align:center;margin-top:14px;font-size:12px;">Mit dem Kauf stimmst du der Speicherung deiner Angaben zu (<a href="datenschutz.html" style="color:var(--dim)">Datenschutz</a>).</p>
         </div>
@@ -141,7 +141,7 @@
         document.getElementById('free-offer').hidden = true;
         document.getElementById('paid-offer').hidden = false;
         var introSub = document.querySelector('#s-contact .sub');
-        if (introSub) introSub.textContent = 'Die Auslieferung läuft direkt in deinen Messenger.';
+        if (introSub) introSub.textContent = 'Die Nachrichten kommen direkt in deinen Messenger.';
         document.querySelectorAll('.kicker').forEach(function (el) {
             el.textContent = el.textContent.replace(' · kostenlos', '');
         });
@@ -179,7 +179,7 @@
         var err=document.getElementById('err'); err.style.display='none';
         if(name.length<2){ err.textContent='Bitte gib deinen Vornamen ein.'; err.style.display='block'; return; }
         if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Bitte gib eine gültige E-Mail ein.'; err.style.display='block'; return; }
-        if(!consent){ err.textContent='Bitte stimme der Datenverarbeitung zu, damit wir dir die 3 Tage schicken dürfen.'; err.style.display='block'; return; }
+        if(!consent){ err.textContent='Bitte stimme der Datenverarbeitung zu, damit ich dir die 3 Tage schicken darf.'; err.style.display='block'; return; }
         var btn=document.getElementById('go-btn'); btn.disabled=true; btn.textContent='Einen Moment …';
         try{
             if(!sb) sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
