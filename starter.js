@@ -1,4 +1,4 @@
-/* starter.js - Anmeldung 5-Tage-Starter. Anbindung, Funktionen und Werte
+/* starter.js - Anmeldung 3-Tage-Starter. Anbindung, Funktionen und Werte
    unveraendert aus der Fassung vom 10.10.2026; genutzt von abschalten.html
    und fokus.html (dort als Abschnitt auf der Seite). */
 (function () {
@@ -9,7 +9,7 @@
 
   var waNumber = "491632225456";
   var tgBotName = "shift_my_horizon_bot";
-  var botMessage = "Hallo, ich möchte meinen kostenlosen 5-Tage-Starter starten. Bitte aktiviere meinen Zugang.";
+  var botMessage = "Hallo, ich möchte meinen kostenlosen 3-Tage-Starter starten. Bitte aktiviere meinen Zugang.";
   var accessLabel = "Mein Zugangscode:";
 
   var FLOWS = { sleep: "sleep_flow", stress: "stress_flow", morning: "morning_flow" };
@@ -20,7 +20,7 @@
 
   function fail(msg) {
     err.textContent = msg; err.classList.add('is-visible');
-    btn.disabled = false; btn.textContent = "5-Tage-Starter holen";
+    btn.disabled = false; btn.textContent = "3-Tage-Starter holen";
   }
 
   function radio(name) {
@@ -98,7 +98,7 @@
       var text = encodeURIComponent(botMessage + "\n\n" + accessLabel + " " + code);
       var link = document.getElementById('done-link');
 
-      document.getElementById('done-title').textContent = "Danke, " + vorname + ". Dein 5-Tage-Starter ist bereit.";
+      document.getElementById('done-title').textContent = "Danke, " + vorname + ". Dein 3-Tage-Starter ist bereit.";
       if (kanal === 'email') {
         document.getElementById('done-email').hidden = false;
       } else {

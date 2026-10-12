@@ -182,11 +182,11 @@ gtag('set', 'url_passthrough', true);
         };
         if (urlParams.get('product') === 'protocol' && protoText[lang]) Object.assign(content, protoText[lang]);
 
-        // 5-Tage-Tripwire über ?product=short
+        // 3-Tage-Tripwire über ?product=short
         const shortText = {
-            de: { headline: "Deine 5 Tage sind fast startklar!", step1Title: "Öffne deinen Messenger", step1Text: "Tippe unten auf den Button – wir haben deine Startnachricht schon vorbereitet. Einmal in WhatsApp oder Telegram senden, fertig.", step2Title: "So geht es weiter", step2Text: "Ab morgen bekommst du 5 Tage lang täglich deine Übung direkt in den Chat. Mit STOP pausierst du jederzeit, mit GO geht es weiter." },
-            en: { headline: "Your 5 days are almost ready!", step1Title: "Open your messenger", step1Text: "Tap the button below – we've already prepared your start message. Send it once in WhatsApp or Telegram, done.", step2Title: "How it continues", step2Text: "From tomorrow you'll get your daily exercise right in the chat for 5 days. Type STOP to pause anytime, GO to continue." },
-            es: { headline: "¡Tus 5 días casi están listos!", step1Title: "Abre tu messenger", step1Text: "Toca el botón de abajo – ya preparamos tu mensaje de inicio. Envíalo una vez en WhatsApp o Telegram, listo.", step2Title: "Cómo continúa", step2Text: "A partir de mañana recibirás tu ejercicio diario en el chat durante 5 días. Escribe STOP para pausar y GO para continuar." }
+            de: { headline: "Deine 3 Tage sind fast startklar!", step1Title: "Öffne deinen Messenger", step1Text: "Tippe unten auf den Button – wir haben deine Startnachricht schon vorbereitet. Einmal in WhatsApp oder Telegram senden, fertig.", step2Title: "So geht es weiter", step2Text: "Ab morgen bekommst du 3 Tage lang täglich deine Übung direkt in den Chat. Mit STOP pausierst du jederzeit, mit GO geht es weiter." },
+            en: { headline: "Your 3 days are almost ready!", step1Title: "Open your messenger", step1Text: "Tap the button below – we've already prepared your start message. Send it once in WhatsApp or Telegram, done.", step2Title: "How it continues", step2Text: "From tomorrow you'll get your daily exercise right in the chat for 3 days. Type STOP to pause anytime, GO to continue." },
+            es: { headline: "¡Tus 3 días casi están listos!", step1Title: "Abre tu messenger", step1Text: "Toca el botón de abajo – ya preparamos tu mensaje de inicio. Envíalo una vez en WhatsApp o Telegram, listo.", step2Title: "Cómo continúa", step2Text: "A partir de mañana recibirás tu ejercicio diario en el chat durante 3 días. Escribe STOP para pausar y GO para continuar." }
         };
         if (urlParams.get('product') === 'short' && shortText[lang]) Object.assign(content, shortText[lang]);
 
@@ -232,19 +232,19 @@ gtag('set', 'url_passthrough', true);
             } catch (e) { applyNeedsTest(); }
         })();
 
-        // 5-Tage-Tripwire: Code holen + Bot öffnen + flow-abhängige Startzeit
+        // 3-Tage-Tripwire: Code holen + Bot öffnen + flow-abhängige Startzeit
         (function () {
             if (urlParams.get('product') !== 'short') return;
             var email = urlParams.get('email') || urlParams.get('buyer_email');
             if (!email) return;
             var WA = '491632225456', TG = 'shift_my_horizon_bot';
-            var startMsg = { de: 'Hallo, ich möchte meinen 5-Tage-Flow starten. Mein Zugangscode: ', en: 'Hi, I would like to start my 5-day flow. My access code: ', es: 'Hola, quiero iniciar mi flujo de 5 días. Mi código de acceso: ' };
+            var startMsg = { de: 'Hallo, ich möchte meinen 3-Tage-Flow starten. Mein Zugangscode: ', en: 'Hi, I would like to start my 3-day flow. My access code: ', es: 'Hola, quiero iniciar mi flujo de 3 días. Mi código de acceso: ' };
             var btnLabel = { de: 'Messenger öffnen & Code senden', en: 'Open messenger & send code', es: 'Abrir messenger y enviar código' };
             // Startzeit je Flow (Schlaf abends, Morgen früh, Stress mittags)
             var timing = {
-                sleep_flow:   { de: 'Ab morgen Abend kommt 5 Tage lang täglich deine Einschlaf-Übung direkt in den Chat. Mit STOP pausierst du, mit GO geht es weiter.', en: 'From tomorrow evening you get your sleep exercise in the chat each day for 5 days. STOP to pause, GO to continue.', es: 'A partir de mañana por la noche recibes tu ejercicio para dormir en el chat cada día, 5 días. STOP para pausar, GO para continuar.' },
-                morning_flow: { de: 'Ab morgen früh kommt 5 Tage lang täglich deine Morgen-Übung direkt in den Chat. Mit STOP pausierst du, mit GO geht es weiter.', en: 'From tomorrow morning you get your morning exercise in the chat each day for 5 days. STOP to pause, GO to continue.', es: 'A partir de mañana por la mañana recibes tu ejercicio matutino en el chat cada día, 5 días. STOP para pausar, GO para continuar.' },
-                stress_flow:  { de: 'Ab morgen um die Mittagszeit kommt 5 Tage lang täglich deine Übung direkt in den Chat. Mit STOP pausierst du, mit GO geht es weiter.', en: 'From tomorrow around midday you get your exercise in the chat each day for 5 days. STOP to pause, GO to continue.', es: 'A partir de mañana al mediodía recibes tu ejercicio en el chat cada día, 5 días. STOP para pausar, GO para continuar.' }
+                sleep_flow:   { de: 'Ab morgen Abend kommt 3 Tage lang täglich deine Einschlaf-Übung direkt in den Chat. Mit STOP pausierst du, mit GO geht es weiter.', en: 'From tomorrow evening you get your sleep exercise in the chat each day for 3 days. STOP to pause, GO to continue.', es: 'A partir de mañana por la noche recibes tu ejercicio para dormir en el chat cada día, 3 días. STOP para pausar, GO para continuar.' },
+                morning_flow: { de: 'Ab morgen früh kommt 3 Tage lang täglich deine Morgen-Übung direkt in den Chat. Mit STOP pausierst du, mit GO geht es weiter.', en: 'From tomorrow morning you get your morning exercise in the chat each day for 3 days. STOP to pause, GO to continue.', es: 'A partir de mañana por la mañana recibes tu ejercicio matutino en el chat cada día, 3 días. STOP para pausar, GO para continuar.' },
+                stress_flow:  { de: 'Ab morgen um die Mittagszeit kommt 3 Tage lang täglich deine Übung direkt in den Chat. Mit STOP pausierst du, mit GO geht es weiter.', en: 'From tomorrow around midday you get your exercise in the chat each day for 3 days. STOP to pause, GO to continue.', es: 'A partir de mañana al mediodía recibes tu ejercicio en el chat cada día, 3 días. STOP para pausar, GO para continuar.' }
             };
             try {
                 var sb = window.supabase.createClient('https://jztwnumtwihomgxwlwor.supabase.co', 'sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe');
