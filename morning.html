@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>3 Tage besser in den Morgen – Shift My Horizon</title>
-    <meta name="description" content="3 Tage, jeden Morgen eine kleine Übung für einen ruhigeren Start – kostenlos, direkt in deinen Messenger.">
+    <title>Drei Tage, damit du morgens klar startest</title>
+    <meta name="description" content="Drei Tage lang bekommst du jeden Morgen eine kurze Übung, damit du klar in den Tag startest. Kostenlos, direkt in deinen Messenger.">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root{ --dark:#0b1020; --gray:#141a2e; --gray2:#1c2338; --border:#2a3350; --accent:#8eb6d9; --text:#eef2fb; --dim:#94a0bd; --error:#f77; --success:#5fd08a; }
@@ -48,23 +48,23 @@
     <div class="step active" id="s-intro">
         <div class="kicker">Shift My Horizon · 3-Tage-Programm · kostenlos</div>
         <!-- Original: Wach & energiegeladen aufstehen – in 3 Tagen. -->
-        <h1>Drei Morgen für einen ruhigeren Start.</h1>
+        <h1>Drei Morgen, damit du klar in den Tag startest.</h1>
         <!-- Original: echter physiologischer Hebel … ohne den Crash von zu viel Koffein -->
-        <p class="sub">Kaffee, noch ein Kaffee – und trotzdem gerädert. 3 Tage lang jeden Morgen eine kleine Übung für den Start, direkt per WhatsApp oder Telegram.</p>
+        <p class="sub">Du trinkst Kaffee, noch einen Kaffee, und bist trotzdem gerädert. Drei Tage lang bekommst du jeden Morgen eine kurze Übung, direkt per WhatsApp oder Telegram.</p>
         <!-- Original: Kältereiz (Dopamin-Boost) · Morgenlicht in die Augen · Aktivierungs-Atmung · Temperatur-Kick · Dopamin-Schutzstunde. Physiologische Hebel für saubere Wachheit ohne Crash (Huberman, Lembke, Kox et al.). -->
-        <div class="card">☀️ <b>Tag 1–3:</b> Kältereiz · Morgenlicht · dein eigener Fünf-Minuten-Ablauf. Kleine Morgenübungen, damit der Start ruhiger wird.</div>
+        <div class="card"><b>Tag 1 bis 3:</b> Du bekommst drei kurze Übungen für den Start in den Tag. Am dritten Tag hast du deinen eigenen Fünf-Minuten-Ablauf. Wie die Übungen gehen, steht in den Nachrichten.</div>
         <div class="safety" role="note">
             <b>Sicherheitshinweis</b>
-            Kältereiz und Aktivierungs-Atmung sind nicht für Menschen mit Epilepsie, Herz-Kreislauf-Erkrankungen, Bluthochdruck, Schwangerschaft, Panikstörung oder anderen Erkrankungen, ohne vorher eine Ärztin oder einen Arzt zu fragen. Nie im Wasser, beim Fahren oder im Stehen. Bei Schwindel, Kribbeln oder Unwohlsein sofort aufhören. Kein Ersatz für medizinische oder psychotherapeutische Behandlung.
+            Diese Übungen sind nicht für Menschen mit Epilepsie, Herz-Kreislauf-Erkrankungen, Bluthochdruck, Schwangerschaft, Panikstörung oder anderen Erkrankungen, ohne vorher eine Ärztin oder einen Arzt zu fragen. Nie im Wasser, beim Fahren oder im Stehen. Bei Schwindel, Kribbeln oder Unwohlsein sofort aufhören. Kein Ersatz für medizinische oder psychotherapeutische Behandlung.
         </div>
-        <button class="btn" onclick="go('s-q1')">Ja, ich will wach aufwachen →</button>
-        <p class="sub" style="text-align:center;margin-top:14px;font-size:12.5px;">3 kurze Fragen, damit wir dein Programm auf dich zuschneiden.</p>
+        <button class="btn" onclick="go('s-q1')">Ja, ich will morgens klar starten</button>
+        <p class="sub" style="text-align:center;margin-top:14px;font-size:12.5px;">Drei kurze Fragen, damit die Nachrichten zu dir passen.</p>
     </div>
 
     <!-- QUIZ -->
     <div class="step" id="s-q1">
         <div class="qnum">Frage 1 von 3</div>
-        <div class="qtext">Damit wir dir am Ende die passenden Vertiefungen empfehlen können: Bist du …</div>
+        <div class="qtext">Bist du männlich oder weiblich?</div>
         <button class="opt" onclick="ans('gender','m','s-q2')">Männlich</button>
         <button class="opt" onclick="ans('gender','w','s-q2')">Weiblich</button>
     </div>
@@ -83,9 +83,9 @@
 
     <!-- CONTACT + OPT-IN -->
     <div class="step" id="s-contact">
-        <div class="kicker">Fast geschafft</div>
-        <h1>Wohin sollen wir deine 3 Tage schicken?</h1>
-        <p class="sub">Die Auslieferung läuft direkt in deinen Messenger. Kostenlos, jederzeit mit „STOP" beendbar.</p>
+        <div class="kicker">Deine Nachrichten</div>
+        <h1>Wohin soll ich deine 3 Tage schicken?</h1>
+        <p class="sub">Die Nachrichten kommen direkt in deinen Messenger. Es ist kostenlos. Du kannst jederzeit mit „STOP“ aufhören.</p>
         <div class="label">Dein Vorname</div>
         <input class="field" id="f-name" placeholder="Vorname" autocomplete="given-name">
         <div class="label">Deine E-Mail</div>
@@ -104,7 +104,7 @@
         </div>
         <!-- Original-Kauf 8,90 € (Digistore 727723), nur sichtbar wenn PAID_MODE true -->
         <div id="paid-offer" hidden>
-            <div class="card" style="text-align:center;"><span class="price">8,90 €</span><br><small>Einmalig · 14 Tage Geld-zurück-Garantie</small></div>
+            <div class="card" style="text-align:center;"><span class="price">8,90 €</span><br><small>Einmalig</small></div>
             <button class="btn" id="pay-btn" type="button" onclick="checkout()">Jetzt für 8,90 € freischalten →</button>
             <p class="sub" style="text-align:center;margin-top:14px;font-size:12px;">Mit dem Kauf stimmst du der Speicherung deiner Angaben zu (<a href="datenschutz.html" style="color:var(--dim)">Datenschutz</a>).</p>
         </div>
@@ -141,7 +141,7 @@
         document.getElementById('free-offer').hidden = true;
         document.getElementById('paid-offer').hidden = false;
         var introSub = document.querySelector('#s-contact .sub');
-        if (introSub) introSub.textContent = 'Die Auslieferung läuft direkt in deinen Messenger.';
+        if (introSub) introSub.textContent = 'Die Nachrichten kommen direkt in deinen Messenger.';
         document.querySelectorAll('.kicker').forEach(function (el) {
             el.textContent = el.textContent.replace(' · kostenlos', '');
         });
@@ -179,7 +179,7 @@
         var err=document.getElementById('err'); err.style.display='none';
         if(name.length<2){ err.textContent='Bitte gib deinen Vornamen ein.'; err.style.display='block'; return; }
         if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Bitte gib eine gültige E-Mail ein.'; err.style.display='block'; return; }
-        if(!consent){ err.textContent='Bitte stimme der Datenverarbeitung zu, damit wir dir die 3 Tage schicken dürfen.'; err.style.display='block'; return; }
+        if(!consent){ err.textContent='Bitte stimme der Datenverarbeitung zu, damit ich dir die 3 Tage schicken darf.'; err.style.display='block'; return; }
         var btn=document.getElementById('go-btn'); btn.disabled=true; btn.textContent='Einen Moment …';
         try{
             if(!sb) sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
