@@ -906,8 +906,8 @@ gtag('set', 'url_passthrough', true);
                 contactTitle: "",
                 // contactText: "Erreichbar per Telefon oder WhatsApp:",
                 contactText: "",
-                contactPhoneDisplay: "+49 163 2208540",
-                contactPhoneHref: "tel:+491632208540",
+                contactPhoneDisplay: "+49 163 2209163",
+                contactPhoneHref: "tel:+491632209163",
                 howTitle: "So funktioniert's",
                 steps: [
                     { t: "Kurzer Check (2 Minuten)", d: "Ein paar Fragen zu deiner Situation — damit dein Weg zu dir passt." },
@@ -1032,7 +1032,7 @@ gtag('set', 'url_passthrough', true);
             _ph.onclick = function (e) {
                 if (this.dataset.revealed) return true; // bereits aufgedeckt -> normaler tel:-Link (wählt)
                 e.preventDefault();
-                var _pn = atob('NDkxNjMyMjA4NTQw'); // -> "491632208540"
+                var _pn = atob('NDkxNjMyMjA5MTYz'); // -> "491632209163"
                 this.innerText = '+' + _pn.slice(0, 2) + ' ' + _pn.slice(2, 5) + ' ' + _pn.slice(5);
                 this.href = 'tel:+' + _pn;
                 this.dataset.revealed = '1';

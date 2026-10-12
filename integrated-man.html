@@ -1219,7 +1219,7 @@ gtag('set', 'url_passthrough', true);
             _ph.onclick = function (e) {
                 if (this.dataset.revealed) return true; // bereits aufgedeckt -> normaler tel:-Link (wählt)
                 e.preventDefault();
-                var _pn = atob('NDkxNjMyMjA4NTQw'); // Base64 -> Ziffern der Kontaktnummer
+                var _pn = atob('NDkxNjMyMjA5MTYz'); // Base64 -> Ziffern der Kontaktnummer
                 this.innerText = '+' + _pn.slice(0, 2) + ' ' + _pn.slice(2, 5) + ' ' + _pn.slice(5);
                 this.href = 'tel:+' + _pn;
                 this.dataset.revealed = '1';
