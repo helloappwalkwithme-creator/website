@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>5 Tage besser in den Morgen – Shift My Horizon</title>
-    <meta name="description" content="5 Tage, jeden Morgen eine kleine Übung für einen ruhigeren Start – kostenlos, direkt in deinen Messenger.">
+    <title>3 Tage besser in den Morgen – Shift My Horizon</title>
+    <meta name="description" content="3 Tage, jeden Morgen eine kleine Übung für einen ruhigeren Start – kostenlos, direkt in deinen Messenger.">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root{ --dark:#0b1020; --gray:#141a2e; --gray2:#1c2338; --border:#2a3350; --accent:#8eb6d9; --text:#eef2fb; --dim:#94a0bd; --error:#f77; --success:#5fd08a; }
@@ -46,13 +46,13 @@
 <main>
     <!-- INTRO -->
     <div class="step active" id="s-intro">
-        <div class="kicker">Shift My Horizon · 5-Tage-Programm · kostenlos</div>
-        <!-- Original: Wach & energiegeladen aufstehen – in 5 Tagen. -->
-        <h1>Fünf Morgen für einen ruhigeren Start.</h1>
+        <div class="kicker">Shift My Horizon · 3-Tage-Programm · kostenlos</div>
+        <!-- Original: Wach & energiegeladen aufstehen – in 3 Tagen. -->
+        <h1>Drei Morgen für einen ruhigeren Start.</h1>
         <!-- Original: echter physiologischer Hebel … ohne den Crash von zu viel Koffein -->
-        <p class="sub">Kaffee, noch ein Kaffee – und trotzdem gerädert. 5 Tage lang jeden Morgen eine kleine Übung für den Start, direkt per WhatsApp oder Telegram.</p>
+        <p class="sub">Kaffee, noch ein Kaffee – und trotzdem gerädert. 3 Tage lang jeden Morgen eine kleine Übung für den Start, direkt per WhatsApp oder Telegram.</p>
         <!-- Original: Kältereiz (Dopamin-Boost) · Morgenlicht in die Augen · Aktivierungs-Atmung · Temperatur-Kick · Dopamin-Schutzstunde. Physiologische Hebel für saubere Wachheit ohne Crash (Huberman, Lembke, Kox et al.). -->
-        <div class="card">☀️ <b>Tag 1–5:</b> Kältereiz · Morgenlicht · Aktivierungs-Atmung · Temperatur-Kick · erste Stunde ohne schnelle Reize. Kleine Morgenübungen, damit der Start ruhiger wird.</div>
+        <div class="card">☀️ <b>Tag 1–3:</b> Kältereiz · Morgenlicht · dein eigener Fünf-Minuten-Ablauf. Kleine Morgenübungen, damit der Start ruhiger wird.</div>
         <div class="safety" role="note">
             <b>Sicherheitshinweis</b>
             Kältereiz und Aktivierungs-Atmung sind nicht für Menschen mit Epilepsie, Herz-Kreislauf-Erkrankungen, Bluthochdruck, Schwangerschaft, Panikstörung oder anderen Erkrankungen, ohne vorher eine Ärztin oder einen Arzt zu fragen. Nie im Wasser, beim Fahren oder im Stehen. Bei Schwindel, Kribbeln oder Unwohlsein sofort aufhören. Kein Ersatz für medizinische oder psychotherapeutische Behandlung.
@@ -84,7 +84,7 @@
     <!-- CONTACT + OPT-IN -->
     <div class="step" id="s-contact">
         <div class="kicker">Fast geschafft</div>
-        <h1>Wohin sollen wir deine 5 Tage schicken?</h1>
+        <h1>Wohin sollen wir deine 3 Tage schicken?</h1>
         <p class="sub">Die Auslieferung läuft direkt in deinen Messenger. Kostenlos, jederzeit mit „STOP" beendbar.</p>
         <div class="label">Dein Vorname</div>
         <input class="field" id="f-name" placeholder="Vorname" autocomplete="given-name">
@@ -98,9 +98,9 @@
         <div id="free-offer">
             <div class="consent">
                 <input type="checkbox" id="f-consent">
-                <label for="f-consent">Ich möchte die kostenlosen 5 Tage per Messenger und E-Mail erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen. Abmeldung jederzeit.</label>
+                <label for="f-consent">Ich möchte die kostenlosen 3 Tage per Messenger und E-Mail erhalten und habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen. Abmeldung jederzeit.</label>
             </div>
-            <button class="btn" id="go-btn" onclick="start()">Meine 5 Tage kostenlos starten →</button>
+            <button class="btn" id="go-btn" onclick="start()">Meine 3 Tage kostenlos starten →</button>
         </div>
         <!-- Original-Kauf 8,90 € (Digistore 727723), nur sichtbar wenn PAID_MODE true -->
         <div id="paid-offer" hidden>
@@ -125,7 +125,7 @@
     const SUPABASE_ANON='sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe';
     const waNumber='491632225456';
     const tgBotName='shift_my_horizon_bot';
-    const botMessage='Hallo, ich möchte meine kostenlosen 5 Tage starten. Bitte aktiviere meinen Zugang.';
+    const botMessage='Hallo, ich möchte meine kostenlosen 3 Tage starten. Bitte aktiviere meinen Zugang.';
     let sb=null, chan='whatsapp';
     const answers={};
 
@@ -179,7 +179,7 @@
         var err=document.getElementById('err'); err.style.display='none';
         if(name.length<2){ err.textContent='Bitte gib deinen Vornamen ein.'; err.style.display='block'; return; }
         if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Bitte gib eine gültige E-Mail ein.'; err.style.display='block'; return; }
-        if(!consent){ err.textContent='Bitte stimme der Datenverarbeitung zu, damit wir dir die 5 Tage schicken dürfen.'; err.style.display='block'; return; }
+        if(!consent){ err.textContent='Bitte stimme der Datenverarbeitung zu, damit wir dir die 3 Tage schicken dürfen.'; err.style.display='block'; return; }
         var btn=document.getElementById('go-btn'); btn.disabled=true; btn.textContent='Einen Moment …';
         try{
             if(!sb) sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
@@ -195,7 +195,7 @@
             var msg=encodeURIComponent(botMessage+"\n\nMein Zugangscode: "+code);
             if(chan==='telegram') window.location.href='https://t.me/'+tgBotName+'?text='+msg;
             else window.location.href='https://wa.me/'+waNumber+'?text='+msg;
-        }catch(e){ console.error(e); err.textContent='Etwas ist schiefgelaufen. Bitte versuche es erneut.'; err.style.display='block'; btn.disabled=false; btn.textContent='Meine 5 Tage kostenlos starten →'; }
+        }catch(e){ console.error(e); err.textContent='Etwas ist schiefgelaufen. Bitte versuche es erneut.'; err.style.display='block'; btn.disabled=false; btn.textContent='Meine 3 Tage kostenlos starten →'; }
     }
 </script>
 </body>
