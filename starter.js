@@ -17,10 +17,11 @@
   var params = new URLSearchParams(location.search);
   var btn = document.getElementById('btn-start');
   var err = document.getElementById('form-error');
+  var btnLabel = btn ? btn.textContent : '';
 
   function fail(msg) {
     err.textContent = msg; err.classList.add('is-visible');
-    btn.disabled = false; btn.textContent = "3-Tage-Starter holen";
+    btn.disabled = false; btn.textContent = btnLabel;
   }
 
   function radio(name) {
