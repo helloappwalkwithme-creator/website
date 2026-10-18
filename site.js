@@ -45,11 +45,18 @@
   }
 
   /* K2 VSL-Player: <div class="vsl" data-src="" data-poster="" data-cta-at="155">.
-     Ohne data-src bleibt der Platzhalter stehen. Startet stumm, "Ton an" schaltet frei. */
+     Ohne data-src bleibt der Platzhalter stehen. Startet stumm, "Ton an" schaltet frei.
+     data-src-sm ist die Quelle unter 960px (eine Datei, kein zweites Laden). */
+  function playerSrc(box) {
+    var sm = box.getAttribute("data-src-sm");
+    if (sm && window.matchMedia("(max-width: 959px)").matches) return sm;
+    return box.getAttribute("data-src");
+  }
   function initPlayers() {
     document.querySelectorAll(".vsl").forEach(function (box) {
-      var src = box.getAttribute("data-src");
+      var src = playerSrc(box);
       var ph = box.querySelector(".ph");
+      var still = box.querySelector(".vsl__poster");
       var playBtn = box.querySelector(".vsl__play");
       var soundBtn = box.querySelector(".vsl__sound");
       var cta = box.querySelector(".vsl__cta");
@@ -57,29 +64,49 @@
         [playBtn, soundBtn].forEach(function (el) { if (el) el.hidden = true; });
         return;
       }
-      var video = document.createElement("video");
-      video.src = src; video.muted = true; video.playsInline = true; video.controls = true; video.preload = "metadata";
-      if (box.getAttribute("data-poster")) video.poster = box.getAttribute("data-poster");
-      if (box.getAttribute("data-captions")) {
-        var t = document.createElement("track");
-        t.kind = "captions"; t.srclang = "de"; t.label = "Deutsch"; t.default = true; t.src = box.getAttribute("data-captions");
-        video.appendChild(t);
+      var video = null;
+      function ensure() {
+        if (video) return video;
+        video = document.createElement("video");
+        video.muted = true; video.playsInline = true; video.controls = true; video.preload = "metadata";
+        video.disablePictureInPicture = true;
+        video.setAttribute("muted", "");
+        video.setAttribute("playsinline", "");
+        video.setAttribute("preload", "metadata");
+        if (box.getAttribute("data-poster")) video.poster = box.getAttribute("data-poster");
+        if (box.getAttribute("data-captions")) {
+          var t = document.createElement("track");
+          t.kind = "captions"; t.srclang = "de"; t.label = "Deutsch"; t.default = true; t.src = box.getAttribute("data-captions");
+          video.appendChild(t);
+        }
+        video.src = src;
+        box.insertBefore(video, box.firstChild);
+        var ctaAt = parseFloat(box.getAttribute("data-cta-at"));
+        if (cta && !isNaN(ctaAt)) {
+          video.addEventListener("timeupdate", function () { if (video.currentTime >= ctaAt) cta.hidden = false; });
+        }
+        return video;
       }
-      box.insertBefore(video, box.firstChild);
-      function start() { if (ph) ph.hidden = true; if (playBtn) playBtn.hidden = true; video.play(); }
+      function start() {
+        var v = ensure();
+        if (ph) ph.hidden = true;
+        if (still) still.hidden = true;
+        if (playBtn) playBtn.hidden = true;
+        v.play();
+      }
       if (playBtn) { playBtn.hidden = false; playBtn.addEventListener("click", start); }
       if (soundBtn) {
         soundBtn.hidden = false;
         soundBtn.addEventListener("click", function () {
-          video.muted = !video.muted;
-          soundBtn.textContent = video.muted ? "Ton an" : "Ton aus";
-          if (video.paused) start();
+          var v = ensure();
+          v.muted = !v.muted;
+          soundBtn.textContent = v.muted ? "Ton an" : "Ton aus";
+          if (v.paused) start();
         });
       }
-      var ctaAt = parseFloat(box.getAttribute("data-cta-at"));
-      if (cta && !isNaN(ctaAt)) {
-        video.addEventListener("timeupdate", function () { if (video.currentTime >= ctaAt) cta.hidden = false; });
-      }
+      /* Metadaten erst nach dem Laden, damit Poster und Schriften den ersten Bildschirm behalten. */
+      if (document.readyState === "complete") ensure();
+      else window.addEventListener("load", ensure);
     });
   }
 
