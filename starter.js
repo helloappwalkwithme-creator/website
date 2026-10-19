@@ -48,6 +48,32 @@
     return r;
   }
 
+  var form = document.getElementById('start-form');
+  if (form && form.hasAttribute('data-wizard')) {
+    var steps = Array.prototype.slice.call(form.querySelectorAll('.formstep'));
+    var back = document.getElementById('starter-back');
+    var startAt = Number(form.getAttribute('data-start-step') || '1');
+    var current = startAt;
+    function showStep(n) {
+      current = n;
+      steps.forEach(function (el) {
+        el.classList.toggle('is-active', Number(el.dataset.step) === n);
+      });
+      if (back) back.hidden = n <= startAt;
+    }
+    form.addEventListener('click', function (e) {
+      var card = e.target.closest('.choicecard');
+      if (!card || !card.closest('.formstep')) return;
+      var n = Number(card.closest('.formstep').dataset.step);
+      var input = card.querySelector('input');
+      if (input) input.checked = true;
+      var last = steps.reduce(function (max, el) { return Math.max(max, Number(el.dataset.step)); }, 0);
+      if (n < last) setTimeout(function () { showStep(n + 1); }, 160);
+    });
+    if (back) back.addEventListener('click', function () { if (current > startAt) showStep(current - 1); });
+    showStep(startAt);
+  }
+
   btn.addEventListener('click', async function () {
     var vorname = document.getElementById('vorname').value.trim();
     var email = document.getElementById('email').value.trim().toLowerCase();
@@ -95,6 +121,25 @@
         /* Der Server nutzt diesen Wert fuer den Ablauf. */
         p_flow_name: flow
       });
+
+      if (window.smhNotify) {
+        var startEl = document.querySelector('input[name="start"]:checked');
+        var kanalEl = document.querySelector('input[name="kanal"]:checked');
+        var startText = startEl && startEl.closest('.choicecard') ? startEl.closest('.choicecard').textContent.replace(/\s+/g, ' ').trim() : (document.body.getAttribute('data-page') === 'nacht' ? 'Nachts, wenn ich wach liege' : (startEl ? startEl.value : ''));
+        var kanalText = kanalEl && kanalEl.closest('.choicecard') ? kanalEl.closest('.choicecard').textContent.replace(/\s+/g, ' ').trim() : (kanalEl ? kanalEl.value : '');
+        await window.smhNotify({
+          kind: 'starter',
+          name: vorname,
+          email: email,
+          phone: '',
+          page: document.body.getAttribute('data-page') || 'abschalten',
+          route: '3-Tage-Starter',
+          answers: [
+            { frage: 'Was nervt dich gerade am meisten?', antwort: startText },
+            { frage: 'Wohin sollen die Übungen kommen?', antwort: kanalText }
+          ]
+        });
+      }
 
       var text = encodeURIComponent(botMessage + "\n\n" + accessLabel + " " + code);
       var link = document.getElementById('done-link');
