@@ -1,0 +1,238 @@
+/* Der Kreis. Nutzt die Tokens und Bauteile der übrigen Seiten. */
+
+.kintro {
+  padding-top: 112px;
+  padding-bottom: clamp(28px, 4vw, 48px);
+}
+.kintro .wrap { max-width: 46rem; }
+.kintro__step {
+  margin: 10px 0 0;
+  color: var(--on-dark-muted);
+  font-size: var(--small);
+}
+.kintro h1 {
+  font-size: var(--display);
+  line-height: 1.05;
+  max-width: 16ch;
+  margin-top: 12px;
+}
+.kintro .lead { color: rgba(244,243,239,.82); max-width: 38ch; margin-top: 16px; }
+
+.kflow { max-width: 40rem; margin-inline: auto; scroll-margin-top: 96px; }
+.kflow h1, .kflow h2 { color: var(--ink); max-width: 22ch; }
+.kflow h1 { font-size: clamp(1.85rem, 1.2rem + 2.2vw, 2.7rem); }
+.kpanel > p { color: #3B3730; }
+.kpanel[hidden] { display: none !important; }
+.kactions { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; }
+.kactions .btn { width: 100%; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 0; }
+.chip {
+  min-height: 48px;
+  padding: 12px 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid #D8D2C6;
+  background: #fff;
+  color: var(--ink);
+  font: 600 1rem/1.2 var(--font-body);
+  cursor: pointer;
+  text-align: left;
+}
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] {
+  background: var(--accent-tint);
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+.chip:disabled, .chip[aria-disabled="true"] { opacity: .42; cursor: default; }
+.kcount {
+  margin: 14px 0 0;
+  font-size: var(--small);
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted) !important;
+}
+
+.kreveal {
+  margin-top: 18px;
+  padding: 18px 18px 6px;
+  border-radius: 16px;
+  background: var(--accent-tint);
+}
+.kreveal p { color: var(--ink) !important; }
+.kquote {
+  margin: 16px 0;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--deep-950);
+  color: var(--on-dark) !important;
+  font-family: var(--font-head);
+  font-size: 1.35rem;
+  line-height: 1.35;
+}
+.kline { padding: 14px 0; border-top: 1px solid var(--line); }
+.kline strong { display: block; color: var(--ink); margin-bottom: 4px; }
+.kline p { margin: 0; }
+
+.kminute {
+  margin-top: 8px;
+  padding: 22px 18px 18px;
+  border-radius: 18px;
+  background: var(--deep-950);
+  text-align: center;
+}
+.kminute__phase {
+  min-height: 3.2em;
+  margin: 0;
+  color: var(--on-dark) !important;
+  font-family: var(--font-head);
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem);
+  line-height: 1.3;
+}
+.kminute__time {
+  margin: 8px 0 16px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .14em;
+  color: var(--accent-light) !important;
+  font-size: .95rem;
+}
+.kminute .hint { color: rgba(244,243,239,.72) !important; }
+
+.kquiet { margin-top: 8px; border-top: 1px solid var(--line); }
+.kquiet summary {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink);
+}
+.kbanner {
+  margin: 0 0 28px;
+  padding: 18px;
+  border-radius: 18px;
+  background: var(--accent-tint);
+  color: var(--ink);
+}
+.kbanner p { margin: 0 0 14px; color: var(--ink) !important; }
+.knote {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink) !important;
+  font-size: var(--small);
+}
+
+.kring {
+  position: relative;
+  width: min(100%, 520px);
+  aspect-ratio: 1;
+  margin: 12px auto 4px;
+}
+.kring__ring {
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  border: 1px solid rgba(92,194,172,.5);
+  box-shadow: inset 0 0 0 10px rgba(92,194,172,.06);
+}
+.kring__hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 42%;
+  height: 42%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 12px;
+}
+.kring__hub p {
+  margin: 0;
+  color: var(--on-dark) !important;
+  font-family: var(--font-head);
+  font-size: clamp(1.35rem, 1rem + 1.4vw, 2rem);
+  line-height: 1.15;
+}
+.kring__node {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  left: calc(50% + cos(calc(-90deg + var(--i) * 51.428571deg)) * 36%);
+  top: calc(50% + sin(calc(-90deg + var(--i) * 51.428571deg)) * 36%);
+}
+.kring__node a {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--deep-800);
+  color: var(--on-dark);
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,.16);
+  font-family: var(--font-head);
+  font-size: 1.35rem;
+}
+.kring__node a:hover { border-color: var(--accent-light); color: var(--accent-light); }
+.kring__node.is-done a { background: var(--accent-light); color: var(--deep-950); border-color: var(--accent-light); }
+.kring__node.is-now a { box-shadow: 0 0 0 3px var(--accent-light); }
+.kring__name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.ksteps { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 12px; }
+.ksteps a {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 14px;
+  align-items: center;
+  min-height: 76px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--ink);
+}
+.ksteps a:hover { border-color: var(--accent); }
+.ksteps a.is-done { background: var(--accent-tint); border-color: var(--accent); }
+.ksteps a.is-now { box-shadow: inset 0 0 0 2px var(--accent); }
+.ksteps b {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--deep-950);
+  color: var(--accent-light);
+  font-family: var(--font-head);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+.ksteps strong { display: block; font-size: 1.125rem; }
+.ksteps span { display: block; color: #3B3730; font-size: 1rem; font-weight: 400; }
+
+.kprogram {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.kprogram p { max-width: 62ch; }
+
+@media (min-width: 900px) {
+  .kring__node { width: 76px; height: 76px; margin: -38px 0 0 -38px; }
+  .kring__node a { width: 76px; height: 76px; font-size: 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kpanel.is-on { animation: none; }
+}
