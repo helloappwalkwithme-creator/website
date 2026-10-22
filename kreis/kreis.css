@@ -1,0 +1,149 @@
+/* ==========================================================================
+   kreis.css - Lernreise "Der Kreis", /kreis und /kreis/<stufe>
+   Baut auf tokens.css und components.css auf. Nur neue Bausteine stehen hier,
+   nichts Bestehendes wird ueberschrieben. Zuerst fuers Handy.
+   ========================================================================== */
+
+/* --- Kopf einer Stufe ---------------------------------------------------- */
+
+.kcrumb { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: var(--small); color: var(--muted); margin: 0 0 14px; }
+.kcrumb a { color: var(--accent); text-underline-offset: 3px; }
+.kcrumb__num { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; height: 26px; padding: 0 7px; border-radius: var(--r-pill); background: var(--accent-tint); color: var(--accent-dark); font-weight: 700; font-size: .8125rem; }
+
+.kprogress { display: flex; gap: 6px; margin: 0 0 clamp(20px, 3vw, 28px); padding: 0; list-style: none; }
+.kprogress li { flex: 1; height: 4px; border-radius: 2px; background: var(--line); }
+.kprogress li.is-on { background: var(--accent); }
+
+/* --- Schritte innerhalb einer Stufe -------------------------------------- */
+
+.kstep { margin: 0; }
+.js .kstep[data-kstep] { display: none; }
+.js .kstep.is-active { display: block; animation: kfade .32s var(--ease) both; }
+@keyframes kfade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .js .kstep.is-active { animation: none; } }
+
+.kstep h1, .kstep h2 { font-family: var(--font-head); line-height: 1.14; letter-spacing: -.015em; margin: 0 0 14px; }
+.kstep h1 { font-size: clamp(1.75rem, 1.1rem + 2.1vw, 2.75rem); max-width: 17em; }
+.kstep h2 { font-size: clamp(1.5rem, 1.05rem + 1.5vw, 2.25rem); max-width: 18em; }
+.kstep h3 { font-family: var(--font-head); font-size: 1.25rem; line-height: 1.25; margin: 0 0 8px; }
+.kstep > p { max-width: var(--measure); }
+
+/* --- Antipp-Raster ------------------------------------------------------- */
+
+.kgrid { display: flex; flex-wrap: wrap; gap: 8px; margin: clamp(20px, 3vw, 28px) 0 0; padding: 0; border: 0; }
+.kgrid legend { padding: 0; margin: 0 0 12px; font-weight: 600; color: var(--muted); font-size: var(--small); }
+.kchip { position: relative; display: inline-flex; align-items: center; min-height: 48px; padding: 11px 16px; border: 1px solid var(--line); border-radius: var(--r-pill); background: var(--surface); color: var(--ink); font: inherit; font-size: 1rem; line-height: 1.25; cursor: pointer; transition: background .16s var(--ease), border-color .16s var(--ease), color .16s var(--ease); }
+.kchip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.kchip:hover { border-color: var(--accent); }
+.kchip:has(input:checked) { background: var(--accent); border-color: var(--accent); color: #fff; }
+.kchip input:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; border-radius: var(--r-pill); }
+
+/* breite Karten fuer Saetze und Szenen statt kurzer Woerter */
+.kgrid--wide { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.kgrid--wide .kchip { border-radius: var(--r-card); padding: 15px 18px; text-align: left; }
+@media (min-width: 720px) { .kgrid--wide { grid-template-columns: 1fr 1fr; } }
+
+.kgrid__note { margin: 14px 0 0; font-size: var(--small); color: var(--muted); }
+
+/* --- Aufloesung ---------------------------------------------------------- */
+
+.kcount { margin: 0 0 clamp(20px, 3vw, 28px); padding: 20px 22px; border-radius: var(--r-card); background: var(--accent-tint); border: 1px solid rgba(19,121,106,.18); }
+.kcount b { display: block; white-space: nowrap; font-family: var(--font-head); font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem); line-height: 1.05; color: var(--accent-dark); }
+.kcount > span { display: block; margin-top: 6px; color: var(--ink); }
+.kcount em { font-style: normal; font-weight: 600; }
+
+.kreveal { margin: clamp(22px, 3vw, 30px) 0 0; padding-top: clamp(22px, 3vw, 30px); border-top: 1px solid var(--line); }
+.kreveal:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.kreveal p { max-width: var(--measure); }
+
+.kwords { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 0; padding: 0; list-style: none; }
+.kwords li { padding: 8px 14px; border-radius: var(--r-pill); border: 1px dashed var(--line); color: var(--muted); font-size: .9375rem; }
+.kwords--mine li { border-style: solid; border-color: var(--accent); background: var(--accent-tint); color: var(--accent-dark); font-weight: 600; }
+
+.kpairs { margin: 18px 0 0; padding: 0; list-style: none; }
+.kpairs li { padding: 14px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr; gap: 4px; }
+.kpairs li:first-child { border-top: 0; padding-top: 0; }
+.kpairs b { font-family: var(--font-head); font-size: 1.125rem; color: var(--ink); }
+.kpairs span { color: var(--muted); }
+@media (min-width: 720px) { .kpairs li { grid-template-columns: 11em 1fr; gap: 18px; align-items: baseline; } }
+
+.ksource { margin: 18px 0 0; padding: 16px 18px; border-left: 3px solid var(--accent); background: rgba(19,121,106,.05); border-radius: 0 var(--r-card) var(--r-card) 0; font-size: var(--small); color: var(--muted); max-width: var(--measure); }
+.ksource b { color: var(--ink); }
+.ksource a { color: var(--accent); }
+.ksource p { margin: 0; font-size: inherit; }
+.ksource p + p { margin-top: 8px; }
+
+/* --- Aufgabe ------------------------------------------------------------- */
+
+.ktask { margin: clamp(24px, 3vw, 32px) 0 0; padding: clamp(22px, 3vw, 30px); border-radius: var(--r-card); background: var(--deep-900); color: var(--on-dark); }
+.ktask .eyebrow { color: var(--accent-light); }
+.ktask h2, .ktask h3 { color: var(--on-dark); font-family: var(--font-head); margin: 6px 0 12px; }
+.ktask p { color: rgba(244,243,239,.86); max-width: 48ch; }
+.ktask p:last-child { margin-bottom: 0; }
+.ktask .ksaid { font-family: var(--font-head); font-size: clamp(1.25rem, 1.05rem + .8vw, 1.625rem); line-height: 1.3; color: var(--on-dark); border-left: 3px solid var(--brass); padding-left: 18px; margin: 18px 0; }
+
+/* --- Weiter-Knopf und naechste Stufe ------------------------------------- */
+
+.krow { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: clamp(24px, 3vw, 32px) 0 0; }
+.krow .btn { flex: 1 1 auto; }
+@media (min-width: 560px) { .krow .btn { flex: 0 0 auto; } }
+
+.knext { margin: clamp(32px, 4vw, 48px) 0 0; padding: clamp(22px, 3vw, 28px); border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); }
+.knext .eyebrow { color: var(--brass-ink); }
+.knext h2 { font-family: var(--font-head); font-size: clamp(1.375rem, 1.1rem + 1vw, 1.875rem); margin: 6px 0 10px; max-width: 20em; }
+.knext p { color: var(--muted); max-width: 46ch; }
+.knext__links { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; margin-top: 18px; }
+
+/* --- Stand speichern ----------------------------------------------------- */
+
+.ksave { margin: clamp(32px, 4vw, 48px) 0 0; }
+.ksave .card-light { border-radius: var(--r-card); }
+.ksave__head { margin: 0 0 18px; }
+.ksave__head h2 { font-family: var(--font-head); font-size: clamp(1.375rem, 1.1rem + 1vw, 1.75rem); margin: 6px 0 10px; max-width: 20em; }
+.ksave__head p { color: var(--muted); margin: 0; }
+.ksave .kgrid { margin-top: 0; }
+.kdone { padding: 20px 22px; border-radius: var(--r-card); background: var(--accent-tint); border: 1px solid rgba(19,121,106,.18); }
+.kdone p { margin: 0; color: var(--ink); }
+.kdone p + p { margin-top: 10px; }
+
+/* --- Das Rad auf /kreis -------------------------------------------------- */
+
+.wheel { position: relative; width: min(100%, 400px); margin: clamp(24px, 4vw, 40px) auto 0; aspect-ratio: 1; }
+.wheel__ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wheel__node { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; }
+.wheel__dot { display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); color: var(--muted); font-family: var(--font-head); font-size: 1.125rem; font-weight: 600; box-shadow: var(--sh-sm); transition: transform .18s var(--ease), background .18s var(--ease), color .18s var(--ease), border-color .18s var(--ease); }
+.wheel__node:hover .wheel__dot, .wheel__node:focus-visible .wheel__dot { transform: scale(1.09); border-color: var(--accent); color: var(--accent-dark); }
+.wheel__node.is-done .wheel__dot { background: var(--accent); border-color: var(--accent); color: #fff; }
+.wheel__node.is-next .wheel__dot { border-color: var(--accent); color: var(--accent-dark); box-shadow: 0 0 0 4px rgba(19,121,106,.14), var(--sh-sm); }
+.wheel__name { display: none; font-size: .78rem; line-height: 1.2; color: var(--muted); text-align: center; max-width: 9ch; }
+@media (min-width: 620px) { .wheel { width: min(100%, 520px); } .wheel__name { display: block; } }
+
+.wheel__hub { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 56%; text-align: center; }
+.wheel__hub .eyebrow { color: var(--brass-ink); }
+.wheel__hub b { display: block; font-family: var(--font-head); font-size: clamp(1.0625rem, .92rem + .6vw, 1.4375rem); line-height: 1.15; color: var(--ink); margin: 4px 0 10px; }
+.wheel__hub .btn { width: 100%; padding-inline: 12px; font-size: .875rem; }
+
+/* --- Die Liste der sieben Stufen ----------------------------------------- */
+
+.klist { list-style: none; margin: clamp(32px, 4vw, 48px) 0 0; padding: 0; }
+.klist li { border-top: 1px solid var(--line); }
+.klist li:last-child { border-bottom: 1px solid var(--line); }
+.klist a { display: grid; grid-template-columns: 40px 1fr auto; align-items: center; gap: 14px; padding: 18px 4px; text-decoration: none; color: var(--ink); transition: background .16s var(--ease); }
+.klist a:hover { background: rgba(19,121,106,.05); }
+.klist__num { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); font-family: var(--font-head); font-weight: 600; color: var(--muted); font-size: 1rem; }
+.klist li.is-done .klist__num { background: var(--accent); border-color: var(--accent); color: #fff; }
+.klist__txt b { display: block; font-family: var(--font-head); font-size: 1.1875rem; line-height: 1.25; }
+.klist__txt span { display: block; margin-top: 2px; color: var(--muted); font-size: var(--small); }
+.klist__go { color: var(--accent); display: flex; }
+.klist__go svg { width: 22px; height: 22px; }
+
+.kback { display: inline-flex; align-items: center; gap: 8px; margin-top: clamp(28px, 4vw, 40px); color: var(--muted); font-size: var(--small); }
+
+/* --- Lesebreite der Stufenseiten ----------------------------------------- */
+
+.kwrap { max-width: 860px; }
+
+/* Der Kopfbalken liegt fest oben. Auf den Stufenseiten faengt der Inhalt
+   direkt an, deshalb braucht der erste Abschnitt dort mehr Luft nach oben. */
+
+body[data-kreis] main > .sec:first-child { padding-top: clamp(112px, 15vw, 140px); }
