@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Welcher Satz läuft bei dir mit? Schritt 5 im Kreis</title>
-<meta name="description" content="Tipp den Satz an, der dir bekannt vorkommt. Danach siehst du, warum er dich weit gebracht hat und warum er keinen Aus-Schalter hat. Kostenlos.">
+<title>Welcher Satz läuft bei dir mit? Ebene 5 im Kreis</title>
+<meta name="description" content="Drei Sätze. Schau, ob du einen kennst. Danach siehst du, warum er dich weit gebracht hat und warum er keinen Aus-Schalter hat. Kostenlos.">
 <meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="https://www.shiftmyhorizon.com/kreis/satz">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Welcher Satz läuft bei dir mit? Schritt 5 im Kreis">
-<meta property="og:description" content="Tipp den Satz an, der dir bekannt vorkommt. Danach siehst du, warum er dich weit gebracht hat und warum er keinen Aus-Schalter hat. Kostenlos.">
+<meta property="og:title" content="Welcher Satz läuft bei dir mit? Ebene 5 im Kreis">
+<meta property="og:description" content="Drei Sätze. Schau, ob du einen kennst. Danach siehst du, warum er dich weit gebracht hat und warum er keinen Aus-Schalter hat. Kostenlos.">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -31,32 +31,33 @@
 <section class="sec sec--paper sec--tight">
   <div class="wrap kwrap" id="oben" data-ktop>
 
-    <p class="kcrumb"><a href="/kreis">Der Kreis</a> <span class="kcrumb__num">5 von 7</span> <span>Der Satz hinter dem Antrieb</span></p>
-    <ul class="kprogress" aria-label="Fortschritt in diesem Schritt"><li class="is-on"></li><li></li><li></li></ul>
+    <p class="kcrumb"><a href="/kreis">Der Kreis</a> <span class="kcrumb__num">Ebene 5</span> <span>Der Satz, der dich nicht aufhören lässt</span></p>
+    <ul class="kleiter" data-kleiter aria-label="Die sieben Ebenen"></ul>
+    <p class="kleiter-text" data-kleiter-text></p>
+    <p class="kfaden" data-kfaden hidden></p>
+    <ul class="kprogress" aria-label="Fortschritt in diesem Schritt"><li class="is-on"></li><li></li><li></li><li></li></ul>
 
-    <!-- ------------------------------------------------- 1. Die Frage -->
+    <!-- ------------------------------------------------- 1. Die Frage ----- -->
     <section class="kstep is-active" data-kstep="1" aria-label="Die Frage">
       <h1>Welcher Satz läuft bei dir mit?</h1>
-      <p>Tipp den an, der dir am bekanntesten vorkommt. Einer reicht. Wenn keiner genau passt, nimm den, der am nächsten dran ist.</p>
+      <p>Drei Sätze. Tipp den an, der dir am bekanntesten vorkommt. Wenn keiner passt, nimm den letzten.</p>
 
       <fieldset class="kgrid kgrid--wide" data-kpick="satz">
         <legend>Angetippt: <span data-kpicked>0</span></legend>
         <label class="kchip"><input type="checkbox" value="Ich darf nicht nachlassen.">Ich darf nicht nachlassen.</label>
         <label class="kchip"><input type="checkbox" value="Wenn ich es nicht mache, macht es keiner.">Wenn ich es nicht mache, macht es keiner.</label>
         <label class="kchip"><input type="checkbox" value="Erst wenn das durch ist, wird es ruhig.">Erst wenn das durch ist, wird es ruhig.</label>
-        <label class="kchip"><input type="checkbox" value="Ich muss das allein hinkriegen.">Ich muss das allein hinkriegen.</label>
-        <label class="kchip"><input type="checkbox" value="Fehler kann ich mir nicht leisten.">Fehler kann ich mir nicht leisten.</label>
-        <label class="kchip"><input type="checkbox" value="Ich bin so weit gekommen, weil ich nie aufgehört habe.">Ich bin so weit gekommen, weil ich nie aufgehört habe.</label>
+        <label class="kchip"><input type="checkbox" value="Keiner davon passt genau.">Keiner davon passt genau.</label>
       </fieldset>
       <p class="err" data-khint hidden></p>
-      <p class="kgrid__note">Das Erste, was du antippst, nehme ich für die Aufgabe am Ende.</p>
+      <p class="kgrid__note">Einer reicht.</p>
 
       <div class="krow">
-        <button class="btn btn--primary" type="button" data-knext-step data-kmin="1">Weiter <svg aria-hidden="true"><use href="#i-go"></use></svg></button>
+        <button class="btn btn--primary" type="button" data-knext-step data-kmin="1">Zeig mir, was davon zählt <svg aria-hidden="true"><use href="#i-go"></use></svg></button>
       </div>
     </section>
 
-    <!-- --------------------------------------------- 2. Die Auflösung -->
+    <!-- --------------------------------------------- 2. Die Auflösung ----- -->
     <section class="kstep" data-kstep="2" aria-label="Die Auflösung">
       <h2>Der Satz ist nicht falsch. Er hat nur keinen Aus-Schalter.</h2>
       <p>Du hast „<em data-kfill="meinSatz"></em>“ angetippt.</p>
@@ -67,99 +68,138 @@
       </div>
 
       <div class="kreveal">
-        <h3>Das Problem ist nicht der Satz. Es ist, dass er immer an ist.</h3>
-        <p>Am Dienstag um elf ist er genau richtig. Am Samstag um vier läuft er trotzdem weiter, obwohl nichts zu liefern ist. Dann sitzt du im Garten und suchst dir etwas, das du erledigen kannst. Nicht weil es ansteht, sondern weil der Satz etwas zu tun braucht.</p>
+        <h3>Das Problem ist, dass er immer an ist.</h3>
+        <p>Am Dienstag um elf ist er genau richtig. Am Samstag um vier läuft er weiter, obwohl nichts zu liefern ist. Dann sitzt du im Garten und suchst dir etwas, das du erledigen kannst. Nicht weil es ansteht, sondern weil der Satz etwas zu tun braucht.</p>
       </div>
 
       <div class="kreveal">
-        <h3>Warum du hier heute keine Übung bekommst.</h3>
-        <p>An dieser Stelle arbeitet man am längsten. Der Satz ist alt, meistens älter als dein Job. Eine Zwei-Minuten-Übung wäre hier gelogen, und ich sage dir lieber, dass es eine gibt und sie heute nicht dran ist.</p>
-        <p>Was dir der Satz trotzdem schon heute bringt: Wenn du ihn kennst, erkennst du ihn im Moment wieder. Und ein Satz, den du erkennst, ist ein Satz. Er ist nicht mehr die Lage.</p>
+        <h3>Das hier ist die Ebene, an der man am längsten arbeitet.</h3>
+        <p>Der Satz ist alt, meistens älter als dein Job. Hier geht es heute nur darum, ihn einmal anzuschauen. Was dir das schon bringt: Wenn du ihn kennst, erkennst du ihn im Moment wieder. Und ein Satz, den du erkennst, ist ein Satz. Er ist nicht mehr die Lage.</p>
       </div>
 
       <div class="krow">
-        <button class="btn btn--primary" type="button" data-knext-step>Was mach ich heute damit <svg aria-hidden="true"><use href="#i-go"></use></svg></button>
+        <button class="btn btn--primary" type="button" data-knext-step>Jetzt du <svg aria-hidden="true"><use href="#i-go"></use></svg></button>
         <button class="btn btn--ghost" type="button" data-kprev-step>Zurück</button>
       </div>
     </section>
 
-    <!-- ------------------------------------------------ 3. Die Aufgabe -->
-    <section class="kstep" data-kstep="3" aria-label="Deine Aufgabe für heute">
-      <div class="ktask">
-        <span class="eyebrow">Für heute</span>
-        <h2>Trag ihn einen Tag mit dir rum.</h2>
-        <p>Schreib deinen Satz auf einen Zettel und steck ihn in die Hosentasche.</p>
-        <p class="ksaid" data-kfill="meinSatz"></p>
-        <p>Wenn es heute eng wird, fass einmal in die Tasche. Mehr nicht. Du musst nichts ändern, nichts beantworten und mit niemandem reden.</p>
-        <p>Abends eine Frage: Wie oft war es heute der Satz, und wie oft war es wirklich die Lage? Zähl die beiden getrennt.</p>
+    <!-- ------------------------------------------------ 3. Die Übung ------ -->
+    <section class="kstep" data-kstep="3" aria-label="Die Übung">
+      <span class="eyebrow">Eine halbe Minute</span>
+      <h2>Schreib ihn so auf, wie er bei dir klingt.</h2>
+      <div class="kue">
+        <p class="kue__text">Nimm deine eigenen Worte. Wie der Satz in deinem Kopf wirklich klingt, nicht wie er gut aussieht.</p>
+        <div class="kfelder">
+          <div>
+            <label for="f-satz">Dein Satz</label>
+            <input class="input" type="text" id="f-satz" data-kfeld="satz" data-kpflicht placeholder="Wenn ich es nicht mache, macht es keiner.">
+          </div>
+        </div>
       </div>
 
-      <!-- ------------------------------------------- Stand speichern -->
-      <section class="ksave" aria-label="Stand speichern">
-        <div class="card-light">
-          <div id="k-form-live">
-            <div class="ksave__head">
-              <span class="eyebrow">Wenn du willst</span>
-              <h2>Soll ich dir den nächsten Schritt schicken?</h2>
-              <p>Dann merke ich mir, wo du stehst, und du bekommst den nächsten Schritt dorthin, wo du ihn liest. Kostenlos, und du kannst jederzeit mit „STOP“ aufhören.</p>
-            </div>
-            <div class="field">
-              <label for="k-vorname">Vorname</label>
-              <input class="input" type="text" id="k-vorname" autocomplete="given-name" required>
-            </div>
-            <div class="field">
-              <label for="k-email">E-Mail</label>
-              <input class="input" type="email" id="k-email" autocomplete="email" required>
-              <p class="hint">Über die E-Mail ordne ich deinen Stand zu. Die Nachricht kommt auf dem Weg, den du unten wählst.</p>
-            </div>
-            <fieldset class="field choicecards">
-              <legend class="field__label">Wohin soll der nächste Schritt?</legend>
-              <label class="choicecard"><input type="radio" name="kkanal" value="whatsapp"><span class="choicecard__mark"></span><span class="choicecard__text">WhatsApp</span></label>
-              <label class="choicecard"><input type="radio" name="kkanal" value="telegram"><span class="choicecard__mark"></span><span class="choicecard__text">Telegram</span></label>
-              <label class="choicecard"><input type="radio" name="kkanal" value="email" checked><span class="choicecard__mark"></span><span class="choicecard__text">E-Mail</span></label>
-            </fieldset>
-            <div class="consent">
-              <input type="checkbox" id="k-c-start">
-              <label for="k-c-start">Ich möchte den nächsten Schritt aus dem Kreis bekommen und habe die <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen. Abmeldung jederzeit.</label>
-            </div>
-            <div class="consent">
-              <input type="checkbox" id="k-c-eigen">
-              <label for="k-c-eigen">Ich handle eigenverantwortlich. Die Übungen sind Anregungen, keine Behandlung. Wenn es mir körperlich oder psychisch nicht gut geht, kläre ich das vorher ärztlich ab.</label>
-            </div>
-            <button class="btn btn--primary btn--block" type="button" id="k-btn" style="margin-top:8px">Stand speichern und weiter</button>
-            <p class="err" id="k-error" role="alert"></p>
-            <p class="hint">Kostenlos. Deine Daten nutze ich nur, um dir die Schritte zu schicken, und gebe sie nicht weiter. WhatsApp und Telegram sind Dienste mit Sitz außerhalb der EU; Details stehen in der <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
-          </div>
+      <div class="kue" data-kuebung="timer" data-sekunden="30">
+        <p class="kue__text">Jetzt liest du ihn einmal langsam durch und lässt ihn eine halbe Minute stehen. Du musst nichts damit machen. Nur einmal hinschauen.</p>
+        <div class="kue__uhr"><b data-kue-zeit>30</b><span>Sekunden</span></div>
+        <button class="btn btn--primary btn--block" type="button" data-kue-start>Die halbe Minute starten</button>
+        <p class="kue__fertig" data-kue-fertig hidden>Fertig. Mehr ist es heute nicht.</p>
+      </div>
 
-          <div id="k-form-done" hidden>
-            <span class="eyebrow">Geschafft</span>
-            <h3 id="k-done-title">Danke. Dein Stand ist gespeichert.</h3>
-            <div id="k-done-messenger" hidden>
-              <p><strong>Dein nächster Schritt:</strong> Tipp auf den Button und schick die vorbereitete Nachricht ab. Dann weiß ich, wohin.</p>
-              <a class="btn btn--primary btn--block" id="k-done-link" href="#">Weiter</a>
-            </div>
-            <div id="k-done-email" hidden>
-              <p><strong>Dein nächster Schritt:</strong> Schau in dein Postfach und bestätige deine Adresse. Wenn nichts da ist, schau im Spam-Ordner nach.</p>
-            </div>
-            <p>Du kannst hier trotzdem gleich weitermachen.</p>
-          </div>
+      <div class="krow">
+        <button class="btn btn--primary" type="button" data-knext-step>Fertig <svg aria-hidden="true"><use href="#i-go"></use></svg></button>
+        <button class="btn btn--ghost" type="button" data-kprev-step>Zurück</button>
+      </div>
+      <p class="hint" data-kue-hinweis hidden>Schreib deinen Satz und lass die halbe Minute durchlaufen, dann geht es weiter.</p>
+    </section>
 
-          <div class="kdone" data-kschon hidden>
-            <p><strong>Dein Stand ist gespeichert.</strong> Du hast dich vorhin schon eingetragen, also frage ich nicht noch einmal.</p>
-            <p>Mach einfach weiter.</p>
+    <!-- ---------------------------------------------- 4. Zum Mitnehmen ---- -->
+    <section class="kstep" data-kstep="4" aria-label="Zum Mitnehmen">
+      <div class="kmit">
+        <span class="eyebrow">Zum Mitnehmen</span>
+        <h2>Das ist dein Satz.</h2>
+        <span class="kmit__satz" data-kmit="{satz}"></span>
+        <p>Schreib ihn auf einen Zettel und steck ihn in die Hosentasche. Wenn es heute eng wird, fass einmal in die Tasche. Mehr nicht. Du musst nichts ändern und nichts beantworten.</p>
+        <p>Abends eine Frage: Wie oft war es heute der Satz, und wie oft war es wirklich die Lage? Zähl die beiden getrennt.</p>
+        <p class="kmit__dauerhaft">Diese eine Ebene hilft dir ab heute. Ganz weg geht es, wenn die Ebenen darunter auch dran waren. Deshalb geht der Kreis weiter.</p>
+      </div>
+
+      <!-- ----------------------- Eigene Seite, nur bei passendem Problem ---- -->
+      <section class="kseite" data-kseite hidden aria-label="Eine eigene Seite dafür">
+        <span class="eyebrow">Passt zu dem, was du angetippt hast</span>
+        <h2>Dafür gibt es eine eigene Seite.</h2>
+        <p data-kseite-text></p>
+        <a class="btn btn--primary" href="/kreis" data-kseite-knopf>Ansehen</a>
+      </section>
+
+      <!-- ------- Hinweis auf Stufe 1, erst ab der Ebene Innere Ruhe sichtbar -->
+      <p class="kprogramm" data-kprogramm hidden>Wenn du das nicht allein machen willst: Stufe 1 heißt <b>„Fahr dich runter“</b> und geht zwölf Wochen. Da geht es genau um das hier, nur mit festen Terminen und einer Gruppe. Das steht hier nur, damit du weißt, dass es das gibt.</p>
+
+      <!-- ------------------------------------------- Soll ich dir schreiben -->
+      <section class="kfrage" aria-label="Den nächsten Schritt bekommen">
+        <div id="k-form-live">
+          <h2>Soll ich dir den nächsten Schritt schicken?</h2>
+          <p>Per E-Mail oder WhatsApp. Kostenlos, und du kannst jederzeit mit „STOP“ aufhören.</p>
+          <div class="field">
+            <label for="k-vorname">Vorname</label>
+            <input class="input" type="text" id="k-vorname" autocomplete="given-name">
           </div>
+          <div class="field">
+            <label for="k-email">E-Mail</label>
+            <input class="input" type="email" id="k-email" autocomplete="email">
+            <p class="hint">Über die E-Mail ordne ich deinen Stand zu. Die Nachricht kommt auf dem Weg, den du unten wählst.</p>
+          </div>
+          <fieldset class="field choicecards">
+            <legend class="field__label">Wohin?</legend>
+            <label class="choicecard"><input type="radio" name="kkanal" value="whatsapp"><span class="choicecard__mark"></span><span class="choicecard__text">WhatsApp</span></label>
+            <label class="choicecard"><input type="radio" name="kkanal" value="telegram"><span class="choicecard__mark"></span><span class="choicecard__text">Telegram</span></label>
+            <label class="choicecard"><input type="radio" name="kkanal" value="email" checked><span class="choicecard__mark"></span><span class="choicecard__text">E-Mail</span></label>
+          </fieldset>
+          <div class="consent">
+            <input type="checkbox" id="k-c-start">
+            <label for="k-c-start">Ich möchte den nächsten Schritt aus dem Kreis bekommen und habe die <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen. Abmeldung jederzeit.</label>
+          </div>
+          <div class="consent">
+            <input type="checkbox" id="k-c-eigen">
+            <label for="k-c-eigen">Ich handle eigenverantwortlich. Die Übungen sind Anregungen, keine Behandlung. Wenn es mir körperlich oder psychisch nicht gut geht, kläre ich das vorher ärztlich ab.</label>
+          </div>
+          <button class="btn btn--primary btn--block" type="button" id="k-btn" style="margin-top:8px">Schick mir den nächsten Schritt</button>
+          <p class="err" id="k-error" role="alert"></p>
+          <p class="hint">Deine Daten nutze ich nur, um dir die Schritte zu schicken, und gebe sie nicht weiter. WhatsApp und Telegram sind Dienste mit Sitz außerhalb der EU; Details stehen in der <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
+        </div>
+
+        <div id="k-form-done" hidden>
+          <span class="eyebrow">Geschafft</span>
+          <h3 id="k-done-title">Danke. Dein Stand ist gespeichert.</h3>
+          <div id="k-done-messenger" hidden>
+            <p><strong>Dein nächster Schritt:</strong> Tipp auf den Button und schick die vorbereitete Nachricht ab. Dann weiß ich, wohin.</p>
+            <a class="btn btn--primary btn--block" id="k-done-link" href="#">Weiter</a>
+          </div>
+          <div id="k-done-email" hidden>
+            <p><strong>Dein nächster Schritt:</strong> Schau in dein Postfach und bestätige deine Adresse. Wenn nichts da ist, schau im Spam-Ordner nach.</p>
+          </div>
+        </div>
+
+        <div class="kdone" data-kschon hidden>
+          <p><strong>Ist notiert.</strong> Du hast dich vorhin schon eingetragen, also frage ich nicht noch einmal.</p>
         </div>
       </section>
 
-
-      <!-- --------------------------------------------- Nächste Stufe -->
-      <section class="knext" aria-label="Der nächste Schritt im Kreis">
-        <span class="eyebrow">Schritt 6 von 7</span>
-        <h2>Werte</h2>
-        <p>Der Satz sagt dir, warum du nicht aufhörst. Als Nächstes geht es darum, wohin das Ganze eigentlich soll.</p>
+      <!-- --------------------------------------------- Die nächste Ebene --- -->
+      <section class="knext" data-knaechste aria-label="Die nächste Ebene">
+        <span class="eyebrow" data-knaechste-nr></span>
+        <h2 data-knaechste-titel></h2>
+        <p data-knaechste-kurz></p>
         <div class="knext__links">
-          <a class="btn btn--primary" href="/kreis/werte">Weiter zu Werte <svg aria-hidden="true"><use href="#i-go"></use></svg></a>
+          <a class="btn btn--primary" href="/kreis" data-knaechste-knopf>Weiter</a>
           <a class="textlink" href="/kreis">Zurück zur Übersicht</a>
+        </div>
+      </section>
+
+      <section class="knext" data-krum hidden aria-label="Einmal rum">
+        <span class="eyebrow">Einmal rum</span>
+        <h2>Du warst auf allen sieben Ebenen.</h2>
+        <p>Jetzt fängst du wieder oben an, beim Verhalten. Derselbe Vorsatz sieht anders aus, wenn du weißt, was darunter liegt.</p>
+        <div class="knext__links">
+          <a class="btn btn--primary" href="/kreis">Zur Übersicht</a>
         </div>
       </section>
     </section>

@@ -147,3 +147,99 @@
    direkt an, deshalb braucht der erste Abschnitt dort mehr Luft nach oben. */
 
 body[data-kreis] main > .sec:first-child { padding-top: clamp(112px, 15vw, 140px); }
+
+/* ==========================================================================
+   Fassung 2: Einstieg, Ebenen-Leiste, Uebung auf der Seite, Mitnehmen
+   ========================================================================== */
+
+/* --- Wo drueckt es bei dir ----------------------------------------------- */
+
+.keinstieg { margin: clamp(24px, 4vw, 36px) 0 0; }
+.keinstieg__grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0; padding: 0; border: 0; }
+@media (min-width: 760px) { .keinstieg__grid { grid-template-columns: 1fr 1fr; } }
+
+.kproblem { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 15px 18px; border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); color: var(--ink); font: inherit; font-size: 1.0625rem; line-height: 1.3; text-align: left; cursor: pointer; transition: border-color .16s var(--ease), background .16s var(--ease), box-shadow .16s var(--ease); }
+.kproblem:hover { border-color: var(--accent); }
+.kproblem.is-gewaehlt { border-color: var(--accent); background: var(--accent-tint); box-shadow: 0 0 0 3px rgba(19,121,106,.12); }
+.kproblem__haken { flex: 0 0 auto; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; }
+.kproblem.is-gewaehlt .kproblem__haken { background: var(--accent); border-color: var(--accent); }
+.kproblem.is-gewaehlt .kproblem__haken::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #fff; }
+
+.kantwort { margin: clamp(20px, 3vw, 28px) 0 0; padding: clamp(20px, 3vw, 26px); border-radius: var(--r-card); background: var(--deep-900); color: var(--on-dark); }
+.kantwort p { color: rgba(244,243,239,.88); margin: 0 0 16px; font-family: var(--font-head); font-size: clamp(1.1875rem, 1.05rem + .7vw, 1.5rem); line-height: 1.3; }
+.kantwort .btn { width: 100%; }
+@media (min-width: 560px) { .kantwort .btn { width: auto; } }
+
+.kreihe { margin: 18px 0 0; font-size: var(--small); }
+.kreihe a { color: var(--accent); text-underline-offset: 3px; }
+
+/* --- Roter Faden oben auf der Stufenseite -------------------------------- */
+
+.kfaden { margin: 0 0 clamp(18px, 2.5vw, 24px); padding: 16px 18px; border-left: 3px solid var(--brass-ink); background: rgba(185,162,122,.10); border-radius: 0 var(--r-card) var(--r-card) 0; font-size: 1.0625rem; line-height: 1.45; color: var(--ink); max-width: var(--measure); }
+
+/* --- Die Leiste mit den sieben Ebenen ------------------------------------ */
+
+.kleiter { display: flex; align-items: center; gap: 6px; list-style: none; margin: 0 0 8px; padding: 0; }
+.kleiter__e { flex: 0 0 auto; }
+.kleiter__p { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font: 600 .8125rem/1 var(--font-body); text-decoration: none; transition: background .16s var(--ease), border-color .16s var(--ease), color .16s var(--ease); }
+.kleiter__e.is-fertig .kleiter__p { background: var(--accent); border-color: var(--accent); color: #fff; }
+.kleiter__e.is-hier .kleiter__p { border-color: var(--accent); color: var(--accent-dark); background: var(--accent-tint); box-shadow: 0 0 0 3px rgba(19,121,106,.14); font-weight: 700; }
+.kleiter__e.is-start .kleiter__p { border-style: dashed; border-width: 2px; }
+.kleiter__e.is-start.is-fertig .kleiter__p, .kleiter__e.is-start.is-hier .kleiter__p { border-style: solid; }
+a.kleiter__p:hover { border-color: var(--accent); color: var(--accent-dark); }
+.kleiter-text { margin: 0 0 clamp(20px, 3vw, 28px); font-size: var(--small); color: var(--muted); }
+
+/* --- Uebung auf der Seite ------------------------------------------------ */
+
+.kue { margin: clamp(20px, 3vw, 28px) 0 0; padding: clamp(20px, 3vw, 26px); border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); }
+.kue__text { margin: 0 0 16px; }
+.kue__uhr { display: flex; align-items: baseline; justify-content: center; gap: 8px; margin: 0 0 18px; }
+.kue__uhr b { font-family: var(--font-head); font-size: clamp(3rem, 2rem + 4vw, 4.5rem); line-height: 1; color: var(--accent-dark); font-variant-numeric: tabular-nums; }
+.kue__uhr span { color: var(--muted); font-size: var(--small); }
+.kue.is-fertig .kue__uhr b { color: var(--muted); }
+.kue__fertig { margin: 14px 0 0; padding: 12px 16px; border-radius: var(--r-btn); background: var(--accent-tint); color: var(--accent-dark); font-weight: 600; }
+.kue__sicher { margin: 14px 0 0; font-size: var(--small); color: var(--muted); }
+
+.kfelder { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 18px 0 0; }
+@media (min-width: 620px) { .kfelder--zwei { grid-template-columns: 1fr 1fr; } }
+.kfelder label { display: block; font-weight: 600; font-size: var(--small); margin-bottom: 6px; color: var(--ink); }
+.kue .kgrid { margin-top: 10px; }
+
+/* --- Mitnehmen ----------------------------------------------------------- */
+
+.kmit { margin: clamp(24px, 3vw, 32px) 0 0; padding: clamp(24px, 3vw, 32px); border-radius: var(--r-card); background: var(--deep-900); color: var(--on-dark); }
+.kmit .eyebrow { color: var(--accent-light); }
+.kmit h2 { color: var(--on-dark); font-family: var(--font-head); margin: 6px 0 16px; }
+.kmit p { color: rgba(244,243,239,.86); max-width: 48ch; }
+.kmit__satz { display: block; font-family: var(--font-head); font-size: clamp(1.375rem, 1.1rem + 1.1vw, 1.875rem); line-height: 1.3; color: var(--on-dark); border-left: 3px solid var(--brass); padding-left: 18px; margin: 0 0 18px; }
+.kmit__dauerhaft { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--line-dark); font-size: var(--small); color: var(--on-dark-muted); }
+
+/* --- Leiser Kontakt-Block ------------------------------------------------ */
+
+.kfrage { margin: clamp(28px, 4vw, 40px) 0 0; padding: clamp(20px, 3vw, 26px); border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); }
+.kfrage h2 { font-family: var(--font-head); font-size: clamp(1.1875rem, 1.05rem + .6vw, 1.4375rem); margin: 0 0 6px; max-width: 22em; }
+.kfrage > p { color: var(--muted); margin: 0 0 18px; font-size: var(--small); }
+.kfrage .field { margin-bottom: 14px; }
+.kfrage .consent { font-size: .875rem; }
+
+/* --- Hinweis auf die eigene Seite (nacht, termin) ------------------------ */
+
+.kseite { margin: clamp(24px, 3vw, 32px) 0 0; padding: clamp(20px, 3vw, 26px); border: 1px solid rgba(19,121,106,.25); border-radius: var(--r-card); background: var(--accent-tint); }
+.kseite .eyebrow { color: var(--accent-dark); }
+.kseite h2 { font-family: var(--font-head); font-size: clamp(1.1875rem, 1.05rem + .6vw, 1.4375rem); margin: 6px 0 10px; }
+.kseite p { color: #3B3730; margin: 0 0 16px; }
+
+/* --- Hinweis auf Stufe 1, erst ab der Ebene Innere Ruhe ------------------ */
+
+.kprogramm { margin: clamp(24px, 3vw, 32px) 0 0; padding-top: 20px; border-top: 1px solid var(--line); font-size: var(--small); color: var(--muted); max-width: var(--measure); }
+.kprogramm b { color: var(--ink); }
+
+/* --- Was du schon hast (auf der Uebersicht) ------------------------------ */
+
+.kmitnahmen { margin: clamp(32px, 4vw, 44px) 0 0; padding: clamp(22px, 3vw, 28px); border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); }
+.kmitnahmen h2 { font-family: var(--font-head); font-size: clamp(1.25rem, 1.1rem + .7vw, 1.5rem); margin: 6px 0 14px; }
+.kmitnahmen ul { list-style: none; margin: 0; padding: 0; }
+.kmitnahmen li { padding: 12px 0; border-top: 1px solid var(--line); }
+.kmitnahmen li:first-child { border-top: 0; padding-top: 0; }
+.kmitnahmen b { display: block; font-size: var(--small); color: var(--muted); font-weight: 600; }
+.kmitnahmen span { display: block; margin-top: 3px; font-family: var(--font-head); font-size: 1.125rem; line-height: 1.35; color: var(--ink); }

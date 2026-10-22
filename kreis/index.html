@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Du nimmst dir etwas vor, und es kippt wieder an derselben Stelle.</title>
-<meta name="description" content="Sieben kurze Schritte. Du tippst an, was bei dir stimmt, und bekommst jedes Mal eine Sache für den Tag. Rund zwei Minuten pro Schritt. Kostenlos.">
+<title>Wo drückt es bei dir? Sieben kurze Schritte</title>
+<meta name="description" content="Tipp an, wo es bei dir drückt, und du startest beim passenden Schritt. Jeder Schritt dauert rund zwei Minuten und endet mit einer Sache für heute. Kostenlos.">
 <meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="https://www.shiftmyhorizon.com/kreis">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Du nimmst dir etwas vor, und es kippt wieder an derselben Stelle.">
-<meta property="og:description" content="Sieben kurze Schritte. Du tippst an, was bei dir stimmt, und bekommst jedes Mal eine Sache für den Tag. Rund zwei Minuten pro Schritt. Kostenlos.">
+<meta property="og:title" content="Wo drückt es bei dir? Sieben kurze Schritte">
+<meta property="og:description" content="Tipp an, wo es bei dir drückt, und du startest beim passenden Schritt. Jeder Schritt dauert rund zwei Minuten und endet mit einer Sache für heute.">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -29,37 +29,51 @@
 </header>
 
 <main id="inhalt">
-  <section class="hero hero--lp hero--portrait">
+  <section class="hero hero--compact">
     <div class="hero__bg"><div class="scene"></div></div>
     <div class="hero__shade"></div>
-    <p class="scene__label" aria-hidden="true"><b>Hero-Hintergrund</b>Schreibtisch am späten Nachmittag, Notizzettel, keine Gesichter</p>
-    <div class="wrap">
-      <div class="hero__grid">
-        <div class="hero__text">
-          <div class="hero__top">
-            <span class="eyebrow rv-hero">Der Kreis, kostenlos</span>
-            <h1 class="rv-hero d1">Du hast dir für diese Woche etwas vorgenommen. Dann wird es eng, und der Vorsatz kippt wieder an derselben Stelle.</h1>
-            <p class="lead">Hier sind sieben Schritte. Du tippst an, was bei dir stimmt, bekommst eine Auflösung und eine Sache für heute. Pro Schritt rund zwei Minuten.</p>
-          </div>
-          <div class="hero__bottom rv-hero d2">
-            <div class="hero__actions">
-              <a class="btn btn--primary" href="#rad" data-kweiter="kurz">Zum Kreis <svg aria-hidden="true"><use href="#i-go"></use></svg></a>
-              <a class="textlink" href="#ablauf">Wie das läuft</a>
-            </div>
-            <ul class="anchors" aria-label="Auf einen Blick"><li><b>7 Schritte</b>einzeln machbar</li><li><b>2 Min.</b>pro Schritt</li><li><b>Kostenlos</b>ohne Konto</li><li><b>1 Sache</b>für heute</li></ul>
-          </div>
-        </div>
-        <div class="hero__media rv-hero d3">
-          <div class="vsl vsl--vertical" data-src="" data-poster="">
-            <div class="ph" role="img" aria-label="Platzhalter: Intro-Video 9:16. Rund 60 Sekunden, eingebrannte Untertitel, startet stumm."><span class="ph__tag">Intro-Video 9:16</span><div class="ph__center">Der Kreis fängt bei deinem Verhalten an und kommt dort wieder raus. Diesmal mit Richtung.</div><span class="ph__cap">Rund 60 Sekunden, eingebrannte Untertitel, startet stumm, mit „Ton an“.</span></div>
-            <button class="vsl__play" type="button" hidden><span class="visually-hidden">Video abspielen</span><svg aria-hidden="true"><use href="#i-play"></use></svg></button>
-            <button class="vsl__sound" type="button" hidden>Ton an</button>
-          </div>
-        </div>
-      </div>
+    <div class="wrap rv">
+      <span class="eyebrow">Der Kreis, kostenlos</span>
+      <h2 style="max-width:14ch">Wo drückt es bei dir?</h2>
+      <p class="lead" style="color:rgba(244,243,239,.82);margin-top:18px;max-width:34ch">Sieben kurze Schritte. Fang da an, wo es bei dir drückt.</p>
     </div>
   </section>
 
+  <!-- ------------------------------------------------- Der Einstieg ------- -->
+  <section class="sec sec--paper sec--tight" id="einstieg">
+    <div class="wrap kwrap">
+      <p class="lead rv" style="margin-top:0">Tipp an, was am ehesten passt. Du startest beim passenden Schritt.</p>
+
+      <div class="keinstieg rv" data-keinstieg>
+        <div class="keinstieg__grid">
+          <button class="kproblem" type="button" data-kproblem="abends"><span class="kproblem__haken" aria-hidden="true"></span>Mein Kopf kommt abends nicht runter.</button>
+          <button class="kproblem" type="button" data-kproblem="nachts"><span class="kproblem__haken" aria-hidden="true"></span>Ich wache nachts auf und grübel.</button>
+          <button class="kproblem" type="button" data-kproblem="laut"><span class="kproblem__haken" aria-hidden="true"></span>Ich werde zu Hause schnell laut.</button>
+          <button class="kproblem" type="button" data-kproblem="fokus"><span class="kproblem__haken" aria-hidden="true"></span>Ich komme bei der Arbeit nicht in den Fokus.</button>
+          <button class="kproblem" type="button" data-kproblem="puls"><span class="kproblem__haken" aria-hidden="true"></span>Vor wichtigen Gesprächen geht mein Puls hoch.</button>
+          <button class="kproblem" type="button" data-kproblem="handy"><span class="kproblem__haken" aria-hidden="true"></span>Ich greife ständig zum Handy.</button>
+          <button class="kproblem" type="button" data-kproblem="vorsatz"><span class="kproblem__haken" aria-hidden="true"></span>Mein Vorsatz hält nie die Woche.</button>
+          <button class="kproblem" type="button" data-kproblem="aufhoeren"><span class="kproblem__haken" aria-hidden="true"></span>Ich kann nicht aufhören zu arbeiten.</button>
+        </div>
+
+        <div class="kantwort" data-kantwort hidden>
+          <p data-kantwort-satz></p>
+          <a class="btn btn--primary" href="/kreis/verhalten" data-kantwort-knopf>Los geht es</a>
+        </div>
+
+        <p class="kreihe"><a href="#rad">Lieber alle Schritte der Reihe nach sehen</a></p>
+      </div>
+
+      <!-- Was er in früheren Schritten mitgenommen hat -->
+      <section class="kmitnahmen rv" data-kmitnahmen hidden aria-label="Was du schon hast">
+        <span class="eyebrow">Was du schon hast</span>
+        <h2>Deine Sachen aus den Schritten davor.</h2>
+        <ul data-kmitnahmen-liste></ul>
+      </section>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------- Der Kreis ---------- -->
   <section class="sec sec--white" id="rad">
     <div class="wrap">
       <div class="sec-head center rv">
@@ -79,7 +93,7 @@
         <a class="wheel__node" data-slug="ruhe" href="/kreis/ruhe" style="left:66.5%;top:84.2%"><span class="wheel__dot">4</span><span class="wheel__name">Innere Ruhe</span></a>
         <a class="wheel__node" data-slug="satz" href="/kreis/satz" style="left:33.5%;top:84.2%"><span class="wheel__dot">5</span><span class="wheel__name">Der Satz</span></a>
         <a class="wheel__node" data-slug="werte" href="/kreis/werte" style="left:13%;top:58.5%"><span class="wheel__dot">6</span><span class="wheel__name">Werte</span></a>
-        <a class="wheel__node" data-slug="wofuer" href="/kreis/wofuer" style="left:20.3%;top:26.3%"><span class="wheel__dot">7</span><span class="wheel__name">Wofür</span></a>
+        <a class="wheel__node" data-slug="wofuer" href="/kreis/wofuer" style="left:20.3%;top:26.3%"><span class="wheel__dot">7</span><span class="wheel__name">Für wen</span></a>
         <div class="wheel__hub">
           <span class="eyebrow" data-khub-stand>Sieben Schritte</span>
           <b data-khub-text>Verhalten</b>
@@ -92,31 +106,33 @@
         <li data-slug="gefuehle"><a href="/kreis/gefuehle"><span class="klist__num">2</span><span class="klist__txt"><b>Gefühle</b><span>Was du oft spürst, und was darunter liegt.</span></span><span class="klist__go"><svg aria-hidden="true"><use href="#i-go"></use></svg></span></a></li>
         <li data-slug="alarm"><a href="/kreis/alarm"><span class="klist__num">3</span><span class="klist__txt"><b>Alarm und Planer</b><span>Warum dein Kopf schneller ist als du.</span></span><span class="klist__go"><svg aria-hidden="true"><use href="#i-go"></use></svg></span></a></li>
         <li data-slug="ruhe"><a href="/kreis/ruhe"><span class="klist__num">4</span><span class="klist__txt"><b>Innere Ruhe</b><span>Warum der Abend nicht von selbst ruhig wird.</span></span><span class="klist__go"><svg aria-hidden="true"><use href="#i-go"></use></svg></span></a></li>
-        <li data-slug="satz"><a href="/kreis/satz"><span class="klist__num">5</span><span class="klist__txt"><b>Der Satz hinter dem Antrieb</b><span>Der Satz, der dich weit gebracht hat.</span></span><span class="klist__go"><svg aria-hidden="true"><use href="#i-go"></use></svg></span></a></li>
+        <li data-slug="satz"><a href="/kreis/satz"><span class="klist__num">5</span><span class="klist__txt"><b>Der Satz, der dich nicht aufhören lässt</b><span>Der Satz, der dich weit gebracht hat und nie aufhört.</span></span><span class="klist__go"><svg aria-hidden="true"><use href="#i-go"></use></svg></span></a></li>
         <li data-slug="werte"><a href="/kreis/werte"><span class="klist__num">6</span><span class="klist__txt"><b>Werte</b><span>Was davon wirklich deins ist.</span></span><span class="klist__go"><svg aria-hidden="true"><use href="#i-go"></use></svg></span></a></li>
-        <li data-slug="wofuer"><a href="/kreis/wofuer"><span class="klist__num">7</span><span class="klist__txt"><b>Wofür</b><span>Für wen oder was du das alles machst.</span></span><span class="klist__go"><svg aria-hidden="true"><use href="#i-go"></use></svg></span></a></li>
+        <li data-slug="wofuer"><a href="/kreis/wofuer"><span class="klist__num">7</span><span class="klist__txt"><b>Für wen</b><span>Für wen oder was du das alles machst.</span></span><span class="klist__go"><svg aria-hidden="true"><use href="#i-go"></use></svg></span></a></li>
       </ul>
 
-      <p class="kgrid__note rv" style="margin-top:22px">Du kannst bei jedem Schritt anfangen. Jeder steht für sich.</p>
+      <p class="kgrid__note rv" style="margin-top:22px">Wo du anfängst, hängt davon ab, wo es drückt. Danach geht es der Reihe nach weiter, und nach dem siebten bist du wieder beim ersten.</p>
     </div>
   </section>
 
+  <!-- ------------------------------------------------- Wie ein Schritt läuft -->
   <section class="sec sec--paper" id="ablauf">
     <div class="wrap">
       <div class="sec-head center rv">
         <span class="eyebrow">Wie ein Schritt läuft</span>
-        <h2>Drei Sachen pro Schritt, dann bist du raus.</h2>
+        <h2>Vier Sachen, dann bist du raus.</h2>
       </div>
       <ol class="steps rv">
         <li><h3>Eine Frage, und du tippst an.</h3><p>Keine Noten, keine Skala. Du tippst die Sachen an, die bei dir stimmen. Das dauert eine halbe Minute.</p></li>
         <li><h3>Die Auflösung.</h3><p>Du siehst, was deine Auswahl zeigt und was dahintersteckt. Wo es eine Studie dazu gibt, steht sie dabei, mit dem, was sie nicht sagt.</p></li>
-        <li><h3>Eine Sache für heute.</h3><p>Zum Schluss eine kleine Aufgabe. Sie hängt an einem Moment, den du sowieso hast, und dauert keine zwei Minuten.</p></li>
+        <li><h3>Die Übung, hier auf der Seite.</h3><p>Dreißig Sekunden bis zwei Minuten. Eine Uhr, zwei Felder, fertig. Du brauchst nichts dafür außer dem Handy in deiner Hand.</p></li>
+        <li><h3>Etwas zum Mitnehmen.</h3><p>Am Ende steht dein Satz. Deine Regel, dein Wort, dein Termin. In deinen eigenen Worten, nicht in meinen.</p></li>
       </ol>
       <div class="note-box rv" style="max-width:760px;margin-inline:auto;margin-top:clamp(32px,4vw,48px)">
-        <p>Du brauchst kein Konto und musst nichts ausfüllen. Wenn du willst, speicherst du unterwegs deinen Stand und bekommst den nächsten Schritt per WhatsApp, Telegram oder E-Mail.</p>
+        <p>Jeder Schritt hilft dir ab heute. Ganz weg geht das Problem, wenn auch die Ebenen darunter dran waren. Deshalb geht der Kreis weiter.</p>
       </div>
       <div class="krow rv" style="justify-content:center">
-        <a class="btn btn--primary" href="/kreis/verhalten" data-kweiter="lang">Anfangen bei: Verhalten</a>
+        <a class="btn btn--primary" href="#einstieg">Zurück nach oben und anfangen</a>
       </div>
     </div>
   </section>
@@ -138,7 +154,7 @@
         </details>
         <details>
           <summary>Muss ich vorne anfangen?</summary>
-          <p>Nein. Jeder Schritt steht für sich. Wenn du von einem Video kommst, fang dort an, wo es dich interessiert.</p>
+          <p>Nein. Du fängst da an, wo es drückt. Danach läuft es der Reihe nach weiter, und nach dem siebten Schritt bist du wieder beim ersten.</p>
         </details>
         <details>
           <summary>Wie lange brauche ich?</summary>
@@ -150,7 +166,7 @@
         </details>
         <details>
           <summary>Was passiert mit meinen Antworten?</summary>
-          <p>Solange du dich nicht einträgst, bleiben sie in deinem Browser. Trägst du dich ein, speichere ich deinen Vornamen, deine E-Mail, den gewählten Weg und den Schritt, an dem du warst. Alles Weitere steht in der <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
+          <p>Solange du dich nicht einträgst, bleiben sie in deinem Browser. Trägst du dich ein, speichere ich deinen Vornamen, deine E-Mail, den gewählten Weg, den Schritt, an dem du warst, und was du dir dort notiert hast. Alles Weitere steht in der <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
         </details>
       </div>
     </div>
