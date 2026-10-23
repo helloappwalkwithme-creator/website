@@ -1,0 +1,259 @@
+/* ==========================================================================
+   kreis.css - Der Kreis, /kreis und /kreis/<schritt>
+   Baut auf tokens.css und components.css auf. Nur neue Bausteine stehen hier,
+   nichts Bestehendes wird ueberschrieben. Zuerst fuers Handy.
+   ========================================================================== */
+
+.kwrap { max-width: 860px; }
+
+/* Der Kopfbalken liegt fest oben. Auf den Schritt-Seiten faengt der Inhalt
+   direkt an, deshalb braucht der erste Abschnitt dort mehr Luft nach oben. */
+body[data-kreis] main > .sec:first-child { padding-top: clamp(112px, 15vw, 140px); }
+
+/* --- Kopf einer Schritt-Seite -------------------------------------------- */
+
+.kcrumb { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: var(--small); color: var(--muted); margin: 0 0 14px; }
+.kcrumb a { color: var(--accent); text-underline-offset: 3px; }
+.kcrumb b { color: var(--ink); font-weight: 600; }
+
+/* Die eine Fortschrittsanzeige: sieben Punkte */
+.kleiter { display: flex; align-items: center; gap: 6px; list-style: none; margin: 0 0 8px; padding: 0; }
+.kleiter__e { flex: 0 0 auto; }
+.kleiter__p { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font: 600 .8125rem/1 var(--font-body); text-decoration: none; transition: background .16s var(--ease), border-color .16s var(--ease), color .16s var(--ease); }
+.kleiter__e.is-fertig .kleiter__p { background: var(--accent); border-color: var(--accent); color: #fff; }
+.kleiter__e.is-hier .kleiter__p { border-color: var(--accent); color: var(--accent-dark); background: var(--accent-tint); box-shadow: 0 0 0 3px rgba(19,121,106,.14); font-weight: 700; }
+.kleiter__e.is-start .kleiter__p { border-style: dashed; border-width: 2px; }
+.kleiter__e.is-start.is-fertig .kleiter__p, .kleiter__e.is-start.is-hier .kleiter__p { border-style: solid; }
+a.kleiter__p:hover { border-color: var(--accent); color: var(--accent-dark); }
+.kleiter-text { margin: 0 0 clamp(16px, 2.5vw, 22px); font-size: var(--small); color: var(--muted); font-weight: 600; }
+
+/* Roter Faden: sein Problem in seinen Worten */
+.kfaden { margin: 0 0 clamp(20px, 3vw, 26px); padding: 16px 18px; border-left: 3px solid var(--brass-ink); background: rgba(185,162,122,.10); border-radius: 0 var(--r-card) var(--r-card) 0; font-size: 1.0625rem; line-height: 1.45; color: var(--ink); max-width: var(--measure); }
+
+/* --- Die vier Teile eines Schritts --------------------------------------- */
+
+.kstep { margin: 0; }
+.js .kstep[data-kstep] { display: none; }
+.js .kstep.is-active { display: block; animation: kfade .32s var(--ease) both; }
+@keyframes kfade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .js .kstep.is-active { animation: none; } }
+.kstep h1:focus-visible, .kstep h2:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 4px; }
+
+.kteil { margin: 0 0 10px; font-size: var(--small); color: var(--muted); letter-spacing: .02em; }
+
+.kstep h1, .kstep h2 { font-family: var(--font-head); line-height: 1.14; letter-spacing: -.015em; margin: 0 0 14px; }
+.kstep h1 { font-size: clamp(1.625rem, 1.05rem + 1.9vw, 2.5rem); max-width: 18em; }
+.kstep h2 { font-size: clamp(1.4375rem, 1.02rem + 1.4vw, 2.125rem); max-width: 19em; }
+.kstep h3 { font-family: var(--font-head); font-size: 1.1875rem; line-height: 1.25; margin: 0 0 8px; }
+.kstep > p { max-width: var(--measure); }
+
+/* --- Antipp-Raster -------------------------------------------------------- */
+
+.kgrid { display: flex; flex-wrap: wrap; gap: 8px; margin: clamp(18px, 3vw, 24px) 0 0; padding: 0; border: 0; }
+.kgrid legend { padding: 0; margin: 0 0 12px; font-weight: 600; color: var(--muted); font-size: var(--small); }
+.kchip { position: relative; display: inline-flex; align-items: center; min-height: 48px; padding: 11px 16px; border: 1px solid var(--line); border-radius: var(--r-pill); background: var(--surface); color: var(--ink); font: inherit; font-size: 1rem; line-height: 1.25; cursor: pointer; transition: background .16s var(--ease), border-color .16s var(--ease), color .16s var(--ease); }
+.kchip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.kchip:hover { border-color: var(--accent); }
+.kchip:has(input:checked) { background: var(--accent); border-color: var(--accent); color: #fff; }
+.kchip input:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; border-radius: var(--r-pill); }
+
+.kgrid--wide { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.kgrid--wide .kchip { border-radius: var(--r-card); padding: 15px 18px; text-align: left; }
+@media (min-width: 720px) { .kgrid--wide { grid-template-columns: 1fr 1fr; } }
+
+.kgrid__note { margin: 14px 0 0; font-size: var(--small); color: var(--muted); }
+
+/* --- Was dahintersteckt --------------------------------------------------- */
+
+.kcount { margin: 0 0 clamp(20px, 3vw, 28px); padding: 20px 22px; border-radius: var(--r-card); background: var(--accent-tint); border: 1px solid rgba(19,121,106,.18); }
+.kcount b { display: block; white-space: nowrap; font-family: var(--font-head); font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem); line-height: 1.05; color: var(--accent-dark); }
+.kcount > span { display: block; margin-top: 6px; color: var(--ink); }
+
+.kreveal { margin: clamp(22px, 3vw, 30px) 0 0; padding-top: clamp(22px, 3vw, 30px); border-top: 1px solid var(--line); }
+.kreveal:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.kreveal p { max-width: var(--measure); }
+
+.kwords { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 0; padding: 0; list-style: none; }
+.kwords li { padding: 8px 14px; border-radius: var(--r-pill); border: 1px dashed var(--line); color: var(--muted); font-size: .9375rem; }
+.kwords--mine li { border-style: solid; border-color: var(--accent); background: var(--accent-tint); color: var(--accent-dark); font-weight: 600; }
+
+.kpairs { margin: 18px 0 0; padding: 0; list-style: none; }
+.kpairs li { padding: 14px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr; gap: 4px; }
+.kpairs li:first-child { border-top: 0; padding-top: 0; }
+.kpairs b { font-family: var(--font-head); font-size: 1.0625rem; color: var(--ink); }
+.kpairs span { color: var(--muted); }
+@media (min-width: 720px) { .kpairs li { grid-template-columns: 11em 1fr; gap: 18px; align-items: baseline; } }
+
+/* Die Studie, eingeklappt */
+.kstudie { margin: 20px 0 0; border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); max-width: var(--measure); }
+.kstudie > summary { cursor: pointer; list-style: none; padding: 14px 18px; font-size: var(--small); font-weight: 600; color: var(--accent); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.kstudie > summary::-webkit-details-marker { display: none; }
+.kstudie > summary::after { content: ""; width: 9px; height: 9px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform .2s var(--ease); flex: 0 0 auto; }
+.kstudie[open] > summary::after { transform: rotate(-135deg); }
+.kstudie__inhalt { padding: 0 18px 18px; font-size: var(--small); color: var(--muted); }
+.kstudie__inhalt b { display: block; color: var(--ink); margin-bottom: 4px; }
+.kstudie__inhalt p { margin: 0; font-size: inherit; }
+.kstudie__inhalt p + b { margin-top: 14px; }
+.kstudie__inhalt a { color: var(--accent); }
+
+/* Die Bruecke zur Leistung, ein Satz am Ende */
+.kbruecke { margin: 20px 0 0; font-family: var(--font-head); font-size: clamp(1.125rem, 1.02rem + .5vw, 1.375rem); line-height: 1.35; color: var(--ink); max-width: var(--measure); }
+
+/* --- Bilder (Inline-SVG) -------------------------------------------------- */
+
+.kbild { display: block; width: 100%; max-width: 420px; height: auto; max-height: 320px; margin: clamp(18px, 3vw, 26px) 0; }
+.kbild text { font-family: var(--font-body); font-size: 14px; fill: var(--muted); }
+.kbild .kbild__t--ink { fill: var(--ink); font-weight: 600; }
+.kbild .kbild__t--acc { fill: var(--accent-dark); font-weight: 600; }
+.kbild__hinweis { margin: -10px 0 0; font-size: var(--micro); color: var(--muted); }
+
+/* --- Die Uebung ----------------------------------------------------------- */
+
+.kwarum { margin: 0 0 18px; padding: 0 0 0 16px; border-left: 3px solid var(--accent); color: var(--ink); max-width: var(--measure); }
+
+.kue { margin: clamp(18px, 3vw, 24px) 0 0; padding: clamp(20px, 3vw, 26px); border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); }
+.kue__text { margin: 0 0 16px; }
+.kue__text:last-child { margin-bottom: 0; }
+.kue__sicher { margin: 14px 0 0; font-size: var(--small); color: var(--muted); }
+.kue__fertig { margin: 14px 0 0; padding: 12px 16px; border-radius: var(--r-btn); background: var(--accent-tint); color: var(--accent-dark); font-weight: 600; }
+
+/* Die Uhr */
+.kuhr { position: relative; display: grid; place-items: center; width: 180px; height: 180px; margin: 0 auto 18px; }
+.kuhr__kreis { position: absolute; inset: 0; border-radius: 50%; border: 3px solid var(--accent); background: var(--accent-tint); transition: transform 600ms var(--ease); }
+.kuhr__zahl { position: relative; font-family: var(--font-head); font-size: 3.25rem; line-height: 1; color: var(--accent-dark); font-variant-numeric: tabular-nums; }
+.kuhr__phase { position: relative; margin-top: 6px; font-size: var(--small); color: var(--accent-dark); min-height: 1.2em; font-weight: 600; }
+.kue.is-fertig .kuhr__kreis { border-color: var(--line); background: var(--paper); }
+.kue.is-fertig .kuhr__zahl { color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .kuhr__kreis { transition: none !important; transform: none !important; } }
+
+.kfelder { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 18px 0 0; }
+@media (min-width: 620px) { .kfelder--zwei { grid-template-columns: 1fr 1fr; } }
+.kfelder label { display: block; font-weight: 600; font-size: var(--small); margin-bottom: 6px; color: var(--ink); }
+.kue .kgrid { margin-top: 10px; }
+
+/* --- Mitnehmen ------------------------------------------------------------ */
+
+.kmit { margin: 0; padding: clamp(24px, 3vw, 32px); border-radius: var(--r-card); background: var(--deep-900); color: var(--on-dark); }
+.kmit .eyebrow { color: var(--accent-light); }
+.kmit h2 { color: var(--on-dark); font-family: var(--font-head); margin: 6px 0 16px; }
+.kmit p { color: rgba(244,243,239,.86); max-width: 48ch; }
+.kmit__satz { display: block; font-family: var(--font-head); font-size: clamp(1.25rem, 1.05rem + 1vw, 1.75rem); line-height: 1.3; color: var(--on-dark); border-left: 3px solid var(--brass); padding-left: 18px; margin: 0 0 18px; }
+.kmit__dauerhaft { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--line-dark); font-size: var(--small); color: var(--on-dark-muted); }
+
+/* --- HRV, kleiner Kasten zum Aufklappen ----------------------------------- */
+
+.khrv { margin: 18px 0 0; border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); max-width: var(--measure); }
+.khrv > summary { cursor: pointer; list-style: none; padding: 14px 18px; font-size: var(--small); font-weight: 600; color: var(--accent); }
+.khrv > summary::-webkit-details-marker { display: none; }
+.khrv__inhalt { padding: 0 18px 18px; font-size: var(--small); color: var(--muted); }
+.khrv__inhalt p { margin: 0 0 10px; font-size: inherit; }
+.khrv__inhalt p:last-child { margin-bottom: 0; }
+
+/* --- Weiter, Hinweise, Kontakt -------------------------------------------- */
+
+.krow { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: clamp(22px, 3vw, 30px) 0 0; }
+.krow .btn { flex: 1 1 auto; }
+@media (min-width: 560px) { .krow .btn { flex: 0 0 auto; } }
+
+.knext { margin: clamp(30px, 4vw, 44px) 0 0; padding: clamp(22px, 3vw, 28px); border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); }
+.knext .eyebrow { color: var(--brass-ink); }
+.knext h2 { font-family: var(--font-head); font-size: clamp(1.3125rem, 1.08rem + .9vw, 1.75rem); margin: 6px 0 10px; max-width: 20em; }
+.knext p { color: var(--muted); max-width: 46ch; }
+.knext__links { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; margin-top: 18px; }
+
+.kseite { margin: clamp(22px, 3vw, 30px) 0 0; padding: clamp(20px, 3vw, 26px); border: 1px solid rgba(19,121,106,.25); border-radius: var(--r-card); background: var(--accent-tint); }
+.kseite .eyebrow { color: var(--accent-dark); }
+.kseite h2 { font-family: var(--font-head); font-size: clamp(1.125rem, 1.02rem + .5vw, 1.375rem); margin: 6px 0 10px; }
+.kseite p { color: #3B3730; margin: 0 0 16px; }
+
+.kfrage { margin: clamp(22px, 3vw, 30px) 0 0; border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); }
+.kfrage > summary { cursor: pointer; list-style: none; padding: 18px 20px; font-family: var(--font-head); font-size: 1.125rem; color: var(--ink); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.kfrage > summary::-webkit-details-marker { display: none; }
+.kfrage > summary::after { content: ""; width: 9px; height: 9px; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(45deg); transition: transform .2s var(--ease); flex: 0 0 auto; }
+.kfrage[open] > summary::after { transform: rotate(-135deg); }
+.kfrage__inhalt { padding: 0 20px 22px; }
+.kfrage__inhalt > p:first-child { color: var(--muted); margin: 0 0 18px; font-size: var(--small); }
+.kfrage .field { margin-bottom: 14px; }
+.kfrage .consent { font-size: .875rem; }
+.kdone { padding: 18px 20px; border-radius: var(--r-card); background: var(--accent-tint); border: 1px solid rgba(19,121,106,.18); }
+.kdone p { margin: 0; color: var(--ink); }
+
+.kprogramm { margin: clamp(22px, 3vw, 30px) 0 0; padding-top: 20px; border-top: 1px solid var(--line); font-size: var(--small); color: var(--muted); max-width: var(--measure); }
+.kprogramm b { color: var(--ink); }
+
+/* --- Der Einstieg auf /kreis ---------------------------------------------- */
+
+.keinstieg { margin: clamp(20px, 3vw, 28px) 0 0; }
+.keinstieg__grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0; padding: 0; border: 0; }
+@media (min-width: 760px) { .keinstieg__grid { grid-template-columns: 1fr 1fr; } }
+
+.kproblem { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 15px 18px; border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); color: var(--ink); font: inherit; font-size: 1.0625rem; line-height: 1.3; text-align: left; cursor: pointer; transition: border-color .16s var(--ease), background .16s var(--ease), box-shadow .16s var(--ease); }
+.kproblem:hover { border-color: var(--accent); }
+.kproblem.is-gewaehlt { border-color: var(--accent); background: var(--accent-tint); box-shadow: 0 0 0 3px rgba(19,121,106,.12); }
+.kproblem__haken { flex: 0 0 auto; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; }
+.kproblem.is-gewaehlt .kproblem__haken { background: var(--accent); border-color: var(--accent); }
+.kproblem.is-gewaehlt .kproblem__haken::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #fff; }
+
+.kantwort { margin: clamp(18px, 3vw, 26px) 0 0; padding: clamp(20px, 3vw, 26px); border-radius: var(--r-card); background: var(--deep-900); color: var(--on-dark); }
+.kantwort p { color: rgba(244,243,239,.9); margin: 0 0 8px; font-family: var(--font-head); font-size: clamp(1.125rem, 1.02rem + .6vw, 1.4375rem); line-height: 1.3; }
+.kantwort__wo { font-family: var(--font-body) !important; font-size: var(--small) !important; color: var(--on-dark-muted) !important; margin: 0 0 18px !important; }
+.kantwort .btn { width: 100%; }
+@media (min-width: 560px) { .kantwort .btn { width: auto; } }
+
+.kreihe { margin: 16px 0 0; font-size: var(--small); }
+.kreihe a { color: var(--accent); text-underline-offset: 3px; }
+
+/* --- Das Rad -------------------------------------------------------------- */
+
+.wheel { position: relative; width: min(100%, 400px); margin: clamp(24px, 4vw, 40px) auto 0; aspect-ratio: 1; }
+.wheel__ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wheel__node { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; }
+.wheel__dot { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); color: var(--muted); font-family: var(--font-head); font-size: 1.0625rem; font-weight: 600; box-shadow: var(--sh-sm); transition: transform .18s var(--ease), background .18s var(--ease), color .18s var(--ease), border-color .18s var(--ease); }
+.wheel__node:hover .wheel__dot, .wheel__node:focus-visible .wheel__dot { transform: scale(1.09); border-color: var(--accent); color: var(--accent-dark); }
+.wheel__node.is-done .wheel__dot { background: var(--accent); border-color: var(--accent); color: #fff; font-size: 0; }
+.wheel__node.is-done .wheel__dot::after { content: ""; width: 13px; height: 8px; border-left: 2.5px solid #fff; border-bottom: 2.5px solid #fff; transform: rotate(-45deg) translate(1px, -2px); }
+.wheel__node.is-next .wheel__dot { border-color: var(--accent); color: var(--accent-dark); box-shadow: 0 0 0 4px rgba(19,121,106,.14), var(--sh-sm); }
+.wheel__name { font-size: .72rem; line-height: 1.15; color: var(--muted); text-align: center; max-width: 8ch; }
+@media (min-width: 620px) { .wheel { width: min(100%, 520px); } .wheel__name { font-size: .8rem; max-width: 9ch; } }
+
+.wheel__schild { position: absolute; transform: translate(-50%, -50%) translateY(-40px); background: var(--brass-ink); color: #fff; font-size: .6875rem; font-weight: 600; padding: 4px 9px; border-radius: var(--r-pill); white-space: nowrap; pointer-events: none; }
+
+.wheel__hub { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 54%; text-align: center; }
+.wheel__hub .eyebrow { color: var(--brass-ink); }
+.wheel__hub b { display: block; font-family: var(--font-head); font-size: clamp(1rem, .9rem + .5vw, 1.3125rem); line-height: 1.15; color: var(--ink); margin: 4px 0 10px; }
+.wheel__hub .btn { width: 100%; padding-inline: 12px; font-size: .875rem; }
+
+/* --- Die Liste der sieben Schritte ---------------------------------------- */
+
+.klist { list-style: none; margin: clamp(32px, 4vw, 48px) 0 0; padding: 0; }
+.klist li { border-top: 1px solid var(--line); }
+.klist li:last-child { border-bottom: 1px solid var(--line); }
+.klist a { display: grid; grid-template-columns: 40px 1fr auto; align-items: center; gap: 14px; padding: 18px 4px; text-decoration: none; color: var(--ink); transition: background .16s var(--ease); }
+.klist a:hover { background: rgba(19,121,106,.05); }
+.klist__num { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); font-family: var(--font-head); font-weight: 600; color: var(--muted); font-size: 1rem; }
+.klist li.is-done .klist__num { background: var(--accent); border-color: var(--accent); color: #fff; }
+.klist__txt b { display: block; font-family: var(--font-head); font-size: 1.1875rem; line-height: 1.25; }
+.klist__txt span { display: block; margin-top: 2px; color: var(--muted); font-size: var(--small); }
+.klist__go { color: var(--accent); display: flex; }
+.klist__go svg { width: 22px; height: 22px; }
+
+/* --- Was du schon hast ----------------------------------------------------- */
+
+.kmitnahmen { margin: 0 0 clamp(28px, 4vw, 40px); padding: clamp(22px, 3vw, 28px); border: 1px solid var(--line); border-radius: var(--r-card); background: var(--surface); }
+.kmitnahmen h2 { font-family: var(--font-head); font-size: clamp(1.1875rem, 1.05rem + .6vw, 1.4375rem); margin: 6px 0 14px; }
+.kmitnahmen ul { list-style: none; margin: 0; padding: 0; }
+.kmitnahmen li { padding: 12px 0; border-top: 1px solid var(--line); }
+.kmitnahmen li:first-child { border-top: 0; padding-top: 0; }
+.kmitnahmen b { display: block; font-size: var(--small); color: var(--muted); font-weight: 600; }
+.kmitnahmen span { display: block; margin-top: 3px; font-family: var(--font-head); font-size: 1.0625rem; line-height: 1.35; color: var(--ink); }
+
+/* Dieselbe Liste im Abschluss, auf dunklem Grund */
+.kmit .kmitnahmen { background: transparent; border-color: var(--line-dark); margin: 20px 0 0; }
+.kmit .kmitnahmen li { border-color: var(--line-dark); }
+.kmit .kmitnahmen b { color: var(--on-dark-muted); }
+.kmit .kmitnahmen span { color: var(--on-dark); }
+
+/* --- Umschalten-Abschnitt auf der Uebersicht ------------------------------ */
+
+.kumschalten { max-width: 760px; margin-inline: auto; }
+.kumschalten .khinweis { margin: 0; font-size: var(--small); color: var(--muted); }
