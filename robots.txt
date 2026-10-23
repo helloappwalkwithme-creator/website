@@ -1,0 +1,37 @@
+# shiftmyhorizon.com
+User-agent: *
+Allow: /
+Disallow: /supabase/
+
+# Suche in KI-Assistenten ausdrücklich erlaubt
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Training: von Janosch am 23.10.2026 erlaubt.
+# Wer kein Training will, setzt hier "Disallow: /". Achtung: Google-Extended
+# steuert auch das Grounding in Gemini.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://www.shiftmyhorizon.com/sitemap.xml
