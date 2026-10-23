@@ -98,7 +98,11 @@
       flow: flow,
       access_code: code,
       utm_source: params.get("utm_source"), utm_medium: params.get("utm_medium"),
-      utm_campaign: params.get("utm_campaign"), via: params.get("via"),
+      utm_campaign: params.get("utm_campaign"),
+      /* Steht kein via in der URL, nimmt die Seite ihren eigenen Standard
+         (data-via-standard im body). So braucht /nacht keine Weiterleitung mehr
+         und antwortet direkt mit 200. */
+      via: params.get("via") || document.body.getAttribute("data-via-standard") || null,
       referrer: document.referrer || null,
       landed_at: new Date().toISOString(),
       eigenverantwortung_bestaetigt: true,

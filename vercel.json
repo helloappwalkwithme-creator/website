@@ -27,12 +27,6 @@
       "source": "/start",
       "destination": "/abschalten?utm_source=direkt&utm_medium=kurzlink&utm_campaign=abschalten",
       "permanent": false
-    },
-    {
-      "source": "/nacht",
-      "missing": [{ "type": "query", "key": "via" }],
-      "destination": "/nacht?via=nacht&utm_source=direkt&utm_medium=kurzlink&utm_campaign=nacht",
-      "permanent": false
     }
   ],
   "headers": [
