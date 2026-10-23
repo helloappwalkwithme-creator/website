@@ -34,5 +34,11 @@
       "destination": "/nacht?via=nacht&utm_source=direkt&utm_medium=kurzlink&utm_campaign=nacht",
       "permanent": false
     }
+  ],
+  "headers": [
+    {
+      "source": "/(sales-de|sales-en|sales-es|trigger-test|sales-trigger-de|sales-trigger-deepdive-de|muster-analyse|session)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
   ]
 }
