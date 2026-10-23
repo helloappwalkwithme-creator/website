@@ -1,19 +1,17 @@
-/* kreis.js - Lernreise "Der Kreis", Fassung 2.
-   Eine Datei fuer die Uebersicht und alle sieben Stufen. Keine Fremdbibliothek.
+/* kreis.js - Der Kreis, Fassung 3.
+   Eine Datei fuer die Uebersicht und alle sieben Schritte. Keine Fremdbibliothek.
 
-   Was hier passiert:
-   1. Der Einstieg auf /kreis: Er tippt an, wo es drueckt, und landet beim passenden Schritt.
-   2. Die Reihenfolge laeuft von dort weiter und faengt nach 7 wieder bei 1 an.
-   3. Der rote Faden: sein Problem steht in seinen Worten oben auf jeder Seite.
-   4. Die vier Schritte einer Stufe: Frage, Aufloesung, Uebung auf der Seite, Mitnehmen.
-   5. Die Anmeldung, erst nach einer gemachten Uebung, mit denselben Supabase-Aufrufen
+   Aufbau:
+   1. Einstieg auf /kreis: Er tippt an, was ihn nervt, und landet beim passenden Schritt.
+   2. Die Reihenfolge laeuft von dort weiter und faengt nach Schritt 7 wieder bei 1 an.
+   3. Roter Faden: sein Problem steht in seinen Worten oben auf jeder Seite.
+   4. Vier Teile pro Schritt: Frage, Was dahintersteckt, Uebung, Mitnehmen.
+   5. Anmeldung erst nach einer gemachten Uebung, mit denselben Supabase-Aufrufen
       wie starter.js.
 
-   WICHTIG vor dem Live-Schalten: siehe EINRICHTEN-KREIS.md im Repo-Wurzelordner.
-   Solange kein kreis_flow in Supabase liegt und kein Make-Szenario ihn ausliefert,
-   bleibt KREIS_FLOW_AKTIV auf false. Dann wird der Lead nur gespeichert und Janosch
-   bekommt die Hinweis-Mail; es wartet niemand auf eine Nachricht, die kein Szenario
-   verschickt. */
+   WICHTIG: siehe EINRICHTEN-KREIS.md im Repo-Wurzelordner. Solange kein kreis_flow
+   in Supabase liegt und kein Make-Szenario ihn ausliefert, bleibt KREIS_FLOW_AKTIV
+   auf false. Dann wird der Lead nur gespeichert und Janosch bekommt die Hinweis-Mail. */
 (function () {
   "use strict";
 
@@ -24,71 +22,136 @@
 
   var KREIS_FLOW = "kreis_flow";
   var KREIS_FLOW_AKTIV = false;   /* auf true stellen, wenn Flow und Make stehen */
-  var MAGNET = "kreis";           /* damit Make die Kreis-Leute von den Feierabend-Mails trennt */
+  var BEWERBUNG_AKTIV = false;    /* auf true stellen, wenn die Bewerbung offen ist */
+  var MAGNET = "kreis";           /* damit Make die Kreis-Leute getrennt beschickt */
 
   var waNumber = "491632225456";
   var tgBotName = "shift_my_horizon_bot";
-  var botMessage = "Hallo, ich mache den Kreis. Bitte schick mir den nächsten Schritt.";
-  var accessLabel = "Mein Zugangscode:";
+  var botMessage = "Hi Janosch, ich mach den Kreis. Schick mir den nächsten Schritt.";
+  var accessLabel = "Dein Code:";
 
-  /* ------------------------------------------------------------ Die sieben Ebenen */
+  /* ------------------------------------------------------- Die sieben Schritte */
 
   var STUFEN = [
     { slug: "verhalten", titel: "Verhalten",
-      kurz: "Was du tust, und warum es an derselben Stelle kippt.",
-      faden: "Hier oben siehst du es zuerst, an dem, was du tust. Hier findest du die Stelle, an der es kippt." },
+      kurz: "Warum dein Plan immer an derselben Stelle kippt.",
+      faden: "Hier geht es um das, was du jeden Tag tust. Du findest den Moment, an dem dein Plan kippt." },
     { slug: "gefuehle", titel: "Gefühle",
-      kurz: "Was du oft spürst, und was darunter liegt.",
-      faden: "Eine Ebene tiefer liegt das, was du spürst, und meistens meldet sich nur das Lauteste. Hier findest du das Wort darunter." },
+      kurz: "Was dich wirklich stört, wenn du sauer bist.",
+      faden: "Wenn du sauer bist, steckt meistens was anderes dahinter. Hier findest du raus, was." },
     { slug: "alarm", titel: "Alarm und Planer",
-      kurz: "Warum dein Kopf schneller ist als du.",
-      faden: "Darunter arbeiten zwei Teile, ein schneller und ein langsamer. Hier gibst du dem langsamen eine Sekunde." },
+      kurz: "Warum du reagierst, bevor du nachdenkst.",
+      faden: "In dir gibt es einen schnellen Alarm und einen langsamen Planer. Hier verschaffst du dem Planer eine Sekunde." },
     { slug: "ruhe", titel: "Innere Ruhe",
-      kurz: "Warum der Abend nicht von selbst ruhig wird.",
-      faden: "Dein Körper ist noch bei der Arbeit. Hier machst du ihn leiser." },
-    { slug: "satz", titel: "Der Satz, der dich nicht aufhören lässt",
-      kurz: "Der Satz, der dich weit gebracht hat und nie aufhört.",
-      faden: "Darunter läuft ein Satz mit, den du dir nie ausgesucht hast. Hier siehst du ihn dir einmal an." },
+      kurz: "Wie du abends wirklich Feierabend hast.",
+      faden: "Du bist zu Hause, aber dein Kopf ist noch im Büro. Hier holst du ihn raus." },
+    { slug: "satz", titel: "Der Satz",
+      kurz: "Der Satz, der dich antreibt und nie Pause macht.",
+      faden: "In deinem Kopf läuft ein Satz, der dich antreibt. Hier schreibst du ihn einmal auf." },
     { slug: "werte", titel: "Werte",
-      kurz: "Was davon wirklich deins ist.",
-      faden: "Weiter unten steht, wonach du entscheidest. Hier trennst du das, was wirklich deins ist." },
+      kurz: "Was dir wirklich wichtig ist, und woran du das merkst.",
+      faden: "Hier findest du raus, was dir wirklich wichtig ist und was nur gut klingt." },
     { slug: "wofuer", titel: "Für wen",
-      kurz: "Für wen oder was du das alles machst.",
-      faden: "Und ganz unten die Frage, für wen das alles ist. Hier machst du daraus einen Termin." }
+      kurz: "Für wen du das alles machst.",
+      faden: "Am Ende die Frage, für wen du das alles machst. Daraus machst du einen festen Termin." }
   ];
 
-  /* -------------------------------------------------- Wo drückt es bei dir --- */
+  /* ------------------------------------------ Was nervt dich gerade am meisten */
 
   var PROBLEME = [
-    { id: "abends", frage: "Mein Kopf kommt abends nicht runter.",
-      du: "Dein Kopf kommt abends nicht runter.",
-      start: "ruhe", satz: "Fang mit einer Minute zum Umschalten an." },
-    { id: "nachts", frage: "Ich wache nachts auf und grübel.",
-      du: "Du wachst nachts auf und kommst nicht mehr weg von den Gedanken.",
-      start: "ruhe", satz: "Erst eine Minute zum Umschalten, dann die Hilfe für die Nacht.",
-      weiter: { nach: "ruhe", href: "/nacht", knopf: "Die Hilfe für die Nacht",
-                text: "Du hast angetippt, dass du nachts wach wirst. Dafür gibt es eine eigene Seite, mit einer Sache, die du im Bett machen kannst." } },
-    { id: "laut", frage: "Ich werde zu Hause schnell laut.",
-      du: "Du wirst zu Hause schnell laut.",
-      start: "gefuehle", satz: "Finde das Wort unter dem Ärger." },
-    { id: "fokus", frage: "Ich komme bei der Arbeit nicht in den Fokus.",
-      du: "Du kommst bei der Arbeit nicht in den Fokus.",
-      start: "alarm", satz: "Schau, was dich rausreißt." },
-    { id: "puls", frage: "Vor wichtigen Gesprächen geht mein Puls hoch.",
-      du: "Vor wichtigen Gesprächen geht dein Puls hoch.",
-      start: "alarm", satz: "Eine Minute, bevor du antwortest.",
-      weiter: { nach: "alarm", href: "/termin", knopf: "Die Minute vor dem Termin",
-                text: "Du hast angetippt, dass vor wichtigen Gesprächen dein Puls hochgeht. Dafür gibt es eine eigene Seite, genau für die Minute davor." } },
-    { id: "handy", frage: "Ich greife ständig zum Handy.",
-      du: "Du greifst ständig zum Handy.",
-      start: "verhalten", satz: "Finde die Stelle, an der es kippt." },
-    { id: "vorsatz", frage: "Mein Vorsatz hält nie die Woche.",
-      du: "Dein Vorsatz hält nie die Woche.",
-      start: "verhalten", satz: "Finde die Stelle, an der es kippt." },
-    { id: "aufhoeren", frage: "Ich kann nicht aufhören zu arbeiten.",
-      du: "Du kannst nicht aufhören zu arbeiten.",
-      start: "satz", satz: "Drei Sätze. Schau, ob du einen kennst." }
+    { id: "abends",
+      frage: "Abends geht mein Kopf nicht aus.",
+      du: "Dein Kopf geht abends nicht aus.",
+      satz: "Erst eine Minute runterfahren. Dann kriegst du deinen Feierabend zurück.",
+      start: "ruhe",
+      startsatz: "Du startest bei Schritt 4, weil dein Kopf abends nicht ausgeht. Die anderen Schritte kommen danach.",
+      weiter: { nach: "ruhe", href: "/abschalten",
+                text: "Dein Kopf geht abends nicht aus. Dazu hab ich eine eigene Seite gebaut.",
+                knopf: "Zeig mir, wie ich abschalte" } },
+
+    { id: "nachts",
+      frage: "Ich wach nachts auf und denk an die Arbeit.",
+      du: "Du wachst nachts auf und denkst an die Arbeit.",
+      satz: "Erst eine Minute runterfahren. Dann kümmern wir uns um deine Nächte.",
+      start: "ruhe",
+      startsatz: "Du startest bei Schritt 4, weil du nachts wach wirst. Die anderen Schritte kommen danach.",
+      variante: "nachts",
+      weiter: { nach: "ruhe", href: "/nacht",
+                text: "Du wachst nachts auf. Dafür hab ich eine eigene Seite, mit einer Sache, die du direkt im Bett machen kannst.",
+                knopf: "Zeig mir, was ich heute Nacht mache" } },
+
+    { id: "laut",
+      frage: "Zu Hause bin ich schnell gereizt.",
+      du: "Du bist zu Hause schnell gereizt.",
+      satz: "Erst findest du raus, was dich wirklich stört. Dann bleibst du zu Hause ruhiger.",
+      start: "gefuehle",
+      startsatz: "Du startest bei Schritt 2, weil du zu Hause schnell gereizt bist. Die anderen Schritte kommen danach." },
+
+    { id: "fokus",
+      frage: "Ich krieg mich bei der Arbeit nicht konzentriert.",
+      du: "Du kriegst dich bei der Arbeit nicht konzentriert.",
+      satz: "Erst schaust du, was dich rausreißt. Dann bleibst du länger an einer Sache dran.",
+      start: "alarm",
+      startsatz: "Du startest bei Schritt 3, weil du dich bei der Arbeit schwer konzentrierst. Die anderen Schritte kommen danach.",
+      variante: "fokus",
+      weiter: { nach: "alarm", href: "/fokus",
+                text: "Du kriegst dich bei der Arbeit schwer konzentriert. Dazu hab ich eine eigene Seite gebaut.",
+                knopf: "Zeig mir, wie ich dranbleibe" } },
+
+    { id: "puls",
+      frage: "Vor wichtigen Terminen bin ich total angespannt.",
+      du: "Du bist vor wichtigen Terminen total angespannt.",
+      satz: "Erst eine Minute, die dich runterholt. Dann gehst du klar in den Termin.",
+      start: "alarm",
+      startsatz: "Du startest bei Schritt 3, weil du vor wichtigen Terminen angespannt bist. Die anderen Schritte kommen danach.",
+      variante: "puls",
+      weiter: { nach: "alarm", href: "/termin",
+                text: "Du bist vor wichtigen Terminen angespannt. Dafür hab ich eine eigene Seite, für die Minute davor.",
+                knopf: "Zeig mir die Minute vor dem Termin" } },
+
+    { id: "handy",
+      frage: "Ich hab ständig das Handy in der Hand.",
+      du: "Du hast ständig das Handy in der Hand.",
+      satz: "Erst findest du den Moment, in dem du zum Handy greifst. Dann bleibt es öfter liegen.",
+      start: "verhalten",
+      startsatz: "Du startest bei Schritt 1, weil du ständig das Handy in der Hand hast. Die anderen Schritte kommen danach." },
+
+    { id: "vorsatz",
+      frage: "Ich nehm mir was vor, und nach drei Tagen ist es weg.",
+      du: "Du nimmst dir was vor, und nach drei Tagen ist es weg.",
+      satz: "Erst findest du den Moment, an dem es jedes Mal kippt. Dann hält dein Plan länger als drei Tage.",
+      start: "verhalten",
+      startsatz: "Du startest bei Schritt 1, weil deine Pläne nach drei Tagen weg sind. Die anderen Schritte kommen danach." },
+
+    { id: "aufhoeren",
+      frage: "Ich hör abends einfach nicht auf zu arbeiten.",
+      du: "Du hörst abends einfach nicht auf zu arbeiten.",
+      satz: "Erst findest du den Satz, der dich weitermachen lässt. Dann kannst du abends wirklich Schluss machen.",
+      start: "satz",
+      startsatz: "Du startest bei Schritt 5, weil du abends nicht aufhörst zu arbeiten. Die anderen Schritte kommen danach.",
+      weiter: { nach: "satz", href: "/abschalten",
+                text: "Dein Kopf geht abends nicht aus. Dazu hab ich eine eigene Seite gebaut.",
+                knopf: "Zeig mir, wie ich abschalte" } }
   ];
+
+  /* ------------------------------------- Neugier auf den naechsten Schritt --- */
+
+  var TEASER = {
+    "verhalten>gefuehle": { h: "Warum kippt es genau dann, wenn du sauer bist?",
+      s: "Hinter dem Ärger steckt fast immer was anderes. Im nächsten Schritt findest du raus, was." },
+    "gefuehle>alarm": { h: "Warum reagierst du, bevor du nachdenkst?",
+      s: "Da sind ein schneller Alarm und ein langsamer Planer. Im nächsten Schritt verschaffst du dem Planer eine Sekunde." },
+    "alarm>ruhe": { h: "Und warum geht der Alarm abends nicht aus?",
+      s: "Das Meeting ist vorbei, dein Puls ist noch drin. Im nächsten Schritt holst du ihn runter." },
+    "ruhe>satz": { h: "Was lässt dich abends weitermachen, obwohl Schluss ist?",
+      s: "Meistens ist es ein Satz, den du schon lange hast. Im nächsten Schritt schreibst du ihn auf." },
+    "satz>werte": { h: "Wofür lohnt sich der ganze Einsatz eigentlich?",
+      s: "Nicht alles, was gut klingt, ist dir wirklich wichtig. Im nächsten Schritt merkst du den Unterschied." },
+    "werte>wofuer": { h: "Für wen machst du das alles?",
+      s: "Im nächsten Schritt machst du daraus einen festen Termin. Zwanzig Minuten reichen." },
+    "wofuer>verhalten": { h: "Jetzt nochmal von vorne, nur mit Richtung.",
+      s: "Du nimmst dir dasselbe vor wie vorher. Diesmal weißt du, warum es bisher nicht geklappt hat." }
+  };
 
   function stufeVon(slug) {
     for (var i = 0; i < STUFEN.length; i++) if (STUFEN[i].slug === slug) return STUFEN[i];
@@ -102,15 +165,14 @@
     for (var i = 0; i < PROBLEME.length; i++) if (PROBLEME[i].id === id) return PROBLEME[i];
     return null;
   }
-  /* Nach 7 geht es wieder bei 1 weiter. */
+  /* Nach Schritt 7 geht es wieder bei 1 weiter. */
   function naechsteStufe(slug) {
-    var i = indexVon(slug);
-    return STUFEN[(i + 1) % STUFEN.length];
+    return STUFEN[(indexVon(slug) + 1) % STUFEN.length];
   }
 
   /* ------------------------------------------------------------------ Der Stand */
 
-  var KEY = "smh_kreis_v2";
+  var KEY = "smh_kreis_v3";
 
   function stand() {
     try {
@@ -177,29 +239,39 @@
     alle('[data-kif="' + name + '"]').forEach(function (ziel) { ziel.hidden = !an; });
   }
 
-  /* ------------------------------------------------------- Der rote Faden oben */
+  /* --------------------------------- Die passende Frage fuer sein Problem --- */
 
-  function fadenText(slug, o) {
-    var stufe = stufeVon(slug);
+  function initVariante(slug) {
+    var bloecke = alle("[data-kvariante]");
+    if (!bloecke.length) return;
+    var o = stand();
     var p = o.problem ? problemVon(o.problem) : null;
-    var letzte = o.start && naechsteStufe(slug).slug === o.start;
-    var ende = letzte
-      ? "Danach bist du einmal rum."
-      : "Danach gehen wir eine Ebene tiefer.";
-    if (!stufe) return "";
-    return (p ? p.du + " " : "") + stufe.faden + " " + ende;
+    var gewuenscht = (p && p.variante && p.start === slug) ? p.variante : "standard";
+    var treffer = bloecke.some(function (b) { return b.getAttribute("data-kvariante") === gewuenscht; });
+    if (!treffer) gewuenscht = "standard";
+    bloecke.forEach(function (b) {
+      if (b.getAttribute("data-kvariante") !== gewuenscht) b.parentNode.removeChild(b);
+      else b.removeAttribute("hidden");
+    });
   }
+
+  /* ------------------------------------------------------- Der rote Faden oben */
 
   function initFaden(slug) {
     var ziel = el("[data-kfaden]");
     if (!ziel) return;
     var o = stand();
-    if (!o.problem) { ziel.hidden = true; return; }
+    var stufe = stufeVon(slug);
+    var p = o.problem ? problemVon(o.problem) : null;
+    if (!p) { ziel.hidden = true; return; }
     ziel.hidden = false;
-    ziel.textContent = fadenText(slug, o);
+    /* Beim Einstieg steht, warum er hier anfaengt. Danach der Faden-Satz. */
+    ziel.textContent = (p.start === slug && p.startsatz)
+      ? p.startsatz
+      : p.du + " " + stufe.faden;
   }
 
-  /* --------------------------------------------- Die Leiste mit den 7 Ebenen */
+  /* ----------------------------------- Die eine Fortschrittsanzeige (Leiter) */
 
   function initLeiter(slug) {
     var ziel = el("[data-kleiter]");
@@ -216,24 +288,16 @@
       a.className = "kleiter__p";
       a.textContent = String(i + 1);
       if (hier) a.setAttribute("aria-current", "step");
-      a.title = (i + 1) + ". " + s.titel + (s.slug === o.start ? " (dein Start)" : "");
+      a.title = "Schritt " + (i + 1) + ": " + s.titel + (s.slug === o.start ? " (hier startest du)" : "");
       li.appendChild(a);
       ziel.appendChild(li);
     });
     var hinweis = el("[data-kleiter-text]");
-    if (hinweis) {
-      var nr = indexVon(slug) + 1;
-      var startNr = o.start ? indexVon(o.start) + 1 : 0;
-      hinweis.textContent = startNr && startNr !== nr
-        ? "Ebene " + nr + " von 7. Angefangen hast du bei " + startNr + "."
-        : "Ebene " + nr + " von 7.";
-    }
+    if (hinweis) hinweis.textContent = "Schritt " + (indexVon(slug) + 1) + " von 7";
   }
 
-  /* -------------------------------------------- Die Schritte einer Stufe ---- */
+  /* -------------------------------------------- Die Teile einer Schritt-Seite */
 
-  /* Nur das Raster der Frage zaehlt. Die Raster in der Uebung haben kein
-     data-kpick, damit sie die Antworten nicht ueberschreiben. */
   function auswahl() {
     return alle(".kgrid[data-kpick] input:checked").map(function (i) {
       var label = i.closest(".kchip");
@@ -252,7 +316,6 @@
       .map(function (i) { return i.value; });
   }
 
-  /* Werte aus den Uebungsfeldern: Eingabefelder und Ein-Klick-Raster. */
   function felder() {
     var werte = {};
     alle("[data-kfeld]").forEach(function (e) {
@@ -267,23 +330,46 @@
     return vorlage.replace(/\{(\w+)\}/g, function (_, k) { return werte[k] || "…"; });
   }
 
-  /* --------------------------------------------------------- Uebung: Uhr ---- */
+  /* --------------------------------------------------------- Uebung: die Uhr */
 
   function initUhren(fertigGemeldet) {
+    var reduziert = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     alle('[data-kuebung="timer"]').forEach(function (box) {
       var gesamt = 60;
       var anzeige = el("[data-kue-zeit]", box);
+      var phase = el("[data-kue-phase]", box);
+      var kreis = el(".kuhr__kreis", box);
       var knopf = el("[data-kue-start]", box);
       var danach = el("[data-kue-fertig]", box);
-      var laeuft = false, ende = 0, tick = null;
+      var atem = box.getAttribute("data-kue-atem") === "true";
+      var laeuft = false, ende = 0, tick = null, timers = [];
       var startLabel = knopf ? knopf.textContent : "";
 
-      function stopp() { laeuft = false; if (tick) clearInterval(tick); tick = null; }
+      function stopp() {
+        laeuft = false;
+        if (tick) clearInterval(tick); tick = null;
+        timers.forEach(clearTimeout); timers = [];
+        if (kreis) { kreis.style.transitionDuration = "600ms"; kreis.style.transform = "scale(1)"; }
+        if (phase) phase.textContent = "";
+      }
+
+      /* Vier Sekunden ein, acht Sekunden aus. Nur Text, wenn Bewegung aus ist. */
+      function atemZyklus() {
+        if (!laeuft || !atem) return;
+        if (phase) phase.textContent = "ein";
+        if (kreis && !reduziert) { kreis.style.transitionDuration = "4000ms"; kreis.style.transform = "scale(1.25)"; }
+        timers.push(setTimeout(function () {
+          if (!laeuft) return;
+          if (phase) phase.textContent = "aus";
+          if (kreis && !reduziert) { kreis.style.transitionDuration = "8000ms"; kreis.style.transform = "scale(0.92)"; }
+          timers.push(setTimeout(atemZyklus, 8000));
+        }, 4000));
+      }
 
       function fertig() {
         stopp();
         anzeige.textContent = "0";
-        knopf.textContent = "Noch einmal";
+        knopf.textContent = "Nochmal";
         if (danach) danach.hidden = false;
         box.classList.add("is-fertig");
         fertigGemeldet();
@@ -302,6 +388,7 @@
         knopf.textContent = "Stopp";
         if (danach) danach.hidden = true;
         anzeige.textContent = String(gesamt);
+        atemZyklus();
         tick = setInterval(function () {
           var rest = Math.max(0, Math.ceil((ende - Date.now()) / 1000));
           anzeige.textContent = String(rest);
@@ -311,43 +398,46 @@
     });
   }
 
-  /* ------------------------------------------------------ Schritte schalten -- */
+  /* ------------------------------------------------------ Die Teile schalten */
 
-  function initStufe(slug) {
-    var schritte = alle(".kstep[data-kstep]");
-    if (!schritte.length) return;
+  function initSchritt(slug) {
+    var teile = alle(".kstep[data-kstep]");
+    if (!teile.length) return;
 
-    var maxSchritt = schritte.reduce(function (m, s) { return Math.max(m, Number(s.dataset.kstep)); }, 0);
-    var balken = alle(".kprogress li");
+    var maxTeil = teile.reduce(function (m, s) { return Math.max(m, Number(s.dataset.kstep)); }, 0);
     var aktuell = 1;
-    var uhrFertig = false;
+    var uhrenOffen = alle('.kstep[data-kstep="3"] [data-kuebung="timer"]').length;
+    var uhrenFertig = 0;
 
-    initUhren(function () { uhrFertig = true; pruefeUebung(); });
+    initUhren(function () { uhrenFertig++; pruefeUebung(); });
 
     function pruefeUebung() {
       var knopf = el('.kstep[data-kstep="3"] [data-knext-step]');
       if (!knopf) return;
-      var brauchtUhr = !!el('.kstep[data-kstep="3"] [data-kuebung="timer"]');
       var pflicht = alle('.kstep[data-kstep="3"] [data-kpflicht]');
       var werte = felder();
       var allesDa = pflicht.every(function (f) { return !!werte[f.getAttribute("data-kfeld")]; });
-      var offen = (brauchtUhr && !uhrFertig) || !allesDa;
+      var offen = (uhrenFertig < uhrenOffen) || !allesDa;
       knopf.classList.toggle("btn--inactive", offen);
       knopf.setAttribute("aria-disabled", offen ? "true" : "false");
-      var hinweis = el('.kstep[data-kstep="3"] [data-kue-hinweis]');
+      var hinweis = el("[data-kue-hinweis]");
       if (hinweis) hinweis.hidden = !offen;
     }
 
-    function zeigeSchritt(n, scrollen) {
+    function zeigeTeil(n, scrollen) {
       aktuell = n;
-      schritte.forEach(function (s) { s.classList.toggle("is-active", Number(s.dataset.kstep) === n); });
-      balken.forEach(function (li, i) { li.classList.toggle("is-on", i < n); });
+      teile.forEach(function (s) { s.classList.toggle("is-active", Number(s.dataset.kstep) === n); });
       if (scrollen) {
         var kopf = el("[data-ktop]") || document.body;
         kopf.scrollIntoView({ behavior: "smooth", block: "start" });
       }
+      /* Fokus auf die neue Ueberschrift, damit Tastatur und Vorleseprogramm mitkommen. */
+      var aktiv = el('.kstep[data-kstep="' + n + '"]');
+      var ueberschrift = aktiv ? el("h1, h2", aktiv) : null;
+      if (ueberschrift) { ueberschrift.setAttribute("tabindex", "-1"); if (scrollen) ueberschrift.focus({ preventScroll: true }); }
+
       if (n === 3) pruefeUebung();
-      if (n === maxSchritt) {
+      if (n === maxTeil) {
         var werte = felder();
         var mit = el("[data-kmit]");
         var text = mit ? fuelleVorlage(mit.getAttribute("data-kmit"), werte) : "";
@@ -372,7 +462,7 @@
         var mindestens = Number(vor.getAttribute("data-kmin") || "0");
         if (mindestens > 0 && auswahl().length < mindestens) {
           var hinweis = el("[data-khint]");
-          if (hinweis) { hinweis.hidden = false; hinweis.textContent = mindestens === 1 ? "Tipp mindestens eins an." : "Tipp mindestens " + mindestens + " an."; }
+          if (hinweis) { hinweis.hidden = false; hinweis.textContent = "Tipp mindestens eins an."; }
           return;
         }
         var picks = auswahl();
@@ -383,11 +473,11 @@
         });
         if (AUFLOESUNG[slug]) AUFLOESUNG[slug](picks);
         if (UEBUNG[slug]) UEBUNG[slug](picks);
-        zeigeSchritt(Math.min(aktuell + 1, maxSchritt), true);
+        zeigeTeil(Math.min(aktuell + 1, maxTeil), true);
         return;
       }
       var zurueck = e.target.closest("[data-kprev-step]");
-      if (zurueck) { e.preventDefault(); zeigeSchritt(Math.max(aktuell - 1, 1), true); }
+      if (zurueck) { e.preventDefault(); zeigeTeil(Math.max(aktuell - 1, 1), true); }
     });
 
     document.addEventListener("change", function (e) {
@@ -397,13 +487,13 @@
         var zaehler = el("[data-kpicked]");
         if (zaehler) zaehler.textContent = String(auswahl().length);
       }
-      if (e.target.closest("[data-kfeld]") || e.target.hasAttribute("data-kfeld")) pruefeUebung();
+      if (e.target.hasAttribute("data-kfeld")) pruefeUebung();
     });
     document.addEventListener("input", function (e) {
       if (e.target.hasAttribute("data-kfeld")) pruefeUebung();
     });
 
-    zeigeSchritt(1, false);
+    zeigeTeil(1, false);
   }
 
   /* ------------------------------------- Der Abschluss unter dem Mitnehmen -- */
@@ -412,9 +502,9 @@
     var o = stand();
     var naechste = naechsteStufe(slug);
     var rum = o.start && naechste.slug === o.start;
-
-    /* Der Weg nach /nacht oder /termin, wenn sein Problem danach verlangt. */
     var p = o.problem ? problemVon(o.problem) : null;
+
+    /* Hoechstens ein Hinweis auf eine andere Seite, und nur wenn er passt. */
     var seiten = el("[data-kseite]");
     if (seiten && p && p.weiter && p.weiter.nach === slug) {
       seiten.hidden = false;
@@ -424,26 +514,44 @@
       if (k) { k.href = p.weiter.href; k.textContent = p.weiter.knopf; }
     }
 
-    /* Stufe 1 wird erst ab der Ebene "Innere Ruhe" ueberhaupt erwaehnt. */
+    /* "Fahr dich runter" erst ab Schritt 4. */
     var programm = el("[data-kprogramm]");
     if (programm) programm.hidden = indexVon(slug) < indexVon("ruhe");
 
     var weiter = el("[data-knaechste]");
-    if (!weiter) return;
+    var schluss = el("[data-krum]");
     if (rum) {
-      weiter.hidden = true;
-      var schluss = el("[data-krum]");
-      if (schluss) schluss.hidden = false;
+      if (weiter) weiter.hidden = true;
+      if (schluss) {
+        schluss.hidden = false;
+        var liste7 = el("[data-krum-liste]", schluss);
+        if (liste7) {
+          liste7.innerHTML = "";
+          STUFEN.forEach(function (s) {
+            var e = o.stufen[s.slug];
+            if (!e || !e.mitnehmen) return;
+            var li = document.createElement("li");
+            var b = document.createElement("b"); b.textContent = s.titel;
+            var span = document.createElement("span"); span.textContent = e.mitnehmen;
+            li.appendChild(b); li.appendChild(span);
+            liste7.appendChild(li);
+          });
+        }
+        var bew = el("[data-kbewerbung]", schluss);
+        if (bew) bew.hidden = !BEWERBUNG_AKTIV;
+      }
       return;
     }
+    if (!weiter) return;
+    var teaser = TEASER[slug + ">" + naechste.slug] || { h: naechste.titel, s: naechste.kurz };
     var nr = el("[data-knaechste-nr]", weiter);
-    var titel = el("[data-knaechste-titel]", weiter);
-    var kurz = el("[data-knaechste-kurz]", weiter);
+    var h = el("[data-knaechste-h]", weiter);
+    var s = el("[data-knaechste-s]", weiter);
     var knopf = el("[data-knaechste-knopf]", weiter);
-    if (nr) nr.textContent = "Ebene " + (indexVon(naechste.slug) + 1) + " von 7";
-    if (titel) titel.textContent = naechste.titel;
-    if (kurz) kurz.textContent = naechste.kurz;
-    if (knopf) { knopf.href = "/kreis/" + naechste.slug; knopf.textContent = "Weiter zu " + naechste.titel; }
+    if (nr) nr.textContent = "Als Nächstes: Schritt " + (indexVon(naechste.slug) + 1);
+    if (h) h.textContent = teaser.h;
+    if (s) s.textContent = teaser.s;
+    if (knopf) knopf.href = "/kreis/" + naechste.slug;
   }
 
   /* ---------------------------------------- Was in der Aufloesung erscheint */
@@ -455,7 +563,6 @@
     var gesamt = alle(".kgrid[data-kpick] input").length;
     var laut = picks.filter(function (p) { return p.gruppe === "laut"; });
     var leise = picks.filter(function (p) { return p.gruppe === "leise"; });
-    var gut = picks.filter(function (p) { return p.gruppe === "gut"; });
 
     setze("anzahl", String(picks.length));
     setze("gesamt", String(gesamt));
@@ -469,7 +576,6 @@
     setze("offeneGutText", aufzaehlung(mischen(nichtGewaehlt("gut"), 3)));
   };
 
-  /* Fuer die Uebung: seine eigenen Woerter als Ein-Klick-Raster anbieten. */
   UEBUNG.gefuehle = function (picks) {
     var ziel = el("[data-kue-meine]");
     if (!ziel) return;
@@ -531,6 +637,13 @@
     var feld = el('[data-kfeld="wen"]');
     if (feld && !feld.value && picks.length) feld.value = picks[0].wert;
   };
+  /* Bei nachts liegt der Zettel neben dem Bett, nicht vor der Haustuer. */
+  UEBUNG.ruhe = function () {
+    var o = stand();
+    if (o.problem !== "nachts") return;
+    alle("[data-knachts]").forEach(function (e) { e.hidden = false; });
+    alle("[data-ktags]").forEach(function (e) { e.hidden = true; });
+  };
 
   /* ------------------------------------------------- Die Uebersicht /kreis -- */
 
@@ -541,21 +654,21 @@
 
     var antwort = el("[data-kantwort]");
     var satz = el("[data-kantwort-satz]");
+    var wo = el("[data-kantwort-wo]");
     var knopf = el("[data-kantwort-knopf]");
 
     function waehle(id, scrollen) {
       var p = problemVon(id);
       if (!p) return;
-      var stufe = stufeVon(p.start);
       merken(function (s) { s.problem = id; s.start = p.start; });
       alle("[data-kproblem]", kasten).forEach(function (b) {
-        b.classList.toggle("is-gewaehlt", b.getAttribute("data-kproblem") === id);
+        var an = b.getAttribute("data-kproblem") === id;
+        b.classList.toggle("is-gewaehlt", an);
+        b.setAttribute("aria-pressed", an ? "true" : "false");
       });
       if (satz) satz.textContent = p.satz;
-      if (knopf) {
-        knopf.href = "/kreis/" + p.start;
-        knopf.textContent = "Los geht es bei " + stufe.titel;
-      }
+      if (wo) wo.textContent = "Startet bei Schritt " + (indexVon(p.start) + 1) + " von 7. Dauert zwei Minuten.";
+      if (knopf) knopf.href = "/kreis/" + p.start;
       if (antwort) {
         antwort.hidden = false;
         if (scrollen) antwort.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -588,34 +701,39 @@
       a.classList.toggle("is-done", !!(e && e.fertig));
       a.classList.toggle("is-next", slug === ziel.slug);
     });
+    var schild = el("[data-kstart-schild]");
+    if (schild) {
+      var startKnoten = o.start ? el('.wheel__node[data-slug="' + o.start + '"]') : null;
+      schild.hidden = !startKnoten;
+      if (startKnoten) {
+        schild.style.left = startKnoten.style.left;
+        schild.style.top = startKnoten.style.top;
+      }
+    }
     alle(".klist li").forEach(function (li) {
       var e = o.stufen[li.getAttribute("data-slug")];
       li.classList.toggle("is-done", !!(e && e.fertig));
     });
 
     var hubStand = el("[data-khub-stand]");
-    var hubText = el("[data-khub-text]");
     var hubBtn = el("[data-khub-btn]");
-    if (hubStand) hubStand.textContent = fertig.length > 0 ? fertig.length + " von 7" : "Sieben Schritte";
-    if (hubText) hubText.textContent = ziel.titel;
-    if (hubBtn) { hubBtn.href = "/kreis/" + ziel.slug; hubBtn.textContent = fertig.length > 0 ? "Weiter" : "Anfangen"; }
+    if (hubStand) hubStand.textContent = fertig.length > 0 ? fertig.length + " von 7 gemacht" : "Sieben Schritte";
+    if (hubBtn) { hubBtn.href = "/kreis/" + ziel.slug; hubBtn.textContent = "Los geht's"; }
     alle("[data-kweiter]").forEach(function (a) {
       a.href = "/kreis/" + ziel.slug;
       if (a.getAttribute("data-kweiter") === "lang") {
-        a.textContent = (fertig.length > 0 ? "Weiter bei: " : "Anfangen bei: ") + ziel.titel;
+        a.textContent = (fertig.length > 0 ? "Weiter mit: " : "Starten mit: ") + ziel.titel;
       }
     });
 
-    /* Was er schon mitgenommen hat. */
     var mit = el("[data-kmitnahmen]");
     if (mit) {
       var zeilen = STUFEN.filter(function (s) {
         var e = o.stufen[s.slug];
         return e && e.mitnehmen;
       });
-      if (!zeilen.length) { mit.hidden = true; }
-      else {
-        mit.hidden = false;
+      mit.hidden = !zeilen.length;
+      if (zeilen.length) {
         var box = el("[data-kmitnahmen-liste]", mit);
         box.innerHTML = "";
         zeilen.forEach(function (s) {
@@ -680,10 +798,10 @@
       var kanal = kanalEl ? kanalEl.value : "email";
 
       fehler.classList.remove("is-visible");
-      if (!vorname) return abbruch("Bitte deinen Vornamen eingeben.");
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return abbruch("Bitte eine gültige E-Mail eingeben.");
-      if (!el("#k-c-start").checked) return abbruch("Bitte stimme der Datenverarbeitung zu, damit ich dir den nächsten Schritt schicken darf.");
-      if (!el("#k-c-eigen").checked) return abbruch("Bitte bestätige noch den Hinweis zur Eigenverantwortung.");
+      if (!vorname) return abbruch("Wie heißt du?");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return abbruch("Die Mail stimmt so noch nicht.");
+      if (!el("#k-c-start").checked) return abbruch("Setz noch den Haken beim Datenschutz, sonst darf ich dir nichts schicken.");
+      if (!el("#k-c-eigen").checked) return abbruch("Setz noch den Haken bei der Eigenverantwortung.");
 
       btn.disabled = true;
       btn.textContent = "…";
@@ -733,8 +851,8 @@
             kind: "kreis", name: vorname, email: email, phone: "",
             page: "kreis/" + slug, route: "Der Kreis",
             answers: [
-              { frage: "Wo drückt es", antwort: p ? p.frage : "nicht angetippt" },
-              { frage: "Ebene", antwort: (indexVon(slug) + 1) + ". " + stufeVon(slug).titel },
+              { frage: "Was nervt am meisten", antwort: p ? p.frage : "nicht angetippt" },
+              { frage: "Schritt", antwort: (indexVon(slug) + 1) + ". " + stufeVon(slug).titel },
               { frage: "Mitgenommen", antwort: onboarding.kreis_mitnehmen || "nichts" },
               { frage: "Wohin", antwort: kanal }
             ]
@@ -744,7 +862,7 @@
         merken(function (s) { s.lead = true; s.letzte = slug; });
 
         var titelEl = el("#k-done-title");
-        if (titelEl) titelEl.textContent = "Danke, " + vorname + ". Dein Stand ist gespeichert.";
+        if (titelEl) titelEl.textContent = "Danke, " + vorname + ". Ich hab gespeichert, wo du stehst.";
         if (kanal === "email") {
           var mail = el("#k-done-email");
           if (mail) mail.hidden = false;
@@ -761,8 +879,8 @@
         if (live) live.hidden = true;
         if (fertigBox) { fertigBox.hidden = false; fertigBox.scrollIntoView({ behavior: "smooth", block: "center" }); }
       } catch (e) {
-        console.error("Kreis speichern:", e);
-        abbruch("Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.");
+        console.error("Deinen Stand sichern:", e);
+        abbruch("Hat nicht geklappt. Versuch es gleich nochmal.");
       }
     });
   }
@@ -774,9 +892,10 @@
     initEinstieg();
     initRad();
     if (slug) {
+      initVariante(slug);
       initFaden(slug);
       initLeiter(slug);
-      initStufe(slug);
+      initSchritt(slug);
       initAnmeldung(slug);
       merken(function (o) {
         o.letzte = slug;
