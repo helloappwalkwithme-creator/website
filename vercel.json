@@ -33,6 +33,14 @@
       "missing": [{ "type": "query", "key": "via" }],
       "destination": "/nacht?via=nacht&utm_source=direkt&utm_medium=kurzlink&utm_campaign=nacht",
       "permanent": false
-    }
+    },
+    { "source": "/kreis", "destination": "/clear-state", "permanent": false },
+    { "source": "/kreis/verhalten", "destination": "/clear-state/verhalten", "permanent": false },
+    { "source": "/kreis/gefuehle", "destination": "/clear-state/gefuehle", "permanent": false },
+    { "source": "/kreis/alarm", "destination": "/clear-state/alarm", "permanent": false },
+    { "source": "/kreis/ruhe", "destination": "/clear-state/ruhe", "permanent": false },
+    { "source": "/kreis/satz", "destination": "/clear-state/satz", "permanent": false },
+    { "source": "/kreis/werte", "destination": "/clear-state/werte", "permanent": false },
+    { "source": "/kreis/wofuer", "destination": "/clear-state/wofuer", "permanent": false }
   ]
 }
