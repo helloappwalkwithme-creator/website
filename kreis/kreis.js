@@ -40,7 +40,7 @@
     { slug: "gefuehle", titel: "Gefühle",
       kurz: "Was dich wirklich stört, wenn du sauer bist.",
       faden: "Wenn du sauer bist, steckt meistens was anderes dahinter. Hier findest du raus, was." },
-    { slug: "alarm", titel: "Nervensystem",
+    { slug: "alarm", titel: "Schneller Alarm",
       kurz: "Warum du reagierst, bevor du nachdenkst.",
       faden: "In dir gibt es einen schnellen Alarm und einen langsamen Planer. Hier verschaffst du dem Planer eine Sekunde." },
     { slug: "ruhe", titel: "Innere Ruhe",
