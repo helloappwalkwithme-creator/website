@@ -1,6 +1,5 @@
 /* ==========================================================================
-   kreis.css - Clear State, /clear-state und /clear-state/<schritt>
-   Dateiname bleibt kreis.css. Interne Klassen bleiben k* und kc*.
+   kreis.css - Der Kreis, /kreis und /kreis/<schritt>
    Baut auf tokens.css und components.css auf. Nur neue Bausteine stehen hier,
    nichts Bestehendes wird ueberschrieben. Zuerst fuers Handy.
    ========================================================================== */
@@ -36,6 +35,8 @@ a.kleiter__p:hover { border-color: var(--accent); color: var(--accent-dark); }
 .kstep { margin: 0; }
 .js .kstep[data-kstep] { display: none; }
 .js .kstep.is-active { display: block; animation: kfade .32s var(--ease) both; }
+.js .k-danach { display: none; }
+.js .k-danach.is-offen { display: block; }
 @keyframes kfade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .js .kstep.is-active { animation: none; } }
 .kstep h1:focus-visible, .kstep h2:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 4px; }
@@ -182,7 +183,7 @@ a.kleiter__p:hover { border-color: var(--accent); color: var(--accent-dark); }
 .kprogramm { margin: clamp(22px, 3vw, 30px) 0 0; padding-top: 20px; border-top: 1px solid var(--line); font-size: var(--small); color: var(--muted); max-width: var(--measure); }
 .kprogramm b { color: var(--ink); }
 
-/* --- Der Einstieg auf /clear-state ---------------------------------------- */
+/* --- Der Einstieg auf /kreis ---------------------------------------------- */
 
 .keinstieg { margin: clamp(20px, 3vw, 28px) 0 0; }
 .keinstieg__grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0; padding: 0; border: 0; }
@@ -214,9 +215,7 @@ a.kleiter__p:hover { border-color: var(--accent); color: var(--accent-dark); }
 .wheel__node.is-done .wheel__dot { background: var(--accent); border-color: var(--accent); color: #fff; font-size: 0; }
 .wheel__node.is-done .wheel__dot::after { content: ""; width: 13px; height: 8px; border-left: 2.5px solid #fff; border-bottom: 2.5px solid #fff; transform: rotate(-45deg) translate(1px, -2px); }
 .wheel__node.is-next .wheel__dot { border-color: var(--accent); color: var(--accent-dark); box-shadow: 0 0 0 4px rgba(19,121,106,.14), var(--sh-sm); }
-.wheel__name { font-size: .72rem; line-height: 1.15; color: var(--muted); text-align: center; max-width: 10ch; }
-.kversprechen { margin: 8px 0 12px; max-width: 28ch; color: var(--muted); font-size: 1.0625rem; }
-.hero .kversprechen { color: rgba(244,243,239,.82); margin-top: 10px; }
+.wheel__name { font-size: .72rem; line-height: 1.15; color: var(--muted); text-align: center; max-width: 9ch; }
 @media (min-width: 620px) { .wheel { width: min(100%, 520px); } .wheel__name { font-size: .8rem; max-width: 9ch; } }
 
 .wheel__schild { position: absolute; transform: translate(-50%, -50%) translateY(-40px); background: var(--brass-ink); color: #fff; font-size: .6875rem; font-weight: 600; padding: 4px 9px; border-radius: var(--r-pill); white-space: nowrap; pointer-events: none; }

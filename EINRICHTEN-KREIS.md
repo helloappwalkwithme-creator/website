@@ -1,30 +1,28 @@
 # Was du noch einrichten musst, damit Clear State läuft
 
-Sichtbarer Name ist jetzt „Clear State“, Adresse /clear-state. Interne Kennungen heißen weiter kreis.
+Stand 24.10.2026. Öffentlicher Name: Clear State. Tagline: Im Job im Flow. Abends wirklich aus.
+Die Seiten liegen in `clear-state/`. Skripte und CSS bleiben in `kreis/`. Die öffentliche Adresse ist `/clear-state`. `/kreis` leitet dorthin um.
+`KREIS_FLOW_AKTIV` ist `true`, damit die Seiten sichtbar sind. `CHECK_MAIL_AKTIV` bleibt `false`: keine Mail-Sperre.
 
-Stand 23.10.2026. Die Seiten liegen unter `/clear-state`. Alte Adressen unter `/kreis` leiten dorthin weiter.
-
-**An Make, an Supabase und an bestehenden Seiten wurde nichts geändert.** Die Seiten
-liegen im Ordner `clear-state/` und sind von keiner anderen Seite aus verlinkt.
-Die Seiten sind über die Adresse erreichbar. `KREIS_FLOW_AKTIV` bleibt `false`, bis der Make-Flow steht. Der Schalter schaltet nicht die Sichtbarkeit, sondern nur den zusätzlichen `register_lead`-Aufruf.
+**An Make und an Supabase wurde nichts geändert.** Die Seiten liegen im Ordner `kreis/`.
+Öffentlich heißen sie Clear State und sind über `/clear-state` erreichbar. Von der Startseite führt ein Link hin.
 
 ---
 
 ## Die zwei Schalter in kreis.js
 
-Ganz oben in `clear-state/kreis.js`:
+Ganz oben in `kreis/kreis.js`:
 
 ```js
 var KREIS_FLOW = "kreis_flow";
-var KREIS_FLOW_AKTIV = false;   // auf true, wenn Flow und Make stehen
+var KREIS_FLOW_AKTIV = true;    // Seiten sichtbar
+var CHECK_MAIL_AKTIV = false;   // keine Mail-Sperre
 var BEWERBUNG_AKTIV = false;    // auf true, wenn die Bewerbung offen ist
 var MAGNET = "kreis";
 ```
 
-**KREIS_FLOW_AKTIV auf false** heißt: Der Lead landet über `register_tripwire_lead` in
-Supabase, du bekommst die Hinweis-Mail über `notify-form`, und es wird **kein** Ablauf
-angelegt. So kann kein Make-Szenario über einen Flow stolpern, den es noch nicht gibt.
-Auf `true` stellst du erst, wenn Punkt 1 und 2 unten erledigt sind.
+**KREIS_FLOW_AKTIV steht auf true.** Die Seiten sind sichtbar. Bei einer freiwilligen Eintragung
+läuft zusätzlich `register_lead` für `kreis_flow`. `CHECK_MAIL_AKTIV` bleibt false. Es gibt keine Mail-Sperre vor den Schritten.
 
 **BEWERBUNG_AKTIV auf false** heißt: Der Hinweis auf die Bewerbung bleibt ausgeblendet.
 Er steht nur im Abschluss „Alle sieben durch“ und nennt weder Preis noch Plätze noch
@@ -40,9 +38,9 @@ das ist noch nichts gebaut. Aufbau wie bei den bestehenden Flows:
 | Schritt | Inhalt der Nachricht |
 |---|---|
 | 1 Verhalten | seine Wenn-Dann-Regel aufgreifen |
-| 2 Ein Wort dafür | seine zwei Wörter |
+| 2 Gefühle | seine zwei Wörter |
 | 3 Alarm und Planer | Hände flach, ein Wort, eine Uhrzeit |
-| 4 Abends aus | die Minute runterfahren und der Zettel |
+| 4 Innere Ruhe | die Minute runterfahren und der Zettel |
 | 5 Der Satz | sein Satz |
 | 6 Werte | sein Wert und was er gekostet hat |
 | 7 Für wen | sein Termin für die Woche |
@@ -54,7 +52,7 @@ sondern muss sich auf den Schritt beziehen, der in `kreis_stufe` steht.
 
 **Der Weiter-Link gehört in jede Nachricht.** Er steht fertig in
 `onboarding_data.kreis_weiter_link` und sieht so aus:
-`https://www.shiftmyhorizon.com/clear-state?weiter=<schritt>`. Der Schlüssel heißt weiter `kreis_weiter_link`. Die Schritte heißen
+`https://www.shiftmyhorizon.com/kreis?weiter=<schritt>`. Die Schritte heißen
 `verhalten`, `gefuehle`, `alarm`, `ruhe`, `satz`, `werte`, `wofuer`.
 
 ## 2. Make: ein eigenes Szenario für den Kreis
@@ -86,7 +84,7 @@ Kein neues Feld in der Datenbank nötig. Alles liegt in `onboarding_data`:
   "kreis_erledigt": ["ruhe"],
   "kreis_antworten": ["An das Meeting morgen früh"],
   "kreis_mitnehmen": "Offen: Angebot für Meier. Dran: morgen um 9.",
-  "kreis_weiter_link": "https://www.shiftmyhorizon.com/clear-state?weiter=satz",
+  "kreis_weiter_link": "https://www.shiftmyhorizon.com/kreis?weiter=satz",
   "flow": "kreis_flow",
   "access_code": "AB12-CD34",
   "utm_source": null, "utm_medium": null, "utm_campaign": null, "via": null,
@@ -125,13 +123,13 @@ oben angetippt hat. Alle vier Ziele sind geprüft und live:
 
 | Angetippt | Nach Schritt | Seite |
 |---|---|---|
-| Ich wach nachts auf und denk an die Arbeit | 4 Abends aus | `/nacht` |
+| Ich wach nachts auf und denk an die Arbeit | 4 Innere Ruhe | `/nacht` |
 | Vor wichtigen Terminen bin ich total angespannt | 3 Alarm und Planer | `/termin` |
 | Ich krieg mich bei der Arbeit nicht konzentriert | 3 Alarm und Planer | `/fokus` |
-| Abends geht mein Kopf nicht aus | 4 Abends aus | `/abschalten` |
+| Abends geht mein Kopf nicht aus | 4 Innere Ruhe | `/abschalten` |
 | Ich hör abends einfach nicht auf zu arbeiten | 5 Der Satz | `/abschalten` |
 
-## 6. Das Video für /clear-state
+## 6. Das Video für /kreis
 
 Das Skript im Drive (`02-SKRIPTE/00-DREHFERTIG/TELEPROMPTER/LP05 Landingpage Kreis
 TELEPROMPTER v1.docx`) beschreibt noch die alte Fassung, in der man vorne anfängt. Vor
@@ -141,15 +139,15 @@ Schritt an“, sondern „tipp an, was dich gerade am meisten nervt“.
 Auf der Seite ist gerade kein Videokasten eingebaut, weil der Einstieg ganz oben stehen
 soll. Wenn du einen willst, sag Bescheid, dann setze ich ihn unter den Einstieg.
 
-## 7. Wenn Clear State nach außen gehen soll
+## 7. Wenn der Kreis nach außen gehen soll
 
-Die Seiten stehen auf `noindex,nofollow`, genau wie `/fokus` und `/nacht`. Wenn Clear State
-über Google gefunden werden soll, muss die Zeile raus. Die Adresse ist trotzdem direkt aufrufbar.
+Die Seiten stehen auf `noindex,nofollow`, genau wie `/fokus` und `/nacht`. Wenn der Kreis
+über Google gefunden werden soll, muss die Zeile raus.
 
-* Bio-Link und angepinnter Kommentar auf `https://www.shiftmyhorizon.com/clear-state`.
+* Bio-Link und angepinnter Kommentar auf `https://www.shiftmyhorizon.com/kreis`.
 * In jeder Videobeschreibung der Schritt, um den es im Video geht, zum Beispiel
-  `https://www.shiftmyhorizon.com/clear-state/gefuehle`. Wer direkt dort einsteigt, bekommt den
-  Schritt automatisch als seinen Startpunkt. Alte Links auf `/kreis` leiten weiter.
+  `https://www.shiftmyhorizon.com/kreis/gefuehle`. Wer direkt dort einsteigt, bekommt den
+  Schritt automatisch als seinen Startpunkt.
 * Falls du Kurzlinks willst wie `/ig` und `/yt`: eine Zeile in `vercel.json`.
 
 ---
@@ -159,9 +157,9 @@ Die Seiten stehen auf `noindex,nofollow`, genau wie `/fokus` und `/nacht`. Wenn 
 * **Kein bestehendes Make-Szenario angefasst**, auch keins dupliziert.
 * **Kein Schema in Supabase geändert**, keine Spalte, keine RPC, kein Formular-Verhalten.
 * **Keine bestehende Seite geändert.** `tokens.css` und `components.css` sind unverändert,
-  Clear State bringt sein eigenes `clear-state/kreis.css` mit. Auf `/nacht`, `/termin`, `/fokus`
+  der Kreis bringt sein eigenes `kreis/kreis.css` mit. Auf `/nacht`, `/termin`, `/fokus`
   und `/abschalten` wird nur verlinkt.
-* **Keine Preise, keine Potenzialsession, kein FOKUS-Codewort.** Der Satz zu „Fahr dich runter“
-  ist raus. Der Hinweis auf eine Bewerbung bleibt ausgeblendet, hinter `BEWERBUNG_AKTIV`.
+* **Keine Preise, keine Potenzialsession, kein FOKUS-Codewort.** „Fahr dich runter“ wird
+  in einem Satz erwähnt, erst ab Schritt 4, ohne Preis und ohne Button.
 * **Keine Zahl ohne geprüfte Quelle.** Bei HRV steht keine eigene Messung von dir, nur
   das, was die Übersichtsarbeiten hergeben.

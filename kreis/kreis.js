@@ -1,10 +1,8 @@
-/* kreis.js - Clear State, Fassung 3.
-   Sichtbarer Name: Clear State. Adresse: /clear-state.
-   Interne Kennungen bleiben kreis (MAGNET, kreis_flow, kind, localStorage).
+/* kreis.js - Der Kreis, Fassung 3.
    Eine Datei fuer die Uebersicht und alle sieben Schritte. Keine Fremdbibliothek.
 
    Aufbau:
-   1. Einstieg auf /clear-state: Er tippt an, was ihn nervt, und landet beim passenden Schritt.
+   1. Einstieg auf /kreis: Er tippt an, was ihn nervt, und landet beim passenden Schritt.
    2. Die Reihenfolge laeuft von dort weiter und faengt nach Schritt 7 wieder bei 1 an.
    3. Roter Faden: sein Problem steht in seinen Worten oben auf jeder Seite.
    4. Vier Teile pro Schritt: Frage, Was dahintersteckt, Uebung, Mitnehmen.
@@ -23,9 +21,10 @@
   var SUPABASE_ANON_KEY = "sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe";
 
   var KREIS_FLOW = "kreis_flow";
-  var KREIS_FLOW_AKTIV = false;   /* nicht die Sichtbarkeit. true legt zusaetzlich register_lead an, erst wenn der Make-Flow kreis_flow steht */
+  var KREIS_FLOW_AKTIV = true;    /* Seiten sind sichtbar. Flow-Anmeldung läuft mit. */
+  var CHECK_MAIL_AKTIV = false;   /* bleibt false: keine Mail-Sperre vor den Schritten */
   var BEWERBUNG_AKTIV = false;    /* auf true stellen, wenn die Bewerbung offen ist */
-  var MAGNET = "kreis";           /* damit Make die Kreis-Leute getrennt beschickt */
+  var MAGNET = "kreis";           /* damit Make die Clear-State-Leute getrennt beschickt */
 
   var waNumber = "491632225456";
   var tgBotName = "shift_my_horizon_bot";
@@ -38,17 +37,17 @@
     { slug: "verhalten", titel: "Verhalten",
       kurz: "Warum dein Plan immer an derselben Stelle kippt.",
       faden: "Hier geht es um das, was du jeden Tag tust. Du findest den Moment, an dem dein Plan kippt." },
-    { slug: "gefuehle", titel: "Ein Wort dafür",
+    { slug: "gefuehle", titel: "Gefühle",
       kurz: "Was dich wirklich stört, wenn du sauer bist.",
       faden: "Wenn du sauer bist, steckt meistens was anderes dahinter. Hier findest du raus, was." },
-    { slug: "alarm", titel: "Alarm und Planer",
+    { slug: "alarm", titel: "Nervensystem",
       kurz: "Warum du reagierst, bevor du nachdenkst.",
       faden: "In dir gibt es einen schnellen Alarm und einen langsamen Planer. Hier verschaffst du dem Planer eine Sekunde." },
-    { slug: "ruhe", titel: "Abends aus",
+    { slug: "ruhe", titel: "Innere Ruhe",
       kurz: "Wie du abends wirklich Feierabend hast.",
       faden: "Du bist zu Hause, aber dein Kopf ist noch im Büro. Hier holst du ihn raus." },
-    { slug: "satz", titel: "Der Satz",
-      kurz: "Der Satz, der dich antreibt und nie Pause macht.",
+    { slug: "satz", titel: "Antreiber",
+      kurz: "Was dich antreibt und nie Pause macht.",
       faden: "In deinem Kopf läuft ein Satz, der dich antreibt. Hier schreibst du ihn einmal auf." },
     { slug: "werte", titel: "Werte",
       kurz: "Was dir wirklich wichtig ist, und woran du das merkst.",
@@ -408,15 +407,19 @@
 
     var maxTeil = teile.reduce(function (m, s) { return Math.max(m, Number(s.dataset.kstep)); }, 0);
     var aktuell = 1;
-    var uhrenOffen = alle('.kstep[data-kstep="3"] [data-kuebung="timer"]').length;
+    var marker = el("[data-kpflicht], [data-kuebung='timer']");
+    var host = marker ? marker.closest(".kstep[data-kstep]") : null;
+    var ueNr = host ? Number(host.dataset.kstep) : 3;
+    var uhrenOffen = alle('.kstep[data-kstep="' + ueNr + '"] [data-kuebung="timer"]').length;
     var uhrenFertig = 0;
+    var abgeschlossen = false;
 
     initUhren(function () { uhrenFertig++; pruefeUebung(); });
 
     function pruefeUebung() {
-      var knopf = el('.kstep[data-kstep="3"] [data-knext-step]');
+      var knopf = el('.kstep[data-kstep="' + ueNr + '"] [data-knext-step]');
       if (!knopf) return;
-      var pflicht = alle('.kstep[data-kstep="3"] [data-kpflicht]');
+      var pflicht = alle('.kstep[data-kstep="' + ueNr + '"] [data-kpflicht]');
       var werte = felder();
       var allesDa = pflicht.every(function (f) { return !!werte[f.getAttribute("data-kfeld")]; });
       var offen = (uhrenFertig < uhrenOffen) || !allesDa;
@@ -424,6 +427,26 @@
       knopf.setAttribute("aria-disabled", offen ? "true" : "false");
       var hinweis = el("[data-kue-hinweis]");
       if (hinweis) hinweis.hidden = !offen;
+    }
+
+    function abschlussSpeichern() {
+      if (abgeschlossen) return;
+      abgeschlossen = true;
+      var werte = felder();
+      var mit = el("[data-kmit]");
+      var text = mit ? fuelleVorlage(mit.getAttribute("data-kmit"), werte) : "";
+      if (mit) mit.textContent = text;
+      var danach = el(".k-danach");
+      if (danach) danach.classList.add("is-offen");
+      merken(function (o) {
+        o.stufen[slug] = o.stufen[slug] || {};
+        o.stufen[slug].fertig = true;
+        o.stufen[slug].mitnehmen = text;
+        o.stufen[slug].am = new Date().toISOString();
+        o.letzte = slug;
+      });
+      initLeiter(slug);
+      zeigeAbschluss(slug);
     }
 
     function zeigeTeil(n, scrollen) {
@@ -438,22 +461,8 @@
       var ueberschrift = aktiv ? el("h1, h2", aktiv) : null;
       if (ueberschrift) { ueberschrift.setAttribute("tabindex", "-1"); if (scrollen) ueberschrift.focus({ preventScroll: true }); }
 
-      if (n === 3) pruefeUebung();
-      if (n === maxTeil) {
-        var werte = felder();
-        var mit = el("[data-kmit]");
-        var text = mit ? fuelleVorlage(mit.getAttribute("data-kmit"), werte) : "";
-        if (mit) mit.textContent = text;
-        merken(function (o) {
-          o.stufen[slug] = o.stufen[slug] || {};
-          o.stufen[slug].fertig = true;
-          o.stufen[slug].mitnehmen = text;
-          o.stufen[slug].am = new Date().toISOString();
-          o.letzte = slug;
-        });
-        initLeiter(slug);
-        zeigeAbschluss(slug);
-      }
+      if (n === ueNr) pruefeUebung();
+      if (n === maxTeil && ueNr !== maxTeil) abschlussSpeichern();
     }
 
     document.addEventListener("click", function (e) {
@@ -475,6 +484,12 @@
         });
         if (AUFLOESUNG[slug]) AUFLOESUNG[slug](picks);
         if (UEBUNG[slug]) UEBUNG[slug](picks);
+        if (aktuell === ueNr && ueNr === maxTeil) {
+          abschlussSpeichern();
+          var danach = el(".k-danach");
+          if (danach) danach.scrollIntoView({ behavior: "smooth", block: "start" });
+          return;
+        }
         zeigeTeil(Math.min(aktuell + 1, maxTeil), true);
         return;
       }
@@ -515,6 +530,10 @@
       if (t) t.textContent = p.weiter.text;
       if (k) { k.href = p.weiter.href; k.textContent = p.weiter.knopf; }
     }
+
+    /* "Fahr dich runter" erst ab Schritt 4. */
+    var programm = el("[data-kprogramm]");
+    if (programm) programm.hidden = indexVon(slug) < indexVon("ruhe");
 
     var weiter = el("[data-knaechste]");
     var schluss = el("[data-krum]");
@@ -643,7 +662,7 @@
     alle("[data-ktags]").forEach(function (e) { e.hidden = true; });
   };
 
-  /* ------------------------------------------------- Die Uebersicht /clear-state -- */
+  /* ------------------------------------------------- Die Uebersicht /kreis -- */
 
   function initEinstieg() {
     var kasten = el("[data-keinstieg]");
@@ -699,12 +718,6 @@
       a.classList.toggle("is-done", !!(e && e.fertig));
       a.classList.toggle("is-next", slug === ziel.slug);
     });
-    if (rad) {
-      var teile = ["Sieben Schritte in Clear State."];
-      if (o.start) teile.push("Du startest bei Schritt " + (indexVon(o.start) + 1) + ".");
-      if (fertig.length) teile.push("Erledigt: " + fertig.map(function (s) { return s.titel; }).join(", ") + ".");
-      rad.setAttribute("aria-label", teile.join(" "));
-    }
     var schild = el("[data-kstart-schild]");
     if (schild) {
       var startKnoten = o.start ? el('.wheel__node[data-slug="' + o.start + '"]') : null;

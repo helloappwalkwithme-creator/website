@@ -34,15 +34,14 @@
       "destination": "/nacht?via=nacht&utm_source=direkt&utm_medium=kurzlink&utm_campaign=nacht",
       "permanent": false
     },
-    {
-      "source": "/kreis",
-      "destination": "/clear-state",
-      "permanent": true
-    },
-    {
-      "source": "/kreis/:path*",
-      "destination": "/clear-state/:path*",
-      "permanent": true
-    }
+    { "source": "/kreis", "destination": "/clear-state", "permanent": true },
+    { "source": "/kreis/verhalten", "destination": "/clear-state/verhalten", "permanent": true },
+    { "source": "/kreis/gefuehle", "destination": "/clear-state/gefuehle", "permanent": true },
+    { "source": "/kreis/alarm", "destination": "/clear-state/alarm", "permanent": true },
+    { "source": "/kreis/ruhe", "destination": "/clear-state/ruhe", "permanent": true },
+    { "source": "/kreis/satz", "destination": "/clear-state/satz", "permanent": true },
+    { "source": "/kreis/werte", "destination": "/clear-state/werte", "permanent": true },
+    { "source": "/kreis/wofuer", "destination": "/clear-state/wofuer", "permanent": true }
+
   ]
 }

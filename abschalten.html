@@ -55,12 +55,31 @@
   </section>
 
   <section class="sec sec--paper" id="lebensqualitaet">
-    <!-- Video-Slot: hier kommt ein Video von Janosch, 60 bis 90 Sekunden. Solange nichts sichtbar. -->
     <div class="wrap" style="max-width:760px">
-      <h2>Mehr Gehalt, größere Wohnung, neues Auto. Und abends ist der Kopf trotzdem nicht still.</h2>
-      <div class="prose">
-        <p>Lebensstandard ist wichtig.</p>
-        <p>Wohnung, Auto und Job dürfen bleiben.</p>
+      <!-- 60 bis 90 Sekunden. Der Player bleibt weg, bis data-src eine Datei hat. -->
+      <div class="vsl" data-src="" data-poster="" aria-label="Video, 60 bis 90 Sekunden">
+        <button class="vsl__play" type="button" hidden><span class="visually-hidden">Video abspielen</span></button>
+        <button class="vsl__sound" type="button" hidden>Ton an</button>
+      </div>
+      <span class="eyebrow">Lebensstandard und Ruhe</span>
+      <h2>Mehr Gehalt. Der Kopf ist abends trotzdem nicht still.</h2>
+      <ol class="days">
+        <li><b>Wiedererkennen</b>Mehr Gehalt, größere Wohnung, neues Auto. Und trotzdem ist der Kopf abends nicht still. Du bist zu Hause. Ob du im Moment wirklich da bist, ist die andere Frage.</li>
+        <li><b>Erkenntnis</b>Du erhöhst den Standard, weil dein Kopf Probleme von morgen ins Jetzt holt. Der langsame Planer denkt an die Rate und an Donnerstag. Der schnelle Alarm behandelt das, als passiert es jetzt. Dann verlangt er mehr Sicherheit. Eigentlich brauchst du etwas anderes.</li>
+        <li><b>Auflösung</b>Ruhe kommt nicht von außen. Sie kommt, wenn du deinen Alarm runterfährst. Das kannst du trainieren.</li>
+        <li><b>Nächster Schritt</b><a href="#die-drei-tage">Zu den drei Tagen</a></li>
+      </ol>
+      <div class="duo" style="margin-top:28px;grid-template-columns:1fr 1fr">
+        <div class="duo__box" style="padding:16px 14px">
+          <p class="eyebrow" style="margin:0 0 8px">Vorher</p>
+          <p style="margin:0;font-weight:600;color:var(--ink)">Mehr Standard</p>
+          <p class="small" style="margin:8px 0 0">Mehr Gehalt. Größere Wohnung. Neues Auto. Kopf abends nicht still.</p>
+        </div>
+        <div class="duo__box" style="padding:16px 14px;background:var(--accent-tint);border-color:rgba(19,121,106,.28)">
+          <p class="eyebrow" style="margin:0 0 8px">Nachher</p>
+          <p style="margin:0;font-weight:600;color:var(--ink)">Alarm runter</p>
+          <p class="small" style="margin:8px 0 0">Im Moment wirklich da. Der Kopf gibt Ruhe.</p>
+        </div>
       </div>
       <figure style="margin:32px 0 8px">
         <svg viewBox="0 0 600 340" width="100%" role="img" aria-labelledby="lq-t lq-d" style="display:block;max-width:640px;height:auto;font-family:var(--font-body)">
@@ -80,37 +99,7 @@
         </svg>
         <figcaption class="small" style="color:var(--muted);margin-top:12px">Im Schnitt steigt der Lebensstandard mit den Jahren. Die Zufriedenheit sinkt bis Ende 40 und steigt danach wieder. Das sind Durchschnitte aus vielen Ländern, kein Gesetz für dich. Schematische Darstellung ohne Werte, nach <a href="#q-blanchflower-oswald">Blanchflower und Oswald 2008</a> und <a href="#q-blanchflower">Blanchflower 2021</a>.</figcaption>
       </figure>
-      <h3 style="margin-top:32px">Warum du immer mehr willst</h3>
-      <div class="prose">
-        <p>Dein Kopf holt Probleme von morgen ins Jetzt.</p>
-        <p>Ein schneller Alarm und ein langsamer Planer.</p>
-        <p>Der Planer denkt an die Rate, an das Quartal, an den Termin am Donnerstag.</p>
-        <p>Der Alarm reagiert, als wäre das schon jetzt.</p>
-        <p>Also verlangt er mehr Sicherheit.</p>
-        <p>Du erhöhst den Standard.</p>
-        <p>Was du eigentlich brauchst, ist etwas anderes.</p>
-        <p>Lebensqualität entscheidet sich daran, ob du im Moment wirklich da bist und ob dein Kopf Ruhe gibt.</p>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:28px 0 8px">
-        <div class="duo__box" style="padding:16px 14px">
-          <p class="eyebrow" style="margin:0 0 8px">Vorher</p>
-          <p style="margin:0;font-weight:600;color:var(--ink)">Mehr Standard</p>
-          <p class="small" style="margin:8px 0 0;line-height:1.45">Neues Auto.<br>Mehr Puffer.<br>Kopf bleibt an.</p>
-        </div>
-        <div class="duo__box" style="padding:16px 14px;background:var(--accent-tint);border-color:rgba(19,121,106,.28)">
-          <p class="eyebrow" style="margin:0 0 8px">Nachher</p>
-          <p style="margin:0;font-weight:600;color:var(--ink)">Mehr Ruhe</p>
-          <p class="small" style="margin:8px 0 0;line-height:1.45">Alarm runter.<br>Abends wirklich aus.</p>
-        </div>
-      </div>
-      <h3 style="margin-top:32px">Was wirklich Ruhe bringt</h3>
-      <div class="prose">
-        <p>Ruhe kommt nicht von außen.</p>
-        <p>Sie kommt, wenn du deinen Alarm runterfährst.</p>
-        <p>Das kann man trainieren.</p>
-        <p><a class="textlink" href="#die-drei-tage">Dafür sind die drei Tage unten.</a></p>
-      </div>
-      <p class="small" style="color:var(--muted);margin-top:24px">Die Kurven zeigen Durchschnitte, keine Werte für einzelne Menschen. Wenn es finanziell eng ist, bringt mehr Geld sehr wohl mehr Lebensqualität. Alarm und Planer sind ein Arbeitsmodell, keine Studie.</p>
+      <p class="small" style="color:var(--muted);margin-top:24px">Die Kurven zeigen Durchschnitte, keine Werte für einzelne Menschen. Wenn es finanziell eng ist, bringt mehr Geld sehr wohl mehr Lebensqualität. Ob dein Kopf Ruhe gibt, steht nicht auf der Kurve. Schneller Alarm und langsamer Planer sind ein Arbeitsmodell, keine Studie.</p>
     </div>
   </section>
 

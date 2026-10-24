@@ -8,7 +8,6 @@
 <meta name="description" content="Tipp an, was du dir vorgenommen hast und was nach drei Tagen weg war. Du siehst, warum, und schreibst dir eine Regel, die hält. Kostenlos.">
 <meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="https://www.shiftmyhorizon.com/clear-state/verhalten">
-<meta property="og:url" content="https://www.shiftmyhorizon.com/clear-state/verhalten">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Was nimmst du dir vor und ziehst es nicht durch? Schritt 1 in Clear State">
 <meta property="og:description" content="Tipp an, was du dir vorgenommen hast und was nach drei Tagen weg war. Du siehst, warum, und schreibst dir eine Regel, die hält. Kostenlos.">
@@ -17,7 +16,7 @@
 <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/components.css">
-<link rel="stylesheet" href="/clear-state/kreis.css">
+<link rel="stylesheet" href="/kreis/kreis.css">
 </head>
 <body class="page-ig" data-kreis="verhalten">
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -33,14 +32,18 @@
   <div class="wrap kwrap" id="oben" data-ktop>
 
     <p class="kcrumb"><a href="/clear-state">Clear State</a> <b>Schritt 1</b> <span>Verhalten</span></p>
-    <p class="kversprechen">Im Job im Flow. Abends wirklich aus.</p>
     <ul class="kleiter" data-kleiter aria-label="Die sieben Schritte"></ul>
+        <!-- 60 bis 90 Sekunden. Der Player bleibt weg, bis data-src eine Datei hat. -->
+    <div class="vsl" data-src="" data-poster="" aria-label="Video, 60 bis 90 Sekunden">
+      <button class="vsl__play" type="button" hidden><span class="visually-hidden">Video abspielen</span></button>
+      <button class="vsl__sound" type="button" hidden>Ton an</button>
+    </div>
     <p class="kleiter-text" data-kleiter-text>Schritt 1 von 7</p>
     <p class="kfaden" data-kfaden hidden></p>
 
     <!-- ------------------------------------------------ 1 von 4: Die Frage -->
-    <section class="kstep is-active" data-kstep="1" aria-label="Die Frage">
-      <p class="kteil">1 von 4 · Frage</p>
+    <section class="kstep is-active" data-kstep="1" aria-label="Wiedererkennen">
+      <p class="kteil">1 von 4 · Wiedererkennen</p>
       <div data-kvariante="standard">
         <h1>Was hast du dir zuletzt vorgenommen, und nach ein paar Tagen war es weg?</h1>
         <p>Tipp an, was du kennst. Dann siehst du, wo du ansetzt.</p>
@@ -68,8 +71,8 @@
     </section>
 
     <!-- ---------------------------------- 2 von 4: Was dahintersteckt ------ -->
-    <section class="kstep" data-kstep="2" aria-label="Was dahintersteckt">
-      <p class="kteil">2 von 4 · Was dahintersteckt</p>
+    <section class="kstep" data-kstep="2" aria-label="Erkenntnis">
+      <p class="kteil">2 von 4 · Erkenntnis</p>
       <h2>Am Willen lag es nicht.</h2>
       <p>Du hast „<em data-kfill="meinVorsatz"></em>“ angetippt. Wahrscheinlich nimmst du dir das nicht zum ersten Mal vor.</p>
       <svg class="kbild" viewBox="0 0 320 250" role="img" aria-label="Eine Schleife aus vier Schritten: merken, kurz anhalten, benennen, festlegen. Jeden Tag ein bisschen.">
@@ -117,14 +120,23 @@
       <p class="kbruecke">Und dann ziehst du es durch, ohne jeden Tag dran denken zu müssen.</p>
 
       <div class="krow">
-        <button class="btn btn--primary" type="button" data-knext-step>Jetzt probierst du es <svg aria-hidden="true"><use href="#i-go"></use></svg></button>
+        <button class="btn btn--primary" type="button" data-knext-step>Weiter zur Auflösung <svg aria-hidden="true"><use href="#i-go"></use></svg></button>
         <button class="btn btn--ghost" type="button" data-kprev-step>Zurück</button>
       </div>
     </section>
 
-    <!-- ----------------------------------------------- 3 von 4: Die Übung -- -->
-    <section class="kstep" data-kstep="3" aria-label="Die Übung">
-      <p class="kteil">3 von 4 · Übung</p>
+    <section class="kstep" data-kstep="3" aria-label="Auflösung">
+      <p class="kteil">3 von 4 · Auflösung</p>
+      <h2>Häng den Plan an einen festen Moment.</h2>
+      <p>Haustür, Motor aus, Laptop zu. An so einem Moment bleibt er hängen. Dann musst du nicht jedes Mal dran denken.</p>
+      <div class="krow">
+        <button class="btn btn--primary" type="button" data-knext-step>Zur Übung für heute <svg aria-hidden="true"><use href="#i-go"></use></svg></button>
+        <button class="btn btn--ghost" type="button" data-kprev-step>Zurück</button>
+      </div>
+    </section>
+
+    <section class="kstep" data-kstep="4" aria-label="Übung für heute">
+      <p class="kteil">4 von 4 · Übung für heute</p>
       <h2>Schreib dir deine Regel.</h2>
       <p class="kwarum">Wenn dein Plan an einem festen Moment hängt, musst du nicht dran denken. Der Moment erinnert dich.</p>
       <div class="kue">
@@ -146,18 +158,14 @@
         <button class="btn btn--ghost" type="button" data-kprev-step>Zurück</button>
       </div>
       <p class="hint" data-kue-hinweis hidden>Füll beide Felder aus, dann geht's weiter.</p>
-    </section>
-
-    <!-- ------------------------------------------------ 4 von 4: Mitnehmen -->
-    <section class="kstep" data-kstep="4" aria-label="Mitnehmen">
-      <p class="kteil">4 von 4 · Mitnehmen</p>
+      <div class="k-danach">
       <div class="kmit">
         <span class="eyebrow">Das nimmst du mit</span>
         <h2>Das ist deine Regel.</h2>
         <span class="kmit__satz" data-kmit="Wenn {wenn}, dann {dann}."></span>
         <p>Schreib sie in die Notizen auf dem Handy. Dann musst du sie dir nicht merken.</p>
         <p>Am Sonntag schaust du nach: An wie vielen Tagen hat es geklappt? Ein Strich pro Tag. Fünf von sieben sind gut.</p>
-        <p class="kmit__dauerhaft">Jeder Schritt bringt dir heute was. Zusammen greifen sie besser. Deshalb geht es danach weiter.</p>
+        <p class="kmit__dauerhaft">Das hilft dir ab heute. Richtig weg ist es erst, wenn du auch die anderen Schritte gemacht hast. Deshalb geht es danach weiter.</p>
       </div>
 
       <!-- --------------------------------------------- Der nächste Schritt --- -->
@@ -174,9 +182,9 @@
       <section class="knext" data-krum hidden aria-label="Alle sieben durch">
         <span class="eyebrow">Alle sieben durch</span>
         <h2>Du hast alle sieben Schritte gemacht.</h2>
-        <p>Jetzt geht Clear State wieder bei Schritt 1 los. Du nimmst dir dasselbe vor wie vorher. Jetzt weißt du, woran es gehangen hat.</p>
+        <p>Jetzt geht es wieder bei Schritt 1 los. Du nimmst dir dasselbe vor wie vorher, aber jetzt weißt du, warum es bisher nicht geklappt hat.</p>
         <div class="kmitnahmen" style="margin:20px 0 0">
-          <span class="eyebrow">Das hast du jetzt in der Hand</span>
+          <span class="eyebrow">Das hast du gebaut</span>
           <ul data-krum-liste></ul>
         </div>
         <p class="kprogramm" data-kbewerbung hidden>Wenn du das nicht allein durchziehen willst, kannst du dich bald für eine kleine Gruppe bewerben. Ich sag dir Bescheid.</p>
@@ -246,8 +254,10 @@
         </div>
       </details>
 
+      <!-- ---------------- Hinweis auf das Programm, erst ab Schritt 4 sichtbar -->
+      <p class="kprogramm" data-kprogramm hidden>Wenn du das nicht allein durchziehen willst: Es gibt <b>„Fahr dich runter“</b>. Zwölf Wochen, feste Termine, eine kleine Gruppe Männer, die an genau dem hier dranbleiben. Nur damit du weißt, dass es das gibt.</p>
+      </div>
     </section>
-
   </div>
 </section>
 
@@ -276,6 +286,6 @@
 </footer>
 <script src="/site.js"></script>
 <script src="/notify.js"></script>
-<script src="/clear-state/kreis.js"></script>
+<script src="/kreis/kreis.js"></script>
 </body>
 </html>
