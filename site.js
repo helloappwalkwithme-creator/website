@@ -5,17 +5,105 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   root.classList.add("js");
 
-  /* K1 Menue auf dem Handy */
+  /* K1 Menue auf dem Handy, plus Dropdown "Woran es hakt" */
   function initNav() {
     var hdr = document.querySelector(".hdr");
     var btn = document.querySelector(".nav-toggle");
     if (!hdr || !btn) return;
+    var drops = Array.prototype.slice.call(hdr.querySelectorAll(".navdrop"));
+
+    function wideNav() {
+      return window.matchMedia("(min-width: 900px)").matches;
+    }
+    function setDrop(d, open) {
+      var b = d.querySelector(".navdrop__btn");
+      d.classList.toggle("is-open", !!open);
+      d.classList.toggle("is-shut", !open);
+      if (b) b.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+    function resetDrop(d) {
+      var b = d.querySelector(".navdrop__btn");
+      d.classList.remove("is-open", "is-shut");
+      if (b) b.setAttribute("aria-expanded", "false");
+    }
+    function panelShown(d) {
+      var panel = d.querySelector(".navdrop__panel");
+      return !!(panel && window.getComputedStyle(panel).display !== "none");
+    }
+    function closeMobile() {
+      hdr.classList.remove("is-open");
+      btn.setAttribute("aria-expanded", "false");
+    }
+
     btn.addEventListener("click", function () {
       var open = hdr.classList.toggle("is-open");
       btn.setAttribute("aria-expanded", open ? "true" : "false");
+      if (window.matchMedia("(max-width: 899px)").matches) {
+        drops.forEach(function (d) { if (open) setDrop(d, true); else resetDrop(d); });
+      }
     });
     hdr.querySelectorAll(".hdr__nav a, .hdr__cta").forEach(function (a) {
-      a.addEventListener("click", function () { hdr.classList.remove("is-open"); btn.setAttribute("aria-expanded", "false"); });
+      a.addEventListener("click", function () {
+        var inside = a.closest(".navdrop");
+        closeMobile();
+        drops.forEach(function (d) {
+          var b = d.querySelector(".navdrop__btn");
+          d.classList.remove("is-open");
+          if (inside && d === inside) d.classList.add("is-shut");
+          else d.classList.remove("is-shut");
+          if (b) b.setAttribute("aria-expanded", "false");
+        });
+      });
+    });
+
+    drops.forEach(function (d) {
+      var b = d.querySelector(".navdrop__btn");
+      if (!b) return;
+      b.addEventListener("click", function () {
+        setDrop(d, !d.classList.contains("is-open"));
+      });
+      d.addEventListener("mouseenter", function () {
+        if (!wideNav() || d.classList.contains("is-shut")) return;
+        b.setAttribute("aria-expanded", "true");
+      });
+      d.addEventListener("mouseleave", function () {
+        if (!wideNav()) return;
+        d.classList.remove("is-open", "is-shut");
+        if (!d.contains(document.activeElement)) b.setAttribute("aria-expanded", "false");
+      });
+      d.addEventListener("focusout", function (e) {
+        if (d.contains(e.relatedTarget) || d.matches(":hover")) return;
+        d.classList.remove("is-open", "is-shut");
+        b.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!wideNav()) return;
+      drops.forEach(function (d) {
+        if (d.contains(e.target)) return;
+        var b = d.querySelector(".navdrop__btn");
+        d.classList.remove("is-open");
+        if (b && !d.matches(":hover")) b.setAttribute("aria-expanded", "false");
+      });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      var mobile = hdr.classList.contains("is-open");
+      drops.forEach(function (d) {
+        var b = d.querySelector(".navdrop__btn");
+        if (!b) return;
+        if (panelShown(d) || d.classList.contains("is-open")) {
+          d.classList.remove("is-open");
+          d.classList.add("is-shut");
+          b.setAttribute("aria-expanded", "false");
+          if (!mobile) b.focus();
+        }
+      });
+      if (mobile) {
+        closeMobile();
+        btn.focus();
+      }
     });
   }
 
