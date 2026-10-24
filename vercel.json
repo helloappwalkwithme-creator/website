@@ -33,6 +33,16 @@
       "missing": [{ "type": "query", "key": "via" }],
       "destination": "/nacht?via=nacht&utm_source=direkt&utm_medium=kurzlink&utm_campaign=nacht",
       "permanent": false
+    },
+    {
+      "source": "/kreis",
+      "destination": "/clear-state",
+      "permanent": true
+    },
+    {
+      "source": "/kreis/:path*",
+      "destination": "/clear-state/:path*",
+      "permanent": true
     }
   ]
 }
