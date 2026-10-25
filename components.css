@@ -466,6 +466,7 @@ strong { font-weight: 600; }
 .founder:not(:has(.portrait, .ph, img)) > .prose { max-width: 46rem; }
 .founder h2 { max-width: 16ch; margin-bottom: var(--s5); }
 .founder--compact { grid-template-columns: 112px 1fr !important; gap: 28px; align-items: start; }
+.founder--compact:not(:has(.ph, img, .portrait)) { grid-template-columns: minmax(0, 1fr) !important; }
 .founder--compact .ph { --ar: 1; border-radius: 50%; }
 .founder--compact .ph__tag, .founder--compact .ph__cap { display: none; }
 .founder--compact .ph__center { font-size: .75rem; font-family: var(--font-body); letter-spacing: .1em; }
@@ -725,7 +726,8 @@ a[data-todo][href="#"] { display: none !important; }
 .founder:has(> .ph[aria-label^="Platzhalter"]) { grid-template-columns: minmax(0, 1fr) !important; }
 .split:has(> .rv > .ph[aria-label^="Platzhalter"]:only-child) > :not(.rv:has(> .ph)),
 .founder:has(> .rv > .ph[aria-label^="Platzhalter"]:only-child) > .prose { max-width: 760px; }
-.tabs__panel:has(> .ph[aria-label^="Platzhalter"]) { grid-template-columns: minmax(0, 1fr) !important; max-width: 720px; margin-inline: auto; }
+.tabs__panel:has(> .ph[aria-label^="Platzhalter"]),
+.tabs__panel:not(:has(.ph, img)) { grid-template-columns: minmax(0, 1fr) !important; max-width: 720px; margin-inline: auto; }
 /* Laufband-Kacheln behalten ihre Fläche (Text liegt darauf), nur ohne Platzhalter-Beschriftung */
 .tile > .ph[aria-label^="Platzhalter"] { display: block !important; }
 .tile > .ph[aria-label^="Platzhalter"] > .ph__tag { display: none; }

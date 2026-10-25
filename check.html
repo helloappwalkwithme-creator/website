@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Umschalt-Check: Wo stehst du bei Fokus, Terminen und Feierabend?</title>
+<meta name="description" content="Kurze Fragen aus deinem Arbeitstag. Danach siehst du einen Wert von 0 bis 100 in fünf Bereichen und einen Vorschlag. Kostenlos, ohne Anmeldung.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.shiftmyhorizon.com/check">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Umschalt-Check: Wo stehst du bei Fokus, Terminen und Feierabend?">
+<meta property="og:description" content="Kurze Fragen aus deinem Arbeitstag. Danach siehst du einen Wert von 0 bis 100 in fünf Bereichen und einen Vorschlag.">
+<meta property="og:url" content="https://www.shiftmyhorizon.com/check">
+<meta name="theme-color" content="#0A141B">
+<link rel="preload" href="fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="check.css">
+</head>
+<body data-page="check">
+<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+<header class="hdr">
+  <a class="wordmark" href="/">Janosch Brase</a>
+  <nav class="hdr__nav" id="site-nav" aria-label="Hauptnavigation">
+    <div class="navdrop">
+      <button class="navdrop__btn" type="button" aria-expanded="false" aria-controls="nav-hakt" aria-haspopup="true">Woran es hakt<svg class="navdrop__chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.2 4.2 6 8l3.8-3.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="navdrop__panel" id="nav-hakt">
+        <a href="/fokus"><span class="navdrop__title">Fokus im Job</span><span class="navdrop__sub">Konzentriert arbeiten, auch wenn viel reinkommt.</span></a>
+        <a href="/termin"><span class="navdrop__title">Wichtige Termine</span><span class="navdrop__sub">Die Minute vor einem wichtigen Gespräch.</span></a>
+        <a href="/abschalten"><span class="navdrop__title">Abends nicht abschalten</span><span class="navdrop__sub">Wenn der Kopf nach Feierabend weiterläuft.</span></a>
+        <a href="/nacht"><span class="navdrop__title">Nachts wach</span><span class="navdrop__sub">Wenn der Kopf nachts anspringt.</span></a>
+        <a href="/abschalten#lebensqualitaet"><span class="navdrop__title">Mehr erreicht, trotzdem unruhig</span><span class="navdrop__sub">Warum mehr Lebensstandard nicht ruhiger macht.</span></a>
+      </div>
+    </div>
+    <a href="/check" aria-current="page">Umschalt-Check</a>
+    <a class="nav-cs" href="/clear-state">Clear State<span class="nav-cs__tip">Das Modell in 7 Stufen</span></a>
+    <a href="/#ueber-mich">Über mich</a>
+    <a href="/#fragen">Fragen</a>
+  </nav>
+  <a class="btn btn--primary hdr__cta" href="/session">Session anfragen</a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="visually-hidden">Menü</span><span></span></button>
+</header>
+
+<main id="inhalt">
+  <section class="hero hero--book uc-start" id="uc-start">
+    <div class="hero__bg"><div class="scene"></div></div>
+    <div class="hero__shade"></div>
+    <div class="wrap">
+      <span class="eyebrow rv-hero">Der Umschalt-Check</span>
+      <h1 class="rv-hero d1">Wo stehst du bei Fokus, Terminen, Feierabend und Schlaf?</h1>
+      <p class="lead">Kurze Fragen aus deinem Alltag zeigen dir, wo du heute stehst.</p>
+      <p class="lead">Danach hast du:</p>
+      <ol class="uc-liste">
+        <li>Deinen Umschalt-Wert in fünf Bereichen, von 0 bis 100.</li>
+        <li>Den Bereich, in dem am meisten drin ist.</li>
+        <li>Einen konkreten Vorschlag für diese Woche.</li>
+      </ol>
+      <div class="hero__actions" style="margin-top:28px">
+        <button class="btn btn--primary" type="button" id="uc-go">Check starten</button>
+      </div>
+      <p class="hero__note">Dauert etwa drei Minuten. Du musst nichts erklären, nur antippen.</p>
+      <p class="hero__note">Keine Anmeldung. Deine Antworten bleiben in diesem Fenster und werden nicht gespeichert.</p>
+    </div>
+  </section>
+
+  <section class="sec sec--paper ucflow" id="uc-flow" hidden>
+    <div class="wrap">
+      <p class="eyebrow" id="uc-count">1 von 14</p>
+      <div id="uc-screen"></div>
+      <button class="ucback" type="button" id="uc-back" hidden>Zurück</button>
+    </div>
+  </section>
+
+  <section class="sec sec--white" id="uc-result" hidden>
+    <div class="wrap ucresult">
+      <p class="visually-hidden" id="uc-aria"></p>
+      <span class="eyebrow">Dein Umschalt-Check</span>
+      <h1 id="uc-profil">Schwerpunkt</h1>
+      <p class="uczahl" id="uc-zahl">0<span>Umschalt-Wert von 100</span></p>
+      <p id="uc-gesamt-satz"></p>
+      <div id="uc-extra"></div>
+      <ul class="ucbarlist" id="uc-balken"></ul>
+      <p class="small">In den Wert fließen zehn Alltagsszenen ein: zwei zu Fokus, drei zu Terminen, zwei zum Abschalten, zwei zum Schlaf und eine zum Dranbleiben. Dranbleiben hat nur eine Frage, der Wert ist dort gröber.</p>
+      <div class="uc-next">
+        <a class="btn btn--primary" href="/session">Potenzialanalyse anfragen</a>
+        <p style="margin-top:16px"><a class="textlink" id="uc-uebung" href="/session">Die passende Übung</a></p>
+        <p><a class="textlink" href="/check" id="uc-neu">Check nochmal machen</a></p>
+      </div>
+      <p class="small" style="margin-top:28px;color:var(--muted)">Das ist ein Selbstcheck mit zehn gewerteten Fragen, keine Messung. Er zeigt dir, wo du anfängst. Wenn du ihn in vier Wochen nochmal machst, siehst du, was sich bewegt hat. Das hier ersetzt keinen Arzt. Wenn dich etwas körperlich länger plagt, geh zum Hausarzt.</p>
+    </div>
+  </section>
+
+  <noscript>
+    <section class="sec sec--paper">
+      <div class="wrap" style="max-width:40rem">
+        <h2>Der Check läuft in deinem Browser.</h2>
+        <p>Ohne JavaScript kann ich den Wert nicht ausrechnen. Es wird dabei nichts an einen Server geschickt. Wenn du JavaScript einschaltest, bleiben die Antworten in diesem Fenster.</p>
+      </div>
+    </section>
+  </noscript>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__row">
+      <span class="wordmark">Janosch Brase</span>
+      <nav aria-label="Rechtliches">
+        <a href="/impressum">Impressum</a>
+        <a href="/datenschutz">Datenschutz</a>
+        <a href="/agb">AGB</a>
+      </nav>
+    </div>
+    <p class="ftr__fine">Das hier ersetzt keinen Arzt. Es geht um deinen Alltag.</p>
+  </div>
+</footer>
+<script src="site.js"></script>
+<script src="check.js"></script>
+</body>
+</html>
