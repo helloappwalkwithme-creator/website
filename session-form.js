@@ -42,6 +42,16 @@
     return route === "kalender" ? "Kalender" : "3-Tage-Starter";
   }
 
+  function starterFor(moment) {
+    var map = {
+      arbeit: { href: "/fokus", knopf: "Zum Fokus-Starter", text: "Für den Anfang passt der kostenlose 3-Tage-Starter zum Fokus im Job. Drei kurze Texte, einer pro Tag." },
+      termine: { href: "/termin", knopf: "Zum Termin-Starter", text: "Für den Anfang passt der kostenlose 3-Tage-Starter für die Minute vor dem Termin." },
+      abend: { href: "/abschalten", knopf: "Zum Abend-Starter", text: "Für den Anfang passt der kostenlose 3-Tage-Starter zum Abschalten am Abend." },
+      nacht: { href: "/nacht", knopf: "Zum Nacht-Reset", text: "Für den Anfang passt der kostenlose Nacht-Reset." }
+    };
+    return map[moment] || map.arbeit;
+  }
+
   function show(n, scroll) {
     step = n;
     form.querySelectorAll(".formstep").forEach(function (el) {
@@ -245,8 +255,8 @@
           page: data.page,
           route: routeLabel(data.route),
           answers: [
-            { frage: "Wann merkst du am stärksten, dass dein Kopf nicht abschaltet?", antwort: data.moment_label },
-            { frage: "Wie sehr belastet dich das gerade?", antwort: data.burden_label },
+            { frage: "Wo hakt es am meisten?", antwort: data.moment_label },
+            { frage: "Wie oft kommt das gerade vor?", antwort: data.burden_label },
             { frage: "Was machst du beruflich?", antwort: data.job_label },
             { frage: "Wie dringend ist das für dich?", antwort: data.urgency_label },
             { frage: "Willst du mir vorher noch etwas sagen?", antwort: data.note || "" }
@@ -263,6 +273,14 @@
         if (title) title.textContent = "Danke, " + name + ". Dein Termin steht.";
         mountCalendly(calendlyUrl(data, name));
       } else {
+        var starter = starterFor(data.moment);
+        var starterText = document.getElementById("starter-text");
+        var starterLink = document.getElementById("starter-link");
+        if (starterText) starterText.textContent = starter.text;
+        if (starterLink) {
+          starterLink.href = starter.href;
+          starterLink.textContent = starter.knopf;
+        }
         document.getElementById("route-starter").hidden = false;
       }
       document.getElementById("fragebogen").scrollIntoView({ block: "nearest" });

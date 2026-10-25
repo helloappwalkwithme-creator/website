@@ -41,17 +41,19 @@
     <div class="navdrop">
       <button class="navdrop__btn" type="button" aria-expanded="false" aria-controls="nav-hakt" aria-haspopup="true">Woran es hakt<svg class="navdrop__chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.2 4.2 6 8l3.8-3.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <div class="navdrop__panel" id="nav-hakt">
+        <a href="/fokus"><span class="navdrop__title">Fokus im Job</span><span class="navdrop__sub">Konzentriert arbeiten, auch wenn viel reinkommt.</span></a>
+        <a href="/termin"><span class="navdrop__title">Wichtige Termine</span><span class="navdrop__sub">Die Minute vor einem wichtigen Gespräch.</span></a>
         <a href="/abschalten"><span class="navdrop__title">Abends nicht abschalten</span><span class="navdrop__sub">Wenn der Kopf nach Feierabend weiterläuft.</span></a>
-        <a href="/fokus"><span class="navdrop__title">Fokus im Job</span><span class="navdrop__sub">Konzentriert liefern statt im Tagesrauschen versinken.</span></a>
         <a href="/nacht"><span class="navdrop__title">Nachts wach</span><span class="navdrop__sub">Wenn der Kopf nachts anspringt.</span></a>
         <a href="/abschalten#lebensqualitaet"><span class="navdrop__title">Mehr erreicht, trotzdem unruhig</span><span class="navdrop__sub">Warum mehr Lebensstandard nicht ruhiger macht.</span></a>
       </div>
     </div>
+    <a href="/check">Umschalt-Check</a>
     <a class="nav-cs" href="/clear-state">Clear State<span class="nav-cs__tip">Das Modell in 7 Stufen</span></a>
     <a href="/#ueber-mich">Über mich</a>
     <a href="/#fragen">Fragen</a>
   </nav>
-  <a class="btn btn--primary hdr__cta" href="/#fragebogen">Session anfragen</a>
+  <a class="btn btn--primary hdr__cta" href="/session">Potenzialanalyse anfragen</a>
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="visually-hidden">Menü</span><span></span></button>
 </header>
 
@@ -65,19 +67,12 @@
         <div class="hero__text">
           <div class="hero__top">
             <span class="eyebrow rv-hero">Kostenloser 3-Tage-Starter</span>
-            <h1 class="rv-hero d1">Du sitzt im Arbeitsblock, eine Nachricht ploppt auf, und danach weißt du nicht mehr, wo du warst. Das kennst du. Ich zeig dir, wie du schnell wieder reinkommst.</h1>
+            <h1 class="rv-hero d1">Du sitzt im Arbeitsblock, eine Nachricht ploppt auf, und danach weißt du nicht mehr, wo du warst. Ich zeige dir, wie du schnell wieder reinkommst.</h1>
             <p class="lead">Drei Tage, jeden Tag ein kurzer Text. Du suchst dir aus, wo er ankommt: per WhatsApp, Telegram oder E-Mail. Lesen dauert eine Minute.</p>
           </div>
           <div class="hero__bottom rv-hero d2">
             <div class="hero__actions"><a class="btn btn--primary" href="#anmeldung">Kostenlosen 3-Tage-Starter holen <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="textlink" href="#warum">Worum es geht</a></div>
             <ul class="anchors" aria-label="Auf einen Blick"><li><b>3 Tage</b>kostenlos</li><li><b>1 bis 2 Min.</b>pro Übung</li><li><b>1 Nachricht</b>pro Tag</li><li><b>STOP</b>jederzeit</li></ul>
-          </div>
-        </div>
-        <div class="hero__media rv-hero d3">
-          <div class="vsl vsl--vertical" data-src="" data-poster="">
-            <div class="ph " role="img" aria-label="Platzhalter: Intro-Video 9:16. Das Video dauert rund 90 Sekunden und hat eingebrannte Untertitel. Es startet stumm, mit „Ton an“."><span class="ph__tag">Intro-Video 9:16</span><div class="ph__center">Die Nachricht ploppt auf. Und du weißt trotzdem, wo du weitermachst.</div><span class="ph__cap">Das Video dauert rund 90 Sekunden und hat eingebrannte Untertitel. Es startet stumm, mit „Ton an“.</span></div>
-            <button class="vsl__play" type="button" hidden><span class="visually-hidden">Video abspielen</span><svg aria-hidden="true"><use href="#i-play"></use></svg></button>
-            <button class="vsl__sound" type="button" hidden>Ton an</button>
           </div>
         </div>
       </div>
@@ -92,8 +87,8 @@
           <h2 style="max-width:14ch">Ein Vorsatz am Morgen hält selten bis zum Nachmittag.</h2>
         </div>
         <div class="rv rv-d1">
-          <p class="statement" style="margin:0">Darum kommt pro Tag <em>genau ein kurzer Text</em>.</p>
-          <p style="margin-top:14px">Morgens nimmst du dir vor, den Block durchzuziehen. Dann kommt eine Nachricht. Und um drei liest du denselben Absatz zum zweiten Mal. Deshalb kriegst du von mir keine Liste. Du kriegst jeden Tag eine kleine Sache, die du gleich ausprobieren kannst.</p>
+          <p class="statement" style="margin:0">Darum kommt pro Tag ein kurzer Text.</p>
+          <p style="margin-top:14px">Morgens nimmst du dir vor, den Block durchzuziehen. Dann kommt eine Nachricht. Und um drei liest du denselben Absatz zum zweiten Mal. Du bekommst keine lange Liste. Du bekommst jeden Tag einen kurzen Text mit einer Sache zum Ausprobieren.</p>
         </div>
       </div>
       <ul class="proof rv">
@@ -101,12 +96,11 @@
         <li>Beim Gehen hatten 81 Prozent mehr Ideen bei einer offenen Aufgabe. Bei einer Aufgabe mit genau einer richtigen Lösung hat das Gehen nur bei knapp einem Viertel geholfen <a href="https://doi.org/10.1037/a0036577" target="_blank" rel="noopener">(Oppezzo &amp; Schwartz, 2014)</a>.</li>
       </ul>
       <div class="founder founder--compact" style="margin-top:clamp(40px,5vw,64px);padding-top:32px;border-top:1px solid var(--line);max-width:760px">
-        <div class="ph " role="img" aria-label="Janosch Brase"><span class="ph__tag">Porträt rund</span></div>
         <div>
           <span class="eyebrow">Von wem das kommt</span>
           <h3 style="font-size:1.625rem;margin:6px 0 10px">Das kommt von mir, Janosch.</h3>
           <p>Auf YouTube, Instagram und Facebook zeige ich Momente, die du kennst. Die Nachricht mitten in der Arbeit zum Beispiel. Oder die Mittagspause, die du am Schreibtisch verbringst. Ich gebe nur weiter, was ich selbst ausprobiert habe.</p>
-          <p>Ich war im Vertrieb und zuletzt Head of Sales. Im Arbeitsblock hat mich eine Nachricht rausgeholt, und danach stand auf der Folie die Zahl aus dem falschen Quartal, obwohl der Vormittag voll aussah. Seitdem probiere ich aus, wie man danach schnell wieder reinkommt. Ohne extra Zeit dafür. Vor zehn Jahren habe ich angefangen, mich mit meiner Gesundheit zu beschäftigen. Mit meinem Nervensystem und damit, was ich wirklich brauche, um im Job top zu liefern und trotzdem abends abzuschalten und zu Hause Energie und Spaß zu haben.</p>
+          <p>Ich war im Vertrieb und zuletzt Head of Sales. Im Arbeitsblock hat mich eine Nachricht rausgeholt, und danach stand auf der Folie die Zahl aus dem falschen Quartal, obwohl der Vormittag voll aussah. Seitdem probiere ich aus, wie man danach schnell wieder reinkommt. Dafür brauchst du keine extra Zeit. Vor zehn Jahren habe ich angefangen, mich mit meiner Gesundheit zu beschäftigen. Mit dem schnellen Alarm, dem langsamen Planer und dem, was ich brauche, um im Job top zu liefern und zu Hause Energie und Spaß zu haben.</p>
         </div>
       </div>
     </div>
@@ -122,7 +116,6 @@
       <div class="tabs tabs--stack-mobile rv">
         <div class="tabs__list" role="tablist" aria-label="Die drei Tage"><button class="tabs__tab" type="button" role="tab" id="dt-1" aria-controls="dp-1" aria-selected="true" tabindex="0">Tag 1</button><button class="tabs__tab" type="button" role="tab" id="dt-2" aria-controls="dp-2" aria-selected="false" tabindex="-1">Tag 2</button><button class="tabs__tab" type="button" role="tab" id="dt-3" aria-controls="dp-3" aria-selected="false" tabindex="-1">Tag 3</button></div>
         <div class="tabs__panel" id="dp-1" role="tabpanel" aria-labelledby="dt-1" tabindex="0">
-          <div class="ph " style="--ar:4/3" role="img" aria-label="Nach der Nachricht schaust du auf die Stelle, an der du warst"><span class="ph__tag">Foto 4:3</span><span class="ph__cap">Nach der Nachricht schaust du auf die Stelle, an der du warst</span></div>
           <div>
             <span class="tabs__badge">Tag 1</span>
             <h3>Tag 1: Erst zurückschauen, dann weitermachen.</h3>
@@ -130,7 +123,6 @@
           </div>
         </div>
         <div class="tabs__panel" id="dp-2" role="tabpanel" aria-labelledby="dt-2" tabindex="0" hidden>
-          <div class="ph " style="--ar:4/3" role="img" aria-label="Der Laptop fährt hoch, und du gehst mittags mit einer Frage raus"><span class="ph__tag">Foto 4:3</span><span class="ph__cap">Der Laptop fährt hoch, und du gehst mittags mit einer Frage raus</span></div>
           <div>
             <span class="tabs__badge">Tag 2</span>
             <h3>Tag 2: Ein fester Start und eine Frage für die Mittagspause.</h3>
@@ -138,7 +130,6 @@
           </div>
         </div>
         <div class="tabs__panel" id="dp-3" role="tabpanel" aria-labelledby="dt-3" tabindex="0" hidden>
-          <div class="ph " style="--ar:4/3" role="img" aria-label="Du hast deinen Ablauf für den Arbeitsblock"><span class="ph__tag">Foto 4:3</span><span class="ph__cap">Du hast deinen Ablauf für den Arbeitsblock</span></div>
           <div>
             <span class="tabs__badge">Tag 3</span>
             <h3>Tag 3: Dein eigener Ablauf.</h3>
@@ -234,7 +225,7 @@
         </details>
         <details>
           <summary>Wie viel Zeit brauche ich?</summary>
-          <p>Ein bis zwei Minuten am Tag. Mehr nicht.</p>
+          <p>Ein bis zwei Minuten am Tag.</p>
         </details>
         <details>
           <summary>Über welchen Weg kommen die Nachrichten?</summary>
@@ -260,9 +251,9 @@
     <div class="hero__shade"></div>
     <div class="wrap rv">
       <span class="eyebrow">Dein nächster Schritt</span>
-      <h2>Nach drei Tagen weißt du, wie du nach einer Nachricht schnell wieder reinkommst.</h2>
-      <p class="lead" style="color:rgba(244,243,239,.8);margin-top:20px">Es ist kostenlos. Jeden Tag ein kurzer Text, per WhatsApp, Telegram oder E-Mail.</p>
-      <div class="btn-row"><a class="btn btn--primary" href="#anmeldung">Kostenlosen 3-Tage-Starter holen <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      <h2>Nach drei Tagen weißt du, wie du nach einer Nachricht wieder an der richtigen Stelle weitermachst.</h2>
+      <p class="lead" style="color:rgba(244,243,239,.8);margin-top:20px">Wenn du das mit mir anschauen willst, ist der nächste Schritt die Potenzialanalyse. 30 Minuten, kostenlos.</p>
+      <div class="btn-row"><a class="btn btn--primary" href="/session">Potenzialanalyse anfragen</a></div>
     </div>
   </section>
   <section class="sec sec--sources" id="quellen" aria-labelledby="quellen-h">
@@ -277,7 +268,7 @@
   </section>
 </main>
 
-<div class="stickybar"><a class="btn btn--primary" href="#anmeldung">Kostenlosen 3-Tage-Starter holen</a></div>
+<div class="stickybar"><a class="btn btn--primary" href="/session">Potenzialanalyse anfragen</a></div>
 
 <footer class="ftr">
   <div class="wrap">

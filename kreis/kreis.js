@@ -35,23 +35,23 @@
 
   var STUFEN = [
     { slug: "verhalten", titel: "Verhalten",
-      kurz: "Warum dein Plan immer an derselben Stelle kippt.",
-      faden: "Hier geht es um das, was du jeden Tag tust. Du findest den Moment, an dem dein Plan kippt." },
+      kurz: "Warum dein Plan oft an derselben Stelle kippt.",
+      faden: "Hier geht es um das, was du jeden Tag tust. Du suchst den Moment, an dem der Plan weg ist." },
     { slug: "gefuehle", titel: "Gefühle",
-      kurz: "Was dich wirklich stört, wenn du sauer bist.",
-      faden: "Wenn du sauer bist, steckt meistens was anderes dahinter. Hier findest du raus, was." },
+      kurz: "Was kurz vor dem Lautwerden passiert.",
+      faden: "Hier schaust du drei Momente an und suchst, was kurz vor dem Lautwerden passiert." },
     { slug: "alarm", titel: "Schneller Alarm",
       kurz: "Warum du reagierst, bevor du nachdenkst.",
       faden: "In dir gibt es einen schnellen Alarm und einen langsamen Planer. Hier verschaffst du dem Planer eine Sekunde." },
     { slug: "ruhe", titel: "Innere Ruhe",
-      kurz: "Wie du abends wirklich Feierabend hast.",
+      kurz: "Wie du abends runterkommst.",
       faden: "Du bist zu Hause, aber dein Kopf ist noch im Büro. Hier holst du ihn raus." },
     { slug: "satz", titel: "Antreiber",
       kurz: "Was dich antreibt und nie Pause macht.",
       faden: "In deinem Kopf läuft ein Satz, der dich antreibt. Hier schreibst du ihn einmal auf." },
     { slug: "werte", titel: "Werte",
-      kurz: "Was dir wirklich wichtig ist, und woran du das merkst.",
-      faden: "Hier findest du raus, was dir wirklich wichtig ist und was nur gut klingt." },
+      kurz: "Wofür du dir Zeit nimmst, und woran du das merkst.",
+      faden: "Hier schaust du in den Kalender der letzten Woche, wofür du dir Zeit genommen hast." },
     { slug: "wofuer", titel: "Für wen",
       kurz: "Für wen du das alles machst.",
       faden: "Am Ende die Frage, für wen du das alles machst. Daraus machst du einen festen Termin." }
@@ -84,7 +84,7 @@
     { id: "laut",
       frage: "Zu Hause bin ich schnell gereizt.",
       du: "Du bist zu Hause schnell gereizt.",
-      satz: "Erst findest du raus, was dich wirklich stört. Dann bleibst du zu Hause ruhiger.",
+      satz: "Erst schaust du, was kurz vor dem Lautwerden passiert. Dann hast du eine Sekunde, bevor die Stimme laut wird.",
       start: "gefuehle",
       startsatz: "Du startest bei Schritt 2, weil du zu Hause schnell gereizt bist. Die anderen Schritte kommen danach." },
 
@@ -127,7 +127,7 @@
     { id: "aufhoeren",
       frage: "Ich hör abends einfach nicht auf zu arbeiten.",
       du: "Du hörst abends einfach nicht auf zu arbeiten.",
-      satz: "Erst findest du den Satz, der dich weitermachen lässt. Dann kannst du abends wirklich Schluss machen.",
+      satz: "Erst schreibst du den Satz auf, der dich weitermachen lässt. Dann kannst du abends eher aufhören.",
       start: "satz",
       startsatz: "Du startest bei Schritt 5, weil du abends nicht aufhörst zu arbeiten. Die anderen Schritte kommen danach.",
       weiter: { nach: "satz", href: "/abschalten",
@@ -138,16 +138,16 @@
   /* ------------------------------------- Neugier auf den naechsten Schritt --- */
 
   var TEASER = {
-    "verhalten>gefuehle": { h: "Warum kippt es genau dann, wenn du sauer bist?",
-      s: "Hinter dem Ärger steckt fast immer was anderes. Im nächsten Schritt findest du raus, was." },
+    "verhalten>gefuehle": { h: "Was passiert, kurz bevor du laut wirst?",
+      s: "Drei Momente: Heimkommen, Meeting, Kind. Im nächsten Schritt suchst du, was kurz davor passiert." },
     "gefuehle>alarm": { h: "Warum reagierst du, bevor du nachdenkst?",
       s: "Da sind ein schneller Alarm und ein langsamer Planer. Im nächsten Schritt verschaffst du dem Planer eine Sekunde." },
     "alarm>ruhe": { h: "Und warum geht der Alarm abends nicht aus?",
       s: "Das Meeting ist vorbei, dein Puls ist noch drin. Im nächsten Schritt holst du ihn runter." },
     "ruhe>satz": { h: "Was lässt dich abends weitermachen, obwohl Schluss ist?",
       s: "Meistens ist es ein Satz, den du schon lange hast. Im nächsten Schritt schreibst du ihn auf." },
-    "satz>werte": { h: "Wofür lohnt sich der ganze Einsatz eigentlich?",
-      s: "Nicht alles, was gut klingt, ist dir wirklich wichtig. Im nächsten Schritt merkst du den Unterschied." },
+    "satz>werte": { h: "Wofür hast du dir letzte Woche Zeit genommen?",
+      s: "Im nächsten Schritt schaust du in den Kalender der letzten Woche." },
     "werte>wofuer": { h: "Für wen machst du das alles?",
       s: "Im nächsten Schritt machst du daraus einen festen Termin. Zwanzig Minuten reichen." },
     "wofuer>verhalten": { h: "Jetzt nochmal von vorne, nur mit Richtung.",
@@ -473,7 +473,10 @@
         var mindestens = Number(vor.getAttribute("data-kmin") || "0");
         if (mindestens > 0 && auswahl().length < mindestens) {
           var hinweis = el("[data-khint]");
-          if (hinweis) { hinweis.hidden = false; hinweis.textContent = "Tipp mindestens eins an."; }
+          if (hinweis) {
+            hinweis.hidden = false;
+            hinweis.textContent = mindestens > 1 ? "Tipp in jeder Szene eine Antwort an." : "Tipp mindestens eins an.";
+          }
           return;
         }
         var picks = auswahl();
@@ -577,33 +580,8 @@
   var UEBUNG = {};
 
   AUFLOESUNG.gefuehle = function (picks) {
-    var gesamt = alle(".kgrid[data-kpick] input").length;
-    var laut = picks.filter(function (p) { return p.gruppe === "laut"; });
-    var leise = picks.filter(function (p) { return p.gruppe === "leise"; });
-
     setze("anzahl", String(picks.length));
-    setze("gesamt", String(gesamt));
-    setze("meine", liste(picks.map(function (p) { return p.wert; }), "kwords--mine"));
-
-    zeige("vieleLaut", laut.length >= leise.length && laut.length > 0);
-    zeige("schonFein", leise.length > laut.length && leise.length > 0);
-
-    setze("offeneLeise", liste(mischen(nichtGewaehlt("leise"), 6)));
-    setze("offeneGut", liste(mischen(nichtGewaehlt("gut"), 6)));
-    setze("offeneGutText", aufzaehlung(mischen(nichtGewaehlt("gut"), 3)));
-  };
-
-  UEBUNG.gefuehle = function (picks) {
-    var ziel = el("[data-kue-meine]");
-    if (!ziel) return;
-    ziel.innerHTML = "";
-    var quelle = picks.length ? picks.map(function (p) { return p.wert; }) : ["genervt", "unter Druck", "wütend"];
-    quelle.forEach(function (w, i) {
-      var label = document.createElement("label");
-      label.className = "kchip";
-      label.innerHTML = '<input type="radio" name="kue-wort" data-kfeld="wort" data-kpflicht value="' + w + '"' + (i === 0 ? " checked" : "") + ">" + w;
-      ziel.appendChild(label);
-    });
+    setze("meine", liste(picks.map(function (p) { return p.text; }), "kwords--mine"));
   };
 
   AUFLOESUNG.werte = function (picks) {
