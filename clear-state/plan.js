@@ -387,16 +387,38 @@
     ];
   }
 
+  var planSeen = false;
+  var planFilled = {};
+  var planOpen = false;
+  var flashText = "";
+  var flashUntil = 0;
+  var flashTimer = null;
+  var FLASH = {
+    "Muster": "Muster steht.",
+    "Stopp": "Stopp steht.",
+    "Ersatz": "Ersatz steht.",
+    "Regel und Hürde": "Regel steht.",
+    "Satz": "Satz steht."
+  };
+
   function renderPlan() {
     var box = el("cs-plan");
     if (!box) return;
     var rows = planRows();
     var on = rows.filter(function (r) { return r.on; }).length;
-    var latest = "";
-    rows.forEach(function (r) { if (r.on) latest = r.name + ": " + r.text; });
-    var html = '<button type="button" class="cs-plan__toggle" aria-expanded="false" aria-controls="cs-rows"><span class="cs-plan__head"><span class="eyebrow">Dein Plan</span><span class="cs-pips" aria-hidden="true">';
-    rows.forEach(function (r) { html += '<i class="' + (r.on ? "is-on" : "") + '"></i>'; });
-    html += '</span></span><p class="cs-plan__latest">' + esc(latest || "Noch leer. Er füllt sich mit deinen Antworten.") + "</p></button>";
+    var newly = "";
+    rows.forEach(function (r) {
+      if (r.on && planSeen && !planFilled[r.name]) newly = r.name;
+      planFilled[r.name] = !!r.on;
+    });
+    planSeen = true;
+    if (newly) {
+      flashText = FLASH[newly] || (newly + " steht.");
+      flashUntil = Date.now() + 1600;
+    }
+    var showFlash = !!(flashText && Date.now() < flashUntil);
+    var html = '<button type="button" class="cs-plan__toggle" aria-expanded="' + (planOpen ? "true" : "false") + '" aria-controls="cs-rows"><span class="cs-plan__title">Dein Plan (' + on + '/5)</span><span class="cs-plan__chev" aria-hidden="true"></span></button>';
+    html += '<p class="cs-flash"' + (showFlash ? "" : " hidden") + ">" + esc(showFlash ? flashText : "") + "</p>";
     html += '<ol class="cs-rows" id="cs-rows">';
     rows.forEach(function (r) {
       html += '<li class="cs-row ' + (r.on ? "is-on" : "is-off") + '"><span class="cs-row__name">' + esc(r.name) + '</span><p class="cs-row__text">' + esc(r.text) + "</p>";
@@ -405,12 +427,23 @@
     });
     html += "</ol>";
     box.innerHTML = html;
-    box.classList.remove("is-open");
+    box.classList.toggle("is-open", planOpen);
+    box.classList.toggle("is-confirmed", showFlash);
     box.setAttribute("aria-label", "Dein Plan, " + on + " von 5 Bausteinen");
+    if (showFlash) {
+      clearTimeout(flashTimer);
+      flashTimer = setTimeout(function () {
+        if (Date.now() < flashUntil) return;
+        box.classList.remove("is-confirmed");
+        var flash = box.querySelector(".cs-flash");
+        if (flash && flash.textContent === flashText) flash.hidden = true;
+      }, Math.max(200, flashUntil - Date.now() + 40));
+    }
     var toggle = box.querySelector(".cs-plan__toggle");
     if (toggle) toggle.addEventListener("click", function () {
-      var open = box.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      planOpen = !planOpen;
+      box.classList.toggle("is-open", planOpen);
+      toggle.setAttribute("aria-expanded", planOpen ? "true" : "false");
     });
   }
 
@@ -450,8 +483,24 @@
     }
     save();
     render();
-    var app = el("bauer");
-    if (app) app.scrollIntoView({ block: "start" });
+    focusQuestion();
+  }
+
+  function focusQuestion() {
+    window.requestAnimationFrame(function () {
+      var q = document.querySelector("#cs-step .cs-progress") || document.querySelector("#cs-step h2");
+      if (!q) return;
+      var rect = q.getBoundingClientRect();
+      var top = 96;
+      var bottom = window.innerHeight - 24;
+      var plan = el("cs-plan");
+      if (plan && plan.getBoundingClientRect().height) {
+        var pr = plan.getBoundingClientRect();
+        if (pr.top > window.innerHeight * 0.45) bottom = pr.top - 16;
+      }
+      if (rect.top >= top && rect.top <= bottom - 72) return;
+      window.scrollTo({ top: Math.max(0, window.scrollY + rect.top - top), behavior: "smooth" });
+    });
   }
 
   function defaultRegelBits() {
@@ -464,24 +513,22 @@
     var host = el("cs-step");
     var step = STEPS[stepIndex];
     var planBox = el("cs-plan");
-    if (planBox && step && step.id === "danke") {
-      planBox.classList.add("is-open");
-      planBox.classList.remove("is-locked");
-      var toggle = planBox.querySelector(".cs-plan__toggle");
-      if (toggle) toggle.setAttribute("aria-expanded", "true");
-    }
+    if (planBox && step && step.id === "danke") planBox.classList.remove("is-locked");
     if (planBox && step && (step.id === "plan" || step.id === "signup")) {
       planBox.classList.add("is-locked");
+      planOpen = false;
       planBox.classList.remove("is-open");
       var lockedToggle = planBox.querySelector(".cs-plan__toggle");
       if (lockedToggle) lockedToggle.setAttribute("aria-expanded", "false");
-      planBox.querySelectorAll(".cs-rows, .cs-plan__latest").forEach(function (node) {
+      planBox.querySelectorAll(".cs-rows").forEach(function (node) {
         node.setAttribute("aria-hidden", "true");
       });
-      var lock = document.createElement("p");
-      lock.className = "cs-lock";
-      lock.textContent = "Dein Plan ist noch zu.";
-      planBox.appendChild(lock);
+      var flash = planBox.querySelector(".cs-flash");
+      if (flash) {
+        flash.hidden = false;
+        flash.textContent = "Dein Plan ist noch zu.";
+        flash.classList.add("cs-lock");
+      }
     }
     if (!host || !step) return;
     var html = '<div class="cs-step">';
@@ -998,7 +1045,7 @@
     document.body.classList.add("cs-on");
     if (!state.landed_at) state.landed_at = new Date().toISOString();
     render();
-    if (bauer) bauer.scrollIntoView({ behavior: "smooth", block: "start" });
+    focusQuestion();
   }
 
   function start() {
