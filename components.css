@@ -761,8 +761,8 @@ a[data-todo][href="#"] { display: none !important; }
 .portrait--round {
   width: 88px; height: 88px; aspect-ratio: 1; border-radius: 50%; object-position: center 12%; flex: none;
 }
-.proofbar { display: flex; align-items: center; gap: 16px; }
-.proofbar p { margin: 0; font-size: 1.125rem; }
+.proofbar { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.proofbar p { margin: 0; max-width: 40rem; font-size: 1.125rem; }
 .signs { display: grid; gap: 16px; }
 @media (min-width: 800px) { .signs { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 1100px) { .signs { grid-template-columns: repeat(4, 1fr); } }
