@@ -1,0 +1,17 @@
+# Shift My Horizon
+
+> Janosch Brase hilft Männern im Job, bei der Arbeit klar zu bleiben und abends runterzukommen. Die Übungen sind kurz. Das hier ersetzt keinen Arzt.
+
+## Clear State
+
+- [Clear State](https://www.shiftmyhorizon.com/clear-state): Kostenloses Werkzeug auf Deutsch. In etwa fünf Minuten baust du deinen eigenen Plan aus fünf Bausteinen: Muster, Stopp, Ersatz, Regel mit Hürde, und dein Satz. Danach acht Sätze. Sie zeigen, ob du beim Erkennen, Unterbrechen, Neu einüben oder Verankern hängen bleibst. Der fertige Plan steht auf der Seite und lässt sich als Textdatei speichern, auch ohne E-Mail. Wer will, bekommt den Plan per E-Mail, nachdem er seine Adresse im Postfach bestätigt. Optional drei Tage lang je eine Aufgabe per WhatsApp, danach eine Einladung zur Potenzialanalyse. WhatsApp ist freiwillig und keine Bedingung für die Mail. WhatsApp gehört zu Meta mit Sitz in den USA. 30 Minuten, kostenlos, ohne Verkaufsgespräch.
+
+## Weitere Seiten
+
+- [Startseite](https://www.shiftmyhorizon.com/): Wo es hakt, bei der Arbeit, vor Terminen, abends oder nachts.
+- [Umschalt-Check](https://www.shiftmyhorizon.com/check): Kurzer Check, wo das Umschalten hakt.
+- [Potenzialanalyse](https://www.shiftmyhorizon.com/session): 30 Minuten, kostenlos, ohne Verkaufsgespräch.
+
+## Hinweise für Suchmaschinen
+
+Die Adresse /clear-state darf indexiert werden. robots.txt erlaubt das Lesen. Der Plan wird im Browser gebaut und braucht JavaScript. Die Beschreibung, die Schritte und die häufigen Fragen stehen auch im HTML.
