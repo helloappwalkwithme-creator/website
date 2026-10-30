@@ -417,7 +417,8 @@
   function progressLabel(step) {
     if (step.block >= 1 && step.block <= 5) return "Baustein " + step.block + " von 5";
     if (step.id === "engpass") return "Wo du hängen bleibst";
-    if (step.id === "plan" || step.id === "signup" || step.id === "danke") return "Dein Plan";
+    if (step.id === "plan") return "Dein nächster Schritt";
+    if (step.id === "signup" || step.id === "danke") return "Dein Plan";
     return "";
   }
 
@@ -463,10 +464,24 @@
     var host = el("cs-step");
     var step = STEPS[stepIndex];
     var planBox = el("cs-plan");
-    if (planBox && step && (step.id === "plan" || step.id === "signup" || step.id === "danke")) {
+    if (planBox && step && step.id === "danke") {
       planBox.classList.add("is-open");
+      planBox.classList.remove("is-locked");
       var toggle = planBox.querySelector(".cs-plan__toggle");
       if (toggle) toggle.setAttribute("aria-expanded", "true");
+    }
+    if (planBox && step && (step.id === "plan" || step.id === "signup")) {
+      planBox.classList.add("is-locked");
+      planBox.classList.remove("is-open");
+      var lockedToggle = planBox.querySelector(".cs-plan__toggle");
+      if (lockedToggle) lockedToggle.setAttribute("aria-expanded", "false");
+      planBox.querySelectorAll(".cs-rows, .cs-plan__latest").forEach(function (node) {
+        node.setAttribute("aria-hidden", "true");
+      });
+      var lock = document.createElement("p");
+      lock.className = "cs-lock";
+      lock.textContent = "Dein Plan ist noch zu.";
+      planBox.appendChild(lock);
     }
     if (!host || !step) return;
     var html = '<div class="cs-step">';
@@ -487,6 +502,7 @@
       return b ? "Dein Muster holt dir " + b.satz + ". Das brauchst du weiter, nur auf einem anderen Weg. Was davon passt?" : step.h;
     }
     if (step.id === "danke" && state.vorname) return "Danke, " + state.vorname + ".";
+    if (step.id === "plan") return ENG[engpassId()].name;
     return step.h;
   }
 
@@ -494,6 +510,7 @@
     if (step.id === "stopp" && state.atem === "unruhiger") {
       return "Die Atemübung war gerade eher unangenehm. Der Raumwechsel ist dann oft der leichtere Stopp.";
     }
+    if (step.id === "plan") return engpassSatz();
     return step.sub || "";
   }
 
@@ -581,12 +598,22 @@
     return html;
   }
 
-  function planBody() {
+  function engpassSatz() {
+    var text = ENG[engpassId()].text;
+    var dot = text.indexOf(". ");
+    return dot === -1 ? text : text.slice(0, dot + 1);
+  }
+
+  function sessionHref() {
+    return "/session?via=clearstate&utm_source=clearstate&utm_medium=builder&utm_campaign=clearstate_flow";
+  }
+
+  function planDetailHtml() {
     var eng = ENG[engpassId()];
     var ktyp = koerperTyp();
     var oft = oftObj();
     var seit = seitObj();
-    var html = "";
+    var html = "<h3>Dein fertiger Plan</h3>";
     if (oft && seit) html += "<p>Das war letzte Woche " + esc(oft.satz) + ". Und das geht schon " + esc(seit.satz) + " so.</p>";
     if (state.versucht === "oefter") html += "<p>Du hast es schon öfter versucht. Du hast bisher an der falschen Stelle angesetzt.</p>";
     if (preisObj()) html += "<p>Der Preis: " + esc(preisObj().label) + ".</p>";
@@ -603,15 +630,17 @@
       "<li>Abends: Ein Strich, wenn du es gemacht hast. Und einmal kurz dein Satz.</li>" +
       "<li>Wenn es nicht klappt: Mach den Ersatz kleiner, nicht größer. Ein schlechter Tag zählt nicht.</li>" +
       "</ul>";
-    html += '<div class="cs-actions">' +
-      '<button class="btn btn--primary btn--block" type="button" data-cs="mail">Per Mail schicken</button>' +
-      '<button class="btn btn--ghost btn--block" type="button" data-cs="download">Plan speichern</button>' +
-      '<button class="btn btn--ghost btn--block" type="button" data-cs="shot">Screenshot machen</button>' +
-      "</div>";
-    html += '<p class="cs-hintbox" id="cs-shot" hidden>Mach einen Screenshot von der Karte oben. So hast du den Plan auch ohne Mail.</p>';
     html += '<p class="cs-note">Das ist ein Selbsttest. Er zeigt dir, wo du ansetzen kannst. Er ersetzt keinen Arzt.</p>';
-    html += nav(false);
     return html;
+  }
+
+  function planBody() {
+    return '<div class="cs-gates">' +
+      '<button type="button" class="cs-gate" data-cs="mail">Plan per E-Mail</button>' +
+      '<a class="cs-gate" href="' + sessionHref() + '">Kostenlose Potenzialanalyse mit Janosch</a>' +
+      "</div>" +
+      '<p class="cs-note">Du suchst dir einen Weg aus.</p>' +
+      nav(false);
   }
 
   function signupBody() {
@@ -627,13 +656,14 @@
   }
 
   function dankeBody() {
-    var html = "<p>Schau in dein Postfach und bestätige deine Adresse. Dann kommt dein Plan.</p>";
+    var html = planDetailHtml();
+    html += '<div class="cs-actions"><button class="btn btn--ghost btn--block" type="button" data-cs="download">Plan speichern</button></div>';
+    html += "<p>Schau in dein Postfach und bestätige deine Adresse. Dann kommt derselbe Plan auch per Mail.</p>";
     if (state.whatsapp) {
       html += "<p>Tipp hier und schick die fertige Nachricht ab. Dann kommt morgen früh Tag 1.</p>";
       html += '<a class="btn btn--primary btn--block" id="cs-wa-link" href="#">WhatsApp öffnen</a>';
     }
-    html += '<div class="cs-actions"><button class="btn btn--ghost btn--block" type="button" data-cs="download">Plan speichern</button></div>';
-    html += '<div class="cs-soft"><p>Übrigens: Wenn du dein Muster mal mit jemandem durchgehen willst, mach ich das gern mit dir. 30 Minuten, kostenlos, ohne Verkaufsgespräch.</p><a class="textlink" href="/session">Potenzialanalyse anschauen</a></div>';
+    html += '<div class="cs-soft"><p>Wenn du dein Muster mal mit jemandem durchgehen willst, mach ich das gern mit dir. 30 Minuten, kostenlos, ohne Verkaufsgespräch.</p><a class="textlink" href="' + sessionHref() + '">Potenzialanalyse anschauen</a></div>';
     return html;
   }
 
@@ -771,8 +801,6 @@
 
     if (step.type === "plan") {
       host.querySelector("[data-cs=mail]").addEventListener("click", function () { go(1); });
-      host.querySelector("[data-cs=download]").addEventListener("click", download);
-      host.querySelector("[data-cs=shot]").addEventListener("click", function () { el("cs-shot").hidden = false; });
     }
 
     if (step.type === "signup") {

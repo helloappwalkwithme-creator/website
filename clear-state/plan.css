@@ -143,11 +143,48 @@ button.cs-choice {
 
 .cs-choice { scroll-margin-top: 180px; }
 
+.cs-plan.is-locked .cs-plan__toggle { pointer-events: none; }
+.cs-plan.is-locked .cs-rows,
+.cs-plan.is-locked .cs-plan__latest {
+  filter: blur(8px);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.cs-lock {
+  margin: 4px 0 8px;
+  color: var(--brass);
+  font-size: .8125rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.cs-gates { display: grid; gap: 12px; margin-top: 8px; }
+.cs-gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1.5px solid var(--accent);
+  background: #fff;
+  color: var(--ink);
+  font: 600 1.0625rem/1.3 var(--font-body);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.cs-gate:hover { background: var(--accent-tint); }
+@media (min-width: 720px) { .cs-gates { grid-template-columns: 1fr 1fr; } }
+
 @media (max-width: 720px) {
   #start .btn--primary { width: 100%; }
   .cs-plan { position: sticky; top: 84px; padding: 14px 14px 6px; }
   .cs-plan__latest { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .cs-plan:not(.is-open) .cs-rows { display: none; }
+  .cs-plan.is-locked .cs-rows { display: block; max-height: 148px; overflow: hidden; }
+  .cs-plan.is-locked { position: static; }
+  .cs-plan.is-locked .cs-plan__latest { display: none; }
   .cs-plan.is-open { position: static; }
   .cs-plan.is-open .cs-plan__latest { display: none; }
   .cs-row__text { font-size: .9375rem; }
@@ -159,6 +196,8 @@ button.cs-choice {
 @media print {
   .hdr, .ftr, #start, #so-laeuft, #fragen, .cs-nav, .cs-actions, .cs-soft, .skip-link { display: none !important; }
   #bauer { display: block !important; }
+  .cs-plan.is-locked .cs-rows,
+  .cs-plan.is-locked .cs-plan__latest { display: none !important; }
   .cs-plan { position: static; box-shadow: none; color: #000; background: #fff; border-color: #000; }
   .cs-row__text, .cs-aha, .cs-row__name { color: #000 !important; }
 }
