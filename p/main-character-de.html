@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  VORLAGE Influencer-Vorschauseite. Design-Vorlage: index.html (Startseite).
+  Nutzt nur tokens.css + components.css + site.js der Startseite. Kein eigener <style>-Block.
+  Programm: The Loving Woman | Flow: main_character_flow | Sprache: DE | Slug: /p/main-character-de
+  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{DIGISTORE_ABO_LINK}}, {{DIGISTORE_EINMAL_LINK}}, {{AFFILIATE_ID}}
+-->
+<title>Du sagst Ja, obwohl du Nein meinst?</title>
+<meta name="description" content="Jeden Morgen eine kurze Nachricht per WhatsApp, 90 Tage lang. Die ersten 4 Tage sind gratis.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A141B">
+<link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+</head>
+<body data-page="partner">
+<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+<header class="hdr">
+  <a class="wordmark" href="#inhalt">Janosch Brase</a>
+  <a class="btn btn--primary hdr__cta" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=peoplepleasing">4 Tage gratis starten</a>
+</header>
+
+<main id="inhalt">
+  <!-- 1. Hero: Problem in den Worten der Followerin -->
+  <section class="hero hero--book">
+    <div class="hero__bg"><div class="scene"></div></div>
+    <div class="hero__shade"></div>
+    <div class="wrap">
+      <div class="hero__grid">
+        <div class="hero__text">
+          <div class="hero__top">
+            <span class="eyebrow rv-hero">Empfohlen von {{INFLUENCER_NAME}}</span>
+            <h1 class="rv-hero d1">Du sagst Ja, obwohl du Nein meinst?</h1>
+            <p class="lead">Du hilfst allen. Du sagst zu, obwohl du keine Kraft mehr hast. Abends weißt du nicht mehr, was du eigentlich selbst willst.</p>
+            <p class="lead">Das ist kein Charakterfehler. Das ist ein alter Schutz, und den kann man umlernen.</p>
+          </div>
+          <div class="hero__bottom rv-hero d2">
+            <div class="hero__actions"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=peoplepleasing">4 Tage gratis starten</a></div>
+            <p class="hero__note">Jeden Morgen eine Nachricht per WhatsApp oder Telegram. Keine Zahlungsdaten.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Video des Influencers (PLATZHALTER: {{VIDEO_EMBED}}) -->
+  <section class="sec sec--paper" id="video">
+    <div class="wrap split">
+      <div class="prose rv">
+        <span class="eyebrow">Warum ich dir das empfehle</span>
+        <h2>{{INFLUENCER_NAME}} erzählt, warum.</h2>
+        <p>Hier kommt das Video von {{INFLUENCER_NAME}} rein. Hochformat, 30 bis 90 Sekunden.</p>
+      </div>
+      <div class="rv">
+        <!-- aria-label NICHT mit "Platzhalter" beginnen lassen, sonst blendet components.css den Block aus -->
+        <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
+          <div class="ph" aria-label="Video-Slot Influencer"><span class="ph__tag">Video folgt</span><div class="ph__center">Video von {{INFLUENCER_NAME}}</div><p class="ph__cap">Embed hier einsetzen (YouTube, Instagram, TikTok oder video-Tag).</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Kennst du das? -->
+  <section class="sec sec--dark" id="problem">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <h2>Kennst du das?</h2>
+      </div>
+      <div class="signs">
+        <article class="glass rv"><h3>Du sagst Ja und ärgerst dich fünf Minuten später darüber.</h3></article>
+        <article class="glass rv"><h3>Du entschuldigst dich, bevor du überhaupt etwas falsch gemacht hast.</h3></article>
+        <article class="glass rv"><h3>Wenn jemand enttäuscht ist, fühlst du dich schuldig.</h3></article>
+        <article class="glass rv"><h3>Du bist müde. Nicht vom Tun, sondern vom Rechtmachen.</h3></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Was du konkret bekommst -->
+  <section class="sec sec--white" id="inhalt-programm">
+    <div class="wrap" style="max-width:760px">
+      <div class="rv">
+        <span class="eyebrow">Was du bekommst</span>
+        <h2>Jeden Morgen eine Nachricht. 90 Tage lang.</h2>
+        <p>Kein Kurs, den du nie anschaust. Du bekommst jeden Morgen um 7 Uhr eine kurze Nachricht per WhatsApp oder Telegram. Darin steht ein Gedanke für den Tag und eine kleine Aufgabe. Dauert keine 5 Minuten.</p>
+      </div>
+      <ul class="days rv">
+        <li><b>90 Tage, in Phasen</b>Erst lernst du, wo du dich selbst bremst. Dann baust du Grenzen und Selbstwert auf. Am Ende stehst du für dich ein.</li>
+        <li><b>Eine Aufgabe pro Tag</b>Immer etwas, das du am selben Tag machen kannst. Im Alltag, ohne extra Zeit.</li>
+        <li><b>Mit Begründung</b>Zu jeder Aufgabe steht kurz, warum sie wirkt. Aus der Psychologie, nicht aus dem Kalender.</li>
+        <li><b>Keine App</b>Läuft in deinem Messenger. Kein Login, kein Passwort. Mit STOP jederzeit beendet.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. Echte Tage (Supabase flow_content, main_character_flow) -->
+  <section class="sec sec--paper" id="tage">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">So sehen echte Tage aus</span>
+        <h2>Das ist kein Beispieltext. Genau diese Nachrichten bekommst du.</h2>
+      </div>
+      <div class="stats stats--3">
+        <article class="stat rv">
+          <p class="stat__num">Tag 1</p>
+          <p class="stat__claim">Der Berg bist du</p>
+          <p>Selbstsabotage ist kein Selbsthass. Dein Gehirn zieht das Bekannte dem Unbekannten vor, auch wenn es wehtut. Aufgabe: Finde heute eine Sache, mit der du dir selbst im Weg stehst. Frag dich, vor welchem Schmerz sie dich schützt.</p>
+        </article>
+        <article class="stat rv">
+          <p class="stat__num">Tag 4</p>
+          <p class="stat__claim">Die Trennung der Aufgaben</p>
+          <p>Es ist nicht deine Aufgabe, wie andere auf deine Grenzen reagieren. Aufgabe: Wenn heute jemand enttäuscht ist, weil du Nein sagst, sag dir: „Meine Aufgabe ist, für mich einzustehen. Seine ist, mit seiner Enttäuschung umzugehen.“</p>
+        </article>
+        <article class="stat rv">
+          <p class="stat__num">Tag 30</p>
+          <p class="stat__claim">Fehler sind nur Datenpunkte</p>
+          <p>Perfektionismus ist Angst in schöner Verpackung. Ein Fehler sagt nichts über deinen Wert. Er zeigt dir nur, was du als Nächstes anders machst.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 4 Tage gratis -->
+  <section class="booking" id="gratis">
+    <div class="booking__bg"><div class="scene"></div></div>
+    <div class="booking__shade"></div>
+    <div class="wrap booking__grid">
+      <div class="booking__intro rv">
+        <span class="eyebrow">Erst testen, dann entscheiden</span>
+        <h2>Die ersten 4 Tage sind gratis.</h2>
+        <p class="lead">Du beantwortest ein paar kurze Fragen, schickst eine Startnachricht ab, und am nächsten Morgen kommt Tag 1.</p>
+        <ul class="facts">
+          <li><b>Dauer</b>2 Minuten zum Start, danach unter 5 Minuten am Tag.</li>
+          <li><b>Kosten</b>keine. Keine Zahlungsdaten.</li>
+          <li><b>Danach</b>An Tag 4 entscheidest du. Es läuft kein Abo automatisch an.</li>
+        </ul>
+      </div>
+      <div class="booking__card rv">
+        <div class="card-light">
+          <h3>So läuft es</h3>
+          <ol class="steps on-light">
+            <li><div><h3>Fragen beantworten</h3><p>Vorname, E-Mail, WhatsApp oder Telegram.</p></div></li>
+            <li><div><h3>Startnachricht senden</h3><p>Dein Messenger öffnet sich mit fertigem Text und Zugangscode. Du tippst auf Senden.</p></div></li>
+            <li><div><h3>Tag 1 bis 4 bekommen</h3><p>Jeden Morgen um 7 Uhr. Genau die Tage, die du oben siehst.</p></div></li>
+            <li><div><h3>Entscheiden</h3><p>Hat es dir was gebracht, machst du weiter bis Tag 90.</p></div></li>
+          </ol>
+          <div class="btn-row"><a class="btn btn--primary btn--block" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=peoplepleasing">4 Tage gratis starten</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Preise (Digistore24: PLATZHALTER) -->
+  <section class="sec sec--white" id="preise">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Preise</span>
+        <h2>Wenn du weitermachen willst.</h2>
+      </div>
+      <div class="ways">
+        <article class="way rv">
+          <p class="way__num">19 €</p>
+          <h3>Monatlich</h3>
+          <p>Pro Monat, monatlich kündbar.</p>
+          <a class="btn btn--primary" href="{{DIGISTORE_ABO_LINK}}" data-placeholder="DIGISTORE_ABO_LINK">Monatlich starten</a>
+          <p class="small">Link folgt (Digistore24)</p>
+        </article>
+        <article class="way rv">
+          <p class="way__num">90 €</p>
+          <h3>Einmalig</h3>
+          <p>Einmal zahlen, alle 90 Tage.</p>
+          <a class="btn btn--ghost" href="{{DIGISTORE_EINMAL_LINK}}" data-placeholder="DIGISTORE_EINMAL_LINK">Einmal kaufen</a>
+          <p class="small">Link folgt (Digistore24)</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Partner-Abschnitt (nur Vorschau fuer Influencer; auf Kundenversion entfernen) -->
+  <section class="statement-band" id="partner" data-partner-only>
+    <div class="wrap">
+      <span class="eyebrow">Nur für dich als Partner sichtbar</span>
+      <p class="statement rv">Du bekommst <em>50 %</em> von jedem Verkauf über deinen Link.</p>
+      <p class="sub rv">Abo 19 € im Monat: rund 9,50 € pro Monat, solange die Kundin dabei bleibt. Einmalkauf 90 €: rund 45 €. Getrackt und ausgezahlt über Digistore24.</p>
+      <ul class="points rv">
+        <li><b>1. Digistore24 Konto anlegen</b>Kostenlos, dauert ein paar Minuten. Schick mir deine Digistore24 ID.</li>
+        <li><b>2. Video schicken</b>Ich baue es oben ein und schicke dir deinen Link.</li>
+        <li><b>3. Link teilen</b>In Bio, Story, Video oder Newsletter. Mehr musst du nicht machen.</li>
+      </ul>
+      <div class="note-box rv"><p><strong>Dein Link:</strong> https://www.shiftmyhorizon.com/p/main-character-de?aff={{AFFILIATE_ID}}<br><a class="textlink" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=peoplepleasing">So sieht der Einstieg für deine Follower aus</a></p></div>
+    </div>
+  </section>
+
+  <!-- 9. FAQ -->
+  <section class="sec sec--white" id="fragen">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Häufige Fragen</span>
+        <h2>Häufige Fragen</h2>
+      </div>
+      <div class="faq rv">
+        <details><summary>Kostet der Test etwas?</summary><p>Nein. Die ersten 4 Tage sind gratis. Du gibst keine Zahlungsdaten an.</p></details>
+        <details><summary>Wie viel Zeit brauche ich am Tag?</summary><p>Unter 5 Minuten. Lesen und die Aufgabe nebenbei im Alltag machen.</p></details>
+        <details><summary>Wie höre ich auf?</summary><p>Schreib STOP in den Chat. Dann kommt nichts mehr.</p></details>
+        <details><summary>Ist das eine Therapie?</summary><p>Nein. Es ist ein Selbstlern-Programm mit täglichen Impulsen. Es ersetzt keine Therapie.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Abschluss -->
+  <section class="hero hero--compact" id="abschluss">
+    <div class="hero__bg"><div class="scene"></div></div>
+    <div class="hero__shade"></div>
+    <div class="wrap rv">
+      <h2>Probier es 4 Tage aus. Morgen früh kommt die erste Nachricht.</h2>
+      <div class="btn-row"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=peoplepleasing">4 Tage gratis starten</a></div>
+    </div>
+  </section>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__row">
+      <span class="wordmark">Janosch Brase</span>
+      <nav aria-label="Rechtliches">
+        <a href="/impressum">Impressum</a>
+        <a href="/datenschutz">Datenschutz</a>
+        <a href="/agb">AGB</a>
+      </nav>
+    </div>
+    <p class="ftr__fine">Das hier ersetzt keine Therapie. Es geht um dein Verhalten im Alltag.</p>
+  </div>
+</footer>
+<script src="/site.js"></script>
+</body>
+</html>
