@@ -126,6 +126,7 @@ gtag('set', 'url_passthrough', true);
                 <div class="flow-title" id="s2-lbl"></div>
                 <h1 class="h1-title" id="s2-title"></h1>
                 <p class="subtitle" id="s2-sub"></p>
+                <div class="flow-title" id="s2-chosen" style="text-align:center;"></div>
             </div>
 
             <div class="flow-title" id="lbl-fname"></div>
@@ -274,6 +275,89 @@ gtag('set', 'url_passthrough', true);
 
         let step = 1;
         let chosen = null; // { key, flow }
+        // ?p= hält den Weg fest, solange der Willkommens-Screen sichtbar ist.
+        let deepKey = null;
+
+        // Öffentliche Kurzlinks -> interner Religions-Key (und damit flow in RELIGIONS).
+        const PATH_PARAM = {
+            bibel: 'bible',
+            bible: 'bible',
+            islam: 'islam',
+            buddhismus: 'buddhism',
+            buddhism: 'buddhism',
+            budismo: 'buddhism'
+        };
+
+        const WELC = {
+            de: { lbl: 'DEIN WEG', title: 'Schön, dass du da bist.', next: 'Als Nächstes sicherst du dir deinen kostenlosen 4-Tage-Flow per WhatsApp oder Telegram.', btn: "Los geht's", other: 'Das trifft nicht zu? Weg ändern' },
+            en: { lbl: 'YOUR PATH', title: 'Great to have you here.', next: 'Next you secure your free 4-day flow on WhatsApp or Telegram.', btn: "Let's go", other: 'Not quite right? Change path' },
+            es: { lbl: 'TU CAMINO', title: 'Qué bueno tenerte aquí.', next: 'A continuación aseguras tu flujo gratuito de 4 días por WhatsApp o Telegram.', btn: '¡Vamos!', other: '¿No es eso? Cambiar camino' }
+        };
+
+        function readPathParam() {
+            try {
+                const raw = (new URLSearchParams(location.search).get('p') || '').trim().toLowerCase();
+                return PATH_PARAM[raw] || null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function renderWelcome() {
+            const rel = RELIGIONS.find(r => r.key === deepKey);
+            const info = rel && t[currentLang] && t[currentLang].rel[deepKey];
+            const lbl = document.getElementById('s1-lbl');
+            const ttl = document.getElementById('s1-title');
+            const sub = document.getElementById('s1-sub');
+            const opts = document.getElementById('s1-opts');
+            if (!rel || !info || !lbl || !ttl || !opts) return;
+            chosen = { key: rel.key, flow: rel.flow };
+            const L = WELC[currentLang] || WELC.de;
+            lbl.innerText = L.lbl;
+            ttl.innerText = L.title;
+            if (sub) sub.innerText = '';
+
+            opts.innerHTML = '';
+            const card = document.createElement('div');
+            card.setAttribute('data-flow', rel.flow);
+            card.style.cssText = 'background:var(--gray);border:1px solid var(--action);border-radius:12px;padding:18px 20px;margin:6px 0 22px;line-height:1.55;color:var(--text);';
+            const nameEl = document.createElement('div');
+            nameEl.style.cssText = 'font-weight:800;font-size:1.15rem;margin-bottom:6px;';
+            nameEl.textContent = rel.icon + '  ' + info.name;
+            const descEl = document.createElement('div');
+            descEl.style.cssText = 'color:#8b949e;font-size:15px;';
+            descEl.textContent = info.desc;
+            card.appendChild(nameEl);
+            card.appendChild(descEl);
+
+            const next = document.createElement('p');
+            next.style.cssText = 'color:#9a9a9a;font-size:.95rem;line-height:1.5;margin:0 0 22px;';
+            next.textContent = L.next;
+
+            const go = document.createElement('button');
+            go.type = 'button';
+            go.className = 'btn-gold';
+            go.id = 'welcome-go';
+            go.style.width = '100%';
+            go.textContent = L.btn + ' →';
+            go.onclick = () => goToStep(2);
+
+            const other = document.createElement('div');
+            other.id = 'welcome-other';
+            other.style.cssText = 'text-align:center;margin-top:16px;color:#8a8a8a;font-size:.85rem;text-decoration:underline;cursor:pointer;';
+            other.textContent = L.other;
+            other.onclick = () => {
+                deepKey = null;
+                chosen = null;
+                updateTexts();
+                buildOptions();
+            };
+
+            opts.appendChild(card);
+            opts.appendChild(next);
+            opts.appendChild(go);
+            opts.appendChild(other);
+        }
 
         const bBar = document.getElementById('bottomBar');
         const pBar = document.getElementById('progressBar');
@@ -292,6 +376,7 @@ gtag('set', 'url_passthrough', true);
             document.getElementById('s2-lbl').innerText = l.s2.lbl;
             document.getElementById('s2-title').innerText = l.s2.title;
             document.getElementById('s2-sub').innerText = l.s2.sub;
+            syncChosenLabel();
 
             document.getElementById('lbl-fname').innerText = l.s2.lblFname;
             document.getElementById('lbl-email').innerText = l.s2.lblEmail;
@@ -350,10 +435,20 @@ gtag('set', 'url_passthrough', true);
             });
         }
 
+        function syncChosenLabel() {
+            const l = t[currentLang];
+            const chosenEl = document.getElementById('s2-chosen');
+            if (!chosenEl) return;
+            const info = chosen && l.rel[chosen.key];
+            chosenEl.innerText = info ? info.name : '';
+            chosenEl.style.display = info ? 'block' : 'none';
+        }
+
         function goToStep(n) {
             document.getElementById(`step-${step}`).classList.remove('active');
             step = n;
             document.getElementById(`step-${step}`).classList.add('active');
+            syncChosenLabel();
             pBar.style.width = `${(step / 2) * 100}%`;
             bBar.style.display = (step === 2) ? 'flex' : 'none';
             window.scrollTo(0, 0);
@@ -367,13 +462,16 @@ gtag('set', 'url_passthrough', true);
             currentLang = lang;
             localStorage.setItem('smh_language', lang);
             updateTexts();
-            buildOptions();
+            if (deepKey) renderWelcome();
+            else buildOptions();
         }
 
         window.onload = () => {
             document.getElementById('langSelect').value = currentLang;
             updateTexts();
-            buildOptions();
+            deepKey = readPathParam();
+            if (deepKey) renderWelcome();
+            else buildOptions();
             pBar.style.width = '50%';
             if (!RELIGION_OPEN) {
                 const btn = document.getElementById('btn-register');
