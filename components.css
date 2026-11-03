@@ -786,3 +786,13 @@ a[data-todo][href="#"] { display: none !important; }
   .hero--book.hero--lp .hero__media,
   .hero--book .hero__media { order: 3; margin-top: 22px; }
 }
+
+/* Influencer-Vorschauseiten (/p/*, body[data-page="partner"]): Das Video des
+   Creators traegt die Seite. Auf dem Handy bekommt es deshalb die volle
+   Spaltenbreite im Hochformat statt der Resthoehe, die fuer die Landingpages
+   richtig ist. Greift nur auf diesen Seiten. */
+@media (max-width: 959px) {
+  body[data-page="partner"] .hero__media .vsl--vertical {
+    width: 100%; height: auto; aspect-ratio: 9 / 16; margin-inline: 0;
+  }
+}
