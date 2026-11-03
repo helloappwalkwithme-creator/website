@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  Influencer-Vorschauseite. Design-Vorlage: index.html (Startseite).
+  Nutzt nur tokens.css + components.css + site.js der Startseite. Kein eigener <style>-Block.
+  Programm: Path to Lightness | Flow: leichtigkeit_flow | Sprache: DE | Slug: /p/leichtigkeit-de
+  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{DIGISTORE_ABO_LINK}}, {{DIGISTORE_EINMAL_LINK}}, {{AFFILIATE_ID}}
+  Erzeugt von scratchpad/build-pages.js am 03.11.2026. Aenderungen am Muster dort nachziehen.
+-->
+<title>Dein Kopf steht nie still.</title>
+<meta name="description" content="Jeden Morgen eine kurze Nachricht per WhatsApp, 90 Tage lang. Die ersten 4 Tage sind gratis.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A141B">
+<link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+</head>
+<body data-page="partner">
+<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+<header class="hdr">
+  <a class="wordmark" href="#inhalt">Shift My Horizon</a>
+  <a class="btn btn--primary hdr__cta" href="https://www.shiftmyhorizon.com/lightness.html?p=overload">4 Tage gratis starten</a>
+</header>
+
+<main id="inhalt">
+  <!-- 1. Hero: Problem oben, Video des Influencers daneben (PLATZHALTER: {{VIDEO_EMBED}}) -->
+  <!-- Kein hero--book: diese Klasse schiebt das Video auf dem Handy unter den Button (components.css 782-787). -->
+  <section class="hero hero--lp">
+    <div class="hero__bg"><div class="scene"></div></div>
+    <div class="hero__shade"></div>
+    <div class="wrap">
+      <div class="hero__grid">
+        <div class="hero__text">
+          <div class="hero__top">
+            <span class="eyebrow rv-hero">Path to Lightness · Overthinking und Anspannung</span>
+            <h1 class="rv-hero d1">Dein Kopf steht nie still.</h1>
+            <p class="lead">Du zerdenkst Entscheidungen, die längst gefallen sind. Abends bist du zu müde für die Dinge, für die du den ganzen Tag arbeitest.</p>
+            <p class="lead">90 Tage, jeden Morgen eine kurze Nachricht mit einer Aufgabe für den Tag. Die ersten 4 Tage sind gratis.</p>
+          </div>
+          <div class="hero__bottom rv-hero d2">
+            <div class="hero__actions"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/lightness.html?p=overload">4 Tage gratis starten</a></div>
+            <p class="hero__note">Empfohlen von {{INFLUENCER_NAME}}. Per WhatsApp oder Telegram, keine Zahlungsdaten.</p>
+            <!-- Nur in der Influencer-Fassung. Fuer die Follower-Fassung diesen Block loeschen. -->
+            <div class="note-box" data-partner-only><p><strong>Nur für dich, bitte noch nicht teilen.</strong> Das hier ist ein Muster für dich. Genau so würde die Seite für deine Follower aussehen, dann mit deinem Video oben und ohne diesen Kasten.</p></div>
+          </div>
+        </div>
+        <div class="hero__media rv-hero d3">
+          <!-- aria-label NICHT mit "Platzhalter" beginnen lassen, sonst blendet components.css den Block aus.
+               Kein data-src setzen, sonst blendet Regel .hero__media:has(> .vsl[data-src=""]) den Slot aus. -->
+          <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
+            <!-- Embed von YouTube, Instagram, TikTok oder video-Tag ersetzt den .ph-Block. -->
+            <div class="ph" aria-label="Video-Slot Influencer"><div class="ph__center">Dein Video</div><p class="ph__cap">Hochformat, 30 bis 90 Sekunden.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Kennst du das? -->
+  <section class="sec sec--dark" id="problem">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <h2>Kennst du das?</h2>
+      </div>
+      <div class="signs">
+        <article class="glass rv"><h3>Du gehst Gespräche durch, die schon vorbei sind.</h3></article>
+        <article class="glass rv"><h3>Du bist entweder in der Zukunft oder in der Vergangenheit.</h3></article>
+        <article class="glass rv"><h3>Eine echte Pause hast du mit schlechtem Gewissen.</h3></article>
+        <article class="glass rv"><h3>Die Anspannung sitzt im Nacken, auch am Wochenende.</h3></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Was du konkret bekommst -->
+  <section class="sec sec--white" id="inhalt-programm">
+    <div class="wrap" style="max-width:760px">
+      <div class="rv">
+        <span class="eyebrow">Was du bekommst</span>
+        <h2>Jeden Morgen eine Nachricht. 90 Tage lang.</h2>
+        <p>Kein Kurs, den du nie anschaust. Du bekommst jeden Morgen um 7 Uhr eine kurze Nachricht per WhatsApp oder Telegram. Darin steht ein Gedanke für den Tag und eine kleine Aufgabe. Dauert keine 5 Minuten.</p>
+      </div>
+      <ul class="days rv">
+        <li><b>90 Tage, in Phasen</b>Erst sortierst du aus, was gar nicht wichtig ist. Dann lernst du, den Körper runterzufahren. Am Ende kriegst du den Abend wieder mit.</li>
+        <li><b>Eine Aufgabe pro Tag</b>Immer etwas, das du am selben Tag machen kannst. Im Alltag, ohne extra Zeit.</li>
+        <li><b>Mit Begründung</b>Zu jeder Aufgabe steht kurz, warum sie wirkt. Aus der Psychologie, nicht aus dem Kalender.</li>
+        <li><b>Keine App</b>Läuft in deinem Messenger. Kein Login, kein Passwort. Mit STOP jederzeit beendet.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. Echte Tage (Supabase flow_content, leichtigkeit_flow) -->
+  <section class="sec sec--paper" id="tage">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">So sehen echte Tage aus</span>
+        <h2>Das ist kein Beispieltext. Genau diese Nachrichten bekommst du.</h2>
+      </div>
+      <div class="stats stats--3">
+        <article class="stat rv">
+          <p class="stat__num">Tag 1</p>
+          <p class="stat__claim">Die mentale Inventur</p>
+          <p>Angelehnt an den Essentialismus beginnen wir damit, das Unwesentliche zu identifizieren. Wahre Leichtigkeit entsteht nicht durch mehr Kapazität, sondern durch weniger Ballast. Aufgabe: Schreibe 3 Dinge auf, die dir heute Energie rauben, aber eigentlich nicht wichtig sind. Streiche eines davon aktiv aus deinem Tagesplan.</p>
+        </article>
+        <article class="stat rv">
+          <p class="stat__num">Tag 4</p>
+          <p class="stat__claim">Das chemische Gleichgewicht</p>
+          <p>Angelehnt an Erkenntnisse über die Atmung (James Nestor) verändern wir heute die biochemische Zusammensetzung deines Blutes, um mentale Klarheit zu schaffen. Aufgabe: Atme heute 5-mal bewusst durch die Nase ein (4 Sekunden) und doppelt so lange durch den Mund aus (8 Sekunden).</p>
+        </article>
+        <article class="stat rv">
+          <p class="stat__num">Tag 30</p>
+          <p class="stat__claim">Die Kristallisation</p>
+          <p>Das Ende der ersten Phase. In der Theorie U kristallisiert sich nun langsam die neue Struktur aus dem bewussten Kommenlassen. Aufgabe: Reflektiere kurz: Welche der vergangenen 29 Übungen hat sich für dich am leichtesten angefühlt? Mach sie ab heute zu deinem persönlichen Anker.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 4 Tage gratis -->
+  <section class="booking" id="gratis">
+    <div class="booking__bg"><div class="scene"></div></div>
+    <div class="booking__shade"></div>
+    <div class="wrap booking__grid">
+      <div class="booking__intro rv">
+        <span class="eyebrow">Erst testen, dann entscheiden</span>
+        <h2>Die ersten 4 Tage sind gratis.</h2>
+        <p class="lead">Du beantwortest ein paar kurze Fragen, schickst eine Startnachricht ab, und am nächsten Morgen kommt Tag 1.</p>
+        <ul class="facts">
+          <li><b>Dauer</b>2 Minuten zum Start, danach unter 5 Minuten am Tag.</li>
+          <li><b>Kosten</b>keine. Keine Zahlungsdaten.</li>
+          <li><b>Danach</b>An Tag 4 entscheidest du. Es läuft kein Abo automatisch an.</li>
+        </ul>
+      </div>
+      <div class="booking__card rv">
+        <div class="card-light">
+          <h3>So läuft es</h3>
+          <ol class="steps on-light">
+            <li><div><h3>Fragen beantworten</h3><p>Vorname, E-Mail, WhatsApp oder Telegram.</p></div></li>
+            <li><div><h3>Startnachricht senden</h3><p>Dein Messenger öffnet sich mit fertigem Text und Zugangscode. Du tippst auf Senden.</p></div></li>
+            <li><div><h3>Tag 1 bis 4 bekommen</h3><p>Jeden Morgen um 7 Uhr. Genau die Tage, die du oben siehst.</p></div></li>
+            <li><div><h3>Entscheiden</h3><p>Hat es dir was gebracht, machst du weiter bis Tag 90.</p></div></li>
+          </ol>
+          <div class="btn-row"><a class="btn btn--primary btn--block" href="https://www.shiftmyhorizon.com/lightness.html?p=overload">4 Tage gratis starten</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Preise (Digistore24: PLATZHALTER) -->
+  <section class="sec sec--white" id="preise">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Preise</span>
+        <h2>Wenn du weitermachen willst.</h2>
+      </div>
+      <div class="ways">
+        <article class="way rv">
+          <p class="way__num">19 €</p>
+          <h3>Monatlich</h3>
+          <p>Pro Monat, monatlich kündbar.</p>
+          <a class="btn btn--primary" href="{{DIGISTORE_ABO_LINK}}" data-placeholder="DIGISTORE_ABO_LINK">Monatlich starten</a>
+          <p class="small">Link folgt (Digistore24)</p>
+        </article>
+        <article class="way rv">
+          <p class="way__num">90 €</p>
+          <h3>Einmalig</h3>
+          <p>Einmal zahlen, alle 90 Tage.</p>
+          <a class="btn btn--ghost" href="{{DIGISTORE_EINMAL_LINK}}" data-placeholder="DIGISTORE_EINMAL_LINK">Einmal kaufen</a>
+          <p class="small">Link folgt (Digistore24)</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Partner-Abschnitt (nur Vorschau fuer Influencer; auf Kundenversion entfernen) -->
+  <section class="statement-band" id="partner" data-partner-only>
+    <div class="wrap">
+      <span class="eyebrow">Nur für dich als Partner sichtbar</span>
+      <p class="statement rv">Du bekommst <em>50 %</em> von jedem Verkauf über deinen Link.</p>
+      <p class="sub rv">Abo 19 € im Monat: rund 9,50 € pro Monat, solange die Kundin oder der Kunde dabei bleibt. Einmalkauf 90 €: rund 45 €. Getrackt und ausgezahlt über Digistore24.</p>
+      <ul class="points rv">
+        <li><b>1. Digistore24 Konto anlegen</b>Kostenlos, dauert ein paar Minuten. Schick mir deine Digistore24 ID.</li>
+        <li><b>2. Video schicken</b>Ich baue es oben ein und schicke dir deinen Link.</li>
+        <li><b>3. Link teilen</b>In Bio, Story, Video oder Newsletter. Mehr musst du nicht machen.</li>
+      </ul>
+      <div class="note-box rv"><p><strong>Programm:</strong> Path to Lightness. Thema: Overthinking und Anspannung. Flow: leichtigkeit_flow. Sprache: Deutsch.<br><strong>Dein Link:</strong> https://www.shiftmyhorizon.com/p/leichtigkeit-de?aff={{AFFILIATE_ID}}<br><a class="textlink" href="https://www.shiftmyhorizon.com/lightness.html?p=overload">So sieht der Einstieg für deine Follower aus</a></p></div>
+      <p class="sub rv">Diese Vorschauseite ist nicht öffentlich und steht in keiner Suchmaschine. Sobald dein Video oben drin ist, wird genau diese Seite deine Verkaufsseite, ohne die Kästen, die nur du siehst.</p>
+    </div>
+  </section>
+
+  <!-- 9. FAQ -->
+  <section class="sec sec--white" id="fragen">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Häufige Fragen</span>
+        <h2>Häufige Fragen</h2>
+      </div>
+      <div class="faq rv">
+        <details><summary>Kostet der Test etwas?</summary><p>Nein. Die ersten 4 Tage sind gratis. Du gibst keine Zahlungsdaten an.</p></details>
+        <details><summary>Wie viel Zeit brauche ich am Tag?</summary><p>Unter 5 Minuten. Lesen und die Aufgabe nebenbei im Alltag machen.</p></details>
+        <details><summary>Wie höre ich auf?</summary><p>Schreib STOP in den Chat. Dann kommt nichts mehr.</p></details>
+        <details><summary>Ist das eine Therapie?</summary><p>Nein. Es ist ein Selbstlern-Programm mit täglichen Impulsen. Es ersetzt keine Therapie.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Abschluss -->
+  <section class="hero hero--compact" id="abschluss">
+    <div class="hero__bg"><div class="scene"></div></div>
+    <div class="hero__shade"></div>
+    <div class="wrap rv">
+      <h2>Probier es 4 Tage aus. Morgen früh kommt die erste Nachricht.</h2>
+      <div class="btn-row"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/lightness.html?p=overload">4 Tage gratis starten</a></div>
+    </div>
+  </section>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__row">
+      <span class="wordmark">Janosch Brase</span>
+      <nav aria-label="Rechtliches">
+        <a href="/impressum">Impressum</a>
+        <a href="/datenschutz">Datenschutz</a>
+        <a href="/agb">AGB</a>
+      </nav>
+    </div>
+    <p class="ftr__fine">Das hier ersetzt keine Therapie. Es geht um dein Verhalten im Alltag.</p>
+  </div>
+</footer>
+<script src="/site.js"></script>
+</body>
+</html>

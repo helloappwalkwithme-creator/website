@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  Influencer-Vorschauseite. Design-Vorlage: index.html (Startseite).
+  Nutzt nur tokens.css + components.css + site.js der Startseite. Kein eigener <style>-Block.
+  Programm: The Loving Woman | Flow: heartbreak_flow | Sprache: ES | Slug: /p/heartbreak-es
+  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{DIGISTORE_ABO_LINK}}, {{DIGISTORE_EINMAL_LINK}}, {{AFFILIATE_ID}}
+  Erzeugt von scratchpad/build-pages.js am 03.11.2026. Aenderungen am Muster dort nachziehen.
+-->
+<title>La ruptura terminó. Tu cabeza no.</title>
+<meta name="description" content="Un mensaje corto por WhatsApp cada mañana, durante 90 días. Los primeros 4 días son gratis.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A141B">
+<link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+</head>
+<body data-page="partner">
+<a class="skip-link" href="#inhalt">Saltar al contenido</a>
+<header class="hdr">
+  <a class="wordmark" href="#inhalt">Shift My Horizon</a>
+  <a class="btn btn--primary hdr__cta" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=somatic">Empieza 4 días gratis</a>
+</header>
+
+<main id="inhalt">
+  <!-- 1. Hero: Problem oben, Video des Influencers daneben (PLATZHALTER: {{VIDEO_EMBED}}) -->
+  <!-- Kein hero--book: diese Klasse schiebt das Video auf dem Handy unter den Button (components.css 782-787). -->
+  <section class="hero hero--lp">
+    <div class="hero__bg"><div class="scene"></div></div>
+    <div class="hero__shade"></div>
+    <div class="wrap">
+      <div class="hero__grid">
+        <div class="hero__text">
+          <div class="hero__top">
+            <span class="eyebrow rv-hero">The Loving Woman · Después de la ruptura</span>
+            <h1 class="rv-hero d1">La ruptura terminó. Tu cabeza no.</h1>
+            <p class="lead">Miras si se ha conectado. Tienes conversaciones que nunca ocurren. Y de noche todo empieza otra vez.</p>
+            <p class="lead">90 días, cada mañana un mensaje corto con una tarea para el día. Los primeros 4 días son gratis.</p>
+          </div>
+          <div class="hero__bottom rv-hero d2">
+            <div class="hero__actions"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=somatic">Empieza 4 días gratis</a></div>
+            <p class="hero__note">Recomendado por {{INFLUENCER_NAME}}. Por WhatsApp o Telegram, sin datos de pago.</p>
+            <!-- Nur in der Influencer-Fassung. Fuer die Follower-Fassung diesen Block loeschen. -->
+            <div class="note-box" data-partner-only><p><strong>Solo para ti, por favor no lo compartas todavía.</strong> Esto es una muestra para ti. La página para tus seguidores se vería exactamente así, con tu vídeo arriba y sin esta caja.</p></div>
+          </div>
+        </div>
+        <div class="hero__media rv-hero d3">
+          <!-- aria-label NICHT mit "Platzhalter" beginnen lassen, sonst blendet components.css den Block aus.
+               Kein data-src setzen, sonst blendet Regel .hero__media:has(> .vsl[data-src=""]) den Slot aus. -->
+          <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
+            <!-- Embed von YouTube, Instagram, TikTok oder video-Tag ersetzt den .ph-Block. -->
+            <div class="ph" aria-label="Espacio de vídeo del creador"><div class="ph__center">Tu vídeo</div><p class="ph__cap">Vertical, de 30 a 90 segundos.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Kennst du das? -->
+  <section class="sec sec--dark" id="problem">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <h2>¿Te suena?</h2>
+      </div>
+      <div class="signs">
+        <article class="glass rv"><h3>Miras su perfil aunque no querías.</h3></article>
+        <article class="glass rv"><h3>Te explicas por centésima vez qué pasó.</h3></article>
+        <article class="glass rv"><h3>Días buenos, y de pronto una tontería te tira atrás.</h3></article>
+        <article class="glass rv"><h3>Ya no sabes quién eres sin él.</h3></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Was du konkret bekommst -->
+  <section class="sec sec--white" id="inhalt-programm">
+    <div class="wrap" style="max-width:760px">
+      <div class="rv">
+        <span class="eyebrow">Lo que recibes</span>
+        <h2>Un mensaje cada mañana. Durante 90 días.</h2>
+        <p>No es un curso que nunca abres. Cada mañana a las 7 recibes un mensaje corto por WhatsApp o Telegram. Lleva una idea para el día y una tarea pequeña. Menos de 5 minutos.</p>
+      </div>
+      <ul class="days rv">
+        <li><b>90 días, por fases</b>Primero llega la distancia real, también en la cabeza. Luego ordenas lo que de verdad pasó. Al final vuelves a sostenerte sola.</li>
+        <li><b>Una tarea al día</b>Siempre algo que puedes hacer el mismo día. En tu día normal, sin tiempo extra.</li>
+        <li><b>Con su porqué</b>Cada tarea lleva una nota corta sobre por qué funciona. De la psicología, no del calendario.</li>
+        <li><b>Sin app</b>Funciona en tu mensajería. Sin registro, sin contraseña. Responde STOP y se acaba.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. Echte Tage (Supabase flow_content, heartbreak_flow) -->
+  <section class="sec sec--paper" id="tage">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Así son los días reales</span>
+        <h2>Esto no es texto de ejemplo. Son exactamente los mensajes que recibes.</h2>
+      </div>
+      <div class="stats stats--3">
+        <article class="stat rv">
+          <p class="stat__num">Día 1</p>
+          <p class="stat__claim">Desintoxicación Fría</p>
+          <p>El desamor es neurológicamente idéntico a la abstinencia de drogas. Cada contacto con tu ex es como una nueva dosis que reinicia la abstinencia. Hoy iniciamos la regla de "Cero Contacto". Tarea: Borra el número, deja de seguirlo en redes sociales y archiva chats antiguos. Si surge la necesidad de escribirle, escríbelo en tus notas, no a él.</p>
+        </article>
+        <article class="stat rv">
+          <p class="stat__num">Día 4</p>
+          <p class="stat__claim">Invirtiendo Demasiado</p>
+          <p>Las mujeres que "aman demasiado" suelen confundir la preocupación y el sacrificio con verdadera intimidad. Pensabas que si te esforzabas lo suficiente, él se quedaría. El amor no es un deporte de competición. Tarea: Identifica hoy un área en la que te doblegaste para complacerlo (pasatiempos, ropa, opiniones). Haz hoy una pequeña cosa exactamente como a TI te gusta.</p>
+        </article>
+        <article class="stat rv">
+          <p class="stat__num">Día 30</p>
+          <p class="stat__claim">Gracias por el Dolor</p>
+          <p>Hemos llegado al primer hito. Todavía estás aquí. Eres más fuerte que en el Día 1. El colapso se está convirtiendo lentamente en un gran avance. Tarea: Escribe un "Gracias por irte" mentalmente (o en papel) para él. No por amor a él, sino porque su partida te obligó a encontrarte a ti misma. Ya no lo necesitas para ser feliz.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 4 Tage gratis -->
+  <section class="booking" id="gratis">
+    <div class="booking__bg"><div class="scene"></div></div>
+    <div class="booking__shade"></div>
+    <div class="wrap booking__grid">
+      <div class="booking__intro rv">
+        <span class="eyebrow">Primero pruébalo, luego decides</span>
+        <h2>Los primeros 4 días son gratis.</h2>
+        <p class="lead">Respondes unas preguntas cortas, envías un mensaje de inicio y a la mañana siguiente llega el día 1.</p>
+        <ul class="facts">
+          <li><b>Tiempo</b>2 minutos para empezar, después menos de 5 minutos al día.</li>
+          <li><b>Coste</b>ninguno. Sin datos de pago.</li>
+          <li><b>Después</b>El día 4 decides tú. No se activa ninguna suscripción sola.</li>
+        </ul>
+      </div>
+      <div class="booking__card rv">
+        <div class="card-light">
+          <h3>Cómo funciona</h3>
+          <ol class="steps on-light">
+            <li><div><h3>Responde las preguntas</h3><p>Nombre, correo, WhatsApp o Telegram.</p></div></li>
+            <li><div><h3>Envía el mensaje de inicio</h3><p>Tu mensajería se abre con el texto y el código listos. Solo pulsas enviar.</p></div></li>
+            <li><div><h3>Recibe los días 1 a 4</h3><p>Cada mañana a las 7. Exactamente los días que ves arriba.</p></div></li>
+            <li><div><h3>Decide</h3><p>Si te ha servido, sigues hasta el día 90.</p></div></li>
+          </ol>
+          <div class="btn-row"><a class="btn btn--primary btn--block" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=somatic">Empieza 4 días gratis</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Preise (Digistore24: PLATZHALTER) -->
+  <section class="sec sec--white" id="preise">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Precios</span>
+        <h2>Si quieres seguir.</h2>
+      </div>
+      <div class="ways">
+        <article class="way rv">
+          <p class="way__num">19 €</p>
+          <h3>Mensual</h3>
+          <p>Al mes, cancelas cuando quieras.</p>
+          <a class="btn btn--primary" href="{{DIGISTORE_ABO_LINK}}" data-placeholder="DIGISTORE_ABO_LINK">Empezar mensual</a>
+          <p class="small">Enlace pendiente (Digistore24)</p>
+        </article>
+        <article class="way rv">
+          <p class="way__num">90 €</p>
+          <h3>Pago único</h3>
+          <p>Pagas una vez, los 90 días.</p>
+          <a class="btn btn--ghost" href="{{DIGISTORE_EINMAL_LINK}}" data-placeholder="DIGISTORE_EINMAL_LINK">Comprar una vez</a>
+          <p class="small">Enlace pendiente (Digistore24)</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Partner-Abschnitt (nur Vorschau fuer Influencer; auf Kundenversion entfernen) -->
+  <section class="statement-band" id="partner" data-partner-only>
+    <div class="wrap">
+      <span class="eyebrow">Solo visible para ti como socio</span>
+      <p class="statement rv">Recibes el <em>50 %</em> de cada venta con tu enlace.</p>
+      <p class="sub rv">Suscripción de 19 € al mes: unos 9,50 € al mes mientras la persona siga. Pago único de 90 €: unos 45 €. Registrado y pagado por Digistore24.</p>
+      <ul class="points rv">
+        <li><b>1. Abre una cuenta en Digistore24</b>Gratis, son unos minutos. Mándame tu ID de Digistore24.</li>
+        <li><b>2. Manda tu vídeo</b>Lo pongo arriba y te envío tu enlace.</li>
+        <li><b>3. Comparte el enlace</b>En tu bio, una historia, un vídeo o una newsletter. Nada más.</li>
+      </ul>
+      <div class="note-box rv"><p><strong>Programa:</strong> The Loving Woman. Tema: Después de la ruptura. Flow: heartbreak_flow. Idioma: Español.<br><strong>Tu enlace:</strong> https://www.shiftmyhorizon.com/p/heartbreak-es?aff={{AFFILIATE_ID}}<br><a class="textlink" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=somatic">Así es la página de entrada que ven tus seguidores</a></p></div>
+      <p class="sub rv">Esta página de muestra no es pública y no aparece en ningún buscador. En cuanto tu vídeo esté arriba, esta misma página será tu página de venta, sin las cajas que solo ves tú.</p>
+    </div>
+  </section>
+
+  <!-- 9. FAQ -->
+  <section class="sec sec--white" id="fragen">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Preguntas frecuentes</span>
+        <h2>Preguntas frecuentes</h2>
+      </div>
+      <div class="faq rv">
+        <details><summary>¿La prueba cuesta algo?</summary><p>No. Los primeros 4 días son gratis. No das datos de pago.</p></details>
+        <details><summary>¿Cuánto tiempo necesito al día?</summary><p>Menos de 5 minutos. Leerlo y hacer la tarea sobre la marcha.</p></details>
+        <details><summary>¿Cómo lo dejo?</summary><p>Escribe STOP en el chat. Y no llega nada más.</p></details>
+        <details><summary>¿Esto es terapia?</summary><p>No. Es un programa de autoaprendizaje con un impulso diario. No sustituye una terapia.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Abschluss -->
+  <section class="hero hero--compact" id="abschluss">
+    <div class="hero__bg"><div class="scene"></div></div>
+    <div class="hero__shade"></div>
+    <div class="wrap rv">
+      <h2>Pruébalo 4 días. Mañana por la mañana llega el primer mensaje.</h2>
+      <div class="btn-row"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=somatic">Empieza 4 días gratis</a></div>
+    </div>
+  </section>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__row">
+      <span class="wordmark">Janosch Brase</span>
+      <nav aria-label="Aviso legal">
+        <a href="/impressum">Aviso legal</a>
+        <a href="/privacidad">Privacidad</a>
+        <a href="/terminos">Condiciones</a>
+      </nav>
+    </div>
+    <p class="ftr__fine">Esto no sustituye una terapia. Se trata de lo que haces en tu día a día.</p>
+  </div>
+</footer>
+<script src="/site.js"></script>
+</body>
+</html>
