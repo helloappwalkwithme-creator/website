@@ -22,51 +22,45 @@
 <body data-page="partner">
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 <header class="hdr">
-  <a class="wordmark" href="#inhalt">Janosch Brase</a>
+  <a class="wordmark" href="#inhalt">Shift My Horizon</a>
   <a class="btn btn--primary hdr__cta" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=peoplepleasing">4 Tage gratis starten</a>
 </header>
 
 <main id="inhalt">
-  <!-- 1. Hero: Problem in den Worten der Followerin -->
-  <section class="hero hero--book">
+  <!-- 1. Hero: Problem oben, Video des Influencers daneben (PLATZHALTER: {{VIDEO_EMBED}}) -->
+  <!-- Kein hero--book: diese Klasse schiebt das Video auf dem Handy unter den Button (components.css 782-787). -->
+  <section class="hero hero--lp">
     <div class="hero__bg"><div class="scene"></div></div>
     <div class="hero__shade"></div>
     <div class="wrap">
       <div class="hero__grid">
         <div class="hero__text">
           <div class="hero__top">
-            <span class="eyebrow rv-hero">Empfohlen von {{INFLUENCER_NAME}}</span>
+            <span class="eyebrow rv-hero">The Loving Woman · Grenzen setzen</span>
             <h1 class="rv-hero d1">Du sagst Ja, obwohl du Nein meinst?</h1>
             <p class="lead">Du hilfst allen. Du sagst zu, obwohl du keine Kraft mehr hast. Abends weißt du nicht mehr, was du eigentlich selbst willst.</p>
-            <p class="lead">Das ist kein Charakterfehler. Das ist ein alter Schutz, und den kann man umlernen.</p>
+            <p class="lead">90 Tage, jeden Morgen eine kurze Nachricht mit einer Aufgabe für den Tag. Die ersten 4 Tage sind gratis.</p>
           </div>
           <div class="hero__bottom rv-hero d2">
             <div class="hero__actions"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=peoplepleasing">4 Tage gratis starten</a></div>
-            <p class="hero__note">Jeden Morgen eine Nachricht per WhatsApp oder Telegram. Keine Zahlungsdaten.</p>
+            <p class="hero__note">Empfohlen von {{INFLUENCER_NAME}}. Per WhatsApp oder Telegram, keine Zahlungsdaten.</p>
+            <!-- Nur in der Influencer-Fassung. Fuer die Follower-Fassung diesen Block loeschen. -->
+            <div class="note-box" data-partner-only><p><strong>Nur für dich, bitte noch nicht teilen.</strong> Das hier ist ein Muster für dich. Genau so würde die Seite für deine Follower aussehen, dann mit deinem Video oben und ohne diesen Kasten.</p></div>
+          </div>
+        </div>
+        <div class="hero__media rv-hero d3">
+          <!-- aria-label NICHT mit "Platzhalter" beginnen lassen, sonst blendet components.css den Block aus.
+               Kein data-src setzen, sonst blendet Regel .hero__media:has(> .vsl[data-src=""]) den Slot aus. -->
+          <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
+            <!-- Embed von YouTube, Instagram, TikTok oder video-Tag ersetzt den .ph-Block. -->
+            <div class="ph" aria-label="Video-Slot Influencer"><div class="ph__center">Dein Video</div><p class="ph__cap">Hochformat, 30 bis 90 Sekunden.</p></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2. Video des Influencers (PLATZHALTER: {{VIDEO_EMBED}}) -->
-  <section class="sec sec--paper" id="video">
-    <div class="wrap split">
-      <div class="prose rv">
-        <span class="eyebrow">Warum ich dir das empfehle</span>
-        <h2>{{INFLUENCER_NAME}} erzählt, warum.</h2>
-        <p>Hier kommt das Video von {{INFLUENCER_NAME}} rein. Hochformat, 30 bis 90 Sekunden.</p>
-      </div>
-      <div class="rv">
-        <!-- aria-label NICHT mit "Platzhalter" beginnen lassen, sonst blendet components.css den Block aus -->
-        <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
-          <div class="ph" aria-label="Video-Slot Influencer"><span class="ph__tag">Video folgt</span><div class="ph__center">Video von {{INFLUENCER_NAME}}</div><p class="ph__cap">Embed hier einsetzen (YouTube, Instagram, TikTok oder video-Tag).</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. Kennst du das? -->
+  <!-- 2. Kennst du das? -->
   <section class="sec sec--dark" id="problem">
     <div class="wrap">
       <div class="sec-head rv">
@@ -192,7 +186,8 @@
         <li><b>2. Video schicken</b>Ich baue es oben ein und schicke dir deinen Link.</li>
         <li><b>3. Link teilen</b>In Bio, Story, Video oder Newsletter. Mehr musst du nicht machen.</li>
       </ul>
-      <div class="note-box rv"><p><strong>Dein Link:</strong> https://www.shiftmyhorizon.com/p/main-character-de?aff={{AFFILIATE_ID}}<br><a class="textlink" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=peoplepleasing">So sieht der Einstieg für deine Follower aus</a></p></div>
+      <div class="note-box rv"><p><strong>Programm:</strong> The Loving Woman. Thema: Grenzen setzen, immer Ja sagen. Flow: main_character_flow. Sprache: Deutsch.<br><strong>Dein Link:</strong> https://www.shiftmyhorizon.com/p/main-character-de?aff={{AFFILIATE_ID}}<br><a class="textlink" href="https://www.shiftmyhorizon.com/ThelovingWoman.html?p=peoplepleasing">So sieht der Einstieg für deine Follower aus</a></p></div>
+      <p class="sub rv">Diese Vorschauseite ist nicht öffentlich und steht in keiner Suchmaschine. Sobald dein Video oben drin ist, wird genau diese Seite deine Verkaufsseite, ohne die Kästen, die nur du siehst.</p>
     </div>
   </section>
 
