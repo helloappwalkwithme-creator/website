@@ -6,6 +6,7 @@
     <title>Drei Tage, damit du morgens klar startest</title>
     <meta name="description" content="Drei Tage lang bekommst du jeden Morgen eine kurze Übung, damit du klar in den Tag startest. Kostenlos, direkt in deinen Messenger.">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/access-code.js"></script>
     <style>
         :root{ --dark:#0b1020; --gray:#141a2e; --gray2:#1c2338; --border:#2a3350; --accent:#8eb6d9; --text:#eef2fb; --dim:#94a0bd; --error:#f77; --success:#5fd08a; }
         *{ box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
@@ -135,7 +136,7 @@
     function go(id){ document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active')}); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
     function ans(k,v,next){ answers[k]=v; go(next); }
     function setChan(c){ chan=c; document.getElementById('c-wa').classList.toggle('sel',c==='whatsapp'); document.getElementById('c-tg').classList.toggle('sel',c==='telegram'); }
-    function genCode(){ var a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s=''; for(var i=0;i<8;i++){ if(i===4)s+='-'; s+=a[Math.floor(Math.random()*a.length)]; } return s; }
+    function genCode(){ return window.smhNewAccessCode(); }
 
     if (PAID_MODE) {
         document.getElementById('free-offer').hidden = true;
@@ -189,8 +190,7 @@
             // (2) legt die active_flows-Zeile an. v_tripwire_deliverable verlangt BEIDES.
             var r1=await sb.rpc('register_tripwire_lead',{ p_email:email, p_first_name:name, p_delivery_channel:chan, p_source:CONFIG.flow, p_language:CONFIG.lang, p_onboarding_data:onboarding, p_access_code:code });
             if(r1 && r1.error) throw r1.error;
-            var r2=await sb.rpc('register_lead',{ p_email:email, p_first_name:name, p_delivery_channel:chan, p_source:CONFIG.flow, p_language:CONFIG.lang, p_onboarding_data:onboarding, p_access_code:code, p_chosen_path:CONFIG.flow, p_flow_name:CONFIG.flow });
-            if(r2 && r2.error) throw r2.error;
+            code=await window.smhRegisterLead(sb,{ p_email:email, p_first_name:name, p_delivery_channel:chan, p_source:CONFIG.flow, p_language:CONFIG.lang, p_onboarding_data:onboarding, p_chosen_path:CONFIG.flow, p_flow_name:CONFIG.flow });
             try{ localStorage.setItem('smh_language',CONFIG.lang); }catch(e){}
             var msg=encodeURIComponent(botMessage+"\n\nMein Zugangscode: "+code);
             if(chan==='telegram') window.location.href='https://t.me/'+tgBotName+'?text='+msg;
