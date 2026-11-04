@@ -360,6 +360,12 @@
     }
   };
 
+  // Empty until Janosch creates the $19/month product and Colin's affiliate key.
+  // productId: digits only, from the Digistore24 product.
+  // affiliates.colin: the affiliate account name in https://www.digistore24.com/redir/{productId}/{affiliate}/
+  const DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID = "";
+  const DIGISTORE_AFFILIATES = { colin: "" };
+
   const params = new URLSearchParams(location.search);
   const pathQuery = (params.get("path") || "").toLowerCase();
   const preset = RELIGIONS.find(function (r) { return r.key === pathQuery; }) || null;
@@ -526,6 +532,18 @@
     if (i > 0) { stepName = order[i - 1]; showError(""); render(); }
   });
 
+  function bibleCheckoutUrl(email, accessCode) {
+    if (chosen.key !== "bible") return "";
+    if (!/^[0-9]+$/.test(DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID)) return "";
+    const affKey = (params.get("aff") || "").toLowerCase();
+    const affiliate = DIGISTORE_AFFILIATES[affKey] || "";
+    const query = "email=" + encodeURIComponent(email) + "&custom=" + encodeURIComponent(accessCode);
+    if (/^[A-Za-z0-9_-]+$/.test(affiliate)) {
+      return "https://www.digistore24.com/redir/" + DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID + "/" + affiliate + "/?" + query;
+    }
+    return "https://www.checkout-ds24.com/product/" + DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID + "?" + query;
+  }
+
   function generateAccessCode() {
     const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
     const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -574,7 +592,8 @@
       quiz_slip_text: slip ? slip.text : "",
       quiz_message: quiz.q3,
       quiz_message_text: shape ? shape.text : "",
-      timezone: timezone
+      timezone: timezone,
+      digistore_affiliate: (params.get("aff") || "").toLowerCase()
     };
 
     try {
@@ -597,11 +616,11 @@
       const accessLabel = accessLabels[lang] || accessLabels.de;
       const finalMessage = baseMessage + "\n\n" + accessLabel + " " + accessCode;
       const encodedMessage = encodeURIComponent(finalMessage);
-      if (channel === "telegram") {
-        window.location.href = "https://t.me/" + tgBotName + "?text=" + encodedMessage;
-      } else {
-        window.location.href = "https://wa.me/" + waNumber + "?text=" + encodedMessage;
-      }
+      const messengerUrl = channel === "telegram"
+        ? "https://t.me/" + tgBotName + "?text=" + encodedMessage
+        : "https://wa.me/" + waNumber + "?text=" + encodedMessage;
+      const checkoutUrl = bibleCheckoutUrl(email, accessCode);
+      window.location.href = checkoutUrl || messengerUrl;
     } catch (e) {
       console.error(e);
       const detail = e && (e.message || e.details) ? " " + (e.message || e.details) : "";

@@ -1,0 +1,26 @@
+{
+  "table": "flow_content",
+  "id": 2912,
+  "flow_name": "bible_flow",
+  "day_number": 0,
+  "backed_up_before_edit": "2026-11-04",
+  "core": {
+    "en": {
+      "title": "Welcome to Your 90 Days",
+      "text": "Psalms 119:105: \"Your word is a lamp to my feet, and a light for my path.\" (WEB) Welcome! For the next 90 days you'll get one short message each morning: a Bible verse, a few honest thoughts, one small step and a short prayer. About 5 minutes a day."
+    },
+    "de": {
+      "title": "Willkommen zu deinen 90 Tagen",
+      "text": "Psalm 119,105: „Dein Wort ist meines Fußes Leuchte und ein Licht auf meinem Wege.“ (Luther 1912) Willkommen! In den nächsten 90 Tagen bekommst du jeden Morgen eine kurze Nachricht: einen Bibelvers, ein paar ehrliche Gedanken, einen kleinen Schritt und ein kurzes Gebet. Etwa 5 Minuten am Tag."
+    },
+    "es": {
+      "title": "Bienvenido a tus 90 días",
+      "text": "Salmo 119:105: «Lámpara es á mis pies tu palabra, y lumbrera á mi camino.» (RVR 1909) ¡Bienvenido! Durante los próximos 90 días recibirás cada mañana un mensaje corto: un versículo, unas ideas sinceras, un pequeño paso y una breve oración. Unos 5 minutos al día."
+    }
+  },
+  "twists_body_why_yes_line": {
+    "en": "Reply YES to start your 90 days. You can reply STOP anytime.",
+    "de": "Antworte mit YES, um deine 90 Tage zu starten. Mit STOP kannst du jederzeit abbestellen.",
+    "es": "Responde YES para empezar tus 90 días. Puedes responder STOP en cualquier momento."
+  }
+}

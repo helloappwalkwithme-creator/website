@@ -1,0 +1,61 @@
+Submit these as new WhatsApp Business templates. Do not edit daily_lesson_en,
+daily_lesson_trigger_de, or the Spanish ready-notice template. Those stay
+the morning send until Meta approves these.
+
+Why a new template: the morning job usually runs more than 24 hours after
+the person's last message, so WhatsApp only allows an approved template.
+Free-form text is already used after they tap Start (WhatsApp Messages,
+module 19), because that tap opens the 24-hour window. The verse cannot
+be added to the approved ready-notice templates without a new review.
+
+Category: UTILITY if Meta accepts a subscription delivery, otherwise MARKETING.
+Language: one template per language. Body must not start or end with a variable.
+Keep each variable under the verse length already in flow_content (about 250 characters).
+
+Name: daily_verse_en
+Language: English
+Body:
+Good morning {{1}}. This is day {{2}} of your Bible message, {{3}}.
+
+{{4}}
+
+Reply STOP to stop these messages.
+Samples:
+{{1}} Colin
+{{2}} 1
+{{3}} The Renewal of the Mind
+{{4}} Romans 12:2: Don't be conformed to this world, but be transformed by the renewing of your mind. (WEB)
+
+Name: daily_verse_de
+Language: German
+Body:
+Guten Morgen {{1}}. Das ist Tag {{2}} deiner Bibelnachricht, {{3}}.
+
+{{4}}
+
+Antworte STOP, dann hören die Nachrichten auf.
+Samples:
+{{1}} Colin
+{{2}} 1
+{{3}} Die Erneuerung des Denkens
+{{4}} Römer 12,2: Und stellet euch nicht dieser Welt gleich, sondern verändert euch durch die Erneuerung eures Sinnes. (Luther 1912)
+
+Name: daily_verse_es
+Language: Spanish
+Body:
+Buenos días {{1}}. Este es el día {{2}} de tu mensaje bíblico, {{3}}.
+
+{{4}}
+
+Responde STOP para detener los mensajes.
+Samples:
+{{1}} Colin
+{{2}} 1
+{{3}} La renovación de la mente
+{{4}} Romanos 12:2: No os conforméis a este siglo, sino transformaos por medio de la renovación de vuestro entendimiento. (RVR 1909)
+
+After approval, in Make scenario 6364992 (Day by Day motor), on the
+bible_flow rows only, send daily_verse_{language} with
+{{1}} first name, {{2}} day number, {{3}} core.{language}.title,
+{{4}} core.{language}.text. Leave the existing ready-notice modules
+in place for every other flow.
