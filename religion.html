@@ -94,6 +94,16 @@
             <p class="hint" id="s2-disclaimer"></p>
           </div>
 
+          <div class="formstep" id="step-pay">
+            <h3 id="pay-title"></h3>
+            <p id="pay-sub"></p>
+            <p class="hint" id="pay-soon"></p>
+            <div class="form-nav">
+              <button type="button" class="btn btn--ghost" id="pay-back"></button>
+              <a class="btn btn--primary" id="pay-checkout" href="" hidden></a>
+            </div>
+          </div>
+
           <p class="err" id="reg-error" role="alert"></p>
         </div>
       </div>
@@ -208,6 +218,12 @@
         errConsent: "Bitte bestätige die Einwilligung. Ohne sie dürfen wir deine Angabe nicht speichern.",
         disclaimer: "<strong>Wichtig:</strong> Deine Daten werden ausschließlich für die automatisierte Bereitstellung dieses Flows genutzt. Wir geben sie nicht an Dritte weiter."
       },
+      pay: {
+        title: "19 Dollar im Monat",
+        sub: "Die ersten 4 Tage gratis gibt es nur mit einer persönlichen Einladung. Alle anderen starten direkt mit dem Abo.",
+        soon: "Der Checkout kommt noch. Das Abo ist noch nicht freigeschaltet, und ohne Einladung startet hier kein Gratis-Flow.",
+        button: "Weiter zum Checkout"
+      },
       botMsg: "Hallo, ich möchte meinen kostenlosen 4-Tage-Flow «{name}» starten. Bitte aktiviere meinen Zugang.",
       legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" },
       paused: "Derzeit nicht verfügbar."
@@ -280,6 +296,12 @@
         consent: "I agree that my choice of faith is stored and used to send me the matching daily texts (Article 9 GDPR). I can withdraw this at any time, with STOP in the chat or via the contact in the imprint.",
         errConsent: "Please confirm the consent. Without it we are not allowed to store your choice.",
         disclaimer: "<strong>Important:</strong> Your data is used only for the automated delivery of this flow. We don't share it with third parties."
+      },
+      pay: {
+        title: "$19 per month",
+        sub: "The free 4 days are only with a personal invite. Everyone else goes straight to the subscription.",
+        soon: "Checkout is coming soon. The subscription isn't open yet, and without an invite this page does not start a free trial.",
+        button: "Continue to checkout"
       },
       botMsg: "Hello, I would like to start my free 4-day «{name}» flow. Please activate my access.",
       legal: { imp: "Imprint", dat: "Privacy", agb: "Terms", cook: "Cookie policy" },
@@ -354,6 +376,12 @@
         errConsent: "Confirma el consentimiento. Sin él no podemos guardar tu elección.",
         disclaimer: "<strong>Importante:</strong> Tus datos se usan solo para la entrega automatizada de este flujo. No los compartimos con terceros."
       },
+      pay: {
+        title: "19 dólares al mes",
+        sub: "Los 4 días gratis son solo con una invitación personal. Los demás van directo a la suscripción.",
+        soon: "El pago llega pronto. La suscripción aún no está abierta y, sin invitación, esta página no empieza una prueba gratis.",
+        button: "Seguir al pago"
+      },
       botMsg: "Hola, me gustaría iniciar mi flujo gratuito de 4 días «{name}». Por favor, activa mi acceso.",
       legal: { imp: "Aviso legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" },
       paused: "Ahora mismo no está disponible."
@@ -370,6 +398,8 @@
   const pathQuery = (params.get("path") || "").toLowerCase();
   const preset = RELIGIONS.find(function (r) { return r.key === pathQuery; }) || null;
   const quiz = { q1: null, q2: null, q3: null };
+  const inviteToken = params.get("invite") || "";
+  let trialOk = false;
   let chosen = preset ? { key: preset.key, flow: preset.flow } : null;
   let lang = (function () {
     const q = (params.get("lang") || "").toLowerCase();
@@ -380,7 +410,9 @@
 
   function L() { return t[lang] || t.de; }
   function sequence() {
-    return preset ? ["q1", "q2", "q3", "form"] : ["program", "q1", "q2", "q3", "form"];
+    const steps = preset ? ["q1", "q2", "q3"] : ["program", "q1", "q2", "q3"];
+    steps.push(trialOk ? "form" : "pay");
+    return steps;
   }
   function showError(msg) {
     const el = document.getElementById("reg-error");
@@ -451,7 +483,7 @@
     document.getElementById("bar").style.width = Math.round(((index + 1) / order.length) * 100) + "%";
     document.getElementById("step-label").textContent = l.stepOf(index + 1, order.length);
 
-    ["program", "q1", "q2", "q3", "form"].forEach(function (name) {
+    ["program", "q1", "q2", "q3", "form", "pay"].forEach(function (name) {
       document.getElementById("step-" + name).classList.toggle("is-active", name === stepName);
     });
 
@@ -514,6 +546,22 @@
     document.getElementById("s2-disclaimer").innerHTML = l.s2.disclaimer;
     document.getElementById("btn-back").textContent = l.back;
     document.getElementById("btn-back").hidden = index === 0;
+    document.getElementById("pay-title").textContent = l.pay.title;
+    document.getElementById("pay-sub").textContent = l.pay.sub;
+    document.getElementById("pay-soon").textContent = l.pay.soon;
+    document.getElementById("pay-back").textContent = l.back;
+    document.getElementById("pay-back").hidden = index === 0;
+    const checkout = document.getElementById("pay-checkout");
+    const checkoutHref = publicCheckoutUrl();
+    checkout.textContent = l.pay.button;
+    if (checkoutHref) {
+      checkout.href = checkoutHref;
+      checkout.hidden = false;
+      document.getElementById("pay-soon").hidden = true;
+    } else {
+      checkout.hidden = true;
+      document.getElementById("pay-soon").hidden = false;
+    }
     const submit = document.getElementById("btn-register");
     submit.textContent = l.next;
     if (!RELIGION_OPEN) {
@@ -531,17 +579,20 @@
     const i = order.indexOf(stepName);
     if (i > 0) { stepName = order[i - 1]; showError(""); render(); }
   });
+  document.getElementById("pay-back").addEventListener("click", function () {
+    const order = sequence();
+    const i = order.indexOf("pay");
+    if (i > 0) { stepName = order[i - 1]; showError(""); render(); }
+  });
 
-  function bibleCheckoutUrl(email, accessCode) {
-    if (chosen.key !== "bible") return "";
+  function publicCheckoutUrl() {
     if (!/^[0-9]+$/.test(DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID)) return "";
     const affKey = (params.get("aff") || "").toLowerCase();
     const affiliate = DIGISTORE_AFFILIATES[affKey] || "";
-    const query = "email=" + encodeURIComponent(email) + "&custom=" + encodeURIComponent(accessCode);
     if (/^[A-Za-z0-9_-]+$/.test(affiliate)) {
-      return "https://www.digistore24.com/redir/" + DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID + "/" + affiliate + "/?" + query;
+      return "https://www.digistore24.com/redir/" + DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID + "/" + affiliate + "/";
     }
-    return "https://www.checkout-ds24.com/product/" + DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID + "?" + query;
+    return "https://www.checkout-ds24.com/product/" + DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID;
   }
 
   function generateAccessCode() {
@@ -554,6 +605,7 @@
     const l = L();
     const btn = document.getElementById("btn-register");
     if (!RELIGION_OPEN) { showError(l.paused); return; }
+    if (!trialOk) { stepName = "pay"; render(); return; }
     const fname = document.getElementById("reg-fname").value.trim();
     const email = document.getElementById("reg-email").value.trim();
     const channelEl = document.querySelector('input[name="kanal"]:checked');
@@ -593,7 +645,8 @@
       quiz_message: quiz.q3,
       quiz_message_text: shape ? shape.text : "",
       timezone: timezone,
-      digistore_affiliate: (params.get("aff") || "").toLowerCase()
+      digistore_affiliate: (params.get("aff") || "").toLowerCase(),
+      invite_token: trialOk ? inviteToken : ""
     };
 
     try {
@@ -616,11 +669,11 @@
       const accessLabel = accessLabels[lang] || accessLabels.de;
       const finalMessage = baseMessage + "\n\n" + accessLabel + " " + accessCode;
       const encodedMessage = encodeURIComponent(finalMessage);
-      const messengerUrl = channel === "telegram"
-        ? "https://t.me/" + tgBotName + "?text=" + encodedMessage
-        : "https://wa.me/" + waNumber + "?text=" + encodedMessage;
-      const checkoutUrl = bibleCheckoutUrl(email, accessCode);
-      window.location.href = checkoutUrl || messengerUrl;
+      if (channel === "telegram") {
+        window.location.href = "https://t.me/" + tgBotName + "?text=" + encodedMessage;
+      } else {
+        window.location.href = "https://wa.me/" + waNumber + "?text=" + encodedMessage;
+      }
     } catch (e) {
       console.error(e);
       const detail = e && (e.message || e.details) ? " " + (e.message || e.details) : "";
@@ -631,6 +684,20 @@
   });
 
   render();
+  if (inviteToken && window.supabase && window.supabase.createClient) {
+    const inviteClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const invitePath = preset ? preset.key : "bible";
+    inviteClient.rpc("trial_invite_valid", { p_token: inviteToken, p_path: invitePath }).then(function (res) {
+      trialOk = !!(res && res.data === true && !res.error);
+      if (trialOk && stepName === "pay") stepName = "form";
+      if (!trialOk && stepName === "form") stepName = "pay";
+      render();
+    }).catch(function () {
+      trialOk = false;
+      if (stepName === "form") stepName = "pay";
+      render();
+    });
+  }
 </script>
 <script src="/site.js"></script>
 </body>
