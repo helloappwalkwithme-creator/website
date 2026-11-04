@@ -8,11 +8,11 @@
   Influencer-Vorschauseite. Design-Vorlage: index.html (Startseite).
   Nutzt nur tokens.css + components.css + site.js der Startseite. Kein eigener <style>-Block.
   Programm: Path to Lightness | Flow: leichtigkeit_flow | Sprache: DE | Slug: /p/leichtigkeit-de
-  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{DIGISTORE_ABO_LINK}}, {{AFFILIATE_ID}}
+  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{AFFILIATE_ID}}
   Erzeugt von scratchpad/build-pages.js am 03.11.2026. Aenderungen am Muster dort nachziehen.
 -->
 <title>Dein Kopf steht nie still.</title>
-<meta name="description" content="Tägliche Begleitung per WhatsApp. Jeden Morgen eine kurze Nachricht mit einer Aufgabe für den Tag. Die ersten 4 Tage sind gratis.">
+<meta name="description" content="Tägliche Begleitung per WhatsApp oder Telegram. Jeden Morgen eine kurze Nachricht mit einer Aufgabe für den Tag. Die ersten 4 Tage sind gratis.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -40,7 +40,7 @@
             <span class="eyebrow rv-hero">Path to Lightness · Overthinking und Anspannung</span>
             <h1 class="rv-hero d1">Dein Kopf steht nie still.</h1>
             <p class="lead">Du zerdenkst Entscheidungen, die längst gefallen sind. Abends bist du zu müde für die Dinge, für die du den ganzen Tag arbeitest.</p>
-            <p class="lead">Tägliche Begleitung per WhatsApp. Jeden Morgen eine kurze Nachricht mit einer Aufgabe für den Tag, unter 5 Minuten. Die ersten 4 Tage sind gratis.</p>
+            <p class="lead">Tägliche Begleitung per WhatsApp oder Telegram. Jeden Morgen eine kurze Nachricht mit einer Aufgabe für den Tag, unter 5 Minuten. Die ersten 4 Tage sind gratis.</p>
           </div>
           <div class="hero__bottom rv-hero d2">
             <div class="hero__actions"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/lightness.html?p=overload">4 Tage gratis starten</a></div>
@@ -104,17 +104,17 @@
         <article class="stat rv">
           <p class="stat__num">Tag 1</p>
           <p class="stat__claim">Die mentale Inventur</p>
-          <p>Angelehnt an den Essentialismus beginnen wir damit, das Unwesentliche zu identifizieren. Wahre Leichtigkeit entsteht nicht durch mehr Kapazität, sondern durch weniger Ballast. Aufgabe: Schreibe 3 Dinge auf, die dir heute Energie rauben, aber eigentlich nicht wichtig sind. Streiche eines davon aktiv aus deinem Tagesplan.</p>
+          <p>Angelehnt an den Essentialismus beginnen wir damit, das Unwesentliche zu identifizieren. Wahre Leichtigkeit entsteht nicht durch mehr Kapazität, sondern durch weniger Ballast.<br><br><b>Aufgabe:</b> Schreibe 3 Dinge auf, die dir heute Energie rauben, aber eigentlich nicht wichtig sind. Streiche eines davon aktiv aus deinem Tagesplan.</p>
         </article>
         <article class="stat rv">
           <p class="stat__num">Tag 4</p>
           <p class="stat__claim">Das chemische Gleichgewicht</p>
-          <p>Angelehnt an Erkenntnisse über die Atmung (James Nestor) verändern wir heute die biochemische Zusammensetzung deines Blutes, um mentale Klarheit zu schaffen. Aufgabe: Atme heute 5-mal bewusst durch die Nase ein (4 Sekunden) und doppelt so lange durch den Mund aus (8 Sekunden).</p>
+          <p>Angelehnt an Erkenntnisse über die Atmung (James Nestor) verändern wir heute die biochemische Zusammensetzung deines Blutes, um mentale Klarheit zu schaffen.<br><br><b>Aufgabe:</b> Atme heute 5-mal bewusst durch die Nase ein (4 Sekunden) und doppelt so lange durch den Mund aus (8 Sekunden).</p>
         </article>
         <article class="stat rv">
           <p class="stat__num">Tag 30</p>
           <p class="stat__claim">Die Kristallisation</p>
-          <p>Das Ende der ersten Phase. In der Theorie U kristallisiert sich nun langsam die neue Struktur aus dem bewussten Kommenlassen. Aufgabe: Reflektiere kurz: Welche der vergangenen 29 Übungen hat sich für dich am leichtesten angefühlt? Mach sie ab heute zu deinem persönlichen Anker.</p>
+          <p>Das Ende der ersten Phase. In der Theorie U kristallisiert sich nun langsam die neue Struktur aus dem bewussten Kommenlassen.<br><br><b>Aufgabe:</b> Reflektiere kurz: Welche der vergangenen 29 Übungen hat sich für dich am leichtesten angefühlt? Mach sie ab heute zu deinem persönlichen Anker.</p>
         </article>
       </div>
     </div>
@@ -161,9 +161,7 @@
         <article class="way rv">
           <p class="way__num">19 €</p>
           <h3>Monatlich</h3>
-          <p>Pro Monat, monatlich kündbar.</p>
-          <a class="btn btn--primary" href="{{DIGISTORE_ABO_LINK}}" data-placeholder="DIGISTORE_ABO_LINK">Monatlich starten</a>
-          <p class="small">Link folgt (Digistore24)</p>
+          <p>Das zahlen deine Leute. Abgerechnet über Digistore24, monatlich kündbar.</p>
         </article>
       </div>
     </div>
@@ -173,8 +171,8 @@
   <section class="statement-band" id="partner" data-partner-only>
     <div class="wrap">
       <span class="eyebrow">Nur für dich als Partner sichtbar</span>
-      <p class="statement rv">Du bekommst <em>50 %</em> von jedem Verkauf über deinen Link.</p>
-      <p class="sub rv">19 € im Monat, davon rund 9,50 € für dich. Monat für Monat, solange die Kundin oder der Kunde dabei bleibt. Getrackt und ausgezahlt über Digistore24.</p>
+      <p class="statement rv">Digistore24 zahlt dir <em>50 %</em>.</p>
+      <p class="sub rv">Von 19 € gehen 3,03 € Umsatzsteuer und 2,50 € Digistore-Marge ab (7,9 % plus 1 €), es bleiben 13,47 €. Deine Hälfte davon sind 6,73 € im Monat, solange die Person dabei bleibt. 6,06 € kommen nach etwa zwei Wochen, die restlichen 0,67 € nach 60 Tagen. Gerechnet für einen Käufer in Deutschland, bei anderen Steuersätzen in der EU verschiebt es sich leicht.</p>
       <ul class="points rv">
         <li><b>1. Digistore24 Konto anlegen</b>Kostenlos, dauert ein paar Minuten. Schick mir deine Digistore24 ID.</li>
         <li><b>2. Video schicken</b>Ich baue es oben ein und schicke dir deinen Link.</li>

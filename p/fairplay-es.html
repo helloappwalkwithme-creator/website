@@ -8,11 +8,11 @@
   Influencer-Vorschauseite. Design-Vorlage: index.html (Startseite).
   Nutzt nur tokens.css + components.css + site.js der Startseite. Kein eigener <style>-Block.
   Programm: Connected Couples | Flow: fairplay_flow | Sprache: ES | Slug: /p/fairplay-es
-  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{DIGISTORE_ABO_LINK}}, {{AFFILIATE_ID}}
+  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{AFFILIATE_ID}}
   Erzeugt von scratchpad/build-pages.js am 03.11.2026. Aenderungen am Muster dort nachziehen.
 -->
 <title>Uno piensa en todo. El otro ayuda.</title>
-<meta name="description" content="Acompañamiento diario por WhatsApp. Cada mañana un mensaje corto con una tarea para el día. Los primeros 4 días son gratis.">
+<meta name="description" content="Acompañamiento diario por WhatsApp o Telegram. Cada mañana un mensaje corto con una tarea para el día. Los primeros 4 días son gratis.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -40,7 +40,7 @@
             <span class="eyebrow rv-hero">Connected Couples · Trabajo invisible y cercanía</span>
             <h1 class="rv-hero d1">Uno piensa en todo. El otro ayuda.</h1>
             <p class="lead">No va de los platos. Va de quién se acuerda de ellos. Y de quién siente que lleva la casa solo.</p>
-            <p class="lead">Acompañamiento diario por WhatsApp. Cada mañana un mensaje corto con una tarea para el día, menos de 5 minutos. Los primeros 4 días son gratis.</p>
+            <p class="lead">Acompañamiento diario por WhatsApp o Telegram. Cada mañana un mensaje corto con una tarea para el día, menos de 5 minutos. Los primeros 4 días son gratis.</p>
           </div>
           <div class="hero__bottom rv-hero d2">
             <div class="hero__actions"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/connectedcouple.html?p=intimacy">Empieza 4 días gratis</a></div>
@@ -104,17 +104,17 @@
         <article class="stat rv">
           <p class="stat__num">Día 1</p>
           <p class="stat__claim">Ver el Trabajo Invisible</p>
-          <p>La mayor fuente de conflicto en las relaciones no es el trabajo doméstico en sí, sino el hecho de que un miembro de la pareja hace un "segundo turno" invisible que el otro ni siquiera nota. Tarea: Tómate 10 minutos hoy y escribe 5 cosas que suceden "mágicamente" en tu hogar (por ejemplo, se repone el papel higiénico, se reservan las citas médicas de los niños). Reconoce quién lleva mentalmente estas cosas.</p>
+          <p>La mayor fuente de conflicto en las relaciones no es el trabajo doméstico en sí, sino el hecho de que un miembro de la pareja hace un "segundo turno" invisible que el otro ni siquiera nota.<br><br><b>Tarea:</b> Tómate 10 minutos hoy y escribe 5 cosas que suceden "mágicamente" en tu hogar (por ejemplo, se repone el papel higiénico, se reservan las citas médicas de los niños). Reconoce quién lleva mentalmente estas cosas.</p>
         </article>
         <article class="stat rv">
           <p class="stat__num">Día 4</p>
           <p class="stat__claim">Propiedad Completa</p>
-          <p>Compartir una tarea no ayuda si uno todavía tiene que hacer el trabajo de recordar. Propiedad completa significa: Concepción, Planificación y Ejecución (CPE), todo en una sola mano. Tarea: Transfiere exactamente UNA tarea recurrente (por ejemplo, reciclaje, hacer el desayuno) por completo a tu pareja hoy. Desde la planificación hasta el final. No vuelvas a interferir nunca más.</p>
+          <p>Compartir una tarea no ayuda si uno todavía tiene que hacer el trabajo de recordar. Propiedad completa significa: Concepción, Planificación y Ejecución (CPE), todo en una sola mano.<br><br><b>Tarea:</b> Transfiere exactamente UNA tarea recurrente (por ejemplo, reciclaje, hacer el desayuno) por completo a tu pareja hoy. Desde la planificación hasta el final. No vuelvas a interferir nunca más.</p>
         </article>
         <article class="stat rv">
           <p class="stat__num">Día 30</p>
           <p class="stat__claim">El Nuevo Contrato de Relación</p>
-          <p>Después de 30 días, los puntos ciegos se han aclarado. Una relación justa no se basa en el "sentido común", sino en acuerdos visibles y explícitamente negociados. Tarea: Escriban un "contrato" breve y formal hoy. ¿Quién es a partir de hoy el gerente absoluto (planificador y ejecutor) de qué área importante de la vida en su relación? Cuélguenlo en un lugar visible.</p>
+          <p>Después de 30 días, los puntos ciegos se han aclarado. Una relación justa no se basa en el "sentido común", sino en acuerdos visibles y explícitamente negociados.<br><br><b>Tarea:</b> Escriban un "contrato" breve y formal hoy. ¿Quién es a partir de hoy el gerente absoluto (planificador y ejecutor) de qué área importante de la vida en su relación? Cuélguenlo en un lugar visible.</p>
         </article>
       </div>
     </div>
@@ -161,9 +161,7 @@
         <article class="way rv">
           <p class="way__num">19 €</p>
           <h3>Mensual</h3>
-          <p>Al mes, cancelas cuando quieras.</p>
-          <a class="btn btn--primary" href="{{DIGISTORE_ABO_LINK}}" data-placeholder="DIGISTORE_ABO_LINK">Empezar mensual</a>
-          <p class="small">Enlace pendiente (Digistore24)</p>
+          <p>Esto es lo que paga tu gente. Facturado por Digistore24, cancelable cada mes.</p>
         </article>
       </div>
     </div>
@@ -173,8 +171,8 @@
   <section class="statement-band" id="partner" data-partner-only>
     <div class="wrap">
       <span class="eyebrow">Solo visible para ti como socio</span>
-      <p class="statement rv">Recibes el <em>50 %</em> de cada venta con tu enlace.</p>
-      <p class="sub rv">19 € al mes, de los cuales unos 9,50 € son para ti. Cada mes mientras la persona siga. Registrado y pagado por Digistore24.</p>
+      <p class="statement rv">Digistore24 te paga el <em>50 %</em>.</p>
+      <p class="sub rv">De los 19 € se descuentan primero el IVA y después la comisión de Digistore (7,9 % más 1 €, es decir 2,50 €). Con el 21 % español quedan unos 13,20 €, y tu mitad son unos 6,60 € al mes mientras la persona siga. El 90 % se paga a las dos semanas y el resto tras 60 días.</p>
       <ul class="points rv">
         <li><b>1. Abre una cuenta en Digistore24</b>Gratis, son unos minutos. Mándame tu ID de Digistore24.</li>
         <li><b>2. Manda tu vídeo</b>Lo pongo arriba y te envío tu enlace.</li>

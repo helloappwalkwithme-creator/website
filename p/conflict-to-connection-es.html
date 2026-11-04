@@ -8,11 +8,11 @@
   Influencer-Vorschauseite. Design-Vorlage: index.html (Startseite).
   Nutzt nur tokens.css + components.css + site.js der Startseite. Kein eigener <style>-Block.
   Programm: Connected Couples | Flow: conflict_to_connection_flow | Sprache: ES | Slug: /p/conflict-to-connection-es
-  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{DIGISTORE_ABO_LINK}}, {{AFFILIATE_ID}}
+  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{AFFILIATE_ID}}
   Erzeugt von scratchpad/build-pages.js am 03.11.2026. Aenderungen am Muster dort nachziehen.
 -->
 <title>Habláis sin escucharos.</title>
-<meta name="description" content="Acompañamiento diario por WhatsApp. Cada mañana un mensaje corto con una tarea para el día. Los primeros 4 días son gratis.">
+<meta name="description" content="Acompañamiento diario por WhatsApp o Telegram. Cada mañana un mensaje corto con una tarea para el día. Los primeros 4 días son gratis.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -40,7 +40,7 @@
             <span class="eyebrow rv-hero">Connected Couples · Discusiones y hablar</span>
             <h1 class="rv-hero d1">Habláis sin escucharos.</h1>
             <p class="lead">La conversación da vueltas. Acaba como siempre. Después hay silencio y nada queda resuelto.</p>
-            <p class="lead">Acompañamiento diario por WhatsApp. Cada mañana un mensaje corto con una tarea para el día, menos de 5 minutos. Los primeros 4 días son gratis.</p>
+            <p class="lead">Acompañamiento diario por WhatsApp o Telegram. Cada mañana un mensaje corto con una tarea para el día, menos de 5 minutos. Los primeros 4 días son gratis.</p>
           </div>
           <div class="hero__bottom rv-hero d2">
             <div class="hero__actions"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/connectedcouple.html?p=communication">Empieza 4 días gratis</a></div>
@@ -104,17 +104,17 @@
         <article class="stat rv">
           <p class="stat__num">Día 1</p>
           <p class="stat__claim">El Freno de Emergencia Biológico</p>
-          <p>Los conflictos escalan cuando el cerebro cambia al modo de supervivencia (lucha/huida). Por encima de una frecuencia cardíaca de unos 100 latidos por minuto, eres biológicamente incapaz de escuchar con empatía o resolver problemas. Tarea: En un momento de tensión hoy, concéntrate solo en tu cuerpo (latidos, respiración superficial). Si sientes "inundación" (flooding), interrumpe inmediatamente: "Estoy demasiado abrumado, hablemos en 30 minutos".</p>
+          <p>Los conflictos escalan cuando el cerebro cambia al modo de supervivencia (lucha/huida). Por encima de una frecuencia cardíaca de unos 100 latidos por minuto, eres biológicamente incapaz de escuchar con empatía o resolver problemas.<br><br><b>Tarea:</b> En un momento de tensión hoy, concéntrate solo en tu cuerpo (latidos, respiración superficial). Si sientes "inundación" (flooding), interrumpe inmediatamente: "Estoy demasiado abrumado, hablemos en 30 minutos".</p>
         </article>
         <article class="stat rv">
           <p class="stat__num">Día 4</p>
           <p class="stat__claim">Observación sin Evaluation</p>
-          <p>Un conflicto escala inmediatamente cuando mezclamos hechos con nuestras interpretaciones. "Llegas tarde" es una observación. "No respektas mi tiempo" es una evaluación hostil. Tarea: Describe hoy un comportamiento molesto de tu pareja de manera tan neutral como una cámara de video. Elimina palabras como "siempre", "nunca", "ignorante" o "típico".</p>
+          <p>Un conflicto escala inmediatamente cuando mezclamos hechos con nuestras interpretaciones. "Llegas tarde" es una observación. "No respektas mi tiempo" es una evaluación hostil.<br><br><b>Tarea:</b> Describe hoy un comportamiento molesto de tu pareja de manera tan neutral como una cámara de video. Elimina palabras como "siempre", "nunca", "ignorante" o "típico".</p>
         </article>
         <article class="stat rv">
           <p class="stat__num">Día 30</p>
           <p class="stat__claim">Llenar la Cuenta Bancaria Emocional</p>
-          <p>Una base de amistad y admiración es el mejor amortiguador contra los conflictos. Las parejas que tienen una "cuenta bancaria emocional" llena perdonan los errores y las palabras duras mucho más rápido. Tarea: El Objetivo a 30 Días: Crea una lista hoy de 5 cualidades que admiras profundamente de tu pareja. Compártelas con ella esta noche durante una revisión positiva de 15 minutos.</p>
+          <p>Una base de amistad y admiración es el mejor amortiguador contra los conflictos. Las parejas que tienen una "cuenta bancaria emocional" llena perdonan los errores y las palabras duras mucho más rápido.<br><br><b>Tarea:</b> El Objetivo a 30 Días: Crea una lista hoy de 5 cualidades que admiras profundamente de tu pareja. Compártelas con ella esta noche durante una revisión positiva de 15 minutos.</p>
         </article>
       </div>
     </div>
@@ -161,9 +161,7 @@
         <article class="way rv">
           <p class="way__num">19 €</p>
           <h3>Mensual</h3>
-          <p>Al mes, cancelas cuando quieras.</p>
-          <a class="btn btn--primary" href="{{DIGISTORE_ABO_LINK}}" data-placeholder="DIGISTORE_ABO_LINK">Empezar mensual</a>
-          <p class="small">Enlace pendiente (Digistore24)</p>
+          <p>Esto es lo que paga tu gente. Facturado por Digistore24, cancelable cada mes.</p>
         </article>
       </div>
     </div>
@@ -173,8 +171,8 @@
   <section class="statement-band" id="partner" data-partner-only>
     <div class="wrap">
       <span class="eyebrow">Solo visible para ti como socio</span>
-      <p class="statement rv">Recibes el <em>50 %</em> de cada venta con tu enlace.</p>
-      <p class="sub rv">19 € al mes, de los cuales unos 9,50 € son para ti. Cada mes mientras la persona siga. Registrado y pagado por Digistore24.</p>
+      <p class="statement rv">Digistore24 te paga el <em>50 %</em>.</p>
+      <p class="sub rv">De los 19 € se descuentan primero el IVA y después la comisión de Digistore (7,9 % más 1 €, es decir 2,50 €). Con el 21 % español quedan unos 13,20 €, y tu mitad son unos 6,60 € al mes mientras la persona siga. El 90 % se paga a las dos semanas y el resto tras 60 días.</p>
       <ul class="points rv">
         <li><b>1. Abre una cuenta en Digistore24</b>Gratis, son unos minutos. Mándame tu ID de Digistore24.</li>
         <li><b>2. Manda tu vídeo</b>Lo pongo arriba y te envío tu enlace.</li>
