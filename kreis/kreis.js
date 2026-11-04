@@ -745,8 +745,7 @@
   /* --------------------------------------------------------------- Anmeldung */
 
   function zugangscode() {
-    var p = function () { return Math.random().toString(36).substring(2, 6).toUpperCase(); };
-    return p() + "-" + p();
+    return window.smhNewAccessCode();
   }
 
   async function rpc(name, body) {
@@ -832,10 +831,10 @@
         });
 
         if (KREIS_FLOW_AKTIV) {
-          await rpc("register_lead", {
+          code = await window.smhRegisterLead(rpc, {
             p_email: email, p_first_name: vorname, p_delivery_channel: kanal,
             p_source: "kreis_flow", p_language: "de",
-            p_onboarding_data: onboarding, p_access_code: code,
+            p_onboarding_data: onboarding,
             p_chosen_path: KREIS_FLOW, p_flow_name: KREIS_FLOW
           });
         }

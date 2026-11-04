@@ -909,8 +909,7 @@
   }
 
   function accessCode() {
-    var p = function () { return Math.random().toString(36).substring(2, 6).toUpperCase(); };
-    return p() + "-" + p();
+    return window.smhNewAccessCode();
   }
 
   async function callRpc(name, body) {
@@ -923,7 +922,7 @@
       },
       body: JSON.stringify(body)
     });
-    if (!r.ok) throw new Error(name + ": " + r.status);
+    if (!r.ok) throw new Error(name + ": " + r.status + " " + (await r.text()));
     return r;
   }
 
@@ -1004,10 +1003,10 @@
         p_source: FLOW, p_language: "de",
         p_onboarding_data: onboarding, p_access_code: code
       });
-      await callRpc("register_lead", {
+      code = await window.smhRegisterLead(callRpc, {
         p_email: email, p_first_name: vorname, p_delivery_channel: "email",
         p_source: FLOW, p_language: "de",
-        p_onboarding_data: onboarding, p_access_code: code,
+        p_onboarding_data: onboarding,
         p_chosen_path: FLOW, p_flow_name: FLOW
       });
       if (window.smhNotify) {

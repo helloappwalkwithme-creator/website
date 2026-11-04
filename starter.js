@@ -30,8 +30,7 @@
   }
 
   function accessCode() {
-    var p = function () { return Math.random().toString(36).substring(2, 6).toUpperCase(); };
-    return p() + '-' + p();
+    return window.smhNewAccessCode();
   }
 
   async function callRpc(name, body) {
@@ -113,10 +112,10 @@
         p_onboarding_data: onboarding, p_access_code: code
       });
 
-      await callRpc('register_lead', {
+      code = await window.smhRegisterLead(callRpc, {
         p_email: email, p_first_name: vorname, p_delivery_channel: kanal,
         p_source: 'abschalten_flow', p_language: 'de',
-        p_onboarding_data: onboarding, p_access_code: code,
+        p_onboarding_data: onboarding,
         p_chosen_path: flow,
         /* Der Server nutzt diesen Wert fuer den Ablauf. */
         p_flow_name: flow

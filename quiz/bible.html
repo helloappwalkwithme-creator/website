@@ -677,11 +677,6 @@
     return "https://www.checkout-ds24.com/product/" + DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID;
   }
 
-  function generateAccessCode() {
-    const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
-    const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
-    return p1 + "-" + p2;
-  }
 
   document.getElementById("btn-register").addEventListener("click", async function () {
     const l = L();
@@ -703,7 +698,6 @@
     btn.disabled = true;
     btn.textContent = "…";
 
-    const accessCode = generateAccessCode();
     let timezone = "Europe/Berlin";
     try {
       const detected = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -734,18 +728,16 @@
 
     try {
       if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      const { error: rpcError } = await supabaseClient.rpc("register_lead", {
+      const accessCode = await window.smhRegisterLead(supabaseClient, {
         p_email: email,
         p_first_name: fname,
         p_delivery_channel: channel,
         p_source: "religion_selector",
         p_language: lang,
         p_onboarding_data: onboarding,
-        p_access_code: accessCode,
         p_chosen_path: chosen.key,
         p_flow_name: chosen.flow
       });
-      if (rpcError) throw rpcError;
 
       const relName = l.rel[chosen.key].name;
       const baseMessage = l.botMsg.replace("{name}", relName);
@@ -789,6 +781,7 @@
     });
   }
 </script>
+<script src="/access-code.js"></script>
 <script src="/site.js"></script>
 </body>
 </html>

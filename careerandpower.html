@@ -27,6 +27,7 @@ gtag('set', 'url_passthrough', true);
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Career & Power - Onboarding</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/access-code.js"></script>
     <style>
         :root {
             --dark: #121417;
@@ -813,12 +814,6 @@ gtag('set', 'url_passthrough', true);
             }
         }
 
-        function generateAccessCode() {
-            const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
-            const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
-            return p1 + '-' + p2;
-        }
-
         async function handleRegistration() {
             const fname = document.getElementById('reg-fname').value.trim();
             const email = document.getElementById('reg-email').value.trim();
@@ -836,9 +831,6 @@ gtag('set', 'url_passthrough', true);
             btn.disabled = true;
             btn.innerText = "...";
 
-            const accessCode = generateAccessCode();
-            answers.access_code = accessCode;
-
             try {
                 if (!supabaseClient) {
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -851,19 +843,17 @@ gtag('set', 'url_passthrough', true);
                 // server-side and returns nothing, so there's no RETURNING to violate RLS.
                 // It also upserts active_flows on (lead_email, flow_name), so registering for a
                 // second, different flow adds a new row instead of erroring or overwriting.
-                const { error: rpcError } = await supabaseClient.rpc('register_lead', {
+                const accessCode = await window.smhRegisterLead(supabaseClient, {
                     p_email: email,
                     p_first_name: fname,
                     p_delivery_channel: channel,
                     p_source: 'career_power_flow',
                     p_language: currentLang,
                     p_onboarding_data: answers,
-                    p_access_code: accessCode,
                     p_chosen_path: chosenPath,
                     p_flow_name: 'Career & Power'
                 });
 
-                if (rpcError) throw rpcError;
 
                 const baseMessage = botMessages[currentLang] || botMessages['de'];
                 const accessLabel = accessLabels[currentLang] || accessLabels['de'];

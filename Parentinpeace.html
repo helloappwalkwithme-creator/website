@@ -27,6 +27,7 @@ gtag('set', 'url_passthrough', true);
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Parent in Peace</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/access-code.js"></script>
     <style>
         :root {
             /* Warm, grounding, and calming color palette */
@@ -822,12 +823,6 @@ gtag('set', 'url_passthrough', true);
             }
         }
 
-        function generateAccessCode() {
-            const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
-            const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
-            return p1 + '-' + p2;
-        }
-
         async function handleRegistration() {
             const fname = document.getElementById('reg-fname').value.trim();
             const email = document.getElementById('reg-email').value.trim();
@@ -845,27 +840,22 @@ gtag('set', 'url_passthrough', true);
             btn.disabled = true;
             btn.innerText = "...";
 
-            const accessCode = generateAccessCode();
-            answers.access_code = accessCode;
-
             try {
                 if (!supabaseClient) {
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 }
 
-                const { error: rpcError } = await supabaseClient.rpc('register_lead', {
+                const accessCode = await window.smhRegisterLead(supabaseClient, {
                     p_email: email,
                     p_first_name: fname,
                     p_delivery_channel: channel,
                     p_source: 'parent_in_peace_flow',
                     p_language: currentLang,
                     p_onboarding_data: answers,
-                    p_access_code: accessCode,
                     p_chosen_path: chosenPath,
                     p_flow_name: 'Parent in Peace'
                 });
 
-                if (rpcError) throw rpcError;
 
                 // WEITERLEITUNG ZUM MESSENGER MIT SCHÖNEM TEXT UND ZUGANGSCODE
                 const baseMessage = botMessages[currentLang] || botMessages['de'];
