@@ -1,0 +1,59 @@
+{
+  "taken_at": "2026-11-04",
+  "reason": "Backup before adding email_stop_token on existing delivery_channel = email rows. Rows were not deleted.",
+  "rows": [
+    {
+      "id": "dd3e03ff-7636-4c6d-943c-7e4e9724b76d",
+      "email": "coaching@shiftmyhorizon.com",
+      "first_name": "TEST fokus12 Grok",
+      "last_name": "TEST",
+      "source": "test_fokus12_grok",
+      "language": "de",
+      "delivery_channel": "email",
+      "has_paid": false,
+      "free_trial": false,
+      "current_mentoring_day": null,
+      "whatsapp_status": "inactive",
+      "onboarding_data": {
+        "note": "Testlead Fokus12-Versand 2026-10-10, nicht loeschen ohne Ruecksprache",
+        "test": true
+      },
+      "flows": [
+        {
+          "id": 73,
+          "status": "paused",
+          "flow_name": "fokus12_laut",
+          "has_paid": false,
+          "current_mentoring_day": 1
+        }
+      ]
+    },
+    {
+      "id": "171b87ed-50d2-415c-afbe-661046f5fcb9",
+      "email": "cursor-religion-email@example.com",
+      "first_name": "Check",
+      "source": "religion_selector",
+      "language": "de",
+      "delivery_channel": "email",
+      "chosen_path": "bible",
+      "has_paid": false,
+      "free_trial": false,
+      "access_code": "TEST-CHK3",
+      "current_mentoring_day": 0,
+      "whatsapp_status": "inactive",
+      "onboarding_data": {
+        "chosen_religion": "bible",
+        "religion_consent": true
+      },
+      "flows": [
+        {
+          "id": 89,
+          "status": "active",
+          "flow_name": "bible_flow",
+          "has_paid": false,
+          "current_mentoring_day": 1
+        }
+      ]
+    }
+  ]
+}

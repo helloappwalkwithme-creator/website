@@ -5,7 +5,7 @@
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vier Tage mit der Bibel</title>
-<meta name="description" content="Vier Tage, eine kurze Nachricht am Morgen. Per WhatsApp oder Telegram. Zuerst drei kurze Fragen.">
+<meta name="description" content="Vier Tage, eine kurze Nachricht am Morgen. Per WhatsApp, Telegram oder E-Mail. Zuerst drei kurze Fragen.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -44,9 +44,10 @@
       </div>
       <div class="booking__card" data-hide-sticky>
         <div class="card-light">
+          <div class="lang-switch" id="lang-switch" role="group"></div>
           <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
           <p class="progress__label" id="step-label"></p>
-          <div class="btn-row" id="lang-switch" role="group"></div>
+          <p class="lead" id="result-line" hidden></p>
 
           <div class="formstep" id="step-q1">
             <h3 id="q1-title"></h3>
@@ -76,8 +77,8 @@
               <legend class="field__label" id="lbl-channel"></legend>
               <label class="choicecard"><input type="radio" name="kanal" value="whatsapp"><span class="choicecard__mark"></span><span class="choicecard__text">WhatsApp</span></label>
               <label class="choicecard"><input type="radio" name="kanal" value="telegram"><span class="choicecard__mark"></span><span class="choicecard__text">Telegram</span></label>
+              <label class="choicecard"><input type="radio" name="kanal" value="email"><span class="choicecard__mark"></span><span class="choicecard__text" id="opt-email">Email</span></label>
             </fieldset>
-            <p class="hint" id="email-soon"></p>
             <div class="consent">
               <input type="checkbox" id="reg-consent">
               <label for="reg-consent" id="s2-consent"></label>
@@ -89,6 +90,11 @@
             <p class="hint" id="s2-disclaimer"></p>
           </div>
 
+
+          <div class="formstep" id="step-done">
+            <h3 id="done-title"></h3>
+            <p id="done-sub"></p>
+          </div>
           <div class="formstep" id="step-pay">
             <h3 id="pay-title"></h3>
             <p id="pay-sub"></p>
@@ -148,7 +154,7 @@
       pageTitle: "Vier Tage mit der Bibel",
       heroEyebrowBible: "Christentum",
       heroTitleBible: "Vier Morgen mit der Bibel.",
-      heroLeadBible: "Eine kurze Nachricht am Tag, per WhatsApp oder Telegram. Zuerst drei kurze Fragen, dann deine Anmeldung.",
+      heroLeadBible: "Eine kurze Nachricht am Tag, per WhatsApp, Telegram oder E-Mail. Zuerst drei kurze Fragen, dann deine Anmeldung.",
       heroEyebrowOpen: "Vier Tage gratis",
       heroTitleOpen: "Welchen Weg willst du gehen?",
       heroLeadOpen: "Du wählst die Richtung. Danach drei kurze Fragen, dann die Anmeldung.",
@@ -166,20 +172,23 @@
         buddhism: { name: "Buddhismus", desc: "Achtsamkeit und die Lehre des Buddha." },
         secular: { name: "Spiritualität ohne Religion", desc: "Ein spiritueller Weg, ganz ohne Konfession." }
       },
-      q1: { title: "Was sollen die 4 Tage für dich tun?", opts: [
-        { key: "morning", text: "Die Bibel an einem normalen Morgen aufschlagen" },
-        { key: "verse", text: "Einen Vers in die Woche mitnehmen" },
-        { key: "pray", text: "Einmal beten, auch wenn nichts brennt" }
+      q1: { title: "Was führt dich gerade her?", opts: [
+        { key: "far", text: "Ich fühle mich weit weg von Gott" },
+        { key: "habit", text: "Ich will eine tägliche Gewohnheit" },
+        { key: "hard", text: "Ich gehe durch eine schwere Zeit" },
+        { key: "curious", text: "Ich bin einfach neugierig" }
       ]},
-      q2: { title: "Wo hakt es bei dir?", opts: [
-        { key: "closed", text: "Die Bibel bleibt zu" },
-        { key: "only-when", text: "Ich bete nur, wenn etwas brennt" },
-        { key: "two-lives", text: "Sonntag und Montag fühlen sich wie zwei Leben an" }
+      q2: { title: "Wie oft schlägst du deine Bibel heute auf?", opts: [
+        { key: "daily", text: "Täglich" },
+        { key: "sometimes", text: "Manchmal" },
+        { key: "rarely", text: "Selten" },
+        { key: "never", text: "Fast nie" }
       ]},
-      q3: { title: "Was soll in der Nachricht stehen?", opts: [
-        { key: "verse-step", text: "Ein Vers und ein Schritt" },
-        { key: "prayer", text: "Ein kurzes Gebet" },
-        { key: "both", text: "Beides, kurz" }
+      q3: { title: "Was würdest du nach ein paar Wochen gern fühlen?", opts: [
+        { key: "god", text: "Näher bei Gott", result: "Eine Nachricht jeden Morgen kann dir helfen, dich Gott näher zu fühlen." },
+        { key: "peace", text: "Mehr Frieden", result: "Eine Nachricht jeden Morgen kann dir helfen, mehr Frieden zu finden." },
+        { key: "discipline", text: "Mehr Disziplin", result: "Eine Nachricht jeden Morgen kann dir helfen, mehr Disziplin zu finden." },
+        { key: "clarity", text: "Klarer über mein Leben", result: "Eine Nachricht jeden Morgen kann dir helfen, klarer über dein Leben zu werden." }
       ]},
       g1: { title: "Was sollen die 4 Tage für dich tun?", opts: [
         { key: "morning", text: "Eine Übung, die in den Morgen passt" },
@@ -202,14 +211,16 @@
         fname: "Vorname",
         email: "E-Mail",
         channel: "Wohin soll die Nachricht kommen?",
-        emailSoon: "E-Mail kommt noch. Für diese 4 Tage geht es über WhatsApp oder Telegram.",
+        emailOpt: "E-Mail",
+        doneTitle: "Du bist angemeldet.",
+        doneSub: "Die Nachricht kommt per E-Mail, jeden Morgen um 7:00 Uhr deiner Zeit. Die erste kommt beim nächsten 7:00.",
         fnamePh: "Dein Vorname",
         emailPh: "deine@email.com",
         errFill: "Bitte fülle alle Felder aus.",
-        errChannel: "Bitte wähle WhatsApp oder Telegram.",
+        errChannel: "Bitte wähle WhatsApp, Telegram oder E-Mail.",
         errServer: "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal.",
         errLib: "Die Anmeldung konnte nicht geladen werden. Bitte lade die Seite neu.",
-        consent: "Ich bin einverstanden, dass meine Angabe zur Glaubensrichtung gespeichert und genutzt wird, um mir die dazu passenden täglichen Texte zu schicken (Artikel 9 DSGVO). Ich kann das jederzeit widerrufen, mit STOP im Chat oder über den Kontakt im Impressum.",
+        consent: "Ich bin einverstanden, dass meine Angabe zur Glaubensrichtung gespeichert und genutzt wird, um mir die dazu passenden täglichen Texte zu schicken (Artikel 9 DSGVO). Ich kann das jederzeit widerrufen, mit STOP im Chat, mit dem Link in der E-Mail, oder über den Kontakt im Impressum.",
         errConsent: "Bitte bestätige die Einwilligung. Ohne sie dürfen wir deine Angabe nicht speichern.",
         disclaimer: "<strong>Wichtig:</strong> Deine Daten werden ausschließlich für die automatisierte Bereitstellung dieses Flows genutzt. Wir geben sie nicht an Dritte weiter."
       },
@@ -227,7 +238,7 @@
       pageTitle: "Four mornings with the Bible",
       heroEyebrowBible: "Christianity",
       heroTitleBible: "Four mornings with the Bible.",
-      heroLeadBible: "One short message a day, on WhatsApp or Telegram. Three quick questions, then your signup.",
+      heroLeadBible: "One short message a day, on WhatsApp, Telegram, or email. Three quick questions, then your signup.",
       heroEyebrowOpen: "4 days free",
       heroTitleOpen: "Which path do you want?",
       heroLeadOpen: "You pick the teaching. Then three quick questions, then signup.",
@@ -245,20 +256,23 @@
         buddhism: { name: "Buddhism", desc: "Mindfulness and the teaching of the Buddha." },
         secular: { name: "Spirituality without religion", desc: "A spiritual path, free of any denomination." }
       },
-      q1: { title: "What do you want these 4 days to do?", opts: [
-        { key: "morning", text: "Open the Bible on an ordinary morning" },
-        { key: "verse", text: "Carry one verse into the week" },
-        { key: "pray", text: "Pray once, even when nothing's on fire" }
+      q1: { title: "What brings you here right now?", opts: [
+        { key: "far", text: "I feel far from God" },
+        { key: "habit", text: "I want a daily habit" },
+        { key: "hard", text: "I'm going through a hard time" },
+        { key: "curious", text: "I'm just curious" }
       ]},
-      q2: { title: "Where does it slip?", opts: [
-        { key: "closed", text: "The Bible stays closed" },
-        { key: "only-when", text: "I only pray when something's burning" },
-        { key: "two-lives", text: "Sunday and Monday feel like two lives" }
+      q2: { title: "How often do you open your Bible today?", opts: [
+        { key: "daily", text: "Daily" },
+        { key: "sometimes", text: "Sometimes" },
+        { key: "rarely", text: "Rarely" },
+        { key: "never", text: "Almost never" }
       ]},
-      q3: { title: "What should the message hold?", opts: [
-        { key: "verse-step", text: "A verse and one step" },
-        { key: "prayer", text: "A short prayer" },
-        { key: "both", text: "Both, kept short" }
+      q3: { title: "What would you love to feel after a few weeks?", opts: [
+        { key: "god", text: "Closer to God", result: "One message every morning can help you feel closer to God." },
+        { key: "peace", text: "More peace", result: "One message every morning can help you feel more peace." },
+        { key: "discipline", text: "More discipline", result: "One message every morning can help you build more discipline." },
+        { key: "clarity", text: "Clearer about my life", result: "One message every morning can help you feel clearer about your life." }
       ]},
       g1: { title: "What do you want these 4 days to do?", opts: [
         { key: "morning", text: "A practice that fits the morning" },
@@ -281,14 +295,16 @@
         fname: "First name",
         email: "Email",
         channel: "Where should the message arrive?",
-        emailSoon: "Email is coming soon. For these 4 days it's WhatsApp or Telegram.",
+        emailOpt: "Email",
+        doneTitle: "You're in.",
+        doneSub: "The message arrives by email, every morning at 7:00 your time. The first one comes at the next 7:00.",
         fnamePh: "Your first name",
         emailPh: "you@email.com",
         errFill: "Please fill in all fields.",
-        errChannel: "Please choose WhatsApp or Telegram.",
+        errChannel: "Please choose WhatsApp, Telegram, or Email.",
         errServer: "An error occurred. Please try again.",
         errLib: "Signup couldn't load. Please reload the page.",
-        consent: "I agree that my choice of faith is stored and used to send me the matching daily texts (Article 9 GDPR). I can withdraw this at any time, with STOP in the chat or via the contact in the imprint.",
+        consent: "I agree that my choice of faith is stored and used to send me the matching daily texts (Article 9 GDPR). I can withdraw this at any time, with STOP in the chat, with the link in the email, or via the contact in the imprint.",
         errConsent: "Please confirm the consent. Without it we are not allowed to store your choice.",
         disclaimer: "<strong>Important:</strong> Your data is used only for the automated delivery of this flow. We don't share it with third parties."
       },
@@ -306,7 +322,7 @@
       pageTitle: "Cuatro mañanas con la Biblia",
       heroEyebrowBible: "Cristianismo",
       heroTitleBible: "Cuatro mañanas con la Biblia.",
-      heroLeadBible: "Un mensaje corto al día, por WhatsApp o Telegram. Tres preguntas breves y luego tu registro.",
+      heroLeadBible: "Un mensaje corto al día, por WhatsApp, Telegram o correo. Tres preguntas breves y luego tu registro.",
       heroEyebrowOpen: "4 días gratis",
       heroTitleOpen: "¿Qué camino quieres?",
       heroLeadOpen: "Eliges la enseñanza. Después, tres preguntas breves y el registro.",
@@ -324,20 +340,23 @@
         buddhism: { name: "Budismo", desc: "Atención plena y la enseñanza de Buda." },
         secular: { name: "Espiritualidad sin religión", desc: "Un camino espiritual, sin ninguna confesión." }
       },
-      q1: { title: "¿Qué quieres que hagan estos 4 días?", opts: [
-        { key: "morning", text: "Abrir la Biblia en una mañana normal" },
-        { key: "verse", text: "Llevar un versículo a la semana" },
-        { key: "pray", text: "Rezar una vez, aunque nada arda" }
+      q1: { title: "¿Qué te trae aquí ahora?", opts: [
+        { key: "far", text: "Me siento lejos de Dios" },
+        { key: "habit", text: "Quiero un hábito diario" },
+        { key: "hard", text: "Estoy pasando un momento difícil" },
+        { key: "curious", text: "Solo tengo curiosidad" }
       ]},
-      q2: { title: "¿Dónde se te escapa?", opts: [
-        { key: "closed", text: "La Biblia sigue cerrada" },
-        { key: "only-when", text: "Solo rezo cuando algo arde" },
-        { key: "two-lives", text: "El domingo y el lunes parecen dos vidas" }
+      q2: { title: "¿Con qué frecuencia abres tu Biblia hoy?", opts: [
+        { key: "daily", text: "A diario" },
+        { key: "sometimes", text: "A veces" },
+        { key: "rarely", text: "Rara vez" },
+        { key: "never", text: "Casi nunca" }
       ]},
-      q3: { title: "¿Qué debe traer el mensaje?", opts: [
-        { key: "verse-step", text: "Un versículo y un paso" },
-        { key: "prayer", text: "Una oración corta" },
-        { key: "both", text: "Las dos cosas, en corto" }
+      q3: { title: "¿Qué te gustaría sentir después de unas semanas?", opts: [
+        { key: "god", text: "Más cerca de Dios", result: "Un mensaje cada mañana puede ayudarte a sentirte más cerca de Dios." },
+        { key: "peace", text: "Más paz", result: "Un mensaje cada mañana puede ayudarte a sentir más paz." },
+        { key: "discipline", text: "Más disciplina", result: "Un mensaje cada mañana puede ayudarte a tener más disciplina." },
+        { key: "clarity", text: "Más claridad sobre mi vida", result: "Un mensaje cada mañana puede ayudarte a ver tu vida con más claridad." }
       ]},
       g1: { title: "¿Qué quieres que hagan estos 4 días?", opts: [
         { key: "morning", text: "Una práctica que quepa en la mañana" },
@@ -360,14 +379,16 @@
         fname: "Nombre",
         email: "Correo",
         channel: "¿A dónde debe llegar el mensaje?",
-        emailSoon: "El correo llega pronto. Estos 4 días van por WhatsApp o Telegram.",
+        emailOpt: "Correo",
+        doneTitle: "Ya estás dentro.",
+        doneSub: "El mensaje llega por correo, cada mañana a las 7:00 de tu hora. El primero llega en el próximo 7:00.",
         fnamePh: "Tu nombre",
         emailPh: "tu@email.com",
         errFill: "Por favor, completa todos los campos.",
-        errChannel: "Elige WhatsApp o Telegram.",
+        errChannel: "Elige WhatsApp, Telegram o correo.",
         errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
         errLib: "No se pudo cargar el registro. Recarga la página.",
-        consent: "Acepto que mi elección de confesión se guarde y se use para enviarme los textos diarios correspondientes (artículo 9 del RGPD). Puedo retirarlo en cualquier momento, con STOP en el chat o por el contacto del aviso legal.",
+        consent: "Acepto que mi elección de confesión se guarde y se use para enviarme los textos diarios correspondientes (artículo 9 del RGPD). Puedo retirarlo en cualquier momento, con STOP en el chat, con el enlace del correo, o por el contacto del aviso legal.",
         errConsent: "Confirma el consentimiento. Sin él no podemos guardar tu elección.",
         disclaimer: "<strong>Importante:</strong> Tus datos se usan solo para la entrega automatizada de este flujo. No los compartimos con terceros."
       },
@@ -428,11 +449,12 @@
       label.appendChild(input);
       label.appendChild(mark);
       label.appendChild(text);
-      label.addEventListener("click", function () {
+      input.addEventListener("change", function () {
         quiz[name] = opt.key;
         const order = sequence();
         const i = order.indexOf(stepName);
-        if (i < order.length - 1) { stepName = order[i + 1]; render(); }
+        if (i >= 0 && i < order.length - 1) stepName = order[i + 1];
+        setTimeout(render, 0);
       });
       box.appendChild(label);
     });
@@ -469,11 +491,11 @@
     });
 
     const order = sequence();
-    const index = Math.max(0, order.indexOf(stepName));
+    const index = stepName === "done" ? order.length - 1 : Math.max(0, order.indexOf(stepName));
     document.getElementById("bar").style.width = Math.round(((index + 1) / order.length) * 100) + "%";
     document.getElementById("step-label").textContent = l.stepOf(index + 1, order.length);
 
-    ["q1", "q2", "q3", "form", "pay"].forEach(function (name) {
+    ["q1", "q2", "q3", "form", "pay", "done"].forEach(function (name) {
       document.getElementById("step-" + name).classList.toggle("is-active", name === stepName);
     });
 
@@ -487,13 +509,20 @@
     fillChoices("q1-opts", "q1", qq[0].opts, quiz.q1);
     fillChoices("q2-opts", "q2", qq[1].opts, quiz.q2);
     fillChoices("q3-opts", "q3", qq[2].opts, quiz.q3);
+    const hope = qq[2].opts.find(function (o) { return o.key === quiz.q3; });
+    const resultLine = document.getElementById("result-line");
+    const showResult = !!(hope && hope.result && (stepName === "form" || stepName === "pay" || stepName === "done"));
+    resultLine.hidden = !showResult;
+    resultLine.textContent = showResult ? hope.result : "";
 
     document.getElementById("s2-title").textContent = l.s2.title;
     document.getElementById("s2-sub").textContent = l.s2.sub;
     document.getElementById("lbl-fname").textContent = l.s2.fname;
     document.getElementById("lbl-email").textContent = l.s2.email;
     document.getElementById("lbl-channel").textContent = l.s2.channel;
-    document.getElementById("email-soon").textContent = l.s2.emailSoon;
+    document.getElementById("opt-email").textContent = l.s2.emailOpt;
+    document.getElementById("done-title").textContent = l.s2.doneTitle;
+    document.getElementById("done-sub").textContent = l.s2.doneSub;
     document.getElementById("reg-fname").placeholder = l.s2.fnamePh;
     document.getElementById("reg-email").placeholder = l.s2.emailPh;
     document.getElementById("s2-consent").textContent = l.s2.consent;
@@ -566,7 +595,7 @@
     const channel = channelEl ? channelEl.value : "";
     if (!chosen) { stepName = "program"; render(); return; }
     if (!fname || !email) { showError(l.s2.errFill); return; }
-    if (channel !== "whatsapp" && channel !== "telegram") { showError(l.s2.errChannel); return; }
+    if (channel !== "whatsapp" && channel !== "telegram" && channel !== "email") { showError(l.s2.errChannel); return; }
     const consentBox = document.getElementById("reg-consent");
     if (!consentBox || !consentBox.checked) { showError(l.s2.errConsent); return; }
     if (!window.supabase || !window.supabase.createClient) { showError(l.s2.errLib); return; }
@@ -592,12 +621,13 @@
       religion_consent: true,
       religion_consent_at: new Date().toISOString(),
       religion_consent_text: l.s2.consent,
-      quiz_aim: quiz.q1,
-      quiz_aim_text: aim ? aim.text : "",
-      quiz_slip: quiz.q2,
-      quiz_slip_text: slip ? slip.text : "",
-      quiz_message: quiz.q3,
-      quiz_message_text: shape ? shape.text : "",
+      quiz_brings: quiz.q1,
+      quiz_brings_text: aim ? aim.text : "",
+      quiz_often: quiz.q2,
+      quiz_often_text: slip ? slip.text : "",
+      quiz_hope: quiz.q3,
+      quiz_hope_text: shape ? shape.text : "",
+      quiz_result_text: shape && shape.result ? shape.result : "",
       timezone: timezone,
       digistore_affiliate: (params.get("aff") || "").toLowerCase(),
       invite_token: trialOk ? inviteToken : ""
@@ -623,6 +653,13 @@
       const accessLabel = accessLabels[lang] || accessLabels.de;
       const finalMessage = baseMessage + "\n\n" + accessLabel + " " + accessCode;
       const encodedMessage = encodeURIComponent(finalMessage);
+      if (channel === "email") {
+        stepName = "done";
+        btn.disabled = false;
+        btn.textContent = l.next;
+        render();
+        return;
+      }
       if (channel === "telegram") {
         window.location.href = "https://t.me/" + tgBotName + "?text=" + encodedMessage;
       } else {
