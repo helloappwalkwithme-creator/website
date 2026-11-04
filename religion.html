@@ -86,6 +86,8 @@ gtag('set', 'url_passthrough', true);
         .input-field { background-color: var(--gray); border: 1px solid var(--border); color: #fff; padding: 16px; border-radius: 8px; font-size: 15px; margin-bottom: 16px; width: 100%; font-family: -apple-system, sans-serif; font-weight: 500;}
         .input-field:focus { border-color: var(--gold); outline: none; }
 
+        .consent-row { display:flex; gap:10px; align-items:flex-start; margin-top:18px; font-size:13px; line-height:1.5; color:#b9c0cb; text-align:left; font-family:-apple-system, sans-serif; cursor:pointer; }
+        .consent-row input { margin-top:3px; width:18px; height:18px; flex:0 0 auto; accent-color: var(--gold); cursor:pointer; }
         .legal-disclaimer { font-size: 12px; color: #8b949e; margin-top: 20px; line-height: 1.6; text-align: center; border-top: 1px solid var(--border); padding-top: 15px; font-family: -apple-system, sans-serif; }
         .legal-disclaimer strong { color: var(--gold); font-weight: 600; }
 
@@ -138,6 +140,11 @@ gtag('set', 'url_passthrough', true);
                 <option value="whatsapp">WhatsApp</option>
                 <option value="telegram">Telegram</option>
             </select>
+
+            <label class="consent-row" for="reg-consent">
+                <input type="checkbox" id="reg-consent">
+                <span id="s2-consent"></span>
+            </label>
 
             <button class="btn-gold" id="btn-register" onclick="handleRegistration()" style="margin-top: 10px; max-width: 100%;"></button>
             <p id="reg-error" style="color: var(--error); text-align: center; display: none; font-weight: bold; margin-top: 15px;"></p>
@@ -205,6 +212,8 @@ gtag('set', 'url_passthrough', true);
                     errFill: "Bitte fülle alle Felder aus.",
                     errServer: "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal.",
                     placeholders: { fname: "Dein Vorname" },
+                    consent: "Ich bin einverstanden, dass meine Angabe zur Glaubensrichtung gespeichert und genutzt wird, um mir die dazu passenden täglichen Texte zu schicken (Artikel 9 DSGVO). Ich kann das jederzeit widerrufen, mit STOP im Chat oder über den Kontakt im Impressum.",
+                    errConsent: "Bitte bestätige die Einwilligung. Ohne sie dürfen wir deine Angabe nicht speichern.",
                     disclaimer: "<strong>Wichtig:</strong> Deine Daten werden zu 100% ausschließlich für die automatisierte Bereitstellung dieses Flows genutzt. Wir geben niemals Daten an Dritte weiter. Dein Vertrauen ist unser höchstes Gut."
                 },
                 botMsg: "Hallo, ich möchte meinen kostenlosen 4-Tage-Flow «{name}» starten. Bitte aktiviere meinen Zugang.",
@@ -233,6 +242,8 @@ gtag('set', 'url_passthrough', true);
                     errFill: "Please fill in all fields.",
                     errServer: "An error occurred. Please try again.",
                     placeholders: { fname: "Your First Name" },
+                    consent: "I agree that my choice of faith is stored and used to send me the matching daily texts (Article 9 GDPR). I can withdraw this at any time, with STOP in the chat or via the contact in the imprint.",
+                    errConsent: "Please confirm the consent. Without it we are not allowed to store your choice.",
                     disclaimer: "<strong>Important:</strong> Your data will 100% only be used for the automated delivery of this flow. We will never share your data with third parties. Your trust is sacred to us."
                 },
                 botMsg: "Hello, I would like to start my free 4-day «{name}» flow. Please activate my access.",
@@ -261,6 +272,8 @@ gtag('set', 'url_passthrough', true);
                     errFill: "Por favor, completa todos los campos.",
                     errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
                     placeholders: { fname: "Tu Nombre" },
+                    consent: "Acepto que mi elección de confesión se guarde y se use para enviarme los textos diarios correspondientes (artículo 9 del RGPD). Puedo retirarlo en cualquier momento, con STOP en el chat o por el contacto del aviso legal.",
+                    errConsent: "Confirma el consentimiento. Sin él no podemos guardar tu elección.",
                     disclaimer: "<strong>Importante:</strong> Tus datos se utilizarán 100% exclusivamente para la entrega automatizada de este flujo. Nunca compartiremos tus datos con terceros. Tu confianza es sagrada para nosotros."
                 },
                 botMsg: "Hola, me gustaría iniciar mi flujo gratuito de 4 días «{name}». Por favor, activa mi acceso.",
@@ -301,6 +314,7 @@ gtag('set', 'url_passthrough', true);
 
             document.getElementById('btn-register').innerText = l.s2.pay || l.btn.pay;
             document.getElementById('s2-disclaimer').innerHTML = l.s2.disclaimer;
+            document.getElementById('s2-consent').innerText = l.s2.consent;
 
             document.getElementById('link-imp').innerText = l.legal.imp;
             document.getElementById('link-dat').innerText = l.legal.dat;
@@ -404,10 +418,20 @@ gtag('set', 'url_passthrough', true);
 
             if (!chosen) { goToStep(1); return; }
             if (!email || !fname) { errEl.innerText = l.s2.errFill; errEl.style.display = 'block'; return; }
+            // Artikel 9 DSGVO: ohne ausdrueckliche Einwilligung wird die Glaubensrichtung nicht gespeichert.
+            const consentBox = document.getElementById('reg-consent');
+            if (!consentBox || !consentBox.checked) { errEl.innerText = l.s2.errConsent; errEl.style.display = 'block'; return; }
             errEl.style.display = 'none'; btn.disabled = true; btn.innerText = "...";
 
             const accessCode = generateAccessCode();
-            const onboarding = { chosen_religion: chosen.key, root_problem: chosen.key };
+            const onboarding = {
+                chosen_religion: chosen.key,
+                root_problem: chosen.key,
+                // Nachweis der Einwilligung: Zeitpunkt und der Wortlaut, der angezeigt wurde.
+                religion_consent: true,
+                religion_consent_at: new Date().toISOString(),
+                religion_consent_text: l.s2.consent
+            };
 
             try {
                 if (!supabaseClient) {
