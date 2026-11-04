@@ -314,6 +314,10 @@ strong { font-weight: 600; }
   position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; text-align: center; padding: 24px;
   font-family: var(--font-head); font-variation-settings: "opsz" 72; font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem); color: rgba(244,243,239,.88);
 }
+.ph--note .ph__center {
+  font-family: var(--font-body); font-variation-settings: normal; font-weight: 500; letter-spacing: 0;
+  font-size: 1rem; line-height: 1.45; padding: 28px 22px;
+}
 
 /* VSL-Player (K2) */
 .vsl { position: relative; border-radius: var(--r-media); overflow: hidden; aspect-ratio: 16 / 9; background: var(--deep-800); box-shadow: var(--sh-lg); }
