@@ -552,6 +552,11 @@
     btn.textContent = "…";
 
     const accessCode = generateAccessCode();
+    let timezone = "Europe/Berlin";
+    try {
+      const detected = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (detected) timezone = detected;
+    } catch (err) { /* keep Berlin if the browser can't name a zone */ }
     const bibleQuiz = chosen && chosen.key === "bible";
     const sets = bibleQuiz ? [l.q1, l.q2, l.q3] : [l.g1, l.g2, l.g3];
     const aim = sets[0].opts.find(function (o) { return o.key === quiz.q1; });
@@ -568,7 +573,8 @@
       quiz_slip: quiz.q2,
       quiz_slip_text: slip ? slip.text : "",
       quiz_message: quiz.q3,
-      quiz_message_text: shape ? shape.text : ""
+      quiz_message_text: shape ? shape.text : "",
+      timezone: timezone
     };
 
     try {
