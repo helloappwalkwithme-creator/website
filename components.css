@@ -106,6 +106,8 @@ strong { font-weight: 600; }
 .btn[disabled] { opacity: .6; cursor: progress; }
 .btn--inactive { background: var(--accent-tint); color: var(--muted); cursor: default; }
 .btn-row { display: flex; flex-wrap: wrap; gap: var(--s3); align-items: center; margin-top: var(--s6); }
+.lang-switch { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 18px; padding: 4px; border-radius: var(--r-pill); background: #F3EFE6; }
+.lang-switch .btn { min-height: 36px; padding: 6px 14px; border-radius: var(--r-pill); }
 
 .textlink {
   display: inline-flex; align-items: center; gap: 8px; color: var(--accent-light);

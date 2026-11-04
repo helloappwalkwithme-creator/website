@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Stop the morning email</title>
+<link rel="icon" href="data:,">
+<link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+<script src="/lang.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<a class="skip-link" href="#inhalt">Skip to content</a>
+<header class="hdr">
+  <a class="wordmark" href="/">Shift My Horizon</a>
+</header>
+<main id="inhalt">
+  <section class="sec sec--paper">
+    <div class="wrap">
+      <div class="card-light">
+        <h1 id="title"></h1>
+        <p class="lead" id="lead"></p>
+        <button class="btn btn--primary" type="button" id="stop"></button>
+        <p class="err" id="msg" role="alert"></p>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+(function () {
+  var SUPABASE_URL = "https://jztwnumtwihomgxwlwor.supabase.co";
+  var SUPABASE_ANON_KEY = "sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe";
+  var params = new URLSearchParams(location.search);
+  var token = params.get("t") || "";
+  var lang = window.smhResolveLang(params.get("lang"));
+  var copy = {
+    de: {
+      title: "Morgennachricht abbestellen",
+      lead: "Danach kommt keine E-Mail mehr. WhatsApp und Telegram bleiben, wie sie sind, wenn du die dort nutzt.",
+      button: "E-Mails stoppen",
+      done: "Erledigt. Es kommt keine Morgen-E-Mail mehr.",
+      invalid: "Dieser Link ist nicht gültig.",
+      missing: "In diesem Link fehlt der Abmelde-Code.",
+      error: "Das hat nicht geklappt. Bitte versuche es noch einmal."
+    },
+    en: {
+      title: "Stop the morning email",
+      lead: "After this, no further email arrives. WhatsApp and Telegram stay as they are if you use those.",
+      button: "Stop the emails",
+      done: "Done. The morning email will not come again.",
+      invalid: "This link is not valid.",
+      missing: "This link is missing its stop code.",
+      error: "That didn't work. Please try again."
+    },
+    es: {
+      title: "Dejar el correo de la mañana",
+      lead: "Después de esto no llega ningún correo más. WhatsApp y Telegram siguen igual si los usas.",
+      button: "Parar los correos",
+      done: "Listo. El correo de la mañana no vuelve a llegar.",
+      invalid: "Este enlace no es válido.",
+      missing: "A este enlace le falta el código para parar.",
+      error: "No ha funcionado. Inténtalo de nuevo."
+    }
+  };
+  var t = copy[lang] || copy.en;
+  document.documentElement.lang = lang;
+  document.title = t.title;
+  document.getElementById("title").textContent = t.title;
+  document.getElementById("lead").textContent = t.lead;
+  var button = document.getElementById("stop");
+  var msg = document.getElementById("msg");
+  button.textContent = t.button;
+  if (token.length < 32) {
+    button.hidden = true;
+    msg.textContent = t.missing;
+    msg.classList.add("is-visible");
+    return;
+  }
+  button.addEventListener("click", function () {
+    button.disabled = true;
+    if (!window.supabase || !window.supabase.createClient) {
+      msg.textContent = t.error;
+      msg.classList.add("is-visible");
+      button.disabled = false;
+      return;
+    }
+    var client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    client.rpc("stop_daily_email", { p_token: token }).then(function (res) {
+      if (res.error || res.data !== true) {
+        msg.textContent = res.error ? t.error : t.invalid;
+        msg.classList.add("is-visible");
+        button.disabled = false;
+        return;
+      }
+      button.hidden = true;
+      msg.textContent = t.done;
+      msg.classList.add("is-visible");
+    }).catch(function () {
+      msg.textContent = t.error;
+      msg.classList.add("is-visible");
+      button.disabled = false;
+    });
+  });
+})();
+</script>
+<script src="/site.js"></script>
+</body>
+</html>
