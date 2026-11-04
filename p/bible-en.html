@@ -4,16 +4,8 @@
 <meta charset="UTF-8">
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--
-  Influencer-Vorschauseite fuer Colin (R3alism), Englisch, Christentum.
-  Design-Vorlage: index.html. Nur tokens.css + components.css + site.js. Kein eigener <style>-Block.
-  Programm: Christianity | Flow: bible_flow | Sprache: EN | Slug: /p/bible-en
-  Das ist Colins eigene Seite. Button startet seinen kostenlosen 4-Tage-Flow (/religion).
-  Angebot fuer Zuschauer, sobald die Seite gemeinsam fertig ist: 19 USD/Monat.
-  Kein 90-Tage-Programm. RELIGION_OPEN in religion.html nicht anfassen.
--->
-<title>You unlock the phone before you open the Bible.</title>
-<meta name="description" content="Every morning at 7:00 your time: one Bible verse and one small step, on WhatsApp, Telegram, or email. $19 per month.">
+<title>Every morning one Bible verse.</title>
+<meta name="description" content="One Bible verse and one small step, every morning at 7:00 your time. WhatsApp, Telegram, or email. $19 a month. Cancel anytime.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -25,193 +17,155 @@
 <a class="skip-link" href="#inhalt">Skip to content</a>
 <header class="hdr">
   <a class="wordmark" href="#inhalt">Shift My Horizon</a>
-  <a class="btn btn--primary hdr__cta" href="/quiz/bible?lang=en&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Try 4 days free</a>
+  <a class="btn btn--primary hdr__cta" href="/quiz/bible?lang=en&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Start my 4 free days</a>
 </header>
 
 <main id="inhalt">
-  <!-- 1. Hero -->
-  <!-- Kein hero--book: diese Klasse schiebt das Video auf dem Handy unter den Button (components.css 782-787). -->
-  <section class="hero hero--lp">
+  <div class="sample-banner-wrap">
+    <div class="wrap">
+      <div class="sample-banner" role="note">
+        <p><strong>Only for Colin. Please don't share this.</strong> This is a sample of how the page could look for your followers. We'll adapt it to you and your audience, and add your video.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero hero--lp bible-offer">
     <div class="hero__bg"><div class="scene"></div></div>
     <div class="hero__shade"></div>
     <div class="wrap">
-      <div class="sample-banner" role="note">
-        <p><strong>Please don't share this yet.</strong> This is a sample page. It shows how the page could look for your followers. We'll adapt it to you and add your video.</p>
-      </div>
-      <div class="hero__grid">
-        <div class="hero__text">
-          <div class="hero__top">
-            <span class="eyebrow rv-hero">Christianity · The Bible in daily life</span>
-            <h1 class="rv-hero d1">You unlock the phone before you open the Bible.</h1>
-            <p class="lead">It sits on the nightstand and stays shut. You pray when something goes wrong, and not on an ordinary Tuesday.</p>
-            <p class="lead">Every morning at 7:00 your time: one Bible verse and one small step, on WhatsApp, Telegram, or email. $19 per month. Cancel any month.</p>
-          </div>
-          <div class="hero__bottom rv-hero d2">
-            <div class="hero__actions"><a class="btn btn--primary" href="/quiz/bible?lang=en&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Try 4 days free</a></div>
-            <p class="hero__note">This button is yours. It starts your free 4-day flow, so you can feel a morning message yourself.</p>
-          </div>
+      <div class="bible-offer__grid">
+        <div>
+          <span class="eyebrow">Christianity</span>
+          <h1>Every morning one Bible verse. And one small step to live it today.</h1>
+          <p class="lead">It takes one minute. You can cancel anytime.</p>
+          <div class="hero__actions"><a class="btn btn--primary" href="/quiz/bible?lang=en&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Start my 4 free days</a></div>
+          <p class="bible-offer__trust">Cancel anytime. Payments via Digistore24. 7:00 your local time.</p>
         </div>
-        <div class="hero__media rv-hero d3">
-          <!-- aria-label NICHT mit "Platzhalter" beginnen lassen, sonst blendet components.css den Block aus.
-               Kein data-src setzen, sonst blendet Regel .hero__media:has(> .vsl[data-src=""]) den Slot aus. -->
-          <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
-            <div class="ph" aria-label="Video slot influencer"><div class="ph__center">Colin's video</div><p class="ph__cap">Portrait, 30 to 90 seconds.</p></div>
-          </div>
+        <div class="phone" aria-label="Example morning message">
+          <div class="phone__speaker"></div>
+          <p><strong>Good morning.</strong></p>
+          <p>Romans 12:2<br>"Don't be conformed to this world, but be transformed by the renewing of your mind." (WEB)</p>
+          <p><strong>Step:</strong> Read it once. Then do one kind thing for someone at home, before you open other apps.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2. Kennst du das? -->
-  <section class="sec sec--dark" id="problem">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <h2>Sound familiar?</h2>
-      </div>
-      <div class="signs">
-        <article class="glass rv"><h3>The phone comes first. The Bible stays on the nightstand.</h3></article>
-        <article class="glass rv"><h3>You pray when something goes wrong, and skip it on a normal day.</h3></article>
-        <article class="glass rv"><h3>You know the verse and still don't do the thing.</h3></article>
-        <article class="glass rv"><h3>Sunday was clear. Tuesday you don't know what to do with it.</h3></article>
+  <section class="sec sec--white" id="video">
+    <div class="wrap" style="max-width:720px">
+      <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
+        <div class="ph" aria-label="Video slot influencer"><div class="ph__center">Colin's video</div><p class="ph__cap">Portrait, 30 to 90 seconds.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Was du konkret bekommst -->
-  <section class="sec sec--white" id="inhalt-programm">
-    <div class="wrap" style="max-width:760px">
-      <div class="rv">
-        <span class="eyebrow">What you get</span>
-        <h2>One message every morning.</h2>
-        <p>Not a course you save for later. At 7:00 your time a message arrives on WhatsApp, Telegram, or email: one Bible verse, one small step, and a short prayer. $19 per month. Cancel any month.</p>
-      </div>
-      <ul class="days rv">
-        <li><b>The verse is chosen</b>You don't hunt for a passage or plan the week. At 7:00 there's one verse and one small step.</li>
-        <li><b>One small step</b>Something you can do that same day. For example, leave the phone until you've read the verse.</li>
-        <li><b>From the Bible</b>A verse, one step, and a short prayer. That's the whole message.</li>
-        <li><b>No app</b>WhatsApp, Telegram, or email. No login, no password.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 5. Echte Tage (Supabase flow_content, bible_flow) -->
   <section class="sec sec--paper" id="tage">
     <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">What a morning looks like</span>
-        <h2>Real morning messages.</h2>
-        <p>A morning message is a verse, then one small step. These three are real ones from the subscription.</p>
-      </div>
-      <div class="stats stats--3">
-        <article class="stat rv">
-          <p class="stat__num">Day 1</p>
-          <p class="stat__claim">The Renewal of the Mind</p>
-          <p>Romans 12:2: "Don't be conformed to this world, but be transformed by the renewing of your mind, so that you may prove what is the good, well-pleasing, and perfect will of God." (WEB) Step: Write down one thought that pulls you down today, and one sentence from the verse that answers it.</p>
+      <span class="eyebrow">A real morning</span>
+      <h2>What the message looks like.</h2>
+      <div class="daycards">
+        <article class="daycard">
+          <p class="daycard__badge">Day 1</p>
+          <h3>Renew your mind</h3>
+          <p class="daycard__verse"><cite>Romans 12:2</cite>"Don't be conformed to this world, but be transformed by the renewing of your mind." (WEB)</p>
+          <p class="bubble"><b>Your step today</b>Read it once. Then do one kind thing at home before you open other apps.</p>
         </article>
-        <article class="stat rv">
-          <p class="stat__num">Day 4</p>
-          <p class="stat__claim">The Principle of Rest</p>
-          <p>Genesis 2:2-3: "On the seventh day God finished his work which he had done; and he rested on the seventh day from all his work which he had done. God blessed the seventh day, and made it holy, because he rested in it from all his work of creation which he had done." (WEB) Step: Put the phone away for one hour today and don't use it to get anything done.</p>
+        <article class="daycard">
+          <p class="daycard__badge">Day 4</p>
+          <h3>Rest</h3>
+          <p class="daycard__verse"><cite>Genesis 2:2</cite>"On the seventh day God finished his work which he had done, and he rested." (WEB)</p>
+          <p class="bubble"><b>Your step today</b>Put the phone away for one hour. Don't use it to get things done.</p>
         </article>
-        <article class="stat rv">
-          <p class="stat__num">Day 30</p>
-          <p class="stat__claim">Love as the Foundation</p>
-          <p>1 Corinthians 13:4-5: "Love is patient and is kind; love doesn't envy. Love doesn't brag, is not proud, doesn't behave itself inappropriately, doesn't seek its own way, is not provoked, takes no account of evil;" (WEB) Step: When it gets tense today, do the thing that helps the other person, not the thing that wins the point.</p>
+        <article class="daycard">
+          <p class="daycard__badge">Day 30</p>
+          <h3>Love in action</h3>
+          <p class="daycard__verse"><cite>1 Corinthians 13:4</cite>"Love is patient and is kind. Love doesn't envy." (WEB)</p>
+          <p class="bubble"><b>Your step today</b>When it gets tense, help the other person instead of winning the point.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- 6. Sein eigener 4-Tage-Flow -->
-  <section class="booking" id="ablauf">
-    <div class="booking__bg"><div class="scene"></div></div>
-    <div class="booking__shade"></div>
-    <div class="wrap booking__grid">
-      <div class="booking__intro rv">
-        <span class="eyebrow">For you</span>
-        <h2>Try the first 4 days yourself.</h2>
-        <p class="lead">The button starts your free 4 days. One verse and one small step each morning, at 7:00 your time, so you can read it yourself.</p>
-        <ul class="facts">
-          <li><b>Your try</b>4 days, free. Just for you.</li>
-          <li><b>What arrives</b>A verse, one step, and a short prayer.</li>
-          <li><b>Your viewers</b>Once we finish this page together, they subscribe here at $19 per month.</li>
-        </ul>
-      </div>
-      <div class="booking__card rv">
-        <div class="card-light">
-          <h3>How your try runs</h3>
-          <ol class="steps on-light">
-            <li><div><h3>Start the flow</h3><p>The button is yours. It opens the free 4 days.</p></div></li>
-            <li><div><h3>Pick where it arrives</h3><p>WhatsApp, Telegram, or email.</p></div></li>
-            <li><div><h3>Read the first mornings</h3><p>A verse, one step, and a short prayer.</p></div></li>
-            <li><div><h3>Then we finish the page</h3><p>Wording, look, and your video on top. Please don't share it before that.</p></div></li>
-          </ol>
-          <div class="btn-row"><a class="btn btn--primary btn--block" href="/quiz/bible?lang=en&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Try 4 days free</a></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. Preis: nur das Abo. Kein Einmalkauf, kein toter Digistore-Platzhalter. -->
-  <section class="sec sec--white" id="preise">
+  <section class="sec sec--dark" id="ablauf">
     <div class="wrap" style="max-width:760px">
-      <div class="sec-head rv">
-        <span class="eyebrow">The subscription</span>
-        <h2>$19 per month.</h2>
-        <p>This is what your viewers pay, once we've finished the page with you. The button on this page is your own 4 free days.</p>
-      </div>
-      <article class="way rv">
-        <p class="way__num">$19</p>
-        <h3>Each month</h3>
-        <p>Cancel any month. This isn't a 90-day program. It keeps going while you're subscribed.</p>
-        <p class="small">You pay Digistore24. They send the invoice and handle the VAT on the sale.</p>
-      </article>
+      <span class="eyebrow">How it works</span>
+      <h2>Three steps. Then it runs every morning.</h2>
+      <ol class="steps">
+        <li><div><h3>A short quiz</h3><p>Three questions. About a minute.</p></div></li>
+        <li><div><h3>Pick where it arrives</h3><p>WhatsApp, Telegram, or email.</p></div></li>
+        <li><div><h3>First message at 7:00</h3><p>7:00 your local time. One verse and one step.</p></div></li>
+      </ol>
     </div>
   </section>
 
-  <!-- 8. Partner-Abschnitt: Auszahlung, nur in der Vorschau fuer den Creator -->
-  <section class="statement-band" id="partner" data-partner-only>
-    <div class="wrap">
-      <span class="eyebrow">How you get paid</span>
-      <p class="statement rv">Digistore24 pays you <em>50%</em>.</p>
-      <p class="sub rv">On this page, the sale and your commission both go through Digistore24. Digistore24 acts as the reseller. They're the merchant of record: they sell to your viewer, issue the invoice, and handle the VAT on that sale. Then they pay your commission straight to you.</p>
-      <p class="sub rv">The commission is 50% of each $19 monthly subscription, after taxes and Digistore24 fees. It recurs every month, for as long as that person stays subscribed.</p>
-      <p class="sub rv">The button on this page starts your own 4 free days, so you can read it yourself. When the page is finished, your viewers subscribe here at $19 per month. They don't get those free days.</p>
-      <ul class="points rv">
-        <li><b>1. Open a Digistore24 account</b>It's free and takes a few minutes. Send me your Digistore24 ID.</li>
-        <li><b>2. Send a short video</b>We'll put it at the top of this page, with the wording and the look we shape together.</li>
-        <li><b>3. Share it when it's ready</b>Not yet. Once we've finished it together, it can go in your bio, a story, a video, or a newsletter.</li>
+  <section class="sec sec--white" id="inhalt-programm">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">What you get</span>
+      <h2>A verse each morning. A month of them.</h2>
+      <ul class="days">
+        <li><b>Each morning</b>One Bible verse and one small step for that day. On WhatsApp, Telegram, or email.</li>
+        <li><b>Each month</b>A new message every day you stay. $19. It stops when you cancel.</li>
       </ul>
-      <div class="note-box rv"><p><strong>This is your page, Colin.</strong> https://www.shiftmyhorizon.com/p/bible-en<br>We'll still adapt the wording and the look with you, and your video goes on top. Please don't share it until we've finished it together. It isn't public, and it isn't in search.</p></div>
     </div>
   </section>
 
-  <!-- 9. FAQ -->
-  <section class="sec sec--white" id="fragen">
+  <section class="sec sec--paper" id="preise">
     <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">Common questions</span>
-        <h2>Common questions</h2>
+      <div class="sec-head">
+        <span class="eyebrow">Price</span>
+        <h2>$19 a month.</h2>
       </div>
-      <div class="faq rv">
-        <details><summary>What does it cost?</summary><p>Your button is 4 days free, so you can try it. Your viewers, once we finish this page together, pay $19 per month. They can cancel any month. Digistore24 sends the invoice.</p></details>
-        <details><summary>Is the button a free trial for my viewers?</summary><p>No. The 4 free days are yours, on this page, so you can feel it yourself. Your viewers subscribe at $19 per month.</p></details>
-        <details><summary>Is this a 90-day program?</summary><p>No. It's a monthly subscription. One message a day, for as long as you stay.</p></details>
-        <details><summary>Where does the message arrive?</summary><p>WhatsApp, Telegram, or email. You choose.</p></details>
-        <details><summary>How much time does it take?</summary><p>Long enough to read the verse and do one small step.</p></details>
-        <details><summary>How do I stop?</summary><p>Cancel the subscription through Digistore24. The daily message stops with it.</p></details>
-        <details><summary>Is this therapy?</summary><p>No. It's a daily message. It doesn't replace therapy.</p></details>
+      <div class="ways">
+        <article class="way">
+          <p class="way__num">$19</p>
+          <h3>Each month</h3>
+          <p>Less than a coffee a week. Billed monthly through Digistore24. Renews until you cancel. No 90-day lock-in.</p>
+        </article>
+        <article class="way">
+          <p class="way__num">4</p>
+          <h3>Free days first</h3>
+          <p>The button starts 4 mornings free. After that, $19 a month if you stay. Cancel before then and you pay nothing.</p>
+          <a class="btn btn--primary" href="/quiz/bible?lang=en&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Start my 4 free days</a>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- 10. Abschluss -->
+  <section class="sec sec--white" id="kuendigen">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">Cancel</span>
+      <h2>You can stop it in one step.</h2>
+      <ul class="days">
+        <li><b>In the chat</b>Send STOP on WhatsApp or Telegram. The messages stop.</li>
+        <li><b>By email</b>Each email has a stop link. Open it and confirm.</li>
+        <li><b>The payment</b>Cancel the subscription in Digistore24. No further charge. The morning message ends with it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec sec--paper" id="fragen">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Questions</span>
+        <h2>Questions</h2>
+      </div>
+      <div class="faq">
+        <details><summary>When am I billed?</summary><p>After the 4 free days, Digistore24 bills $19 for the month. It renews each month until you cancel.</p></details>
+        <details><summary>How do I cancel?</summary><p>Send STOP in WhatsApp or Telegram, use the link in the email, or cancel in Digistore24. The messages and the charge both stop.</p></details>
+        <details><summary>Which channels?</summary><p>WhatsApp, Telegram, or email. You pick one at signup.</p></details>
+        <details><summary>What time does it arrive?</summary><p>7:00 in your local time zone.</p></details>
+        <details><summary>Can I change the channel?</summary><p>Yes. Write to hello@shiftmyhorizon.com and say which one you want.</p></details>
+      </div>
+    </div>
+  </section>
+
   <section class="hero hero--compact" id="abschluss">
     <div class="hero__bg"><div class="scene"></div></div>
     <div class="hero__shade"></div>
-    <div class="wrap rv">
-      <h2>Try your first 4 days. We'll finish the page together.</h2>
-      <div class="btn-row"><a class="btn btn--primary" href="/quiz/bible?lang=en&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Try 4 days free</a></div>
+    <div class="wrap">
+      <h2>Start with 4 free mornings.</h2>
+      <p class="lead">Then $19 a month. Cancel anytime.</p>
+      <div class="btn-row"><a class="btn btn--primary" href="/quiz/bible?lang=en&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Start my 4 free days</a></div>
     </div>
   </section>
 </main>
@@ -226,7 +180,7 @@
         <a href="/terms">Terms</a>
       </nav>
     </div>
-    <p class="ftr__fine">This doesn't replace therapy. It's about what you do in everyday life.</p>
+    <p class="ftr__fine">A morning message. Not therapy, and not a substitute for it.</p>
   </div>
 </footer>
 <script src="/lang.js"></script>

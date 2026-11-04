@@ -4,15 +4,8 @@
 <meta charset="UTF-8">
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--
-  Influencer-Vorschauseite. Design-Vorlage: index.html (Startseite).
-  Nutzt nur tokens.css + components.css + site.js der Startseite. Kein eigener <style>-Block.
-  Programm: Christentum | Flow: bible_flow | Sprache: DE | Slug: /p/bible-de
-  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{AFFILIATE_ID}}
-  Erzeugt von scratchpad/build-pages.js am 03.11.2026. Aenderungen am Muster dort nachziehen.
--->
-<title>Morgens zuerst das Handy. Die Bibel bleibt liegen.</title>
-<meta name="description" content="Jeden Morgen um 7 Uhr deine Zeit: ein Bibelvers und ein kleiner Schritt. Per WhatsApp, Telegram oder E-Mail. 19 Dollar im Monat.">
+<title>Jeden Morgen ein Bibelvers.</title>
+<meta name="description" content="Jeden Morgen um 7:00 Uhr deine Zeit ein Bibelvers und ein kleiner Schritt. WhatsApp, Telegram oder E-Mail. 19 Dollar im Monat. Jederzeit kündbar.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -24,187 +17,155 @@
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 <header class="hdr">
   <a class="wordmark" href="#inhalt">Shift My Horizon</a>
-  <a class="btn btn--primary hdr__cta" href="/quiz/bible?lang=de">Weiter</a>
+  <a class="btn btn--primary hdr__cta" href="/quiz/bible?lang=de&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Meine 4 Tage gratis starten</a>
 </header>
 
 <main id="inhalt">
-  <!-- 1. Hero: Problem oben, Video des Influencers daneben (PLATZHALTER: {{VIDEO_EMBED}}) -->
-  <!-- Kein hero--book: diese Klasse schiebt das Video auf dem Handy unter den Button (components.css 782-787). -->
-  <section class="hero hero--lp">
+  <div class="sample-banner-wrap">
+    <div class="wrap">
+      <div class="sample-banner" role="note">
+        <p><strong>Nur für Colin. Bitte nicht teilen.</strong> Das ist eine Musterseite, so könnte sie für deine Follower aussehen. Wir passen sie an dich und dein Publikum an und setzen dein Video dazu.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero hero--lp bible-offer">
     <div class="hero__bg"><div class="scene"></div></div>
     <div class="hero__shade"></div>
     <div class="wrap">
-      <div class="hero__grid">
-        <div class="hero__text">
-          <div class="hero__top">
-            <span class="eyebrow rv-hero">Christentum · Bibel im Alltag</span>
-            <h1 class="rv-hero d1">Morgens zuerst das Handy. Die Bibel bleibt liegen.</h1>
-            <p class="lead">Sie liegt auf dem Nachttisch und bleibt zu. Du betest, wenn etwas schiefgeht, und an einem normalen Dienstag eher nicht.</p>
-            <p class="lead">Jeden Morgen um 7 Uhr deine Zeit: ein Bibelvers und ein kleiner Schritt, per WhatsApp, Telegram oder E-Mail. 19 Dollar im Monat.</p>
-          </div>
-          <div class="hero__bottom rv-hero d2">
-            <div class="hero__actions"><a class="btn btn--primary" href="/quiz/bible?lang=de">Weiter</a></div>
-            <p class="hero__note">Per WhatsApp, Telegram oder E-Mail. 19 Dollar im Monat, monatlich kündbar.</p>
-            <div class="note-box" data-partner-only><p><strong>Bitte noch nicht teilen.</strong> Das ist eine Musterseite. So könnte sie für deine Follower aussehen. Wir passen sie an dich an und setzen dein Video oben drauf.</p></div>
-          </div>
+      <div class="bible-offer__grid">
+        <div>
+          <span class="eyebrow">Christentum</span>
+          <h1>Jeden Morgen ein Bibelvers. Und ein kleiner Schritt, ihn heute zu leben.</h1>
+          <p class="lead">Es dauert eine Minute. Du kannst jederzeit kündigen.</p>
+          <div class="hero__actions"><a class="btn btn--primary" href="/quiz/bible?lang=de&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Meine 4 Tage gratis starten</a></div>
+          <p class="bible-offer__trust">Jederzeit kündbar. Zahlung über Digistore24. 7:00 Uhr deine Zeit.</p>
         </div>
-        <div class="hero__media rv-hero d3">
-          <!-- aria-label NICHT mit "Platzhalter" beginnen lassen, sonst blendet components.css den Block aus.
-               Kein data-src setzen, sonst blendet Regel .hero__media:has(> .vsl[data-src=""]) den Slot aus. -->
-          <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
-            <!-- Embed von YouTube, Instagram, TikTok oder video-Tag ersetzt den .ph-Block. -->
-            <div class="ph" aria-label="Video-Slot Influencer"><div class="ph__center">Dein Video</div><p class="ph__cap">Hochformat, 30 bis 90 Sekunden.</p></div>
-          </div>
+        <div class="phone" aria-label="Beispiel einer Morgennachricht">
+          <div class="phone__speaker"></div>
+          <p><strong>Guten Morgen.</strong></p>
+          <p>Römer 12,2<br>„Und stellet euch nicht dieser Welt gleich, sondern verändert euch durch die Erneuerung eures Sinnes.“ (Luther 1912)</p>
+          <p><strong>Schritt:</strong> Lies den Vers einmal. Dann tu eine freundliche Sache für jemanden zu Hause, bevor du andere Apps öffnest.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2. Kennst du das? -->
-  <section class="sec sec--dark" id="problem">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <h2>Kennst du das?</h2>
-      </div>
-      <div class="signs">
-        <article class="glass rv"><h3>Morgens entsperrst du das Handy, bevor du die Bibel anfasst.</h3></article>
-        <article class="glass rv"><h3>Die Bibel liegt auf dem Nachttisch und bleibt zu.</h3></article>
-        <article class="glass rv"><h3>Du betest, wenn etwas schiefgeht. An einem ruhigen Tag eher nicht.</h3></article>
-        <article class="glass rv"><h3>Sonntag war klar. Am Dienstag weißt du nicht, was du damit anfangen sollst.</h3></article>
+  <section class="sec sec--white" id="video">
+    <div class="wrap" style="max-width:720px">
+      <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
+        <div class="ph" aria-label="Video-Slot Influencer"><div class="ph__center">Colins Video</div><p class="ph__cap">Hochformat, 30 bis 90 Sekunden.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Was du konkret bekommst -->
-  <section class="sec sec--white" id="inhalt-programm">
-    <div class="wrap" style="max-width:760px">
-      <div class="rv">
-        <span class="eyebrow">Was du bekommst</span>
-        <h2>Jeden Morgen um 7 Uhr.</h2>
-        <p>Kein Kurs, den du dir für später vornimmst. Um 7 Uhr deine Zeit kommt eine Nachricht per WhatsApp, Telegram oder E-Mail: ein Bibelvers, ein kleiner Schritt und ein kurzes Gebet. 19 Dollar im Monat.</p>
-      </div>
-      <ul class="days rv">
-        <li><b>Der Vers ist schon gewählt</b>Du suchst nichts raus und planst keine Woche. Um 7 Uhr liegt ein Vers da, und ein kleiner Schritt dazu.</li>
-        <li><b>Ein kleiner Schritt</b>Etwas, das du am selben Tag tun kannst. Zum Beispiel das Handy erst nach dem Vers anfassen.</li>
-        <li><b>Aus der Bibel</b>Ein Vers, ein Schritt, ein kurzes Gebet. Mehr steht nicht in der Nachricht.</li>
-        <li><b>Keine App</b>WhatsApp, Telegram oder E-Mail. Kein Login, kein Passwort. STOP beendet es.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 5. Echte Tage (Supabase flow_content, bible_flow) -->
   <section class="sec sec--paper" id="tage">
     <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">So sehen echte Tage aus</span>
-        <h2>So sieht eine Morgennachricht aus.</h2>
-      </div>
-      <div class="stats stats--3">
-        <article class="stat rv">
-          <p class="stat__num">Tag 1</p>
-          <p class="stat__claim">Die Erneuerung des Denkens</p>
-          <p>Römer 12,2: „Und stellet euch nicht dieser Welt gleich, sondern verändert euch durch die Erneuerung eures Sinnes, auf daß ihr prüfen möget, welches da sei der gute, wohlgefällige und vollkommene Gotteswille.“ (Luther 1912) Schritt: Schreib einen Gedanken auf, der dich heute runterzieht, und einen Satz aus dem Vers dagegen.</p>
+      <span class="eyebrow">Ein echter Morgen</span>
+      <h2>So kommt die Nachricht an.</h2>
+      <div class="daycards">
+        <article class="daycard">
+          <p class="daycard__badge">Tag 1</p>
+          <h3>Denken erneuern</h3>
+          <p class="daycard__verse"><cite>Römer 12,2</cite>„Und stellet euch nicht dieser Welt gleich, sondern verändert euch durch die Erneuerung eures Sinnes.“ (Luther 1912)</p>
+          <p class="bubble"><b>Dein Schritt heute</b>Lies den Vers einmal. Dann tu eine freundliche Sache zu Hause, bevor du andere Apps öffnest.</p>
         </article>
-        <article class="stat rv">
-          <p class="stat__num">Tag 4</p>
-          <p class="stat__claim">Das Prinzip der Ruhe</p>
-          <p>1. Mose 2,2-3: „Und also vollendete Gott am siebenten Tage seine Werke, die er machte, und ruhte am siebenten Tage von allen seinen Werken, die er machte. Und Gott segnete den siebenten Tag und heiligte ihn, darum daß er an demselben geruht hatte von allen seinen Werken, die Gott schuf und machte.“ (Luther 1912) Schritt: Leg das Handy für eine Stunde weg und arbeite in der Zeit nichts ab.</p>
+        <article class="daycard">
+          <p class="daycard__badge">Tag 4</p>
+          <h3>Ruhe</h3>
+          <p class="daycard__verse"><cite>1. Mose 2,2</cite>„Und also vollendete Gott am siebenten Tage seine Werke, die er machte, und ruhte am siebenten Tage.“ (Luther 1912)</p>
+          <p class="bubble"><b>Dein Schritt heute</b>Leg das Handy eine Stunde weg. Arbeite in der Zeit nichts ab.</p>
         </article>
-        <article class="stat rv">
-          <p class="stat__num">Tag 30</p>
-          <p class="stat__claim">Liebe als Fundament</p>
-          <p>1. Korinther 13,4-5: „Die Liebe ist langmütig und freundlich, die Liebe eifert nicht, die Liebe treibt nicht Mutwillen, sie blähet sich nicht, sie stellet sich nicht ungebärdig, sie suchet nicht das Ihre, sie läßt sich nicht erbittern, sie rechnet das Böse nicht zu,“ (Luther 1912) Schritt: Wenn es heute hakt, tu das, was dem anderen guttut, nicht das, womit du recht behältst.</p>
+        <article class="daycard">
+          <p class="daycard__badge">Tag 30</p>
+          <h3>Liebe tun</h3>
+          <p class="daycard__verse"><cite>1. Korinther 13,4</cite>„Die Liebe ist langmütig und freundlich, die Liebe eifert nicht.“ (Luther 1912)</p>
+          <p class="bubble"><b>Dein Schritt heute</b>Wenn es hakt, hilf dem anderen, statt den Punkt zu gewinnen.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- 6. 4 Tage gratis -->
-  <section class="booking" id="gratis">
-    <div class="booking__bg"><div class="scene"></div></div>
-    <div class="booking__shade"></div>
-    <div class="wrap booking__grid">
-      <div class="booking__intro rv">
-        <span class="eyebrow">Das Abo</span>
-        <h2>19 Dollar im Monat.</h2>
-        <p class="lead">Die Nachricht kommt jeden Morgen um 7 Uhr deine Zeit. Vier freie Tage gibt es nur mit einer persönlichen Einladung, nicht über diese Seite.</p>
-        <ul class="facts">
-          <li><b>Was ankommt</b>Ein Bibelvers und ein kleiner Schritt.</li>
-          <li><b>Wohin</b>WhatsApp, Telegram oder E-Mail.</li>
-          <li><b>Kündigen</b>Monatlich. Die Nachricht hört mit dem Abo auf.</li>
-        </ul>
-      </div>
-      <div class="booking__card rv">
-        <div class="card-light">
-          <h3>So läuft es</h3>
-          <ol class="steps on-light">
-            <li><div><h3>Drei kurze Fragen</h3><p>Was dich herführt, wie oft du die Bibel aufschlägst, was du dir wünschst.</p></div></li>
-            <li><div><h3>Kanal wählen</h3><p>WhatsApp, Telegram oder E-Mail.</p></div></li>
-            <li><div><h3>Abo</h3><p>19 Dollar im Monat. Die Nachricht kommt um 7 Uhr deine Zeit.</p></div></li>
-            <li><div><h3>Aufhören</h3><p>Monatlich kündbar. Im Chat STOP, in der E-Mail der Link.</p></div></li>
-          </ol>
-          <div class="btn-row"><a class="btn btn--primary btn--block" href="/quiz/bible?lang=de">Weiter</a></div>
-        </div>
-      </div>
+  <section class="sec sec--dark" id="ablauf">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">So läuft es</span>
+      <h2>Drei Schritte. Danach kommt es jeden Morgen.</h2>
+      <ol class="steps">
+        <li><div><h3>Kurzes Quiz</h3><p>Drei Fragen. Etwa eine Minute.</p></div></li>
+        <li><div><h3>Kanal wählen</h3><p>WhatsApp, Telegram oder E-Mail.</p></div></li>
+        <li><div><h3>Erste Nachricht um 7:00</h3><p>7:00 Uhr deine Zeit. Ein Vers und ein Schritt.</p></div></li>
+      </ol>
     </div>
   </section>
 
-  <!-- 7. Preise (Digistore24: PLATZHALTER) -->
-  <section class="sec sec--white" id="preise">
+  <section class="sec sec--white" id="inhalt-programm">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">Was du bekommst</span>
+      <h2>Jeden Morgen ein Vers. Einen Monat lang.</h2>
+      <ul class="days">
+        <li><b>Jeden Morgen</b>Ein Bibelvers und ein kleiner Schritt für den Tag. Per WhatsApp, Telegram oder E-Mail.</li>
+        <li><b>Jeden Monat</b>Jeden Tag eine neue Nachricht, solange du dabei bist. 19 Dollar. Es hört auf, wenn du kündigst.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec sec--paper" id="preise">
     <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">Preise</span>
-        <h2>Wenn du weitermachen willst.</h2>
+      <div class="sec-head">
+        <span class="eyebrow">Preis</span>
+        <h2>19 Dollar im Monat.</h2>
       </div>
       <div class="ways">
-        <article class="way rv">
+        <article class="way">
           <p class="way__num">19 $</p>
-          <h3>Monatlich</h3>
-          <p>19 Dollar im Monat, monatlich kündbar. Abgerechnet über Digistore24.</p>
+          <h3>Jeden Monat</h3>
+          <p>Weniger als ein Kaffee die Woche. Monatlich über Digistore24. Verlängert sich, bis du kündigst. Keine Bindung über 90 Tage.</p>
+        </article>
+        <article class="way">
+          <p class="way__num">4</p>
+          <h3>Zuerst gratis</h3>
+          <p>Der Button startet 4 Morgen gratis. Danach 19 Dollar im Monat, wenn du bleibst. Kündigst du vorher, zahlst du nichts.</p>
+          <a class="btn btn--primary" href="/quiz/bible?lang=de&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Meine 4 Tage gratis starten</a>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- 8. Partner-Abschnitt (nur Vorschau fuer Influencer; auf Kundenversion entfernen) -->
-  <section class="statement-band" id="partner" data-partner-only>
-    <div class="wrap">
-      <span class="eyebrow">Nur für dich als Partner sichtbar</span>
-      <p class="statement rv">Digistore24 zahlt dir <em>50 %</em>.</p>
-      <p class="sub rv">Von 19 € gehen 3,03 € Umsatzsteuer und 2,50 € Digistore-Marge ab (7,9 % plus 1 €), es bleiben 13,47 €. Deine Hälfte davon sind 6,73 € im Monat, solange die Person dabei bleibt. 6,06 € kommen nach etwa zwei Wochen, die restlichen 0,67 € nach 60 Tagen. Gerechnet für einen Käufer in Deutschland, bei anderen Steuersätzen in der EU verschiebt es sich leicht.</p>
-      <ul class="points rv">
-        <li><b>1. Digistore24 Konto anlegen</b>Kostenlos, dauert ein paar Minuten. Schick mir deine Digistore24 ID.</li>
-        <li><b>2. Video schicken</b>Ich baue es oben ein und schicke dir deinen Link.</li>
-        <li><b>3. Link teilen</b>In Bio, Story, Video oder Newsletter. Mehr musst du nicht machen.</li>
+  <section class="sec sec--white" id="kuendigen">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">Kündigen</span>
+      <h2>Du kannst in einem Schritt aufhören.</h2>
+      <ul class="days">
+        <li><b>Im Chat</b>Schreib STOP bei WhatsApp oder Telegram. Die Nachrichten hören auf.</li>
+        <li><b>Per E-Mail</b>In jeder E-Mail steht ein Stopp-Link. Öffnen und bestätigen.</li>
+        <li><b>Die Zahlung</b>Kündige das Abo bei Digistore24. Keine weitere Abbuchung. Die Morgennachricht endet damit.</li>
       </ul>
-      <div class="note-box rv"><p><strong>Programm:</strong> Christentum. Thema: Bibel im Alltag. Flow: bible_flow. Sprache: Deutsch.<br><strong>Dein Link:</strong> https://www.shiftmyhorizon.com/p/bible-de?aff={{AFFILIATE_ID}}<br><a class="textlink" href="/quiz/bible?lang=de">Das Quiz für dieses Programm: /quiz/bible</a></p></div>
-      <p class="sub rv">Diese Vorschauseite ist nicht öffentlich und steht in keiner Suchmaschine. Sobald dein Video oben drin ist, wird genau diese Seite deine Verkaufsseite, ohne die Kästen, die nur du siehst.</p>
     </div>
   </section>
 
-  <!-- 9. FAQ -->
-  <section class="sec sec--white" id="fragen">
+  <section class="sec sec--paper" id="fragen">
     <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">Häufige Fragen</span>
-        <h2>Häufige Fragen</h2>
+      <div class="sec-head">
+        <span class="eyebrow">Fragen</span>
+        <h2>Fragen</h2>
       </div>
-      <div class="faq rv">
-        <details><summary>Gibt es hier 4 Tage gratis?</summary><p>Nein. Diese Seite startet das Abo, 19 Dollar im Monat. Vier freie Tage gibt es nur mit einer persönlichen Einladung.</p></details>
-        <details><summary>Wie viel Zeit brauche ich am Tag?</summary><p>Den Vers lesen und einen kleinen Schritt tun.</p></details>
-        <details><summary>Wie höre ich auf?</summary><p>Im Chat STOP, in der E-Mail der Link, oder das Abo kündigen.</p></details>
-        <details><summary>Ist das eine Therapie?</summary><p>Nein. Es ist eine Morgennachricht. Sie ersetzt keine Therapie.</p></details>
+      <div class="faq">
+        <details><summary>Wann wird abgebucht?</summary><p>Nach den 4 freien Tagen bucht Digistore24 19 Dollar für den Monat ab. Das wiederholt sich jeden Monat, bis du kündigst.</p></details>
+        <details><summary>Wie kündige ich?</summary><p>STOP bei WhatsApp oder Telegram, der Link in der E-Mail, oder kündigen bei Digistore24. Nachricht und Abbuchung hören auf.</p></details>
+        <details><summary>Welche Kanäle?</summary><p>WhatsApp, Telegram oder E-Mail. Du wählst einen bei der Anmeldung.</p></details>
+        <details><summary>Um wie viel Uhr kommt sie?</summary><p>Um 7:00 Uhr in deiner Zeitzone.</p></details>
+        <details><summary>Kann ich den Kanal wechseln?</summary><p>Ja. Schreib an hello@shiftmyhorizon.com, welchen du willst.</p></details>
       </div>
     </div>
   </section>
 
-  <!-- 10. Abschluss -->
   <section class="hero hero--compact" id="abschluss">
     <div class="hero__bg"><div class="scene"></div></div>
     <div class="hero__shade"></div>
-    <div class="wrap rv">
-      <h2>Morgen um 7 Uhr kann die erste Nachricht da sein.</h2>
-      <div class="btn-row"><a class="btn btn--primary" href="/quiz/bible?lang=de">Weiter</a></div>
+    <div class="wrap">
+      <h2>Starte mit 4 freien Morgen.</h2>
+      <p class="lead">Danach 19 Dollar im Monat. Jederzeit kündbar.</p>
+      <div class="btn-row"><a class="btn btn--primary" href="/quiz/bible?lang=de&aff=colin&invite=7a3308bb1f71f6305b0c8b77c2650aa1cc142605ba6dbdab">Meine 4 Tage gratis starten</a></div>
     </div>
   </section>
 </main>
@@ -219,7 +180,7 @@
         <a href="/agb">AGB</a>
       </nav>
     </div>
-    <p class="ftr__fine">Das hier ersetzt keine Therapie. Es ist eine Morgennachricht mit einem Vers und einem Schritt.</p>
+    <p class="ftr__fine">Eine Morgennachricht. Keine Therapie und kein Ersatz dafür.</p>
   </div>
 </footer>
 <script src="/lang.js"></script>
