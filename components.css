@@ -538,7 +538,21 @@ span.todo { display: inline; padding: 1px 6px; margin: 0; }
 .sec--paper .todo, .sec--white .todo, .card-light .todo { color: var(--brass-ink) !important; border-color: rgba(126,106,66,.5); }
 
 /* Hinweis-Kasten (Was nicht passiert) */
+.sample-banner { margin: 0 0 22px; padding: 16px 18px; border: 3px solid #d92c2c; border-radius: 12px; background: #fff; }
+.sample-banner p { margin: 0; color: #3b1212 !important; font-size: 1.0625rem; line-height: 1.45; }
+.sample-banner strong { color: #d92c2c; }
 .note-box { margin-top: 28px; padding: 22px 24px; border-radius: 14px; background: rgba(92,194,172,.08); border: 1px solid rgba(92,194,172,.25); }
+body[data-page="quiz"][data-program="bible"] .quiz-top { background: var(--deep-950); padding: 88px 0 28px; }
+body[data-page="quiz"][data-program="bible"] .quiz-top__inner { max-width: 560px; }
+body[data-page="quiz"][data-program="bible"] .quiz-top .eyebrow,
+body[data-page="quiz"][data-program="bible"] .quiz-top h1,
+body[data-page="quiz"][data-program="bible"] .quiz-top > .wrap > .lead { text-align: center; }
+body[data-page="quiz"][data-program="bible"] .quiz-top h1 { max-width: none; font-size: clamp(1.85rem, 1.15rem + 1.8vw, 2.5rem); line-height: 1.12; margin: 8px 0 10px; }
+body[data-page="quiz"][data-program="bible"] .quiz-top > .wrap > .lead { max-width: 34rem; margin: 0 auto 12px; color: rgba(244,243,239,.82); }
+body[data-page="quiz"][data-program="bible"] .quiz-top .card-light { text-align: left; padding: 20px 20px 16px; }
+@media (max-width: 959px) {
+  body[data-page="quiz"][data-program="bible"] .quiz-top { padding: 92px 0 32px; }
+}
 .note-box p { margin: 0; color: rgba(244,243,239,.86) !important; }
 .note-box strong { color: var(--accent-light); }
 

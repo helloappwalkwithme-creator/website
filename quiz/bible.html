@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vier Tage mit der Bibel</title>
-<meta name="description" content="Vier Tage, eine kurze Nachricht am Morgen. Per WhatsApp, Telegram oder E-Mail. Zuerst drei kurze Fragen.">
+<title>Ein Vers, jeden Morgen</title>
+<meta name="description" content="Jeden Morgen um 7 Uhr deine Zeit: ein Bibelvers und ein kleiner Schritt. Per WhatsApp, Telegram oder E-Mail.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -23,27 +23,12 @@
 </header>
 
 <main id="inhalt">
-  <section class="hero hero--compact">
-    <div class="hero__bg"><div class="scene"></div></div>
-    <div class="hero__shade"></div>
-    <div class="wrap">
+  <section class="quiz-top" id="anmeldung">
+    <div class="wrap quiz-top__inner">
       <span class="eyebrow" id="hero-eyebrow"></span>
       <h1 id="hero-title"></h1>
       <p class="lead" id="hero-lead"></p>
-    </div>
-  </section>
-
-  <section class="booking" id="anmeldung">
-    <div class="booking__bg"><div class="scene"></div></div>
-    <div class="booking__shade"></div>
-    <div class="wrap booking__grid">
-      <div class="booking__intro">
-        <span class="eyebrow" id="side-eyebrow"></span>
-        <h2 id="side-title"></h2>
-        <p class="lead" id="side-lead"></p>
-      </div>
-      <div class="booking__card" data-hide-sticky>
-        <div class="card-light">
+      <div class="card-light">
           <div class="lang-switch" id="lang-switch" role="group"></div>
           <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
           <p class="progress__label" id="step-label"></p>
@@ -98,16 +83,33 @@
           <div class="formstep" id="step-pay">
             <h3 id="pay-title"></h3>
             <p id="pay-sub"></p>
-            <p class="hint" id="pay-soon"></p>
-            <div class="form-nav">
-              <button type="button" class="btn btn--ghost" id="pay-back"></button>
-              <a class="btn btn--primary" id="pay-checkout" href="" hidden></a>
+            <div id="pay-waitlist">
+              <div class="field">
+                <label for="wait-fname" id="wait-fname-lbl"></label>
+                <input class="input" type="text" id="wait-fname" autocomplete="given-name">
+              </div>
+              <div class="field">
+                <label for="wait-email" id="wait-email-lbl"></label>
+                <input class="input" type="email" id="wait-email" autocomplete="email" inputmode="email">
+              </div>
+              <div class="consent">
+                <input type="checkbox" id="wait-consent">
+                <label for="wait-consent" id="wait-consent-lbl"></label>
+              </div>
+              <div class="form-nav">
+                <button type="button" class="btn btn--ghost" id="pay-back"></button>
+                <button type="button" class="btn btn--primary" id="wait-submit"></button>
+              </div>
+            </div>
+            <p id="pay-done" hidden></p>
+            <div class="form-nav" id="pay-checkout-row" hidden>
+              <button type="button" class="btn btn--ghost" id="pay-back-checkout"></button>
+              <a class="btn btn--primary" id="pay-checkout" href=""></a>
             </div>
           </div>
 
           <p class="err" id="reg-error" role="alert"></p>
         </div>
-      </div>
     </div>
   </section>
 </main>
@@ -151,10 +153,10 @@
 
   const t = {
     de: {
-      pageTitle: "Vier Tage mit der Bibel",
+      pageTitle: "Ein Vers, jeden Morgen",
       heroEyebrowBible: "Christentum",
-      heroTitleBible: "Vier Morgen mit der Bibel.",
-      heroLeadBible: "Eine kurze Nachricht am Tag, per WhatsApp, Telegram oder E-Mail. Zuerst drei kurze Fragen, dann deine Anmeldung.",
+      heroTitleBible: "Ein Vers, jeden Morgen.",
+      heroLeadBible: "Um 7 Uhr deine Zeit. Ein Bibelvers und ein kleiner Schritt, per WhatsApp, Telegram oder E-Mail.",
       heroEyebrowOpen: "Vier Tage gratis",
       heroTitleOpen: "Welchen Weg willst du gehen?",
       heroLeadOpen: "Du wählst die Richtung. Danach drei kurze Fragen, dann die Anmeldung.",
@@ -226,19 +228,27 @@
       },
       pay: {
         title: "19 Dollar im Monat",
-        sub: "Die ersten 4 Tage gratis gibt es nur mit einer persönlichen Einladung. Alle anderen starten direkt mit dem Abo.",
-        soon: "Der Checkout kommt noch. Das Abo ist noch nicht freigeschaltet, und ohne Einladung startet hier kein Gratis-Flow.",
-        button: "Weiter zum Checkout"
+        subWait: "Die Zahlung ist noch nicht offen. Trag Vorname und E-Mail ein. Wir schreiben dir, wenn du starten kannst. Bis dahin kommt keine Morgennachricht.",
+        subCheckout: "19 Dollar im Monat. Die Zahlung läuft über Digistore24.",
+        fname: "Vorname",
+        email: "E-Mail",
+        consent: "Ich möchte eine E-Mail, wenn ich starten kann.",
+        listBtn: "Auf die Liste",
+        listDone: "Du stehst auf der Liste. Es kommt noch keine Morgennachricht. Wir schreiben an diese E-Mail, wenn du starten kannst.",
+        errFill: "Bitte Vorname und E-Mail eintragen.",
+        errConsent: "Bitte setz den Haken.",
+        errServer: "Das hat nicht geklappt. Bitte noch einmal.",
+        button: "Weiter zur Zahlung"
       },
       botMsg: "Hallo, ich möchte meinen kostenlosen 4-Tage-Flow «{name}» starten. Bitte aktiviere meinen Zugang.",
       legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" },
       paused: "Derzeit nicht verfügbar."
     },
     en: {
-      pageTitle: "Four mornings with the Bible",
+      pageTitle: "One verse, every morning",
       heroEyebrowBible: "Christianity",
-      heroTitleBible: "Four mornings with the Bible.",
-      heroLeadBible: "One short message a day, on WhatsApp, Telegram, or email. Three quick questions, then your signup.",
+      heroTitleBible: "One verse, every morning.",
+      heroLeadBible: "At 7:00 your time. A Bible verse and one small step, on WhatsApp, Telegram, or email.",
       heroEyebrowOpen: "4 days free",
       heroTitleOpen: "Which path do you want?",
       heroLeadOpen: "You pick the teaching. Then three quick questions, then signup.",
@@ -310,19 +320,27 @@
       },
       pay: {
         title: "$19 per month",
-        sub: "The free 4 days are only with a personal invite. Everyone else goes straight to the subscription.",
-        soon: "Checkout is coming soon. The subscription isn't open yet, and without an invite this page does not start a free trial.",
-        button: "Continue to checkout"
+        subWait: "Payment isn't open yet. Leave your first name and email. We'll write when you can start. No morning message until then.",
+        subCheckout: "$19 per month. You pay on Digistore24.",
+        fname: "First name",
+        email: "Email",
+        consent: "Email me when I can start.",
+        listBtn: "Join the list",
+        listDone: "You're on the list. No morning message yet. We'll email this address when you can start.",
+        errFill: "Please enter your first name and email.",
+        errConsent: "Please tick the box.",
+        errServer: "That didn't work. Please try again.",
+        button: "Continue to payment"
       },
       botMsg: "Hello, I would like to start my free 4-day «{name}» flow. Please activate my access.",
       legal: { imp: "Imprint", dat: "Privacy", agb: "Terms", cook: "Cookie policy" },
       paused: "Currently not available."
     },
     es: {
-      pageTitle: "Cuatro mañanas con la Biblia",
+      pageTitle: "Un versículo, cada mañana",
       heroEyebrowBible: "Cristianismo",
-      heroTitleBible: "Cuatro mañanas con la Biblia.",
-      heroLeadBible: "Un mensaje corto al día, por WhatsApp, Telegram o correo. Tres preguntas breves y luego tu registro.",
+      heroTitleBible: "Un versículo, cada mañana.",
+      heroLeadBible: "A las 7:00 de tu hora. Un versículo y un paso pequeño, por WhatsApp, Telegram o correo.",
       heroEyebrowOpen: "4 días gratis",
       heroTitleOpen: "¿Qué camino quieres?",
       heroLeadOpen: "Eliges la enseñanza. Después, tres preguntas breves y el registro.",
@@ -394,8 +412,16 @@
       },
       pay: {
         title: "19 dólares al mes",
-        sub: "Los 4 días gratis son solo con una invitación personal. Los demás van directo a la suscripción.",
-        soon: "El pago llega pronto. La suscripción aún no está abierta y, sin invitación, esta página no empieza una prueba gratis.",
+        subWait: "El pago aún no está abierto. Deja tu nombre y tu correo. Te escribimos cuando puedas empezar. Hasta entonces no llega ningún mensaje de la mañana.",
+        subCheckout: "19 dólares al mes. El pago es en Digistore24.",
+        fname: "Nombre",
+        email: "Correo",
+        consent: "Quiero un correo cuando pueda empezar.",
+        listBtn: "Apuntarme",
+        listDone: "Estás en la lista. Todavía no llega ningún mensaje de la mañana. Te escribimos a este correo cuando puedas empezar.",
+        errFill: "Escribe tu nombre y tu correo.",
+        errConsent: "Marca la casilla.",
+        errServer: "No ha funcionado. Inténtalo otra vez.",
         button: "Seguir al pago"
       },
       botMsg: "Hola, me gustaría iniciar mi flujo gratuito de 4 días «{name}». Por favor, activa mi acceso.",
@@ -416,6 +442,7 @@
   const quiz = { q1: null, q2: null, q3: null };
   const inviteToken = params.get("invite") || "";
   let trialOk = false;
+  let waitDone = false;
   let chosen = { key: preset.key, flow: preset.flow };
   let lang = window.smhResolveLang(params.get("lang"));
   let stepName = "q1";
@@ -467,9 +494,6 @@
     document.getElementById("hero-eyebrow").textContent = bible ? l.heroEyebrowBible : l.rel[preset.key].name;
     document.getElementById("hero-title").textContent = bible ? l.heroTitleBible : l.sideTitle;
     document.getElementById("hero-lead").textContent = bible ? l.heroLeadBible : l.sideLead;
-    document.getElementById("side-eyebrow").textContent = l.sideEyebrow;
-    document.getElementById("side-title").textContent = l.sideTitle;
-    document.getElementById("side-lead").textContent = l.sideLead;
 
     const langs = document.getElementById("lang-switch");
     langs.innerHTML = "";
@@ -530,20 +554,38 @@
     document.getElementById("btn-back").textContent = l.back;
     document.getElementById("btn-back").hidden = index === 0;
     document.getElementById("pay-title").textContent = l.pay.title;
-    document.getElementById("pay-sub").textContent = l.pay.sub;
-    document.getElementById("pay-soon").textContent = l.pay.soon;
+    document.getElementById("wait-fname-lbl").textContent = l.pay.fname;
+    document.getElementById("wait-email-lbl").textContent = l.pay.email;
+    document.getElementById("wait-fname").placeholder = l.s2.fnamePh;
+    document.getElementById("wait-email").placeholder = l.s2.emailPh;
+    document.getElementById("wait-consent-lbl").textContent = l.pay.consent;
+    document.getElementById("wait-submit").textContent = l.pay.listBtn;
+    document.getElementById("pay-done").textContent = l.pay.listDone;
     document.getElementById("pay-back").textContent = l.back;
     document.getElementById("pay-back").hidden = index === 0;
+    document.getElementById("pay-back-checkout").textContent = l.back;
+    document.getElementById("pay-back-checkout").hidden = index === 0;
     const checkout = document.getElementById("pay-checkout");
     const checkoutHref = publicCheckoutUrl();
+    const waitBox = document.getElementById("pay-waitlist");
+    const payDone = document.getElementById("pay-done");
     checkout.textContent = l.pay.button;
     if (checkoutHref) {
+      document.getElementById("pay-sub").textContent = l.pay.subCheckout;
       checkout.href = checkoutHref;
-      checkout.hidden = false;
-      document.getElementById("pay-soon").hidden = true;
+      document.getElementById("pay-checkout-row").hidden = false;
+      waitBox.hidden = true;
+      payDone.hidden = true;
+    } else if (waitDone) {
+      document.getElementById("pay-sub").textContent = "";
+      document.getElementById("pay-checkout-row").hidden = true;
+      waitBox.hidden = true;
+      payDone.hidden = false;
     } else {
-      checkout.hidden = true;
-      document.getElementById("pay-soon").hidden = false;
+      document.getElementById("pay-sub").textContent = l.pay.subWait;
+      document.getElementById("pay-checkout-row").hidden = true;
+      waitBox.hidden = false;
+      payDone.hidden = true;
     }
     const submit = document.getElementById("btn-register");
     submit.textContent = l.next;
@@ -566,6 +608,63 @@
     const order = sequence();
     const i = order.indexOf("pay");
     if (i > 0) { stepName = order[i - 1]; showError(""); render(); }
+  });
+  document.getElementById("pay-back-checkout").addEventListener("click", function () {
+    const order = sequence();
+    const i = order.indexOf("pay");
+    if (i > 0) { stepName = order[i - 1]; showError(""); render(); }
+  });
+  document.getElementById("wait-submit").addEventListener("click", async function () {
+    const l = L();
+    const btn = document.getElementById("wait-submit");
+    const fname = document.getElementById("wait-fname").value.trim();
+    const email = document.getElementById("wait-email").value.trim();
+    const consent = document.getElementById("wait-consent").checked;
+    if (!fname || !email || email.indexOf("@") < 1) { showError(l.pay.errFill); return; }
+    if (!consent) { showError(l.pay.errConsent); return; }
+    if (!window.supabase || !window.supabase.createClient) { showError(l.s2.errLib); return; }
+    showError("");
+    btn.disabled = true;
+    const sets = [l.q1, l.q2, l.q3];
+    const aim = sets[0].opts.find(function (o) { return o.key === quiz.q1; });
+    const slip = sets[1].opts.find(function (o) { return o.key === quiz.q2; });
+    const shape = sets[2].opts.find(function (o) { return o.key === quiz.q3; });
+    let timezone = "Europe/Berlin";
+    try {
+      const detected = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (detected) timezone = detected;
+    } catch (err) { /* keep Berlin */ }
+    const onboarding = {
+      source: "bible_waitlist",
+      chosen_religion: "bible",
+      waitlist_consent: "true",
+      waitlist_consent_text: l.pay.consent,
+      quiz_brings: quiz.q1,
+      quiz_brings_text: aim ? aim.text : "",
+      quiz_often: quiz.q2,
+      quiz_often_text: slip ? slip.text : "",
+      quiz_hope: quiz.q3,
+      quiz_hope_text: shape ? shape.text : "",
+      quiz_result_text: shape && shape.result ? shape.result : "",
+      timezone: timezone
+    };
+    try {
+      if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      const { error: rpcError } = await supabaseClient.rpc("register_bible_waitlist", {
+        p_email: email,
+        p_first_name: fname,
+        p_language: lang,
+        p_onboarding_data: onboarding
+      });
+      if (rpcError) throw rpcError;
+      waitDone = true;
+      render();
+    } catch (e) {
+      console.error(e);
+      const detail = e && (e.message || e.details) ? " " + (e.message || e.details) : "";
+      showError(l.pay.errServer + detail);
+      btn.disabled = false;
+    }
   });
 
   function publicCheckoutUrl() {
