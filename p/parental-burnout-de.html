@@ -5,14 +5,13 @@
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--
-  Influencer-Vorschauseite. Design-Vorlage: index.html (Startseite).
-  Nutzt nur tokens.css + components.css + site.js der Startseite. Kein eigener <style>-Block.
-  Programm: Parent in Peace | Flow: parental_burnout_flow | Sprache: DE | Slug: /p/parental-burnout-de
-  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{AFFILIATE_ID}}
-  Erzeugt von scratchpad/build-pages.js am 03.11.2026. Aenderungen am Muster dort nachziehen.
+  Themenseite, erzeugt von scratchpad/build2.js. Muster: /p/bible-en (live).
+  Allgemein: kein Creator-Name, kein fester Invite-Token. aff und invite kommen
+  aus der URL und werden von site.js an die Quiz-Links gehaengt.
+  Thema: parental-burnout | Flow: parental_burnout_flow | Sprache: DE
 -->
-<title>Du funktionierst. Aber du bist nicht mehr da.</title>
-<meta name="description" content="Tägliche Begleitung per WhatsApp oder Telegram. Jeden Morgen eine kurze Nachricht mit einer Aufgabe für den Tag. Die ersten 4 Tage sind gratis.">
+<title>Jeden Morgen ein Satz. Und ein Schritt, der dir heute etwas zurückgibt.</title>
+<meta name="description" content="Jeden Morgen um 7 Uhr eine Nachricht per WhatsApp, Telegram oder E-Mail. Erschöpfung im Familienalltag. 19 € im Monat, jederzeit kündbar.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -24,188 +23,167 @@
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 <header class="hdr">
   <a class="wordmark" href="#inhalt">Shift My Horizon</a>
-  <a class="btn btn--primary hdr__cta" href="https://www.shiftmyhorizon.com/Parentinpeace.html?p=overwhelm">4 Tage gratis starten</a>
+  <a class="btn btn--primary hdr__cta" href="/quiz/parental-burnout?lang=de">Meine 4 Tage gratis starten</a>
 </header>
 
 <main id="inhalt">
-  <!-- 1. Hero: Problem oben, Video des Influencers daneben (PLATZHALTER: {{VIDEO_EMBED}}) -->
-  <!-- Kein hero--book: diese Klasse schiebt das Video auf dem Handy unter den Button (components.css 782-787). -->
-  <section class="hero hero--lp">
+  <div class="sample-banner-wrap" data-partner-only>
+    <div class="wrap">
+      <div class="sample-banner" role="note">
+        <p><strong>Nur für dich. Bitte nicht teilen.</strong> Das ist eine Musterseite, so könnte sie für deine Follower aussehen. Wir passen sie an dich und dein Publikum an und setzen dein Video dazu.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero hero--lp bible-offer">
     <div class="hero__bg"><div class="scene"></div></div>
     <div class="hero__shade"></div>
     <div class="wrap">
-      <div class="hero__grid">
-        <div class="hero__text">
-          <div class="hero__top">
-            <span class="eyebrow rv-hero">Parent in Peace · Erschöpfung im Familienalltag</span>
-            <h1 class="rv-hero d1">Du funktionierst. Aber du bist nicht mehr da.</h1>
-            <p class="lead">Lärm, Fragen, Termine, und nie eine Pause. Du machst alles richtig und spürst nichts mehr davon.</p>
-            <p class="lead">Tägliche Begleitung per WhatsApp oder Telegram. Jeden Morgen eine kurze Nachricht mit einer Aufgabe für den Tag, unter 5 Minuten. Die ersten 4 Tage sind gratis.</p>
-          </div>
-          <div class="hero__bottom rv-hero d2">
-            <div class="hero__actions"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/Parentinpeace.html?p=overwhelm">4 Tage gratis starten</a></div>
-            <p class="hero__note">Empfohlen von {{INFLUENCER_NAME}}. Per WhatsApp oder Telegram, keine Zahlungsdaten.</p>
-            <!-- Nur in der Influencer-Fassung. Fuer die Follower-Fassung diesen Block loeschen. -->
-            <div class="note-box" data-partner-only><p><strong>Nur für dich, bitte noch nicht teilen.</strong> Das hier ist ein Muster für dich. Genau so würde die Seite für deine Follower aussehen, dann mit deinem Video oben und ohne diesen Kasten.</p></div>
-          </div>
+      <div class="bible-offer__grid">
+        <div>
+          <span class="eyebrow">Erschöpfung im Familienalltag</span>
+          <h1>Jeden Morgen ein Satz. Und ein Schritt, der dir heute etwas zurückgibt.</h1>
+          <p class="lead">Es dauert eine Minute. Du kannst jederzeit kündigen.</p>
+          <div class="hero__actions"><a class="btn btn--primary" href="/quiz/parental-burnout?lang=de">Meine 4 Tage gratis starten</a></div>
+          <p class="bible-offer__trust">Jederzeit kündbar. Zahlung über Digistore24. Jeden Morgen um 7 Uhr (bei dir vor Ort) bekommst du eine Nachricht per WhatsApp, Telegram oder E-Mail.</p>
         </div>
-        <div class="hero__media rv-hero d3">
-          <!-- aria-label NICHT mit "Platzhalter" beginnen lassen, sonst blendet components.css den Block aus.
-               Kein data-src setzen, sonst blendet Regel .hero__media:has(> .vsl[data-src=""]) den Slot aus. -->
-          <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
-            <!-- Embed von YouTube, Instagram, TikTok oder video-Tag ersetzt den .ph-Block. -->
-            <div class="ph" aria-label="Video-Slot Influencer"><div class="ph__center">Dein Video</div><p class="ph__cap">Hochformat, 30 bis 90 Sekunden.</p></div>
-          </div>
+        <div class="phone" aria-label="Beispiel einer Morgennachricht">
+          <div class="phone__speaker"></div>
+          <p><strong>Guten Morgen.</strong></p>
+          <p>Elterliche Erschöpfung beginnt oft im Autopiloten. Bevor wir das Verhalten unseres Kindes regulieren können, müssen wir unsere eigene Stressreaktion kurz unterbrechen.</p>
+          <p><strong>Schritt:</strong> Wenn heute ein Moment der Überforderung auftritt, pausiere für 3 Sekunden, bevor du reagierst. Atme einmal tief ein und aus. Sage dir: "Ich bin sicher."</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2. Kennst du das? -->
-  <section class="sec sec--dark" id="problem">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <h2>Kennst du das?</h2>
-      </div>
-      <div class="signs">
-        <article class="glass rv"><h3>Du bist schon morgens müde, bevor irgendetwas passiert ist.</h3></article>
-        <article class="glass rv"><h3>Du reagierst nur noch, statt zu entscheiden.</h3></article>
-        <article class="glass rv"><h3>Du hast das Gefühl, die Kindheit deiner Kinder zu verpassen.</h3></article>
-        <article class="glass rv"><h3>Zeit für dich fühlt sich an wie Diebstahl.</h3></article>
+  <section class="sec sec--white" id="video" data-partner-only>
+    <div class="wrap" style="max-width:720px">
+      <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
+        <div class="ph ph--note" aria-label="Platz für dein Video">
+          <div class="ph__center">
+            <p><strong>Optional:</strong> Du kannst hier ein kurzes Video einbauen.</p>
+            <p><strong>Warum es hilft:</strong> Deine Zuschauer kennen dich. Wenn du es selbst erklärst, probieren es mehr aus.</p>
+            <p><strong>Ideen, was du sagen kannst:</strong></p>
+            <ul>
+              <li>Warum dich erschöpfung im familienalltag beschäftigt und was eine Nachricht am Morgen daran ändert</li>
+              <li>Was sie bekommen: jeden Morgen um 7 einen Gedanken und einen kleinen Schritt, per WhatsApp, Telegram oder E-Mail</li>
+              <li>Dass es 19 € im Monat kostet, sie direkt nach dem Quiz zahlen und jederzeit kündigen können</li>
+            </ul>
+            <p>30 bis 60 Sekunden reichen. Schick es uns, wir setzen es ein. Ohne Video funktioniert die Seite genauso.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Was du konkret bekommst -->
-  <section class="sec sec--white" id="inhalt-programm">
-    <div class="wrap" style="max-width:760px">
-      <div class="rv">
-        <span class="eyebrow">Was du bekommst</span>
-        <h2>Tägliche Begleitung. Jeden Morgen eine Nachricht.</h2>
-        <p>Kein Kurs, den du nie anschaust. Jeden Morgen um 7 Uhr kommt eine kurze Nachricht per WhatsApp oder Telegram. Darin steht ein Gedanke für den Tag und eine Aufgabe, die du am selben Tag machst. Unter 5 Minuten.</p>
-      </div>
-      <ul class="days rv">
-        <li><b>Der Weg ist vorgegeben</b>Du musst dir nichts zusammensuchen und nichts planen. Erst kommt die Pause, die du dir sonst nicht nimmst. Dann sinkt der Druck, perfekt sein zu müssen. Am Ende hast du wieder etwas von dem Tag.</li>
-        <li><b>Jeden Tag ein Schritt</b>Immer etwas, das du am selben Tag machen kannst. Im Alltag, ohne extra Zeit.</li>
-        <li><b>Aus geprüfter Arbeit</b>Die Schritte kommen aus der Forschung zu elterlicher Erschöpfung und Mental Load und aus dem Gedanken der guten genug Eltern. Zu jedem steht kurz, warum er wirkt.</li>
-        <li><b>Keine App</b>Läuft in deinem Messenger. Kein Login, kein Passwort. Mit STOP jederzeit beendet.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 5. Echte Tage (Supabase flow_content, parental_burnout_flow) -->
   <section class="sec sec--paper" id="tage">
     <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">So sehen echte Tage aus</span>
-        <h2>Das ist kein Beispieltext. Genau diese Nachrichten bekommst du.</h2>
-      </div>
-      <div class="stats stats--3">
-        <article class="stat rv">
-          <p class="stat__num">Tag 1</p>
-          <p class="stat__claim">Der innere Stopp-Knopf</p>
-          <p>Elterliche Erschöpfung beginnt oft im Autopiloten. Bevor wir das Verhalten unseres Kindes regulieren können, müssen wir unsere eigene Stressreaktion kurz unterbrechen.<br><br><b>Aufgabe:</b> Wenn heute ein Moment der Überforderung auftritt, pausiere für 3 Sekunden, bevor du reagierst. Atme einmal tief ein und aus. Sage dir: "Ich bin sicher."</p>
+      <span class="eyebrow">Ein echter Morgen</span>
+      <h2>So kommt die Nachricht an.</h2>
+      <div class="daycards">
+        <article class="daycard">
+          <p class="daycard__badge">Tag 1</p>
+          <h3>Der innere Stopp-Knopf</h3>
+          <p>Elterliche Erschöpfung beginnt oft im Autopiloten. Bevor wir das Verhalten unseres Kindes regulieren können, müssen wir unsere eigene Stressreaktion kurz unterbrechen.</p>
+          <p class="bubble"><b>Dein Schritt heute</b>Wenn heute ein Moment der Überforderung auftritt, pausiere für 3 Sekunden, bevor du reagierst. Atme einmal tief ein und aus. Sage dir: "Ich bin sicher."</p>
         </article>
-        <article class="stat rv">
-          <p class="stat__num">Tag 4</p>
-          <p class="stat__claim">Der Abschied von der Perfektion</p>
-          <p>Das Ideal der "perfekten Eltern" ist ein Konstrukt, das massiven Druck erzeugt. Kinder brauchen keine fehlerfreien Eltern, sondern authentische.<br><br><b>Aufgabe:</b> Identifiziere heute eine Aufgabe im Haushalt oder in der Erziehung, die du nur zu 70% statt zu 100% erfüllst. Lass die Unordnung oder das einfache Essen bewusst stehen.</p>
+        <article class="daycard">
+          <p class="daycard__badge">Tag 4</p>
+          <h3>Der Abschied von der Perfektion</h3>
+          <p>Das Ideal der "perfekten Eltern" ist ein Konstrukt, das massiven Druck erzeugt. Kinder brauchen keine fehlerfreien Eltern, sondern authentische.</p>
+          <p class="bubble"><b>Dein Schritt heute</b>Identifiziere heute eine Aufgabe im Haushalt oder in der Erziehung, die du nur zu 70% statt zu 100% erfüllst. Lass die Unordnung oder das einfache Essen bewusst stehen.</p>
         </article>
-        <article class="stat rv">
-          <p class="stat__num">Tag 30</p>
-          <p class="stat__claim">Der neue Anker</p>
-          <p>Die ersten 30 Tage haben ein Fundament gelegt: Mehr Achtsamkeit, weniger Schuldgefühle und ein tieferes Verständnis für die Biologie des Kindes. Nun verankern wir dies.<br><br><b>Aufgabe:</b> Wähle EINE der Übungen aus den letzten 30 Tagen, die dir am meisten Kraft gegeben hat (z. B. die 3-Sekunden-Pause, die HALT-Methode). Mache sie zu deiner täglichen Kern-Gewohnheit.</p>
+        <article class="daycard">
+          <p class="daycard__badge">Tag 30</p>
+          <h3>Der neue Anker</h3>
+          <p>Die ersten 30 Tage haben ein Fundament gelegt: Mehr Achtsamkeit, weniger Schuldgefühle und ein tieferes Verständnis für die Biologie des Kindes. Nun verankern wir dies.</p>
+          <p class="bubble"><b>Dein Schritt heute</b>Wähle EINE der Übungen aus den letzten 30 Tagen, die dir am meisten Kraft gegeben hat (z. B. die 3-Sekunden-Pause, die HALT-Methode). Mache sie zu deiner täglichen Kern-Gewohnheit.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- 6. 4 Tage gratis -->
-  <section class="booking" id="gratis">
-    <div class="booking__bg"><div class="scene"></div></div>
-    <div class="booking__shade"></div>
-    <div class="wrap booking__grid">
-      <div class="booking__intro rv">
-        <span class="eyebrow">Erst testen, dann entscheiden</span>
-        <h2>Die ersten 4 Tage sind gratis.</h2>
-        <p class="lead">Du beantwortest ein paar kurze Fragen, schickst eine Startnachricht ab, und am nächsten Morgen kommt Tag 1.</p>
-        <ul class="facts">
-          <li><b>Dauer</b>2 Minuten zum Start, danach unter 5 Minuten am Tag.</li>
-          <li><b>Kosten</b>keine. Keine Zahlungsdaten.</li>
-          <li><b>Danach</b>An Tag 4 entscheidest du. Es läuft kein Abo automatisch an.</li>
-        </ul>
-      </div>
-      <div class="booking__card rv">
-        <div class="card-light">
-          <h3>So läuft es</h3>
-          <ol class="steps on-light">
-            <li><div><h3>Fragen beantworten</h3><p>Vorname, E-Mail, WhatsApp oder Telegram.</p></div></li>
-            <li><div><h3>Startnachricht senden</h3><p>Dein Messenger öffnet sich mit fertigem Text und Zugangscode. Du tippst auf Senden.</p></div></li>
-            <li><div><h3>Tag 1 bis 4 bekommen</h3><p>Jeden Morgen um 7 Uhr. Genau die Tage, die du oben siehst.</p></div></li>
-            <li><div><h3>Entscheiden</h3><p>Hat es dir was gebracht, läuft die Begleitung weiter.</p></div></li>
-          </ol>
-          <div class="btn-row"><a class="btn btn--primary btn--block" href="https://www.shiftmyhorizon.com/Parentinpeace.html?p=overwhelm">4 Tage gratis starten</a></div>
-        </div>
-      </div>
+  <section class="sec sec--dark" id="ablauf">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">So läuft es</span>
+      <h2>Drei Schritte. Danach kommt es jeden Morgen.</h2>
+      <ol class="steps">
+        <li><div><h3>Kurzes Quiz</h3><p>Drei Fragen. Etwa eine Minute.</p></div></li>
+        <li><div><h3>Kanal wählen</h3><p>WhatsApp, Telegram oder E-Mail.</p></div></li>
+        <li><div><h3>Erste Nachricht um 7 Uhr</h3><p>Jeden Morgen um 7 Uhr (bei dir vor Ort) bekommst du eine Nachricht per WhatsApp, Telegram oder E-Mail.</p></div></li>
+      </ol>
     </div>
   </section>
 
-  <!-- 7. Preise (Digistore24: PLATZHALTER) -->
-  <section class="sec sec--white" id="preise">
+  <section class="sec sec--white" id="inhalt-programm">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">Was du bekommst</span>
+      <h2>Jeden Morgen ein Gedanke. Einen Monat lang.</h2>
+      <ul class="days">
+        <li><b>Jeden Morgen</b>Ein Gedanke und ein kleiner Schritt für den Tag. Per WhatsApp, Telegram oder E-Mail.</li>
+        <li><b>Jeden Monat</b>Jeden Tag eine neue Nachricht, solange du dabei bist. 19 €. Es hört auf, wenn du kündigst.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec sec--paper" id="preise">
     <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">Preise</span>
-        <h2>Wenn du weitermachen willst.</h2>
+      <div class="sec-head">
+        <span class="eyebrow">Preis</span>
+        <h2>19 € im Monat.</h2>
       </div>
       <div class="ways">
-        <article class="way rv">
+        <article class="way">
           <p class="way__num">19 €</p>
-          <h3>Monatlich</h3>
-          <p>Das zahlen deine Leute. Abgerechnet über Digistore24, monatlich kündbar.</p>
+          <h3>Jeden Monat</h3>
+          <p>Weniger als ein Kaffee die Woche. Monatlich über Digistore24. Verlängert sich, bis du kündigst. Keine Bindung über 90 Tage.</p>
+        </article>
+        <article class="way">
+          <p class="way__num">4</p>
+          <h3>Zuerst gratis</h3>
+          <p>Der Button startet 4 Morgen gratis. Danach 19 € im Monat, wenn du bleibst. Kündigst du vorher, zahlst du nichts.</p>
+          <a class="btn btn--primary" href="/quiz/parental-burnout?lang=de">Meine 4 Tage gratis starten</a>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- 8. Partner-Abschnitt (nur Vorschau fuer Influencer; auf Kundenversion entfernen) -->
-  <section class="statement-band" id="partner" data-partner-only>
-    <div class="wrap">
-      <span class="eyebrow">Nur für dich als Partner sichtbar</span>
-      <p class="statement rv">Digistore24 zahlt dir <em>50 %</em>.</p>
-      <p class="sub rv">Von 19 € gehen 3,03 € Umsatzsteuer und 2,50 € Digistore-Marge ab (7,9 % plus 1 €), es bleiben 13,47 €. Deine Hälfte davon sind 6,73 € im Monat, solange die Person dabei bleibt. 6,06 € kommen nach etwa zwei Wochen, die restlichen 0,67 € nach 60 Tagen. Gerechnet für einen Käufer in Deutschland, bei anderen Steuersätzen in der EU verschiebt es sich leicht.</p>
-      <ul class="points rv">
-        <li><b>1. Digistore24 Konto anlegen</b>Kostenlos, dauert ein paar Minuten. Schick mir deine Digistore24 ID.</li>
-        <li><b>2. Video schicken</b>Ich baue es oben ein und schicke dir deinen Link.</li>
-        <li><b>3. Link teilen</b>In Bio, Story, Video oder Newsletter. Mehr musst du nicht machen.</li>
+  <section class="sec sec--white" id="kuendigen">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">Kündigen</span>
+      <h2>Du kannst in einem Schritt aufhören.</h2>
+      <ul class="days">
+        <li><b>Im Chat</b>Schreib STOP bei WhatsApp oder Telegram. Die Nachrichten hören auf.</li>
+        <li><b>Per E-Mail</b>In jeder E-Mail steht ein Stopp-Link. Öffnen und bestätigen.</li>
+        <li><b>Die Zahlung</b>Kündige das Abo bei Digistore24. Keine weitere Abbuchung. Die Morgennachricht endet damit.</li>
       </ul>
-      <div class="note-box rv"><p><strong>Programm:</strong> Parent in Peace. Thema: Erschöpfung im Familienalltag. Flow: parental_burnout_flow. Sprache: Deutsch.<br><strong>Dein Link:</strong> https://www.shiftmyhorizon.com/p/parental-burnout-de?aff={{AFFILIATE_ID}}<br><a class="textlink" href="https://www.shiftmyhorizon.com/Parentinpeace.html?p=overwhelm">So sieht der Einstieg für deine Follower aus</a></p></div>
-      <p class="sub rv">Diese Vorschauseite ist nicht öffentlich und steht in keiner Suchmaschine. Sobald dein Video oben drin ist, wird genau diese Seite deine Verkaufsseite, ohne die Kästen, die nur du siehst.</p>
     </div>
   </section>
 
-  <!-- 9. FAQ -->
-  <section class="sec sec--white" id="fragen">
+  <section class="sec sec--paper" id="fragen">
     <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">Häufige Fragen</span>
-        <h2>Häufige Fragen</h2>
+      <div class="sec-head">
+        <span class="eyebrow">Fragen</span>
+        <h2>Fragen</h2>
       </div>
-      <div class="faq rv">
-        <details><summary>Kostet der Test etwas?</summary><p>Nein. Die ersten 4 Tage sind gratis. Du gibst keine Zahlungsdaten an.</p></details>
-        <details><summary>Wie viel Zeit brauche ich am Tag?</summary><p>Unter 5 Minuten. Lesen und die Aufgabe nebenbei im Alltag machen.</p></details>
-        <details><summary>Wie höre ich auf?</summary><p>Schreib STOP in den Chat. Dann kommt nichts mehr.</p></details>
-        <details><summary>Ist das eine Therapie?</summary><p>Nein. Es ist ein Selbstlern-Programm mit täglichen Impulsen. Es ersetzt keine Therapie.</p></details>
+      <div class="faq">
+        <details><summary>Wann wird abgebucht?</summary><p>Nach den 4 Gratistagen bucht Digistore24 19 € für den Monat ab. Es verlängert sich monatlich, bis du kündigst.</p></details>
+        <details><summary>Wie kündige ich?</summary><p>Schreib STOP bei WhatsApp oder Telegram, nimm den Link in der E-Mail oder kündige bei Digistore24. Nachrichten und Abbuchung hören beide auf.</p></details>
+        <details><summary>Welche Kanäle?</summary><p>WhatsApp, Telegram oder E-Mail. Du wählst einen bei der Anmeldung.</p></details>
+        <details><summary>Wann kommt es an?</summary><p>Jeden Morgen um 7 Uhr bei dir vor Ort.</p></details>
+        <details><summary>Kann ich den Kanal wechseln?</summary><p>Ja. Schreib an hello@shiftmyhorizon.com, welchen du möchtest.</p></details>
       </div>
     </div>
   </section>
 
-  <!-- 10. Abschluss -->
   <section class="hero hero--compact" id="abschluss">
     <div class="hero__bg"><div class="scene"></div></div>
     <div class="hero__shade"></div>
-    <div class="wrap rv">
-      <h2>Probier es 4 Tage aus. Morgen früh kommt die erste Nachricht.</h2>
-      <div class="btn-row"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/Parentinpeace.html?p=overwhelm">4 Tage gratis starten</a></div>
+    <div class="wrap">
+      <h2>Starte mit 4 Morgen gratis.</h2>
+      <p class="lead">Danach 19 € im Monat. Jederzeit kündbar.</p>
+      <div class="btn-row"><a class="btn btn--primary" href="/quiz/parental-burnout?lang=de">Meine 4 Tage gratis starten</a></div>
     </div>
   </section>
 </main>
@@ -220,7 +198,7 @@
         <a href="/agb">AGB</a>
       </nav>
     </div>
-    <p class="ftr__fine">Das hier ersetzt keine Therapie. Es geht um dein Verhalten im Alltag.</p>
+    <p class="ftr__fine">Eine Nachricht am Morgen. Keine Therapie und kein Ersatz dafür.</p>
   </div>
 </footer>
 <script src="/lang.js"></script>
