@@ -4,9 +4,14 @@
 <meta charset="UTF-8">
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ein Vers, jeden Morgen</title>
-<meta name="description" content="Jeden Morgen um 7 Uhr deine Zeit: ein Bibelvers und ein kleiner Schritt. Per WhatsApp, Telegram oder E-Mail.">
-<meta name="robots" content="noindex">
+<!--
+  Quiz, erzeugt von scratchpad/build-quiz.js. Muster: das Bibel-Quiz, live.
+  Allgemein: kein Creator-Name, kein fester Token. aff kommt aus der URL.
+  Thema: bible | Flow: bible_flow | Produkte: bible
+-->
+<title>Christentum</title>
+<meta name="description" content="Jeden Morgen ein Bibelvers. Und ein kleiner Schritt, um ihn heute zu leben.">
+<meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -17,7 +22,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body data-page="quiz" data-program="bible">
-<a class="skip-link" href="#inhalt">Skip to content</a>
+<a class="skip-link" href="#inhalt" id="skip"></a>
 <header class="hdr">
   <a class="wordmark" href="/">Shift My Horizon</a>
 </header>
@@ -27,89 +32,59 @@
     <div class="wrap quiz-top__inner">
       <span class="eyebrow" id="hero-eyebrow"></span>
       <h1 id="hero-title"></h1>
-      <p class="lead" id="hero-lead"></p>
       <div class="card-light">
-          <div class="lang-switch" id="lang-switch" role="group"></div>
-          <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
-          <p class="progress__label" id="step-label"></p>
-          <p class="lead" id="result-line" hidden></p>
+        <div class="lang-switch" id="lang-switch" role="group"></div>
+        <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
+        <p class="progress__label" id="step-label"></p>
+        <p class="lead" id="result-line" hidden></p>
 
-          <div class="formstep" id="step-q1">
-            <h3 id="q1-title"></h3>
-            <div class="choicecards" id="q1-opts"></div>
-          </div>
-          <div class="formstep" id="step-q2">
-            <h3 id="q2-title"></h3>
-            <div class="choicecards" id="q2-opts"></div>
-          </div>
-          <div class="formstep" id="step-q3">
-            <h3 id="q3-title"></h3>
-            <div class="choicecards" id="q3-opts"></div>
-          </div>
+        <div class="formstep" id="step-q1"><h3 id="q1-title"></h3><div class="choicecards" id="q1-opts"></div></div>
+        <div class="formstep" id="step-q2"><h3 id="q2-title"></h3><div class="choicecards" id="q2-opts"></div></div>
+        <div class="formstep" id="step-q3"><h3 id="q3-title"></h3><div class="choicecards" id="q3-opts"></div></div>
 
-          <div class="formstep" id="step-form">
-            <h3 id="s2-title"></h3>
-            <p id="s2-sub"></p>
-            <div class="field">
-              <label for="reg-fname" id="lbl-fname"></label>
-              <input class="input" type="text" id="reg-fname" autocomplete="given-name">
-            </div>
-            <div class="field">
-              <label for="reg-email" id="lbl-email"></label>
-              <input class="input" type="email" id="reg-email" autocomplete="email" inputmode="email">
-            </div>
-            <fieldset class="field choicecards">
-              <legend class="field__label" id="lbl-channel"></legend>
-              <label class="choicecard"><input type="radio" name="kanal" value="whatsapp"><span class="choicecard__mark"></span><span class="choicecard__text">WhatsApp</span></label>
-              <label class="choicecard"><input type="radio" name="kanal" value="telegram"><span class="choicecard__mark"></span><span class="choicecard__text">Telegram</span></label>
-              <label class="choicecard"><input type="radio" name="kanal" value="email"><span class="choicecard__mark"></span><span class="choicecard__text" id="opt-email">Email</span></label>
-            </fieldset>
-            <div class="consent">
-              <input type="checkbox" id="reg-consent">
-              <label for="reg-consent" id="s2-consent"></label>
-            </div>
-            <div class="form-nav">
-              <button type="button" class="btn btn--ghost" id="btn-back"></button>
-              <button type="button" class="btn btn--primary" id="btn-register"></button>
-            </div>
-            <p class="hint" id="s2-disclaimer"></p>
+        <div class="formstep" id="step-form">
+          <h3 id="s2-title"></h3>
+          <p id="s2-sub"></p>
+          <div class="field">
+            <label for="reg-fname" id="lbl-fname"></label>
+            <input class="input" type="text" id="reg-fname" autocomplete="given-name">
           </div>
-
-
-          <div class="formstep" id="step-done">
-            <h3 id="done-title"></h3>
-            <p id="done-sub"></p>
+          <div class="field">
+            <label for="reg-email" id="lbl-email"></label>
+            <input class="input" type="email" id="reg-email" autocomplete="email" inputmode="email">
           </div>
-          <div class="formstep" id="step-pay">
-            <h3 id="pay-title"></h3>
-            <p id="pay-sub"></p>
-            <div id="pay-waitlist">
-              <div class="field">
-                <label for="wait-fname" id="wait-fname-lbl"></label>
-                <input class="input" type="text" id="wait-fname" autocomplete="given-name">
-              </div>
-              <div class="field">
-                <label for="wait-email" id="wait-email-lbl"></label>
-                <input class="input" type="email" id="wait-email" autocomplete="email" inputmode="email">
-              </div>
-              <div class="consent">
-                <input type="checkbox" id="wait-consent">
-                <label for="wait-consent" id="wait-consent-lbl"></label>
-              </div>
-              <div class="form-nav">
-                <button type="button" class="btn btn--ghost" id="pay-back"></button>
-                <button type="button" class="btn btn--primary" id="wait-submit"></button>
-              </div>
-            </div>
-            <p id="pay-done" hidden></p>
-            <div class="form-nav" id="pay-checkout-row" hidden>
-              <button type="button" class="btn btn--ghost" id="pay-back-checkout"></button>
-              <a class="btn btn--primary" id="pay-checkout" href=""></a>
-            </div>
+          <fieldset class="field choicecards">
+            <legend class="field__label" id="lbl-channel"></legend>
+            <label class="choicecard"><input type="radio" name="kanal" value="whatsapp"><span class="choicecard__mark"></span><span class="choicecard__text">WhatsApp</span></label>
+            <label class="choicecard"><input type="radio" name="kanal" value="telegram"><span class="choicecard__mark"></span><span class="choicecard__text">Telegram</span></label>
+            <label class="choicecard"><input type="radio" name="kanal" value="email"><span class="choicecard__mark"></span><span class="choicecard__text" id="opt-email"></span></label>
+          </fieldset>
+          <div class="consent">
+            <input type="checkbox" id="reg-consent">
+            <label for="reg-consent" id="s2-consent"></label>
           </div>
-
-          <p class="err" id="reg-error" role="alert"></p>
+          <div class="form-nav">
+            <button type="button" class="btn btn--ghost" id="btn-back"></button>
+            <button type="button" class="btn btn--primary" id="btn-register"></button>
+          </div>
+          <p class="hint" id="s2-disclaimer"></p>
         </div>
+
+        <div class="formstep" id="step-done">
+          <h3 id="done-title"></h3>
+          <p id="done-sub"></p>
+          <div class="form-nav" id="chat-row" hidden>
+            <a class="btn btn--primary" id="chat-go" href=""></a>
+          </div>
+          <h3 id="pay-title"></h3>
+          <p id="pay-sub"></p>
+          <div class="form-nav" id="pay-row" hidden>
+            <a class="btn btn--primary" id="pay-go" href="" rel="noopener"></a>
+          </div>
+        </div>
+
+        <p class="err" id="reg-error" role="alert"></p>
+      </div>
     </div>
   </section>
 </main>
@@ -119,10 +94,10 @@
     <div class="ftr__row">
       <span class="wordmark">Janosch Brase</span>
       <nav aria-label="Legal">
-        <a href="/impressum" id="link-imp">Impressum</a>
-        <a href="/datenschutz" id="link-dat">Datenschutz</a>
-        <a href="/agb" id="link-agb">AGB</a>
-        <a href="/cookie" id="link-cook">Cookie-Richtlinie</a>
+        <a href="/impressum" id="link-imp"></a>
+        <a href="/datenschutz" id="link-dat"></a>
+        <a href="/agb" id="link-agb"></a>
+        <a href="/cookie" id="link-cook"></a>
       </nav>
     </div>
   </div>
@@ -131,334 +106,39 @@
 <script>
   const SUPABASE_URL = "https://jztwnumtwihomgxwlwor.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_yWcwDruITLbaok1rBl4Fiw_Ddjn9xZe";
-  let supabaseClient = null;
   const waNumber = "491632225456";
   const tgBotName = "shift_my_horizon_bot";
 
-  // Freigegeben am 04.11.2026 [J]. Die Religionsangabe wird wieder gespeichert.
-  const RELIGION_OPEN = true;
+  const THEMA = "bible";
+  const FLOW = "bible_flow";
+  const GLAUBE = true;
+  const T = {"de":{"title":"Jeden Morgen ein Bibelvers. Und ein kleiner Schritt, um ihn heute zu leben.","eyebrow":"Christentum","lead":"Jeden Morgen ein Bibelvers. Und ein kleiner Schritt, um ihn heute zu leben.","q":[{"t":"Was führt dich gerade her?","o":[["far","Ich fühle mich weit weg von Gott"],["habit","Ich will eine tägliche Gewohnheit"],["hard","Ich gehe durch eine schwere Zeit"],["curious","Ich bin einfach neugierig"]]},{"t":"Wie oft schlägst du deine Bibel heute auf?","o":[["daily","Täglich"],["sometimes","Manchmal"],["rarely","Selten"],["never","Fast nie"]]},{"t":"Was würdest du nach ein paar Wochen gern spüren?","o":[["god","Näher bei Gott","Eine Nachricht jeden Morgen kann dir helfen, dich Gott näher zu fühlen."],["peace","Mehr Frieden","Eine Nachricht jeden Morgen kann dir helfen, mehr Frieden zu finden."],["discipline","Mehr Disziplin","Eine Nachricht jeden Morgen kann dir helfen, mehr Disziplin zu finden."],["clarity","Klarer über mein Leben","Eine Nachricht jeden Morgen kann dir helfen, klarer über dein Leben zu werden."]]}],"ui":{"skip":"Zum Inhalt springen","back":"Zurück","send":"Anmeldung abschicken","stepOf":"Schritt $1 von $2","s2Title":"Deine Morgennachricht","s2Sub":"Vorname, E-Mail, und wohin die Nachricht kommen soll.","fname":"Vorname","email":"E-Mail","fnamePh":"Dein Vorname","emailPh":"deine@email.com","channel":"Wohin soll die Nachricht kommen?","emailOpt":"E-Mail","consentGlaube":"Ich bin einverstanden, dass meine Angabe zur Glaubensrichtung gespeichert und genutzt wird, um mir die dazu passenden täglichen Texte zu schicken (Artikel 9 DSGVO). Ich kann das jederzeit widerrufen, mit STOP im Chat, mit dem Link in der E-Mail, oder über den Kontakt im Impressum.","consentNormal":"Ich bin einverstanden, dass meine Angaben gespeichert und genutzt werden, um mir die tägliche Nachricht zu schicken. Ich kann das jederzeit widerrufen, mit STOP im Chat, mit dem Link in der E-Mail, oder über den Kontakt im Impressum.","errFill":"Bitte fülle alle Felder aus.","errChannel":"Bitte wähle WhatsApp, Telegram oder E-Mail.","errConsent":"Bitte bestätige die Einwilligung. Ohne sie dürfen wir deine Angaben nicht speichern.","errServer":"Ein Fehler ist aufgetreten. Bitte versuche es noch einmal.","errLib":"Die Anmeldung konnte nicht geladen werden. Bitte lade die Seite neu.","disclaimer":"<strong>Wichtig:</strong> Deine Daten werden ausschließlich für den Versand dieser Nachricht genutzt. Wir geben sie nicht an Dritte weiter.","doneTitle":"Du bist angemeldet.","doneEmail":"Die Nachricht kommt per E-Mail, jeden Morgen um 7 Uhr deiner Zeit. Die erste kommt beim nächsten 7 Uhr.","doneChat":"Ein Schritt fehlt noch: Öffne den Chat und schick die vorbereitete Nachricht ab. Danach kommt sie jeden Morgen um 7 Uhr deiner Zeit.","goWhatsapp":"Weiter zu WhatsApp","goTelegram":"Weiter zu Telegram","payTitle":"Die ersten 4 Morgen sind frei.","paySub":"Ab Tag 5 läuft es weiter, wenn du das Abo hast. 19 € im Monat über Digistore24, jederzeit kündbar. Du kannst es jetzt abschließen oder später.","paySubUsd":"Ab Tag 5 läuft es weiter, wenn du das Abo hast. 19 Dollar im Monat über Digistore24, jederzeit kündbar. Du kannst es jetzt abschließen oder später.","payBtn":"Abo abschließen","payNone":"Ab Tag 5 ist das Abo für dieses Thema noch nicht buchbar. Wir schreiben dir an die E-Mail von eben, sobald es so weit ist.","legal":{"imp":"Impressum","dat":"Datenschutz","agb":"AGB","cook":"Cookie-Richtlinie"},"botMsg":"Hallo, ich möchte die Morgennachricht «$1» starten. Bitte aktiviere meinen Zugang.","access":"Mein Zugangscode:","consent":"Ich bin einverstanden, dass meine Angabe zur Glaubensrichtung gespeichert und genutzt wird, um mir die dazu passenden täglichen Texte zu schicken (Artikel 9 DSGVO). Ich kann das jederzeit widerrufen, mit STOP im Chat, mit dem Link in der E-Mail, oder über den Kontakt im Impressum."},"legal":["/impressum","/datenschutz","/agb","/cookie"],"product":"759094"},"en":{"title":"Every morning one Bible verse. And one small step to live it today.","eyebrow":"Christianity","lead":"Every morning one Bible verse. And one small step to live it today.","q":[{"t":"What brings you here right now?","o":[["far","I feel far from God"],["habit","I want a daily habit"],["hard","I am going through a hard time"],["curious","I am just curious"]]},{"t":"How often do you open your Bible today?","o":[["daily","Daily"],["sometimes","Sometimes"],["rarely","Rarely"],["never","Almost never"]]},{"t":"What would you love to feel after a few weeks?","o":[["god","Closer to God","One message every morning can help you feel closer to God."],["peace","More peace","One message every morning can help you feel more peace."],["discipline","More discipline","One message every morning can help you build more discipline."],["clarity","Clearer about my life","One message every morning can help you feel clearer about your life."]]}],"ui":{"skip":"Skip to content","back":"Back","send":"Submit","stepOf":"Step $1 of $2","s2Title":"Your morning message","s2Sub":"First name, email, and where the message should arrive.","fname":"First name","email":"Email","fnamePh":"Your first name","emailPh":"you@email.com","channel":"Where should the message arrive?","emailOpt":"Email","consentGlaube":"I agree that my choice of faith is stored and used to send me the matching daily texts (Article 9 GDPR). I can withdraw this at any time, with STOP in the chat, with the link in the email, or via the contact in the imprint.","consentNormal":"I agree that my details are stored and used to send me the daily message. I can withdraw this at any time, with STOP in the chat, with the link in the email, or via the contact in the imprint.","errFill":"Please fill in all fields.","errChannel":"Please choose WhatsApp, Telegram, or Email.","errConsent":"Please confirm the consent. Without it we are not allowed to store your details.","errServer":"An error occurred. Please try again.","errLib":"Signup could not load. Please reload the page.","disclaimer":"<strong>Important:</strong> Your data is used only to send this message. We do not share it with third parties.","doneTitle":"You are in.","doneEmail":"The message arrives by email, every morning at 7 a.m. your time. The first one comes at the next 7 a.m.","doneChat":"One step left: open the chat and send the prepared message. After that it arrives every morning at 7 a.m. your time.","goWhatsapp":"Continue to WhatsApp","goTelegram":"Continue to Telegram","payTitle":"The first 4 mornings are free.","paySub":"From day 5 it keeps going if you have the subscription. $19 a month through Digistore24, cancel anytime. You can set it up now or later.","paySubUsd":"From day 5 it keeps going if you have the subscription. $19 a month through Digistore24, cancel anytime. You can set it up now or later.","payBtn":"Set up the subscription","payNone":"From day 5 the subscription for this topic is not open yet. We will write to the email you just gave us as soon as it is.","legal":{"imp":"Imprint","dat":"Privacy","agb":"Terms","cook":"Cookie policy"},"botMsg":"Hello, I would like to start the «$1» morning message. Please activate my access.","access":"My access code:","consent":"I agree that my choice of faith is stored and used to send me the matching daily texts (Article 9 GDPR). I can withdraw this at any time, with STOP in the chat, with the link in the email, or via the contact in the imprint."},"legal":["/impressum","/privacy","/terms","/cookie"],"product":"759095"},"es":{"title":"Cada mañana un versículo. Y un paso pequeño para vivirlo hoy.","eyebrow":"Cristianismo","lead":"Cada mañana un versículo. Y un paso pequeño para vivirlo hoy.","q":[{"t":"¿Qué te trae aquí ahora?","o":[["far","Me siento lejos de Dios"],["habit","Quiero un hábito diario"],["hard","Estoy pasando un momento difícil"],["curious","Solo tengo curiosidad"]]},{"t":"¿Con qué frecuencia abres tu Biblia hoy?","o":[["daily","A diario"],["sometimes","A veces"],["rarely","Rara vez"],["never","Casi nunca"]]},{"t":"¿Qué te gustaría sentir después de unas semanas?","o":[["god","Más cerca de Dios","Un mensaje cada mañana puede ayudarte a sentirte más cerca de Dios."],["peace","Más paz","Un mensaje cada mañana puede ayudarte a sentir más paz."],["discipline","Más disciplina","Un mensaje cada mañana puede ayudarte a tener más disciplina."],["clarity","Más claridad sobre mi vida","Un mensaje cada mañana puede ayudarte a ver tu vida con más claridad."]]}],"ui":{"skip":"Saltar al contenido","back":"Atrás","send":"Enviar","stepOf":"Paso $1 de $2","s2Title":"Tu mensaje de la mañana","s2Sub":"Nombre, correo y a dónde debe llegar el mensaje.","fname":"Nombre","email":"Correo","fnamePh":"Tu nombre","emailPh":"tu@email.com","channel":"¿A dónde debe llegar el mensaje?","emailOpt":"Correo","consentGlaube":"Acepto que mi elección de confesión se guarde y se use para enviarme los textos diarios correspondientes (artículo 9 del RGPD). Puedo retirarlo en cualquier momento, con STOP en el chat, con el enlace del correo, o por el contacto del aviso legal.","consentNormal":"Acepto que mis datos se guarden y se usen para enviarme el mensaje diario. Puedo retirarlo en cualquier momento, con STOP en el chat, con el enlace del correo, o por el contacto del aviso legal.","errFill":"Por favor, completa todos los campos.","errChannel":"Elige WhatsApp, Telegram o correo.","errConsent":"Confirma el consentimiento. Sin él no podemos guardar tus datos.","errServer":"Ha ocurrido un error. Por favor, inténtalo de nuevo.","errLib":"No se pudo cargar el registro. Recarga la página.","disclaimer":"<strong>Importante:</strong> Tus datos se usan solo para enviarte este mensaje. No los compartimos con terceros.","doneTitle":"Ya estás dentro.","doneEmail":"El mensaje llega por correo, cada mañana a las 7 de tu hora. El primero llega en el próximo 7.","doneChat":"Falta un paso: abre el chat y envía el mensaje preparado. Después llega cada mañana a las 7 de tu hora.","goWhatsapp":"Seguir a WhatsApp","goTelegram":"Seguir a Telegram","payTitle":"Las primeras 4 mañanas son gratis.","paySub":"A partir del día 5 sigue si tienes la suscripción. 19 € al mes por Digistore24, cancela cuando quieras. Puedes hacerlo ahora o más tarde.","paySubUsd":"A partir del día 5 sigue si tienes la suscripción. 19 dólares al mes por Digistore24, cancela cuando quieras. Puedes hacerlo ahora o más tarde.","payBtn":"Contratar la suscripción","payNone":"A partir del día 5 la suscripción de este tema todavía no se puede contratar. Te escribimos al correo que acabas de dar en cuanto se pueda.","legal":{"imp":"Aviso legal","dat":"Privacidad","agb":"Condiciones","cook":"Cookies"},"botMsg":"Hola, me gustaría iniciar el mensaje de la mañana «$1». Por favor, activa mi acceso.","access":"Mi código de acceso:","consent":"Acepto que mi elección de confesión se guarde y se use para enviarme los textos diarios correspondientes (artículo 9 del RGPD). Puedo retirarlo en cualquier momento, con STOP en el chat, con el enlace del correo, o por el contacto del aviso legal."},"legal":["/impressum","/privacidad","/terminos","/cookie"],"product":"759096"}};
 
-  const RELIGIONS = [
-    { key: "bible", flow: "bible_flow" },
-    { key: "islam", flow: "islam_flow" },
-    { key: "buddhism", flow: "buddhism_flow" },
-    { key: "secular", flow: "secular_flow" }
-  ];
-
-  const accessLabels = {
-    de: "Mein Zugangscode:",
-    en: "My access code:",
-    es: "Mi código de acceso:"
-  };
-
-  const t = {
-    de: {
-      pageTitle: "Ein Vers, jeden Morgen",
-      heroEyebrowBible: "Christentum",
-      heroTitleBible: "Ein Vers, jeden Morgen.",
-      heroLeadBible: "Um 7 Uhr deine Zeit. Ein Bibelvers und ein kleiner Schritt, per WhatsApp, Telegram oder E-Mail.",
-      heroEyebrowOpen: "Morgennachricht",
-      heroTitleOpen: "Welchen Weg willst du gehen?",
-      heroLeadOpen: "Du wählst die Richtung. Danach drei kurze Fragen, dann die Anmeldung.",
-      sideEyebrow: "Dein Einstieg",
-      sideTitle: "Drei kurze Fragen.",
-      sideLead: "Ein Tipp reicht. Die Nachricht kommt am nächsten Morgen.",
-      back: "Zurück",
-      next: "Anmeldung abschicken",
-      stepOf: (n, total) => "Schritt " + n + " von " + total,
-      programTitle: "Von welcher Lehre möchtest du lernen?",
-      programSub: "Wähle den Weg.",
-      rel: {
-        bible: { name: "Christentum", desc: "Weisheit und Führung aus der Bibel." },
-        islam: { name: "Islam", desc: "Weisheit und Führung aus dem Koran." },
-        buddhism: { name: "Buddhismus", desc: "Achtsamkeit und die Lehre des Buddha." },
-        secular: { name: "Spiritualität ohne Religion", desc: "Ein spiritueller Weg, ganz ohne Konfession." }
-      },
-      q1: { title: "Was führt dich gerade her?", opts: [
-        { key: "far", text: "Ich fühle mich weit weg von Gott" },
-        { key: "habit", text: "Ich will eine tägliche Gewohnheit" },
-        { key: "hard", text: "Ich gehe durch eine schwere Zeit" },
-        { key: "curious", text: "Ich bin einfach neugierig" }
-      ]},
-      q2: { title: "Wie oft schlägst du deine Bibel heute auf?", opts: [
-        { key: "daily", text: "Täglich" },
-        { key: "sometimes", text: "Manchmal" },
-        { key: "rarely", text: "Selten" },
-        { key: "never", text: "Fast nie" }
-      ]},
-      q3: { title: "Was würdest du nach ein paar Wochen gern fühlen?", opts: [
-        { key: "god", text: "Näher bei Gott", result: "Eine Nachricht jeden Morgen kann dir helfen, dich Gott näher zu fühlen." },
-        { key: "peace", text: "Mehr Frieden", result: "Eine Nachricht jeden Morgen kann dir helfen, mehr Frieden zu finden." },
-        { key: "discipline", text: "Mehr Disziplin", result: "Eine Nachricht jeden Morgen kann dir helfen, mehr Disziplin zu finden." },
-        { key: "clarity", text: "Klarer über mein Leben", result: "Eine Nachricht jeden Morgen kann dir helfen, klarer über dein Leben zu werden." }
-      ]},
-      g1: { title: "Was soll die Morgennachricht für dich tun?", opts: [
-        { key: "morning", text: "Eine Übung, die in den Morgen passt" },
-        { key: "day", text: "Einen Gedanken, den ich am selben Tag nutze" },
-        { key: "keep", text: "Einen kurzen Moment, den ich wirklich halte" }
-      ]},
-      g2: { title: "Wo hakt es bei dir?", opts: [
-        { key: "know", text: "Ich weiß es und tue es nicht" },
-        { key: "only-when", text: "Ich wende mich nur hin, wenn etwas brennt" },
-        { key: "week", text: "Es kommt in meiner Woche nicht an" }
-      ]},
-      g3: { title: "Was soll in der Nachricht stehen?", opts: [
-        { key: "step", text: "Ein klarer Schritt" },
-        { key: "reflect", text: "Ein kurzes Innehalten" },
-        { key: "both", text: "Beides, kurz" }
-      ]},
-      s2: {
-        title: "Deine Morgennachricht",
-        sub: "Vorname, E-Mail, und wohin die Nachricht kommen soll.",
-        fname: "Vorname",
-        email: "E-Mail",
-        channel: "Wohin soll die Nachricht kommen?",
-        emailOpt: "E-Mail",
-        doneTitle: "Du bist angemeldet.",
-        doneSub: "Die Nachricht kommt per E-Mail, jeden Morgen um 7:00 Uhr deiner Zeit. Die erste kommt beim nächsten 7:00.",
-        fnamePh: "Dein Vorname",
-        emailPh: "deine@email.com",
-        errFill: "Bitte fülle alle Felder aus.",
-        errChannel: "Bitte wähle WhatsApp, Telegram oder E-Mail.",
-        errServer: "Ein Fehler ist aufgetreten. Bitte versuche es noch einmal.",
-        errLib: "Die Anmeldung konnte nicht geladen werden. Bitte lade die Seite neu.",
-        consent: "Ich bin einverstanden, dass meine Angabe zur Glaubensrichtung gespeichert und genutzt wird, um mir die dazu passenden täglichen Texte zu schicken (Artikel 9 DSGVO). Ich kann das jederzeit widerrufen, mit STOP im Chat, mit dem Link in der E-Mail, oder über den Kontakt im Impressum.",
-        errConsent: "Bitte bestätige die Einwilligung. Ohne sie dürfen wir deine Angabe nicht speichern.",
-        disclaimer: "<strong>Wichtig:</strong> Deine Daten werden ausschließlich für die automatisierte Bereitstellung dieses Flows genutzt. Wir geben sie nicht an Dritte weiter."
-      },
-      pay: {
-        title: "19 Dollar im Monat",
-        subWait: "19 Dollar im Monat über Digistore24. Jederzeit kündbar. Die Zahlung ist noch nicht offen. Trag Vorname und E-Mail ein. Wir schreiben dir, wenn du zahlen kannst. Bis dahin kommt keine Morgennachricht.",
-        subCheckout: "Nach dem Quiz zahlst du 19 Dollar im Monat über Digistore24. Jederzeit kündbar.",
-        fname: "Vorname",
-        email: "E-Mail",
-        consent: "Ich möchte eine E-Mail, wenn ich starten kann.",
-        listBtn: "Auf die Liste",
-        listDone: "Du stehst auf der Liste. Es kommt noch keine Morgennachricht. Wir schreiben an diese E-Mail, wenn du zahlen kannst.",
-        errFill: "Bitte Vorname und E-Mail eintragen.",
-        errConsent: "Bitte setz den Haken.",
-        errServer: "Das hat nicht geklappt. Bitte noch einmal.",
-        button: "Weiter zur Zahlung"
-      },
-      botMsg: "Hallo, ich möchte die Morgennachricht «{name}» starten. Bitte aktiviere meinen Zugang.",
-      legal: { imp: "Impressum", dat: "Datenschutz", agb: "AGB", cook: "Cookie-Richtlinie" },
-      paused: "Derzeit nicht verfügbar."
-    },
-    en: {
-      pageTitle: "One verse, every morning",
-      heroEyebrowBible: "Christianity",
-      heroTitleBible: "One verse, every morning.",
-      heroLeadBible: "At 7:00 your time. A Bible verse and one small step, on WhatsApp, Telegram, or email.",
-      heroEyebrowOpen: "Morning message",
-      heroTitleOpen: "Which path do you want?",
-      heroLeadOpen: "You pick the teaching. Then three quick questions, then signup.",
-      sideEyebrow: "Your start",
-      sideTitle: "Three quick questions.",
-      sideLead: "One tap is enough. The first message comes the next morning.",
-      back: "Back",
-      next: "Submit",
-      stepOf: (n, total) => "Step " + n + " of " + total,
-      programTitle: "Which teaching would you like to learn from?",
-      programSub: "Pick the path.",
-      rel: {
-        bible: { name: "Christianity", desc: "Wisdom and guidance from the Bible." },
-        islam: { name: "Islam", desc: "Wisdom and guidance from the Quran." },
-        buddhism: { name: "Buddhism", desc: "Mindfulness and the teaching of the Buddha." },
-        secular: { name: "Spirituality without religion", desc: "A spiritual path, free of any denomination." }
-      },
-      q1: { title: "What brings you here right now?", opts: [
-        { key: "far", text: "I feel far from God" },
-        { key: "habit", text: "I want a daily habit" },
-        { key: "hard", text: "I'm going through a hard time" },
-        { key: "curious", text: "I'm just curious" }
-      ]},
-      q2: { title: "How often do you open your Bible today?", opts: [
-        { key: "daily", text: "Daily" },
-        { key: "sometimes", text: "Sometimes" },
-        { key: "rarely", text: "Rarely" },
-        { key: "never", text: "Almost never" }
-      ]},
-      q3: { title: "What would you love to feel after a few weeks?", opts: [
-        { key: "god", text: "Closer to God", result: "One message every morning can help you feel closer to God." },
-        { key: "peace", text: "More peace", result: "One message every morning can help you feel more peace." },
-        { key: "discipline", text: "More discipline", result: "One message every morning can help you build more discipline." },
-        { key: "clarity", text: "Clearer about my life", result: "One message every morning can help you feel clearer about your life." }
-      ]},
-      g1: { title: "What do you want the morning message to do?", opts: [
-        { key: "morning", text: "A practice that fits the morning" },
-        { key: "day", text: "One idea I can use the same day" },
-        { key: "keep", text: "A short moment I actually keep" }
-      ]},
-      g2: { title: "Where does it slip?", opts: [
-        { key: "know", text: "I know it and don't do it" },
-        { key: "only-when", text: "I only turn to it when something's burning" },
-        { key: "week", text: "It doesn't reach my week" }
-      ]},
-      g3: { title: "What should the message hold?", opts: [
-        { key: "step", text: "One clear step" },
-        { key: "reflect", text: "A short pause" },
-        { key: "both", text: "Both, kept short" }
-      ]},
-      s2: {
-        title: "Your morning message",
-        sub: "First name, email, and where the message should arrive.",
-        fname: "First name",
-        email: "Email",
-        channel: "Where should the message arrive?",
-        emailOpt: "Email",
-        doneTitle: "You're in.",
-        doneSub: "The message arrives by email, every morning at 7:00 your time. The first one comes at the next 7:00.",
-        fnamePh: "Your first name",
-        emailPh: "you@email.com",
-        errFill: "Please fill in all fields.",
-        errChannel: "Please choose WhatsApp, Telegram, or Email.",
-        errServer: "An error occurred. Please try again.",
-        errLib: "Signup couldn't load. Please reload the page.",
-        consent: "I agree that my choice of faith is stored and used to send me the matching daily texts (Article 9 GDPR). I can withdraw this at any time, with STOP in the chat, with the link in the email, or via the contact in the imprint.",
-        errConsent: "Please confirm the consent. Without it we are not allowed to store your choice.",
-        disclaimer: "<strong>Important:</strong> Your data is used only for the automated delivery of this flow. We don't share it with third parties."
-      },
-      pay: {
-        title: "$19 per month",
-        subWait: "$19 a month on Digistore24. You can cancel anytime. Payment isn't open yet. Leave your first name and email. We'll write when you can pay. No morning message until then.",
-        subCheckout: "After the quiz you pay $19 a month on Digistore24. You can cancel anytime.",
-        fname: "First name",
-        email: "Email",
-        consent: "Email me when I can start.",
-        listBtn: "Join the list",
-        listDone: "You're on the list. No morning message yet. We'll email this address when you can pay.",
-        errFill: "Please enter your first name and email.",
-        errConsent: "Please tick the box.",
-        errServer: "That didn't work. Please try again.",
-        button: "Continue to payment"
-      },
-      botMsg: "Hello, I would like to start the «{name}» morning message. Please activate my access.",
-      legal: { imp: "Imprint", dat: "Privacy", agb: "Terms", cook: "Cookie policy" },
-      paused: "Currently not available."
-    },
-    es: {
-      pageTitle: "Un versículo, cada mañana",
-      heroEyebrowBible: "Cristianismo",
-      heroTitleBible: "Un versículo, cada mañana.",
-      heroLeadBible: "A las 7:00 de tu hora. Un versículo y un paso pequeño, por WhatsApp, Telegram o correo.",
-      heroEyebrowOpen: "Mensaje de la mañana",
-      heroTitleOpen: "¿Qué camino quieres?",
-      heroLeadOpen: "Eliges la enseñanza. Después, tres preguntas breves y el registro.",
-      sideEyebrow: "Tu inicio",
-      sideTitle: "Tres preguntas cortas.",
-      sideLead: "Con un toque basta. El primer mensaje llega a la mañana siguiente.",
-      back: "Atrás",
-      next: "Enviar",
-      stepOf: (n, total) => "Paso " + n + " de " + total,
-      programTitle: "¿De qué enseñanza te gustaría aprender?",
-      programSub: "Elige el camino.",
-      rel: {
-        bible: { name: "Cristianismo", desc: "Sabiduría y guía de la Biblia." },
-        islam: { name: "Islam", desc: "Sabiduría y guía del Corán." },
-        buddhism: { name: "Budismo", desc: "Atención plena y la enseñanza de Buda." },
-        secular: { name: "Espiritualidad sin religión", desc: "Un camino espiritual, sin ninguna confesión." }
-      },
-      q1: { title: "¿Qué te trae aquí ahora?", opts: [
-        { key: "far", text: "Me siento lejos de Dios" },
-        { key: "habit", text: "Quiero un hábito diario" },
-        { key: "hard", text: "Estoy pasando un momento difícil" },
-        { key: "curious", text: "Solo tengo curiosidad" }
-      ]},
-      q2: { title: "¿Con qué frecuencia abres tu Biblia hoy?", opts: [
-        { key: "daily", text: "A diario" },
-        { key: "sometimes", text: "A veces" },
-        { key: "rarely", text: "Rara vez" },
-        { key: "never", text: "Casi nunca" }
-      ]},
-      q3: { title: "¿Qué te gustaría sentir después de unas semanas?", opts: [
-        { key: "god", text: "Más cerca de Dios", result: "Un mensaje cada mañana puede ayudarte a sentirte más cerca de Dios." },
-        { key: "peace", text: "Más paz", result: "Un mensaje cada mañana puede ayudarte a sentir más paz." },
-        { key: "discipline", text: "Más disciplina", result: "Un mensaje cada mañana puede ayudarte a tener más disciplina." },
-        { key: "clarity", text: "Más claridad sobre mi vida", result: "Un mensaje cada mañana puede ayudarte a ver tu vida con más claridad." }
-      ]},
-      g1: { title: "¿Qué quieres que haga el mensaje de la mañana?", opts: [
-        { key: "morning", text: "Una práctica que quepa en la mañana" },
-        { key: "day", text: "Una idea que pueda usar el mismo día" },
-        { key: "keep", text: "Un momento corto que de verdad sostenga" }
-      ]},
-      g2: { title: "¿Dónde se te escapa?", opts: [
-        { key: "know", text: "Lo sé y no lo hago" },
-        { key: "only-when", text: "Solo acudo cuando algo arde" },
-        { key: "week", text: "No llega a mi semana" }
-      ]},
-      g3: { title: "¿Qué debe traer el mensaje?", opts: [
-        { key: "step", text: "Un paso claro" },
-        { key: "reflect", text: "Una pausa corta" },
-        { key: "both", text: "Las dos cosas, en corto" }
-      ]},
-      s2: {
-        title: "Tu mensaje de la mañana",
-        sub: "Nombre, correo y a dónde debe llegar el mensaje.",
-        fname: "Nombre",
-        email: "Correo",
-        channel: "¿A dónde debe llegar el mensaje?",
-        emailOpt: "Correo",
-        doneTitle: "Ya estás dentro.",
-        doneSub: "El mensaje llega por correo, cada mañana a las 7:00 de tu hora. El primero llega en el próximo 7:00.",
-        fnamePh: "Tu nombre",
-        emailPh: "tu@email.com",
-        errFill: "Por favor, completa todos los campos.",
-        errChannel: "Elige WhatsApp, Telegram o correo.",
-        errServer: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
-        errLib: "No se pudo cargar el registro. Recarga la página.",
-        consent: "Acepto que mi elección de confesión se guarde y se use para enviarme los textos diarios correspondientes (artículo 9 del RGPD). Puedo retirarlo en cualquier momento, con STOP en el chat, con el enlace del correo, o por el contacto del aviso legal.",
-        errConsent: "Confirma el consentimiento. Sin él no podemos guardar tu elección.",
-        disclaimer: "<strong>Importante:</strong> Tus datos se usan solo para la entrega automatizada de este flujo. No los compartimos con terceros."
-      },
-      pay: {
-        title: "19 dólares al mes",
-        subWait: "19 dólares al mes en Digistore24. Puedes cancelar cuando quieras. El pago aún no está abierto. Deja tu nombre y tu correo. Te escribimos cuando puedas pagar. Hasta entonces no llega ningún mensaje de la mañana.",
-        subCheckout: "Después del quiz pagas 19 dólares al mes en Digistore24. Puedes cancelar cuando quieras.",
-        fname: "Nombre",
-        email: "Correo",
-        consent: "Quiero un correo cuando pueda empezar.",
-        listBtn: "Apuntarme",
-        listDone: "Estás en la lista. Todavía no llega ningún mensaje de la mañana. Te escribimos a este correo cuando puedas pagar.",
-        errFill: "Escribe tu nombre y tu correo.",
-        errConsent: "Marca la casilla.",
-        errServer: "No ha funcionado. Inténtalo otra vez.",
-        button: "Seguir al pago"
-      },
-      botMsg: "Hola, me gustaría iniciar el mensaje de la mañana «{name}». Por favor, activa mi acceso.",
-      legal: { imp: "Aviso legal", dat: "Privacidad", agb: "Términos", cook: "Cookies" },
-      paused: "Ahora mismo no está disponible."
-    }
-  };
-
-  // Empty until Janosch creates the $19/month product and Colin's affiliate key.
-  // productId: digits only, from the Digistore24 product.
-  // affiliates.colin: the affiliate account name in https://www.digistore24.com/redir/{productId}/{affiliate}/
-  const DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID = "";
-  const DIGISTORE_AFFILIATES = { colin: "" };
-
+  let supabaseClient = null;
   const params = new URLSearchParams(location.search);
-  const programKey = (document.body.dataset.program || "bible").toLowerCase();
-  const preset = RELIGIONS.find(function (r) { return r.key === programKey; }) || RELIGIONS[0];
+  const aff = (params.get("aff") || "").toLowerCase().replace(/[^a-z0-9_-]/g, "");
   const quiz = { q1: null, q2: null, q3: null };
-  const inviteToken = params.get("invite") || "";
-  let trialOk = false;
-  let waitDone = false;
-  let chosen = { key: preset.key, flow: preset.flow };
   let lang = window.smhResolveLang(params.get("lang"));
   let stepName = "q1";
+  let chatHref = "";
+  let channelDone = "";
+  const ORDER = ["q1", "q2", "q3", "form"];
 
-  function L() { return t[lang] || t.de; }
-  function sequence() {
-    return ["q1", "q2", "q3", trialOk ? "form" : "pay"];
-  }
+  function L() { return T[lang] || T.de; }
+  function fill(id, text) { document.getElementById(id).textContent = text; }
   function showError(msg) {
     const el = document.getElementById("reg-error");
-    if (!msg) { el.textContent = ""; el.classList.remove("is-visible"); return; }
-    el.textContent = msg;
-    el.classList.add("is-visible");
+    el.textContent = msg || "";
+    el.classList.toggle("is-visible", !!msg);
   }
-  function fillChoices(id, name, opts, current) {
-    const box = document.getElementById(id);
+  function checkoutUrl() {
+    const id = L().product;
+    if (!/^[0-9]+$/.test(id)) return "";
+    if (aff) return "https://www.digistore24.com/redir/" + id + "/" + aff + "/";
+    return "https://www.checkout-ds24.com/product/" + id;
+  }
+  function fillChoices(boxId, name, opts) {
+    const box = document.getElementById(boxId);
     box.innerHTML = "";
     opts.forEach(function (opt) {
       const label = document.createElement("label");
@@ -466,34 +146,30 @@
       const input = document.createElement("input");
       input.type = "radio";
       input.name = name;
-      input.value = opt.key;
-      if (current === opt.key) input.checked = true;
+      input.value = opt[0];
+      if (quiz[name] === opt[0]) input.checked = true;
       const mark = document.createElement("span");
       mark.className = "choicecard__mark";
       const text = document.createElement("span");
       text.className = "choicecard__text";
-      text.textContent = opt.text;
-      label.appendChild(input);
-      label.appendChild(mark);
-      label.appendChild(text);
+      text.textContent = opt[1];
+      label.appendChild(input); label.appendChild(mark); label.appendChild(text);
       input.addEventListener("change", function () {
-        quiz[name] = opt.key;
-        const order = sequence();
-        const i = order.indexOf(stepName);
-        if (i >= 0 && i < order.length - 1) stepName = order[i + 1];
+        quiz[name] = opt[0];
+        const i = ORDER.indexOf(stepName);
+        if (i >= 0 && i < ORDER.length - 1) stepName = ORDER[i + 1];
         setTimeout(render, 0);
       });
       box.appendChild(label);
     });
   }
   function render() {
-    const l = L();
+    const l = L(), u = l.ui;
     document.documentElement.lang = lang;
-    document.title = l.pageTitle;
-    const bible = preset.key === "bible";
-    document.getElementById("hero-eyebrow").textContent = bible ? l.heroEyebrowBible : l.rel[preset.key].name;
-    document.getElementById("hero-title").textContent = bible ? l.heroTitleBible : l.sideTitle;
-    document.getElementById("hero-lead").textContent = bible ? l.heroLeadBible : l.sideLead;
+    document.title = l.eyebrow;
+    fill("skip", u.skip);
+    fill("hero-eyebrow", l.eyebrow);
+    fill("hero-title", l.title);
 
     const langs = document.getElementById("lang-switch");
     langs.innerHTML = "";
@@ -514,217 +190,117 @@
       langs.appendChild(b);
     });
 
-    const order = sequence();
-    const index = stepName === "done" ? order.length - 1 : Math.max(0, order.indexOf(stepName));
-    document.getElementById("bar").style.width = Math.round(((index + 1) / order.length) * 100) + "%";
-    document.getElementById("step-label").textContent = l.stepOf(index + 1, order.length);
-
-    ["q1", "q2", "q3", "form", "pay", "done"].forEach(function (name) {
+    const done = stepName === "done";
+    const index = done ? ORDER.length - 1 : Math.max(0, ORDER.indexOf(stepName));
+    document.getElementById("bar").style.width = Math.round(((index + 1) / ORDER.length) * 100) + "%";
+    fill("step-label", u.stepOf.replace("$1", index + 1).replace("$2", ORDER.length));
+    ["q1", "q2", "q3", "form", "done"].forEach(function (name) {
       document.getElementById("step-" + name).classList.toggle("is-active", name === stepName);
     });
 
-    const bibleQuiz = preset.key === "bible";
-    const qq = bibleQuiz
-      ? [l.q1, l.q2, l.q3]
-      : [l.g1, l.g2, l.g3];
-    document.getElementById("q1-title").textContent = qq[0].title;
-    document.getElementById("q2-title").textContent = qq[1].title;
-    document.getElementById("q3-title").textContent = qq[2].title;
-    fillChoices("q1-opts", "q1", qq[0].opts, quiz.q1);
-    fillChoices("q2-opts", "q2", qq[1].opts, quiz.q2);
-    fillChoices("q3-opts", "q3", qq[2].opts, quiz.q3);
-    const hope = qq[2].opts.find(function (o) { return o.key === quiz.q3; });
-    const resultLine = document.getElementById("result-line");
-    const showResult = !!(hope && hope.result && (stepName === "form" || stepName === "pay" || stepName === "done"));
-    resultLine.hidden = !showResult;
-    resultLine.textContent = showResult ? hope.result : "";
+    fill("q1-title", l.q[0].t); fill("q2-title", l.q[1].t); fill("q3-title", l.q[2].t);
+    fillChoices("q1-opts", "q1", l.q[0].o);
+    fillChoices("q2-opts", "q2", l.q[1].o);
+    fillChoices("q3-opts", "q3", l.q[2].o);
 
-    document.getElementById("s2-title").textContent = l.s2.title;
-    document.getElementById("s2-sub").textContent = l.s2.sub;
-    document.getElementById("lbl-fname").textContent = l.s2.fname;
-    document.getElementById("lbl-email").textContent = l.s2.email;
-    document.getElementById("lbl-channel").textContent = l.s2.channel;
-    document.getElementById("opt-email").textContent = l.s2.emailOpt;
-    document.getElementById("done-title").textContent = l.s2.doneTitle;
-    document.getElementById("done-sub").textContent = l.s2.doneSub;
-    document.getElementById("reg-fname").placeholder = l.s2.fnamePh;
-    document.getElementById("reg-email").placeholder = l.s2.emailPh;
-    document.getElementById("s2-consent").textContent = l.s2.consent;
-    document.getElementById("s2-disclaimer").innerHTML = l.s2.disclaimer;
-    document.getElementById("btn-back").textContent = l.back;
+    const hope = l.q[2].o.find(function (o) { return o[0] === quiz.q3; });
+    const line = document.getElementById("result-line");
+    const showLine = !!(hope && hope[2] && (stepName === "form" || done));
+    line.hidden = !showLine;
+    line.textContent = showLine ? hope[2] : "";
+
+    fill("s2-title", u.s2Title); fill("s2-sub", u.s2Sub);
+    fill("lbl-fname", u.fname); fill("lbl-email", u.email);
+    fill("lbl-channel", u.channel); fill("opt-email", u.emailOpt);
+    document.getElementById("reg-fname").placeholder = u.fnamePh;
+    document.getElementById("reg-email").placeholder = u.emailPh;
+    fill("s2-consent", u.consent);
+    document.getElementById("s2-disclaimer").innerHTML = u.disclaimer;
+    fill("btn-back", u.back);
     document.getElementById("btn-back").hidden = index === 0;
-    document.getElementById("pay-title").textContent = l.pay.title;
-    document.getElementById("wait-fname-lbl").textContent = l.pay.fname;
-    document.getElementById("wait-email-lbl").textContent = l.pay.email;
-    document.getElementById("wait-fname").placeholder = l.s2.fnamePh;
-    document.getElementById("wait-email").placeholder = l.s2.emailPh;
-    document.getElementById("wait-consent-lbl").textContent = l.pay.consent;
-    document.getElementById("wait-submit").textContent = l.pay.listBtn;
-    document.getElementById("pay-done").textContent = l.pay.listDone;
-    document.getElementById("pay-back").textContent = l.back;
-    document.getElementById("pay-back").hidden = index === 0;
-    document.getElementById("pay-back-checkout").textContent = l.back;
-    document.getElementById("pay-back-checkout").hidden = index === 0;
-    const checkout = document.getElementById("pay-checkout");
-    const checkoutHref = publicCheckoutUrl();
-    const waitBox = document.getElementById("pay-waitlist");
-    const payDone = document.getElementById("pay-done");
-    checkout.textContent = l.pay.button;
-    if (checkoutHref) {
-      document.getElementById("pay-sub").textContent = l.pay.subCheckout;
-      checkout.href = checkoutHref;
-      document.getElementById("pay-checkout-row").hidden = false;
-      waitBox.hidden = true;
-      payDone.hidden = true;
-    } else if (waitDone) {
-      document.getElementById("pay-sub").textContent = "";
-      document.getElementById("pay-checkout-row").hidden = true;
-      waitBox.hidden = true;
-      payDone.hidden = false;
+    fill("btn-register", u.send);
+
+    fill("done-title", u.doneTitle);
+    fill("done-sub", channelDone === "email" ? u.doneEmail : u.doneChat);
+    const chatRow = document.getElementById("chat-row");
+    const chatGo = document.getElementById("chat-go");
+    if (chatHref && channelDone !== "email") {
+      chatRow.hidden = false;
+      chatGo.href = chatHref;
+      chatGo.textContent = channelDone === "telegram" ? u.goTelegram : u.goWhatsapp;
     } else {
-      document.getElementById("pay-sub").textContent = l.pay.subWait;
-      document.getElementById("pay-checkout-row").hidden = true;
-      waitBox.hidden = false;
-      payDone.hidden = true;
+      chatRow.hidden = true;
     }
-    const submit = document.getElementById("btn-register");
-    submit.textContent = l.next;
-    if (!RELIGION_OPEN) {
-      submit.disabled = true;
-      showError(l.paused);
+    const href = checkoutUrl();
+    fill("pay-title", u.payTitle);
+    fill("pay-sub", href ? u.paySub : u.payNone);
+    const payRow = document.getElementById("pay-row");
+    payRow.hidden = !href;
+    if (href) {
+      const go = document.getElementById("pay-go");
+      go.href = href;
+      go.textContent = u.payBtn;
     }
-    document.getElementById("link-imp").textContent = l.legal.imp;
-    document.getElementById("link-dat").textContent = l.legal.dat;
-    document.getElementById("link-agb").textContent = l.legal.agb;
-    document.getElementById("link-cook").textContent = l.legal.cook;
+
+    fill("link-imp", u.legal.imp); fill("link-dat", u.legal.dat);
+    fill("link-agb", u.legal.agb); fill("link-cook", u.legal.cook);
+    document.getElementById("link-imp").href = l.legal[0];
+    document.getElementById("link-dat").href = l.legal[1];
+    document.getElementById("link-agb").href = l.legal[2];
+    document.getElementById("link-cook").href = l.legal[3];
   }
 
   document.getElementById("btn-back").addEventListener("click", function () {
-    const order = sequence();
-    const i = order.indexOf(stepName);
-    if (i > 0) { stepName = order[i - 1]; showError(""); render(); }
+    const i = ORDER.indexOf(stepName);
+    if (i > 0) { stepName = ORDER[i - 1]; showError(""); render(); }
   });
-  document.getElementById("pay-back").addEventListener("click", function () {
-    const order = sequence();
-    const i = order.indexOf("pay");
-    if (i > 0) { stepName = order[i - 1]; showError(""); render(); }
-  });
-  document.getElementById("pay-back-checkout").addEventListener("click", function () {
-    const order = sequence();
-    const i = order.indexOf("pay");
-    if (i > 0) { stepName = order[i - 1]; showError(""); render(); }
-  });
-  document.getElementById("wait-submit").addEventListener("click", async function () {
-    const l = L();
-    const btn = document.getElementById("wait-submit");
-    const fname = document.getElementById("wait-fname").value.trim();
-    const email = document.getElementById("wait-email").value.trim();
-    const consent = document.getElementById("wait-consent").checked;
-    if (!fname || !email || email.indexOf("@") < 1) { showError(l.pay.errFill); return; }
-    if (!consent) { showError(l.pay.errConsent); return; }
-    if (!window.supabase || !window.supabase.createClient) { showError(l.s2.errLib); return; }
-    showError("");
-    btn.disabled = true;
-    const sets = [l.q1, l.q2, l.q3];
-    const aim = sets[0].opts.find(function (o) { return o.key === quiz.q1; });
-    const slip = sets[1].opts.find(function (o) { return o.key === quiz.q2; });
-    const shape = sets[2].opts.find(function (o) { return o.key === quiz.q3; });
-    let timezone = "Europe/Berlin";
-    try {
-      const detected = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      if (detected) timezone = detected;
-    } catch (err) { /* keep Berlin */ }
-    const onboarding = {
-      source: "bible_waitlist",
-      chosen_religion: "bible",
-      waitlist_consent: "true",
-      waitlist_consent_text: l.pay.consent,
-      quiz_brings: quiz.q1,
-      quiz_brings_text: aim ? aim.text : "",
-      quiz_often: quiz.q2,
-      quiz_often_text: slip ? slip.text : "",
-      quiz_hope: quiz.q3,
-      quiz_hope_text: shape ? shape.text : "",
-      quiz_result_text: shape && shape.result ? shape.result : "",
-      timezone: timezone
-    };
-    try {
-      if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      const { error: rpcError } = await supabaseClient.rpc("register_bible_waitlist", {
-        p_email: email,
-        p_first_name: fname,
-        p_language: lang,
-        p_onboarding_data: onboarding
-      });
-      if (rpcError) throw rpcError;
-      waitDone = true;
-      render();
-    } catch (e) {
-      console.error(e);
-      const detail = e && (e.message || e.details) ? " " + (e.message || e.details) : "";
-      showError(l.pay.errServer + detail);
-      btn.disabled = false;
-    }
-  });
-
-  function publicCheckoutUrl() {
-    if (!/^[0-9]+$/.test(DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID)) return "";
-    const affKey = (params.get("aff") || "").toLowerCase();
-    const affiliate = DIGISTORE_AFFILIATES[affKey] || "";
-    if (/^[A-Za-z0-9_-]+$/.test(affiliate)) {
-      return "https://www.digistore24.com/redir/" + DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID + "/" + affiliate + "/";
-    }
-    return "https://www.checkout-ds24.com/product/" + DIGISTORE_BIBLE_MONTHLY_PRODUCT_ID;
-  }
-
 
   document.getElementById("btn-register").addEventListener("click", async function () {
-    const l = L();
+    const l = L(), u = l.ui;
     const btn = document.getElementById("btn-register");
-    if (!RELIGION_OPEN) { showError(l.paused); return; }
-    if (!trialOk) { stepName = "pay"; render(); return; }
     const fname = document.getElementById("reg-fname").value.trim();
     const email = document.getElementById("reg-email").value.trim();
     const channelEl = document.querySelector('input[name="kanal"]:checked');
     const channel = channelEl ? channelEl.value : "";
-    if (!chosen) { stepName = "program"; render(); return; }
-    if (!fname || !email) { showError(l.s2.errFill); return; }
-    if (channel !== "whatsapp" && channel !== "telegram" && channel !== "email") { showError(l.s2.errChannel); return; }
-    const consentBox = document.getElementById("reg-consent");
-    if (!consentBox || !consentBox.checked) { showError(l.s2.errConsent); return; }
-    if (!window.supabase || !window.supabase.createClient) { showError(l.s2.errLib); return; }
+    if (!fname || !email || email.indexOf("@") < 1) { showError(u.errFill); return; }
+    if (channel !== "whatsapp" && channel !== "telegram" && channel !== "email") { showError(u.errChannel); return; }
+    if (!document.getElementById("reg-consent").checked) { showError(u.errConsent); return; }
+    if (!window.supabase || !window.supabase.createClient) { showError(u.errLib); return; }
 
     showError("");
     btn.disabled = true;
+    const label = btn.textContent;
     btn.textContent = "…";
 
     let timezone = "Europe/Berlin";
     try {
       const detected = Intl.DateTimeFormat().resolvedOptions().timeZone;
       if (detected) timezone = detected;
-    } catch (err) { /* keep Berlin if the browser can't name a zone */ }
-    const bibleQuiz = chosen && chosen.key === "bible";
-    const sets = bibleQuiz ? [l.q1, l.q2, l.q3] : [l.g1, l.g2, l.g3];
-    const aim = sets[0].opts.find(function (o) { return o.key === quiz.q1; });
-    const slip = sets[1].opts.find(function (o) { return o.key === quiz.q2; });
-    const shape = sets[2].opts.find(function (o) { return o.key === quiz.q3; });
+    } catch (err) { /* Berlin behalten */ }
+
+    const a1 = l.q[0].o.find(function (o) { return o[0] === quiz.q1; });
+    const a2 = l.q[1].o.find(function (o) { return o[0] === quiz.q2; });
+    const a3 = l.q[2].o.find(function (o) { return o[0] === quiz.q3; });
     const onboarding = {
-      chosen_religion: chosen.key,
-      root_problem: chosen.key,
-      religion_consent: true,
-      religion_consent_at: new Date().toISOString(),
-      religion_consent_text: l.s2.consent,
-      quiz_brings: quiz.q1,
-      quiz_brings_text: aim ? aim.text : "",
-      quiz_often: quiz.q2,
-      quiz_often_text: slip ? slip.text : "",
-      quiz_hope: quiz.q3,
-      quiz_hope_text: shape ? shape.text : "",
-      quiz_result_text: shape && shape.result ? shape.result : "",
+      theme: THEMA,
+      root_problem: THEMA,
+      consent: true,
+      consent_at: new Date().toISOString(),
+      consent_text: u.consent,
+      quiz_q1: quiz.q1, quiz_q1_text: a1 ? a1[1] : "",
+      quiz_q2: quiz.q2, quiz_q2_text: a2 ? a2[1] : "",
+      quiz_q3: quiz.q3, quiz_q3_text: a3 ? a3[1] : "",
+      quiz_result_text: a3 && a3[2] ? a3[2] : "",
       timezone: timezone,
-      digistore_affiliate: (params.get("aff") || "").toLowerCase(),
-      invite_token: trialOk ? inviteToken : ""
+      digistore_affiliate: aff,
+      digistore_product: l.product
     };
+    if (GLAUBE) {
+      onboarding.chosen_religion = THEMA;
+      onboarding.religion_consent = true;
+      onboarding.religion_consent_at = onboarding.consent_at;
+      onboarding.religion_consent_text = u.consent;
+    }
 
     try {
       if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -732,54 +308,33 @@
         p_email: email,
         p_first_name: fname,
         p_delivery_channel: channel,
-        p_source: "religion_selector",
+        p_source: "quiz_" + THEMA,
         p_language: lang,
         p_onboarding_data: onboarding,
-        p_chosen_path: chosen.key,
-        p_flow_name: chosen.flow
+        p_chosen_path: THEMA,
+        p_flow_name: FLOW
       });
-
-      const relName = l.rel[chosen.key].name;
-      const baseMessage = l.botMsg.replace("{name}", relName);
-      const accessLabel = accessLabels[lang] || accessLabels.de;
-      const finalMessage = baseMessage + "\n\n" + accessLabel + " " + accessCode;
-      const encodedMessage = encodeURIComponent(finalMessage);
-      if (channel === "email") {
-        stepName = "done";
-        btn.disabled = false;
-        btn.textContent = l.next;
-        render();
-        return;
-      }
-      if (channel === "telegram") {
-        window.location.href = "https://t.me/" + tgBotName + "?text=" + encodedMessage;
-      } else {
-        window.location.href = "https://wa.me/" + waNumber + "?text=" + encodedMessage;
-      }
+      const msg = u.botMsg.replace("$1", l.eyebrow) + "\n\n" + u.access + " " + accessCode;
+      const encoded = encodeURIComponent(msg);
+      channelDone = channel;
+      if (channel === "telegram") chatHref = "https://t.me/" + tgBotName + "?text=" + encoded;
+      else if (channel === "whatsapp") chatHref = "https://wa.me/" + waNumber + "?text=" + encoded;
+      else chatHref = "";
+      stepName = "done";
+      btn.disabled = false;
+      btn.textContent = label;
+      render();
+      document.getElementById("step-done").scrollIntoView({ block: "start" });
     } catch (e) {
       console.error(e);
       const detail = e && (e.message || e.details) ? " " + (e.message || e.details) : "";
-      showError(l.s2.errServer + detail);
+      showError(u.errServer + detail);
       btn.disabled = false;
-      btn.textContent = l.next;
+      btn.textContent = label;
     }
   });
 
   render();
-  if (inviteToken && window.supabase && window.supabase.createClient) {
-    const inviteClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const invitePath = preset.key;
-    inviteClient.rpc("trial_invite_valid", { p_token: inviteToken, p_path: invitePath }).then(function (res) {
-      trialOk = !!(res && res.data === true && !res.error);
-      if (trialOk && stepName === "pay") stepName = "form";
-      if (!trialOk && stepName === "form") stepName = "pay";
-      render();
-    }).catch(function () {
-      trialOk = false;
-      if (stepName === "form") stepName = "pay";
-      render();
-    });
-  }
 </script>
 <script src="/access-code.js"></script>
 <script src="/site.js"></script>

@@ -300,6 +300,26 @@
     els.forEach(function (e) { io.observe(e); });
   }
 
-  function init() { initNav(); initStickyBar(); initPlayers(); initHeroLoop(); initMarquee(); initTabs(); initTry(); initReveal(); }
+  /* Partner-Kennung weiterreichen: aff und invite stehen in der Seiten-URL
+     und muessen an jeden Quiz-Link, damit die Provision und der Testzugang
+     ankommen. Die Seiten selbst bleiben dadurch allgemein, ohne Creator-Name. */
+  function initRefLinks() {
+    var params = new URLSearchParams(location.search);
+    var carry = [];
+    ["aff", "invite"].forEach(function (key) {
+      var value = params.get(key);
+      if (value && /^[A-Za-z0-9_-]{1,64}$/.test(value)) carry.push([key, value]);
+    });
+    if (!carry.length) return;
+    document.querySelectorAll('a[href^="/quiz/"]').forEach(function (a) {
+      var url = new URL(a.getAttribute("href"), location.origin);
+      carry.forEach(function (pair) {
+        if (!url.searchParams.has(pair[0])) url.searchParams.set(pair[0], pair[1]);
+      });
+      a.setAttribute("href", url.pathname + url.search + url.hash);
+    });
+  }
+
+  function init() { initNav(); initStickyBar(); initPlayers(); initHeroLoop(); initMarquee(); initTabs(); initTry(); initReveal(); initRefLinks(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
