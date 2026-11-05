@@ -5,14 +5,13 @@
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--
-  Influencer-Vorschauseite. Design-Vorlage: index.html (Startseite).
-  Nutzt nur tokens.css + components.css + site.js der Startseite. Kein eigener <style>-Block.
-  Programm: Parent in Peace | Flow: parenting_loop_flow | Sprache: EN | Slug: /p/parenting-loop-en
-  Platzhalter: {{INFLUENCER_NAME}}, {{VIDEO_EMBED}}, {{AFFILIATE_ID}}
-  Erzeugt von scratchpad/build-pages.js am 03.11.2026. Aenderungen am Muster dort nachziehen.
+  Themenseite, erzeugt von scratchpad/build2.js. Muster: /p/bible-en (live).
+  Allgemein: kein Creator-Name, kein fester Invite-Token. aff und invite kommen
+  aus der URL und werden von site.js an die Quiz-Links gehaengt.
+  Thema: parenting-loop | Flow: parenting_loop_flow | Sprache: EN
 -->
-<title>You shout. And two minutes later you are sorry.</title>
-<meta name="description" content="Daily guidance on WhatsApp or Telegram. One short message every morning with a task for the day. The first 4 days are free.">
+<title>One thought each morning. And one small step that gives you back the second in between.</title>
+<meta name="description" content="Every morning at 7 a.m. one message on WhatsApp, Telegram, or email. Anger and guilt. $19 a month. Cancel anytime.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0A141B">
 <link rel="preload" href="/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -24,188 +23,167 @@
 <a class="skip-link" href="#inhalt">Skip to content</a>
 <header class="hdr">
   <a class="wordmark" href="#inhalt">Shift My Horizon</a>
-  <a class="btn btn--primary hdr__cta" href="https://www.shiftmyhorizon.com/Parentinpeace.html?p=anger">Start 4 days free</a>
+  <a class="btn btn--primary hdr__cta" href="/quiz/parenting-loop?lang=en">Start my 4 free days</a>
 </header>
 
 <main id="inhalt">
-  <!-- 1. Hero: Problem oben, Video des Influencers daneben (PLATZHALTER: {{VIDEO_EMBED}}) -->
-  <!-- Kein hero--book: diese Klasse schiebt das Video auf dem Handy unter den Button (components.css 782-787). -->
-  <section class="hero hero--lp">
+  <div class="sample-banner-wrap" data-partner-only>
+    <div class="wrap">
+      <div class="sample-banner" role="note">
+        <p><strong>For you only. Please don’t share this.</strong> This is a sample of how the page could look for your followers. We’ll adapt it to you and your audience, and add your video.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero hero--lp bible-offer">
     <div class="hero__bg"><div class="scene"></div></div>
     <div class="hero__shade"></div>
     <div class="wrap">
-      <div class="hero__grid">
-        <div class="hero__text">
-          <div class="hero__top">
-            <span class="eyebrow rv-hero">Parent in Peace · Anger and guilt</span>
-            <h1 class="rv-hero d1">You shout. And two minutes later you are sorry.</h1>
-            <p class="lead">You know exactly how you want to handle it. Then the moment comes and the same thing happens again.</p>
-            <p class="lead">Daily guidance on WhatsApp or Telegram. One short message every morning with a task for the day, under 5 minutes. The first 4 days are free.</p>
-          </div>
-          <div class="hero__bottom rv-hero d2">
-            <div class="hero__actions"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/Parentinpeace.html?p=anger">Start 4 days free</a></div>
-            <p class="hero__note">Recommended by {{INFLUENCER_NAME}}. Via WhatsApp or Telegram, no payment details.</p>
-            <!-- Nur in der Influencer-Fassung. Fuer die Follower-Fassung diesen Block loeschen. -->
-            <div class="note-box" data-partner-only><p><strong>For you only, please do not share it yet.</strong> This is a sample for you. The page for your followers would look exactly like this, with your video at the top and without this box.</p></div>
-          </div>
+      <div class="bible-offer__grid">
+        <div>
+          <span class="eyebrow">Anger and guilt</span>
+          <h1>One thought each morning. And one small step that gives you back the second in between.</h1>
+          <p class="lead">It takes one minute. You can cancel anytime.</p>
+          <div class="hero__actions"><a class="btn btn--primary" href="/quiz/parenting-loop?lang=en">Start my 4 free days</a></div>
+          <p class="bible-offer__trust">Cancel anytime. Payments via Digistore24. Every morning at 7 a.m. (your local time) you get one message on WhatsApp, Telegram, or email.</p>
         </div>
-        <div class="hero__media rv-hero d3">
-          <!-- aria-label NICHT mit "Platzhalter" beginnen lassen, sonst blendet components.css den Block aus.
-               Kein data-src setzen, sonst blendet Regel .hero__media:has(> .vsl[data-src=""]) den Slot aus. -->
-          <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
-            <!-- Embed von YouTube, Instagram, TikTok oder video-Tag ersetzt den .ph-Block. -->
-            <div class="ph" aria-label="Video slot influencer"><div class="ph__center">Your video</div><p class="ph__cap">Portrait, 30 to 90 seconds.</p></div>
-          </div>
+        <div class="phone" aria-label="Example morning message">
+          <div class="phone__speaker"></div>
+          <p><strong>Good morning.</strong></p>
+          <p>Identify the exact moments when your child's behavior emotionally triggers you.</p>
+          <p><strong>Step:</strong> Note three situations today where you became loud or internally angry, and describe the child's behavior without judgment.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2. Kennst du das? -->
-  <section class="sec sec--dark" id="problem">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <h2>Sound familiar?</h2>
-      </div>
-      <div class="signs">
-        <article class="glass rv"><h3>One sentence from your child and you are instantly up at full volume.</h3></article>
-        <article class="glass rv"><h3>After the outburst you stand in the doorway, ashamed.</h3></article>
-        <article class="glass rv"><h3>You hear your own parents coming out of your mouth.</h3></article>
-        <article class="glass rv"><h3>In the evening you decide to be different tomorrow.</h3></article>
+  <section class="sec sec--white" id="video" data-partner-only>
+    <div class="wrap" style="max-width:720px">
+      <div class="vsl vsl--vertical" data-placeholder="VIDEO_EMBED">
+        <div class="ph ph--note" aria-label="Space for your video">
+          <div class="ph__center">
+            <p><strong>Optional:</strong> Want to add a short video here?</p>
+            <p><strong>Why it helps:</strong> Your viewers know you. When you explain it yourself, more of them try it.</p>
+            <p><strong>Ideas for what to say:</strong></p>
+            <ul>
+              <li>Why anger and guilt matters to you and what one message each morning changes</li>
+              <li>What they get: one thought and one small step every morning at 7, on WhatsApp, Telegram or email</li>
+              <li>That it’s $19 a month, they pay right after the quiz, and they can cancel anytime</li>
+            </ul>
+            <p>30 to 60 seconds is enough. Send it to us and we’ll put it in. Without a video, the page works as it is.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Was du konkret bekommst -->
-  <section class="sec sec--white" id="inhalt-programm">
-    <div class="wrap" style="max-width:760px">
-      <div class="rv">
-        <span class="eyebrow">What you get</span>
-        <h2>Daily guidance. One message every morning.</h2>
-        <p>Not a course you never open. Every morning at 7 a short message arrives on WhatsApp or Telegram. It holds a thought for the day and a task you do the same day. Under 5 minutes.</p>
-      </div>
-      <ul class="days rv">
-        <li><b>The path is laid out</b>You do not have to look anything up or plan anything. First you find your own triggers. Then you get the second in between back. In the end you are the calm part of the room.</li>
-        <li><b>One step a day</b>Always something you can do the same day. In your normal day, without extra time.</li>
-        <li><b>From work that holds up</b>The steps come from the work of Jesper Juul, Nicola Schmidt and Philippa Perry. Each one comes with a short note on why it works.</li>
-        <li><b>No app</b>It runs in your messenger. No login, no password. Reply STOP and it ends.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 5. Echte Tage (Supabase flow_content, parenting_loop_flow) -->
   <section class="sec sec--paper" id="tage">
     <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">What real days look like</span>
-        <h2>This is not sample text. These are the exact messages you get.</h2>
-      </div>
-      <div class="stats stats--3">
-        <article class="stat rv">
-          <p class="stat__num">Day 1</p>
-          <p class="stat__claim">Activate Trigger Radar</p>
-          <p>Identify the exact moments when your child's behavior emotionally triggers you.<br><br><b>Task:</b> Note three situations today where you became loud or internally angry, and describe the child's behavior without judgment.</p>
+      <span class="eyebrow">A real morning</span>
+      <h2>What the message looks like.</h2>
+      <div class="daycards">
+        <article class="daycard">
+          <p class="daycard__badge">Day 1</p>
+          <h3>Activate Trigger Radar</h3>
+          <p>Identify the exact moments when your child's behavior emotionally triggers you.</p>
+          <p class="bubble"><b>Your step today</b>Note three situations today where you became loud or internally angry, and describe the child's behavior without judgment.</p>
         </article>
-        <article class="stat rv">
-          <p class="stat__num">Day 4</p>
-          <p class="stat__claim">Unmasking Mirror Images</p>
-          <p>Understand that the traits that bother you most in your child are often unresolved aspects of yourself.<br><br><b>Task:</b> When a behavior makes you angry, ask yourself honestly: Do I disallow myself from exhibiting this behavior or feeling?</p>
+        <article class="daycard">
+          <p class="daycard__badge">Day 4</p>
+          <h3>Unmasking Mirror Images</h3>
+          <p>Understand that the traits that bother you most in your child are often unresolved aspects of yourself.</p>
+          <p class="bubble"><b>Your step today</b>When a behavior makes you angry, ask yourself honestly: Do I disallow myself from exhibiting this behavior or feeling?</p>
         </article>
-        <article class="stat rv">
-          <p class="stat__num">Day 30</p>
-          <p class="stat__claim">The Anchored Harbor</p>
-          <p>Conclude phase two by celebrating neural reconnection.<br><br><b>Task:</b> Hold your child wordlessly and lovingly in your arms after the next conflict, as soon as the acute storm has passed.</p>
+        <article class="daycard">
+          <p class="daycard__badge">Day 30</p>
+          <h3>The Anchored Harbor</h3>
+          <p>Conclude phase two by celebrating neural reconnection.</p>
+          <p class="bubble"><b>Your step today</b>Hold your child wordlessly and lovingly in your arms after the next conflict, as soon as the acute storm has passed.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- 6. 4 Tage gratis -->
-  <section class="booking" id="gratis">
-    <div class="booking__bg"><div class="scene"></div></div>
-    <div class="booking__shade"></div>
-    <div class="wrap booking__grid">
-      <div class="booking__intro rv">
-        <span class="eyebrow">Try it first, then decide</span>
-        <h2>The first 4 days are free.</h2>
-        <p class="lead">You answer a few short questions, send one start message, and the next morning day 1 arrives.</p>
-        <ul class="facts">
-          <li><b>Time</b>2 minutes to start, then under 5 minutes a day.</li>
-          <li><b>Cost</b>none. No payment details.</li>
-          <li><b>After that</b>On day 4 you decide. No subscription starts by itself.</li>
-        </ul>
-      </div>
-      <div class="booking__card rv">
-        <div class="card-light">
-          <h3>How it runs</h3>
-          <ol class="steps on-light">
-            <li><div><h3>Answer the questions</h3><p>First name, email, WhatsApp or Telegram.</p></div></li>
-            <li><div><h3>Send the start message</h3><p>Your messenger opens with the text and access code ready. You tap send.</p></div></li>
-            <li><div><h3>Get day 1 to 4</h3><p>Every morning at 7. Exactly the days you see above.</p></div></li>
-            <li><div><h3>Decide</h3><p>If it did something for you, the guidance carries on.</p></div></li>
-          </ol>
-          <div class="btn-row"><a class="btn btn--primary btn--block" href="https://www.shiftmyhorizon.com/Parentinpeace.html?p=anger">Start 4 days free</a></div>
-        </div>
-      </div>
+  <section class="sec sec--dark" id="ablauf">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">How it works</span>
+      <h2>Three steps. Then it runs every morning.</h2>
+      <ol class="steps">
+        <li><div><h3>A short quiz</h3><p>Three questions. About a minute.</p></div></li>
+        <li><div><h3>Pick where it arrives</h3><p>WhatsApp, Telegram, or email.</p></div></li>
+        <li><div><h3>First message at 7:00</h3><p>Every morning at 7 a.m. (your local time) you get one message on WhatsApp, Telegram, or email.</p></div></li>
+      </ol>
     </div>
   </section>
 
-  <!-- 7. Preise (Digistore24: PLATZHALTER) -->
-  <section class="sec sec--white" id="preise">
+  <section class="sec sec--white" id="inhalt-programm">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">What you get</span>
+      <h2>One thought each morning. A month of them.</h2>
+      <ul class="days">
+        <li><b>Each morning</b>One thought and one small step for that day. On WhatsApp, Telegram, or email.</li>
+        <li><b>Each month</b>A new message every day you stay. $19. It stops when you cancel.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec sec--paper" id="preise">
     <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">Prices</span>
-        <h2>If you want to carry on.</h2>
+      <div class="sec-head">
+        <span class="eyebrow">Price</span>
+        <h2>$19 a month.</h2>
       </div>
       <div class="ways">
-        <article class="way rv">
+        <article class="way">
           <p class="way__num">$19</p>
-          <h3>Monthly</h3>
-          <p>This is what your viewers pay. Billed by Digistore24, cancel any month.</p>
+          <h3>Each month</h3>
+          <p>Less than a coffee a week. Billed monthly through Digistore24. Renews until you cancel. No 90-day lock-in.</p>
+        </article>
+        <article class="way">
+          <p class="way__num">4</p>
+          <h3>Free days first</h3>
+          <p>The button starts 4 mornings free. After that, $19 a month if you stay. Cancel before then and you pay nothing.</p>
+          <a class="btn btn--primary" href="/quiz/parenting-loop?lang=en">Start my 4 free days</a>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- 8. Partner-Abschnitt (nur Vorschau fuer Influencer; auf Kundenversion entfernen) -->
-  <section class="statement-band" id="partner" data-partner-only>
-    <div class="wrap">
-      <span class="eyebrow">Visible to you as a partner only</span>
-      <p class="statement rv">Digistore24 pays you <em>50%</em>.</p>
-      <p class="sub rv">Digistore24 Inc. takes 7.9 % plus $1, which is $2.50 on a $19 subscription. That leaves $16.50, and your half is $8.25 a month for as long as the person stays. Where sales tax applies it comes off first, so the amount can be a little lower. 90 % is paid out after about two weeks, the rest after 60 days.</p>
-      <ul class="points rv">
-        <li><b>1. Open a Digistore24 account</b>Free, takes a few minutes. Send me your Digistore24 ID.</li>
-        <li><b>2. Send your video</b>I put it in at the top and send you your link.</li>
-        <li><b>3. Share the link</b>In your bio, a story, a video or a newsletter. That is all.</li>
+  <section class="sec sec--white" id="kuendigen">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">Cancel</span>
+      <h2>You can stop it in one step.</h2>
+      <ul class="days">
+        <li><b>In the chat</b>Send STOP on WhatsApp or Telegram. The messages stop.</li>
+        <li><b>By email</b>Each email has a stop link. Open it and confirm.</li>
+        <li><b>The payment</b>Cancel the subscription in Digistore24. No further charge. The morning message ends with it.</li>
       </ul>
-      <div class="note-box rv"><p><strong>Program:</strong> Parent in Peace. Topic: Anger and guilt. Flow: parenting_loop_flow. Language: English.<br><strong>Your link:</strong> https://www.shiftmyhorizon.com/p/parenting-loop-en?aff={{AFFILIATE_ID}}<br><a class="textlink" href="https://www.shiftmyhorizon.com/Parentinpeace.html?p=anger">This is the entry page your followers see</a></p></div>
-      <p class="sub rv">This preview page is not public and is in no search engine. Once your video is in at the top, this exact page becomes your sales page, without the boxes only you can see.</p>
     </div>
   </section>
 
-  <!-- 9. FAQ -->
-  <section class="sec sec--white" id="fragen">
+  <section class="sec sec--paper" id="fragen">
     <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">Common questions</span>
-        <h2>Common questions</h2>
+      <div class="sec-head">
+        <span class="eyebrow">Questions</span>
+        <h2>Questions</h2>
       </div>
-      <div class="faq rv">
-        <details><summary>Does the test cost anything?</summary><p>No. The first 4 days are free. You give no payment details.</p></details>
-        <details><summary>How much time do I need a day?</summary><p>Under 5 minutes. Read it and do the task as you go.</p></details>
-        <details><summary>How do I stop?</summary><p>Write STOP in the chat. Then nothing more arrives.</p></details>
-        <details><summary>Is this therapy?</summary><p>No. It is a self-guided program with a daily prompt. It does not replace therapy.</p></details>
+      <div class="faq">
+        <details><summary>When am I billed?</summary><p>After the 4 free days, Digistore24 bills $19 for the month. It renews each month until you cancel.</p></details>
+        <details><summary>How do I cancel?</summary><p>Send STOP in WhatsApp or Telegram, use the link in the email, or cancel in Digistore24. The messages and the charge both stop.</p></details>
+        <details><summary>Which channels?</summary><p>WhatsApp, Telegram, or email. You pick one at signup.</p></details>
+        <details><summary>What time does it arrive?</summary><p>Every morning at 7 a.m. your local time.</p></details>
+        <details><summary>Can I change the channel?</summary><p>Yes. Write to hello@shiftmyhorizon.com and say which one you want.</p></details>
       </div>
     </div>
   </section>
 
-  <!-- 10. Abschluss -->
   <section class="hero hero--compact" id="abschluss">
     <div class="hero__bg"><div class="scene"></div></div>
     <div class="hero__shade"></div>
-    <div class="wrap rv">
-      <h2>Try it for 4 days. The first message comes tomorrow morning.</h2>
-      <div class="btn-row"><a class="btn btn--primary" href="https://www.shiftmyhorizon.com/Parentinpeace.html?p=anger">Start 4 days free</a></div>
+    <div class="wrap">
+      <h2>Start with 4 free mornings.</h2>
+      <p class="lead">Then $19 a month. Cancel anytime.</p>
+      <div class="btn-row"><a class="btn btn--primary" href="/quiz/parenting-loop?lang=en">Start my 4 free days</a></div>
     </div>
   </section>
 </main>
@@ -220,7 +198,7 @@
         <a href="/terms">Terms</a>
       </nav>
     </div>
-    <p class="ftr__fine">This does not replace therapy. It is about what you do in everyday life.</p>
+    <p class="ftr__fine">A morning message. Not therapy, and not a substitute for it.</p>
   </div>
 </footer>
 <script src="/lang.js"></script>
