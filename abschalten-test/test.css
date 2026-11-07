@@ -1,0 +1,74 @@
+/* Abschalten-Test. Nur diese Seiten. Bausteine aus components.css bleiben führend. */
+
+.at-start h1 { max-width: 14em; }
+.at-liste { margin: 18px 0 0; padding: 0; list-style: none; max-width: 38em; }
+.at-liste li { margin: 0; padding: 10px 0 10px 1.6em; position: relative; }
+.at-liste li::before {
+  content: ""; position: absolute; left: 0; top: 1.15em; width: 8px; height: 8px;
+  border-radius: 50%; background: var(--accent-light);
+}
+
+.at-flow { padding-top: clamp(104px, 12vw, 140px); padding-bottom: clamp(64px, 8vw, 112px); }
+.at-flow .wrap { max-width: 760px; }
+.at-frage { border: 0; margin: 0; padding: 0; }
+.at-frage legend {
+  font-family: var(--font-head); font-weight: 500;
+  font-size: clamp(1.6rem, 1.15rem + 1.5vw, 2.35rem);
+  line-height: 1.2; letter-spacing: -.02em; color: var(--ink);
+  padding: 0; margin: 0 0 18px; float: none; width: auto; max-width: 100%;
+}
+.at-frage legend:focus,
+.at-frage legend:focus-visible { outline: none; }
+.at-zurueck {
+  margin-top: 8px; background: none; border: 0; padding: 8px 0;
+  color: var(--accent-dark); font: 600 1rem/1.4 var(--font-body);
+  cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+}
+.at-weiter { margin-top: 8px; }
+
+.hero--result { min-height: 0; align-items: flex-start; }
+.hero--result h1 { max-width: 12em; }
+.at-layout { max-width: 46rem; }
+.at-tipp {
+  background: var(--accent-tint);
+  border: 1px solid rgba(19, 121, 106, .28);
+  border-radius: var(--r-card);
+  padding: clamp(20px, 3vw, 32px);
+  margin: 0 0 28px;
+}
+.at-tipp p:last-child { margin-bottom: 0; }
+.at-tipp__label {
+  display: block; margin-bottom: 8px;
+  font-family: var(--font-head); font-size: 1.35rem; font-weight: 500; color: var(--ink);
+}
+.at-kopiert { min-height: 1.5em; margin: 12px 0 0; }
+
+.at-upsell { max-width: 46rem; }
+.at-challenge .booking__intro h2 { max-width: 16ch; }
+.at-preis {
+  font-family: var(--font-head); font-weight: 500;
+  font-size: clamp(2.25rem, 4vw, 3rem); line-height: 1; letter-spacing: -.03em;
+  margin: 0 0 12px; color: var(--ink);
+}
+
+.bericht { max-width: 42rem; }
+.bericht h2 { margin: 2.4rem 0 .75rem; }
+.bericht h2:first-child { margin-top: 0; }
+.bericht .days { margin-top: 8px; }
+.bericht .days b { font-family: var(--font-head); font-size: 1.2rem; font-weight: 500; }
+.bericht ul { margin: 0 0 1em; padding-left: 1.2em; }
+.bericht ul li { margin: 0 0 .55em; }
+
+.at-sperre { max-width: 40rem; }
+
+@media (max-width: 720px) {
+  .at-flow .btn--primary { width: 100%; }
+  .at-upsell .btn { width: 100%; }
+}
+@media print {
+  .hdr, .ftr, .at-vorspann, .skip-link { display: none !important; }
+  body { background: #fff; color: #16130e; }
+  .hero { min-height: 0; padding: 0 0 24px; background: #fff; color: #16130e; }
+  .hero .eyebrow, .hero h1, .hero p { color: #16130e; }
+  .sec { padding-block: 12px; }
+}
