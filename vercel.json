@@ -43,5 +43,13 @@
     { "source": "/kreis/werte", "destination": "/clear-state/werte", "permanent": true },
     { "source": "/kreis/wofuer", "destination": "/clear-state/wofuer", "permanent": true }
 
+  ],
+  "headers": [
+    {
+      "source": "/abschalten-test/bericht",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    }
   ]
 }

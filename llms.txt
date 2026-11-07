@@ -10,6 +10,7 @@
 
 - [Startseite](https://www.shiftmyhorizon.com/): Wo es hakt, bei der Arbeit, vor Terminen, abends oder nachts.
 - [Umschalt-Check](https://www.shiftmyhorizon.com/check): Kurzer Check, wo das Umschalten hakt.
+- [Abschalten-Test](https://www.shiftmyhorizon.com/abschalten-test): Kostenloser Test, wie gut du nach der Arbeit abschaltest. 15 Fragen, vier Typen. Der ausführliche Bericht ist eine Einmalzahlung. Die Berichtsseite ist noindex.
 - [Potenzialanalyse](https://www.shiftmyhorizon.com/session): 30 Minuten, kostenlos, ohne Verkaufsgespräch.
 
 ## Hinweise für Suchmaschinen
