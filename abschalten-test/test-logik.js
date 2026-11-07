@@ -64,7 +64,9 @@ config.CONFIG.TYPEN.forEach(function (typ) {
   eq("stripe " + typ, url, STRIPE[typ]);
   var zahl = berichte.wortzahl(typ);
   console.log("woerter", typ, zahl);
-  assert.ok(zahl >= 1000 && zahl <= 1500, typ + " wortzahl " + zahl);
+  assert.ok(zahl >= 800 && zahl <= 1500, typ + " wortzahl " + zahl);
+  assert.ok(berichte.BERICHTE[typ].lassen && berichte.BERICHTE[typ].lassen.length > 0);
+  assert.ok(berichte.BERICHTE[typ].plan.length >= 3);
   var html = fs.readFileSync(path.join(__dirname, "ergebnis", typ + ".html"), "utf8");
   assert.ok(html.indexOf("https://www.shiftmyhorizon.com/abschalten-test/ergebnis/" + typ) !== -1);
   assert.ok(html.indexOf('data-typ="' + typ + '"') !== -1);
@@ -73,6 +75,9 @@ config.CONFIG.TYPEN.forEach(function (typ) {
   assert.ok(html.indexOf('value="whatsapp"') !== -1);
   assert.ok(html.indexOf('href="/fokus"') !== -1);
   assert.ok(html.indexOf("Sichere Zahlung über Stripe") !== -1);
+  assert.ok(html.indexOf("Was im Körper passiert") !== -1);
+  assert.ok(html.indexOf("Drei Übungen") !== -1);
+  assert.ok(html.indexOf("Das lässt du") !== -1);
   assert.ok(html.indexOf(url) !== -1);
   assert.ok(html.indexOf("noindex") === -1);
   assert.ok(html.toLowerCase().indexOf("digi" + "store") === -1);

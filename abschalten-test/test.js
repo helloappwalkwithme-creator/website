@@ -16,7 +16,7 @@
   var SKALA = [
     { wert: 0, text: "Trifft kaum zu" },
     { wert: 1, text: "Ab und zu" },
-    { wert: 2, text: "Oft" },
+    { wert: 2, text: "An den meisten Tagen" },
     { wert: 3, text: "Fast jeden Tag" }
   ];
 

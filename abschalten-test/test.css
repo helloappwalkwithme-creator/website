@@ -29,6 +29,10 @@
 .hero--result { min-height: 0; align-items: flex-start; }
 .hero--result h1 { max-width: 12em; }
 .at-layout { max-width: 46rem; }
+.at-block { margin: 2.1rem 0 .7rem; }
+.at-layout > .at-block:first-of-type { margin-top: 0; }
+.at-zeichen { margin: 0 0 1em; padding-left: 1.15em; }
+.at-zeichen li { margin: 0 0 .5em; }
 .at-tipp {
   background: var(--accent-tint);
   border: 1px solid rgba(19, 121, 106, .28);

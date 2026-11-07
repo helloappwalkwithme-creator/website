@@ -47,6 +47,10 @@
 
     block("Was im Nervensystem passiert", bericht.nervensystem.map(absatz));
 
+    if (bericht.lassen && bericht.lassen.length) {
+      block("Was du lässt", bericht.lassen.map(absatz));
+    }
+
     var ol = document.createElement("ol");
     ol.className = "days";
     bericht.plan.forEach(function (tag) {
