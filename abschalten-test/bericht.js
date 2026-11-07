@@ -1,11 +1,6 @@
-/* Berichtsseite. Öffnet den Text nur mit Zugang, Vorschau-Schlüssel oder auf localhost. */
+/* Berichtsseite. Öffnet den Text nur mit dem Zugang aus der Stripe-Weiterleitung. */
 (function () {
   "use strict";
-
-  function lokal() {
-    var host = window.location.hostname;
-    return host === "localhost" || host === "127.0.0.1" || host === "[::1]" || host === "";
-  }
 
   function pruefen() {
     var q = new URLSearchParams(window.location.search);
@@ -14,12 +9,8 @@
     var alle = window.ABSCHALTEN_BERICHTE && window.ABSCHALTEN_BERICHTE.BERICHTE;
     var bericht = alle ? alle[typ] : null;
     var schluessel = cfg.BERICHT_ZUGANG || "";
-    var schluesselEcht = schluessel.indexOf("PLATZHALTER") === -1 && schluessel.length > 0;
-    var vorschauSchluessel = cfg.VORSCHAU_SCHLUESSEL || "";
-    var vorschauOk = vorschauSchluessel.length > 0 && q.get("vorschau") === vorschauSchluessel;
     if (!bericht) return { ok: false, grund: "typ" };
-    if (schluesselEcht && q.get("zugang") === schluessel) return { ok: true, typ: typ, vorschau: false };
-    if (vorschauOk || lokal()) return { ok: true, typ: typ, vorschau: true };
+    if (schluessel && q.get("zugang") === schluessel) return { ok: true, typ: typ };
     return { ok: false, grund: "zu", name: bericht.name };
   }
 
@@ -84,24 +75,22 @@
   var gate = pruefen();
   var zu = document.getElementById("bericht-zu");
   var offen = document.getElementById("bericht-offen");
-  var banner = document.getElementById("bericht-vorschau");
 
   if (!gate.ok) {
     zu.hidden = false;
     offen.hidden = true;
     var text = document.getElementById("bericht-zu-text");
     if (gate.grund === "typ") {
-      text.textContent = "Im Link fehlt der Typ. In der Bestellbestätigung steht die volle Adresse, mit typ und mit dem Zugang.";
+      text.textContent = "Im Link fehlt der Typ. Nach der Zahlung steht die volle Adresse in der Weiterleitung, mit typ und mit dem Zugang.";
     } else {
       document.getElementById("bericht-zu-name").textContent = gate.name;
-      text.textContent = "Dies ist der Bericht zum Typ " + gate.name + ". Den Link, der ihn öffnet, schickt die Bestellbestätigung nach der Zahlung.";
+      text.textContent = "Dies ist der Bericht zum Typ " + gate.name + ". Den Link, der ihn öffnet, bekommst du nach der Zahlung.";
     }
     return;
   }
 
   zu.hidden = true;
   offen.hidden = false;
-  if (gate.vorschau && banner) banner.hidden = false;
   zeichnen(gate.typ);
   var druck = document.getElementById("bericht-druck");
   if (druck) druck.addEventListener("click", function () { window.print(); });

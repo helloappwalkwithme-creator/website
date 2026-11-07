@@ -73,21 +73,78 @@
     </div>
   </section>
 
+  <section class="booking at-challenge" id="challenge">
+    <div class="booking__bg"><div class="scene"></div></div>
+    <div class="booking__shade"></div>
+    <div class="wrap booking__grid">
+      <div class="booking__intro">
+        <span class="eyebrow">Kostenlos auf WhatsApp</span>
+        <h2>5-Tage-Abschalt-Challenge</h2>
+        <p class="lead">Der Laptop geht zu, die Drehzahl bleibt. Fünf Tage lang bekommst du jeden Abend eine Übung auf WhatsApp. Eine bis zwei Minuten. Du machst sie, wenn du zuklappst.</p>
+      </div>
+      <div class="booking__card" data-hide-sticky>
+        <div class="card-light">
+          <div id="form-live">
+            <form id="start-form" data-wizard data-start-step="3" data-test-typ="dauerlaeufer" data-produkt="5-Tage-Abschalt-Challenge" data-bot="Hallo, ich möchte die kostenlose 5-Tage-Abschalt-Challenge starten. Bitte aktiviere meinen Zugang." novalidate>
+              <input type="radio" name="start" value="stress" checked class="visually-hidden" aria-label="Abschalten-Test dauerlaeufer">
+              <input type="radio" name="kanal" value="whatsapp" checked class="visually-hidden" aria-label="WhatsApp">
+              <div class="formstep" data-step="3">
+                <div class="field">
+                  <label for="vorname">Vorname</label>
+                  <input class="input" type="text" id="vorname" autocomplete="given-name" required>
+                </div>
+                <div class="field">
+                  <label for="email">E-Mail</label>
+                  <input class="input" type="email" id="email" autocomplete="email" inputmode="email" required>
+                </div>
+                <div class="consent">
+                  <input type="checkbox" id="c-starter">
+                  <label for="c-starter">Ich möchte die kostenlose 5-Tage-Abschalt-Challenge erhalten und habe die <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen. Abmeldung jederzeit.</label>
+                </div>
+                <div class="consent">
+                  <input type="checkbox" id="c-eigen">
+                  <label for="c-eigen">Ich handle eigenverantwortlich. Die Übungen sind Anregungen für den Alltag und ersetzen keinen Arzt. Wenn es mir nicht gut geht, kläre ich das vorher ärztlich.</label>
+                </div>
+                <button class="btn btn--primary btn--block" type="button" id="btn-start" style="margin-top:8px">Challenge auf WhatsApp starten</button>
+                <p class="err" id="form-error" role="alert"></p>
+                <p class="hint">Kostenlos. Deine Daten nutze ich nur, um dir die Challenge zu schicken, und gebe sie nicht weiter. WhatsApp sitzt außerhalb der EU. Details stehen in der <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>. Mit STOP hörst du auf.</p>
+              </div>
+            </form>
+          </div>
+          <div id="form-done" hidden>
+            <span class="eyebrow">Geschafft</span>
+            <h3 id="done-title">Danke. Deine 5-Tage-Abschalt-Challenge ist bereit.</h3>
+            <div id="done-messenger" hidden>
+              <p><strong>Dein nächster Schritt:</strong> Tipp auf den Button und schick die vorbereitete Nachricht ab. Dann kommt Tag 1 direkt zu dir.</p>
+              <a class="btn btn--primary btn--block" id="done-link" href="#">WhatsApp öffnen</a>
+            </div>
+            <div id="done-email" hidden>
+              <p><strong>Dein nächster Schritt:</strong> Schau in dein Postfach und bestätige deine Adresse. Danach kommt Tag 1.</p>
+            </div>
+            <p>Danach kommt jeden Tag eine Übung, fünf Tage lang.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="sec sec--white" id="bericht-angebot">
     <div class="wrap at-upsell">
-      <span class="eyebrow">Dein ausführlicher Bericht</span>
+      <span class="eyebrow">Dein persönlicher Bericht</span>
       <h2>Was in deinem Bericht steht.</h2>
       <p class="at-preis"><span class="js-preis">9 €</span></p>
-      <p>Einmalzahlung über Digistore24. Danach landest du auf dem Bericht. Oben hast du den Typ und einen Tipp. Im Bericht stehen der Ablauf, die Auslöser und sieben Tage mit je einer kurzen Übung.</p>
+      <p>Sichere Zahlung über Stripe. Danach landest du auf dem Bericht. Oben hast du den Typ und einen Tipp. Im Bericht stehen der Ablauf, die Auslöser und sieben Tage mit je einer kurzen Übung.</p>
       <ol class="days">
+
         <li><b>Dein Muster</b>Wie der Abend vom Zuklappen bis zum späten Einschlafen auf der Drehzahl vom Tag bleibt.</li>
         <li><b>Auslöser</b>Welche Stellen den Abend wieder auf Arbeit drehen.</li>
         <li><b>Was im Nervensystem passiert</b>Schneller Alarm und langsamer Planer, in der Reihenfolge, die bei diesem Typ gilt.</li>
         <li><b>Sieben Tage</b>Jeden Tag eine Übung, kurz genug für einen vollen Tag.</li>
         <li><b>Nächster Schritt</b>Wie es im Programm über 90 Tage weitergeht. Der Einstieg liegt auf der Seite Fokus.</li>
-      </ol>
-      <p style="margin-top:28px"><a class="btn btn--primary js-kaufen" data-typ="dauerlaeufer" href="https://www.digistore24.com/product/PLATZHALTER-DAUERLAEUFER">Ausführlichen Bericht für <span class="js-preis">9 €</span> holen</a></p>
-      <p class="small" style="color:var(--muted);margin-top:18px">Der Test bleibt kostenlos. Der Bericht ist eine Einmalzahlung.</p>
+            </ol>
+      <p style="margin-top:28px"><a class="btn btn--ghost js-kaufen" data-typ="dauerlaeufer" href="https://buy.stripe.com/fZu9AT9EM8xz4A5dmycIE00">Persönlichen Bericht für <span class="js-preis">9 €</span> holen</a></p>
+      <p class="small" style="color:var(--muted);margin-top:18px">Der Test und die Challenge bleiben kostenlos. Der Bericht ist eine Einmalzahlung.</p>
+      <p style="margin-top:8px"><a class="textlink" href="/fokus">Das Programm über 90 Tage: Fokus im Job.</a></p>
     </div>
   </section>
 </main>
@@ -106,6 +163,9 @@
   </div>
 </footer>
 <script src="/site.js"></script>
+<script src="/notify.js"></script>
+<script src="/access-code.js"></script>
+<script src="/starter.js"></script>
 <script src="/abschalten-test/config.js"></script>
 <script src="/abschalten-test/test.js"></script>
 </body>

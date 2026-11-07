@@ -44,6 +44,7 @@
 .at-kopiert { min-height: 1.5em; margin: 12px 0 0; }
 
 .at-upsell { max-width: 46rem; }
+.at-challenge .booking__intro h2 { max-width: 16ch; }
 .at-preis {
   font-family: var(--font-head); font-weight: 500;
   font-size: clamp(2.25rem, 4vw, 3rem); line-height: 1; letter-spacing: -.03em;
@@ -59,14 +60,10 @@
 .bericht ul li { margin: 0 0 .55em; }
 
 .at-sperre { max-width: 40rem; }
-.at-vorschau {
-  margin: 0 0 18px; font-size: var(--small); letter-spacing: .04em;
-  color: var(--brass);
-}
 
 @media (max-width: 720px) {
   .at-flow .btn--primary { width: 100%; }
-  .at-upsell .btn--primary { width: 100%; }
+  .at-upsell .btn { width: 100%; }
 }
 @media print {
   .hdr, .ftr, .at-vorspann, .skip-link { display: none !important; }

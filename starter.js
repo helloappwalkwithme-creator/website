@@ -1,6 +1,5 @@
-/* starter.js - Anmeldung 3-Tage-Starter. Anbindung, Funktionen und Werte
-   unveraendert aus der Fassung vom 10.10.2026; genutzt von abschalten.html
-   und fokus.html (dort als Abschnitt auf der Seite). */
+/* starter.js - Anmeldung 3-Tage-Starter. Dieselbe Kasse wie abschalten.html
+   und fokus.html. Ein Formular darf data-test-typ, data-produkt und data-bot setzen. */
 (function () {
   "use strict";
 
@@ -48,6 +47,9 @@
   }
 
   var form = document.getElementById('start-form');
+  var testTyp = form ? (form.getAttribute("data-test-typ") || "") : "";
+  var produktName = (form && form.getAttribute("data-produkt")) || "3-Tage-Starter";
+  var startNachricht = (form && form.getAttribute("data-bot")) || botMessage;
   if (form && form.hasAttribute('data-wizard')) {
     var steps = Array.prototype.slice.call(form.querySelectorAll('.formstep'));
     var back = document.getElementById('starter-back');
@@ -103,6 +105,7 @@
       eigenverantwortung_bestaetigt: true,
       wochenvideo_optin: !!(woechentlich && woechentlich.checked)
     };
+    if (testTyp) onboarding.test_typ = testTyp;
 
     try {
       /* Zwei Aufrufe, bewusst getrennt: (1) setzt den Starttag, (2) legt den Ablauf an. Die Auslieferung braucht beides. */
@@ -136,14 +139,14 @@
           answers: [
             { frage: 'Was nervt dich gerade am meisten?', antwort: startText },
             { frage: 'Wohin sollen die Übungen kommen?', antwort: kanalText }
-          ]
+          ].concat(testTyp ? [{ frage: 'Ergebnis im Abschalten-Test', antwort: testTyp }] : [])
         });
       }
 
-      var text = encodeURIComponent(botMessage + "\n\n" + accessLabel + " " + code);
+      var text = encodeURIComponent(startNachricht + "\n\n" + accessLabel + " " + code);
       var link = document.getElementById('done-link');
 
-      document.getElementById('done-title').textContent = "Danke, " + vorname + ". Dein 3-Tage-Starter ist bereit.";
+      document.getElementById('done-title').textContent = "Danke, " + vorname + ". Dein " + produktName + " ist bereit.";
       if (kanal === 'email') {
         document.getElementById('done-email').hidden = false;
       } else {

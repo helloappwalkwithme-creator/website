@@ -1,5 +1,4 @@
-/* Abschalten-Test: die Werte, die Janosch selbst setzt.
-   Preis und Kasse an einer Stelle. Die Seiten lesen nur diese Datei. */
+/* Abschalten-Test: Preis, Stripe-Kasse und Berichtszugang an einer Stelle. */
 (function (root) {
   "use strict";
 
@@ -11,31 +10,17 @@
        und im Parameter typ der Berichtsseite. */
     TYPEN: ["dauerlaeufer", "gruebler", "erschoepft-wach", "reguliert"],
 
-    /* Eine Digistore24-Kasse pro Typ.
-       PLATZHALTER durch die Produkt-URL aus Digistore24 ersetzen.
-       Dankeseite in Digistore24, je Produkt eine eigene Adresse:
-       https://www.shiftmyhorizon.com/abschalten-test/bericht?typ=dauerlaeufer&zugang=DER_WERT_AUS_BERICHT_ZUGANG
-       https://www.shiftmyhorizon.com/abschalten-test/bericht?typ=gruebler&zugang=DER_WERT_AUS_BERICHT_ZUGANG
-       https://www.shiftmyhorizon.com/abschalten-test/bericht?typ=erschoepft-wach&zugang=DER_WERT_AUS_BERICHT_ZUGANG
-       https://www.shiftmyhorizon.com/abschalten-test/bericht?typ=reguliert&zugang=DER_WERT_AUS_BERICHT_ZUGANG
-       Ein Produkt für alle Typen reicht, wenn jede Dankeseite den passenden typ trägt. */
+    /* Eine Stripe-Kasse pro Typ. Die Links leiten nach der Zahlung auf
+       /abschalten-test/bericht?typ=TYP&zugang=BERICHT_ZUGANG */
     CHECKOUT_URL: {
-      dauerlaeufer: "https://www.digistore24.com/product/PLATZHALTER-DAUERLAEUFER",
-      gruebler: "https://www.digistore24.com/product/PLATZHALTER-GRUEBLER",
-      "erschoepft-wach": "https://www.digistore24.com/product/PLATZHALTER-ERSCHOEPFT-WACH",
-      reguliert: "https://www.digistore24.com/product/PLATZHALTER-REGULIERT"
+      dauerlaeufer: "https://buy.stripe.com/fZu9AT9EM8xz4A5dmycIE00",
+      gruebler: "https://buy.stripe.com/28E6oH7wEeVXfeJciucIE01",
+      "erschoepft-wach": "https://buy.stripe.com/14A4gz8AIaFH0jPaamcIE02",
+      reguliert: "https://buy.stripe.com/eVq3cv9EMaFH3w182ecIE03"
     },
 
-    /* Gleicher Wert wie der Parameter zugang in der Digistore-Dankeseite.
-       Solange hier PLATZHALTER steht, öffnet dieser Wert den Bericht nicht.
-       Vor dem Verkauf durch eine lange, eigene Zeichenfolge ersetzen. */
-    BERICHT_ZUGANG: "PLATZHALTER-ZUGANG",
-
-    /* Gegenlesen auf der Live-Seite, bevor die Kasse steht:
-       /abschalten-test/bericht?typ=gruebler&vorschau=PLATZHALTER-VORSCHAU
-       Vor dem Verkauf leeren oder durch eine eigene Zeichenfolge ersetzen.
-       Auf localhost öffnet die Berichtsseite auch ohne Schlüssel. */
-    VORSCHAU_SCHLUESSEL: "PLATZHALTER-VORSCHAU"
+    /* Gleicher Wert wie der Parameter zugang in der Stripe-Weiterleitung. */
+    BERICHT_ZUGANG: "hqZh2itDp4SPntzdri6bZb6yi00koImD"
   };
 
   function preisText() {

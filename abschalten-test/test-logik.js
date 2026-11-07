@@ -52,19 +52,34 @@ eq("dauer knapp vor gruebel", api.werten(zeile({ dauer: 9, gruebel: 8, wach: 8, 
 eq("ungueltig kurz", api.werten([0, 0, 0]), null);
 eq("ungueltig wert", api.summieren(zeile({ dauer: 4 }).map(function (n, i) { return i === 0 ? 4 : n; })), null);
 
+var STRIPE = {
+  dauerlaeufer: "https://buy.stripe.com/fZu9AT9EM8xz4A5dmycIE00",
+  gruebler: "https://buy.stripe.com/28E6oH7wEeVXfeJciucIE01",
+  "erschoepft-wach": "https://buy.stripe.com/14A4gz8AIaFH0jPaamcIE02",
+  reguliert: "https://buy.stripe.com/eVq3cv9EMaFH3w182ecIE03"
+};
+
 config.CONFIG.TYPEN.forEach(function (typ) {
   var url = config.checkout(typ);
-  assert.ok(url.indexOf("https://www.digistore24.com/") === 0, typ + " kasse");
-  assert.ok(config.CONFIG.TYPEN.indexOf(typ) !== -1);
+  eq("stripe " + typ, url, STRIPE[typ]);
   var zahl = berichte.wortzahl(typ);
   console.log("woerter", typ, zahl);
   assert.ok(zahl >= 1000 && zahl <= 1500, typ + " wortzahl " + zahl);
   var html = fs.readFileSync(path.join(__dirname, "ergebnis", typ + ".html"), "utf8");
   assert.ok(html.indexOf("https://www.shiftmyhorizon.com/abschalten-test/ergebnis/" + typ) !== -1);
   assert.ok(html.indexOf('data-typ="' + typ + '"') !== -1);
+  assert.ok(html.indexOf('data-test-typ="' + typ + '"') !== -1);
+  assert.ok(html.indexOf('id="start-form"') !== -1);
+  assert.ok(html.indexOf('value="whatsapp"') !== -1);
+  assert.ok(html.indexOf('href="/fokus"') !== -1);
+  assert.ok(html.indexOf("Sichere Zahlung über Stripe") !== -1);
   assert.ok(html.indexOf(url) !== -1);
   assert.ok(html.indexOf("noindex") === -1);
+  assert.ok(html.toLowerCase().indexOf("digi" + "store") === -1);
 });
+
+eq("zugang", config.CONFIG.BERICHT_ZUGANG, "hqZh2itDp4SPntzdri6bZb6yi00koImD");
+assert.ok(!Object.prototype.hasOwnProperty.call(config.CONFIG, "VORSCHAU_SCHLUESSEL"));
 
 eq("preis", config.CONFIG.PREIS_EURO, 9);
 eq("preistext", config.preisText(), "9 \u20ac");
