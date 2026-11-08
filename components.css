@@ -94,6 +94,19 @@ strong { font-weight: 600; }
 }
 .btn svg { width: 18px; height: 18px; transition: transform .2s var(--ease); }
 .btn:hover svg { transform: translateX(3px); }
+.btn:disabled,
+.btn--primary:disabled,
+.on-light .btn--primary:disabled,
+.sec--paper .btn--primary:disabled,
+.sec--white .btn--primary:disabled,
+.card-light .btn--primary:disabled {
+  background: #C8C2B8;
+  color: #3B3730;
+  opacity: 1;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
 .btn--primary { background: var(--accent-light); color: var(--deep-950); }
 .btn--primary:hover { background: #74CFBB; transform: translateY(-1px); box-shadow: var(--sh-accent); }
 .on-light .btn--primary, .sec--paper .btn--primary, .sec--white .btn--primary, .card-light .btn--primary { background: var(--accent); color: #fff; }
@@ -115,6 +128,7 @@ strong { font-weight: 600; }
 }
 .textlink:hover { text-decoration-thickness: 2px; }
 .sec--paper .textlink, .sec--white .textlink, .card-light .textlink { color: var(--accent); }
+.glass .textlink { color: var(--accent-light); }
 
 /* --- K1 Glas-Pill-Header ------------------------------------------------ */
 
@@ -519,6 +533,7 @@ textarea.input { min-height: 132px; resize: vertical; }
 .err { display: none; margin: 14px 0 0; padding: 12px 14px; border-radius: 10px; background: #FBEDEC; color: var(--error) !important; font-size: .9375rem; }
 .err.is-visible { display: block; }
 .choicecards { display: grid; gap: 10px; border: 0; padding: 0; margin: 0 0 18px; }
+.choicecards > legend { font-weight: 600; margin-bottom: 8px; padding: 0; color: var(--ink); }
 .choicecard { position: relative; display: flex; align-items: center; gap: 14px; min-height: 54px; padding: 12px 16px; border: 1px solid #D8D2C6; border-radius: 12px; cursor: pointer; background: #fff; transition: border-color .2s, background-color .2s; color: var(--ink); font-size: 1rem; }
 .choicecard:hover { border-color: var(--accent); }
 .choicecard input { position: absolute; opacity: 0; pointer-events: none; }
@@ -815,6 +830,28 @@ a[data-todo][href="#"] { display: none !important; }
 }
 .proofbar { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
 .proofbar p { margin: 0; max-width: 40rem; font-size: 1.125rem; }
+.plainfacts { list-style: none; margin: 0 0 24px; padding: 0; }
+.plainfacts li { padding: 12px 0; border-top: 1px solid var(--line); color: var(--ink); }
+.plainfacts b { display: block; color: var(--accent); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 4px; }
+.needlist { display: grid; gap: 12px; margin: 0 0 28px; padding: 0; list-style: none; }
+.needlist a { display: block; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; text-decoration: none; background: #fff; color: var(--ink); }
+.sec--dark .needlist a, .sec--deep .needlist a { background: var(--deep-800); color: var(--on-dark); border-color: rgba(255,255,255,.12); }
+.needlist a:hover { border-color: var(--accent); }
+.pricebox { border: 1px solid var(--line); border-radius: 16px; padding: 22px; background: var(--paper); color: var(--ink); }
+.pricebox p { color: var(--ink); }
+.offercards { display: grid; gap: 16px; }
+@media (min-width: 800px) { .offercards { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .offercards { grid-template-columns: repeat(3, 1fr); } }
+.offercard {
+  padding: 28px 24px;
+  border-radius: var(--r-card);
+  background: var(--deep-800);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--on-dark);
+}
+.offercard h2 { font-size: 1.5rem; line-height: 1.2; margin: 0 0 10px; color: var(--on-dark); }
+.offercard p { margin: 0 0 12px; color: var(--on-dark-muted); }
+.offercard .textlink { color: var(--accent-light); }
 .signs { display: grid; gap: 16px; }
 @media (min-width: 800px) { .signs { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 1100px) { .signs { grid-template-columns: repeat(4, 1fr); } }

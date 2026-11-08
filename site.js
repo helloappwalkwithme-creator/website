@@ -300,6 +300,18 @@
     els.forEach(function (e) { io.observe(e); });
   }
 
-  function init() { initNav(); initStickyBar(); initPlayers(); initHeroLoop(); initMarquee(); initTabs(); initTry(); initReveal(); }
+  function initCatalogLinks() {
+    var nav = document.getElementById("site-nav");
+    if (!nav || nav.querySelector('a[href="/finden"], a[href="/finden.html"]')) return;
+    var finden = document.createElement("a");
+    finden.href = "/finden";
+    finden.textContent = "Passendes finden";
+    finden.setAttribute("data-smh-finden", "");
+    var check = nav.querySelector('a[href="/check"]');
+    if (check) nav.insertBefore(finden, check);
+    else nav.appendChild(finden);
+  }
+
+  function init() { initCatalogLinks(); initNav(); initStickyBar(); initPlayers(); initHeroLoop(); initMarquee(); initTabs(); initTry(); initReveal(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
