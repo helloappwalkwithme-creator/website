@@ -111,21 +111,37 @@ async function createCheckout(input) {
     return fehler(502, "preis_lesen");
   }
   if (!price || price.id !== gefunden.id || price.active === false) return fehler(409, "preis_inaktiv");
+  if (typeof price.unit_amount !== "number" || !price.currency) return fehler(409, "preis_unvollstaendig");
+  if (price.recurring && price.recurring.trial_period_days) return fehler(409, "preis_hat_testphase");
   var mode = price.recurring ? "subscription" : "payment";
   var origin = originErlaubt(input.origin, env);
   var order = existing;
   if (!order) {
-    order = await input.store.createOrder({
-      anfrageId: input.anfrageId,
-      angebotId: offer.id,
-      thema: thema ? thema.id : null,
-      email: email || null,
-      preisId: gefunden.id,
-      utm: utmAus(input.utm)
-    });
+    try {
+      order = await input.store.createOrder({
+        anfrageId: input.anfrageId,
+        angebotId: offer.id,
+        thema: thema ? thema.id : null,
+        email: email || null,
+        preisId: gefunden.id,
+        betrag: price.unit_amount,
+        waehrung: String(price.currency).toLowerCase(),
+        modus: mode,
+        utm: utmAus(input.utm)
+      });
+    } catch (e) {
+      if (!e || e.code !== "belegt") return fehler(503, "speicher");
+      order = await input.store.findByAnfrage(input.anfrageId);
+      if (!order || order.angebotId !== offer.id) return fehler(409, "anfrage_belegt");
+      if (order.sessionUrl && checkoutIstStripe(order.sessionUrl)) {
+        return { ok: true, status: 200, url: order.sessionUrl, bestellungId: order.id };
+      }
+    }
   }
   order.modus = mode;
   order.preisId = gefunden.id;
+  order.betrag = price.unit_amount;
+  order.waehrung = String(price.currency).toLowerCase();
   order.thema = thema ? thema.id : order.thema;
   if (email) order.email = email;
 

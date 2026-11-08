@@ -25,9 +25,16 @@ assert.strictEqual(server.indexOf("automatic_tax"), -1);
 assert.ok(server.indexOf("integration_identifier") !== -1);
 assert.ok(server.indexOf("2026-10-28.endive") !== -1);
 
+["flow-go.html", "sales-de.html", "morning.html", "empfehlung.html", "empfehlung-woman.html", "empfehlung-couple.html"].forEach(function (file) {
+  var text = fs.readFileSync(path.join(root, file), "utf8");
+  assert.ok(text.indexOf("PAID_MODE = false") !== -1, file);
+});
 var flow = fs.readFileSync(path.join(root, "flow-go.html"), "utf8");
-assert.ok(flow.indexOf("PAID_MODE = false") !== -1);
-var sales = fs.readFileSync(path.join(root, "sales-de.html"), "utf8");
-assert.ok(sales.indexOf("PAID_MODE = false") !== -1);
+assert.ok(flow.indexOf("integrated_man_flow:'688460'") !== -1);
+assert.ok(flow.indexOf("loving_woman_flow:'688575'") !== -1);
 var bericht = fs.readFileSync(path.join(root, "abschalten-test/config.js"), "utf8");
 assert.ok(bericht.indexOf("buy.stripe.com/fZu9AT9EM8xz4A5dmycIE00") !== -1);
+assert.ok(bericht.indexOf("buy.stripe.com/28E6oH7wEeVXfeJciucIE01") !== -1);
+var kaufseite = fs.readFileSync(path.join(root, "kaufen.html"), "utf8");
+assert.ok(kaufseite.indexOf("hidden") !== -1);
+assert.ok(kaufseite.indexOf("keine Testphase bei Stripe") !== -1);

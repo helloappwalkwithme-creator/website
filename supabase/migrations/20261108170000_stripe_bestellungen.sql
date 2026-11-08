@@ -14,6 +14,8 @@ create table if not exists public.stripe_bestellungen (
   thema text,
   email text,
   preis_id text,
+  betrag integer,
+  waehrung text,
   modus text,
   status text not null,
   session_id text unique,
@@ -28,8 +30,11 @@ create table if not exists public.stripe_bestellungen (
   aktualisiert_am timestamptz not null default now()
 );
 
+alter table public.stripe_bestellungen add column if not exists betrag integer;
+alter table public.stripe_bestellungen add column if not exists waehrung text;
+
 alter table public.stripe_ereignisse enable row level security;
 alter table public.stripe_bestellungen enable row level security;
 
-revoke all on public.stripe_ereignisse from anon, authenticated;
-revoke all on public.stripe_bestellungen from anon, authenticated;
+revoke all on table public.stripe_ereignisse from public, anon, authenticated;
+revoke all on table public.stripe_bestellungen from public, anon, authenticated;

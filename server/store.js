@@ -10,6 +10,7 @@ function memoryStore() {
   var bySubscription = new Map();
   var byPaymentIntent = new Map();
   var byAnfrage = new Map();
+  var ketten = new Map();
 
   function remember(order) {
     orders.set(order.id, order);
@@ -31,6 +32,8 @@ function memoryStore() {
         thema: row.thema || null,
         email: row.email || null,
         preisId: row.preisId || null,
+        betrag: row.betrag == null ? null : row.betrag,
+        waehrung: row.waehrung || null,
         modus: row.modus || null,
         status: "offen",
         sessionId: null,
@@ -44,8 +47,31 @@ function memoryStore() {
         utm: row.utm || {},
         aktualisiertAm: new Date().toISOString()
       };
+      if (row.anfrageId && byAnfrage.has(row.anfrageId)) {
+        var belegt = new Error("belegt");
+        belegt.code = "belegt";
+        throw belegt;
+      }
       remember(order);
       return order;
+    },
+    async eventErledigt(eventId) {
+      return events.has(eventId);
+    },
+    async mutate(id, fn) {
+      var vorher = ketten.get(id) || Promise.resolve();
+      var lauf = vorher.then(async function () {
+        var order = orders.get(id);
+        if (!order) return null;
+        var next = await fn(order);
+        if (next) {
+          next.aktualisiertAm = new Date().toISOString();
+          remember(next);
+        }
+        return orders.get(id);
+      });
+      ketten.set(id, lauf.then(function () { return null; }, function () { return null; }));
+      return lauf;
     },
     async getOrder(id) {
       return orders.get(id) || null;
@@ -114,6 +140,8 @@ function supabaseStore(env) {
       thema: row.thema,
       email: row.email,
       preisId: row.preis_id,
+      betrag: row.betrag == null ? null : row.betrag,
+      waehrung: row.waehrung,
       modus: row.modus,
       status: row.status,
       sessionId: row.session_id,
@@ -137,6 +165,8 @@ function supabaseStore(env) {
       thema: order.thema,
       email: order.email,
       preis_id: order.preisId,
+      betrag: order.betrag == null ? null : order.betrag,
+      waehrung: order.waehrung,
       modus: order.modus,
       status: order.status,
       session_id: order.sessionId,
@@ -168,6 +198,8 @@ function supabaseStore(env) {
         thema: row.thema || null,
         email: row.email || null,
         preisId: row.preisId || null,
+        betrag: row.betrag == null ? null : row.betrag,
+        waehrung: row.waehrung || null,
         modus: null,
         status: "offen",
         sessionId: null,
@@ -181,8 +213,38 @@ function supabaseStore(env) {
         utm: row.utm || {}
       };
       var res = await rest("POST", "stripe_bestellungen", toRow(order), "return=representation");
+      if (res.status === 409) {
+        var belegt = new Error("belegt");
+        belegt.code = "belegt";
+        throw belegt;
+      }
       if (!res.ok) throw new Error("speicher");
       return fromRow(Array.isArray(res.data) ? res.data[0] : res.data);
+    },
+    async eventErledigt(eventId) {
+      var vorhanden = await one("stripe_ereignisse?event_id=eq." + encodeURIComponent(eventId) + "&select=event_id");
+      return !!vorhanden;
+    },
+    async mutate(id, fn) {
+      var versuch;
+      for (versuch = 0; versuch < 5; versuch++) {
+        var aktuell = await one("stripe_bestellungen?id=eq." + encodeURIComponent(id) + "&select=*");
+        if (!aktuell) return null;
+        var stempel = aktuell.aktualisiertAm;
+        var entwurf = Object.assign({}, aktuell);
+        var next = await fn(entwurf);
+        if (!next) return aktuell;
+        var res = await rest(
+          "PATCH",
+          "stripe_bestellungen?id=eq." + encodeURIComponent(id) + "&aktualisiert_am=eq." + encodeURIComponent(stempel),
+          toRow(next),
+          "return=representation"
+        );
+        if (!res.ok) throw new Error("speicher");
+        var zeile = Array.isArray(res.data) ? res.data[0] : res.data;
+        if (zeile) return fromRow(zeile);
+      }
+      throw new Error("konflikt");
     },
     async getOrder(id) {
       return one("stripe_bestellungen?id=eq." + encodeURIComponent(id) + "&select=*");

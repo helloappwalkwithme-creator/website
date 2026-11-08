@@ -1,0 +1,8 @@
+{
+  "vorname": "Fixture",
+  "email": "gratis-fixture@example.com",
+  "kanal": "email",
+  "start": "stress",
+  "daten": true,
+  "eigen": true
+}

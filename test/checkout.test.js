@@ -19,6 +19,8 @@ assert.strictEqual(preise.kaufbarListe({}).filter(function (row) { return row.ka
 assert.strictEqual(preise.kaufbarListe(envMit("price_bundleMen")).filter(function (row) { return row.kaufbar; }).length, 1);
 
 function fakeStripe(price) {
+  if (price.unit_amount == null) price.unit_amount = 1900;
+  if (!price.currency) price.currency = "eur";
   var created = [];
   return {
     created: created,
@@ -73,6 +75,10 @@ async function main() {
   });
   assert.strictEqual(ok.ok, true);
   assert.strictEqual(ok.modus, "subscription");
+  var gespeichert = await store.getOrder(ok.bestellungId);
+  assert.strictEqual(gespeichert.betrag, 1900);
+  assert.strictEqual(gespeichert.waehrung, "eur");
+  assert.strictEqual(gespeichert.preisId, "price_man");
   var params = stripe.created[0].params;
   assert.strictEqual(params.mode, "subscription");
   assert.strictEqual(params.line_items[0].price, "price_man");
@@ -106,9 +112,46 @@ async function main() {
     angebotId: "loving-woman",
     anfrageId: "22222222-2222-4222-8222-222222222222"
   });
+  var probe = fakeStripe({ id: "price_man", active: true, currency: "eur", unit_amount: 1900, recurring: { interval: "month", trial_period_days: 4 } });
+  var trial = await checkout.createCheckout({
+    env: envMit("price_man"),
+    stripe: probe,
+    store: storeMod.memoryStore(),
+    angebotId: "integrated-man",
+    anfrageId: "33333333-3333-4333-8333-333333333333"
+  });
+  assert.strictEqual(trial.code, "preis_hat_testphase");
+  assert.strictEqual(probe.created.length, 0);
+
+  var fremdPreis = fakeStripe({ id: "price_man", active: true, currency: "eur", unit_amount: 1900, recurring: { interval: "month" } });
+  var tamper = await checkout.createCheckout({
+    env: envMit("price_man"),
+    stripe: fremdPreis,
+    store: storeMod.memoryStore(),
+    angebotId: "integrated-man",
+    anfrageId: "44444444-4444-4444-8444-444444444444",
+    preisId: "price_boese",
+    betrag: 1,
+    waehrung: "usd"
+  });
+  assert.strictEqual(tamper.ok, true);
+  assert.strictEqual(fremdPreis.created[0].params.line_items[0].price, "price_man");
+  assert.strictEqual(Object.prototype.hasOwnProperty.call(fremdPreis.created[0].params, "payment_method_types"), false);
+
   assert.strictEqual(paid.modus, "payment");
   assert.strictEqual(once.created[0].params.mode, "payment");
   assert.ok(once.created[0].params.payment_intent_data.metadata.bestellung_id);
+
+  var http = require("../server/http");
+  var liveRes = { statusCode: 0, setHeader: function () {}, end: function (body) { this.body = JSON.parse(body); } };
+  await http.checkoutPost({
+    method: "POST",
+    headers: {},
+    body: { angebotId: "integrated-man", anfrageId: ANFRAGE, email: "ada@example.com" }
+  }, liveRes, { STRIPE_RESTRICTED_KEY: "rk_live_nicht_verwenden", STRIPE_PRICE_INTEGRATED_MAN: "price_man" });
+  assert.strictEqual(liveRes.statusCode, 503);
+  assert.strictEqual(liveRes.body.code, "live_gesperrt");
+  assert.strictEqual(JSON.stringify(liveRes.body).indexOf("rk_live"), -1);
 
   var badKey = new Error("no");
   try {

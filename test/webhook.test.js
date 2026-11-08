@@ -19,12 +19,20 @@ function orderOffen(store) {
 async function main() {
   var store = storeMod.memoryStore();
   var order = await orderOffen(store);
+  order.betrag = 1900;
+  order.waehrung = "eur";
+  order.modus = "subscription";
+  order.preisId = "price_test";
+  await store.saveOrder(order);
   var session = {
     id: "cs_test_1",
     client_reference_id: order.id,
     payment_status: "unpaid",
     mode: "subscription",
-    metadata: { bestellung_id: order.id, angebot_id: "integrated-man" }
+    currency: "eur",
+    amount_total: 1900,
+    metadata: { bestellung_id: order.id, angebot_id: "integrated-man" },
+    line_items: { data: [{ price: { id: "price_test" } }] }
   };
   var waiting = await webhook.verarbeite({
     id: "evt_wait",
@@ -73,6 +81,8 @@ async function main() {
       object: {
         customer: "cus_1",
         subscription: "sub_1",
+        currency: "eur",
+        amount_paid: 1900,
         lines: { data: [{ period: { end: 1893456000 } }] }
       }
     }
@@ -99,6 +109,11 @@ async function main() {
 
   var onceStore = storeMod.memoryStore();
   var once = await orderOffen(onceStore);
+  once.betrag = 1900;
+  once.waehrung = "eur";
+  once.modus = "payment";
+  once.preisId = "price_once";
+  await onceStore.saveOrder(once);
   await webhook.verarbeite({
     id: "evt_once",
     type: "checkout.session.completed",
@@ -108,15 +123,18 @@ async function main() {
         client_reference_id: once.id,
         payment_status: "paid",
         mode: "payment",
+        currency: "eur",
+        amount_total: 1900,
         customer: "cus_2",
-        payment_intent: "pi_2"
+        payment_intent: "pi_2",
+        metadata: { angebot_id: "integrated-man" },
+        line_items: { data: [{ price: { id: "price_once" } }] }
       }
     }
   }, { store: onceStore });
   var onceOrder = await onceStore.getOrder(once.id);
-  assert.ok(onceOrder.accessUntil);
-  var days = (Date.parse(onceOrder.accessUntil) - Date.now()) / 86400000;
-  assert.ok(days > 89 && days < 91);
+  assert.strictEqual(onceOrder.accessUntil, null);
+  assert.strictEqual(onceOrder.zugang, true);
 
   var dispute = await webhook.verarbeite({
     id: "evt_disp",
@@ -224,6 +242,110 @@ async function main() {
   assert.strictEqual(res.statusCode, 400);
   assert.strictEqual(resBody.code, "signatur");
   assert.strictEqual(calls[0].raw, payload);
+
+  var parallel = storeMod.memoryStore();
+  var zusammen = await orderOffen(parallel);
+  zusammen.betrag = 1900;
+  zusammen.waehrung = "eur";
+  zusammen.modus = "payment";
+  zusammen.preisId = "price_test";
+  await parallel.saveOrder(zusammen);
+  var ereignis = {
+    id: "evt_parallel",
+    type: "checkout.session.completed",
+    data: {
+      object: {
+        id: "cs_parallel",
+        client_reference_id: zusammen.id,
+        payment_status: "paid",
+        mode: "payment",
+        currency: "eur",
+        amount_total: 1900,
+        metadata: { angebot_id: "integrated-man" },
+        line_items: { data: [{ price: { id: "price_test" } }] }
+      }
+    }
+  };
+  await Promise.all([
+    webhook.verarbeite(ereignis, { store: parallel }),
+    webhook.verarbeite(JSON.parse(JSON.stringify(ereignis)), { store: parallel })
+  ]);
+  var danach = await parallel.getOrder(zusammen.id);
+  assert.ok(danach.accessCode);
+  assert.strictEqual(danach.zugang, true);
+
+  var bruch = storeMod.memoryStore();
+  var ziel = await orderOffen(bruch);
+  ziel.betrag = 1900;
+  ziel.waehrung = "eur";
+  ziel.modus = "payment";
+  ziel.preisId = "price_test";
+  await bruch.saveOrder(ziel);
+  var original = bruch.mutate.bind(bruch);
+  var versuche = 0;
+  bruch.mutate = function (id, fn) {
+    versuche += 1;
+    if (versuche === 1) return Promise.reject(new Error("weg"));
+    return original(id, fn);
+  };
+  var kaputt = {
+    id: "evt_retry",
+    type: "checkout.session.completed",
+    data: {
+      object: {
+        id: "cs_retry",
+        client_reference_id: ziel.id,
+        payment_status: "paid",
+        mode: "payment",
+        currency: "eur",
+        amount_total: 1900,
+        metadata: { angebot_id: "integrated-man" },
+        line_items: { data: [{ price: { id: "price_test" } }] }
+      }
+    }
+  };
+  var erster = await webhook.verarbeite(kaputt, { store: bruch });
+  assert.strictEqual(erster.status, 500);
+  assert.strictEqual(await bruch.eventErledigt("evt_retry"), false);
+  var zweiter = await webhook.verarbeite(kaputt, { store: bruch });
+  assert.strictEqual(zweiter.code, "zugang");
+  assert.strictEqual((await bruch.getOrder(ziel.id)).zugang, true);
+
+  var trialOrder = await orderOffen(store);
+  trialOrder.subscriptionId = "sub_trial";
+  await store.saveOrder(trialOrder);
+  var trial = await webhook.verarbeite({
+    id: "evt_trial",
+    type: "customer.subscription.updated",
+    data: { object: { id: "sub_trial", status: "trialing", customer: "cus_trial" } }
+  }, { store: store });
+  assert.strictEqual(trial.code, "abo");
+  assert.strictEqual((await store.getOrder(trialOrder.id)).zugang, false);
+  assert.strictEqual((await store.getOrder(trialOrder.id)).status, "keine_testphase");
+
+  var falsch = await orderOffen(store);
+  falsch.betrag = 1900;
+  falsch.waehrung = "eur";
+  falsch.modus = "payment";
+  falsch.preisId = "price_test";
+  await store.saveOrder(falsch);
+  var abweichung = await webhook.verarbeite({
+    id: "evt_falsch",
+    type: "checkout.session.completed",
+    data: {
+      object: {
+        id: "cs_falsch",
+        client_reference_id: falsch.id,
+        payment_status: "paid",
+        mode: "payment",
+        currency: "usd",
+        amount_total: 100,
+        metadata: { angebot_id: "integrated-man" }
+      }
+    }
+  }, { store: store });
+  assert.strictEqual(abweichung.code, "betrag");
+  assert.strictEqual((await store.getOrder(falsch.id)).zugang, false);
 }
 
 main().catch(function (err) {

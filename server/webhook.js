@@ -27,7 +27,12 @@ function applySubscription(order, sub, nowIso) {
   order.subscriptionId = sub.id;
   order.customerId = idVon(sub.customer) || order.customerId;
   var ende = sub.current_period_end ? new Date(sub.current_period_end * 1000).toISOString() : null;
-  if (sub.status === "active" || sub.status === "trialing") {
+  if (sub.status === "trialing") {
+    order.status = "keine_testphase";
+    order.zugang = false;
+    return;
+  }
+  if (sub.status === "active") {
     order.status = sub.cancel_at_period_end ? "kuendigung_laeuft" : "aktiv";
     order.zugang = true;
     if (ende) order.accessUntil = ende;
@@ -36,9 +41,12 @@ function applySubscription(order, sub, nowIso) {
   }
   if (sub.status === "past_due") {
     order.status = "zahlung_offen";
-    order.zugang = true;
-    if (ende) order.accessUntil = ende;
-    if (!order.accessCode) order.accessCode = checkout.zugangscode();
+    if (order.accessCode) {
+      order.zugang = true;
+      if (ende) order.accessUntil = ende;
+    } else {
+      order.zugang = false;
+    }
     return;
   }
   if (sub.status === "incomplete") {
@@ -76,8 +84,34 @@ async function bestellungFuerSubscription(store, stripe, subscriptionId) {
   return order;
 }
 
+function preisAusSession(session) {
+  var items = session && session.line_items && session.line_items.data;
+  if (!items || !items.length) return null;
+  var price = items[0].price;
+  return typeof price === "string" ? price : (price && price.id);
+}
+
+function sessionGehoert(order, session) {
+  if (!order || order.betrag == null || !order.waehrung || !order.modus || !order.preisId) return false;
+  if (session.mode !== order.modus) return false;
+  if (String(session.currency || "").toLowerCase() !== String(order.waehrung).toLowerCase()) return false;
+  if (session.amount_total !== order.betrag) return false;
+  if (order.sessionId && session.id && order.sessionId !== session.id) return false;
+  if (session.metadata && session.metadata.angebot_id && session.metadata.angebot_id !== order.angebotId) return false;
+  var linePrice = preisAusSession(session);
+  if (linePrice && linePrice !== order.preisId) return false;
+  return true;
+}
+
+function rechnungPasst(order, invoice) {
+  if (!order || order.betrag == null || !order.waehrung) return false;
+  if (String(invoice.currency || "").toLowerCase() !== String(order.waehrung).toLowerCase()) return false;
+  return invoice.amount_paid === order.betrag;
+}
+
 function grantFromSession(order, session) {
   if (session.payment_status !== "paid") return false;
+  if (!sessionGehoert(order, session)) return false;
   order.customerId = idVon(session.customer) || order.customerId;
   order.subscriptionId = idVon(session.subscription) || order.subscriptionId;
   order.paymentIntentId = idVon(session.payment_intent) || order.paymentIntentId;
@@ -88,36 +122,64 @@ function grantFromSession(order, session) {
   if (!order.accessCode) order.accessCode = checkout.zugangscode();
   order.zugang = true;
   order.status = "aktiv";
-  if (session.mode === "payment") {
-    var until = new Date();
-    until.setUTCDate(until.getUTCDate() + 90);
-    order.accessUntil = until.toISOString();
-  }
   return true;
+}
+
+async function schreib(store, order, fn) {
+  if (!order) return null;
+  if (store.mutate) return store.mutate(order.id, fn);
+  var next = await fn(order);
+  if (next) await store.saveOrder(next);
+  return next;
 }
 
 async function verarbeite(event, deps) {
   var store = deps.store;
+  if (!event || !event.id || !event.type) return { status: 400, code: "ereignis" };
+  if (store.eventErledigt && await store.eventErledigt(event.id)) return { status: 200, code: "duplikat" };
+  var result;
+  try {
+    result = await verarbeiteInnen(event, deps);
+  } catch (e) {
+    return { status: 500, code: "verarbeitung" };
+  }
+  if (!result || result.status === 500) return result || { status: 500, code: "verarbeitung" };
+  await store.claimEvent(event.id, event.type);
+  return result;
+}
+
+async function verarbeiteInnen(event, deps) {
+  var store = deps.store;
   var stripe = deps.stripe;
   var nowIso = new Date(deps.now || Date.now()).toISOString();
-  if (!event || !event.id || !event.type) return { status: 400, code: "ereignis" };
-  var claimed = await store.claimEvent(event.id, event.type);
-  if (!claimed) return { status: 200, code: "duplikat" };
   var object = event.data && event.data.object;
   if (!object) return { status: 200, code: "leer" };
 
   if (event.type === "checkout.session.completed" || event.type === "checkout.session.async_payment_succeeded") {
     var order = await bestellungFuerSession(store, object);
     if (!order) return { status: 200, code: "fremd" };
+    var session = object;
+    if (object.payment_status === "paid" && stripe && stripe.checkout && stripe.checkout.sessions && stripe.checkout.sessions.retrieve) {
+      session = await stripe.checkout.sessions.retrieve(object.id, { expand: ["line_items"] });
+    }
     if (object.payment_status === "paid") {
-      grantFromSession(order, object);
-      await store.saveOrder(order);
-      return { status: 200, code: "zugang" };
+      var granted = false;
+      await schreib(store, order, async function (aktuell) {
+        granted = grantFromSession(aktuell, session);
+        if (!granted) {
+          aktuell.status = "abgewiesen";
+          aktuell.zugang = false;
+        }
+        return aktuell;
+      });
+      return { status: 200, code: granted ? "zugang" : "betrag" };
     }
     if (event.type === "checkout.session.completed" && object.payment_status === "unpaid") {
-      order.sessionId = object.id || order.sessionId;
-      order.status = order.status === "aktiv" ? order.status : "wartet";
-      await store.saveOrder(order);
+      await schreib(store, order, async function (aktuell) {
+        aktuell.sessionId = object.id || aktuell.sessionId;
+        aktuell.status = aktuell.status === "aktiv" ? aktuell.status : "wartet";
+        return aktuell;
+      });
       return { status: 200, code: "unpaid" };
     }
     return { status: 200, code: "kein_paid" };
@@ -127,9 +189,13 @@ async function verarbeite(event, deps) {
     var failed = await bestellungFuerSession(store, object);
     if (!failed) return { status: 200, code: "fremd" };
     if (failed.status !== "aktiv") {
-      failed.status = "fehlgeschlagen";
-      failed.zugang = false;
-      await store.saveOrder(failed);
+      await schreib(store, failed, async function (aktuell) {
+        if (aktuell.status !== "aktiv") {
+          aktuell.status = "fehlgeschlagen";
+          aktuell.zugang = false;
+        }
+        return aktuell;
+      });
     }
     return { status: 200, code: "fehlgeschlagen" };
   }
@@ -139,33 +205,39 @@ async function verarbeite(event, deps) {
     var invoiceOrder = await bestellungFuerSubscription(store, stripe, subId);
     if (!invoiceOrder) return { status: 200, code: "fremd" };
     if (event.type === "invoice.paid") {
-      if (!invoiceOrder.accessCode) invoiceOrder.accessCode = checkout.zugangscode();
-      invoiceOrder.zugang = true;
-      invoiceOrder.status = "aktiv";
-      invoiceOrder.customerId = idVon(object.customer) || invoiceOrder.customerId;
-      invoiceOrder.subscriptionId = subId || invoiceOrder.subscriptionId;
-      var ende = periodEnde(object);
-      if (ende) invoiceOrder.accessUntil = ende;
-      await store.saveOrder(invoiceOrder);
+      if (!rechnungPasst(invoiceOrder, object)) return { status: 200, code: "betrag" };
+      await schreib(store, invoiceOrder, async function (aktuell) {
+        if (!aktuell.accessCode) aktuell.accessCode = checkout.zugangscode();
+        aktuell.zugang = true;
+        aktuell.status = "aktiv";
+        aktuell.customerId = idVon(object.customer) || aktuell.customerId;
+        aktuell.subscriptionId = subId || aktuell.subscriptionId;
+        var ende = periodEnde(object);
+        if (ende) aktuell.accessUntil = ende;
+        return aktuell;
+      });
       return { status: 200, code: "rechnung" };
     }
-    invoiceOrder.status = "zahlung_offen";
-    invoiceOrder.zugang = true;
-    await store.saveOrder(invoiceOrder);
+    await schreib(store, invoiceOrder, async function (aktuell) {
+      aktuell.status = aktuell.zugang ? "zahlung_offen" : "fehlgeschlagen";
+      return aktuell;
+    });
     return { status: 200, code: "rechnung_offen" };
   }
 
   if (event.type === "customer.subscription.updated" || event.type === "customer.subscription.deleted") {
     var subOrder = await bestellungFuerSubscription(store, stripe, object.id);
     if (!subOrder) return { status: 200, code: "fremd" };
-    if (event.type === "customer.subscription.deleted") {
-      subOrder.status = "beendet";
-      subOrder.zugang = false;
-      subOrder.accessUntil = nowIso;
-    } else {
-      applySubscription(subOrder, object, nowIso);
-    }
-    await store.saveOrder(subOrder);
+    await schreib(store, subOrder, async function (aktuell) {
+      if (event.type === "customer.subscription.deleted") {
+        aktuell.status = "beendet";
+        aktuell.zugang = false;
+        aktuell.accessUntil = nowIso;
+      } else {
+        applySubscription(aktuell, object, nowIso);
+      }
+      return aktuell;
+    });
     return { status: 200, code: "abo" };
   }
 
@@ -185,20 +257,22 @@ async function verarbeite(event, deps) {
       riskOrder = await bestellungFuerSubscription(store, stripe, subscriptionVonInvoice(invoice));
     }
     if (!riskOrder) return { status: 200, code: "fremd" };
-    if (event.type === "charge.refunded") {
-      var full = object.refunded === true || (object.amount && object.amount_refunded >= object.amount);
-      if (full) {
-        riskOrder.status = "beendet";
-        riskOrder.zugang = false;
-        riskOrder.accessUntil = nowIso;
+    await schreib(store, riskOrder, async function (aktuell) {
+      if (event.type === "charge.refunded") {
+        var full = object.refunded === true || (object.amount && object.amount_refunded >= object.amount);
+        if (full) {
+          aktuell.status = "beendet";
+          aktuell.zugang = false;
+          aktuell.accessUntil = nowIso;
+        } else if (aktuell.status !== "beendet") {
+          aktuell.status = "teilerstattet";
+        }
       } else {
-        riskOrder.status = riskOrder.status === "beendet" ? riskOrder.status : "teilerstattet";
+        aktuell.status = "gesperrt";
+        aktuell.zugang = false;
       }
-    } else {
-      riskOrder.status = "gesperrt";
-      riskOrder.zugang = false;
-    }
-    await store.saveOrder(riskOrder);
+      return aktuell;
+    });
     return { status: 200, code: "risiko" };
   }
 
@@ -208,5 +282,6 @@ async function verarbeite(event, deps) {
 module.exports = {
   verarbeite: verarbeite,
   subscriptionVonInvoice: subscriptionVonInvoice,
-  applySubscription: applySubscription
+  applySubscription: applySubscription,
+  sessionGehoert: sessionGehoert
 };

@@ -73,7 +73,7 @@
     root.innerHTML =
       "<span class=\"eyebrow\">Texte, 90 Tage</span>" +
       "<h1>" + offer.name + "</h1>" +
-      "<p class=\"lead\">" + offer.dauer + ", " + offer.kanal + ". Die ersten " + offer.gratisTage + " Tage sind der bestehende kostenlose Einstieg, ohne Zahlung.</p>" +
+      "<p class=\"lead\">" + offer.dauer + ", " + offer.kanal + ". Die ersten " + offer.gratisTage + " Tage sind der bestehende kostenlose Einstieg, ohne Zahlung. Das ist keine Testphase bei Stripe.</p>" +
       "<p>" + offer.komposition + "</p>" +
       "<ul class=\"plainfacts\">" +
       "<li><b>Dauer</b>" + offer.dauer + "</li>" +
@@ -86,7 +86,6 @@
       "<div class=\"pricebox\" id=\"kauf-hinweis\" tabindex=\"-1\">" +
       "<p data-kauf-hinweis>Ob ein Kauf offen ist, steht erst fest, wenn ein Stripe-Preis für genau dieses Angebot hinterlegt ist. Solange das fehlt, gibt es hier keinen Betrag.</p>" +
       "<div class=\"btn-row\">" +
-      "<a class=\"btn btn--primary\" data-kauf=\"" + offer.id + "\" href=\"/kaufen?id=" + encodeURIComponent(offer.id) + "\">Zum Kauf</a>" +
       "<a class=\"btn btn--ghost\" href=\"" + offer.gratisHref + "\">Kostenlosen Einstieg öffnen</a>" +
       "</div></div>" +
       "<p><a class=\"textlink\" href=\"/abo\">Abo verwalten</a></p>";
@@ -125,7 +124,7 @@
     if (hit.angebot) {
       paid = "<p>" + hit.angebot.name + ". " + hit.angebot.dauer + ", " + hit.angebot.kanal + ". " + hit.angebot.komposition + "</p>" +
         "<p data-kauf-hinweis>Ein Betrag steht hier nicht, solange kein Stripe-Preis hinterlegt ist.</p>" +
-        "<p><a class=\"btn btn--ghost\" data-kauf=\"" + hit.angebot.id + "\" href=\"/angebot?id=" + encodeURIComponent(hit.angebot.id) + "\">Zum Angebot</a></p>";
+        "<p><a class=\"btn btn--ghost\" href=\"/angebot?id=" + encodeURIComponent(hit.angebot.id) + "\">Zum Angebot</a></p>";
     }
     detail.innerHTML = "<h2 id=\"thema-" + hit.bedarf.id + "\">" + hit.bedarf.satz + "</h2>" + frei + test + coaching + paid;
     var target = document.getElementById("thema-" + hit.bedarf.id);
@@ -172,14 +171,15 @@
       error.classList.toggle("is-visible", !!istFehler);
       if (info) info.textContent = istFehler ? "" : text;
     }
-    submit.disabled = true;
+    submit.hidden = true;
     ladeKaufbar().then(function () {
       if (!kaufbar[offer.id]) {
-        meldung("Für dieses Angebot ist noch kein Stripe-Preis hinterlegt. Ein Kauf ist hier nicht möglich.", true);
+        meldung("Für dieses Angebot ist noch kein Stripe-Preis hinterlegt. Der Checkout ist deshalb nicht offen.", true);
         return;
       }
+      submit.hidden = false;
       submit.disabled = false;
-      meldung("Betrag und ob es einmalig oder monatlich läuft, stehen auf der Checkout-Seite von Stripe. Hier wird nichts zusätzlich angehakt.", false);
+      meldung("Betrag, Währung und ob es einmalig oder monatlich läuft, kommen aus dem hinterlegten Stripe-Preis. Hier wird nichts zusätzlich angehakt.", false);
     }).catch(function () {
       meldung("Der Kaufstatus ist gerade nicht erreichbar. Es wird nichts berechnet.", true);
     });
@@ -187,7 +187,7 @@
       event.preventDefault();
       meldung("", false);
       if (!kaufbar[offer.id]) {
-        meldung("Für dieses Angebot ist noch kein Stripe-Preis hinterlegt. Ein Kauf ist hier nicht möglich.", true);
+        meldung("Für dieses Angebot ist noch kein Stripe-Preis hinterlegt. Der Checkout ist deshalb nicht offen.", true);
         return;
       }
       var gewaehlt = form.querySelector('input[name="thema"]:checked');
@@ -317,16 +317,31 @@
     });
   }
 
+  function kaufbutton() {
+    var root = document.getElementById("angebot-root");
+    if (!root) return;
+    var id = new URLSearchParams(location.search).get("id");
+    if (!katalog.angebot(id) || !kaufbar[id]) return;
+    var row = root.querySelector(".btn-row");
+    if (!row || row.querySelector("[data-kauf]")) return;
+    var link = document.createElement("a");
+    link.className = "btn btn--primary";
+    link.setAttribute("data-kauf", id);
+    link.href = "/kaufen?id=" + encodeURIComponent(id);
+    link.textContent = "Weiter zu Stripe";
+    row.insertBefore(link, row.firstChild);
+  }
+
   track();
   renderAngebot();
   renderFinden();
   bindKaufen();
   bindStatus();
   bindPortal();
-  if (document.querySelector("[data-kauf]")) {
-    ladeKaufbar().then(bindKaufLinks).catch(function () {
-      setHinweis("Der Kaufstatus ist gerade nicht erreichbar. Es wird nichts berechnet.");
-      bindKaufLinks();
-    });
-  }
+  ladeKaufbar().then(function () {
+    kaufbutton();
+    bindKaufLinks();
+  }).catch(function () {
+    setHinweis("Der Kaufstatus ist gerade nicht erreichbar. Es wird nichts berechnet.");
+  });
 })();
