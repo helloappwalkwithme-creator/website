@@ -93,6 +93,8 @@ async function createCheckout(input) {
   if (!UUID.test(String(input.anfrageId || ""))) return fehler(400, "anfrage");
   var gefunden = preise.preisId(offer.id, env);
   if (!gefunden.id) return fehler(409, gefunden.code || "preis_fehlt");
+  var sperre = preise.laufzeitFehlt(env);
+  if (sperre) return fehler(503, sperre);
   if (!input.store) return fehler(503, "speicher_fehlt");
   if (!input.stripe) return fehler(503, "stripe_fehlt");
 

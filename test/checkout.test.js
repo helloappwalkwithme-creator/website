@@ -8,10 +8,16 @@ var storeMod = require("../server/store");
 var ANFRAGE = "11111111-1111-4111-8111-111111111111";
 
 function envMit(id) {
-  return { STRIPE_PRICE_PORN_RECOVERY: id, SITE_ORIGINS: "https://www.shiftmyhorizon.com" };
+  return {
+    STRIPE_PRICE_PORN_RECOVERY: id,
+    STRIPE_RESTRICTED_KEY: "rk_test_placeholder",
+    STRIPE_WEBHOOK_SECRET: "whsec_test",
+    SITE_ORIGINS: "https://www.shiftmyhorizon.com"
+  };
 }
 
-assert.strictEqual(preise.preisId("porn-recovery", {}).code, "preis_fehlt");
+assert.strictEqual(preise.preisId("porn-recovery", {}).id, "price_1UZw2NDtpOTBAOYv8RVT67E9");
+assert.strictEqual(Object.keys(preise.STANDARD_PREIS).length, 14);
 assert.strictEqual(preise.preisId("porn-recovery", envMit(preise.BERICHT_PREIS)).code, "preis_ist_bericht");
 assert.strictEqual(preise.preisId("porn-recovery", envMit("not-a-price")).code, "preis_ungueltig");
 assert.strictEqual(preise.preisId("nope", envMit("price_abc")).code, "unbekannt");
@@ -54,7 +60,8 @@ async function main() {
     angebotId: "porn-recovery",
     anfrageId: ANFRAGE
   });
-  assert.strictEqual(missing.code, "preis_fehlt");
+  assert.strictEqual(missing.code, "webhook_geheimnis_fehlt");
+  assert.strictEqual(missing.status, 503);
 
   var blocked = await checkout.createCheckout({
     env: envMit(preise.BERICHT_PREIS),
@@ -111,7 +118,12 @@ async function main() {
 
   var once = fakeStripe({ id: "price_once", active: true, currency: "eur", unit_amount: 1900, recurring: null });
   var paid = await checkout.createCheckout({
-    env: { STRIPE_PRICE_MAIN_CHARACTER: "price_once", SITE_ORIGINS: "https://www.shiftmyhorizon.com" },
+    env: {
+      STRIPE_PRICE_MAIN_CHARACTER: "price_once",
+      STRIPE_RESTRICTED_KEY: "rk_test_placeholder",
+      STRIPE_WEBHOOK_SECRET: "whsec_test",
+      SITE_ORIGINS: "https://www.shiftmyhorizon.com"
+    },
     stripe: once,
     store: storeMod.memoryStore(),
     angebotId: "main-character",
@@ -170,6 +182,17 @@ async function main() {
   assert.strictEqual(zuZeile.preis, undefined);
   var ohneStripe = await preise.kaufbarListe(envMit("price_man"), null);
   assert.strictEqual(ohneStripe.filter(function (row) { return row.kaufbar; }).length, 0);
+  var abgerufen = 0;
+  var ohneGeheimnis = await preise.kaufbarListe({}, {
+    prices: {
+      retrieve: async function () {
+        abgerufen += 1;
+        return { id: "price_1UZw2NDtpOTBAOYv8RVT67E9", active: true, currency: "eur", unit_amount: 1900, recurring: { interval: "month", interval_count: 1 } };
+      }
+    }
+  });
+  assert.strictEqual(abgerufen, 0);
+  assert.strictEqual(ohneGeheimnis.filter(function (row) { return row.kaufbar; }).length, 0);
 
   var http = require("../server/http");
   var liveRes = { statusCode: 0, setHeader: function () {}, end: function (body) { this.body = JSON.parse(body); } };
