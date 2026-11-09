@@ -1,0 +1,7 @@
+{
+  "name": "shiftmyhorizon",
+  "private": true,
+  "scripts": {
+    "test": "node test-check.js && node abschalten-test/test-logik.js"
+  }
+}

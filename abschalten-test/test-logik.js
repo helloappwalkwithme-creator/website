@@ -105,6 +105,24 @@ seiten.forEach(function (rel) {
 });
 
 var abschalten = fs.readFileSync(path.join(__dirname, "..", "abschalten.html"), "utf8");
-assert.ok(abschalten.indexOf('href="/abschalten-test"') !== -1);
+assert.ok(abschalten.indexOf("Du sitzt abends auf dem Sofa, und dein Kopf geht noch das Meeting durch.") !== -1);
+assert.ok(abschalten.indexOf('id="start-form"') !== -1);
+assert.ok(abschalten.indexOf('value="whatsapp"') !== -1);
+assert.ok(abschalten.indexOf('value="telegram"') !== -1);
+assert.ok(abschalten.indexOf('value="email"') !== -1);
+assert.ok(abschalten.indexOf('src="starter.js"') !== -1);
+assert.ok(abschalten.indexOf("kostenlosen Session") !== -1);
+assert.ok(abschalten.indexOf("Albulescu") !== -1);
+assert.ok(abschalten.indexOf("Du bist zu Hause, aber nicht richtig da.") !== -1);
+assert.ok(abschalten.indexOf('href="/abschalten-test"') === -1, "die Landingpage hat nur den 3-Tage-Starter");
+assert.ok(abschalten.indexOf("Blanchflower") === -1);
+assert.ok(abschalten.indexOf("schneller Alarm") === -1);
+assert.ok(abschalten.indexOf("langsamer Planer") === -1);
+assert.ok(abschalten.indexOf('href="/session"') === -1);
+var starter = fs.readFileSync(path.join(__dirname, "..", "starter.js"), "utf8");
+assert.ok(starter.indexOf('params.get("utm_source")') !== -1);
+assert.ok(starter.indexOf('params.get("utm_medium")') !== -1);
+assert.ok(starter.indexOf('params.get("utm_campaign")') !== -1);
+assert.ok(starter.indexOf('params.get("via")') !== -1);
 
 console.log("alle pruefungen gruen");
