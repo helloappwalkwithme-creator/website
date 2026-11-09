@@ -185,7 +185,10 @@ async function main() {
     stripe: {
       billingPortal: {
         sessions: {
-          create: async function () {
+          create: async function (params) {
+            assert.strictEqual(params.flow_data.type, "subscription_cancel");
+            assert.strictEqual(params.flow_data.subscription_cancel.subscription, "sub_1");
+            assert.strictEqual(Object.prototype.hasOwnProperty.call(params, "payment_method_types"), false);
             return { url: "https://billing.stripe.com/p/session/test" };
           }
         }
@@ -346,6 +349,25 @@ async function main() {
   }, { store: store });
   assert.strictEqual(abweichung.code, "betrag");
   assert.strictEqual((await store.getOrder(falsch.id)).zugang, false);
+
+  var kuendigung = await orderOffen(store);
+  kuendigung.subscriptionId = "sub_end";
+  kuendigung.customerId = "cus_end";
+  kuendigung.zugang = true;
+  kuendigung.status = "aktiv";
+  kuendigung.accessCode = "ZZ99-ZZ99";
+  await store.saveOrder(kuendigung);
+  var ende = Math.floor(Date.now() / 1000) + 86400 * 10;
+  var kuend = await webhook.verarbeite({
+    id: "evt_kuend",
+    type: "customer.subscription.updated",
+    data: { object: { id: "sub_end", status: "active", cancel_at_period_end: true, current_period_end: ende, customer: "cus_end" } }
+  }, { store: store });
+  assert.strictEqual(kuend.code, "abo");
+  var laufend = await store.getOrder(kuendigung.id);
+  assert.strictEqual(laufend.status, "kuendigung_laeuft");
+  assert.strictEqual(checkout.hatZugang(laufend, Date.now()), true);
+  assert.strictEqual(checkout.hatZugang(laufend, (ende + 5) * 1000), false);
 }
 
 main().catch(function (err) {

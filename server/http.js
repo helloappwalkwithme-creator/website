@@ -68,9 +68,14 @@ function stripeOder(env, extra) {
   return checkout.stripeClient(env);
 }
 
-async function kaufbar(req, res, env) {
+async function kaufbar(req, res, env, extra) {
   if (req.method !== "GET") return send(res, 405, { code: "methode" });
-  send(res, 200, { angebote: preise.kaufbarListe(env) });
+  var stripe = null;
+  if (extra && extra.stripe) stripe = extra.stripe;
+  else {
+    try { stripe = stripeOder(env, extra); } catch (e) { stripe = null; }
+  }
+  send(res, 200, { angebote: await preise.kaufbarListe(env, stripe) });
 }
 
 async function checkoutPost(req, res, env, extra) {

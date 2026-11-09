@@ -8,147 +8,114 @@
 
   var TRACK_KEYS = ["fbclid", "gclid", "wbraid", "gbraid", "msclkid", "ttclid", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 
+  function programm(spec) {
+    return {
+      id: spec.id,
+      slug: spec.slug,
+      name: spec.name,
+      publikum: spec.publikum,
+      quelle: spec.quelle,
+      rootProblem: spec.rootProblem || null,
+      flow: spec.slug,
+      preisEnv: spec.preisEnv,
+      lookupKey: spec.lookupKey,
+      dauer: "90 Tage, eine Nachricht am Tag",
+      kanal: "WhatsApp oder Telegram",
+      gratisTage: 4,
+      gratisHref: spec.href,
+      satz: spec.satz,
+      komposition: "Ein Programm, 90 Nachrichten zu diesem einen Punkt. Die anderen Programme sind eigene Käufe.",
+      themen: [{ id: spec.thema, satz: spec.satz, href: spec.href }]
+    };
+  }
+
   var ANGEBOTE = [
-    {
-      id: "integrated-man",
-      name: "Integrated Man",
-      publikum: "maenner",
-      flow: "integrated_man_flow",
-      digistoreProdukt: "688460",
-      influencerProdukt: "732212",
-      preisEnv: "STRIPE_PRICE_INTEGRATED_MAN",
-      dauer: "90 Tage, eine Nachricht am Tag",
-      kanal: "WhatsApp oder Telegram",
-      gratisTage: 4,
-      gratisHref: "/integrated-man.html",
-      komposition: "Ein Thema für 90 Tage. Die anderen Themen sind nicht automatisch dabei.",
-      themen: [
-        { id: "porn", satz: "Ich verliere Stunden an den schnellen Kick, und danach ist da Leere.", href: "/integrated-man.html?p=porn" },
-        { id: "gettinggirls", satz: "Ich sehe die Frau, die mir gefällt, und tue dann doch nichts.", href: "/integrated-man.html?p=gettinggirls" },
-        { id: "relationship", satz: "Wir leben nebeneinander her, und der Respekt wird leiser.", href: "/integrated-man.html?p=relationship" }
-      ]
-    },
-    {
-      id: "career-power",
-      name: "Career & Power",
-      publikum: "maenner",
-      flow: "career_power_flow",
-      digistoreProdukt: "688580",
-      preisEnv: "STRIPE_PRICE_CAREER_POWER",
-      dauer: "90 Tage, eine Nachricht am Tag",
-      kanal: "WhatsApp oder Telegram",
-      gratisTage: 4,
-      gratisHref: "/careerandpower.html",
-      komposition: "Ein berufliches Thema für 90 Tage. Nicht Teil von Integrated Man.",
-      themen: [
-        { id: "stagnation", satz: "Ich leiste viel und werde bei Beförderungen oft übergangen.", href: "/careerandpower.html?p=stagnation" },
-        { id: "overload", satz: "Ich ertrinke im Tagesgeschäft und komme an die Richtung nicht ran.", href: "/careerandpower.html?p=overload" },
-        { id: "invisibility", satz: "In wichtigen Meetings werde ich überhört.", href: "/careerandpower.html?p=invisibility" }
-      ]
-    },
-    {
-      id: "elite-closer",
-      name: "Elite Closer",
-      publikum: "maenner",
-      flow: "elite_closer_flow",
-      digistoreProdukt: "688583",
-      preisEnv: "STRIPE_PRICE_ELITE_CLOSER",
-      dauer: "90 Tage, eine Nachricht am Tag",
-      kanal: "WhatsApp oder Telegram",
-      gratisTage: 4,
-      gratisHref: "/elitecloser.html",
-      komposition: "Ein Vertriebsthema für 90 Tage. Nicht Teil von Integrated Man.",
-      themen: [
-        { id: "conversion", satz: "Ich habe Gespräche und schließe sie am Ende nicht ab.", href: "/elitecloser.html?p=conversion" },
-        { id: "reluctance", satz: "Ich drücke mich vor der Akquise, wenn Ablehnung droht.", href: "/elitecloser.html?p=reluctance" },
-        { id: "discounting", satz: "Ich knicke beim Preis zu früh ein und gebe Rabatt.", href: "/elitecloser.html?p=discounting" }
-      ]
-    },
-    {
-      id: "loving-woman",
-      name: "The Loving Woman",
-      publikum: "frauen",
-      flow: "loving_woman_flow",
-      digistoreProdukt: "688575",
-      preisEnv: "STRIPE_PRICE_LOVING_WOMAN",
-      dauer: "90 Tage, eine Nachricht am Tag",
-      kanal: "WhatsApp oder Telegram",
-      gratisTage: 4,
-      gratisHref: "/ThelovingWoman.html",
-      komposition: "Ein Thema für 90 Tage. Die anderen Themen sind nicht automatisch dabei.",
-      themen: [
-        { id: "peoplepleasing", satz: "Ich mache es allen recht und verliere mich dabei.", href: "/ThelovingWoman.html?p=peoplepleasing" },
-        { id: "dating", satz: "Mein Selbstwert hängt an seiner Nachricht.", href: "/ThelovingWoman.html?p=dating" },
-        { id: "somatic", satz: "Ich spüre eine Leere und bin wie hinter Glas.", href: "/ThelovingWoman.html?p=somatic" }
-      ]
-    },
-    {
-      id: "lightness",
-      name: "Lightness",
-      publikum: "frauen",
-      flow: "path_to_lightness_flow",
-      digistoreProdukt: "719920",
-      preisEnv: "STRIPE_PRICE_LIGHTNESS",
-      dauer: "90 Tage, eine Nachricht am Tag",
-      kanal: "WhatsApp oder Telegram",
-      gratisTage: 4,
-      gratisHref: "/lightness.html",
-      komposition: "Ein Thema für 90 Tage. Nicht Teil von The Loving Woman.",
-      themen: [
-        { id: "boundaries", satz: "Ich sage Ja, obwohl ich Nein meine.", href: "/lightness.html?p=boundaries" },
-        { id: "overload", satz: "Mein Kopf steht nie still, und ich zerdenke Entscheidungen.", href: "/lightness.html?p=overload" },
-        { id: "tension", satz: "Eine Unruhe bleibt, auch wenn gerade nichts anliegt.", href: "/lightness.html?p=tension" }
-      ]
-    },
-    {
-      id: "integrated-soul",
-      name: "Integrated Soul",
-      publikum: "frauen",
-      flow: "integrated_soul_flow",
-      digistoreProdukt: "688579",
-      preisEnv: "STRIPE_PRICE_INTEGRATED_SOUL",
-      dauer: "90 Tage, eine Nachricht am Tag",
-      kanal: "WhatsApp oder Telegram",
-      gratisTage: 4,
-      gratisHref: "/TheIntegratedSoul.html",
-      komposition: "Ein Thema für 90 Tage. Nicht Teil von The Loving Woman.",
-      themen: [
-        { id: "emptiness", satz: "Ich erreiche viel und fühle mich trotzdem leer.", href: "/TheIntegratedSoul.html?p=emptiness" }
-      ]
-    },
-    {
-      id: "parent-in-peace",
-      name: "Parent in Peace",
-      publikum: "eltern",
-      flow: "parent_in_peace_flow",
-      digistoreProdukt: "688578",
-      preisEnv: "STRIPE_PRICE_PARENT_IN_PEACE",
-      dauer: "90 Tage, eine Nachricht am Tag",
-      kanal: "WhatsApp oder Telegram",
-      gratisTage: 4,
-      gratisHref: "/Parentinpeace.html",
-      komposition: "Ein Elternthema für 90 Tage. Nicht Teil von The Loving Woman.",
-      themen: [
-        { id: "anger", satz: "Ich raste bei den Kindern aus und es tut mir danach leid.", href: "/Parentinpeace.html?p=anger" }
-      ]
-    },
-    {
-      id: "connected-couples",
-      name: "Connected Couples",
-      publikum: "paare",
-      flow: "connected_couples_flow",
-      digistoreProdukt: "688576",
-      preisEnv: "STRIPE_PRICE_CONNECTED_COUPLES",
-      dauer: "90 Tage, eine Nachricht am Tag",
-      kanal: "WhatsApp oder Telegram",
-      gratisTage: 4,
-      gratisHref: "/connectedcouple.html",
-      komposition: "Ein Paarthema für 90 Tage. Nicht in Integrated Man oder The Loving Woman enthalten.",
-      themen: [
-        { id: "communication", satz: "Wir reden viel und verstehen uns trotzdem nicht.", href: "/connectedcouple.html?p=communication" }
-      ]
-    }
+    programm({
+      id: "porn-recovery", slug: "porn_recovery_flow", name: "Raus aus dem Drang", publikum: "maenner",
+      quelle: "integrated_man_flow", rootProblem: "porn", preisEnv: "STRIPE_PRICE_PORN_RECOVERY",
+      lookupKey: "porn_recovery_monthly", thema: "porn", href: "/integrated-man.html?p=porn",
+      satz: "Ich verliere Stunden an den schnellen Kick, und danach ist da Leere."
+    }),
+    programm({
+      id: "gettinggirls", slug: "gettinggirls_flow", name: "Frauen ansprechen", publikum: "maenner",
+      quelle: "integrated_man_flow", rootProblem: "gettinggirls", preisEnv: "STRIPE_PRICE_GETTINGGIRLS",
+      lookupKey: "gettinggirls_monthly", thema: "gettinggirls", href: "/integrated-man.html?p=gettinggirls",
+      satz: "Ich sehe die Frau, die mir gefällt, und tue dann doch nichts."
+    }),
+    programm({
+      id: "mens-relationship", slug: "mens_relationship_flow", name: "Nähe in der Beziehung", publikum: "maenner",
+      quelle: "integrated_man_flow", rootProblem: "relationship", preisEnv: "STRIPE_PRICE_MENS_RELATIONSHIP",
+      lookupKey: "mens_relationship_monthly", thema: "relationship", href: "/integrated-man.html?p=relationship",
+      satz: "Wir leben nebeneinander her, und der Respekt wird leiser."
+    }),
+    programm({
+      id: "career", slug: "career_flow", name: "Beruf und Aufstieg", publikum: "maenner",
+      quelle: "career_power_flow", preisEnv: "STRIPE_PRICE_CAREER",
+      lookupKey: "career_monthly", thema: "stagnation", href: "/careerandpower.html?p=stagnation",
+      satz: "Ich leiste viel und werde bei Beförderungen oft übergangen."
+    }),
+    programm({
+      id: "sales", slug: "sales_flow", name: "Verkauf", publikum: "maenner",
+      quelle: "elite_closer_flow", preisEnv: "STRIPE_PRICE_SALES",
+      lookupKey: "sales_monthly", thema: "discounting", href: "/elitecloser.html?p=discounting",
+      satz: "Ich knicke beim Preis zu früh ein und gebe Rabatt."
+    }),
+    programm({
+      id: "main-character", slug: "main_character_flow", name: "Bei sich bleiben", publikum: "frauen",
+      quelle: "loving_woman_flow", rootProblem: "peoplepleasing", preisEnv: "STRIPE_PRICE_MAIN_CHARACTER",
+      lookupKey: "main_character_monthly", thema: "peoplepleasing", href: "/ThelovingWoman.html?p=peoplepleasing",
+      satz: "Ich mache es allen recht und verliere mich dabei."
+    }),
+    programm({
+      id: "high-value-dating", slug: "high_value_dating_flow", name: "Selbstwert und Dating", publikum: "frauen",
+      quelle: "loving_woman_flow", rootProblem: "dating", preisEnv: "STRIPE_PRICE_HIGH_VALUE_DATING",
+      lookupKey: "high_value_dating_monthly", thema: "dating", href: "/ThelovingWoman.html?p=dating",
+      satz: "Mein Selbstwert hängt an seiner Nachricht."
+    }),
+    programm({
+      id: "heartbreak", slug: "heartbreak_flow", name: "Nach der Nähe", publikum: "frauen",
+      quelle: "loving_woman_flow", rootProblem: "somatic", preisEnv: "STRIPE_PRICE_HEARTBREAK",
+      lookupKey: "heartbreak_monthly", thema: "somatic", href: "/ThelovingWoman.html?p=somatic",
+      satz: "Ich spüre eine Leere und bin wie hinter Glas."
+    }),
+    programm({
+      id: "leichtigkeit", slug: "leichtigkeit_flow", name: "Leichtigkeit", publikum: "frauen",
+      quelle: "path_to_lightness_flow", preisEnv: "STRIPE_PRICE_LEICHTIGKEIT",
+      lookupKey: "leichtigkeit_monthly", thema: "boundaries", href: "/lightness.html?p=boundaries",
+      satz: "Ich sage Ja, obwohl ich Nein meine."
+    }),
+    programm({
+      id: "secular", slug: "secular_flow", name: "Trotz Erfolg leer", publikum: "frauen",
+      quelle: "integrated_soul_flow", preisEnv: "STRIPE_PRICE_SECULAR",
+      lookupKey: "secular_monthly", thema: "emptiness", href: "/TheIntegratedSoul.html?p=emptiness",
+      satz: "Ich erreiche viel und fühle mich trotzdem leer."
+    }),
+    programm({
+      id: "parenting-loop", slug: "parenting_loop_flow", name: "Ruhig bleiben mit den Kindern", publikum: "eltern",
+      quelle: "parent_in_peace_flow", rootProblem: "anger", preisEnv: "STRIPE_PRICE_PARENTING_LOOP",
+      lookupKey: "parenting_loop_monthly", thema: "anger", href: "/Parentinpeace.html?p=anger",
+      satz: "Ich raste bei den Kindern aus und es tut mir danach leid."
+    }),
+    programm({
+      id: "parental-burnout", slug: "parental_burnout_flow", name: "Eltern, am Limit", publikum: "eltern",
+      quelle: "parent_in_peace_flow", rootProblem: "overwhelm", preisEnv: "STRIPE_PRICE_PARENTAL_BURNOUT",
+      lookupKey: "parental_burnout_monthly", thema: "overwhelm", href: "/Parentinpeace.html?p=overwhelm",
+      satz: "Ich bin ausgelaugt, bevor der Tag mit den Kindern richtig beginnt."
+    }),
+    programm({
+      id: "conflict-to-connection", slug: "conflict_to_connection_flow", name: "Streit und Verstehen", publikum: "paare",
+      quelle: "connected_couples_flow", rootProblem: "communication", preisEnv: "STRIPE_PRICE_CONFLICT_TO_CONNECTION",
+      lookupKey: "conflict_to_connection_monthly", thema: "communication", href: "/connectedcouple.html?p=communication",
+      satz: "Wir reden viel und verstehen uns trotzdem nicht."
+    }),
+    programm({
+      id: "fairplay", slug: "fairplay_flow", name: "Nähe als Paar", publikum: "paare",
+      quelle: "connected_couples_flow", rootProblem: "intimacy", preisEnv: "STRIPE_PRICE_FAIRPLAY",
+      lookupKey: "fairplay_monthly", thema: "intimacy", href: "/connectedcouple.html?p=intimacy",
+      satz: "Wir funktionieren nur noch nebeneinander."
+    })
   ];
+
 
   var BEDARFE = [
     {
@@ -197,78 +164,92 @@
       id: "ansprechen",
       gruppe: "Männer",
       satz: "Ich sehe die Frau, die mir gefällt, und tue dann doch nichts.",
-      angebotId: "integrated-man",
+      angebotId: "gettinggirls",
       thema: "gettinggirls"
     },
     {
       id: "drang",
       gruppe: "Männer",
       satz: "Der schnelle Kick reizt mich mehr als echte Nähe.",
-      angebotId: "integrated-man",
+      angebotId: "porn-recovery",
       thema: "porn"
     },
     {
       id: "naehe",
       gruppe: "Männer",
       satz: "Wir leben nebeneinander her, und der Respekt wird leiser.",
-      angebotId: "integrated-man",
+      angebotId: "mens-relationship",
       thema: "relationship"
     },
     {
       id: "befoerderung",
       gruppe: "Beruf",
       satz: "Ich leiste viel und werde bei Beförderungen oft übergangen.",
-      angebotId: "career-power",
+      angebotId: "career",
       thema: "stagnation"
     },
     {
       id: "rabatt",
       gruppe: "Beruf",
       satz: "Ich knicke beim Preis zu früh ein und gebe Rabatt.",
-      angebotId: "elite-closer",
+      angebotId: "sales",
       thema: "discounting"
     },
     {
       id: "allen-recht",
       gruppe: "Frauen",
       satz: "Ich mache es allen recht und verliere mich dabei.",
-      angebotId: "loving-woman",
+      angebotId: "main-character",
       thema: "peoplepleasing"
     },
     {
       id: "nachricht",
       gruppe: "Frauen",
       satz: "Mein Selbstwert hängt an seiner Nachricht.",
-      angebotId: "loving-woman",
+      angebotId: "high-value-dating",
       thema: "dating"
     },
     {
       id: "ja-nein",
       gruppe: "Frauen",
       satz: "Ich sage Ja, obwohl ich Nein meine.",
-      angebotId: "lightness",
+      angebotId: "leichtigkeit",
       thema: "boundaries"
     },
     {
       id: "leer",
       gruppe: "Frauen",
       satz: "Ich erreiche viel und fühle mich trotzdem leer.",
-      angebotId: "integrated-soul",
+      angebotId: "secular",
       thema: "emptiness"
     },
     {
       id: "kinder",
       gruppe: "Eltern und Paare",
       satz: "Ich raste bei den Kindern aus und es tut mir danach leid.",
-      angebotId: "parent-in-peace",
+      angebotId: "parenting-loop",
       thema: "anger"
     },
     {
       id: "paar",
       gruppe: "Eltern und Paare",
       satz: "Wir reden viel und verstehen uns trotzdem nicht.",
-      angebotId: "connected-couples",
+      angebotId: "conflict-to-connection",
       thema: "communication"
+    },
+    {
+      id: "ueberlast",
+      gruppe: "Eltern und Paare",
+      satz: "Ich bin ausgelaugt, bevor der Tag mit den Kindern richtig beginnt.",
+      angebotId: "parental-burnout",
+      thema: "overwhelm"
+    },
+    {
+      id: "naehe-paar",
+      gruppe: "Eltern und Paare",
+      satz: "Wir funktionieren nur noch nebeneinander.",
+      angebotId: "fairplay",
+      thema: "intimacy"
     }
   ];
 

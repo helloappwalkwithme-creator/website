@@ -4,7 +4,7 @@
   var katalog = window.SMHKatalog;
   if (!katalog) return;
 
-  var kaufbar = {};
+  var kaufstand = {};
 
   function track() {
     try {
@@ -35,8 +35,8 @@
     return fetch("/api/kaufbar", { headers: { Accept: "application/json" } })
       .then(function (res) { if (!res.ok) throw new Error("status"); return res.json(); })
       .then(function (data) {
-        (data.angebote || []).forEach(function (row) { kaufbar[row.id] = !!row.kaufbar; });
-        return kaufbar;
+        (data.angebote || []).forEach(function (row) { kaufstand[row.id] = row; });
+        return kaufstand;
       });
   }
 
@@ -48,7 +48,7 @@
     document.querySelectorAll("[data-kauf]").forEach(function (link) {
       link.addEventListener("click", function (event) {
         var id = link.getAttribute("data-kauf");
-        if (kaufbar[id]) return;
+        if (kaufstand[id] && kaufstand[id].kaufbar) return;
         event.preventDefault();
         setHinweis("Für dieses Angebot ist noch kein Stripe-Preis hinterlegt. Ein Kauf ist hier nicht möglich.");
         var box = document.getElementById("kauf-hinweis");
@@ -84,7 +84,8 @@
       "<h2>Welcher Satz trifft dich?</h2>" +
       "<ul class=\"needlist\">" + themen + "</ul>" +
       "<div class=\"pricebox\" id=\"kauf-hinweis\" tabindex=\"-1\">" +
-      "<p data-kauf-hinweis>Ob ein Kauf offen ist, steht erst fest, wenn ein Stripe-Preis für genau dieses Angebot hinterlegt ist. Solange das fehlt, gibt es hier keinen Betrag.</p>" +
+      "<p data-preis hidden></p>" +
+      "<p data-kauf-hinweis>Ob ein Kauf offen ist, steht erst fest, wenn der Stripe-Preis für genau dieses Programm geprüft ist. Solange das fehlt, gibt es hier keinen Betrag.</p>" +
       "<div class=\"btn-row\">" +
       "<a class=\"btn btn--ghost\" href=\"" + offer.gratisHref + "\">Kostenlosen Einstieg öffnen</a>" +
       "</div></div>" +
@@ -173,21 +174,23 @@
     }
     submit.hidden = true;
     ladeKaufbar().then(function () {
-      if (!kaufbar[offer.id]) {
-        meldung("Für dieses Angebot ist noch kein Stripe-Preis hinterlegt. Der Checkout ist deshalb nicht offen.", true);
+      if (!kaufstand[offer.id] || !kaufstand[offer.id].kaufbar) {
+        meldung("Für dieses Programm ist noch kein geprüfter Stripe-Preis hinterlegt. Der Checkout ist deshalb nicht offen.", true);
         return;
       }
       submit.hidden = false;
       submit.disabled = false;
-      meldung("Betrag, Währung und ob es einmalig oder monatlich läuft, kommen aus dem hinterlegten Stripe-Preis. Hier wird nichts zusätzlich angehakt.", false);
+      var preisZeile = document.getElementById("kauf-preis");
+      if (preisZeile && kaufstand[offer.id].preis) preisZeile.textContent = kaufstand[offer.id].preis;
+      meldung("Monatlich kündbar im Stripe-Portal. Der Zugang läuft bis zum Ende der bezahlten Zeit. Hier wird nichts zusätzlich angehakt.", false);
     }).catch(function () {
       meldung("Der Kaufstatus ist gerade nicht erreichbar. Es wird nichts berechnet.", true);
     });
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       meldung("", false);
-      if (!kaufbar[offer.id]) {
-        meldung("Für dieses Angebot ist noch kein Stripe-Preis hinterlegt. Der Checkout ist deshalb nicht offen.", true);
+      if (!kaufstand[offer.id] || !kaufstand[offer.id].kaufbar) {
+        meldung("Für dieses Programm ist noch kein geprüfter Stripe-Preis hinterlegt. Der Checkout ist deshalb nicht offen.", true);
         return;
       }
       var gewaehlt = form.querySelector('input[name="thema"]:checked');
@@ -321,7 +324,7 @@
     var root = document.getElementById("angebot-root");
     if (!root) return;
     var id = new URLSearchParams(location.search).get("id");
-    if (!katalog.angebot(id) || !kaufbar[id]) return;
+    if (!katalog.angebot(id) || !kaufstand[id] || !kaufstand[id].kaufbar) return;
     var row = root.querySelector(".btn-row");
     if (!row || row.querySelector("[data-kauf]")) return;
     var link = document.createElement("a");
@@ -332,7 +335,26 @@
     row.insertBefore(link, row.firstChild);
   }
 
+  function zeigePreis() {
+    var id = new URLSearchParams(location.search).get("id");
+    var stand = id && kaufstand[id];
+    var ziel = document.querySelector("[data-preis]");
+    if (!ziel || !stand || !stand.kaufbar || !stand.preis) return;
+    ziel.hidden = false;
+    ziel.textContent = stand.preis;
+  }
+
+  function renderProgramme() {
+    document.querySelectorAll("[data-programme]").forEach(function (box) {
+      var liste = katalog.fuerPublikum(box.getAttribute("data-programme"));
+      box.innerHTML = liste.map(function (offer) {
+        return "<article class=\"offercard\"><h2>" + offer.name + "</h2><p>" + offer.satz + "</p><p><a class=\"textlink\" href=\"/angebot?id=" + encodeURIComponent(offer.id) + "\">Zum Angebot</a></p></article>";
+      }).join("");
+    });
+  }
+
   track();
+  renderProgramme();
   renderAngebot();
   renderFinden();
   bindKaufen();
@@ -340,6 +362,7 @@
   bindPortal();
   ladeKaufbar().then(function () {
     kaufbutton();
+    zeigePreis();
     bindKaufLinks();
   }).catch(function () {
     setHinweis("Der Kaufstatus ist gerade nicht erreichbar. Es wird nichts berechnet.");

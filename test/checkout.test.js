@@ -8,15 +8,20 @@ var storeMod = require("../server/store");
 var ANFRAGE = "11111111-1111-4111-8111-111111111111";
 
 function envMit(id) {
-  return { STRIPE_PRICE_INTEGRATED_MAN: id, SITE_ORIGINS: "https://www.shiftmyhorizon.com" };
+  return { STRIPE_PRICE_PORN_RECOVERY: id, SITE_ORIGINS: "https://www.shiftmyhorizon.com" };
 }
 
-assert.strictEqual(preise.preisId("integrated-man", {}).code, "preis_fehlt");
-assert.strictEqual(preise.preisId("integrated-man", envMit(preise.BERICHT_PREIS)).code, "preis_ist_bericht");
-assert.strictEqual(preise.preisId("integrated-man", envMit("not-a-price")).code, "preis_ungueltig");
+assert.strictEqual(preise.preisId("porn-recovery", {}).code, "preis_fehlt");
+assert.strictEqual(preise.preisId("porn-recovery", envMit(preise.BERICHT_PREIS)).code, "preis_ist_bericht");
+assert.strictEqual(preise.preisId("porn-recovery", envMit("not-a-price")).code, "preis_ungueltig");
 assert.strictEqual(preise.preisId("nope", envMit("price_abc")).code, "unbekannt");
-assert.strictEqual(preise.kaufbarListe({}).filter(function (row) { return row.kaufbar; }).length, 0);
-assert.strictEqual(preise.kaufbarListe(envMit("price_bundleMen")).filter(function (row) { return row.kaufbar; }).length, 1);
+assert.strictEqual(preise.preisBedingungen({ active: true, currency: "eur", unit_amount: 1900, recurring: { interval: "month", interval_count: 1 } }), null);
+assert.strictEqual(preise.preisBedingungen({ active: true, currency: "eur", unit_amount: 4900, recurring: { interval: "month", interval_count: 1 } }), "preis_betrag");
+assert.strictEqual(preise.preisBedingungen({ active: true, currency: "usd", unit_amount: 1900, recurring: { interval: "month", interval_count: 1 } }), "preis_waehrung");
+assert.strictEqual(preise.preisBedingungen({ active: true, currency: "eur", unit_amount: 1900, recurring: null }), "preis_kein_abo");
+assert.strictEqual(preise.preisBedingungen({ active: true, currency: "eur", unit_amount: 1900, recurring: { interval: "year", interval_count: 1 } }), "preis_intervall");
+assert.strictEqual(preise.preisBedingungen({ active: true, currency: "eur", unit_amount: 1900, recurring: { interval: "month", interval_count: 3 } }), "preis_intervall");
+assert.strictEqual(preise.preisBedingungen({ active: true, currency: "eur", unit_amount: 1900, recurring: { interval: "month", interval_count: 1, trial_period_days: 4 } }), "preis_hat_testphase");
 
 function fakeStripe(price) {
   if (price.unit_amount == null) price.unit_amount = 1900;
@@ -46,7 +51,7 @@ async function main() {
     env: {},
     stripe: fakeStripe({ id: "price_x", active: true }),
     store: storeMod.memoryStore(),
-    angebotId: "integrated-man",
+    angebotId: "porn-recovery",
     anfrageId: ANFRAGE
   });
   assert.strictEqual(missing.code, "preis_fehlt");
@@ -55,7 +60,7 @@ async function main() {
     env: envMit(preise.BERICHT_PREIS),
     stripe: fakeStripe({ id: preise.BERICHT_PREIS, active: true }),
     store: storeMod.memoryStore(),
-    angebotId: "integrated-man",
+    angebotId: "porn-recovery",
     anfrageId: ANFRAGE
   });
   assert.strictEqual(blocked.code, "preis_ist_bericht");
@@ -66,8 +71,8 @@ async function main() {
     env: envMit("price_man"),
     stripe: stripe,
     store: store,
-    angebotId: "integrated-man",
-    thema: "gettinggirls",
+    angebotId: "porn-recovery",
+    thema: "porn",
     email: "ada@example.com",
     anfrageId: ANFRAGE,
     utm: { utm_source: "youtube", antwort: "geheim" },
@@ -87,7 +92,7 @@ async function main() {
   assert.strictEqual(Object.prototype.hasOwnProperty.call(params, "automatic_tax"), false);
   assert.strictEqual(Object.prototype.hasOwnProperty.call(params.subscription_data, "trial_period_days"), false);
   assert.ok(/^smh_hosted_[a-z]{8}$/.test(params.integration_identifier));
-  assert.strictEqual(params.metadata.thema, "gettinggirls");
+  assert.strictEqual(params.metadata.thema, "porn");
   assert.strictEqual(params.metadata.antwort, undefined);
   assert.ok(params.success_url.indexOf("https://www.shiftmyhorizon.com/kauf-status?bestellung=") === 0);
   assert.strictEqual(params.success_url.indexOf("evil.example"), -1);
@@ -98,26 +103,28 @@ async function main() {
     env: envMit("price_man"),
     stripe: stripe,
     store: store,
-    angebotId: "integrated-man",
+    angebotId: "porn-recovery",
     anfrageId: ANFRAGE
   });
   assert.strictEqual(again.url, ok.url);
   assert.strictEqual(stripe.created.length, 1);
 
-  var once = fakeStripe({ id: "price_once", active: true, recurring: null });
+  var once = fakeStripe({ id: "price_once", active: true, currency: "eur", unit_amount: 1900, recurring: null });
   var paid = await checkout.createCheckout({
-    env: { STRIPE_PRICE_LOVING_WOMAN: "price_once", SITE_ORIGINS: "https://www.shiftmyhorizon.com" },
+    env: { STRIPE_PRICE_MAIN_CHARACTER: "price_once", SITE_ORIGINS: "https://www.shiftmyhorizon.com" },
     stripe: once,
     store: storeMod.memoryStore(),
-    angebotId: "loving-woman",
+    angebotId: "main-character",
     anfrageId: "22222222-2222-4222-8222-222222222222"
   });
+  assert.strictEqual(paid.code, "preis_kein_abo");
+  assert.strictEqual(once.created.length, 0);
   var probe = fakeStripe({ id: "price_man", active: true, currency: "eur", unit_amount: 1900, recurring: { interval: "month", trial_period_days: 4 } });
   var trial = await checkout.createCheckout({
     env: envMit("price_man"),
     stripe: probe,
     store: storeMod.memoryStore(),
-    angebotId: "integrated-man",
+    angebotId: "porn-recovery",
     anfrageId: "33333333-3333-4333-8333-333333333333"
   });
   assert.strictEqual(trial.code, "preis_hat_testphase");
@@ -128,7 +135,7 @@ async function main() {
     env: envMit("price_man"),
     stripe: fremdPreis,
     store: storeMod.memoryStore(),
-    angebotId: "integrated-man",
+    angebotId: "porn-recovery",
     anfrageId: "44444444-4444-4444-8444-444444444444",
     preisId: "price_boese",
     betrag: 1,
@@ -138,17 +145,39 @@ async function main() {
   assert.strictEqual(fremdPreis.created[0].params.line_items[0].price, "price_man");
   assert.strictEqual(Object.prototype.hasOwnProperty.call(fremdPreis.created[0].params, "payment_method_types"), false);
 
-  assert.strictEqual(paid.modus, "payment");
-  assert.strictEqual(once.created[0].params.mode, "payment");
-  assert.ok(once.created[0].params.payment_intent_data.metadata.bestellung_id);
+  assert.strictEqual(ok.modus, "subscription");
+  var passend = {
+    prices: {
+      retrieve: async function () {
+        return { id: "price_man", active: true, currency: "eur", unit_amount: 1900, recurring: { interval: "month", interval_count: 1 } };
+      }
+    }
+  };
+  var offen = await preise.kaufbarListe(envMit("price_man"), passend);
+  var zeile = offen.filter(function (row) { return row.id === "porn-recovery"; })[0];
+  assert.strictEqual(zeile.kaufbar, true);
+  assert.strictEqual(zeile.preis, "19 € pro Monat, monatlich kündbar");
+  var falsch = {
+    prices: {
+      retrieve: async function () {
+        return { id: "price_man", active: true, currency: "eur", unit_amount: 4900, recurring: { interval: "month", interval_count: 1 } };
+      }
+    }
+  };
+  var zu = await preise.kaufbarListe(envMit("price_man"), falsch);
+  var zuZeile = zu.filter(function (row) { return row.id === "porn-recovery"; })[0];
+  assert.strictEqual(zuZeile.kaufbar, false);
+  assert.strictEqual(zuZeile.preis, undefined);
+  var ohneStripe = await preise.kaufbarListe(envMit("price_man"), null);
+  assert.strictEqual(ohneStripe.filter(function (row) { return row.kaufbar; }).length, 0);
 
   var http = require("../server/http");
   var liveRes = { statusCode: 0, setHeader: function () {}, end: function (body) { this.body = JSON.parse(body); } };
   await http.checkoutPost({
     method: "POST",
     headers: {},
-    body: { angebotId: "integrated-man", anfrageId: ANFRAGE, email: "ada@example.com" }
-  }, liveRes, { STRIPE_RESTRICTED_KEY: "rk_live_nicht_verwenden", STRIPE_PRICE_INTEGRATED_MAN: "price_man" });
+    body: { angebotId: "porn-recovery", anfrageId: ANFRAGE, email: "ada@example.com" }
+  }, liveRes, { STRIPE_RESTRICTED_KEY: "rk_live_nicht_verwenden", STRIPE_PRICE_PORN_RECOVERY: "price_man" });
   assert.strictEqual(liveRes.statusCode, 503);
   assert.strictEqual(liveRes.body.code, "live_gesperrt");
   assert.strictEqual(JSON.stringify(liveRes.body).indexOf("rk_live"), -1);

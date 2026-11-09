@@ -33,15 +33,20 @@ katalog.BEDARFE.forEach(function (row) {
 
 assert.strictEqual(katalog.empfehlung("gibt-es-nicht"), null);
 assert.strictEqual(katalog.angebot("bible"), null);
-assert.strictEqual(katalog.fuerPublikum("maenner").length, 3);
-assert.strictEqual(katalog.fuerPublikum("frauen").length, 3);
-assert.ok(katalog.angebot("connected-couples"));
-assert.ok(katalog.angebot("parent-in-peace"));
+assert.strictEqual(katalog.fuerPublikum("maenner").length, 5);
+assert.strictEqual(katalog.fuerPublikum("frauen").length, 5);
+assert.strictEqual(katalog.fuerPublikum("eltern").length, 2);
+assert.strictEqual(katalog.fuerPublikum("paare").length, 2);
+assert.strictEqual(katalog.angebot("porn-recovery").slug, "porn_recovery_flow");
+assert.strictEqual(katalog.angebot("heartbreak").rootProblem, "somatic");
+assert.ok(katalog.angebot("conflict-to-connection"));
+assert.ok(katalog.angebot("parenting-loop"));
+assert.strictEqual(katalog.angebot("integrated-man"), null);
 
 var seen = {};
 katalog.ANGEBOTE.forEach(function (offer) {
-  assert.ok(!seen[offer.digistoreProdukt], offer.digistoreProdukt);
-  seen[offer.digistoreProdukt] = true;
+  assert.ok(!seen[offer.slug], offer.slug);
+  seen[offer.slug] = true;
   assert.ok(offer.preisEnv.indexOf("STRIPE_PRICE_") === 0);
   assert.strictEqual(offer.gratisTage, 4);
   assert.ok(exists(offer.gratisHref), offer.gratisHref);
@@ -49,5 +54,5 @@ katalog.ANGEBOTE.forEach(function (offer) {
 
 assert.strictEqual(katalog.empfehlung("abend").coaching, true);
 assert.strictEqual(katalog.empfehlung("abend").angebot, null);
-assert.strictEqual(katalog.empfehlung("ja-nein").angebot.id, "lightness");
+assert.strictEqual(katalog.empfehlung("ja-nein").angebot.id, "leichtigkeit");
 assert.strictEqual(katalog.empfehlung("befoerderung").thema.id, "stagnation");

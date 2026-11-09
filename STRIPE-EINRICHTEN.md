@@ -2,7 +2,11 @@
 
 Der Code für Hosted Checkout, Webhook und Zugang liegt im Repo. Ohne die Variablen unten bleibt der Kauf zu. Es wird kein Betrag angezeigt und kein Button „Weiter zu Stripe“ eingeblendet. Preise legt diese Datei nicht fest.
 
-Die vier kostenlosen Tage sind der bestehende Einstieg auf den alten Seiten. Sie sind keine Stripe-Testphase. Ein Price mit `trial_period_days` wird abgelehnt.
+Jedes Programm kostet 19 € pro Monat, monatlich kündbar. Der Server zeigt diesen Satz und öffnet den Checkout nur, wenn die Price genau so ist: Währung `eur`, `unit_amount` 1900, `recurring.interval` `month`, `interval_count` 1, kein `trial_period_days`, `active`. Alles andere bleibt zu.
+
+Die vier kostenlosen Tage sind der bestehende Einstieg. Sie sind keine Stripe-Testphase.
+
+Kündigen geht über das Stripe-Kundenportal. Der Aufruf prüft E-Mail und Zugangscode und öffnet die Kündigung dieses Abos. Im Portal muss die Kündigung auf das Periodenende gestellt sein, nicht sofort. Der Webhook setzt `cancel_at_period_end` und beendet den Zugang zu `current_period_end`.
 
 ## Variablen
 
@@ -14,16 +18,22 @@ Nur Namen. Werte gehören in den Secret-Speicher des Hosts, nicht ins Repo.
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY` — nur der Service-Role-Schlüssel. Damit schreibt der Server in `stripe_bestellungen` und `stripe_ereignisse`. Der anon-Schlüssel reicht nicht.
 - `SITE_ORIGINS` — erlaubte Origins, kommagetrennt. Voreinstellung ist `https://www.shiftmyhorizon.com`.
-- `STRIPE_PRICE_INTEGRATED_MAN`
-- `STRIPE_PRICE_LOVING_WOMAN`
-- `STRIPE_PRICE_CAREER_POWER`
-- `STRIPE_PRICE_ELITE_CLOSER`
-- `STRIPE_PRICE_LIGHTNESS`
-- `STRIPE_PRICE_INTEGRATED_SOUL`
-- `STRIPE_PRICE_PARENT_IN_PEACE`
-- `STRIPE_PRICE_CONNECTED_COUPLES`
+- `STRIPE_PRICE_PORN_RECOVERY`
+- `STRIPE_PRICE_GETTINGGIRLS`
+- `STRIPE_PRICE_MENS_RELATIONSHIP`
+- `STRIPE_PRICE_CAREER`
+- `STRIPE_PRICE_SALES`
+- `STRIPE_PRICE_MAIN_CHARACTER`
+- `STRIPE_PRICE_HIGH_VALUE_DATING`
+- `STRIPE_PRICE_HEARTBREAK`
+- `STRIPE_PRICE_LEICHTIGKEIT`
+- `STRIPE_PRICE_SECULAR`
+- `STRIPE_PRICE_PARENTING_LOOP`
+- `STRIPE_PRICE_PARENTAL_BURNOUT`
+- `STRIPE_PRICE_CONFLICT_TO_CONNECTION`
+- `STRIPE_PRICE_FAIRPLAY`
 
-Jede Variable ist eine Stripe-Price-ID (`price_…`) für genau dieses Angebot. Die Price des Abschalt-Berichts (`price_1UZCohDtpOTBAOYvpXhJYOxU`) wird abgelehnt. Betrag, Währung und einmalig oder monatlich liest der Server von dieser Price. Der Browser kann sie nicht setzen.
+Jede Variable ist eine eigene Price-ID. Die alten Kategorie-Namen (`STRIPE_PRICE_INTEGRATED_MAN` und die übrigen sieben) gelten nicht mehr. Die Price des Abschalt-Berichts wird abgelehnt. Der Browser kann Betrag und Rhythmus nicht setzen.
 
 ## Datenbank
 

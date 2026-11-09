@@ -110,10 +110,10 @@ async function createCheckout(input) {
   } catch (e) {
     return fehler(502, "preis_lesen");
   }
-  if (!price || price.id !== gefunden.id || price.active === false) return fehler(409, "preis_inaktiv");
-  if (typeof price.unit_amount !== "number" || !price.currency) return fehler(409, "preis_unvollstaendig");
-  if (price.recurring && price.recurring.trial_period_days) return fehler(409, "preis_hat_testphase");
-  var mode = price.recurring ? "subscription" : "payment";
+  var grund = preise.preisBedingungen(price);
+  if (grund) return fehler(409, grund);
+  if (!price || price.id !== gefunden.id) return fehler(409, "preis_inaktiv");
+  var mode = "subscription";
   var origin = originErlaubt(input.origin, env);
   var order = existing;
   if (!order) {
@@ -205,15 +205,18 @@ async function portalSession(input) {
   var order = await input.store.findByCode(code);
   if (!order || !order.email || order.email.toLowerCase() !== email) return fehler(403, "nicht_berechtigt");
   if (!order.customerId || !order.subscriptionId) return fehler(409, "kein_abo");
-  if (!hatZugang(order, input.now || Date.now()) && order.status !== "zahlung_offen") {
-    return fehler(403, "kein_zugang");
-  }
+  var statusOk = order.status === "aktiv" || order.status === "kuendigung_laeuft" || order.status === "zahlung_offen" || order.status === "teilerstattet";
+  if (!statusOk) return fehler(403, "kein_zugang");
   var origin = originErlaubt(input.origin, input.env || {});
   var session;
   try {
     session = await input.stripe.billingPortal.sessions.create({
       customer: order.customerId,
-      return_url: origin + "/angebot?id=" + encodeURIComponent(order.angebotId)
+      return_url: origin + "/angebot?id=" + encodeURIComponent(order.angebotId),
+      flow_data: {
+        type: "subscription_cancel",
+        subscription_cancel: { subscription: order.subscriptionId }
+      }
     });
   } catch (e) {
     return fehler(502, "portal");
