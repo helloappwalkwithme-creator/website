@@ -41,7 +41,9 @@
     { "source": "/kreis/ruhe", "destination": "/clear-state/ruhe", "permanent": true },
     { "source": "/kreis/satz", "destination": "/clear-state/satz", "permanent": true },
     { "source": "/kreis/werte", "destination": "/clear-state/werte", "permanent": true },
-    { "source": "/kreis/wofuer", "destination": "/clear-state/wofuer", "permanent": true }
+    { "source": "/kreis/wofuer", "destination": "/clear-state/wofuer", "permanent": true },
+    { "source": "/thema/:thema", "destination": "/finden?thema=:thema", "permanent": false },
+    { "source": "/yt/:thema", "destination": "/finden?thema=:thema&utm_source=youtube&utm_medium=description&utm_campaign=:thema", "permanent": false }
 
   ],
   "headers": [

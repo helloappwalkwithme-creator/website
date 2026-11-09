@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kauf</title>
+<meta name="description" content="Weiter zu Stripe, sobald für dieses Angebot ein Preis hinterlegt ist.">
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#0A141B">
+<link rel="preload" href="fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+</head>
+<body>
+<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+<header class="hdr">
+  <a class="wordmark" href="/">Janosch Brase</a>
+  <nav class="hdr__nav" id="site-nav" aria-label="Hauptnavigation">
+    <a href="/finden">Passendes finden</a>
+    <a href="/maenner">Männer</a>
+    <a href="/frauen">Frauen</a>
+  </nav>
+  <a class="btn btn--primary hdr__cta" href="/session">Session anfragen</a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="visually-hidden">Menü</span><span></span></button>
+</header>
+<main id="inhalt">
+  <section class="sec sec--white">
+    <div class="wrap" style="max-width:640px">
+      <span class="eyebrow">Kauf</span>
+      <h1 id="kauf-name">Kauf</h1>
+      <p id="kauf-komposition">90 Tage, eine Nachricht am Tag.</p>
+      <p id="kauf-preis"></p>
+      <form id="kauf-form" novalidate>
+        <fieldset class="choicecards" id="kauf-thema">
+          <legend>Welcher Satz trifft dich?</legend>
+        </fieldset>
+        <div class="field">
+          <label for="kauf-email">E-Mail</label>
+          <input class="input" id="kauf-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+        </div>
+        <p class="hint" id="kauf-info"></p>
+        <p class="err" id="kauf-error" role="alert"></p>
+        <button class="btn btn--primary" id="kauf-submit" type="submit" hidden>Weiter zu Stripe</button>
+      </form>
+      <p>Die vier kostenlosen Tage sind der bestehende Einstieg, keine Testphase bei Stripe. Es gibt keine angehakten Extras. Die zwölf Wochen mit Live-Calls sind hier nicht im Warenkorb.</p>
+      <noscript><p>Ohne JavaScript kann diese Seite den Checkout nicht öffnen. Es wird nichts berechnet.</p></noscript>
+    </div>
+  </section>
+</main>
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__row">
+      <span class="wordmark">Janosch Brase</span>
+      <nav aria-label="Rechtliches"><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a><a href="/agb">AGB</a></nav>
+    </div>
+  </div>
+</footer>
+<script src="katalog.js"></script>
+<script src="angebote.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

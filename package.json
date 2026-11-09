@@ -1,0 +1,13 @@
+{
+  "name": "shiftmyhorizon",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/katalog.test.js test/checkout.test.js test/webhook.test.js test/seiten.test.js test/gratis.test.js && node test-check.js && node abschalten-test/test-logik.js"
+  },
+  "dependencies": {
+    "stripe": "23.0.0"
+  }
+}
