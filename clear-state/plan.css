@@ -1,8 +1,10 @@
 /* Clear State, Baukasten. Nur diese Seite. */
 
 html { scroll-padding-top: 104px; }
-body.cs-on #start { display: none; }
-body.cs-on #bauer { padding-top: 112px; padding-bottom: 120px; }
+body.cs-on #start,
+body.cs-on #so-laeuft,
+body.cs-on #fragen { display: none; }
+body.cs-on #bauer { padding-top: 112px; padding-bottom: 72px; }
 #bauer { scroll-margin-top: 12px; }
 
 .cs-app { max-width: 40rem; margin-inline: auto; }
@@ -87,6 +89,8 @@ body.cs-on #bauer { padding-top: 112px; padding-bottom: 120px; }
 }
 .cs-plan .cs-aha { margin: 6px 0 0; color: #5CC2AC; font-size: 1rem; line-height: 1.45; }
 
+.cs-progress-wrap { margin: 0 0 18px; }
+.cs-progress-wrap .progress { margin: 0 0 10px; }
 .cs-progress {
   margin: 0 0 8px;
   font-size: .8125rem;
@@ -95,7 +99,36 @@ body.cs-on #bauer { padding-top: 112px; padding-bottom: 120px; }
   text-transform: uppercase;
   color: var(--brass-ink);
 }
-.cs-step h2 { margin-bottom: 10px; max-width: 22ch; }
+.cs-step h2 { margin-bottom: 10px; max-width: 34rem; }
+.cs-step h3 { margin: 22px 0 8px; font-size: 1.35rem; }
+.cs-callout {
+  margin: 0 0 8px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: var(--accent-tint);
+  font-size: 1.125rem;
+  line-height: 1.45;
+}
+.cs-step textarea.input {
+  min-height: 120px;
+  line-height: 1.45;
+  overflow: hidden;
+}
+button.cs-choice { align-items: flex-start; }
+button.cs-choice .choicecard__mark { margin-top: 3px; }
+button.cs-choice .choicecard__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+button.cs-choice .choicecard__text small {
+  display: block;
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--muted);
+}
 .cs-step > .cs-sub { margin: 0 0 18px; color: var(--muted); }
 
 button.cs-choice {
@@ -141,6 +174,11 @@ button.cs-choice {
 }
 .cs-nav { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
 .cs-nav .btn--primary { flex: 1; }
+@media (max-width: 720px) {
+  .cs-nav { flex-wrap: wrap; }
+  .cs-nav .btn--ghost { order: 2; }
+  .cs-nav .btn--primary { order: 1; flex: 1 1 100%; }
+}
 .cs-skip { margin-top: 14px; }
 
 .cs-result h2 { max-width: 16em; }
